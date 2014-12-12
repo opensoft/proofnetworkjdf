@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<JDF xmlns="http://www.CIP4.org/JDFSchema_1_1" DescriptiveName="" ID="JDF_0000" JobID="mixed-flatwork (groups)" Status="Waiting" Type="Product" Version="1.2">
+<Comment AgentName="Metrix" AgentVersion="2013.0 (1050)" TimeStamp="2014-08-26T08:35:28-07:00"/>
+<AuditPool>
+<Created AgentName="Metrix" AgentVersion="2013.0 (1050)" ID="AUD_0000" TimeStamp="2014-08-26T08:35:28-07:00"/>
+</AuditPool>
+<JDF DescriptiveName="Layout 1" ID="LAYOUT_0001" Status="Waiting" Type="Cutting">
+<ResourcePool>
+<Media Brand="House Stock - 50# Cover" Class="Consumable" DescriptiveName="House, House Stock - 50# Cover, 23 x 35&quot;, Horizontal Grain" Dimension="2520.0000 1656.0000" Grade="1" GrainDirection="LongEdge" ID="PAP_0000" Manufacturer="House" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200" Weight="135"/>
+<Component Class="Quantity" ComponentType="Sheet" Dimensions="2520.0000 1656.0000 0.4896" ID="COMP_0000" IsWaste="false" Status="Available"/>
+<CuttingParams Class="Parameter" ID="CPM_0000" Status="Available">
+<CutBlock BlockName="A-1" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="A-1_BLK" Status="Available"/>
+<CutBlock BlockName="A-2" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 342.0000" BlockType="CutBlock" Class="Parameter" ID="A-2_BLK" Status="Available"/>
+<CutBlock BlockName="A-3" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 648.0000" BlockType="CutBlock" Class="Parameter" ID="A-3_BLK" Status="Available"/>
+<CutBlock BlockName="A-4" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 954.0000" BlockType="CutBlock" Class="Parameter" ID="A-4_BLK" Status="Available"/>
+<CutBlock BlockName="A-5" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 1260.0000" BlockType="CutBlock" Class="Parameter" ID="A-5_BLK" Status="Available"/>
+<CutBlock BlockName="A-6" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 504.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="A-6_BLK" Status="Available"/>
+<CutBlock BlockName="A-7" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 504.0000 342.0000" BlockType="CutBlock" Class="Parameter" ID="A-7_BLK" Status="Available"/>
+<CutBlock BlockName="A-8" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 504.0000 648.0000" BlockType="CutBlock" Class="Parameter" ID="A-8_BLK" Status="Available"/>
+<CutBlock BlockName="A-9" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 504.0000 954.0000" BlockType="CutBlock" Class="Parameter" ID="A-9_BLK" Status="Available"/>
+<CutBlock BlockName="A-10" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 504.0000 1260.0000" BlockType="CutBlock" Class="Parameter" ID="A-10_BLK" Status="Available"/>
+<CutBlock BlockName="A-11" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 954.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="A-11_BLK" Status="Available"/>
+<CutBlock BlockName="A-12" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 954.0000 342.0000" BlockType="CutBlock" Class="Parameter" ID="A-12_BLK" Status="Available"/>
+<CutBlock BlockName="A-13" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 954.0000 648.0000" BlockType="CutBlock" Class="Parameter" ID="A-13_BLK" Status="Available"/>
+<CutBlock BlockName="A-14" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 954.0000 954.0000" BlockType="CutBlock" Class="Parameter" ID="A-14_BLK" Status="Available"/>
+<CutBlock BlockName="A-15" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 954.0000 1260.0000" BlockType="CutBlock" Class="Parameter" ID="A-15_BLK" Status="Available"/>
+<CutBlock BlockName="B-1" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1404.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="B-1_BLK" Status="Available"/>
+<CutBlock BlockName="B-2" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1404.0000 666.0000" BlockType="CutBlock" Class="Parameter" ID="B-2_BLK" Status="Available"/>
+<CutBlock BlockName="B-3" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1674.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="B-3_BLK" Status="Available"/>
+<CutBlock BlockName="B-4" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1674.0000 666.0000" BlockType="CutBlock" Class="Parameter" ID="B-4_BLK" Status="Available"/>
+<CutBlock BlockName="B-5" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1944.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="B-5_BLK" Status="Available"/>
+<CutBlock BlockName="B-6" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1944.0000 666.0000" BlockType="CutBlock" Class="Parameter" ID="B-6_BLK" Status="Available"/>
+<CutBlock BlockName="B-7" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 2214.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="B-7_BLK" Status="Available"/>
+<CutBlock BlockName="B-8" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 2214.0000 666.0000" BlockType="CutBlock" Class="Parameter" ID="B-8_BLK" Status="Available"/>
+</CuttingParams>
+<Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="A_OUT" IsWaste="false" PartIDKeys="BlockName" ReaderPageCount="2" Status="Available">
+<Component BlockName="A-1"/>
+<Component BlockName="A-2"/>
+<Component BlockName="A-3"/>
+<Component BlockName="A-4"/>
+<Component BlockName="A-5"/>
+<Component BlockName="A-6"/>
+<Component BlockName="A-7"/>
+<Component BlockName="A-8"/>
+<Component BlockName="A-9"/>
+<Component BlockName="A-10"/>
+<Component BlockName="A-11"/>
+<Component BlockName="A-12"/>
+<Component BlockName="A-13"/>
+<Component BlockName="A-14"/>
+<Component BlockName="A-15"/>
+</Component>
+<Component Class="Quantity" ComponentType="Block" Dimensions="252.0000 612.0000 0.4896" ID="B_OUT" IsWaste="false" PartIDKeys="BlockName" ReaderPageCount="2" Status="Available">
+<Component BlockName="B-1"/>
+<Component BlockName="B-2"/>
+<Component BlockName="B-3"/>
+<Component BlockName="B-4"/>
+<Component BlockName="B-5"/>
+<Component BlockName="B-6"/>
+<Component BlockName="B-7"/>
+<Component BlockName="B-8"/>
+</Component>
+</ResourcePool>
+<ResourceLinkPool>
+<ComponentLink Usage="Input" rRef="COMP_0000"/>
+<MediaLink Usage="Input" rRef="PAP_0000"/>
+<CuttingParamsLink Usage="Input" rRef="CPM_0000"/>
+<ComponentLink Usage="Output" rRef="A_OUT"/>
+<ComponentLink Usage="Output" rRef="B_OUT"/>
+</ResourceLinkPool>
+</JDF>
+</JDF>

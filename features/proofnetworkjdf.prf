@@ -1,0 +1,7 @@
+include(proofnetwork.prf)
+
+win32 {
+    LIBS *= -lProofNetworkJdf$${PROOF_VERSION_MAJOR}
+} else {
+    LIBS *= -lProofNetworkJdf
+}
