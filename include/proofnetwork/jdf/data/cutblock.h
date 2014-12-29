@@ -32,6 +32,7 @@ public:
     void setHeight(double arg);
     void setId(const QString &arg);
     void setTransformationMatrix(const QString &arg);
+    void setTransformationMatrix(double x, double y, double rotation);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;

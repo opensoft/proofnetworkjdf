@@ -10,6 +10,8 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
+    QString getRotationMatrixString(double angle);
+
     bool available;
     QString blockName;
     double width;
@@ -192,4 +194,27 @@ void CutBlock::setTransformationMatrix(const QString &arg)
         d->transformationMatrix = arg;
         emit transformationMatrixChanged(d->transformationMatrix);
     }
+}
+
+void CutBlock::setTransformationMatrix(double x, double y, double rotation)
+{
+    Q_D(CutBlock);
+    QString transformationMatrix = QString("%1 %2 %3")
+            .arg(d->getRotationMatrixString(rotation))
+            .arg(x)
+            .arg(y);
+
+    if (d->transformationMatrix != transformationMatrix) {
+        d->transformationMatrix = transformationMatrix;
+        emit transformationMatrixChanged(d->transformationMatrix);
+    }
+}
+
+QString CutBlockPrivate::getRotationMatrixString(double angle)
+{
+    return QString("%1 %2 %3 %4")
+            .arg(std::cos(angle))
+            .arg(-std::sin(angle))
+            .arg(std::sin(angle))
+            .arg(std::cos(angle));
 }
