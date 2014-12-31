@@ -3,6 +3,8 @@
 
 #include <QStringList>
 
+#include <cmath>
+
 namespace Proof {
 namespace Jdf {
 
