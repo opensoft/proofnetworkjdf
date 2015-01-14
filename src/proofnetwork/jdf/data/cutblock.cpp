@@ -5,6 +5,8 @@
 
 #include <cmath>
 
+constexpr double pi = std::atan(1) * 4;
+
 namespace Proof {
 namespace Jdf {
 
@@ -214,9 +216,13 @@ void CutBlock::setTransformationMatrix(double x, double y, double rotation)
 
 QString CutBlockPrivate::createRotationMatrixString(double angle)
 {
+    if (angle < 0)
+        angle += 360;
+    double radian = (angle * pi) / 180;
+
     return QString("%1 %2 %3 %4")
-            .arg(std::cos(angle))
-            .arg(-std::sin(angle))
-            .arg(std::sin(angle))
-            .arg(std::cos(angle));
+            .arg(qRound(std::cos(radian)))
+            .arg(qRound(-std::sin(radian)))
+            .arg(qRound(std::sin(radian)))
+            .arg(qRound(std::cos(radian)));
 }
