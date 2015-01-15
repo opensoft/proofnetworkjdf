@@ -5,7 +5,7 @@
 
 #include <cmath>
 
-constexpr double pi = std::atan(1) * 4;
+constexpr double pi = 3.1415926f;//std::atan(1) * 4;
 
 namespace Proof {
 namespace Jdf {
