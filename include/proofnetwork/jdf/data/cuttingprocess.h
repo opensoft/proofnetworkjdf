@@ -23,11 +23,13 @@ public:
     double pressSheetWidth() const;
     double pressSheetHeight() const;
     QList<CutBlockSP> cutBlocks() const;
+    MediaSP media() const;
 
     void setId(const QString &arg);
     void setPressSheetWidth(double arg);
     void setPressSheetHeight(double arg);
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
+    void setMedia(const MediaSP &media);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     CuttingProcessQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
@@ -43,6 +45,7 @@ signals:
     void pressSheetWidthChanged(double arg);
     void pressSheetHeightChanged(double arg);
     void cutBlocksChanged();
+    void mediaChanged(Proof::Jdf::MediaSP arg);
 
 protected:
     explicit CuttingProcess();

@@ -1,5 +1,6 @@
 #include "cuttingprocess.h"
 #include "cutblock.h"
+#include "media.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -13,6 +14,7 @@ class CuttingProcessPrivate : public NetworkDataEntityPrivate
     double pressSheetWidth;
     double pressSheetHeight;
     QList<CutBlockSP> cutBlocks;
+    MediaSP media;
 
 };
 
@@ -55,6 +57,12 @@ QList<CutBlockSP> CuttingProcess::cutBlocks() const
     return d->cutBlocks;
 }
 
+MediaSP CuttingProcess::media() const
+{
+    Q_D(const CuttingProcess);
+    return d->media;
+}
+
 void CuttingProcess::updateFrom(const NetworkDataEntitySP &other)
 {
     CuttingProcessSP castedOther = qSharedPointerCast<CuttingProcess>(other);
@@ -62,6 +70,7 @@ void CuttingProcess::updateFrom(const NetworkDataEntitySP &other)
     setPressSheetWidth(castedOther->pressSheetWidth());
     setPressSheetHeight(castedOther->pressSheetHeight());
     updateCutBlocks(castedOther->cutBlocks());
+    setMedia(castedOther->media());
 
     NetworkDataEntity::updateFrom(other);
 }
@@ -94,6 +103,8 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
         if (token == QXmlStreamReader::StartDocument)
             continue;
         if (token == QXmlStreamReader::StartElement) {
+            if (xmlReader.name() == "Media")
+                cutProcess->setMedia(Media::fromJdf(xmlReader));
             if (xmlReader.name() == "Component") {
                 QXmlStreamAttributes attributes = xmlReader.attributes();
                 if (attributes.value("ComponentType").toString() == "Sheet") {
@@ -125,6 +136,8 @@ QString CuttingProcess::toJdf()
     jdfWriter.writeStartDocument();
 
     jdfWriter.writeStartElement("ResourcePool");
+    if (d->media != nullptr)
+        d->media->toJdf(jdfWriter);
     {
         jdfWriter.writeEmptyElement("Component");
         jdfWriter.writeAttribute("Class", "Quantity");
@@ -169,6 +182,15 @@ QList<CutBlockSP> CuttingProcess::updateCutBlocks(const QList<CutBlockSP> &arg)
         emit cutBlocksChanged();
     }
     return d->cutBlocks;
+}
+
+void CuttingProcess::setMedia(const MediaSP &media)
+{
+    Q_D(CuttingProcess);
+    if (d->media != media) {
+        d->media = media;
+        emit mediaChanged(d->media);
+    }
 }
 
 void CuttingProcess::setId(const QString &arg)

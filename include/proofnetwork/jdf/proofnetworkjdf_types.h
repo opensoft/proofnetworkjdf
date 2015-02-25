@@ -17,6 +17,10 @@ class CutBlock;
 typedef QSharedPointer<CutBlock> CutBlockSP;
 typedef QWeakPointer<CutBlock> CutBlockWP;
 
+class Media;
+typedef QSharedPointer<Media> MediaSP;
+typedef QWeakPointer<Media> MediaWP;
+
 }
 }
 

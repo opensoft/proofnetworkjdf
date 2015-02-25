@@ -3,6 +3,9 @@
   JobID="061106-00002" Status="Waiting" Type="ProcessGroup"
   Version="1.2" xmlns="http://www.CIP4.org/JDFSchema_1_1">
   <ResourcePool>
+    <Media BackCoatings="None" Dimension="1329.44882 963.77953"
+      FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper"
+      MediaUnit="Sheet" Status="Available" Thickness="171.7200"/>
     <Component Class="Quantity" ComponentType="Sheet"
       Dimensions="1329.44882 963.77953 0.0"
       ID="061106-00002_1_Comp00001" IsWaste="false" Status="Unavailable"/>

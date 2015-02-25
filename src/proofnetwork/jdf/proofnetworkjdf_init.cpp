@@ -1,5 +1,6 @@
 #include "data/cutblock.h"
 #include "data/cuttingprocess.h"
+#include "data/media.h"
 
 #include "proofnetworkjdf_global.h"
 
@@ -13,4 +14,6 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::CuttingProcessWP>("Proof::Jdf::CuttingProcessWP");
     qRegisterMetaType<Proof::Jdf::CutBlockSP>("Proof::Jdf::CutBlockSP");
     qRegisterMetaType<Proof::Jdf::CutBlockWP>("Proof::Jdf::CutBlockWP");
+    qRegisterMetaType<Proof::Jdf::MediaSP>("Proof::Jdf::MediaSP");
+    qRegisterMetaType<Proof::Jdf::MediaWP>("Proof::Jdf::MediaWP");
 }

@@ -2,6 +2,7 @@
 
 #include "proofnetwork/jdf/data/cuttingprocess.h"
 #include "proofnetwork/jdf/data/cutblock.h"
+#include "proofnetwork/jdf/data/media.h"
 
 #include <QXmlStreamReader>
 #include <QSignalSpy>
@@ -65,6 +66,16 @@ TEST_F(CuttingProcessTest, fromJdf)
     EXPECT_DOUBLE_EQ(432, cutBlock->width());
     EXPECT_DOUBLE_EQ(288, cutBlock->height());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+
+    MediaSP media = cutProcessUT->media();
+    ASSERT_TRUE(media);
+
+    EXPECT_EQ("PAP_0000", media->id());
+    EXPECT_EQ(Media::Coating::None, media->backCoating());
+    EXPECT_EQ(Media::Coating::HighGloss, media->frontCoating());
+    EXPECT_DOUBLE_EQ(2520.0, media->width());
+    EXPECT_DOUBLE_EQ(1656.0, media->height());
+    EXPECT_DOUBLE_EQ(172.72, media->thickness());
 }
 
 TEST_F(CuttingProcessTest, updateFrom)
@@ -103,4 +114,14 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_DOUBLE_EQ(cutBlock->height(), cutBlock2->height());
     EXPECT_EQ(cutBlock->transformationMatrix(), cutBlock2->transformationMatrix());
 
+    MediaSP media1 = cutProcessUT->media();
+    ASSERT_TRUE(media1);
+    MediaSP media2 = cutProcessUT2->media();
+    ASSERT_TRUE(media2);
+    EXPECT_EQ(media1->id(), media2->id());
+    EXPECT_EQ(media1->backCoating(), media2->backCoating());
+    EXPECT_EQ(media1->frontCoating(), media2->frontCoating());
+    EXPECT_DOUBLE_EQ(media1->width(), media2->width());
+    EXPECT_DOUBLE_EQ(media1->height(), media2->height());
+    EXPECT_DOUBLE_EQ(media1->thickness(), media2->thickness());
 }
