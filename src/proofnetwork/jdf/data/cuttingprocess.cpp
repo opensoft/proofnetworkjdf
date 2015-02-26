@@ -14,7 +14,7 @@ class CuttingProcessPrivate : public NetworkDataEntityPrivate
     double pressSheetWidth;
     double pressSheetHeight;
     QList<CutBlockSP> cutBlocks;
-    MediaSP media;
+    MediaSP media = Media::defaultObject();
 
 };
 
@@ -187,7 +187,9 @@ QList<CutBlockSP> CuttingProcess::updateCutBlocks(const QList<CutBlockSP> &arg)
 void CuttingProcess::setMedia(const MediaSP &media)
 {
     Q_D(CuttingProcess);
-    if (d->media != media) {
+    if (media == nullptr)
+        setMedia(Media::defaultObject());
+    else if (d->media != media) {
         d->media = media;
         emit mediaChanged(d->media);
     }

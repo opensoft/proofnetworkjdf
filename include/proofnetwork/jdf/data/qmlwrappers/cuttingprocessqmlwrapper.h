@@ -13,6 +13,7 @@ namespace Jdf {
 
 class CutBlockQmlWrapper;
 class CuttingProcessQmlWrapperPrivate;
+class MediaQmlWrapper;
 
 class PROOF_NETWORK_JDF_EXPORT CuttingProcessQmlWrapper : public NetworkDataEntityQmlWrapper
 {
@@ -21,6 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT CuttingProcessQmlWrapper : public NetworkDataEnti
     Q_PROPERTY(double pressSheetWidth READ pressSheetWidth NOTIFY pressSheetWidthChanged)
     Q_PROPERTY(double pressSheetHeight READ pressSheetHeight NOTIFY pressSheetHeightChanged)
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks READ cutBlocks NOTIFY cutBlocksChanged)
+    Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
 
     Q_DECLARE_PRIVATE(CuttingProcessQmlWrapper)
 public:
@@ -32,12 +34,14 @@ public:
     double pressSheetWidth() const;
     double pressSheetHeight() const;
     QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks();
+    MediaQmlWrapper *media() const;
 
 signals:  
     void idChanged(const QString &arg);
     void pressSheetWidthChanged(double arg);
     void pressSheetHeightChanged(double arg);
     void cutBlocksChanged(const QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> &arg);
+    void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

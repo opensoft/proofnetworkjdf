@@ -1,52 +1,7 @@
 #include "media.h"
 
+#include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
 #include "proofnetwork/networkdataentity_p.h"
-
-static QString coatingToString(Proof::Jdf::Media::Coating coating)
-{
-    using Coating = Proof::Jdf::Media::Coating;
-    switch (coating) {
-    case Coating::None: return QStringLiteral("None");
-    case Coating::Coated: return QStringLiteral("Coated");
-    case Coating::Glossy: return QStringLiteral("Glossy");
-    case Coating::HighGloss: return QStringLiteral("HighGloss");
-    case Coating::InkJet: return QStringLiteral("InkJet");
-    case Coating::Matte: return QStringLiteral("Matte");
-    case Coating::Polymer: return QStringLiteral("Polymer");
-    case Coating::Silver: return QStringLiteral("Silver");
-    case Coating::Satin: return QStringLiteral("Satin");
-    case Coating::Semigloss: return QStringLiteral("Semigloss");
-    default: return QString(); // make compiler happy
-    }
-}
-
-static Proof::Jdf::Media::Coating coatingFromString(const QString &coating)
-{
-    using Coating = Proof::Jdf::Media::Coating;
-
-    if (coating == QStringLiteral("None"))
-        return Coating::None;
-    else if (coating == QStringLiteral("Coated"))
-        return Coating::Coated;
-    else if (coating == QStringLiteral("Glossy"))
-        return Coating::Glossy;
-    else if (coating == QStringLiteral("HighGloss"))
-        return Coating::HighGloss;
-    else if (coating == QStringLiteral("InkJet"))
-        return Coating::InkJet;
-    else if (coating == QStringLiteral("Matte"))
-        return Coating::Matte;
-    else if (coating == QStringLiteral("Polymer"))
-        return Coating::Polymer;
-    else if (coating == QStringLiteral("Silver"))
-        return Coating::Silver;
-    else if (coating == QStringLiteral("Satin"))
-        return Coating::Satin;
-    else if (coating == QStringLiteral("Semigloss"))
-        return Coating::Semigloss;
-    else // make compiler happy
-        return Coating::None;
-}
 
 namespace Proof {
 namespace Jdf {
@@ -59,8 +14,8 @@ class MediaPrivate : NetworkDataEntityPrivate
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
-    Media::Coating frontCoating = Media::Coating::None;
-    Media::Coating backCoating = Media::Coating::None;
+    ApiHelper::Coating frontCoating = ApiHelper::Coating::None;
+    ApiHelper::Coating backCoating = ApiHelper::Coating::None;
 };
 
 QString Media::id() const
@@ -75,13 +30,13 @@ double Media::thickness() const
     return d->thickness;
 }
 
-Media::Coating Media::frontCoating() const
+ApiHelper::Coating Media::frontCoating() const
 {
     Q_D(const Media);
     return d->frontCoating;
 }
 
-Media::Coating Media::backCoating() const
+ApiHelper::Coating Media::backCoating() const
 {
     Q_D(const Media);
     return d->backCoating;
@@ -117,7 +72,7 @@ void Media::setThickness(double microns)
     }
 }
 
-void Media::setFrontCoating(Media::Coating coating)
+void Media::setFrontCoating(ApiHelper::Coating coating)
 {
     Q_D(Media);
     if (d->frontCoating != coating) {
@@ -126,7 +81,7 @@ void Media::setFrontCoating(Media::Coating coating)
     }
 }
 
-void Media::setBackCoating(Media::Coating coating)
+void Media::setBackCoating(ApiHelper::Coating coating)
 {
     Q_D(Media);
     if (d->backCoating != coating) {
@@ -165,9 +120,12 @@ void Media::updateFrom(const NetworkDataEntitySP &other)
     NetworkDataEntity::updateFrom(other);
 }
 
-NetworkDataEntityQmlWrapper *Media::toQmlWrapper(QObject *parent) const
+MediaQmlWrapper *Media::toQmlWrapper(QObject *parent) const
 {
-    return nullptr;
+    Q_D(const Media);
+    MediaSP castedSelf = qSharedPointerCast<Media>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+    return new MediaQmlWrapper(castedSelf, parent);
 }
 
 MediaSP Media::create()
@@ -185,8 +143,8 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
     if (xmlReader.name() == "Media") {
         QXmlStreamAttributes attributes = xmlReader.attributes();
         result->setId(attributes.value("ID").toString());
-        result->setBackCoating(coatingFromString(attributes.value("BackCoatings").toString()));
-        result->setFrontCoating(coatingFromString(attributes.value("FrontCoatings").toString()));
+        result->setBackCoating(ApiHelper::coatingFromString(attributes.value("BackCoatings").toString()));
+        result->setFrontCoating(ApiHelper::coatingFromString(attributes.value("FrontCoatings").toString()));
         result->setThickness(attributes.value("Thickness").toDouble());
         QStringList dimensions = attributes.value("Dimension").toString().split(' ', QString::SkipEmptyParts);
         if (dimensions.size() >= 2) {
@@ -204,8 +162,8 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEmptyElement("Media");
     jdfWriter.writeAttribute("ID", d->id);
     jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width).arg(d->height));
-    jdfWriter.writeAttribute("BackCoatings", coatingToString(d->backCoating));
-    jdfWriter.writeAttribute("FrontCoatings", coatingToString(d->frontCoating));
+    jdfWriter.writeAttribute("BackCoatings", ApiHelper::coatingToString(d->backCoating));
+    jdfWriter.writeAttribute("FrontCoatings", ApiHelper::coatingToString(d->frontCoating));
     jdfWriter.writeAttribute("Thickness", QString::number(d->thickness));
 }
 
