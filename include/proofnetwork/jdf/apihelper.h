@@ -16,7 +16,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
 public:
     ApiHelper() = delete;
 
-    enum class Coating
+    enum class Coating : int
     {
         None, // No coating.
         Coated, // A coating of a system-specified type. New in JDF 1.2
@@ -36,7 +36,7 @@ public:
     static Coating coatingFromString(const QString &coating);
 
 private:
-    static QHash<Coating, QString> m_coatingStringified;
+    static QHash<QString, Coating> m_coatingStringified;
 };
 
 }

@@ -3,28 +3,28 @@
 namespace Proof {
 namespace Jdf {
 
-QHash<Coating, QString> ApiHelper::m_coatingStringified = {
-    {ApiHelper::Coating::None, "None"},
-    {ApiHelper::Coating::Glossy, "Glossy"},
-    {ApiHelper::Coating::Coated, "Coated"},
-    {ApiHelper::Coating::HighGloss, "HighGloss"},
-    {ApiHelper::Coating::InkJet, "InkJet"},
-    {ApiHelper::Coating::Matte, "Matte"},
-    {ApiHelper::Coating::Polymer, "Polymer"},
-    {ApiHelper::Coating::Silver, "Silver"},
-    {ApiHelper::Coating::Satin, "Satin"},
-    {ApiHelper::Coating::Semigloss, "Semigloss"}
+QHash<QString, ApiHelper::Coating> ApiHelper::m_coatingStringified = {
+    {"None", ApiHelper::Coating::None},
+    {"Glossy", ApiHelper::Coating::Glossy},
+    {"Coated", ApiHelper::Coating::Coated},
+    {"HighGloss", ApiHelper::Coating::HighGloss},
+    {"InkJet", ApiHelper::Coating::InkJet},
+    {"Matte", ApiHelper::Coating::Matte},
+    {"Polymer", ApiHelper::Coating::Polymer},
+    {"Silver", ApiHelper::Coating::Silver},
+    {"Satin", ApiHelper::Coating::Satin},
+    {"Semigloss", ApiHelper::Coating::Semigloss}
 };
 
 QString ApiHelper::coatingToString(ApiHelper::Coating coating)
 {
-    return m_coatingStringified.value(coating, "");
+    return m_coatingStringified.key(coating, "");
 }
 
 ApiHelper::Coating ApiHelper::coatingFromString(const QString &coating)
 {
-    return m_coatingStringified.key(coating, Coating::None);
+    return m_coatingStringified.value(coating, Coating::None);
 }
 
-} // namespace Jdf
-} // namespace Proof
+}
+}
