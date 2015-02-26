@@ -56,6 +56,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(CuttingProcess)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CuttingProcess, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CuttingProcess, double, pressSheetWidth)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CuttingProcess, double, pressSheetHeight)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CuttingProcess, quint32, amount)
 
 void CuttingProcessQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
@@ -69,6 +70,8 @@ void CuttingProcessQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
             this, &CuttingProcessQmlWrapper::pressSheetWidthChanged);
     connect(cuttingProcess.data(), &CuttingProcess::pressSheetHeightChanged,
             this, &CuttingProcessQmlWrapper::pressSheetHeightChanged);
+    connect(cuttingProcess.data(), &CuttingProcess::amountChanged,
+            this, &CuttingProcessQmlWrapper::amountChanged);
     connect(cuttingProcess.data(), &CuttingProcess::cutBlocksChanged,
             d->lambdaConnectContext, [d](){d->updateCutBlocks();});
     connect(cuttingProcess.data(), &CuttingProcess::mediaChanged,
@@ -84,6 +87,8 @@ void CuttingProcessQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
             emit pressSheetWidthChanged(cuttingProcess->pressSheetWidth());
         if (cuttingProcess->pressSheetHeight() != oldCuttingProcess->pressSheetHeight())
             emit pressSheetHeightChanged(cuttingProcess->pressSheetHeight());
+        if (cuttingProcess->amount() != oldCuttingProcess->amount())
+            emit amountChanged(cuttingProcess->amount());
         if (cuttingProcess->id() != oldCuttingProcess->id())
             emit idChanged(cuttingProcess->id());
 

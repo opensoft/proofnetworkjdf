@@ -22,12 +22,14 @@ public:
     QString id() const;
     double pressSheetWidth() const;
     double pressSheetHeight() const;
+    quint32 amount() const;
     QList<CutBlockSP> cutBlocks() const;
     MediaSP media() const;
 
     void setId(const QString &arg);
     void setPressSheetWidth(double arg);
     void setPressSheetHeight(double arg);
+    void setAmount(quint32 arg);
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
     void setMedia(const MediaSP &media);
 
@@ -44,6 +46,7 @@ signals:
     void idChanged(const QString &arg);
     void pressSheetWidthChanged(double arg);
     void pressSheetHeightChanged(double arg);
+    void amountChanged(quint32 arg);
     void cutBlocksChanged();
     void mediaChanged(Proof::Jdf::MediaSP arg);
 

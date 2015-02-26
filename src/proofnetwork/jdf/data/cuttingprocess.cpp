@@ -13,6 +13,7 @@ class CuttingProcessPrivate : public NetworkDataEntityPrivate
     QString id;
     double pressSheetWidth;
     double pressSheetHeight;
+    quint32 amount;
     QList<CutBlockSP> cutBlocks;
     MediaSP media = Media::defaultObject();
 
@@ -51,6 +52,12 @@ double CuttingProcess::pressSheetHeight() const
     return d->pressSheetHeight;
 }
 
+quint32 CuttingProcess::amount() const
+{
+    Q_D(const CuttingProcess);
+    return d->amount;
+}
+
 QList<CutBlockSP> CuttingProcess::cutBlocks() const
 {
     Q_D(const CuttingProcess);
@@ -69,6 +76,7 @@ void CuttingProcess::updateFrom(const NetworkDataEntitySP &other)
     setId(castedOther->id());
     setPressSheetWidth(castedOther->pressSheetWidth());
     setPressSheetHeight(castedOther->pressSheetHeight());
+    setAmount(castedOther->amount());
     updateCutBlocks(castedOther->cutBlocks());
     setMedia(castedOther->media());
 
@@ -114,6 +122,7 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
                         cutProcess->setPressSheetWidth(dimensionsList.at(0).toDouble());
                         cutProcess->setPressSheetHeight(dimensionsList.at(1).toDouble());
                     }
+                    cutProcess->setAmount(attributes.value("Amount").toUInt());
                 }
             }
             if (xmlReader.name() == "CutBlock") {
@@ -147,6 +156,7 @@ QString CuttingProcess::toJdf()
         jdfWriter.writeAttribute("ID", d->id);
         jdfWriter.writeAttribute("IsWaste", "False");
         jdfWriter.writeAttribute("Status", "Available");
+        jdfWriter.writeAttribute("Amount", QString::number(d->amount));
 
         jdfWriter.writeStartElement("CuttingParams");
         {
@@ -219,5 +229,14 @@ void CuttingProcess::setPressSheetHeight(double arg)
     if (d->pressSheetHeight != arg) {
         d->pressSheetHeight = arg;
         emit pressSheetHeightChanged(d->pressSheetHeight);
+    }
+}
+
+void CuttingProcess::setAmount(quint32 arg)
+{
+    Q_D(CuttingProcess);
+    if (d->amount != arg) {
+        d->amount = arg;
+        emit amountChanged(d->amount);
     }
 }

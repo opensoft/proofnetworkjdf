@@ -54,6 +54,7 @@ TEST_F(CuttingProcessTest, fromJdf)
     EXPECT_EQ("COMP_0000", cutProcessUT->id());
     EXPECT_DOUBLE_EQ(2520, cutProcessUT->pressSheetWidth());
     EXPECT_DOUBLE_EQ(1656, cutProcessUT->pressSheetHeight());
+    EXPECT_EQ(1000, cutProcessUT->amount());
 
     ASSERT_EQ(23, cutProcessUT->cutBlocks().count());
 
@@ -99,6 +100,7 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_EQ(cutProcessUT->id(), cutProcessUT2->id());
     EXPECT_DOUBLE_EQ(cutProcessUT->pressSheetWidth(), cutProcessUT2->pressSheetWidth());
     EXPECT_DOUBLE_EQ(cutProcessUT->pressSheetHeight(), cutProcessUT2->pressSheetHeight());
+    EXPECT_EQ(cutProcessUT->amount(), cutProcessUT2->amount());
 
     ASSERT_EQ(cutProcessUT->cutBlocks().count(), cutProcessUT2->cutBlocks().count());
 

@@ -21,6 +21,7 @@ class PROOF_NETWORK_JDF_EXPORT CuttingProcessQmlWrapper : public NetworkDataEnti
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
     Q_PROPERTY(double pressSheetWidth READ pressSheetWidth NOTIFY pressSheetWidthChanged)
     Q_PROPERTY(double pressSheetHeight READ pressSheetHeight NOTIFY pressSheetHeightChanged)
+    Q_PROPERTY(quint32 amount READ amount NOTIFY amountChanged)
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks READ cutBlocks NOTIFY cutBlocksChanged)
     Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
 
@@ -33,6 +34,7 @@ public:
     QString id() const;
     double pressSheetWidth() const;
     double pressSheetHeight() const;
+    quint32 amount() const;
     QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks();
     MediaQmlWrapper *media() const;
 
@@ -40,6 +42,7 @@ signals:
     void idChanged(const QString &arg);
     void pressSheetWidthChanged(double arg);
     void pressSheetHeightChanged(double arg);
+    void amountChanged(quint32 arg);
     void cutBlocksChanged(const QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> &arg);
     void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
 
