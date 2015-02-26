@@ -10,6 +10,7 @@ __attribute__((constructor))
 static void libraryInit()
 {
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");
+    qRegisterMetaType<Proof::Jdf::MediaQmlWrapper *>("Proof::Jdf::MediaQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::CuttingProcessSP>("Proof::Jdf::CuttingProcessSP");
     qRegisterMetaType<Proof::Jdf::CuttingProcessWP>("Proof::Jdf::CuttingProcessWP");
     qRegisterMetaType<Proof::Jdf::CutBlockSP>("Proof::Jdf::CutBlockSP");
