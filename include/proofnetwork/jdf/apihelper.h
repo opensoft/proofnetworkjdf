@@ -4,6 +4,8 @@
 #include "proofcore/proofobject.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 
+#include <QHash>
+
 namespace Proof {
 namespace Jdf {
 
@@ -32,6 +34,9 @@ public:
     static QString coatingToString(Coating coating);
 
     static Coating coatingFromString(const QString &coating);
+
+private:
+    static QHash<Coating, QString> m_coatingStringified;
 };
 
 }
