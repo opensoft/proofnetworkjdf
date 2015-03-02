@@ -12,9 +12,9 @@ namespace Proof {
 namespace Jdf {
 
 class CutBlockQmlWrapper;
-class CuttingProcessQmlWrapperPrivate;
 class MediaQmlWrapper;
 
+class CuttingProcessQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT CuttingProcessQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT

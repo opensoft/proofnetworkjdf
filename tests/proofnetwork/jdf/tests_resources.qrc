@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>data/cuttingprocess.jdf</file>
-        <file>data/cuttingprocess2.jdf</file>
+        <file>data/jdfdocument.jdf</file>
+        <file>data/jdfdocument2.jdf</file>
     </qresource>
 </RCC>

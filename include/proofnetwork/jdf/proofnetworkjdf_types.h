@@ -9,6 +9,10 @@
 namespace Proof {
 namespace Jdf {
 
+class JdfDocument;
+typedef QSharedPointer<JdfDocument> JdfDocumentSP;
+typedef QWeakPointer<JdfDocument> JdfDocumentWP;
+
 class CuttingProcess;
 typedef QSharedPointer<CuttingProcess> CuttingProcessSP;
 typedef QWeakPointer<CuttingProcess> CuttingProcessWP;

@@ -39,7 +39,7 @@ public:
     static CuttingProcessSP create();
 
     static CuttingProcessSP fromJdf(QXmlStreamReader &xmlReader);
-    QString toJdf();
+    void toJdf(QXmlStreamWriter &jdfWriter);
     static CuttingProcessSP defaultObject();
 
 signals:

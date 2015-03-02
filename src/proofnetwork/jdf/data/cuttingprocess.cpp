@@ -103,46 +103,49 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
     CuttingProcessSP cutProcess = create();
     cutProcess->setFetched(true);
 
-    QList<CutBlockSP> cutBlocks;
+    if (xmlReader.name() == "ResourcePool") {
+        unsigned int elementsCounter = 1;
+        QList<CutBlockSP> cutBlocks;
 
-    while (!xmlReader.atEnd() && !xmlReader.hasError())
-    {
-        QXmlStreamReader::TokenType token = xmlReader.readNext();
-        if (token == QXmlStreamReader::StartDocument)
-            continue;
-        if (token == QXmlStreamReader::StartElement) {
-            if (xmlReader.name() == "Media")
-                cutProcess->setMedia(Media::fromJdf(xmlReader));
-            if (xmlReader.name() == "Component") {
-                QXmlStreamAttributes attributes = xmlReader.attributes();
-                if (attributes.value("ComponentType").toString() == "Sheet") {
-                    cutProcess->setId(attributes.value("ID").toString());
-                    QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
-                    if (dimensionsList.count() >= 2) {
-                        cutProcess->setPressSheetWidth(dimensionsList.at(0).toDouble());
-                        cutProcess->setPressSheetHeight(dimensionsList.at(1).toDouble());
+        while (!xmlReader.atEnd() && !xmlReader.hasError())
+        {
+            QXmlStreamReader::TokenType token = xmlReader.readNext();
+            if (token == QXmlStreamReader::StartElement) {
+                ++elementsCounter;
+                if (xmlReader.name() == "Media")
+                    cutProcess->setMedia(Media::fromJdf(xmlReader));
+                if (xmlReader.name() == "Component") {
+                    QXmlStreamAttributes attributes = xmlReader.attributes();
+                    if (attributes.value("ComponentType").toString() == "Sheet") {
+                        cutProcess->setId(attributes.value("ID").toString());
+                        QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
+                        if (dimensionsList.count() >= 2) {
+                            cutProcess->setPressSheetWidth(dimensionsList.at(0).toDouble());
+                            cutProcess->setPressSheetHeight(dimensionsList.at(1).toDouble());
+                        }
+                        cutProcess->setAmount(attributes.value("Amount").toUInt());
                     }
-                    cutProcess->setAmount(attributes.value("Amount").toUInt());
+                }
+                if (xmlReader.name() == "CutBlock") {
+                    CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader);
+                    cutBlocks.append(cutBlock);
                 }
             }
-            if (xmlReader.name() == "CutBlock") {
-                CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader);
-                cutBlocks.append(cutBlock);
+            if (token == QXmlStreamReader::EndElement) {
+                --elementsCounter;
+                if (elementsCounter == 0)
+                    break;
             }
         }
+        cutProcess->updateCutBlocks(cutBlocks);
     }
-    cutProcess->updateCutBlocks(cutBlocks);
+
     return cutProcess;
 }
 
-QString CuttingProcess::toJdf()
+void CuttingProcess::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(CuttingProcess);
-    QString jdf;
-    QXmlStreamWriter jdfWriter(&jdf);
-
-    jdfWriter.setAutoFormatting(true);
-    jdfWriter.writeStartDocument();
 
     jdfWriter.writeStartElement("ResourcePool");
     if (d->media != nullptr)
@@ -169,10 +172,6 @@ QString CuttingProcess::toJdf()
 
     }
     jdfWriter.writeEndElement();
-
-    jdfWriter.writeEndDocument();
-
-    return jdf;
 }
 
 CuttingProcessSP CuttingProcess::defaultObject()

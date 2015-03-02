@@ -1,5 +1,6 @@
 #include "gtest/test_global.h"
 
+#include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/cuttingprocess.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
@@ -22,19 +23,17 @@ public:
 protected:
     void SetUp() override
     {
-        QFile file(":/data/cuttingprocess.jdf");
+        QFile file(":/data/jdfdocument.jdf");
         ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml(&file);
-        cutProcessUT = CuttingProcess::fromJdf(xml);
+        jdfDocUT = JdfDocument::fromJdf(xml);
 
-        QFile file2(":/data/cuttingprocess2.jdf");
+        QFile file2(":/data/jdfdocument2.jdf");
         ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml2(&file2);
-        cutProcessUT2 = CuttingProcess::fromJdf(xml2);
+        jdfDocUT2 = JdfDocument::fromJdf(xml2);
 
-        qmlWrapperUT = cutProcessUT->toQmlWrapper();
-
-        jdfDocument = cutProcessUT->toJdf();
+        qmlWrapperUT = jdfDocUT->toQmlWrapper();
     }
 
     void TearDown() override
@@ -43,22 +42,27 @@ protected:
     }
 
 protected:
-    CuttingProcessSP cutProcessUT;
-    CuttingProcessSP cutProcessUT2;
-    CuttingProcessQmlWrapper *qmlWrapperUT;
-    QString jdfDocument;
+    JdfDocumentSP jdfDocUT;
+    JdfDocumentSP jdfDocUT2;
+    JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
 TEST_F(CuttingProcessTest, fromJdf)
 {
-    EXPECT_EQ("COMP_0000", cutProcessUT->id());
-    EXPECT_DOUBLE_EQ(2520, cutProcessUT->pressSheetWidth());
-    EXPECT_DOUBLE_EQ(1656, cutProcessUT->pressSheetHeight());
-    EXPECT_EQ(1000, cutProcessUT->amount());
+    EXPECT_EQ("JDF_0000", jdfDocUT->id());
+    EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
 
-    ASSERT_EQ(23, cutProcessUT->cutBlocks().count());
+    CuttingProcessSP cutProcess = jdfDocUT->cuttingProcess();
+    ASSERT_TRUE(cutProcess);
 
-    CutBlockSP cutBlock = cutProcessUT->cutBlocks().at(0);
+    EXPECT_EQ("COMP_0000", cutProcess->id());
+    EXPECT_DOUBLE_EQ(2520, cutProcess->pressSheetWidth());
+    EXPECT_DOUBLE_EQ(1656, cutProcess->pressSheetHeight());
+    EXPECT_EQ(1000, cutProcess->amount());
+
+    ASSERT_EQ(23, cutProcess->cutBlocks().count());
+
+    CutBlockSP cutBlock = cutProcess->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock);
 
     EXPECT_EQ("A-1_BLK", cutBlock->id());
@@ -68,7 +72,7 @@ TEST_F(CuttingProcessTest, fromJdf)
     EXPECT_DOUBLE_EQ(288, cutBlock->height());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
 
-    MediaSP media = cutProcessUT->media();
+    MediaSP media = cutProcess->media();
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
@@ -81,10 +85,10 @@ TEST_F(CuttingProcessTest, fromJdf)
 
 TEST_F(CuttingProcessTest, updateFrom)
 {
-    QList<QSignalSpy *> spies = spiesForObject(cutProcessUT.data());
+    QList<QSignalSpy *> spies = spiesForObject(jdfDocUT.data());
     QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
-    cutProcessUT->updateFrom(cutProcessUT2);
+    jdfDocUT->updateFrom(jdfDocUT2);
 
     for (QSignalSpy *spy: qmlspies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
@@ -97,16 +101,24 @@ TEST_F(CuttingProcessTest, updateFrom)
     qDeleteAll(qmlspies);
     qmlspies.clear();
 
-    EXPECT_EQ(cutProcessUT->id(), cutProcessUT2->id());
-    EXPECT_DOUBLE_EQ(cutProcessUT->pressSheetWidth(), cutProcessUT2->pressSheetWidth());
-    EXPECT_DOUBLE_EQ(cutProcessUT->pressSheetHeight(), cutProcessUT2->pressSheetHeight());
-    EXPECT_EQ(cutProcessUT->amount(), cutProcessUT2->amount());
+    EXPECT_EQ(jdfDocUT->id(), jdfDocUT2->id());
+    EXPECT_EQ(jdfDocUT->jobId(), jdfDocUT2->jobId());
 
-    ASSERT_EQ(cutProcessUT->cutBlocks().count(), cutProcessUT2->cutBlocks().count());
+    CuttingProcessSP cutProcess = jdfDocUT->cuttingProcess();
+    ASSERT_TRUE(cutProcess);
+    CuttingProcessSP cutProcess2 = jdfDocUT2->cuttingProcess();
+    ASSERT_TRUE(cutProcess2);
 
-    CutBlockSP cutBlock = cutProcessUT->cutBlocks().at(0);
+    EXPECT_EQ(cutProcess->id(), cutProcess2->id());
+    EXPECT_DOUBLE_EQ(cutProcess->pressSheetWidth(), cutProcess2->pressSheetWidth());
+    EXPECT_DOUBLE_EQ(cutProcess->pressSheetHeight(), cutProcess2->pressSheetHeight());
+    EXPECT_EQ(cutProcess->amount(), cutProcess2->amount());
+
+    ASSERT_EQ(cutProcess->cutBlocks().count(), cutProcess2->cutBlocks().count());
+
+    CutBlockSP cutBlock = cutProcess->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock);
-    CutBlockSP cutBlock2 = cutProcessUT2->cutBlocks().at(0);
+    CutBlockSP cutBlock2 = cutProcess2->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock2);
 
     EXPECT_EQ(cutBlock->id(), cutBlock2->id());
@@ -116,9 +128,9 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_DOUBLE_EQ(cutBlock->height(), cutBlock2->height());
     EXPECT_EQ(cutBlock->transformationMatrix(), cutBlock2->transformationMatrix());
 
-    MediaSP media1 = cutProcessUT->media();
+    MediaSP media1 = cutProcess->media();
     ASSERT_TRUE(media1);
-    MediaSP media2 = cutProcessUT2->media();
+    MediaSP media2 = cutProcess2->media();
     ASSERT_TRUE(media2);
     EXPECT_EQ(media1->id(), media2->id());
     EXPECT_EQ(media1->backCoating(), media2->backCoating());
