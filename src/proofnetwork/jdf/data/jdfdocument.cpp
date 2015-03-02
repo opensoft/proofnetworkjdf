@@ -128,7 +128,7 @@ QString JdfDocument::toJdf()
         jdfWriter.writeAttribute("ID", d->id);
         jdfWriter.writeAttribute("JobID", d->jobId);
         jdfWriter.writeAttribute("Status", "Waiting");
-        jdfWriter.writeAttribute("Type", "ProcessGroup");
+        jdfWriter.writeAttribute("Type", "Product");
         jdfWriter.writeAttribute("Version", "1.4");
         d->cuttingProcess->toJdf(jdfWriter);
     }

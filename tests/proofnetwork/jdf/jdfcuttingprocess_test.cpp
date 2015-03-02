@@ -139,3 +139,70 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_DOUBLE_EQ(media1->height(), media2->height());
     EXPECT_DOUBLE_EQ(media1->thickness(), media2->thickness());
 }
+
+TEST_F(CuttingProcessTest, documentToJdf)
+{
+    QString jdf = jdfDocUT->toJdf();
+    QXmlStreamReader reader(jdf);
+
+    EXPECT_FALSE(reader.atEnd());
+
+    bool hasJdfProductElement = false;
+    bool hasResourcePool = false;
+    bool hasMedia = false;
+    QString id;
+    QString jobId;
+    QString version;
+    QString status;
+    QString defaultNamespace;
+    QString cutProcessId;
+    double height = .0;
+    double width = .0;
+    unsigned int cutBlocksCount = 0;
+    while (!reader.atEnd() && !reader.hasError()) {
+        QXmlStreamReader::TokenType token = reader.readNext();
+        if (token == QXmlStreamReader::StartElement) {
+            if (reader.name() == "JDF") {
+                QXmlStreamAttributes attributes = reader.attributes();
+                if (attributes.value("Type").toString() == "Product") {
+                    hasJdfProductElement = true;
+                    id = attributes.value("ID").toString();
+                    jobId = attributes.value("JobID").toString();
+                    status = attributes.value("Status").toString();
+                    version = attributes.value("Version").toString();
+                    defaultNamespace = reader.namespaceUri().toString();
+                }
+            } else if (reader.name() == "ResourcePool") {
+                hasResourcePool = true;
+            } else if (hasResourcePool && reader.name() == "Component") {
+                QXmlStreamAttributes attributes = reader.attributes();
+                if (attributes.value("ComponentType").toString() == "Sheet") {
+                    cutProcessId = attributes.value("ID").toString();
+                    QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
+                    if (dimensionsList.count() >= 2) {
+                        width = dimensionsList.at(0).toDouble();
+                        height = dimensionsList.at(1).toDouble();
+                    }
+                }
+            } else if (hasResourcePool && reader.name() == "Media") {
+                hasMedia = true;
+            } else if (hasResourcePool && reader.name() == "CutBlock") {
+                ++cutBlocksCount;
+            }
+        }
+    }
+
+    EXPECT_FALSE(reader.hasError());
+    EXPECT_TRUE(hasJdfProductElement);
+    EXPECT_EQ("1.4", version);
+    EXPECT_EQ("Waiting", status);
+    EXPECT_EQ("http://www.CIP4.org/JDFSchema_1_1", defaultNamespace);
+    EXPECT_EQ("JDF_0000", id);
+    EXPECT_EQ("mixed-flatwork (groups)", jobId);
+    EXPECT_TRUE(hasResourcePool);
+    EXPECT_EQ("COMP_0000", cutProcessId);
+    EXPECT_DOUBLE_EQ(2520., width);
+    EXPECT_DOUBLE_EQ(1656., height);
+    EXPECT_TRUE(hasMedia);
+    EXPECT_EQ(23, cutBlocksCount);
+}

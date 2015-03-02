@@ -77,7 +77,7 @@ void CuttingProcess::updateFrom(const NetworkDataEntitySP &other)
     setPressSheetWidth(castedOther->pressSheetWidth());
     setPressSheetHeight(castedOther->pressSheetHeight());
     setAmount(castedOther->amount());
-    updateCutBlocks(castedOther->cutBlocks());
+    setCutBlocks(castedOther->cutBlocks());
     setMedia(castedOther->media());
 
     NetworkDataEntity::updateFrom(other);
@@ -137,7 +137,7 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
                     break;
             }
         }
-        cutProcess->updateCutBlocks(cutBlocks);
+        cutProcess->setCutBlocks(cutBlocks);
     }
 
     return cutProcess;
@@ -180,7 +180,7 @@ CuttingProcessSP CuttingProcess::defaultObject()
     return entity;
 }
 
-QList<CutBlockSP> CuttingProcess::updateCutBlocks(const QList<CutBlockSP> &arg)
+QList<CutBlockSP> CuttingProcess::setCutBlocks(const QList<CutBlockSP> &arg)
 {
     Q_D(CuttingProcess);
     bool emitNeeded = arg.count() != d->cutBlocks.count();

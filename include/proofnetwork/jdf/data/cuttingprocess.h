@@ -30,7 +30,7 @@ public:
     void setPressSheetWidth(double arg);
     void setPressSheetHeight(double arg);
     void setAmount(quint32 arg);
-    QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
+    QList<CutBlockSP> setCutBlocks(const QList<CutBlockSP> &arg);
     void setMedia(const MediaSP &media);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
