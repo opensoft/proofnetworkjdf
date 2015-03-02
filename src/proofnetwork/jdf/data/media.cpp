@@ -14,8 +14,8 @@ class MediaPrivate : NetworkDataEntityPrivate
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
-    ApiHelper::Coating frontCoating = ApiHelper::Coating::None;
-    ApiHelper::Coating backCoating = ApiHelper::Coating::None;
+    ApiHelper::Coating frontCoating = ApiHelper::None;
+    ApiHelper::Coating backCoating = ApiHelper::None;
 };
 
 QString Media::id() const

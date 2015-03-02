@@ -16,7 +16,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
 public:
     ApiHelper() = delete;
 
-    enum class Coating
+    enum Coating
     {
         None, // No coating.
         Coated, // A coating of a system-specified type. New in JDF 1.2

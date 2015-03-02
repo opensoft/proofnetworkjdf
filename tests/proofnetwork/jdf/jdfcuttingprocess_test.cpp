@@ -76,8 +76,8 @@ TEST_F(CuttingProcessTest, fromJdf)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
-    EXPECT_EQ(ApiHelper::Coating::None, media->backCoating());
-    EXPECT_EQ(ApiHelper::Coating::HighGloss, media->frontCoating());
+    EXPECT_EQ(ApiHelper::None, media->backCoating());
+    EXPECT_EQ(ApiHelper::HighGloss, media->frontCoating());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());

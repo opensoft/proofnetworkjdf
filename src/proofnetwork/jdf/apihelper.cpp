@@ -4,16 +4,16 @@ namespace Proof {
 namespace Jdf {
 
 QHash<QString, ApiHelper::Coating> ApiHelper::m_coatingStringified = {
-    {"None", ApiHelper::Coating::None},
-    {"Glossy", ApiHelper::Coating::Glossy},
-    {"Coated", ApiHelper::Coating::Coated},
-    {"HighGloss", ApiHelper::Coating::HighGloss},
-    {"InkJet", ApiHelper::Coating::InkJet},
-    {"Matte", ApiHelper::Coating::Matte},
-    {"Polymer", ApiHelper::Coating::Polymer},
-    {"Silver", ApiHelper::Coating::Silver},
-    {"Satin", ApiHelper::Coating::Satin},
-    {"Semigloss", ApiHelper::Coating::Semigloss}
+    {"None", ApiHelper::None},
+    {"Glossy", ApiHelper::Glossy},
+    {"Coated", ApiHelper::Coated},
+    {"HighGloss", ApiHelper::HighGloss},
+    {"InkJet", ApiHelper::InkJet},
+    {"Matte", ApiHelper::Matte},
+    {"Polymer", ApiHelper::Polymer},
+    {"Silver", ApiHelper::Silver},
+    {"Satin", ApiHelper::Satin},
+    {"Semigloss", ApiHelper::Semigloss}
 };
 
 QString ApiHelper::coatingToString(ApiHelper::Coating coating)
