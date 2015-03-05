@@ -25,6 +25,10 @@ class Media;
 typedef QSharedPointer<Media> MediaSP;
 typedef QWeakPointer<Media> MediaWP;
 
+class Bundle;
+typedef QSharedPointer<Bundle> BundleSP;
+typedef QWeakPointer<Bundle> BundleWP;
+
 }
 }
 
