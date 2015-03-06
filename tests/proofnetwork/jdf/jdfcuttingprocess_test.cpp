@@ -56,9 +56,9 @@ TEST_F(CuttingProcessTest, fromJdf)
     ASSERT_TRUE(cutProcess);
 
     EXPECT_EQ("COMP_0000", cutProcess->id());
-    EXPECT_DOUBLE_EQ(2520, cutProcess->pressSheetWidth());
-    EXPECT_DOUBLE_EQ(1656, cutProcess->pressSheetHeight());
-    EXPECT_EQ(1000, cutProcess->amount());
+    EXPECT_DOUBLE_EQ(2520.0, cutProcess->pressSheetWidth());
+    EXPECT_DOUBLE_EQ(1656.0, cutProcess->pressSheetHeight());
+    EXPECT_EQ(1000u, cutProcess->amount());
 
     ASSERT_EQ(23, cutProcess->cutBlocks().count());
 
@@ -209,5 +209,5 @@ TEST_F(CuttingProcessTest, documentToJdf)
     EXPECT_DOUBLE_EQ(2520., width);
     EXPECT_DOUBLE_EQ(1656., height);
     EXPECT_TRUE(hasMedia);
-    EXPECT_EQ(23, cutBlocksCount);
+    EXPECT_EQ(23u, cutBlocksCount);
 }
