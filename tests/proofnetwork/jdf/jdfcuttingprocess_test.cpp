@@ -66,7 +66,8 @@ TEST_F(CuttingProcessTest, fromJdf)
     ASSERT_TRUE(cutBlock);
 
     EXPECT_EQ("A-1_BLK", cutBlock->id());
-    ASSERT_TRUE(cutBlock->available());
+    EXPECT_EQ(ApiHelper::AvailableStatus, cutBlock->status());
+    EXPECT_EQ(ApiHelper::ParameterClass, cutBlock->resourceClass());
     EXPECT_EQ("A-1", cutBlock->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock->width());
     EXPECT_DOUBLE_EQ(288, cutBlock->height());
@@ -122,7 +123,7 @@ TEST_F(CuttingProcessTest, updateFrom)
     ASSERT_TRUE(cutBlock2);
 
     EXPECT_EQ(cutBlock->id(), cutBlock2->id());
-    ASSERT_TRUE(cutBlock->available() == cutBlock2->available());
+    ASSERT_TRUE(cutBlock->status() == cutBlock2->status());
     EXPECT_EQ(cutBlock->blockName(), cutBlock2->blockName());
     EXPECT_DOUBLE_EQ(cutBlock->width(), cutBlock2->width());
     EXPECT_DOUBLE_EQ(cutBlock->height(), cutBlock2->height());
@@ -187,7 +188,11 @@ TEST_F(CuttingProcessTest, documentToJdf)
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;
             } else if (hasResourcePool && reader.name() == "CutBlock") {
-                ++cutBlocksCount;
+                if (!cutBlocksCount++) {
+                    QXmlStreamAttributes attributes = reader.attributes();
+                    EXPECT_EQ(attributes.value("ID").toString(), "A-1_BLK");
+                    EXPECT_EQ(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()), ApiHelper::AvailableStatus);
+                }
             }
         }
     }

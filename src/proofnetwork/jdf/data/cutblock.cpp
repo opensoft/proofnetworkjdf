@@ -1,5 +1,5 @@
 #include "cutblock.h"
-#include "proofnetwork/networkdataentity_p.h"
+#include "proofnetwork/jdf/data/abstractresource_p.h"
 
 #include <QStringList>
 
@@ -10,17 +10,15 @@ static const double PI = 3.14159265358979323846;
 namespace Proof {
 namespace Jdf {
 
-class CutBlockPrivate : public NetworkDataEntityPrivate
+class CutBlockPrivate : public AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
     QString createRotationMatrixString(double angle);
 
-    bool available;
     QString blockName;
     double width;
     double height;
-    QString id;
     QString transformationMatrix;
 
 };
@@ -36,14 +34,9 @@ ObjectsCache<QString, CutBlock> &cutBlockCache()
 using namespace Proof::Jdf;
 
 CutBlock::CutBlock()
-    : NetworkDataEntity(*new CutBlockPrivate)
+    : AbstractResource(*new CutBlockPrivate)
 {
-}
-
-bool CutBlock::available() const
-{
-    Q_D(const CutBlock);
-    return d->available;
+    setResourceClass(ApiHelper::ParameterClass);
 }
 
 QString CutBlock::blockName() const
@@ -64,12 +57,6 @@ double CutBlock::height() const
     return d->height;
 }
 
-QString CutBlock::id() const
-{
-    Q_D(const CutBlock);
-    return d->id;
-}
-
 QString CutBlock::transformationMatrix() const
 {
     Q_D(const CutBlock);
@@ -79,13 +66,11 @@ QString CutBlock::transformationMatrix() const
 void CutBlock::updateFrom(const NetworkDataEntitySP &other)
 {
     CutBlockSP castedOther = qSharedPointerCast<CutBlock>(other);
-    setId(castedOther->id());
-    setAvailable(castedOther->available());
     setBlockName(castedOther->blockName());
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setTransformationMatrix(castedOther->transformationMatrix());
-    NetworkDataEntity::updateFrom(other);
+    AbstractResource::updateFrom(other);
 }
 
 CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
@@ -108,17 +93,24 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader)
     CutBlockSP cutBlock = create();
     cutBlock->setFetched(true);
 
-    QXmlStreamAttributes attributes = xmlReader.attributes();
-    if (attributes.value("Status").toString() == "Available")
-        cutBlock->setAvailable(true);
-    cutBlock->setBlockName(attributes.value("BlockName").toString());
-    cutBlock->setId(attributes.value("ID").toString());
-    QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
-    if (blockSizeList.count() >= 2) {
-        cutBlock->setWidth(blockSizeList.at(0).toDouble());
-        cutBlock->setHeight(blockSizeList.at(1).toDouble());
+    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
+        if (xmlReader.name() == "CutBlock" && xmlReader.isStartElement()) {
+            QXmlStreamAttributes attributes = xmlReader.attributes();
+            cutBlock->setBlockName(attributes.value("BlockName").toString());
+            QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
+            if (blockSizeList.count() >= 2) {
+                cutBlock->setWidth(blockSizeList.at(0).toDouble());
+                cutBlock->setHeight(blockSizeList.at(1).toDouble());
+            }
+            cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
+            break;
+        } else {
+            xmlReader.readNext();
+        }
     }
-    cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
+
+    AbstractResourceSP castedCutBlock = qSharedPointerCast<AbstractResource>(cutBlock);
+    AbstractResource::fromJdf(xmlReader, castedCutBlock);
 
     return cutBlock;
 }
@@ -129,30 +121,17 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeEmptyElement("CutBlock");
     jdfWriter.writeAttribute("BlockName", d->blockName);
-    jdfWriter.writeAttribute("BlockSize", QString::number(d->width) + " " + QString::number(d->height));
+    jdfWriter.writeAttribute("BlockSize", QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
     jdfWriter.writeAttribute("BlockTrf", d->transformationMatrix);
     jdfWriter.writeAttribute("BlockType", "CutBlock");
-    jdfWriter.writeAttribute("Class", "Parameter");
-    jdfWriter.writeAttribute("ID", d->id);
-    if (d->available)
-        jdfWriter.writeAttribute("Status", "Available");
-    else
-        jdfWriter.writeAttribute("Status", "Unavailable");
+
+    AbstractResource::toJdf(jdfWriter);
 }
 
 CutBlockSP CutBlock::defaultObject()
 {
     static CutBlockSP entity = create();
     return entity;
-}
-
-void CutBlock::setAvailable(bool arg)
-{
-    Q_D(CutBlock);
-    if (d->available != arg) {
-        d->available = arg;
-        emit availableChanged(d->available);
-    }
 }
 
 void CutBlock::setBlockName(const QString &arg)
@@ -179,15 +158,6 @@ void CutBlock::setHeight(double arg)
     if (d->height != arg) {
         d->height = arg;
         emit heightChanged(d->height);
-    }
-}
-
-void CutBlock::setId(const QString &arg)
-{
-    Q_D(CutBlock);
-    if (d->id != arg) {
-        d->id = arg;
-        emit idChanged(d->id);
     }
 }
 

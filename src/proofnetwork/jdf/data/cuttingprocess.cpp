@@ -158,12 +158,12 @@ void CuttingProcess::toJdf(QXmlStreamWriter &jdfWriter)
                                  + QString::number(d->pressSheetHeight) + " 0");
         jdfWriter.writeAttribute("ID", d->id);
         jdfWriter.writeAttribute("IsWaste", "False");
-        jdfWriter.writeAttribute("Status", "Available");
+        jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(ApiHelper::AvailableStatus));
         jdfWriter.writeAttribute("Amount", QString::number(d->amount));
 
         jdfWriter.writeStartElement("CuttingParams");
         {
-            jdfWriter.writeAttribute("Status", "Available");
+            jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(ApiHelper::AvailableStatus));
 
             for (CutBlockSP cutBlock : d->cutBlocks)
                 cutBlock->toJdf(jdfWriter);

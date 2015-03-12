@@ -1,3 +1,4 @@
+#include "data/abstractresource.h"
 #include "data/cutblock.h"
 #include "data/cuttingprocess.h"
 #include "data/media.h"
@@ -11,6 +12,7 @@ Q_LOGGING_CATEGORY(proofNetworkJdfDataLog, "proof.network.jdf.data")
 __attribute__((constructor))
 static void libraryInit()
 {
+    qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
     qRegisterMetaType<Proof::Jdf::CuttingProcessQmlWrapper *>("Proof::Jdf::CuttingProcessQmlWrapper *");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");

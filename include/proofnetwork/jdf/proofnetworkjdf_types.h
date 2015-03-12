@@ -9,6 +9,10 @@
 namespace Proof {
 namespace Jdf {
 
+class AbstractResource;
+typedef QSharedPointer<AbstractResource> AbstractResourceSP;
+typedef QWeakPointer<AbstractResource> AbstractResourceWP;
+
 class JdfDocument;
 typedef QSharedPointer<JdfDocument> JdfDocumentSP;
 typedef QWeakPointer<JdfDocument> JdfDocumentWP;

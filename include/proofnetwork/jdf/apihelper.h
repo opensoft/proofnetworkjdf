@@ -13,6 +13,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
 {
     Q_OBJECT
     Q_ENUMS(ResourceStatus)
+    Q_ENUMS(ResourceClass)
     Q_ENUMS(Coating)
     Q_ENUMS(BundleType)
 public:
@@ -29,6 +30,16 @@ public:
                  //A Physical Resource with Status = "Complete" is not yet available for produc­tion,
                  //although it is sufficiently specified for a Process that refer­ences it through a ResourceRef from a Parameter Resource to commence execution.
         AvailableStatus // Indicates that the whole Resource is available for usage.
+    };
+
+    enum ResourceClass {
+        ConsumableClass,
+        HandlingClass,
+        ImplementationClass,
+        IntentClass,
+        ParameterClass,
+        PlaceHolderClass,
+        QuantityClass
     };
 
     enum Coating {
@@ -63,6 +74,9 @@ public:
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status);
 
+    static QString resourceClassToString(ResourceClass resourceClass);
+    static ResourceClass resourceClassFromString(const QString &resourceClass);
+
     static QString coatingToString(Coating coating);
     static Coating coatingFromString(const QString &coating);
 
@@ -71,6 +85,7 @@ public:
 
 private:
     static QHash<QString, ResourceStatus> m_resourceStatusStringified;
+    static QHash<QString, ResourceClass> m_resourceClassStringified;
     static QHash<QString, Coating> m_coatingStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
 };

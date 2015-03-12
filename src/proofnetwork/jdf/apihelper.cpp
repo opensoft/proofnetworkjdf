@@ -10,7 +10,17 @@ QHash<QString, ApiHelper::ResourceStatus> ApiHelper::m_resourceStatusStringified
     {"InUse", ApiHelper::InUseStatus},
     {"Draft", ApiHelper::DraftStatus},
     {"Complete", ApiHelper::CompleteStatus},
-    {"Available", ApiHelper::AvailableStatus},
+    {"Available", ApiHelper::AvailableStatus}
+};
+
+QHash<QString, ApiHelper::ResourceClass> ApiHelper::m_resourceClassStringified = {
+    {"Consumable", ApiHelper::ConsumableClass},
+    {"Handling", ApiHelper::HandlingClass},
+    {"Implementation", ApiHelper::ImplementationClass},
+    {"Intent", ApiHelper::IntentClass},
+    {"Parameter", ApiHelper::ParameterClass},
+    {"PlaceHolder", ApiHelper::PlaceHolderClass},
+    {"Quantity", ApiHelper::QuantityClass}
 };
 
 QHash<QString, ApiHelper::Coating> ApiHelper::m_coatingStringified = {
@@ -49,6 +59,16 @@ QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 ApiHelper::ResourceStatus ApiHelper::resourceStatusFromString(const QString &status)
 {
     return m_resourceStatusStringified.value(status, ResourceStatus::IncompleteStatus);
+}
+
+QString ApiHelper::resourceClassToString(ApiHelper::ResourceClass resourceClass)
+{
+    return m_resourceClassStringified.key(resourceClass, "");
+}
+
+ApiHelper::ResourceClass ApiHelper::resourceClassFromString(const QString &resourceClass)
+{
+    return m_resourceClassStringified.value(resourceClass, ResourceClass::ConsumableClass);
 }
 
 QString ApiHelper::coatingToString(ApiHelper::Coating coating)
