@@ -13,7 +13,7 @@ namespace Proof {
 namespace Jdf {
 
 class AbstractResourcePrivate;
-class AbstractResource : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT AbstractResource : public NetworkDataEntity
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractResource)

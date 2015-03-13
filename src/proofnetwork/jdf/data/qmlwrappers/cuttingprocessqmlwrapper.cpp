@@ -3,7 +3,7 @@
 #include "mediaqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/cuttingprocess.h"
-#include "proofnetwork/jdf/data/cutblock.h"
+#include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
@@ -12,14 +12,10 @@ namespace Jdf {
 class CuttingProcessQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(CuttingProcessQmlWrapper)
-    void updateCutBlocks();
+    void updateCutingParams();
     void updateMedia();
 
-    static CutBlockQmlWrapper *cutBlockAt(QQmlListProperty<CutBlockQmlWrapper> *property, int index);
-    static int cutBlocksCount(QQmlListProperty<CutBlockQmlWrapper> *property);
-
-    QList<CutBlockQmlWrapper *> cutBlocks;
-    QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> qmlCutBlocksList;
+    CuttingParamsQmlWrapper *cuttingParams = nullptr;
     MediaQmlWrapper *media = nullptr;
 };
 
@@ -39,10 +35,10 @@ CuttingProcessQmlWrapper::~CuttingProcessQmlWrapper()
 {
 }
 
-QQmlListProperty<CutBlockQmlWrapper> CuttingProcessQmlWrapper::cutBlocks()
+CuttingParamsQmlWrapper *CuttingProcessQmlWrapper::cuttingParams() const
 {
-    Q_D(CuttingProcessQmlWrapper);
-    return d->qmlCutBlocksList;
+    Q_D(const CuttingProcessQmlWrapper);
+    return d->cuttingParams;
 }
 
 MediaQmlWrapper *CuttingProcessQmlWrapper::media() const
@@ -72,12 +68,10 @@ void CuttingProcessQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
             this, &CuttingProcessQmlWrapper::pressSheetHeightChanged);
     connect(cuttingProcess.data(), &CuttingProcess::amountChanged,
             this, &CuttingProcessQmlWrapper::amountChanged);
-    connect(cuttingProcess.data(), &CuttingProcess::cutBlocksChanged,
-            d->lambdaConnectContext, [d](){d->updateCutBlocks();});
+    connect(cuttingProcess.data(), &CuttingProcess::cuttingParamsChanged,
+            d->lambdaConnectContext, [d](){d->updateCutingParams();});
     connect(cuttingProcess.data(), &CuttingProcess::mediaChanged,
             d->lambdaConnectContext, [d](){d->updateMedia();});
-
-    d->updateCutBlocks();
 
     CuttingProcessSP oldCuttingProcess = qSharedPointerCast<CuttingProcess>(old);
     if (oldCuttingProcess) {
@@ -89,40 +83,22 @@ void CuttingProcessQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
             emit pressSheetHeightChanged(cuttingProcess->pressSheetHeight());
         if (cuttingProcess->amount() != oldCuttingProcess->amount())
             emit amountChanged(cuttingProcess->amount());
-        if (cuttingProcess->id() != oldCuttingProcess->id())
-            emit idChanged(cuttingProcess->id());
-
-        bool equal = true;
-        for( int i=0; i < cuttingProcess->cutBlocks().count(); ++i )
-        {
-            if (cuttingProcess->cutBlocks()[i]->id() != cuttingProcess->cutBlocks()[i]->id()) {
-                equal = false;
-                break;
-            }
-        }
-        if (!equal)
-            emit cutBlocksChanged(cuttingProcess->toQmlWrapper()->cutBlocks());
-
     }
 
+    d->updateCutingParams();
     d->updateMedia();
 }
 
-void CuttingProcessQmlWrapperPrivate::updateCutBlocks()
+void CuttingProcessQmlWrapperPrivate::updateCutingParams()
 {
     Q_Q(CuttingProcessQmlWrapper);
     CuttingProcessSP cutProcess = entity<CuttingProcess>();
-    for (CutBlockQmlWrapper *wrapper : cutBlocks)
-        wrapper->deleteLater();
+    if (cuttingParams == nullptr)
+        cuttingParams = cutProcess->cuttingParams()->toQmlWrapper(q);
+    else
+        cuttingParams->setEntity(cutProcess->cuttingParams());
 
-    cutBlocks.clear();
-    for (const CutBlockSP &cutBlock : cutProcess->cutBlocks())
-        cutBlocks << cutBlock->toQmlWrapper(q);
-
-    qmlCutBlocksList = QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>(q, &cutBlocks,
-                                                                                     &CuttingProcessQmlWrapperPrivate::cutBlocksCount,
-                                                                                     &CuttingProcessQmlWrapperPrivate::cutBlockAt);
-    emit q->cutBlocksChanged(qmlCutBlocksList);
+    emit q->cuttingParamsChanged(cuttingParams);
 }
 
 void CuttingProcessQmlWrapperPrivate::updateMedia()
@@ -134,14 +110,4 @@ void CuttingProcessQmlWrapperPrivate::updateMedia()
     else
         media->setEntity(cutProcess->media());
     emit q->mediaChanged(media);
-}
-
-CutBlockQmlWrapper *CuttingProcessQmlWrapperPrivate::cutBlockAt(QQmlListProperty<CutBlockQmlWrapper> *property, int index)
-{
-    return static_cast<QList<CutBlockQmlWrapper *> *>(property->data)->at(index);
-}
-
-int CuttingProcessQmlWrapperPrivate::cutBlocksCount(QQmlListProperty<CutBlockQmlWrapper> *property)
-{
-    return static_cast<QList<CutBlockQmlWrapper *> *>(property->data)->count();
 }

@@ -21,6 +21,10 @@ class CuttingProcess;
 typedef QSharedPointer<CuttingProcess> CuttingProcessSP;
 typedef QWeakPointer<CuttingProcess> CuttingProcessWP;
 
+class CuttingParams;
+typedef QSharedPointer<CuttingParams> CuttingParamsSP;
+typedef QWeakPointer<CuttingParams> CuttingParamsWP;
+
 class CutBlock;
 typedef QSharedPointer<CutBlock> CutBlockSP;
 typedef QWeakPointer<CutBlock> CutBlockWP;

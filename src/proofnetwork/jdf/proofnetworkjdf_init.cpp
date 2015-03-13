@@ -1,5 +1,6 @@
 #include "data/abstractresource.h"
 #include "data/cutblock.h"
+#include "data/cuttingparams.h"
 #include "data/cuttingprocess.h"
 #include "data/media.h"
 #include "data/bundle.h"
@@ -15,6 +16,7 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
     qRegisterMetaType<Proof::Jdf::CuttingProcessQmlWrapper *>("Proof::Jdf::CuttingProcessQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::CuttingParamsQmlWrapper *>("Proof::Jdf::CuttingParamsQmlWrapper *");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");
     qRegisterMetaType<Proof::Jdf::MediaQmlWrapper *>("Proof::Jdf::MediaQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::BundleQmlWrapper *>("Proof::Jdf::BundleQmlWrapper *");
@@ -22,6 +24,8 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::JdfDocumentWP>("Proof::Jdf::JdfDocumentWP");
     qRegisterMetaType<Proof::Jdf::CuttingProcessSP>("Proof::Jdf::CuttingProcessSP");
     qRegisterMetaType<Proof::Jdf::CuttingProcessWP>("Proof::Jdf::CuttingProcessWP");
+    qRegisterMetaType<Proof::Jdf::CuttingParamsSP>("Proof::Jdf::CuttingParamsSP");
+    qRegisterMetaType<Proof::Jdf::CuttingParamsWP>("Proof::Jdf::CuttingParamsWP");
     qRegisterMetaType<Proof::Jdf::CutBlockSP>("Proof::Jdf::CutBlockSP");
     qRegisterMetaType<Proof::Jdf::CutBlockWP>("Proof::Jdf::CutBlockWP");
     qRegisterMetaType<Proof::Jdf::MediaSP>("Proof::Jdf::MediaSP");

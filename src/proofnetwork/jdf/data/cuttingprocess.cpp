@@ -1,5 +1,5 @@
 #include "cuttingprocess.h"
-#include "cutblock.h"
+#include "cuttingparams.h"
 #include "media.h"
 #include "proofnetwork/networkdataentity_p.h"
 
@@ -14,8 +14,8 @@ class CuttingProcessPrivate : public NetworkDataEntityPrivate
     double pressSheetWidth;
     double pressSheetHeight;
     quint32 amount;
-    QList<CutBlockSP> cutBlocks;
     MediaSP media = Media::defaultObject();
+    CuttingParamsSP cuttingParams = CuttingParams::defaultObject();
 
 };
 
@@ -58,10 +58,10 @@ quint32 CuttingProcess::amount() const
     return d->amount;
 }
 
-QList<CutBlockSP> CuttingProcess::cutBlocks() const
+CuttingParamsSP CuttingProcess::cuttingParams() const
 {
     Q_D(const CuttingProcess);
-    return d->cutBlocks;
+    return d->cuttingParams;
 }
 
 MediaSP CuttingProcess::media() const
@@ -77,7 +77,7 @@ void CuttingProcess::updateFrom(const NetworkDataEntitySP &other)
     setPressSheetWidth(castedOther->pressSheetWidth());
     setPressSheetHeight(castedOther->pressSheetHeight());
     setAmount(castedOther->amount());
-    setCutBlocks(castedOther->cutBlocks());
+    setCuttingParams(castedOther->cuttingParams());
     setMedia(castedOther->media());
 
     NetworkDataEntity::updateFrom(other);
@@ -104,8 +104,7 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
     cutProcess->setFetched(true);
 
     if (xmlReader.name() == "ResourcePool") {
-        unsigned int elementsCounter = 1;
-        QList<CutBlockSP> cutBlocks;
+        uint elementsCounter = 1;
 
         while (!xmlReader.atEnd() && !xmlReader.hasError())
         {
@@ -126,9 +125,8 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
                         cutProcess->setAmount(attributes.value("Amount").toUInt());
                     }
                 }
-                if (xmlReader.name() == "CutBlock") {
-                    CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader);
-                    cutBlocks.append(cutBlock);
+                if (xmlReader.name() == "CuttingParams") {
+                    cutProcess->setCuttingParams(CuttingParams::fromJdf(xmlReader));
                 }
             }
             if (token == QXmlStreamReader::EndElement) {
@@ -137,7 +135,6 @@ CuttingProcessSP CuttingProcess::fromJdf(QXmlStreamReader &xmlReader)
                     break;
             }
         }
-        cutProcess->setCutBlocks(cutBlocks);
     }
 
     return cutProcess;
@@ -161,15 +158,7 @@ void CuttingProcess::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(ApiHelper::AvailableStatus));
         jdfWriter.writeAttribute("Amount", QString::number(d->amount));
 
-        jdfWriter.writeStartElement("CuttingParams");
-        {
-            jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(ApiHelper::AvailableStatus));
-
-            for (CutBlockSP cutBlock : d->cutBlocks)
-                cutBlock->toJdf(jdfWriter);
-        }
-        jdfWriter.writeEndElement();
-
+        d->cuttingParams->toJdf(jdfWriter);
     }
     jdfWriter.writeEndElement();
 }
@@ -180,17 +169,13 @@ CuttingProcessSP CuttingProcess::defaultObject()
     return entity;
 }
 
-QList<CutBlockSP> CuttingProcess::setCutBlocks(const QList<CutBlockSP> &arg)
+void CuttingProcess::setCuttingParams(const CuttingParamsSP &arg)
 {
     Q_D(CuttingProcess);
-    bool emitNeeded = arg.count() != d->cutBlocks.count();
-    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
-        emitNeeded = arg[i]->id() != d->cutBlocks[i]->id();
-    if (emitNeeded) {
-        d->cutBlocks = arg;
-        emit cutBlocksChanged();
+    if (d->cuttingParams != arg) {
+        d->cuttingParams = arg;
+        emit cuttingParamsChanged(d->cuttingParams);
     }
-    return d->cutBlocks;
 }
 
 void CuttingProcess::setMedia(const MediaSP &media)

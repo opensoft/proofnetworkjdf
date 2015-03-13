@@ -2,6 +2,7 @@
 
 #include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/cuttingprocess.h"
+#include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
 
@@ -60,9 +61,13 @@ TEST_F(CuttingProcessTest, fromJdf)
     EXPECT_DOUBLE_EQ(1656.0, cutProcess->pressSheetHeight());
     EXPECT_EQ(1000u, cutProcess->amount());
 
-    ASSERT_EQ(23, cutProcess->cutBlocks().count());
+    CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
+    ASSERT_EQ("CPM_0000", cuttingParams->id());
+    EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->status());
+    EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
+    ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
-    CutBlockSP cutBlock = cutProcess->cutBlocks().at(0);
+    CutBlockSP cutBlock = cuttingParams->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock);
 
     EXPECT_EQ("A-1_BLK", cutBlock->id());
@@ -115,11 +120,16 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_DOUBLE_EQ(cutProcess->pressSheetHeight(), cutProcess2->pressSheetHeight());
     EXPECT_EQ(cutProcess->amount(), cutProcess2->amount());
 
-    ASSERT_EQ(cutProcess->cutBlocks().count(), cutProcess2->cutBlocks().count());
+    CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
+    CuttingParamsSP cuttingParams2 = cutProcess2->cuttingParams();
+    ASSERT_EQ(cuttingParams->id(), cuttingParams2->id());
+    ASSERT_EQ(cuttingParams->status(), cuttingParams2->status());
+    ASSERT_EQ(cuttingParams->resourceClass(), cuttingParams2->resourceClass());
+    ASSERT_EQ(cuttingParams->cutBlocks().count(), cuttingParams2->cutBlocks().count());
 
-    CutBlockSP cutBlock = cutProcess->cutBlocks().at(0);
+    CutBlockSP cutBlock = cuttingParams->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock);
-    CutBlockSP cutBlock2 = cutProcess2->cutBlocks().at(0);
+    CutBlockSP cutBlock2 = cuttingParams2->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock2);
 
     EXPECT_EQ(cutBlock->id(), cutBlock2->id());
@@ -187,6 +197,11 @@ TEST_F(CuttingProcessTest, documentToJdf)
                 }
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;
+            } else if (hasResourcePool && reader.name() == "CuttingParams") {
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
+                EXPECT_EQ(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()), ApiHelper::AvailableStatus);
+                EXPECT_EQ(ApiHelper::resourceClassFromString(attributes.value("Class").toString()), ApiHelper::ParameterClass);
             } else if (hasResourcePool && reader.name() == "CutBlock") {
                 if (!cutBlocksCount++) {
                     QXmlStreamAttributes attributes = reader.attributes();

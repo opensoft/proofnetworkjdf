@@ -19,13 +19,11 @@ class PROOF_NETWORK_JDF_EXPORT CutBlock : public AbstractResource
     Q_DECLARE_PRIVATE(CutBlock)
 public:
 
-    bool available() const;
     QString blockName() const;
     double width() const;
     double height() const;
     QString transformationMatrix() const;
 
-    void setAvailable(bool arg);
     void setBlockName(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
