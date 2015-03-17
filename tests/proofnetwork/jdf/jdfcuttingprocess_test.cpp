@@ -2,6 +2,7 @@
 
 #include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/cuttingprocess.h"
+#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
@@ -56,12 +57,16 @@ TEST_F(CuttingProcessTest, fromJdf)
     CuttingProcessSP cutProcess = jdfDocUT->cuttingProcess();
     ASSERT_TRUE(cutProcess);
 
-    EXPECT_EQ("COMP_0000", cutProcess->id());
-    EXPECT_DOUBLE_EQ(2520.0, cutProcess->pressSheetWidth());
-    EXPECT_DOUBLE_EQ(1656.0, cutProcess->pressSheetHeight());
-    EXPECT_EQ(1000u, cutProcess->amount());
+    ComponentSP component = cutProcess->component();
+    ASSERT_TRUE(component);
+    EXPECT_EQ("COMP_0000", component->id());
+    EXPECT_DOUBLE_EQ(2520.0, component->width());
+    EXPECT_DOUBLE_EQ(1656.0, component->height());
+    EXPECT_DOUBLE_EQ(0.0, component->length());
+    EXPECT_EQ(1000u, component->amount());
 
     CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
+    ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
     EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->status());
     EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
@@ -69,7 +74,6 @@ TEST_F(CuttingProcessTest, fromJdf)
 
     CutBlockSP cutBlock = cuttingParams->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock);
-
     EXPECT_EQ("A-1_BLK", cutBlock->id());
     EXPECT_EQ(ApiHelper::AvailableStatus, cutBlock->status());
     EXPECT_EQ(ApiHelper::ParameterClass, cutBlock->resourceClass());
@@ -115,13 +119,20 @@ TEST_F(CuttingProcessTest, updateFrom)
     CuttingProcessSP cutProcess2 = jdfDocUT2->cuttingProcess();
     ASSERT_TRUE(cutProcess2);
 
-    EXPECT_EQ(cutProcess->id(), cutProcess2->id());
-    EXPECT_DOUBLE_EQ(cutProcess->pressSheetWidth(), cutProcess2->pressSheetWidth());
-    EXPECT_DOUBLE_EQ(cutProcess->pressSheetHeight(), cutProcess2->pressSheetHeight());
-    EXPECT_EQ(cutProcess->amount(), cutProcess2->amount());
+    ComponentSP component = cutProcess->component();
+    ASSERT_TRUE(component);
+    ComponentSP component2 = cutProcess2->component();
+    ASSERT_TRUE(component2);
+    EXPECT_EQ(component->id(), component2->id());
+    EXPECT_DOUBLE_EQ(component->width(), component2->width());
+    EXPECT_DOUBLE_EQ(component->height(), component2->height());
+    EXPECT_DOUBLE_EQ(component->length(), component2->length());
+    EXPECT_EQ(component->amount(), component2->amount());
 
     CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
+    ASSERT_TRUE(cuttingParams);
     CuttingParamsSP cuttingParams2 = cutProcess2->cuttingParams();
+    ASSERT_TRUE(cuttingParams2);
     ASSERT_EQ(cuttingParams->id(), cuttingParams2->id());
     ASSERT_EQ(cuttingParams->status(), cuttingParams2->status());
     ASSERT_EQ(cuttingParams->resourceClass(), cuttingParams2->resourceClass());
@@ -131,7 +142,6 @@ TEST_F(CuttingProcessTest, updateFrom)
     ASSERT_TRUE(cutBlock);
     CutBlockSP cutBlock2 = cuttingParams2->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock2);
-
     EXPECT_EQ(cutBlock->id(), cutBlock2->id());
     ASSERT_TRUE(cutBlock->status() == cutBlock2->status());
     EXPECT_EQ(cutBlock->blockName(), cutBlock2->blockName());

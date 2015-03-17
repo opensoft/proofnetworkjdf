@@ -18,18 +18,11 @@ class PROOF_NETWORK_JDF_EXPORT CuttingProcess : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingProcess)
 public:
-
-    QString id() const;
-    double pressSheetWidth() const;
-    double pressSheetHeight() const;
-    quint32 amount() const;
+    ComponentSP component() const;
     CuttingParamsSP cuttingParams() const;
     MediaSP media() const;
 
-    void setId(const QString &arg);
-    void setPressSheetWidth(double arg);
-    void setPressSheetHeight(double arg);
-    void setAmount(quint32 arg);
+    void setComponent(const ComponentSP &arg);
     void setCuttingParams(const CuttingParamsSP &arg);
     void setMedia(const MediaSP &media);
 
@@ -43,10 +36,7 @@ public:
     static CuttingProcessSP defaultObject();
 
 signals:
-    void idChanged(const QString &arg);
-    void pressSheetWidthChanged(double arg);
-    void pressSheetHeightChanged(double arg);
-    void amountChanged(quint32 arg);
+    void componentChanged(const Proof::Jdf::ComponentSP &arg);
     void cuttingParamsChanged(const Proof::Jdf::CuttingParamsSP &arg);
     void mediaChanged(const Proof::Jdf::MediaSP &arg);
 

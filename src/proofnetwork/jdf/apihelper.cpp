@@ -51,6 +51,17 @@ QHash<QString, ApiHelper::BundleType> ApiHelper::m_bundleTypeStringified = {
     {"WrappedBundle", ApiHelper::WrappedBundle}
 };
 
+QHash<QString, ApiHelper::ComponentType> ApiHelper::m_componentTypeStringified = {
+    {"Block", ApiHelper::BlockComponent},
+    {"Other", ApiHelper::OtherComponent},
+    {"Ribbon", ApiHelper::RibbonComponent},
+    {"Sheet", ApiHelper::SheetComponent},
+    {"Web", ApiHelper::WebComponent},
+    {"FinalProduct", ApiHelper::FinalProductComponent},
+    {"PartialProduct", ApiHelper::PartialProductComponent},
+    {"Proof", ApiHelper::ProofComponent}
+};
+
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return m_resourceStatusStringified.key(status, "");
@@ -89,6 +100,16 @@ QString ApiHelper::bundleTypeToString(ApiHelper::BundleType bundleType)
 ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType)
 {
     return m_bundleTypeStringified.value(bundleType, BundleType::Box);
+}
+
+QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
+{
+    return m_componentTypeStringified.key(componentType, "");
+}
+
+ApiHelper::ComponentType ApiHelper::componentTypeFromString(const QString &componentType)
+{
+    return m_componentTypeStringified.value(componentType, ComponentType::SheetComponent);
 }
 
 }

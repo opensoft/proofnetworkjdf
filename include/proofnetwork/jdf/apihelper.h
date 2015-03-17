@@ -16,6 +16,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(ResourceClass)
     Q_ENUMS(Coating)
     Q_ENUMS(BundleType)
+    Q_ENUMS(ComponentType)
 public:
     ApiHelper() = delete;
 
@@ -71,6 +72,17 @@ public:
         WrappedBundle
     };
 
+    enum ComponentType {
+        BlockComponent, // Folded or stacked product, (e.g., book block).
+        OtherComponent, // The Component describes a sample that has not been produced in this Job.
+        RibbonComponent, // The Component is a ribbon on a Web Press.
+        SheetComponent, // Single layer (Sheet) of paper.
+        WebComponent, // The Component is a Web on a Web Press.
+        FinalProductComponent, // The Component is the final product that was ordered by the customer.
+        PartialProductComponent, // The Component is an intermediate product that will be input to a following Process.
+        ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
+    };
+
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status);
 
@@ -83,11 +95,15 @@ public:
     static QString bundleTypeToString(BundleType bundleType);
     static BundleType bundleTypeFromString(const QString &bundleType);
 
+    static QString componentTypeToString(ComponentType componentType);
+    static ComponentType componentTypeFromString(const QString &componentType);
+
 private:
     static QHash<QString, ResourceStatus> m_resourceStatusStringified;
     static QHash<QString, ResourceClass> m_resourceClassStringified;
     static QHash<QString, Coating> m_coatingStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
+    static QHash<QString, ComponentType> m_componentTypeStringified;
 };
 
 }

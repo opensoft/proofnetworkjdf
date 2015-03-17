@@ -13,6 +13,10 @@ class AbstractResource;
 typedef QSharedPointer<AbstractResource> AbstractResourceSP;
 typedef QWeakPointer<AbstractResource> AbstractResourceWP;
 
+class AbstractPhysicalResource;
+typedef QSharedPointer<AbstractPhysicalResource> AbstractPhysicalResourceSP;
+typedef QWeakPointer<AbstractPhysicalResource> AbstractPhysicalResourceWP;
+
 class JdfDocument;
 typedef QSharedPointer<JdfDocument> JdfDocumentSP;
 typedef QWeakPointer<JdfDocument> JdfDocumentWP;
@@ -32,6 +36,10 @@ typedef QWeakPointer<CutBlock> CutBlockWP;
 class Media;
 typedef QSharedPointer<Media> MediaSP;
 typedef QWeakPointer<Media> MediaWP;
+
+class Component;
+typedef QSharedPointer<Component> ComponentSP;
+typedef QWeakPointer<Component> ComponentWP;
 
 class Bundle;
 typedef QSharedPointer<Bundle> BundleSP;

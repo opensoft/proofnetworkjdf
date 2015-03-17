@@ -11,6 +11,7 @@
 namespace Proof {
 namespace Jdf {
 
+class ComponentQmlWrapper;
 class CuttingParamsQmlWrapper;
 class MediaQmlWrapper;
 
@@ -18,10 +19,7 @@ class CuttingProcessQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT CuttingProcessQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(QString id READ id NOTIFY idChanged)
-    Q_PROPERTY(double pressSheetWidth READ pressSheetWidth NOTIFY pressSheetWidthChanged)
-    Q_PROPERTY(double pressSheetHeight READ pressSheetHeight NOTIFY pressSheetHeightChanged)
-    Q_PROPERTY(quint32 amount READ amount NOTIFY amountChanged)
+    Q_PROPERTY(Proof::Jdf::ComponentQmlWrapper *component READ component NOTIFY componentChanged)
     Q_PROPERTY(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams READ cuttingParams NOTIFY cuttingParamsChanged)
     Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
 
@@ -31,18 +29,12 @@ public:
     ~CuttingProcessQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(CuttingProcess)
 
-    QString id() const;
-    double pressSheetWidth() const;
-    double pressSheetHeight() const;
-    quint32 amount() const;
+    ComponentQmlWrapper *component() const;
     CuttingParamsQmlWrapper *cuttingParams() const;
     MediaQmlWrapper *media() const;
 
-signals:  
-    void idChanged(const QString &arg);
-    void pressSheetWidthChanged(double arg);
-    void pressSheetHeightChanged(double arg);
-    void amountChanged(quint32 arg);
+signals:
+    void componentChanged(Proof::Jdf::ComponentQmlWrapper *arg);
     void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *arg);
     void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
 
