@@ -21,9 +21,9 @@ class JdfDocument;
 typedef QSharedPointer<JdfDocument> JdfDocumentSP;
 typedef QWeakPointer<JdfDocument> JdfDocumentWP;
 
-class CuttingProcess;
-typedef QSharedPointer<CuttingProcess> CuttingProcessSP;
-typedef QWeakPointer<CuttingProcess> CuttingProcessWP;
+class ResourcePool;
+typedef QSharedPointer<ResourcePool> ResourcePoolSP;
+typedef QWeakPointer<ResourcePool> ResourcePoolWP;
 
 class CuttingParams;
 typedef QSharedPointer<CuttingParams> CuttingParamsSP;

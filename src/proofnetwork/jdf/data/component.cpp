@@ -123,6 +123,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader)
 void Component::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Component);
+    jdfWriter.writeEmptyElement("Component");
     jdfWriter.writeAttribute("ComponentType", ApiHelper::componentTypeToString(d->componentType));
     jdfWriter.writeAttribute("Dimensions", QString::number(d->width) + " "
                                      + QString::number(d->height) + " "

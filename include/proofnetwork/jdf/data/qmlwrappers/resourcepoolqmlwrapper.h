@@ -1,5 +1,5 @@
-#ifndef JDFCUTTINGPROCESSQMLWRAPPER_H
-#define JDFCUTTINGPROCESSQMLWRAPPER_H
+#ifndef PROOF_JDF_RESOURCEPOOLQMLWRAPPER_H
+#define PROOF_JDF_RESOURCEPOOLQMLWRAPPER_H
 
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
@@ -15,26 +15,27 @@ class ComponentQmlWrapper;
 class CuttingParamsQmlWrapper;
 class MediaQmlWrapper;
 
-class CuttingProcessQmlWrapperPrivate;
-class PROOF_NETWORK_JDF_EXPORT CuttingProcessQmlWrapper : public NetworkDataEntityQmlWrapper
+class ResourcePoolQmlWrapperPrivate;
+class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(Proof::Jdf::ComponentQmlWrapper *component READ component NOTIFY componentChanged)
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> components READ components NOTIFY componentsChanged)
     Q_PROPERTY(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams READ cuttingParams NOTIFY cuttingParamsChanged)
     Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
 
-    Q_DECLARE_PRIVATE(CuttingProcessQmlWrapper)
+    Q_DECLARE_PRIVATE(ResourcePoolQmlWrapper)
 public:
-    explicit CuttingProcessQmlWrapper(const CuttingProcessSP &cuttingProcess, QObject *parent = 0);
-    ~CuttingProcessQmlWrapper();
-    PROOF_NDE_WRAPPER_TOOLS(CuttingProcess)
+    explicit ResourcePoolQmlWrapper(const ResourcePoolSP &resourcePool, QObject *parent = 0);
+    ~ResourcePoolQmlWrapper();
+    PROOF_NDE_WRAPPER_TOOLS(ResourcePool)
 
-    ComponentQmlWrapper *component() const;
+    QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> components() const;
+
     CuttingParamsQmlWrapper *cuttingParams() const;
     MediaQmlWrapper *media() const;
 
 signals:
-    void componentChanged(Proof::Jdf::ComponentQmlWrapper *arg);
+    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &arg);
     void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *arg);
     void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
 
@@ -45,4 +46,4 @@ protected:
 }
 }
 
-#endif // JDFCUTTINGPROCESSQMLWRAPPER_H
+#endif // PROOF_JDF_RESOURCEPOOLQMLWRAPPER_H

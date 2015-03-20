@@ -20,11 +20,11 @@ public:
 
     QString id() const;
     QString jobId() const;
-    CuttingProcessSP cuttingProcess() const;
+    ResourcePoolSP cuttingProcess() const;
 
     void setId(const QString &arg);
     void setJobId(const QString &arg);
-    void setCuttingProcess(const CuttingProcessSP &arg);
+    void setCuttingProcess(const ResourcePoolSP &arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
@@ -38,7 +38,7 @@ public:
 signals:
     void idChanged(const QString &arg);
     void jobIdChanged(const QString &arg);
-    void cuttingProcessChanged(Proof::Jdf::CuttingProcessSP arg);
+    void cuttingProcessChanged(Proof::Jdf::ResourcePoolSP arg);
 
 protected:
     explicit JdfDocument();

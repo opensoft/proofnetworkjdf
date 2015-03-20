@@ -1,7 +1,7 @@
 #include "jdfdocument.h"
 
 #include "proofnetwork/networkdataentity_p.h"
-#include "proofnetwork/jdf/data/cuttingprocess.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.h"
 
 namespace Proof {
@@ -13,7 +13,7 @@ class JdfDocumentPrivate : public NetworkDataEntityPrivate
 
     QString id;
     QString jobId;
-    CuttingProcessSP cuttingProcess = CuttingProcess::defaultObject();
+    ResourcePoolSP cuttingProcess = ResourcePool::defaultObject();
 };
 
 QString JdfDocument::id() const
@@ -28,7 +28,7 @@ QString JdfDocument::jobId() const
     return d->jobId;
 }
 
-CuttingProcessSP JdfDocument::cuttingProcess() const
+ResourcePoolSP JdfDocument::cuttingProcess() const
 {
     Q_D(const JdfDocument);
     return d->cuttingProcess;
@@ -52,11 +52,11 @@ void JdfDocument::setJobId(const QString &arg)
     }
 }
 
-void JdfDocument::setCuttingProcess(const CuttingProcessSP &arg)
+void JdfDocument::setCuttingProcess(const ResourcePoolSP &arg)
 {
     Q_D(JdfDocument);
     if (arg == nullptr)
-        setCuttingProcess(CuttingProcess::defaultObject());
+        setCuttingProcess(ResourcePool::defaultObject());
     else if (d->cuttingProcess != arg) {
         d->cuttingProcess = arg;
         emit cuttingProcessChanged(d->cuttingProcess);
@@ -106,7 +106,7 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
                 }
             }
             if (xmlReader.name() == "ResourcePool")
-                document->setCuttingProcess(CuttingProcess::fromJdf(xmlReader));
+                document->setCuttingProcess(ResourcePool::fromJdf(xmlReader));
         }
     }
 

@@ -1,8 +1,8 @@
-#ifndef JDFCUTTINGPROCESS_H
-#define JDFCUTTINGPROCESS_H
+#ifndef PROOF_JDF_RESOURCEPOOL_H
+#define PROOF_JDF_RESOURCEPOOL_H
 
 #include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/data/qmlwrappers/cuttingprocessqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofcore/objectscache.h"
@@ -12,40 +12,40 @@
 namespace Proof {
 namespace Jdf {
 
-class CuttingProcessPrivate;
-class PROOF_NETWORK_JDF_EXPORT CuttingProcess : public NetworkDataEntity
+class ResourcePoolPrivate;
+class PROOF_NETWORK_JDF_EXPORT ResourcePool : public NetworkDataEntity
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(CuttingProcess)
+    Q_DECLARE_PRIVATE(ResourcePool)
 public:
-    ComponentSP component() const;
+    QList<ComponentSP> components() const;
     CuttingParamsSP cuttingParams() const;
     MediaSP media() const;
 
-    void setComponent(const ComponentSP &arg);
+    void setComponents(const QList<ComponentSP> &arg);
     void setCuttingParams(const CuttingParamsSP &arg);
     void setMedia(const MediaSP &media);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
-    CuttingProcessQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    ResourcePoolQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
-    static CuttingProcessSP create();
+    static ResourcePoolSP create();
 
-    static CuttingProcessSP fromJdf(QXmlStreamReader &xmlReader);
+    static ResourcePoolSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter);
-    static CuttingProcessSP defaultObject();
+    static ResourcePoolSP defaultObject();
 
 signals:
-    void componentChanged(const Proof::Jdf::ComponentSP &arg);
+    void componentsChanged();
     void cuttingParamsChanged(const Proof::Jdf::CuttingParamsSP &arg);
     void mediaChanged(const Proof::Jdf::MediaSP &arg);
 
 protected:
-    explicit CuttingProcess();
+    explicit ResourcePool();
 
 };
 
 }
 }
 
-#endif // JDFCUTTINGPROCESS_H
+#endif // PROOF_JDF_RESOURCEPOOL_H

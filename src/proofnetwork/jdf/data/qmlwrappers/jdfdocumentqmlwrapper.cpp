@@ -2,8 +2,8 @@
 
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 #include "proofnetwork/jdf/data/jdfdocument.h"
-#include "proofnetwork/jdf/data/cuttingprocess.h"
-#include "proofnetwork/jdf/data/qmlwrappers/cuttingprocessqmlwrapper.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
+#include "proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -14,7 +14,7 @@ class JdfDocumentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 
     void updateCuttingProcess();
 
-    CuttingProcessQmlWrapper *cuttingProcess = nullptr;
+    ResourcePoolQmlWrapper *cuttingProcess = nullptr;
 };
 
 JdfDocumentQmlWrapper::JdfDocumentQmlWrapper(const JdfDocumentSP &jdfDoc, QObject *parent)
@@ -32,7 +32,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(JdfDocument)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, jobId)
 
-CuttingProcessQmlWrapper *JdfDocumentQmlWrapper::cuttingProcess() const
+ResourcePoolQmlWrapper *JdfDocumentQmlWrapper::cuttingProcess() const
 {
     Q_D(const JdfDocumentQmlWrapper);
     return d->cuttingProcess;

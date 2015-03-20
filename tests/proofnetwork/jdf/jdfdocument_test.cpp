@@ -1,7 +1,7 @@
 #include "gtest/test_global.h"
 
 #include "proofnetwork/jdf/data/jdfdocument.h"
-#include "proofnetwork/jdf/data/cuttingprocess.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
@@ -15,10 +15,10 @@ using namespace Proof;
 using namespace Proof::Jdf;
 using testing::Test;
 
-class CuttingProcessTest: public Test
+class JdfDocumentTest: public Test
 {
 public:
-    CuttingProcessTest()
+    JdfDocumentTest()
     {
     }
 
@@ -49,20 +49,20 @@ protected:
     JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
-TEST_F(CuttingProcessTest, fromJdf)
+TEST_F(JdfDocumentTest, fromJdf)
 {
     EXPECT_EQ("JDF_0000", jdfDocUT->id());
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
 
-    CuttingProcessSP cutProcess = jdfDocUT->cuttingProcess();
+    ResourcePoolSP cutProcess = jdfDocUT->cuttingProcess();
     ASSERT_TRUE(cutProcess);
 
-    ComponentSP component = cutProcess->component();
+    ComponentSP component = cutProcess->components().first();
     ASSERT_TRUE(component);
     EXPECT_EQ("COMP_0000", component->id());
     EXPECT_DOUBLE_EQ(2520.0, component->width());
     EXPECT_DOUBLE_EQ(1656.0, component->height());
-    EXPECT_DOUBLE_EQ(0.0, component->length());
+    EXPECT_DOUBLE_EQ(0.4896, component->length());
     EXPECT_EQ(1000u, component->amount());
 
     CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
@@ -93,7 +93,7 @@ TEST_F(CuttingProcessTest, fromJdf)
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
 }
 
-TEST_F(CuttingProcessTest, updateFrom)
+TEST_F(JdfDocumentTest, updateFrom)
 {
     QList<QSignalSpy *> spies = spiesForObject(jdfDocUT.data());
     QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
@@ -114,14 +114,14 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_EQ(jdfDocUT->id(), jdfDocUT2->id());
     EXPECT_EQ(jdfDocUT->jobId(), jdfDocUT2->jobId());
 
-    CuttingProcessSP cutProcess = jdfDocUT->cuttingProcess();
+    ResourcePoolSP cutProcess = jdfDocUT->cuttingProcess();
     ASSERT_TRUE(cutProcess);
-    CuttingProcessSP cutProcess2 = jdfDocUT2->cuttingProcess();
+    ResourcePoolSP cutProcess2 = jdfDocUT2->cuttingProcess();
     ASSERT_TRUE(cutProcess2);
 
-    ComponentSP component = cutProcess->component();
+    ComponentSP component = cutProcess->components().first();
     ASSERT_TRUE(component);
-    ComponentSP component2 = cutProcess2->component();
+    ComponentSP component2 = cutProcess2->components().first();
     ASSERT_TRUE(component2);
     EXPECT_EQ(component->id(), component2->id());
     EXPECT_DOUBLE_EQ(component->width(), component2->width());
@@ -161,7 +161,7 @@ TEST_F(CuttingProcessTest, updateFrom)
     EXPECT_DOUBLE_EQ(media1->thickness(), media2->thickness());
 }
 
-TEST_F(CuttingProcessTest, documentToJdf)
+TEST_F(JdfDocumentTest, documentToJdf)
 {
     QString jdf = jdfDocUT->toJdf();
     QXmlStreamReader reader(jdf);

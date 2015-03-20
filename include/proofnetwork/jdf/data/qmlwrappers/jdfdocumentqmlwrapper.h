@@ -8,7 +8,7 @@
 namespace Proof {
 namespace Jdf {
 
-class CuttingProcessQmlWrapper;
+class ResourcePoolQmlWrapper;
 
 class JdfDocumentQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT JdfDocumentQmlWrapper : public NetworkDataEntityQmlWrapper
@@ -16,7 +16,7 @@ class PROOF_NETWORK_JDF_EXPORT JdfDocumentQmlWrapper : public NetworkDataEntityQ
     Q_OBJECT
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
     Q_PROPERTY(QString jobId READ jobId NOTIFY jobIdChanged)
-    Q_PROPERTY(Proof::Jdf::CuttingProcessQmlWrapper *cuttingProcess READ cuttingProcess NOTIFY cuttingProcessChanged)
+    Q_PROPERTY(Proof::Jdf::ResourcePoolQmlWrapper *cuttingProcess READ cuttingProcess NOTIFY cuttingProcessChanged)
     Q_DECLARE_PRIVATE(JdfDocumentQmlWrapper)
 public:
     explicit JdfDocumentQmlWrapper(const JdfDocumentSP &jdfDoc, QObject *parent = 0);
@@ -25,12 +25,12 @@ public:
 
     QString id() const;
     QString jobId() const;
-    CuttingProcessQmlWrapper *cuttingProcess() const;
+    ResourcePoolQmlWrapper *cuttingProcess() const;
 
 signals:
     void idChanged(const QString &arg);
     void jobIdChanged(const QString &arg);
-    void cuttingProcessChanged(Proof::Jdf::CuttingProcessQmlWrapper *arg);
+    void cuttingProcessChanged(Proof::Jdf::ResourcePoolQmlWrapper *arg);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
