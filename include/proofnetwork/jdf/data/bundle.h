@@ -19,8 +19,10 @@ class PROOF_NETWORK_JDF_EXPORT Bundle : public NetworkDataEntity
     Q_DECLARE_PRIVATE(Bundle)
 public:
     ApiHelper::BundleType bundleType() const;
+    int totalAmount() const;
 
     void setBundleType(ApiHelper::BundleType arg);
+    void setTotalAmount(int arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     BundleQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
@@ -33,6 +35,7 @@ public:
 
 signals:
     void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType arg);
+    void totalAmountChanged(int arg);
 
 protected:
     explicit Bundle();

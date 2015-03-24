@@ -12,9 +12,9 @@ class JdfDocumentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(JdfDocumentQmlWrapper)
 
-    void updateCuttingProcess();
+    void updateResourcePool();
 
-    ResourcePoolQmlWrapper *cuttingProcess = nullptr;
+    ResourcePoolQmlWrapper *resourcePool = nullptr;
 };
 
 JdfDocumentQmlWrapper::JdfDocumentQmlWrapper(const JdfDocumentSP &jdfDoc, QObject *parent)
@@ -32,10 +32,10 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(JdfDocument)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, jobId)
 
-ResourcePoolQmlWrapper *JdfDocumentQmlWrapper::cuttingProcess() const
+ResourcePoolQmlWrapper *JdfDocumentQmlWrapper::resourcePool() const
 {
     Q_D(const JdfDocumentQmlWrapper);
-    return d->cuttingProcess;
+    return d->resourcePool;
 }
 
 void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
@@ -46,9 +46,9 @@ void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataE
 
     connect(jdfDoc.data(), &JdfDocument::idChanged, this, &JdfDocumentQmlWrapper::idChanged);
     connect(jdfDoc.data(), &JdfDocument::jobIdChanged, this, &JdfDocumentQmlWrapper::jobIdChanged);
-    connect(jdfDoc.data(), &JdfDocument::cuttingProcessChanged, d->lambdaConnectContext, [d]{d->updateCuttingProcess();});
+    connect(jdfDoc.data(), &JdfDocument::resourcePoolChanged, d->lambdaConnectContext, [d]{d->updateResourcePool();});
 
-    d->updateCuttingProcess();
+    d->updateResourcePool();
 
     JdfDocumentSP oldJdfDoc = qSharedPointerCast<JdfDocument>(old);
     if (oldJdfDoc) {
@@ -59,15 +59,15 @@ void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataE
     }
 }
 
-void JdfDocumentQmlWrapperPrivate::updateCuttingProcess()
+void JdfDocumentQmlWrapperPrivate::updateResourcePool()
 {
     Q_Q(JdfDocumentQmlWrapper);
     JdfDocumentSP jdfDoc = entity<JdfDocument>();
-    if (cuttingProcess == nullptr)
-        cuttingProcess = jdfDoc->cuttingProcess()->toQmlWrapper(q);
+    if (resourcePool == nullptr)
+        resourcePool = jdfDoc->resourcePool()->toQmlWrapper(q);
     else
-        cuttingProcess->setEntity(jdfDoc->cuttingProcess());
-    emit q->cuttingProcessChanged(cuttingProcess);
+        resourcePool->setEntity(jdfDoc->resourcePool());
+    emit q->resourcePoolChanged(resourcePool);
 }
 
 }

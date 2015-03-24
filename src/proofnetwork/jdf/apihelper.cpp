@@ -62,6 +62,12 @@ QHash<QString, ApiHelper::ComponentType> ApiHelper::m_componentTypeStringified =
     {"Proof", ApiHelper::ProofComponent}
 };
 
+QHash<QString, ApiHelper::PartIDKeysType> ApiHelper::m_partIdKeysTypeStringified = {
+    {"BlockName", ApiHelper::BlockName},
+    {"BundleItemIndex", ApiHelper::BundleItemIndex},
+    {"CellIndex", ApiHelper::CellIndex}
+};
+
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return m_resourceStatusStringified.key(status, "");
@@ -110,6 +116,16 @@ QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
 ApiHelper::ComponentType ApiHelper::componentTypeFromString(const QString &componentType)
 {
     return m_componentTypeStringified.value(componentType, ComponentType::SheetComponent);
+}
+
+QString ApiHelper::partIdKeysTypeToString(ApiHelper::PartIDKeysType partIdKeysType)
+{
+    return m_partIdKeysTypeStringified.key(partIdKeysType, "");
+}
+
+ApiHelper::PartIDKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType)
+{
+    return m_partIdKeysTypeStringified.value(partIdKeysType, PartIDKeysType::BlockName);
 }
 
 }

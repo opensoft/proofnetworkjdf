@@ -38,7 +38,7 @@ QList<CutBlockSP> CuttingParams::cutBlocks() const
 void CuttingParams::updateFrom(const NetworkDataEntitySP &other)
 {
     CuttingParamsSP castedOther = qSharedPointerCast<CuttingParams>(other);
-    setCutBlocks(castedOther->cutBlocks());
+    updateCutBlocks(castedOther->cutBlocks());
 
     AbstractResource::updateFrom(other);
 }
@@ -87,7 +87,7 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader)
                 break;
         }
     }
-    cuttingParams->setCutBlocks(cutBlocks);
+    cuttingParams->updateCutBlocks(cutBlocks);
 
     return cuttingParams;
 }
@@ -112,12 +112,12 @@ CuttingParamsSP CuttingParams::defaultObject()
     return entity;
 }
 
-QList<CutBlockSP> CuttingParams::setCutBlocks(const QList<CutBlockSP> &arg)
+QList<CutBlockSP> CuttingParams::updateCutBlocks(const QList<CutBlockSP> &arg)
 {
     Q_D(CuttingParams);
     bool emitNeeded = arg.count() != d->cutBlocks.count();
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
-        emitNeeded = arg[i]->id() != d->cutBlocks[i]->id();
+        emitNeeded = arg[i]->blockName() != d->cutBlocks[i]->blockName();
     if (emitNeeded) {
         d->cutBlocks = arg;
         emit cutBlocksChanged();

@@ -13,7 +13,7 @@ class JdfDocumentPrivate : public NetworkDataEntityPrivate
 
     QString id;
     QString jobId;
-    ResourcePoolSP cuttingProcess = ResourcePool::defaultObject();
+    ResourcePoolSP resourcePool = ResourcePool::defaultObject();
 };
 
 QString JdfDocument::id() const
@@ -28,10 +28,10 @@ QString JdfDocument::jobId() const
     return d->jobId;
 }
 
-ResourcePoolSP JdfDocument::cuttingProcess() const
+ResourcePoolSP JdfDocument::resourcePool() const
 {
     Q_D(const JdfDocument);
-    return d->cuttingProcess;
+    return d->resourcePool;
 }
 
 void JdfDocument::setId(const QString &arg)
@@ -52,14 +52,14 @@ void JdfDocument::setJobId(const QString &arg)
     }
 }
 
-void JdfDocument::setCuttingProcess(const ResourcePoolSP &arg)
+void JdfDocument::setResourcePool(const ResourcePoolSP &arg)
 {
     Q_D(JdfDocument);
     if (arg == nullptr)
-        setCuttingProcess(ResourcePool::defaultObject());
-    else if (d->cuttingProcess != arg) {
-        d->cuttingProcess = arg;
-        emit cuttingProcessChanged(d->cuttingProcess);
+        setResourcePool(ResourcePool::defaultObject());
+    else if (d->resourcePool != arg) {
+        d->resourcePool = arg;
+        emit resourcePoolChanged(d->resourcePool);
     }
 }
 
@@ -68,7 +68,7 @@ void JdfDocument::updateFrom(const NetworkDataEntitySP &other)
     JdfDocumentSP castedOther = qSharedPointerCast<JdfDocument>(other);
     setId(castedOther->id());
     setJobId(castedOther->jobId());
-    setCuttingProcess(castedOther->cuttingProcess());
+    setResourcePool(castedOther->resourcePool());
 
     NetworkDataEntity::updateFrom(other);
 }
@@ -106,7 +106,7 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
                 }
             }
             if (xmlReader.name() == "ResourcePool")
-                document->setCuttingProcess(ResourcePool::fromJdf(xmlReader));
+                document->setResourcePool(ResourcePool::fromJdf(xmlReader));
         }
     }
 
@@ -130,7 +130,7 @@ QString JdfDocument::toJdf()
         jdfWriter.writeAttribute("Status", "Waiting");
         jdfWriter.writeAttribute("Type", "Product");
         jdfWriter.writeAttribute("Version", "1.4");
-        d->cuttingProcess->toJdf(jdfWriter);
+        d->resourcePool->toJdf(jdfWriter);
     }
     jdfWriter.writeEndElement();
 

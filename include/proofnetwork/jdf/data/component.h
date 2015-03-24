@@ -22,11 +22,13 @@ public:
     double width() const;
     double height() const;
     double length() const;
+    BundleSP bundle() const;
 
     void setComponentType(ApiHelper::ComponentType arg);
     void setWidth(double arg);
     void setHeight(double arg);
     void setLength(double arg);
+    void setBundle(const BundleSP &arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     ComponentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
@@ -42,6 +44,7 @@ signals:
     void widthChanged(double arg);
     void heightChanged(double arg);
     void lengthChanged(double arg);
+    void bundleChanged(const Proof::Jdf::BundleSP &bundle);
 
 protected:
     explicit Component();

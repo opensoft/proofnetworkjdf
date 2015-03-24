@@ -1,5 +1,6 @@
 #include "cutblock.h"
-#include "proofnetwork/jdf/data/abstractresource_p.h"
+
+#include "proofnetwork/networkdataentity_p.h"
 
 #include <QStringList>
 
@@ -10,7 +11,7 @@ static const double PI = 3.14159265358979323846;
 namespace Proof {
 namespace Jdf {
 
-class CutBlockPrivate : public AbstractResourcePrivate
+class CutBlockPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
@@ -34,9 +35,8 @@ ObjectsCache<QString, CutBlock> &cutBlockCache()
 using namespace Proof::Jdf;
 
 CutBlock::CutBlock()
-    : AbstractResource(*new CutBlockPrivate)
+    : NetworkDataEntity(*new CutBlockPrivate)
 {
-    setResourceClass(ApiHelper::ParameterClass);
 }
 
 QString CutBlock::blockName() const
@@ -70,7 +70,7 @@ void CutBlock::updateFrom(const NetworkDataEntitySP &other)
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setTransformationMatrix(castedOther->transformationMatrix());
-    AbstractResource::updateFrom(other);
+    NetworkDataEntity::updateFrom(other);
 }
 
 CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
@@ -109,9 +109,6 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader)
         }
     }
 
-    AbstractResourceSP castedCutBlock = qSharedPointerCast<AbstractResource>(cutBlock);
-    AbstractResource::fromJdf(xmlReader, castedCutBlock);
-
     return cutBlock;
 }
 
@@ -119,13 +116,12 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(CutBlock);
 
-    jdfWriter.writeEmptyElement("CutBlock");
+    jdfWriter.writeStartElement("CutBlock");
     jdfWriter.writeAttribute("BlockName", d->blockName);
     jdfWriter.writeAttribute("BlockSize", QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
     jdfWriter.writeAttribute("BlockTrf", d->transformationMatrix);
     jdfWriter.writeAttribute("BlockType", "CutBlock");
-
-    AbstractResource::toJdf(jdfWriter);
+    jdfWriter.writeEndElement();
 }
 
 CutBlockSP CutBlock::defaultObject()

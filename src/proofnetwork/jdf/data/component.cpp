@@ -1,5 +1,8 @@
 #include "component.h"
 
+#include "proofnetwork/jdf/data/bundle.h"
+#include "proofnetwork/jdf/data/cutblock.h"
+
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 
 namespace Proof {
@@ -13,6 +16,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     double width = 0.0;
     double height = 0.0;
     double length = 0.0;
+    BundleSP bundle = Bundle::defaultObject();
 };
 
 ApiHelper::ComponentType Component::componentType() const
@@ -37,6 +41,12 @@ double Component::length() const
 {
     Q_D(const Component);
     return d->length;
+}
+
+BundleSP Component::bundle() const
+{
+    Q_D(const Component);
+    return d->bundle;
 }
 
 void Component::setComponentType(ApiHelper::ComponentType arg)
@@ -75,10 +85,23 @@ void Component::setLength(double arg)
     }
 }
 
+void Component::setBundle(const BundleSP &arg)
+{
+    Q_D(Component);
+    if (d->bundle != arg) {
+        d->bundle = arg;
+        emit bundleChanged(arg);
+    }
+}
+
 void Component::updateFrom(const NetworkDataEntitySP &other)
 {
     ComponentSP castedOther = qSharedPointerCast<Component>(other);
     setComponentType(castedOther->componentType());
+    setWidth(castedOther->width());
+    setHeight(castedOther->height());
+    setLength(castedOther->length());
+    setBundle(castedOther->bundle());
 
     AbstractPhysicalResource::updateFrom(other);
 }
@@ -101,20 +124,41 @@ ComponentSP Component::create()
 ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader)
 {
     ComponentSP component = create();
-    component->setFetched(true);
 
-    if (xmlReader.name() == "Component") {
-        QXmlStreamAttributes attributes = xmlReader.attributes();
-        component->setComponentType(ApiHelper::componentTypeFromString(attributes.value("ComponentType").toString()));
-        QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
-        if (dimensionsList.count() >= 3) {
-            component->setWidth(dimensionsList.at(0).toDouble());
-            component->setHeight(dimensionsList.at(1).toDouble());
-            component->setLength(dimensionsList.at(2).toDouble());
+    ApiHelper::PartIDKeysType partIDKeys = ApiHelper::BlockName;
+
+    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
+        if (xmlReader.name() == "Component" && xmlReader.isStartElement() && !component->isFetched()) {
+            component->setFetched(true);
+            QXmlStreamAttributes attributes = xmlReader.attributes();
+            component->setComponentType(ApiHelper::componentTypeFromString(attributes.value("ComponentType").toString()));
+            QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
+            if (dimensionsList.count() >= 3) {
+                component->setWidth(dimensionsList.at(0).toDouble());
+                component->setHeight(dimensionsList.at(1).toDouble());
+                component->setLength(dimensionsList.at(2).toDouble());
+            }
+
+            partIDKeys = ApiHelper::partIdKeysTypeFromString(attributes.value("PartIDKeys").toString());
+
+            AbstractPhysicalResourceSP castedComponent = qSharedPointerCast<AbstractPhysicalResource>(component);
+            AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
+
+        } else if (xmlReader.name() == "Bundle" && xmlReader.isStartElement()) {
+            component->setBundle(Bundle::fromJdf(xmlReader));
+        } else if (xmlReader.isStartElement()) {
+            uint count = 1;
+            while (count && !xmlReader.atEnd() && !xmlReader.hasError()) {
+               xmlReader.readNext();
+               if (xmlReader.isStartElement())
+                   ++count;
+               else if (xmlReader.isEndElement())
+                   --count;
+            }
+        } else if (xmlReader.isEndElement()) {
+            break;
         }
-
-        AbstractPhysicalResourceSP castedComponent = qSharedPointerCast<AbstractPhysicalResource>(component);
-        AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
+        xmlReader.readNext();
     }
 
     return component;
@@ -123,12 +167,16 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader)
 void Component::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Component);
-    jdfWriter.writeEmptyElement("Component");
+    jdfWriter.writeStartElement("Component");
     jdfWriter.writeAttribute("ComponentType", ApiHelper::componentTypeToString(d->componentType));
-    jdfWriter.writeAttribute("Dimensions", QString::number(d->width) + " "
-                                     + QString::number(d->height) + " "
-                             + QString::number(d->length));
+    jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3").arg(d->width).arg(d->height).arg(d->length));
+
     AbstractPhysicalResource::toJdf(jdfWriter);
+
+    if (d->bundle != Bundle::defaultObject())
+        d->bundle->toJdf(jdfWriter);
+
+    jdfWriter.writeEndElement();
 }
 
 ComponentSP Component::defaultObject()
@@ -145,5 +193,4 @@ Component::Component()
 
 } // namespace Jdf
 } // namespace Proof
-
 

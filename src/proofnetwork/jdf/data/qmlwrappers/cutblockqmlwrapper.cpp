@@ -1,11 +1,11 @@
 #include "cutblockqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/cutblock.h"
-#include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {
 namespace Jdf {
-class CutBlockQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
+class CutBlockQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(CutBlockQmlWrapper)
 };
@@ -17,7 +17,7 @@ using namespace Proof;
 using namespace Proof::Jdf;
 
 CutBlockQmlWrapper::CutBlockQmlWrapper(const CutBlockSP &cutBlock, QObject *parent)
-    : AbstractResourceQmlWrapper(cutBlock, *new CutBlockQmlWrapperPrivate, parent)
+    : NetworkDataEntityQmlWrapper(cutBlock, *new CutBlockQmlWrapperPrivate, parent)
 {
     setupEntity();
 }

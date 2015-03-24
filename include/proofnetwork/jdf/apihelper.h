@@ -17,6 +17,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(Coating)
     Q_ENUMS(BundleType)
     Q_ENUMS(ComponentType)
+    Q_ENUMS(PartIDKeysType)
 public:
     ApiHelper() = delete;
 
@@ -83,6 +84,12 @@ public:
         ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
     };
 
+    enum PartIDKeysType {
+        BlockName,
+        BundleItemIndex,
+        CellIndex
+    };
+
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status);
 
@@ -98,12 +105,16 @@ public:
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType);
 
+    static QString partIdKeysTypeToString(PartIDKeysType partIdKeysType);
+    static PartIDKeysType partIdKeysTypeFromString(const QString &partIdKeysType);
+
 private:
     static QHash<QString, ResourceStatus> m_resourceStatusStringified;
     static QHash<QString, ResourceClass> m_resourceClassStringified;
     static QHash<QString, Coating> m_coatingStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
     static QHash<QString, ComponentType> m_componentTypeStringified;
+    static QHash<QString, PartIDKeysType> m_partIdKeysTypeStringified;
 };
 
 }

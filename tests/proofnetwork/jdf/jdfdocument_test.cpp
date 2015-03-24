@@ -3,6 +3,7 @@
 #include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
@@ -54,10 +55,12 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("JDF_0000", jdfDocUT->id());
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
 
-    ResourcePoolSP cutProcess = jdfDocUT->cuttingProcess();
-    ASSERT_TRUE(cutProcess);
+    ResourcePoolSP resourcePool = jdfDocUT->resourcePool();
+    ASSERT_TRUE(resourcePool);
 
-    ComponentSP component = cutProcess->components().first();
+    EXPECT_EQ(3, resourcePool->components().count());
+
+    ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
     EXPECT_EQ("COMP_0000", component->id());
     EXPECT_DOUBLE_EQ(2520.0, component->width());
@@ -65,7 +68,14 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_DOUBLE_EQ(0.4896, component->length());
     EXPECT_EQ(1000u, component->amount());
 
-    CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
+    ComponentSP component2 = resourcePool->components().at(1);
+    ASSERT_TRUE(component2);
+    BundleSP bundle = component2->bundle();
+    ASSERT_TRUE(bundle);
+    ASSERT_EQ(ApiHelper::Box, bundle->bundleType());
+    ASSERT_EQ(42, bundle->totalAmount());
+
+    CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
     EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->status());
@@ -74,15 +84,12 @@ TEST_F(JdfDocumentTest, fromJdf)
 
     CutBlockSP cutBlock = cuttingParams->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock);
-    EXPECT_EQ("A-1_BLK", cutBlock->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, cutBlock->status());
-    EXPECT_EQ(ApiHelper::ParameterClass, cutBlock->resourceClass());
     EXPECT_EQ("A-1", cutBlock->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock->width());
     EXPECT_DOUBLE_EQ(288, cutBlock->height());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
 
-    MediaSP media = cutProcess->media();
+    MediaSP media = resourcePool->media();
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
@@ -114,14 +121,14 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_EQ(jdfDocUT->id(), jdfDocUT2->id());
     EXPECT_EQ(jdfDocUT->jobId(), jdfDocUT2->jobId());
 
-    ResourcePoolSP cutProcess = jdfDocUT->cuttingProcess();
-    ASSERT_TRUE(cutProcess);
-    ResourcePoolSP cutProcess2 = jdfDocUT2->cuttingProcess();
-    ASSERT_TRUE(cutProcess2);
+    ResourcePoolSP resourcePool = jdfDocUT->resourcePool();
+    ASSERT_TRUE(resourcePool);
+    ResourcePoolSP resourcePool2 = jdfDocUT2->resourcePool();
+    ASSERT_TRUE(resourcePool2);
 
-    ComponentSP component = cutProcess->components().first();
+    ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
-    ComponentSP component2 = cutProcess2->components().first();
+    ComponentSP component2 = resourcePool2->components().first();
     ASSERT_TRUE(component2);
     EXPECT_EQ(component->id(), component2->id());
     EXPECT_DOUBLE_EQ(component->width(), component2->width());
@@ -129,9 +136,9 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(component->length(), component2->length());
     EXPECT_EQ(component->amount(), component2->amount());
 
-    CuttingParamsSP cuttingParams = cutProcess->cuttingParams();
+    CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
-    CuttingParamsSP cuttingParams2 = cutProcess2->cuttingParams();
+    CuttingParamsSP cuttingParams2 = resourcePool2->cuttingParams();
     ASSERT_TRUE(cuttingParams2);
     ASSERT_EQ(cuttingParams->id(), cuttingParams2->id());
     ASSERT_EQ(cuttingParams->status(), cuttingParams2->status());
@@ -142,16 +149,14 @@ TEST_F(JdfDocumentTest, updateFrom)
     ASSERT_TRUE(cutBlock);
     CutBlockSP cutBlock2 = cuttingParams2->cutBlocks().at(0);
     ASSERT_TRUE(cutBlock2);
-    EXPECT_EQ(cutBlock->id(), cutBlock2->id());
-    ASSERT_TRUE(cutBlock->status() == cutBlock2->status());
     EXPECT_EQ(cutBlock->blockName(), cutBlock2->blockName());
     EXPECT_DOUBLE_EQ(cutBlock->width(), cutBlock2->width());
     EXPECT_DOUBLE_EQ(cutBlock->height(), cutBlock2->height());
     EXPECT_EQ(cutBlock->transformationMatrix(), cutBlock2->transformationMatrix());
 
-    MediaSP media1 = cutProcess->media();
+    MediaSP media1 = resourcePool->media();
     ASSERT_TRUE(media1);
-    MediaSP media2 = cutProcess2->media();
+    MediaSP media2 = resourcePool2->media();
     ASSERT_TRUE(media2);
     EXPECT_EQ(media1->id(), media2->id());
     EXPECT_EQ(media1->backCoating(), media2->backCoating());
@@ -205,6 +210,10 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         height = dimensionsList.at(1).toDouble();
                     }
                 }
+            } else if (reader.name() == "Bundle") {
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()), ApiHelper::Box);
+                EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
@@ -215,8 +224,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
             } else if (hasResourcePool && reader.name() == "CutBlock") {
                 if (!cutBlocksCount++) {
                     QXmlStreamAttributes attributes = reader.attributes();
-                    EXPECT_EQ(attributes.value("ID").toString(), "A-1_BLK");
-                    EXPECT_EQ(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()), ApiHelper::AvailableStatus);
+                    EXPECT_EQ(attributes.value("BlockName").toString(), "A-1");
                 }
             }
         }
