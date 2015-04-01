@@ -106,7 +106,7 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
                 }
             }
             if (xmlReader.name() == "ResourcePool")
-                document->setResourcePool(ResourcePool::fromJdf(xmlReader));
+                document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->id()));
         }
     }
 

@@ -137,23 +137,30 @@ MediaSP Media::create()
 
 MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
 {
-    MediaSP result = create();
-    result->setFetched(true);
+    MediaSP media = create();
 
-    if (xmlReader.name() == "Media") {
-        QXmlStreamAttributes attributes = xmlReader.attributes();
-        result->setId(attributes.value("ID").toString());
-        result->setBackCoating(ApiHelper::coatingFromString(attributes.value("BackCoatings").toString()));
-        result->setFrontCoating(ApiHelper::coatingFromString(attributes.value("FrontCoatings").toString()));
-        result->setThickness(attributes.value("Thickness").toDouble());
-        QStringList dimensions = attributes.value("Dimension").toString().split(' ', QString::SkipEmptyParts);
-        if (dimensions.size() >= 2) {
-            result->setWidth(dimensions[0].toDouble());
-            result->setHeight(dimensions[1].toDouble());
+    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
+        if (xmlReader.name() == "Media" && xmlReader.isStartElement() && !media->isFetched()) {
+            media->setFetched(true);
+            QXmlStreamAttributes attributes = xmlReader.attributes();
+            media->setId(attributes.value("ID").toString());
+            media->setBackCoating(ApiHelper::coatingFromString(attributes.value("BackCoatings").toString()));
+            media->setFrontCoating(ApiHelper::coatingFromString(attributes.value("FrontCoatings").toString()));
+            media->setThickness(attributes.value("Thickness").toDouble());
+            QStringList dimensions = attributes.value("Dimension").toString().split(' ', QString::SkipEmptyParts);
+            if (dimensions.size() >= 2) {
+                media->setWidth(dimensions[0].toDouble());
+                media->setHeight(dimensions[1].toDouble());
+            }
+        } else if (xmlReader.isStartElement()) {
+            xmlReader.skipCurrentElement();
+        } else if (xmlReader.isEndElement()) {
+            break;
         }
+        xmlReader.readNext();
     }
 
-    return result;
+    return media;
 }
 
 void Media::toJdf(QXmlStreamWriter &jdfWriter)

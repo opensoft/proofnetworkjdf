@@ -3,6 +3,7 @@
 #include "component.h"
 #include "cuttingparams.h"
 #include "media.h"
+#include "cutblock.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -76,36 +77,38 @@ ResourcePoolSP ResourcePool::create()
     return result;
 }
 
-ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader)
+ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
 {
     ResourcePoolSP resourcePool = create();
-    resourcePool->setFetched(true);
 
-    if (xmlReader.name() == "ResourcePool") {
-        uint elementsCounter = 1;
-        QList<ComponentSP> components;
+    QList<ComponentSP> components;
 
-        while (!xmlReader.atEnd() && !xmlReader.hasError())
-        {
-            QXmlStreamReader::TokenType token = xmlReader.readNext();
-            if (token == QXmlStreamReader::StartElement) {
-                ++elementsCounter;
-                if (xmlReader.name() == "Media")
-                    resourcePool->setMedia(Media::fromJdf(xmlReader));
-                if (xmlReader.name() == "Component")
-                    components.append(Component::fromJdf(xmlReader));
-                if (xmlReader.name() == "CuttingParams") {
-                    resourcePool->setCuttingParams(CuttingParams::fromJdf(xmlReader));
-                }
+    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
+        if (xmlReader.name() == "ResourcePool" && xmlReader.isStartElement() && !resourcePool->isFetched()) {
+            resourcePool->setFetched(true);
+        } else if (xmlReader.isStartElement()) {
+            if (xmlReader.name() == "Media") {
+                MediaSP media = Media::fromJdf(xmlReader);
+                Q_ASSERT(media);
+                resourcePool->setMedia(media);
+            } else if (xmlReader.name() == "Component") {
+                ComponentSP component = Component::fromJdf(xmlReader, jdfId);
+                Q_ASSERT(component);
+                components.append(component);
+            } else if (xmlReader.name() == "CuttingParams") {
+                CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jdfId);
+                Q_ASSERT(cuttingParams);
+                resourcePool->setCuttingParams(cuttingParams);
+            } else {
+                xmlReader.skipCurrentElement();
             }
-            if (token == QXmlStreamReader::EndElement) {
-                --elementsCounter;
-                if (elementsCounter == 0)
-                    break;
-            }
+        } else if (xmlReader.isEndElement()) {
+            break;
         }
-        resourcePool->setComponents(components);
+        xmlReader.readNext();
     }
+
+    resourcePool->setComponents(components);
 
     return resourcePool;
 }

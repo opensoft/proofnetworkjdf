@@ -12,6 +12,8 @@
 namespace Proof {
 namespace Jdf {
 
+typedef QPair<QString, QString> JdfCutBlockDataKey;
+
 class CutBlockPrivate;
 class PROOF_NETWORK_JDF_EXPORT CutBlock : public NetworkDataEntity
 {
@@ -33,9 +35,9 @@ public:
     void updateFrom(const NetworkDataEntitySP &other) override;
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
-    static CutBlockSP create();
+    static CutBlockSP create(const QString &blockName = 0);
 
-    static CutBlockSP fromJdf(QXmlStreamReader &xmlReader);
+    static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter);
     static CutBlockSP defaultObject();
 
@@ -46,9 +48,11 @@ signals:
     void transformationMatrixChanged(const QString &arg);
 
 protected:
-    explicit CutBlock();
+    explicit CutBlock(const QString &blockName = QString());
 
 };
+
+PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache();
 
 }
 }

@@ -18,15 +18,15 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     QString createRotationMatrixString(double angle);
 
     QString blockName;
-    double width;
-    double height;
+    double width = 0.0;
+    double height = 0.0;
     QString transformationMatrix;
 
 };
 
-ObjectsCache<QString, CutBlock> &cutBlockCache()
+ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache()
 {
-    return WeakObjectsCache<QString, CutBlock>::instance();
+    return WeakObjectsCache<JdfCutBlockDataKey, CutBlock>::instance();
 }
 
 }
@@ -34,9 +34,10 @@ ObjectsCache<QString, CutBlock> &cutBlockCache()
 
 using namespace Proof::Jdf;
 
-CutBlock::CutBlock()
+CutBlock::CutBlock(const QString &blockName)
     : NetworkDataEntity(*new CutBlockPrivate)
 {
+    setBlockName(blockName);
 }
 
 QString CutBlock::blockName() const
@@ -81,32 +82,40 @@ CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
     return new CutBlockQmlWrapper(castedSelf, parent);
 }
 
-CutBlockSP CutBlock::create()
+CutBlockSP CutBlock::create(const QString &blockName)
 {
-    CutBlockSP result(new CutBlock());
+    CutBlockSP result(new CutBlock(blockName));
     result->d_func()->weakSelf = result.toWeakRef();
     return result;
 }
 
-CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader)
+CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
 {
     CutBlockSP cutBlock = create();
-    cutBlock->setFetched(true);
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "CutBlock" && xmlReader.isStartElement()) {
+            cutBlock->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             cutBlock->setBlockName(attributes.value("BlockName").toString());
+            if (cutBlockCache().contains({jdfId, cutBlock->blockName()})) {
+                cutBlock = cutBlockCache().value({jdfId, cutBlock->blockName()});
+                Q_ASSERT(cutBlock);
+            } else {
+                cutBlockCache().add({jdfId, cutBlock->blockName()}, cutBlock);
+            }
             QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
             if (blockSizeList.count() >= 2) {
                 cutBlock->setWidth(blockSizeList.at(0).toDouble());
                 cutBlock->setHeight(blockSizeList.at(1).toDouble());
             }
             cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
+        } else if (xmlReader.isStartElement()) {
+            xmlReader.skipCurrentElement();
+        } else if (xmlReader.isEndElement()) {
             break;
-        } else {
-            xmlReader.readNext();
         }
+        xmlReader.readNext();
     }
 
     return cutBlock;
@@ -142,7 +151,7 @@ void CutBlock::setBlockName(const QString &arg)
 void CutBlock::setWidth(double arg)
 {
     Q_D(CutBlock);
-    if (d->width != arg) {
+    if (!qFuzzyCompare(d->width, arg)) {
         d->width = arg;
         emit widthChanged(d->width);
     }
@@ -151,7 +160,7 @@ void CutBlock::setWidth(double arg)
 void CutBlock::setHeight(double arg)
 {
     Q_D(CutBlock);
-    if (d->height != arg) {
+    if (!qFuzzyCompare(d->height, arg)) {
         d->height = arg;
         emit heightChanged(d->height);
     }

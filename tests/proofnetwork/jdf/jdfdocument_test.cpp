@@ -70,6 +70,8 @@ TEST_F(JdfDocumentTest, fromJdf)
 
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
+    EXPECT_EQ(15, component2->cutBlocks().count());
+
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
     ASSERT_EQ(ApiHelper::Box, bundle->bundleType());
@@ -82,12 +84,15 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
     ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
-    CutBlockSP cutBlock = cuttingParams->cutBlocks().at(0);
-    ASSERT_TRUE(cutBlock);
-    EXPECT_EQ("A-1", cutBlock->blockName());
-    EXPECT_DOUBLE_EQ(432, cutBlock->width());
-    EXPECT_DOUBLE_EQ(288, cutBlock->height());
-    EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+    CutBlockSP cutBlock1 = component2->cutBlocks().first();
+    CutBlockSP cutBlock2 = cuttingParams->cutBlocks().first();
+    for (const CutBlockSP &cutBlock : {cutBlock1, cutBlock2}) {
+        ASSERT_TRUE(cutBlock);
+        EXPECT_EQ("A-1", cutBlock->blockName());
+        EXPECT_DOUBLE_EQ(432, cutBlock->width());
+        EXPECT_DOUBLE_EQ(288, cutBlock->height());
+        EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+    }
 
     MediaSP media = resourcePool->media();
     ASSERT_TRUE(media);
@@ -135,6 +140,7 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(component->height(), component2->height());
     EXPECT_DOUBLE_EQ(component->length(), component2->length());
     EXPECT_EQ(component->amount(), component2->amount());
+    EXPECT_EQ(component->cutBlocks().count(), component2->cutBlocks().count());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);

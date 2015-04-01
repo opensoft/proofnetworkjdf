@@ -18,18 +18,16 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParams)
 public:
-
     QList<CutBlockSP> cutBlocks() const;
 
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
-
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     CuttingParamsQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static CuttingParamsSP create();
 
-    static CuttingParamsSP fromJdf(QXmlStreamReader &xmlReader);
+    static CuttingParamsSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
     static CuttingParamsSP defaultObject();
 

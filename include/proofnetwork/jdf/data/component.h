@@ -23,19 +23,21 @@ public:
     double height() const;
     double length() const;
     BundleSP bundle() const;
+    QList<CutBlockSP> cutBlocks() const;
 
     void setComponentType(ApiHelper::ComponentType arg);
     void setWidth(double arg);
     void setHeight(double arg);
     void setLength(double arg);
     void setBundle(const BundleSP &arg);
+    QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     ComponentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static ComponentSP create();
 
-    static ComponentSP fromJdf(QXmlStreamReader &xmlReader);
+    static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter);
     static ComponentSP defaultObject();
 
@@ -45,6 +47,7 @@ signals:
     void heightChanged(double arg);
     void lengthChanged(double arg);
     void bundleChanged(const Proof::Jdf::BundleSP &bundle);
+    void cutBlocksChanged();
 
 protected:
     explicit Component();

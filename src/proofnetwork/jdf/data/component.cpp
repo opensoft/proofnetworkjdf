@@ -17,6 +17,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     double height = 0.0;
     double length = 0.0;
     BundleSP bundle = Bundle::defaultObject();
+    QList<CutBlockSP> cutBlocks;
 };
 
 ApiHelper::ComponentType Component::componentType() const
@@ -47,6 +48,12 @@ BundleSP Component::bundle() const
 {
     Q_D(const Component);
     return d->bundle;
+}
+
+QList<CutBlockSP> Component::cutBlocks() const
+{
+    Q_D(const Component);
+    return d->cutBlocks;
 }
 
 void Component::setComponentType(ApiHelper::ComponentType arg)
@@ -94,6 +101,19 @@ void Component::setBundle(const BundleSP &arg)
     }
 }
 
+QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
+{
+    Q_D(Component);
+    bool emitNeeded = arg.count() != d->cutBlocks.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->blockName() != d->cutBlocks[i]->blockName();
+    if (emitNeeded) {
+        d->cutBlocks = arg;
+        emit cutBlocksChanged();
+    }
+    return d->cutBlocks;
+}
+
 void Component::updateFrom(const NetworkDataEntitySP &other)
 {
     ComponentSP castedOther = qSharedPointerCast<Component>(other);
@@ -102,6 +122,7 @@ void Component::updateFrom(const NetworkDataEntitySP &other)
     setHeight(castedOther->height());
     setLength(castedOther->length());
     setBundle(castedOther->bundle());
+    updateCutBlocks(castedOther->cutBlocks());
 
     AbstractPhysicalResource::updateFrom(other);
 }
@@ -121,10 +142,11 @@ ComponentSP Component::create()
     return result;
 }
 
-ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader)
+ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
 {
     ComponentSP component = create();
 
+    QList<CutBlockSP> cutBlocks;
     ApiHelper::PartIDKeysType partIDKeys = ApiHelper::BlockName;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
@@ -143,23 +165,41 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader)
 
             AbstractPhysicalResourceSP castedComponent = qSharedPointerCast<AbstractPhysicalResource>(component);
             AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
-
-        } else if (xmlReader.name() == "Bundle" && xmlReader.isStartElement()) {
-            component->setBundle(Bundle::fromJdf(xmlReader));
         } else if (xmlReader.isStartElement()) {
-            uint count = 1;
-            while (count && !xmlReader.atEnd() && !xmlReader.hasError()) {
-               xmlReader.readNext();
-               if (xmlReader.isStartElement())
-                   ++count;
-               else if (xmlReader.isEndElement())
-                   --count;
+            if (xmlReader.name() == "Component") {
+                QXmlStreamAttributes attributes = xmlReader.attributes();
+
+                switch (partIDKeys) {
+                case ApiHelper::BlockName: {
+                    QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::BlockName)).toString();
+                    if (cutBlockCache().contains({jdfId, blockName})) {
+                        cutBlocks.append(cutBlockCache().value({jdfId, blockName}));
+                    } else {
+                        CutBlockSP cutBlock = CutBlock::create(blockName);
+                        cutBlockCache().add({jdfId, blockName}, cutBlock);
+                        cutBlocks.append(cutBlock);
+                    }
+                    break; }
+                case ApiHelper::BundleItemIndex:
+                case ApiHelper::CellIndex:
+                default:
+                    break;
+                }
+                xmlReader.skipCurrentElement();
+            } else if (xmlReader.name() == "Bundle") {
+                BundleSP bundle = Bundle::fromJdf(xmlReader);
+                Q_ASSERT(bundle);
+                component->setBundle(bundle);
+            } else {
+                xmlReader.skipCurrentElement();
             }
         } else if (xmlReader.isEndElement()) {
             break;
         }
         xmlReader.readNext();
     }
+
+    component->updateCutBlocks(cutBlocks);
 
     return component;
 }

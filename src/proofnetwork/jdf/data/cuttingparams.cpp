@@ -58,35 +58,32 @@ CuttingParamsSP CuttingParams::create()
     return result;
 }
 
-CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader)
+CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
 {
     CuttingParamsSP cuttingParams = create();
-    cuttingParams->setFetched(true);
 
-    while (xmlReader.name() != "CuttingParams" && !xmlReader.atEnd() && !xmlReader.hasError())
-        xmlReader.readNext();
-
-    AbstractResourceSP castedCuttingParams = qSharedPointerCast<AbstractResource>(cuttingParams);
-    AbstractResource::fromJdf(xmlReader, castedCuttingParams);
-
-    uint elementsCounter = 1;
     QList<CutBlockSP> cutBlocks;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        QXmlStreamReader::TokenType token = xmlReader.readNext();
-        if (token == QXmlStreamReader::StartElement) {
-            ++elementsCounter;
+        if (xmlReader.name() == "CuttingParams" && xmlReader.isStartElement() && !cuttingParams->isFetched()) {
+            cuttingParams->setFetched(true);
+
+            AbstractResourceSP castedCuttingParams = qSharedPointerCast<AbstractResource>(cuttingParams);
+            AbstractResource::fromJdf(xmlReader, castedCuttingParams);
+        } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "CutBlock") {
-                CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader);
+                CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader, jdfId);
+                Q_ASSERT(cutBlock);
                 cutBlocks.append(cutBlock);
+            } else {
+                xmlReader.skipCurrentElement();
             }
+        } else if (xmlReader.isEndElement()) {
+            break;
         }
-        if (token == QXmlStreamReader::EndElement) {
-            --elementsCounter;
-            if (elementsCounter == 0)
-                break;
-        }
+        xmlReader.readNext();
     }
+
     cuttingParams->updateCutBlocks(cutBlocks);
 
     return cuttingParams;

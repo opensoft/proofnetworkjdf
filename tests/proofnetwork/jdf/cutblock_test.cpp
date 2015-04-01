@@ -24,13 +24,13 @@ protected:
         QFile file(":/data/cutblock.jdf");
         ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml(&file);
-        cutBlockUT = CutBlock::fromJdf(xml);
+        cutBlockUT = CutBlock::fromJdf(xml, "id1");
         ASSERT_TRUE(cutBlockUT);
 
         QFile file2(":/data/cutblock2.jdf");
         ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml2(&file2);
-        cutBlockUT2 = CutBlock::fromJdf(xml2);
+        cutBlockUT2 = CutBlock::fromJdf(xml2, "id2");
         ASSERT_TRUE(cutBlockUT2);
 
         qmlWrapperUT = cutBlockUT->toQmlWrapper();

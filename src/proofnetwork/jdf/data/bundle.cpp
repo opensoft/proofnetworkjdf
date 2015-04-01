@@ -78,14 +78,7 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader)
             bundle->setBundleType(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()));
             bundle->setTotalAmount(attributes.value("TotalAmount").toInt());
         } else if (xmlReader.isStartElement()) {
-            uint count = 1;
-            while (count && !xmlReader.atEnd() && !xmlReader.hasError()) {
-               xmlReader.readNext();
-               if (xmlReader.isStartElement())
-                   ++count;
-               else if (xmlReader.isEndElement())
-                   --count;
-            }
+            xmlReader.skipCurrentElement();
         } else if (xmlReader.isEndElement()) {
             break;
         }
