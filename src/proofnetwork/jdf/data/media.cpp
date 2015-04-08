@@ -17,6 +17,11 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
     ApiHelper::CoatingType backCoating = ApiHelper::NoneCoating;
 };
 
+} // namespace Jdf
+} // namespace Proof
+
+using namespace Proof::Jdf;
+
 double Media::thickness() const
 {
     Q_D(const Media);
@@ -177,5 +182,3 @@ Media::Media()
     setResourceClass(ApiHelper::ConsumableClass);
 }
 
-} // namespace Jdf
-} // namespace Proof

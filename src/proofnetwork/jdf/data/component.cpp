@@ -20,6 +20,11 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     QList<CutBlockSP> cutBlocks;
 };
 
+} // namespace Jdf
+} // namespace Proof
+
+using namespace Proof::Jdf;
+
 ApiHelper::ComponentType Component::componentType() const
 {
     Q_D(const Component);
@@ -147,7 +152,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
     ComponentSP component = create();
 
     QList<CutBlockSP> cutBlocks;
-    ApiHelper::PartIDKeysType partIDKeys = ApiHelper::BlockName;
+    ApiHelper::PartIdKeysType partIDKeys = ApiHelper::BlockNameKey;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "Component" && xmlReader.isStartElement() && !component->isFetched()) {
@@ -159,6 +164,9 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                 component->setWidth(dimensionsList.at(0).toDouble());
                 component->setHeight(dimensionsList.at(1).toDouble());
                 component->setLength(dimensionsList.at(2).toDouble());
+            } else {
+                qCCritical(proofNetworkJdfDataLog) << "Component not created. Dimensions is not valid";
+                return ComponentSP();
             }
 
             partIDKeys = ApiHelper::partIdKeysTypeFromString(attributes.value("PartIDKeys").toString());
@@ -170,8 +178,8 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                 QXmlStreamAttributes attributes = xmlReader.attributes();
 
                 switch (partIDKeys) {
-                case ApiHelper::BlockName: {
-                    QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::BlockName)).toString();
+                case ApiHelper::BlockNameKey: {
+                    QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::BlockNameKey)).toString();
                     if (cutBlockCache().contains({jdfId, blockName})) {
                         cutBlocks.append(cutBlockCache().value({jdfId, blockName}));
                     } else {
@@ -179,9 +187,10 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                         cutBlockCache().add({jdfId, blockName}, cutBlock);
                         cutBlocks.append(cutBlock);
                     }
-                    break; }
-                case ApiHelper::BundleItemIndex:
-                case ApiHelper::CellIndex:
+                    break;
+                }
+                case ApiHelper::BundleItemIndexKey:
+                case ApiHelper::CellIndexKey:
                 default:
                     break;
                 }
@@ -217,7 +226,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractPhysicalResource::toJdf(jdfWriter);
 
     if (d->cutBlocks.count()) {
-        QString blockNameText = ApiHelper::partIdKeysTypeToString(ApiHelper::BlockName);
+        QString blockNameText = ApiHelper::partIdKeysTypeToString(ApiHelper::BlockNameKey);
         jdfWriter.writeAttribute("PartIDKeys", blockNameText);
         for (const CutBlockSP &cutBlock : d->cutBlocks) {
             jdfWriter.writeStartElement("Component");
@@ -243,7 +252,4 @@ Component::Component()
 {
     setResourceClass(ApiHelper::QuantityClass);
 }
-
-} // namespace Jdf
-} // namespace Proof
 

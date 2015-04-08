@@ -75,13 +75,13 @@ TEST_F(JdfDocumentTest, fromJdf)
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
-    ASSERT_EQ(ApiHelper::Box, bundle->bundleType());
+    ASSERT_EQ(ApiHelper::BoxBundle, bundle->bundleType());
     ASSERT_EQ(42, bundle->totalAmount());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->status());
+    EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->resourceStatus());
     EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
     ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
@@ -100,9 +100,9 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, media->status());
+    EXPECT_EQ(ApiHelper::AvailableStatus, media->resourceStatus());
     EXPECT_EQ(ApiHelper::NoneCoating, media->backCoating());
-    EXPECT_EQ(ApiHelper::HighGloss, media->frontCoating());
+    EXPECT_EQ(ApiHelper::HighGlossCoating, media->frontCoating());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
@@ -151,7 +151,7 @@ TEST_F(JdfDocumentTest, updateFrom)
     CuttingParamsSP cuttingParams2 = resourcePool2->cuttingParams();
     ASSERT_TRUE(cuttingParams2);
     ASSERT_EQ(cuttingParams->id(), cuttingParams2->id());
-    ASSERT_EQ(cuttingParams->status(), cuttingParams2->status());
+    ASSERT_EQ(cuttingParams->resourceStatus(), cuttingParams2->resourceStatus());
     ASSERT_EQ(cuttingParams->resourceClass(), cuttingParams2->resourceClass());
     ASSERT_EQ(cuttingParams->cutBlocks().count(), cuttingParams2->cutBlocks().count());
 
@@ -226,7 +226,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 }
             } else if (reader.name() == "Bundle") {
                 QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()), ApiHelper::Box);
+                EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()), ApiHelper::BoxBundle);
                 EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;

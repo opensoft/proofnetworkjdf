@@ -108,7 +108,6 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
             cutBlock->setBlockName(attributes.value("BlockName").toString());
             if (cutBlockCache().contains({jdfId, cutBlock->blockName()})) {
                 cutBlock = cutBlockCache().value({jdfId, cutBlock->blockName()});
-                Q_ASSERT(cutBlock);
             } else {
                 cutBlockCache().add({jdfId, cutBlock->blockName()}, cutBlock);
             }

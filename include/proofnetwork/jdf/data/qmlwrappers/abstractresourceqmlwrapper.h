@@ -14,9 +14,9 @@ class AbstractResourceQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT AbstractResourceQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(QString id READ id CONSTANT)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceStatus status READ status CONSTANT)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceClass resourceClass READ resourceClass CONSTANT)
+    Q_PROPERTY(QString id READ id NOTIFY idChanged)
+    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceStatus resourceStatus READ resourceStatus NOTIFY resourceStatusChanged)
+    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceClass resourceClass READ resourceClass NOTIFY resourceClassChanged)
 
     Q_PROPERTY(Proof::Jdf::ApiHelper::Usage usage READ usage CONSTANT)
 
@@ -27,14 +27,14 @@ public:
     ~AbstractResourceQmlWrapper();
 
     QString id() const;
-    ApiHelper::ResourceStatus status() const;
+    ApiHelper::ResourceStatus resourceStatus() const;
     ApiHelper::ResourceClass resourceClass() const;
 
     ApiHelper::Usage usage() const;
 
 signals:
     void idChanged(const QString &arg);
-    void statusChanged(Proof::Jdf::ApiHelper::ResourceStatus arg);
+    void resourceStatusChanged(Proof::Jdf::ApiHelper::ResourceStatus arg);
     void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass arg);
 
     void usageChanged(Proof::Jdf::ApiHelper::Usage arg);

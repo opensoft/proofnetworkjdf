@@ -9,9 +9,14 @@ class BundlePrivate : NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Bundle)
 
-    ApiHelper::BundleType bundleType = ApiHelper::Box;
+    ApiHelper::BundleType bundleType = ApiHelper::BoxBundle;
     int totalAmount = 0;
 };
+
+} // namespace Jdf
+} // namespace Proof
+
+using namespace Proof::Jdf;
 
 ApiHelper::BundleType Bundle::bundleType() const
 {
@@ -108,5 +113,3 @@ Bundle::Bundle()
 {
 }
 
-} // namespace Jdf
-} // namespace Proof

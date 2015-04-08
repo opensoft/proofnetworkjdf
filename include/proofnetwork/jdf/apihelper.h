@@ -17,7 +17,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(CoatingType)
     Q_ENUMS(BundleType)
     Q_ENUMS(ComponentType)
-    Q_ENUMS(PartIDKeysType)
+    Q_ENUMS(PartIdKeysType)
     Q_ENUMS(ProcessUsage)
     Q_ENUMS(Usage)
     Q_ENUMS(BlockType)
@@ -50,29 +50,29 @@ public:
     enum CoatingType {
         NoneCoating, // No coating.
         Coated, // A coating of a system-specified type. New in JDF 1.2
-        Glossy,
-        HighGloss,
-        InkJet, // A coating intended for use with inkjet technology.
+        GlossyCoating,
+        HighGlossCoating,
+        InkJetCoating, // A coating intended for use with inkjet technology.
                 // Deprecation note: use PrintingTechnology = "InkJet". New in JDF 1.2. Deprecated in JDF 1.4
-        Matte,
-        Polymer, // Coating for a photo polymer process. New in JDF 1.3
-        Silver, // Coating for a silver halide process. New in JDF 1.3
-        Satin,
-        Semigloss
+        MatteCoating,
+        PolymerCoating, // Coating for a photo polymer process. New in JDF 1.3
+        SilverCoating, // Coating for a silver halide process. New in JDF 1.3
+        SatinCoating,
+        SemiglossCoating
     };
 
     enum BundleType {
-        BoundSet, // Stack of components that are bound together.
-        Box,
-        Carton,
-        CollectedStack, // Components collected on a saddle, result of Collecting Process
-        CompensatedStack, // Loose stack of compensated components
-        Pallet,
-        Roll, // Rolled components on a print Roll.
-        Sheet, // Multiple individual items printed onto one Sheet.
-        Stack, // Loose stack of equally stacked components.
-        StrappedStack, // Strapped stack of equally stacked components.
-        StrappedCompensatedStack, // Strapped stack of compensated components.
+        BoundSetBundle, // Stack of components that are bound together.
+        BoxBundle,
+        CartonBundle,
+        CollectedStackBundle, // Components collected on a saddle, result of Collecting Process
+        CompensatedStackBundle, // Loose stack of compensated components
+        PalletBundle,
+        RollBundle, // Rolled components on a print Roll.
+        SheetBundle, // Multiple individual items printed onto one Sheet.
+        StackBundle, // Loose stack of equally stacked components.
+        StrappedStackBundle, // Strapped stack of equally stacked components.
+        StrappedCompensatedStackBundle, // Strapped stack of compensated components.
         WrappedBundle
     };
 
@@ -87,10 +87,10 @@ public:
         ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
     };
 
-    enum PartIDKeysType {
-        BlockName,
-        BundleItemIndex,
-        CellIndex
+    enum PartIdKeysType {
+        BlockNameKey,
+        BundleItemIndexKey,
+        CellIndexKey
     };
 
     enum ProcessUsage {
@@ -152,8 +152,8 @@ public:
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType);
 
-    static QString partIdKeysTypeToString(PartIDKeysType partIdKeysType);
-    static PartIDKeysType partIdKeysTypeFromString(const QString &partIdKeysType);
+    static QString partIdKeysTypeToString(PartIdKeysType partIdKeysType);
+    static PartIdKeysType partIdKeysTypeFromString(const QString &partIdKeysType);
 
     static QString processUsageToString(ProcessUsage processUsage);
     static ProcessUsage processUsageFromString(const QString &processUsage);
@@ -170,7 +170,7 @@ private:
     static QHash<QString, CoatingType> m_coatingStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
     static QHash<QString, ComponentType> m_componentTypeStringified;
-    static QHash<QString, PartIDKeysType> m_partIdKeysTypeStringified;
+    static QHash<QString, PartIdKeysType> m_partIdKeysTypeStringified;
     static QHash<QString, ProcessUsage> m_processUsageStringified;
     static QHash<QString, Usage> m_usageStringified;
     static QHash<QString, BlockType> m_blockTypeStringified;

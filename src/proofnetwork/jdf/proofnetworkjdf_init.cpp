@@ -44,7 +44,7 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::ApiHelper::CoatingType>("Proof::Jdf::ApiHelper::CoatingType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::BundleType>("Proof::Jdf::ApiHelper::BundleType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::ComponentType>("Proof::Jdf::ApiHelper::ComponentType");
-    qRegisterMetaType<Proof::Jdf::ApiHelper::PartIDKeysType>("Proof::Jdf::ApiHelper::PartIDKeysType");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::PartIdKeysType>("Proof::Jdf::ApiHelper::PartIdKeysType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::ProcessUsage>("Proof::Jdf::ApiHelper::ProcessUsage");
     qRegisterMetaType<Proof::Jdf::ApiHelper::Usage>("Proof::Jdf::ApiHelper::Usage");
     qRegisterMetaType<Proof::Jdf::ApiHelper::BlockType>("Proof::Jdf::ApiHelper::BlockType");

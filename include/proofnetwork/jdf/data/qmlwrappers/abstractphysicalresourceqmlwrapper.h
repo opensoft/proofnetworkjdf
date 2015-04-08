@@ -14,8 +14,8 @@ class AbstractPhysicalResourceQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceQmlWrapper : public AbstractResourceQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(QString amount READ amount CONSTANT)
-    Q_PROPERTY(QString resourceWeight READ resourceWeight CONSTANT)
+    Q_PROPERTY(QString amount READ amount NOTIFY amountChanged)
+    Q_PROPERTY(QString resourceWeight READ resourceWeight NOTIFY resourceWeightChanged)
 
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceQmlWrapper)
 public:

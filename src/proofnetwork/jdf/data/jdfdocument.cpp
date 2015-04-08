@@ -17,6 +17,11 @@ class JdfDocumentPrivate : public NetworkDataEntityPrivate
     ResourcePoolSP resourcePool = ResourcePool::defaultObject();
 };
 
+}
+}
+
+using namespace Proof::Jdf;
+
 QString JdfDocument::id() const
 {
     Q_D(const JdfDocument);
@@ -173,5 +178,3 @@ JdfDocument::JdfDocument()
 {
 }
 
-}
-}

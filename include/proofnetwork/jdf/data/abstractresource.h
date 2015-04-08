@@ -4,7 +4,6 @@
 #include "proofnetwork/networkdataentity.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/apihelper.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.h"
 
 #include <QXmlStreamReader>
@@ -20,18 +19,19 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResource : public NetworkDataEntity
 public:
 
     QString id() const;
-    ApiHelper::ResourceStatus status() const;
+    ApiHelper::ResourceStatus resourceStatus() const;
     ApiHelper::ResourceClass resourceClass() const;
 
     ApiHelper::Usage usage() const;
 
     void setId(const QString &arg);
-    void setStatus(ApiHelper::ResourceStatus arg);
+    void setResourceStatus(ApiHelper::ResourceStatus arg);
     void setResourceClass(ApiHelper::ResourceClass arg);
 
     void setUsage(ApiHelper::Usage arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override = 0;
 
     static void fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);

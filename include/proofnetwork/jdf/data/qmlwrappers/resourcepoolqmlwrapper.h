@@ -5,7 +5,6 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 
-#include <QSize>
 #include <QtQml/QQmlListProperty>
 
 namespace Proof {

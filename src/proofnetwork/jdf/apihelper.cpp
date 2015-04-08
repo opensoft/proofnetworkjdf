@@ -1,7 +1,6 @@
 #include "apihelper.h"
 
-namespace Proof {
-namespace Jdf {
+using namespace Proof::Jdf;
 
 QHash<QString, ApiHelper::ResourceStatus> ApiHelper::m_resourceStatusStringified = {
     {"Incomplete", ApiHelper::IncompleteStatus},
@@ -25,29 +24,29 @@ QHash<QString, ApiHelper::ResourceClass> ApiHelper::m_resourceClassStringified =
 
 QHash<QString, ApiHelper::CoatingType> ApiHelper::m_coatingStringified = {
     {"None", ApiHelper::NoneCoating},
-    {"Glossy", ApiHelper::Glossy},
     {"Coated", ApiHelper::Coated},
-    {"HighGloss", ApiHelper::HighGloss},
-    {"InkJet", ApiHelper::InkJet},
-    {"Matte", ApiHelper::Matte},
-    {"Polymer", ApiHelper::Polymer},
-    {"Silver", ApiHelper::Silver},
-    {"Satin", ApiHelper::Satin},
-    {"Semigloss", ApiHelper::Semigloss}
+    {"Glossy", ApiHelper::GlossyCoating},
+    {"HighGloss", ApiHelper::HighGlossCoating},
+    {"InkJet", ApiHelper::InkJetCoating},
+    {"Matte", ApiHelper::MatteCoating},
+    {"Polymer", ApiHelper::PolymerCoating},
+    {"Silver", ApiHelper::SilverCoating},
+    {"Satin", ApiHelper::SatinCoating},
+    {"Semigloss", ApiHelper::SemiglossCoating}
 };
 
 QHash<QString, ApiHelper::BundleType> ApiHelper::m_bundleTypeStringified = {
-    {"BoundSet", ApiHelper::BoundSet},
-    {"Box", ApiHelper::Box},
-    {"Carton", ApiHelper::Carton},
-    {"CollectedStack", ApiHelper::CollectedStack},
-    {"CompensatedStack", ApiHelper::CompensatedStack},
-    {"Pallet", ApiHelper::Pallet},
-    {"Roll", ApiHelper::Roll},
-    {"Sheet", ApiHelper::Sheet},
-    {"Stack", ApiHelper::Stack},
-    {"StrappedStack", ApiHelper::StrappedStack},
-    {"StrappedCompensatedStack", ApiHelper::StrappedCompensatedStack},
+    {"BoundSet", ApiHelper::BoundSetBundle},
+    {"Box", ApiHelper::BoxBundle},
+    {"Carton", ApiHelper::CartonBundle},
+    {"CollectedStack", ApiHelper::CollectedStackBundle},
+    {"CompensatedStack", ApiHelper::CompensatedStackBundle},
+    {"Pallet", ApiHelper::PalletBundle},
+    {"Roll", ApiHelper::RollBundle},
+    {"Sheet", ApiHelper::SheetBundle},
+    {"Stack", ApiHelper::StackBundle},
+    {"StrappedStack", ApiHelper::StrappedStackBundle},
+    {"StrappedCompensatedStack", ApiHelper::StrappedCompensatedStackBundle},
     {"WrappedBundle", ApiHelper::WrappedBundle}
 };
 
@@ -62,10 +61,10 @@ QHash<QString, ApiHelper::ComponentType> ApiHelper::m_componentTypeStringified =
     {"Proof", ApiHelper::ProofComponent}
 };
 
-QHash<QString, ApiHelper::PartIDKeysType> ApiHelper::m_partIdKeysTypeStringified = {
-    {"BlockName", ApiHelper::BlockName},
-    {"BundleItemIndex", ApiHelper::BundleItemIndex},
-    {"CellIndex", ApiHelper::CellIndex}
+QHash<QString, ApiHelper::PartIdKeysType> ApiHelper::m_partIdKeysTypeStringified = {
+    {"BlockName", ApiHelper::BlockNameKey},
+    {"BundleItemIndex", ApiHelper::BundleItemIndexKey},
+    {"CellIndex", ApiHelper::CellIndexKey}
 };
 
 QHash<QString, ApiHelper::ProcessUsage> ApiHelper::m_processUsageStringified = {
@@ -149,7 +148,7 @@ QString ApiHelper::bundleTypeToString(ApiHelper::BundleType bundleType)
 
 ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType)
 {
-    return m_bundleTypeStringified.value(bundleType, BundleType::Box);
+    return m_bundleTypeStringified.value(bundleType, BundleType::BoxBundle);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
@@ -162,14 +161,14 @@ ApiHelper::ComponentType ApiHelper::componentTypeFromString(const QString &compo
     return m_componentTypeStringified.value(componentType, ComponentType::SheetComponent);
 }
 
-QString ApiHelper::partIdKeysTypeToString(ApiHelper::PartIDKeysType partIdKeysType)
+QString ApiHelper::partIdKeysTypeToString(ApiHelper::PartIdKeysType partIdKeysType)
 {
     return m_partIdKeysTypeStringified.key(partIdKeysType, "");
 }
 
-ApiHelper::PartIDKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType)
+ApiHelper::PartIdKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType)
 {
-    return m_partIdKeysTypeStringified.value(partIdKeysType, PartIDKeysType::BlockName);
+    return m_partIdKeysTypeStringified.value(partIdKeysType, PartIdKeysType::BlockNameKey);
 }
 
 QString ApiHelper::processUsageToString(ApiHelper::ProcessUsage processUsage)
@@ -202,5 +201,3 @@ ApiHelper::BlockType ApiHelper::blockTypeFromString(const QString &blockType)
     return m_blockTypeStringified.value(blockType, BlockType::CutBlockType);
 }
 
-}
-}

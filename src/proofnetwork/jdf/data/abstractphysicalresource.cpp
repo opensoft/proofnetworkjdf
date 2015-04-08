@@ -1,10 +1,8 @@
 #include "abstractphysicalresource.h"
 
-
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 
-namespace Proof {
-namespace Jdf {
+using namespace Proof::Jdf;
 
 double AbstractPhysicalResource::amount() const
 {
@@ -68,8 +66,5 @@ AbstractPhysicalResource::AbstractPhysicalResource(AbstractPhysicalResourcePriva
     : AbstractResource(dd, parent)
 {
 
-}
-
-}
 }
 

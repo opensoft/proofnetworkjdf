@@ -18,7 +18,7 @@ AbstractResourceQmlWrapper::~AbstractResourceQmlWrapper()
 }
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, QString, id)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, Proof::Jdf::ApiHelper::ResourceStatus, status)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, Proof::Jdf::ApiHelper::ResourceStatus, resourceStatus)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, Proof::Jdf::ApiHelper::ResourceClass, resourceClass)
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, Proof::Jdf::ApiHelper::Usage, usage)
@@ -32,7 +32,7 @@ void AbstractResourceQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEnt
     connect(abstractResource.data(), &AbstractResource::idChanged,
             this, &AbstractResourceQmlWrapper::idChanged);
     connect(abstractResource.data(), &AbstractResource::statusChanged,
-            this, &AbstractResourceQmlWrapper::statusChanged);
+            this, &AbstractResourceQmlWrapper::resourceStatusChanged);
     connect(abstractResource.data(), &AbstractResource::resourceClassChanged,
             this, &AbstractResourceQmlWrapper::resourceClassChanged);
 
@@ -43,8 +43,8 @@ void AbstractResourceQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEnt
     if (oldAbstractResource) {
         if (abstractResource->id() != oldAbstractResource->id())
             emit idChanged(abstractResource->id());
-        if (abstractResource->status() != oldAbstractResource->status())
-            emit statusChanged(abstractResource->status());
+        if (abstractResource->resourceStatus() != oldAbstractResource->resourceStatus())
+            emit resourceStatusChanged(abstractResource->resourceStatus());
         if (abstractResource->resourceClass() != oldAbstractResource->resourceClass())
             emit resourceClassChanged(abstractResource->resourceClass());
 

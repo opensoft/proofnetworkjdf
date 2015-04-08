@@ -2,8 +2,7 @@
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 
-namespace Proof {
-namespace Jdf {
+using namespace Proof::Jdf;
 
 QString AbstractResource::id() const
 {
@@ -11,10 +10,10 @@ QString AbstractResource::id() const
     return d->id;
 }
 
-ApiHelper::ResourceStatus AbstractResource::status() const
+ApiHelper::ResourceStatus AbstractResource::resourceStatus() const
 {
     Q_D(const AbstractResource);
-    return d->status;
+    return d->resourceStatus;
 }
 
 ApiHelper::ResourceClass AbstractResource::resourceClass() const
@@ -38,12 +37,12 @@ void AbstractResource::setId(const QString &arg)
     }
 }
 
-void AbstractResource::setStatus(ApiHelper::ResourceStatus arg)
+void AbstractResource::setResourceStatus(ApiHelper::ResourceStatus arg)
 {
     Q_D(AbstractResource);
-    if (d->status != arg) {
-        d->status = arg;
-        emit statusChanged(d->status);
+    if (d->resourceStatus != arg) {
+        d->resourceStatus = arg;
+        emit statusChanged(d->resourceStatus);
     }
 }
 
@@ -69,7 +68,7 @@ void AbstractResource::updateFrom(const NetworkDataEntitySP &other)
 {
     AbstractResourceSP castedOther = qSharedPointerCast<AbstractResource>(other);
     setId(castedOther->id());
-    setStatus(castedOther->status());
+    setResourceStatus(castedOther->resourceStatus());
     setResourceClass(castedOther->resourceClass());
 
     setUsage(castedOther->usage());
@@ -81,14 +80,14 @@ void AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResour
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     abstractResource->setId(attributes.value("ID").toString());
-    abstractResource->setStatus(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()));
+    abstractResource->setResourceStatus(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()));
 }
 
 void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResource);
     jdfWriter.writeAttribute("ID", d->id);
-    jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(d->status));
+    jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(d->resourceStatus));
     jdfWriter.writeAttribute("Class", ApiHelper::resourceClassToString(d->resourceClass));
 }
 
@@ -106,8 +105,5 @@ AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
     : NetworkDataEntity(dd, parent)
 {
 
-}
-
-}
 }
 
