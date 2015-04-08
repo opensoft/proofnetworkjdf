@@ -21,6 +21,7 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     double width = 0.0;
     double height = 0.0;
     QString transformationMatrix;
+    ApiHelper::BlockType blockType = ApiHelper::CutBlockType;
 
 };
 
@@ -64,6 +65,12 @@ QString CutBlock::transformationMatrix() const
     return d->transformationMatrix;
 }
 
+ApiHelper::BlockType CutBlock::blockType() const
+{
+    Q_D(const CutBlock);
+    return d->blockType;
+}
+
 void CutBlock::updateFrom(const NetworkDataEntitySP &other)
 {
     CutBlockSP castedOther = qSharedPointerCast<CutBlock>(other);
@@ -71,6 +78,7 @@ void CutBlock::updateFrom(const NetworkDataEntitySP &other)
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setTransformationMatrix(castedOther->transformationMatrix());
+    setBlockType(castedOther->blockType());
     NetworkDataEntity::updateFrom(other);
 }
 
@@ -110,6 +118,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
                 cutBlock->setHeight(blockSizeList.at(1).toDouble());
             }
             cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
+            cutBlock->setBlockType(ApiHelper::blockTypeFromString(attributes.value("BlockType").toString()));
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
         } else if (xmlReader.isEndElement()) {
@@ -129,7 +138,7 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("BlockName", d->blockName);
     jdfWriter.writeAttribute("BlockSize", QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
     jdfWriter.writeAttribute("BlockTrf", d->transformationMatrix);
-    jdfWriter.writeAttribute("BlockType", "CutBlock");
+    jdfWriter.writeAttribute("BlockType", ApiHelper::blockTypeToString(d->blockType));
     jdfWriter.writeEndElement();
 }
 
@@ -186,6 +195,15 @@ void CutBlock::setTransformationMatrix(double x, double y, double rotation)
     if (d->transformationMatrix != transformationMatrix) {
         d->transformationMatrix = transformationMatrix;
         emit transformationMatrixChanged(d->transformationMatrix);
+    }
+}
+
+void CutBlock::setBlockType(ApiHelper::BlockType arg)
+{
+    Q_D(CutBlock);
+    if (d->blockType != arg) {
+        d->blockType = arg;
+        emit blockTypeChanged(d->blockType);
     }
 }
 

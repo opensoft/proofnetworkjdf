@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <JDF DescriptiveName="testNo.01t" ID="061106-00002_1_ShtFin000"
-  JobID="061106-00002" Status="Waiting" Type="ProcessGroup"
-  Version="1.2" xmlns="http://www.CIP4.org/JDFSchema_1_1">
+  JobID="061106-00002" JobPartID="ID061106" Status="Waiting" Type="ProcessGroup"
+  Version="1.4" xmlns="http://www.CIP4.org/JDFSchema_1_1">
   <ResourcePool>
     <Media BackCoatings="None" Dimension="1329.44882 963.77953"
       FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper"
@@ -12,7 +12,7 @@
     <CuttingParams Class="Parameter" ID="061106-00002_1_CutPara00001" Status="Unavailable">
       <CutBlock BlockName="061106-00002_1_CutBlc00001"
         BlockSize="1207.55906 858.8976399999999"
-        BlockTrf="1 0 0 1 60.94488 52.44094" BlockType="CutBlock"
+        BlockTrf="1 0 0 1 60.94488 52.44094" BlockType="SaveBlock"
         Class="Parameter" ID="061106-00002_1_CutBlc00001"/>
     </CuttingParams>
     <Component Class="Quantity" ComponentType="Block"

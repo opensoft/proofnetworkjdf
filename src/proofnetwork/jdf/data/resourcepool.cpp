@@ -89,15 +89,24 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "Media") {
                 MediaSP media = Media::fromJdf(xmlReader);
-                Q_ASSERT(media);
+                if (!media) {
+                    qCCritical(proofNetworkJdfDataLog) << "Media not created.";
+                    return ResourcePoolSP();
+                }
                 resourcePool->setMedia(media);
             } else if (xmlReader.name() == "Component") {
                 ComponentSP component = Component::fromJdf(xmlReader, jdfId);
-                Q_ASSERT(component);
+                if (!component) {
+                    qCCritical(proofNetworkJdfDataLog) << "Component not created.";
+                    return ResourcePoolSP();
+                }
                 components.append(component);
             } else if (xmlReader.name() == "CuttingParams") {
                 CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jdfId);
-                Q_ASSERT(cuttingParams);
+                if (!cuttingParams) {
+                    qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created.";
+                    return ResourcePoolSP();
+                }
                 resourcePool->setCuttingParams(cuttingParams);
             } else {
                 xmlReader.skipCurrentElement();
@@ -125,6 +134,22 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
         d->media->toJdf(jdfWriter);
     if (d->cuttingParams)
         d->cuttingParams->toJdf(jdfWriter);
+
+    jdfWriter.writeEndElement();
+}
+
+void ResourcePool::toJdfLink(QXmlStreamWriter &jdfWriter)
+{
+    Q_D(ResourcePool);
+
+    jdfWriter.writeStartElement("ResourceLinkPool");
+
+    for (const ComponentSP &component : d->components)
+        component->toJdfLink(jdfWriter);
+    if (d->media)
+        d->media->toJdfLink(jdfWriter);
+    if (d->cuttingParams)
+        d->cuttingParams->toJdfLink(jdfWriter);
 
     jdfWriter.writeEndElement();
 }

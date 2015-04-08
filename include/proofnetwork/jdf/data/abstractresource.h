@@ -23,19 +23,26 @@ public:
     ApiHelper::ResourceStatus status() const;
     ApiHelper::ResourceClass resourceClass() const;
 
+    ApiHelper::Usage usage() const;
+
     void setId(const QString &arg);
     void setStatus(ApiHelper::ResourceStatus arg);
     void setResourceClass(ApiHelper::ResourceClass arg);
+
+    void setUsage(ApiHelper::Usage arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
 
     static void fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
+    virtual void toJdfLink(QXmlStreamWriter &jdfWriter);
 
 signals:
     void idChanged(const QString &arg);
     void statusChanged(Proof::Jdf::ApiHelper::ResourceStatus arg);
     void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass arg);
+
+    void usageChanged(Proof::Jdf::ApiHelper::Usage arg);
 
 protected:
     explicit AbstractResource() = delete;

@@ -188,7 +188,10 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                 xmlReader.skipCurrentElement();
             } else if (xmlReader.name() == "Bundle") {
                 BundleSP bundle = Bundle::fromJdf(xmlReader);
-                Q_ASSERT(bundle);
+                if (!bundle) {
+                    qCCritical(proofNetworkJdfDataLog) << "Bundle not created.";
+                    return ComponentSP();
+                }
                 component->setBundle(bundle);
             } else {
                 xmlReader.skipCurrentElement();
@@ -212,6 +215,16 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3").arg(d->width).arg(d->height).arg(d->length));
 
     AbstractPhysicalResource::toJdf(jdfWriter);
+
+    if (d->cutBlocks.count()) {
+        QString blockNameText = ApiHelper::partIdKeysTypeToString(ApiHelper::BlockName);
+        jdfWriter.writeAttribute("PartIDKeys", blockNameText);
+        for (const CutBlockSP &cutBlock : d->cutBlocks) {
+            jdfWriter.writeStartElement("Component");
+            jdfWriter.writeAttribute(blockNameText, cutBlock->blockName());
+            jdfWriter.writeEndElement();
+        }
+    }
 
     if (d->bundle != Bundle::defaultObject())
         d->bundle->toJdf(jdfWriter);

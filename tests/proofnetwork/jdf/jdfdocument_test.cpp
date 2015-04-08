@@ -54,6 +54,7 @@ TEST_F(JdfDocumentTest, fromJdf)
 {
     EXPECT_EQ("JDF_0000", jdfDocUT->id());
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
+    EXPECT_EQ("ID0001", jdfDocUT->jobPartId());
 
     ResourcePoolSP resourcePool = jdfDocUT->resourcePool();
     ASSERT_TRUE(resourcePool);
@@ -92,13 +93,15 @@ TEST_F(JdfDocumentTest, fromJdf)
         EXPECT_DOUBLE_EQ(432, cutBlock->width());
         EXPECT_DOUBLE_EQ(288, cutBlock->height());
         EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+        EXPECT_EQ(ApiHelper::CutBlockType, cutBlock->blockType());
     }
 
     MediaSP media = resourcePool->media();
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
-    EXPECT_EQ(ApiHelper::None, media->backCoating());
+    EXPECT_EQ(ApiHelper::AvailableStatus, media->status());
+    EXPECT_EQ(ApiHelper::NoneCoating, media->backCoating());
     EXPECT_EQ(ApiHelper::HighGloss, media->frontCoating());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
@@ -125,6 +128,7 @@ TEST_F(JdfDocumentTest, updateFrom)
 
     EXPECT_EQ(jdfDocUT->id(), jdfDocUT2->id());
     EXPECT_EQ(jdfDocUT->jobId(), jdfDocUT2->jobId());
+    EXPECT_EQ(jdfDocUT->jobPartId(), jdfDocUT2->jobPartId());
 
     ResourcePoolSP resourcePool = jdfDocUT->resourcePool();
     ASSERT_TRUE(resourcePool);
@@ -159,6 +163,7 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(cutBlock->width(), cutBlock2->width());
     EXPECT_DOUBLE_EQ(cutBlock->height(), cutBlock2->height());
     EXPECT_EQ(cutBlock->transformationMatrix(), cutBlock2->transformationMatrix());
+    EXPECT_EQ(cutBlock->blockType(), cutBlock2->blockType());
 
     MediaSP media1 = resourcePool->media();
     ASSERT_TRUE(media1);
@@ -175,6 +180,7 @@ TEST_F(JdfDocumentTest, updateFrom)
 TEST_F(JdfDocumentTest, documentToJdf)
 {
     QString jdf = jdfDocUT->toJdf();
+
     QXmlStreamReader reader(jdf);
 
     EXPECT_FALSE(reader.atEnd());
@@ -184,6 +190,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
     bool hasMedia = false;
     QString id;
     QString jobId;
+    QString jobPartId;
     QString version;
     QString status;
     QString defaultNamespace;
@@ -200,6 +207,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                     hasJdfProductElement = true;
                     id = attributes.value("ID").toString();
                     jobId = attributes.value("JobID").toString();
+                    jobPartId = attributes.value("JobPartID").toString();
                     status = attributes.value("Status").toString();
                     version = attributes.value("Version").toString();
                     defaultNamespace = reader.namespaceUri().toString();
@@ -231,6 +239,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 if (!cutBlocksCount++) {
                     QXmlStreamAttributes attributes = reader.attributes();
                     EXPECT_EQ(attributes.value("BlockName").toString(), "A-1");
+                    EXPECT_EQ(attributes.value("BlockType").toString(), "CutBlock");
                 }
             }
         }
@@ -243,6 +252,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_EQ("http://www.CIP4.org/JDFSchema_1_1", defaultNamespace);
     EXPECT_EQ("JDF_0000", id);
     EXPECT_EQ("mixed-flatwork (groups)", jobId);
+    EXPECT_EQ("ID0001", jobPartId);
     EXPECT_TRUE(hasResourcePool);
     EXPECT_EQ("COMP_0000", cutProcessId);
     EXPECT_DOUBLE_EQ(2520., width);

@@ -13,6 +13,7 @@ class JdfDocumentPrivate : public NetworkDataEntityPrivate
 
     QString id;
     QString jobId;
+    QString jobPartId;
     ResourcePoolSP resourcePool = ResourcePool::defaultObject();
 };
 
@@ -26,6 +27,12 @@ QString JdfDocument::jobId() const
 {
     Q_D(const JdfDocument);
     return d->jobId;
+}
+
+QString JdfDocument::jobPartId() const
+{
+    Q_D(const JdfDocument);
+    return d->jobPartId;
 }
 
 ResourcePoolSP JdfDocument::resourcePool() const
@@ -52,6 +59,15 @@ void JdfDocument::setJobId(const QString &arg)
     }
 }
 
+void JdfDocument::setJobPartId(const QString &arg)
+{
+    Q_D(JdfDocument);
+    if (d->jobPartId != arg) {
+        d->jobPartId = arg;
+        emit jobPartIdChanged(d->jobPartId);
+    }
+}
+
 void JdfDocument::setResourcePool(const ResourcePoolSP &arg)
 {
     Q_D(JdfDocument);
@@ -68,6 +84,7 @@ void JdfDocument::updateFrom(const NetworkDataEntitySP &other)
     JdfDocumentSP castedOther = qSharedPointerCast<JdfDocument>(other);
     setId(castedOther->id());
     setJobId(castedOther->jobId());
+    setJobPartId(castedOther->jobPartId());
     setResourcePool(castedOther->resourcePool());
 
     NetworkDataEntity::updateFrom(other);
@@ -90,6 +107,7 @@ JdfDocumentSP JdfDocument::create()
 
 JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
 {
+    // TODO: Change parsing
     JdfDocumentSP document = create();
     document->setFetched(true);
 
@@ -103,10 +121,13 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
                 if (attributes.value("Type").toString() == "Product") {
                     document->setId(attributes.value("ID").toString());
                     document->setJobId(attributes.value("JobID").toString());
+                    document->setJobPartId(attributes.value("JobPartID").toString());
                 }
             }
+
             if (xmlReader.name() == "ResourcePool")
                 document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->id()));
+            // TODO: Add parsing ResourceLinkPool
         }
     }
 
@@ -127,10 +148,12 @@ QString JdfDocument::toJdf()
         jdfWriter.writeDefaultNamespace("http://www.CIP4.org/JDFSchema_1_1");
         jdfWriter.writeAttribute("ID", d->id);
         jdfWriter.writeAttribute("JobID", d->jobId);
+        jdfWriter.writeAttribute("JobPartID", d->jobPartId);
         jdfWriter.writeAttribute("Status", "Waiting");
         jdfWriter.writeAttribute("Type", "Product");
         jdfWriter.writeAttribute("Version", "1.4");
         d->resourcePool->toJdf(jdfWriter);
+        d->resourcePool->toJdfLink(jdfWriter);
     }
     jdfWriter.writeEndElement();
 

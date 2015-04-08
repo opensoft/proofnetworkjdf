@@ -40,8 +40,9 @@ void AbstractPhysicalResource::updateFrom(const NetworkDataEntitySP &other)
 {
     AbstractPhysicalResourceSP castedOther = qSharedPointerCast<AbstractPhysicalResource>(other);
     setAmount(castedOther->amount());
+    setResourceWeight(castedOther->resourceWeight());
 
-     AbstractResource::updateFrom(other);
+    AbstractResource::updateFrom(other);
 }
 
 void AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource)

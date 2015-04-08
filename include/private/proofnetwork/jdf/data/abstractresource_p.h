@@ -17,6 +17,8 @@ public:
     QString id;
     ApiHelper::ResourceStatus status = ApiHelper::IncompleteStatus;
     ApiHelper::ResourceClass resourceClass = ApiHelper::ConsumableClass;
+
+    ApiHelper::Usage usage = ApiHelper::InputUsage;
 };
 
 }

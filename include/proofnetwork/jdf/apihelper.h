@@ -14,10 +14,13 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_OBJECT
     Q_ENUMS(ResourceStatus)
     Q_ENUMS(ResourceClass)
-    Q_ENUMS(Coating)
+    Q_ENUMS(CoatingType)
     Q_ENUMS(BundleType)
     Q_ENUMS(ComponentType)
     Q_ENUMS(PartIDKeysType)
+    Q_ENUMS(ProcessUsage)
+    Q_ENUMS(Usage)
+    Q_ENUMS(BlockType)
 public:
     ApiHelper() = delete;
 
@@ -44,8 +47,8 @@ public:
         QuantityClass
     };
 
-    enum Coating {
-        None, // No coating.
+    enum CoatingType {
+        NoneCoating, // No coating.
         Coated, // A coating of a system-specified type. New in JDF 1.2
         Glossy,
         HighGloss,
@@ -90,14 +93,58 @@ public:
         CellIndex
     };
 
+    enum ProcessUsage {
+        AcceptedProcess, // Used for Resource in an Output Resource of Approval l
+        ApplicationProcess, // Used for Component in an Input Resource of BoxFolding
+        BackEndSheetProcess, // Used for Component in an Input Resource of EndSheetGluing
+        BookProcess, // Used for Component in an Input Resource of Jacketing
+        BookBlockProcess, // Used for Component in an Input Resource of ChannelBinding , EndSheetGluing and RingBinding
+        BoxProcess, // Used for Component in an Input Resource of BoxPacking
+        CaseProcess, // Used for Component in an Input Resource of CasingIn
+        ChildProcess, // Used for Component in an Input Resource of Inserting
+        CoverProcess, // Used for Component in an Input Resource of ChannelBinding and CoverApplication
+        CoverBoardProcess, // Used for Media in an Input Resource of CaseMaking
+        CoverMaterialProcess, // Used for Component and Media in an Input Resource of CaseMaking
+        CylinderProcess, // Used for ExposedMedia in an Input Resource of ConventionalPrinting
+        DocumentProcess, // Used for RunList in an Input Resource of Imposition , LayoutPreparation and Stripping and used for RunList in an Output Resource of Stripping
+        FrontEndSheetProcess, // Used for Component in an Input Resource of EndSheetGluing
+        GoodProcess, // Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
+        InputProcess, // Used for Component in an Input Resource of ConventionalPrinting and DigitalPrinting
+        JacketProcess, // Used for Component in an Input Resource of Jacketing
+        LabelProcess, // Used for Component in an Input Resource of Labeling
+        MarksProcess, // Used for RunList in an Input Resource of Imposition , LayoutPreparation and Tiling , and used for RunList in an Output Resource of LayoutPreparation and Stripping
+        MotherProcess, // Used for Component in an Input Resource of Inserting
+        PlateProcess, // Used for ExposedMedia in an Input Resource of ConventionalPrinting
+        ProofProcess, // Used for Component in an Input Resource of ConventionalPrinting and DigitalPrinting , and used for ExposedMedia in an Input Resource of ConventionalPrinting
+        RejectedProcess, // Used for Resource in an Output Resource of Approval
+        RingBinderProcess, // Used for Component in an Input Resource of RingBinding
+        SpineBoardProcess, // Used for Media in an Input Resource of CaseMaking
+        SurfaceProcess, // Used for RunList in an Input Resource of Tiling
+        TieProcess, // Used for Media in an Input Resource of BoxPacking
+        UnderlayProcess, // Used for Media in an Input Resource of BoxPacking
+        WasteProcess, // Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
+    };
+
+    enum Usage {
+        InputUsage,
+        OutputUsage
+    };
+
+    enum BlockType {
+        CutBlockType, //Block to be cut.
+        SaveBlockType, //Protected block, cut only via outer contour.
+        TempBlockType, //Auxiliary block that is not taken into account during cutting.
+        MarkBlockType //Contains no elements, only marks.
+    };
+
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status);
 
     static QString resourceClassToString(ResourceClass resourceClass);
     static ResourceClass resourceClassFromString(const QString &resourceClass);
 
-    static QString coatingToString(Coating coating);
-    static Coating coatingFromString(const QString &coating);
+    static QString coatingToString(CoatingType coating);
+    static CoatingType coatingFromString(const QString &coating);
 
     static QString bundleTypeToString(BundleType bundleType);
     static BundleType bundleTypeFromString(const QString &bundleType);
@@ -108,13 +155,25 @@ public:
     static QString partIdKeysTypeToString(PartIDKeysType partIdKeysType);
     static PartIDKeysType partIdKeysTypeFromString(const QString &partIdKeysType);
 
+    static QString processUsageToString(ProcessUsage processUsage);
+    static ProcessUsage processUsageFromString(const QString &processUsage);
+
+    static QString usageToString(Usage usage);
+    static Usage usageFromString(const QString &usage);
+
+    static QString blockTypeToString(BlockType blockType);
+    static BlockType blockTypeFromString(const QString &blockType);
+
 private:
     static QHash<QString, ResourceStatus> m_resourceStatusStringified;
     static QHash<QString, ResourceClass> m_resourceClassStringified;
-    static QHash<QString, Coating> m_coatingStringified;
+    static QHash<QString, CoatingType> m_coatingStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
     static QHash<QString, ComponentType> m_componentTypeStringified;
     static QHash<QString, PartIDKeysType> m_partIdKeysTypeStringified;
+    static QHash<QString, ProcessUsage> m_processUsageStringified;
+    static QHash<QString, Usage> m_usageStringified;
+    static QHash<QString, BlockType> m_blockTypeStringified;
 };
 
 }

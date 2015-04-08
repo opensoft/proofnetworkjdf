@@ -1,18 +1,18 @@
 #include "mediaqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/media.h"
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper_p.h"
 
 namespace Proof {
 namespace Jdf {
 
-class MediaQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
+class MediaQmlWrapperPrivate : public AbstractPhysicalResourceQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(MediaQmlWrapper)
 };
 
 MediaQmlWrapper::MediaQmlWrapper(const MediaSP &media, QObject *parent)
-    : NetworkDataEntityQmlWrapper(media, *new MediaQmlWrapperPrivate, parent)
+    : AbstractPhysicalResourceQmlWrapper(media, *new MediaQmlWrapperPrivate, parent)
 {
     setupEntity();
 }
@@ -23,12 +23,11 @@ MediaQmlWrapper::~MediaQmlWrapper()
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Media)
 
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, double, thickness)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, double, height)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, double, width)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::Coating, frontCoating)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::Coating, backCoating)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::CoatingType, frontCoating)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::CoatingType, backCoating)
 
 void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
@@ -36,7 +35,6 @@ void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
     MediaSP media = d->entity<Media>();
     Q_ASSERT(media);
 
-    connect(media.data(), &Media::idChanged, this, &MediaQmlWrapper::idChanged);
     connect(media.data(), &Media::thicknessChanged, this, &MediaQmlWrapper::thicknessChanged);
     connect(media.data(), &Media::heightChanged, this, &MediaQmlWrapper::heightChanged);
     connect(media.data(), &Media::widthChanged, this, &MediaQmlWrapper::widthChanged);
@@ -45,8 +43,6 @@ void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 
     MediaSP oldMedia = qSharedPointerCast<Media>(old);
     if (oldMedia) {
-        if (media->id() != oldMedia->id())
-            emit idChanged(media->id());
         if (media->thickness() != oldMedia->thickness())
             emit thicknessChanged(media->thickness());
         if (media->height() != oldMedia->height())

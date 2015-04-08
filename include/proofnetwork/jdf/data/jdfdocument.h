@@ -20,10 +20,12 @@ public:
 
     QString id() const;
     QString jobId() const;
+    QString jobPartId() const;
     ResourcePoolSP resourcePool() const;
 
     void setId(const QString &arg);
     void setJobId(const QString &arg);
+    void setJobPartId(const QString &arg);
     void setResourcePool(const ResourcePoolSP &arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
@@ -38,6 +40,7 @@ public:
 signals:
     void idChanged(const QString &arg);
     void jobIdChanged(const QString &arg);
+    void jobPartIdChanged(const QString &arg);
     void resourcePoolChanged(Proof::Jdf::ResourcePoolSP arg);
 
 protected:

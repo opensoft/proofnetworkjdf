@@ -23,8 +23,8 @@ QHash<QString, ApiHelper::ResourceClass> ApiHelper::m_resourceClassStringified =
     {"Quantity", ApiHelper::QuantityClass}
 };
 
-QHash<QString, ApiHelper::Coating> ApiHelper::m_coatingStringified = {
-    {"None", ApiHelper::None},
+QHash<QString, ApiHelper::CoatingType> ApiHelper::m_coatingStringified = {
+    {"None", ApiHelper::NoneCoating},
     {"Glossy", ApiHelper::Glossy},
     {"Coated", ApiHelper::Coated},
     {"HighGloss", ApiHelper::HighGloss},
@@ -68,6 +68,50 @@ QHash<QString, ApiHelper::PartIDKeysType> ApiHelper::m_partIdKeysTypeStringified
     {"CellIndex", ApiHelper::CellIndex}
 };
 
+QHash<QString, ApiHelper::ProcessUsage> ApiHelper::m_processUsageStringified = {
+    {"Accepted", ApiHelper::AcceptedProcess},
+    {"Application", ApiHelper::ApplicationProcess},
+    {"BackEndSheet", ApiHelper::BackEndSheetProcess},
+    {"Book", ApiHelper::BookProcess},
+    {"BookBlock", ApiHelper::BookBlockProcess},
+    {"Box", ApiHelper::BoxProcess},
+    {"Case", ApiHelper::CaseProcess},
+    {"Child", ApiHelper::ChildProcess},
+    {"Cover", ApiHelper::CoverProcess},
+    {"CoverBoard", ApiHelper::CoverBoardProcess},
+    {"CoverMaterial", ApiHelper::CoverMaterialProcess},
+    {"Cylinder", ApiHelper::CylinderProcess},
+    {"Document", ApiHelper::DocumentProcess},
+    {"FrontEndSheet", ApiHelper::FrontEndSheetProcess},
+    {"Good", ApiHelper::GoodProcess},
+    {"Input", ApiHelper::InputProcess},
+    {"Jacket", ApiHelper::JacketProcess},
+    {"Label", ApiHelper::LabelProcess},
+    {"Marks", ApiHelper::MarksProcess},
+    {"Mother", ApiHelper::MotherProcess},
+    {"Plate", ApiHelper::PlateProcess},
+    {"Proof", ApiHelper::ProofProcess},
+    {"Rejected", ApiHelper::RejectedProcess},
+    {"RingBinder", ApiHelper::RingBinderProcess},
+    {"SpineBoard", ApiHelper::SpineBoardProcess},
+    {"Surface", ApiHelper::SurfaceProcess},
+    {"Tie", ApiHelper::TieProcess},
+    {"Underlay", ApiHelper::UnderlayProcess},
+    {"Waste", ApiHelper::WasteProcess}
+};
+
+QHash<QString, ApiHelper::Usage> ApiHelper::m_usageStringified = {
+    {"Input", ApiHelper::InputUsage},
+    {"Output", ApiHelper::OutputUsage}
+};
+
+QHash<QString, ApiHelper::BlockType> ApiHelper::m_blockTypeStringified = {
+    {"CutBlock", ApiHelper::CutBlockType},
+    {"SaveBlock", ApiHelper::SaveBlockType},
+    {"TempBlock", ApiHelper::TempBlockType},
+    {"MarkBlock", ApiHelper::MarkBlockType}
+};
+
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return m_resourceStatusStringified.key(status, "");
@@ -88,14 +132,14 @@ ApiHelper::ResourceClass ApiHelper::resourceClassFromString(const QString &resou
     return m_resourceClassStringified.value(resourceClass, ResourceClass::ConsumableClass);
 }
 
-QString ApiHelper::coatingToString(ApiHelper::Coating coating)
+QString ApiHelper::coatingToString(ApiHelper::CoatingType coating)
 {
     return m_coatingStringified.key(coating, "");
 }
 
-ApiHelper::Coating ApiHelper::coatingFromString(const QString &coating)
+ApiHelper::CoatingType ApiHelper::coatingFromString(const QString &coating)
 {
-    return m_coatingStringified.value(coating, Coating::None);
+    return m_coatingStringified.value(coating, CoatingType::NoneCoating);
 }
 
 QString ApiHelper::bundleTypeToString(ApiHelper::BundleType bundleType)
@@ -126,6 +170,36 @@ QString ApiHelper::partIdKeysTypeToString(ApiHelper::PartIDKeysType partIdKeysTy
 ApiHelper::PartIDKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType)
 {
     return m_partIdKeysTypeStringified.value(partIdKeysType, PartIDKeysType::BlockName);
+}
+
+QString ApiHelper::processUsageToString(ApiHelper::ProcessUsage processUsage)
+{
+    return m_processUsageStringified.key(processUsage, "");
+}
+
+ApiHelper::ProcessUsage ApiHelper::processUsageFromString(const QString &processUsage)
+{
+    return m_processUsageStringified.value(processUsage, ProcessUsage::InputProcess);
+}
+
+QString ApiHelper::usageToString(ApiHelper::Usage usage)
+{
+    return m_usageStringified.key(usage, "");
+}
+
+ApiHelper::Usage ApiHelper::usageFromString(const QString &usage)
+{
+    return m_usageStringified.value(usage, Usage::InputUsage);
+}
+
+QString ApiHelper::blockTypeToString(ApiHelper::BlockType blockType)
+{
+    return m_blockTypeStringified.key(blockType, "");
+}
+
+ApiHelper::BlockType ApiHelper::blockTypeFromString(const QString &blockType)
+{
+    return m_blockTypeStringified.value(blockType, BlockType::CutBlockType);
 }
 
 }

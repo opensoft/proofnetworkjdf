@@ -1,28 +1,21 @@
 #include "media.h"
 
 #include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
-#include "proofnetwork/networkdataentity_p.h"
+#include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 
 namespace Proof {
 namespace Jdf {
 
-class MediaPrivate : NetworkDataEntityPrivate
+class MediaPrivate : AbstractPhysicalResourcePrivate
 {
     Q_DECLARE_PUBLIC(Media)
 
-    QString id;
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
-    ApiHelper::Coating frontCoating = ApiHelper::None;
-    ApiHelper::Coating backCoating = ApiHelper::None;
+    ApiHelper::CoatingType frontCoating = ApiHelper::NoneCoating;
+    ApiHelper::CoatingType backCoating = ApiHelper::NoneCoating;
 };
-
-QString Media::id() const
-{
-    Q_D(const Media);
-    return d->id;
-}
 
 double Media::thickness() const
 {
@@ -30,13 +23,13 @@ double Media::thickness() const
     return d->thickness;
 }
 
-ApiHelper::Coating Media::frontCoating() const
+ApiHelper::CoatingType Media::frontCoating() const
 {
     Q_D(const Media);
     return d->frontCoating;
 }
 
-ApiHelper::Coating Media::backCoating() const
+ApiHelper::CoatingType Media::backCoating() const
 {
     Q_D(const Media);
     return d->backCoating;
@@ -54,15 +47,6 @@ double Media::width() const
     return d->width;
 }
 
-void Media::setId(const QString &arg)
-{
-    Q_D(Media);
-    if (d->id != arg) {
-        d->id = arg;
-        emit idChanged(d->id);
-    }
-}
-
 void Media::setThickness(double microns)
 {
     Q_D(Media);
@@ -72,7 +56,7 @@ void Media::setThickness(double microns)
     }
 }
 
-void Media::setFrontCoating(ApiHelper::Coating coating)
+void Media::setFrontCoating(ApiHelper::CoatingType coating)
 {
     Q_D(Media);
     if (d->frontCoating != coating) {
@@ -81,7 +65,7 @@ void Media::setFrontCoating(ApiHelper::Coating coating)
     }
 }
 
-void Media::setBackCoating(ApiHelper::Coating coating)
+void Media::setBackCoating(ApiHelper::CoatingType coating)
 {
     Q_D(Media);
     if (d->backCoating != coating) {
@@ -152,6 +136,10 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
                 media->setWidth(dimensions[0].toDouble());
                 media->setHeight(dimensions[1].toDouble());
             }
+
+            AbstractPhysicalResourceSP castedMedia = qSharedPointerCast<AbstractPhysicalResource>(media);
+            AbstractPhysicalResource::fromJdf(xmlReader, castedMedia);
+
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
         } else if (xmlReader.isEndElement()) {
@@ -166,12 +154,15 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
 void Media::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Media);
-    jdfWriter.writeEmptyElement("Media");
-    jdfWriter.writeAttribute("ID", d->id);
+    jdfWriter.writeStartElement("Media");
     jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width).arg(d->height));
     jdfWriter.writeAttribute("BackCoatings", ApiHelper::coatingToString(d->backCoating));
     jdfWriter.writeAttribute("FrontCoatings", ApiHelper::coatingToString(d->frontCoating));
     jdfWriter.writeAttribute("Thickness", QString::number(d->thickness));
+
+    AbstractPhysicalResource::toJdf(jdfWriter);
+
+    jdfWriter.writeEndElement();
 }
 
 MediaSP Media::defaultObject()
@@ -181,8 +172,9 @@ MediaSP Media::defaultObject()
 }
 
 Media::Media()
-    : NetworkDataEntity(*new MediaPrivate)
+    : AbstractPhysicalResource(*new MediaPrivate)
 {
+    setResourceClass(ApiHelper::ConsumableClass);
 }
 
 } // namespace Jdf

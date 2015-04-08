@@ -73,7 +73,10 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QStrin
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "CutBlock") {
                 CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader, jdfId);
-                Q_ASSERT(cutBlock);
+                if (!cutBlock) {
+                    qCCritical(proofNetworkJdfDataLog) << "CutBlock not created.";
+                    return CuttingParamsSP();
+                }
                 cutBlocks.append(cutBlock);
             } else {
                 xmlReader.skipCurrentElement();

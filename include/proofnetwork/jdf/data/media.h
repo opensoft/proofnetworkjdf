@@ -1,7 +1,7 @@
 #ifndef JDFMEDIA_H
 #define JDFMEDIA_H
 
-#include "proofnetwork/networkdataentity.h"
+#include "proofnetwork/jdf/data/abstractphysicalresource.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
@@ -13,22 +13,20 @@ namespace Proof {
 namespace Jdf {
 
 class MediaPrivate;
-class PROOF_NETWORK_JDF_EXPORT Media : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)
 public:
-    QString id() const;
     double thickness() const;
-    ApiHelper::Coating frontCoating() const;
-    ApiHelper::Coating backCoating() const;
+    ApiHelper::CoatingType frontCoating() const;
+    ApiHelper::CoatingType backCoating() const;
     double height() const;
     double width() const;
 
-    void setId(const QString &arg);
     void setThickness(double microns);
-    void setFrontCoating(ApiHelper::Coating coating);
-    void setBackCoating(ApiHelper::Coating coating);
+    void setFrontCoating(ApiHelper::CoatingType coating);
+    void setBackCoating(ApiHelper::CoatingType coating);
     void setHeight(double arg);
     void setWidth(double arg);
 
@@ -42,12 +40,11 @@ public:
     static MediaSP defaultObject();
 
 signals:
-    void idChanged(const QString &arg);
     void thicknessChanged(double arg);
     void heightChanged(double arg);
     void widthChanged(double arg);
-    void frontCoatingChanged(ApiHelper::Coating arg);
-    void backCoatingChanged(ApiHelper::Coating arg);
+    void frontCoatingChanged(ApiHelper::CoatingType arg);
+    void backCoatingChanged(ApiHelper::CoatingType arg);
 
 protected:
     explicit Media();

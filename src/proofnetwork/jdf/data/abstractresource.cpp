@@ -23,6 +23,12 @@ ApiHelper::ResourceClass AbstractResource::resourceClass() const
     return d->resourceClass;
 }
 
+ApiHelper::Usage AbstractResource::usage() const
+{
+    Q_D(const AbstractResource);
+    return d->usage;
+}
+
 void AbstractResource::setId(const QString &arg)
 {
     Q_D(AbstractResource);
@@ -50,12 +56,23 @@ void AbstractResource::setResourceClass(ApiHelper::ResourceClass arg)
     }
 }
 
+void AbstractResource::setUsage(ApiHelper::Usage arg)
+{
+    Q_D(AbstractResource);
+    if (d->usage != arg) {
+        d->usage = arg;
+        emit usageChanged(d->usage);
+    }
+}
+
 void AbstractResource::updateFrom(const NetworkDataEntitySP &other)
 {
     AbstractResourceSP castedOther = qSharedPointerCast<AbstractResource>(other);
     setId(castedOther->id());
     setStatus(castedOther->status());
     setResourceClass(castedOther->resourceClass());
+
+    setUsage(castedOther->usage());
 
     NetworkDataEntity::updateFrom(other);
 }
@@ -73,6 +90,16 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("ID", d->id);
     jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(d->status));
     jdfWriter.writeAttribute("Class", ApiHelper::resourceClassToString(d->resourceClass));
+}
+
+void AbstractResource::toJdfLink(QXmlStreamWriter &jdfWriter)
+{
+    Q_D(AbstractResource);
+    QString className =  QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    jdfWriter.writeStartElement(className + QString("Link"));
+    jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
+    jdfWriter.writeAttribute("rRef", d->id);
+    jdfWriter.writeEndElement();
 }
 
 AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)

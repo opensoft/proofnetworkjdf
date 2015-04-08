@@ -31,6 +31,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(JdfDocument)
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, jobId)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, jobPartId)
 
 ResourcePoolQmlWrapper *JdfDocumentQmlWrapper::resourcePool() const
 {
@@ -46,6 +47,7 @@ void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataE
 
     connect(jdfDoc.data(), &JdfDocument::idChanged, this, &JdfDocumentQmlWrapper::idChanged);
     connect(jdfDoc.data(), &JdfDocument::jobIdChanged, this, &JdfDocumentQmlWrapper::jobIdChanged);
+    connect(jdfDoc.data(), &JdfDocument::jobPartIdChanged, this, &JdfDocumentQmlWrapper::jobPartIdChanged);
     connect(jdfDoc.data(), &JdfDocument::resourcePoolChanged, d->lambdaConnectContext, [d]{d->updateResourcePool();});
 
     d->updateResourcePool();
@@ -56,6 +58,8 @@ void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataE
             emit idChanged(jdfDoc->id());
         if (oldJdfDoc->jobId() != oldJdfDoc->jobId())
             emit jobIdChanged(oldJdfDoc->jobId());
+        if (oldJdfDoc->jobPartId() != oldJdfDoc->jobPartId())
+            emit jobPartIdChanged(oldJdfDoc->jobPartId());
     }
 }
 

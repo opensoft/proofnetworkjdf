@@ -54,6 +54,7 @@ TEST_F(CutBlockTest, fromJdf)
     EXPECT_DOUBLE_EQ(432, cutBlockUT->width());
     EXPECT_DOUBLE_EQ(288, cutBlockUT->height());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlockUT->transformationMatrix());
+    EXPECT_EQ(ApiHelper::CutBlockType, cutBlockUT->blockType());
 }
 
 TEST_F(CutBlockTest, updateFrom)
@@ -78,6 +79,7 @@ TEST_F(CutBlockTest, updateFrom)
     EXPECT_DOUBLE_EQ(cutBlockUT->width(), cutBlockUT2->width());
     EXPECT_DOUBLE_EQ(cutBlockUT->height(), cutBlockUT2->height());
     EXPECT_EQ(cutBlockUT->transformationMatrix(), cutBlockUT2->transformationMatrix());
+    EXPECT_EQ(cutBlockUT->blockType(), cutBlockUT2->blockType());
 }
 
 TEST_F(CutBlockTest, cutBlockToJdf)
@@ -96,6 +98,7 @@ TEST_F(CutBlockTest, cutBlockToJdf)
             EXPECT_EQ(attributes.value("BlockName").toString(), "A-1");
             EXPECT_EQ(attributes.value("BlockSize").toString(), "432.0000 288.0000");
             EXPECT_EQ(attributes.value("BlockTrf").toString(), "1 0 0 1 54.0000 36.0000");
+            EXPECT_EQ(attributes.value("BlockType").toString(), "CutBlock");
             break;
         } else {
             xmlReader.readNext();

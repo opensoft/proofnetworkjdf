@@ -16,6 +16,7 @@ class PROOF_NETWORK_JDF_EXPORT JdfDocumentQmlWrapper : public NetworkDataEntityQ
     Q_OBJECT
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
     Q_PROPERTY(QString jobId READ jobId NOTIFY jobIdChanged)
+    Q_PROPERTY(QString jobPartId READ jobPartId NOTIFY jobPartIdChanged)
     Q_PROPERTY(Proof::Jdf::ResourcePoolQmlWrapper *resourcePool READ resourcePool NOTIFY resourcePoolChanged)
     Q_DECLARE_PRIVATE(JdfDocumentQmlWrapper)
 public:
@@ -25,11 +26,13 @@ public:
 
     QString id() const;
     QString jobId() const;
+    QString jobPartId() const;
     ResourcePoolQmlWrapper *resourcePool() const;
 
 signals:
     void idChanged(const QString &arg);
     void jobIdChanged(const QString &arg);
+    void jobPartIdChanged(const QString &arg);
     void resourcePoolChanged(Proof::Jdf::ResourcePoolQmlWrapper *arg);
 
 protected:
