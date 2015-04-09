@@ -82,8 +82,8 @@ void CuttingParamsQmlWrapperPrivate::updateCutBlocks()
         cutBlocks << cutBlock->toQmlWrapper(q);
 
     qmlCutBlocksList = QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>(q, &cutBlocks,
-                                                                                     &CuttingParamsQmlWrapperPrivate::cutBlocksCount,
-                                                                                     &CuttingParamsQmlWrapperPrivate::cutBlockAt);
+                                                                        &CuttingParamsQmlWrapperPrivate::cutBlocksCount,
+                                                                        &CuttingParamsQmlWrapperPrivate::cutBlockAt);
     emit q->cutBlocksChanged(qmlCutBlocksList);
 }
 

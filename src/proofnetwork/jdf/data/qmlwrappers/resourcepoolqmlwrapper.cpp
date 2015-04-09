@@ -94,8 +94,8 @@ void ResourcePoolQmlWrapperPrivate::updateComponent()
         components << component->toQmlWrapper(q);
 
     qmlComponentsList = QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>(q, &components,
-                                                                                     &ResourcePoolQmlWrapperPrivate::componentsCount,
-                                                                                     &ResourcePoolQmlWrapperPrivate::componentAt);
+                                                                          &ResourcePoolQmlWrapperPrivate::componentsCount,
+                                                                          &ResourcePoolQmlWrapperPrivate::componentAt);
     emit q->componentsChanged(qmlComponentsList);
 }
 

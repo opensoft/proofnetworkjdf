@@ -38,7 +38,7 @@ public:
     void updateFrom(const NetworkDataEntitySP &other) override;
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
-    static CutBlockSP create(const QString &blockName = 0);
+    static CutBlockSP create(const QString &blockName = QString());
 
     static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter);

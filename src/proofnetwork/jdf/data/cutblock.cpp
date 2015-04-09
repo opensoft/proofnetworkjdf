@@ -115,6 +115,9 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
             if (blockSizeList.count() >= 2) {
                 cutBlock->setWidth(blockSizeList.at(0).toDouble());
                 cutBlock->setHeight(blockSizeList.at(1).toDouble());
+            } else {
+                qCCritical(proofNetworkJdfDataLog) << "CutBlock not created. BlockSize is not valid";
+                return CutBlockSP();
             }
             cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
             cutBlock->setBlockType(ApiHelper::blockTypeFromString(attributes.value("BlockType").toString()));

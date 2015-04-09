@@ -4,7 +4,7 @@
 #include "proofnetwork/networkdataentity.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.h"
+#include "proofnetwork/jdf/apihelper.h"
 
 #include <QXmlStreamReader>
 
@@ -31,7 +31,6 @@ public:
     void setUsage(ApiHelper::Usage arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override = 0;
 
     static void fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);

@@ -4,7 +4,6 @@
 #include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper.h"
 
 #include <QXmlStreamReader>
 
@@ -25,7 +24,6 @@ public:
     void setResourceWeight(double arg);
 
     void updateFrom(const NetworkDataEntitySP &other) override;
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override = 0;
 
     static void fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
