@@ -221,7 +221,10 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(Component);
     jdfWriter.writeStartElement("Component");
     jdfWriter.writeAttribute("ComponentType", ApiHelper::componentTypeToString(d->componentType));
-    jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3").arg(d->width).arg(d->height).arg(d->length));
+    jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3")
+                             .arg(d->width, 0, 'f', 4)
+                             .arg(d->height, 0, 'f', 4)
+                             .arg(d->length, 0, 'f', 4));
 
     AbstractPhysicalResource::toJdf(jdfWriter);
 
