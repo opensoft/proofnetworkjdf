@@ -219,14 +219,14 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 if (attributes.value("ComponentType").toString() == "Sheet") {
                     cutProcessId = attributes.value("ID").toString();
                     QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
-                    if (dimensionsList.count() == 3) {
-                        double width = dimensionsList.at(0).toDouble();
-                        double height = dimensionsList.at(1).toDouble();
-                        double length = dimensionsList.at(2).toDouble();
-                        EXPECT_DOUBLE_EQ(2520.0000, width);
-                        EXPECT_DOUBLE_EQ(1656.0000, height);
-                        EXPECT_DOUBLE_EQ(0.4896, length);
-                    }
+
+                    ASSERT_EQ(dimensionsList.count(), 3);
+                    double width = dimensionsList.at(0).toDouble();
+                    double height = dimensionsList.at(1).toDouble();
+                    double length = dimensionsList.at(2).toDouble();
+                    EXPECT_DOUBLE_EQ(2520.0000, width);
+                    EXPECT_DOUBLE_EQ(1656.0000, height);
+                    EXPECT_DOUBLE_EQ(0.4896, length);
                 }
             } else if (reader.name() == "Bundle") {
                 QXmlStreamAttributes attributes = reader.attributes();
@@ -240,12 +240,12 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 EXPECT_EQ(attributes.value("BackCoatings").toString(), "None");
                 EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
                 QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-                if (dimensionsList.count() == 2) {
-                    double widthMedia = dimensionsList.at(0).toDouble();
-                    double heightMedia = dimensionsList.at(1).toDouble();
-                    EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
-                    EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
-                }
+
+                ASSERT_EQ(dimensionsList.count(),2);
+                double widthMedia = dimensionsList.at(0).toDouble();
+                double heightMedia = dimensionsList.at(1).toDouble();
+                EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
+                EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
                 EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
                 QXmlStreamAttributes attributes = reader.attributes();
