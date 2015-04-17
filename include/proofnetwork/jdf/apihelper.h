@@ -22,6 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(Usage)
     Q_ENUMS(BlockType)
     Q_ENUMS(LaminatingSurface)
+    Q_ENUMS(MediaUnit)
 public:
     ApiHelper() = delete;
 
@@ -145,6 +146,12 @@ public:
         MarkBlockType //Contains no elements, only marks.
     };
 
+    enum MediaUnit {
+        ContinuousMediaUnit, // Continuously connected Sheets which can be fan folded
+        RollMediaUnit,
+        SheetMediaUnit // Individual cut Sheets.
+    };
+
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status);
 
@@ -175,6 +182,9 @@ public:
     static QString blockTypeToString(BlockType blockType);
     static BlockType blockTypeFromString(const QString &blockType);
 
+    static QString mediaUnitToString(MediaUnit mediaUnit);
+    static MediaUnit mediaUnitFromString(const QString &mediaUnit);
+
 private:
     static QHash<QString, ResourceStatus> m_resourceStatusStringified;
     static QHash<QString, ResourceClass> m_resourceClassStringified;
@@ -186,6 +196,7 @@ private:
     static QHash<QString, ProcessUsage> m_processUsageStringified;
     static QHash<QString, Usage> m_usageStringified;
     static QHash<QString, BlockType> m_blockTypeStringified;
+    static QHash<QString, MediaUnit> m_mediaUnitStringified;
 };
 
 }

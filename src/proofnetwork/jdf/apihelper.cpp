@@ -117,6 +117,12 @@ QHash<QString, ApiHelper::BlockType> ApiHelper::m_blockTypeStringified = {
     {"MarkBlock", ApiHelper::MarkBlockType}
 };
 
+QHash<QString, ApiHelper::MediaUnit> ApiHelper::m_mediaUnitStringified = {
+    {"Continuous", ApiHelper::ContinuousMediaUnit},
+    {"Roll", ApiHelper::RollMediaUnit},
+    {"Sheet", ApiHelper::SheetMediaUnit}
+};
+
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return m_resourceStatusStringified.key(status, "");
@@ -215,5 +221,15 @@ QString ApiHelper::blockTypeToString(ApiHelper::BlockType blockType)
 ApiHelper::BlockType ApiHelper::blockTypeFromString(const QString &blockType)
 {
     return m_blockTypeStringified.value(blockType, BlockType::CutBlockType);
+}
+
+QString ApiHelper::mediaUnitToString(ApiHelper::MediaUnit mediaUnit)
+{
+    return m_mediaUnitStringified.key(mediaUnit, "");
+}
+
+ApiHelper::MediaUnit ApiHelper::mediaUnitFromString(const QString &mediaUnit)
+{
+    return m_mediaUnitStringified.value(mediaUnit, MediaUnit::SheetMediaUnit);
 }
 

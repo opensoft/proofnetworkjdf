@@ -15,6 +15,7 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
     double width = 0.0;
     ApiHelper::CoatingType frontCoating = ApiHelper::NoneCoating;
     ApiHelper::CoatingType backCoating = ApiHelper::NoneCoating;
+    ApiHelper::MediaUnit mediaUnit = ApiHelper::SheetMediaUnit;
 };
 
 } // namespace Jdf
@@ -38,6 +39,12 @@ ApiHelper::CoatingType Media::backCoating() const
 {
     Q_D(const Media);
     return d->backCoating;
+}
+
+ApiHelper::MediaUnit Media::mediaUnit() const
+{
+    Q_D(const Media);
+    return d->mediaUnit;
 }
 
 double Media::height() const
@@ -79,6 +86,15 @@ void Media::setBackCoating(ApiHelper::CoatingType coating)
     }
 }
 
+void Media::setMediaUnit(ApiHelper::MediaUnit mediaUnit)
+{
+    Q_D(Media);
+    if (d->mediaUnit != mediaUnit) {
+        d->mediaUnit = mediaUnit;
+        emit mediaUnitChanged(mediaUnit);
+    }
+}
+
 void Media::setHeight(double arg)
 {
     Q_D(Media);
@@ -104,6 +120,7 @@ void Media::updateFrom(const NetworkDataEntitySP &other)
     setThickness(castedOther->thickness());
     setFrontCoating(castedOther->frontCoating());
     setBackCoating(castedOther->backCoating());
+    setMediaUnit(castedOther->mediaUnit());
     setHeight(castedOther->height());
     setWidth(castedOther->width());
     NetworkDataEntity::updateFrom(other);
@@ -135,6 +152,7 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
             media->setId(attributes.value("ID").toString());
             media->setBackCoating(ApiHelper::coatingFromString(attributes.value("BackCoatings").toString()));
             media->setFrontCoating(ApiHelper::coatingFromString(attributes.value("FrontCoatings").toString()));
+            media->setMediaUnit(ApiHelper::mediaUnitFromString(attributes.value("MediaUnit").toString()));
             media->setThickness(attributes.value("Thickness").toDouble());
             QStringList dimensions = attributes.value("Dimension").toString().split(' ', QString::SkipEmptyParts);
             if (dimensions.size() >= 2) {
@@ -160,10 +178,11 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Media);
     jdfWriter.writeStartElement("Media");
-    jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width).arg(d->height));
+    jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
     jdfWriter.writeAttribute("BackCoatings", ApiHelper::coatingToString(d->backCoating));
     jdfWriter.writeAttribute("FrontCoatings", ApiHelper::coatingToString(d->frontCoating));
-    jdfWriter.writeAttribute("Thickness", QString::number(d->thickness));
+    jdfWriter.writeAttribute("MediaUnit", ApiHelper::mediaUnitToString(d->mediaUnit));
+    jdfWriter.writeAttribute("Thickness", QString::number(d->thickness,'f', 4));
 
     AbstractPhysicalResource::toJdf(jdfWriter);
 

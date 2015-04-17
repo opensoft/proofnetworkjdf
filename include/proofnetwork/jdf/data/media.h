@@ -21,12 +21,14 @@ public:
     double thickness() const;
     ApiHelper::CoatingType frontCoating() const;
     ApiHelper::CoatingType backCoating() const;
+    ApiHelper::MediaUnit mediaUnit() const;
     double height() const;
     double width() const;
 
     void setThickness(double microns);
     void setFrontCoating(ApiHelper::CoatingType coating);
     void setBackCoating(ApiHelper::CoatingType coating);
+    void setMediaUnit(ApiHelper::MediaUnit mediaUnit);
     void setHeight(double arg);
     void setWidth(double arg);
 
@@ -45,6 +47,7 @@ signals:
     void widthChanged(double arg);
     void frontCoatingChanged(ApiHelper::CoatingType arg);
     void backCoatingChanged(ApiHelper::CoatingType arg);
+    void mediaUnitChanged(ApiHelper::MediaUnit arg);
 
 protected:
     explicit Media();

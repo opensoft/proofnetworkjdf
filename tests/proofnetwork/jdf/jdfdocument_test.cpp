@@ -103,6 +103,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ(ApiHelper::AvailableStatus, media->resourceStatus());
     EXPECT_EQ(ApiHelper::NoneCoating, media->backCoating());
     EXPECT_EQ(ApiHelper::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(ApiHelper::SheetMediaUnit, media->mediaUnit());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
@@ -172,6 +173,7 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_EQ(media1->id(), media2->id());
     EXPECT_EQ(media1->backCoating(), media2->backCoating());
     EXPECT_EQ(media1->frontCoating(), media2->frontCoating());
+    EXPECT_EQ(media1->mediaUnit(), media2->mediaUnit());
     EXPECT_DOUBLE_EQ(media1->width(), media2->width());
     EXPECT_DOUBLE_EQ(media1->height(), media2->height());
     EXPECT_DOUBLE_EQ(media1->thickness(), media2->thickness());
@@ -195,8 +197,6 @@ TEST_F(JdfDocumentTest, documentToJdf)
     QString status;
     QString defaultNamespace;
     QString cutProcessId;
-    double height = .0;
-    double width = .0;
     unsigned int cutBlocksCount = 0;
     while (!reader.atEnd() && !reader.hasError()) {
         QXmlStreamReader::TokenType token = reader.readNext();
@@ -219,9 +219,13 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 if (attributes.value("ComponentType").toString() == "Sheet") {
                     cutProcessId = attributes.value("ID").toString();
                     QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
-                    if (dimensionsList.count() >= 2) {
-                        width = dimensionsList.at(0).toDouble();
-                        height = dimensionsList.at(1).toDouble();
+                    if (dimensionsList.count() == 3) {
+                        double width = dimensionsList.at(0).toDouble();
+                        double height = dimensionsList.at(1).toDouble();
+                        double length = dimensionsList.at(2).toDouble();
+                        EXPECT_DOUBLE_EQ(2520.0000, width);
+                        EXPECT_DOUBLE_EQ(1656.0000, height);
+                        EXPECT_DOUBLE_EQ(0.4896, length);
                     }
                 }
             } else if (reader.name() == "Bundle") {
@@ -230,6 +234,19 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(attributes.value("ID").toString(), "PAP_0000");
+                EXPECT_EQ(attributes.value("FrontCoatings").toString(), "HighGloss");
+                EXPECT_EQ(attributes.value("BackCoatings").toString(), "None");
+                EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
+                QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                if (dimensionsList.count() == 2) {
+                    double widthMedia = dimensionsList.at(0).toDouble();
+                    double heightMedia = dimensionsList.at(1).toDouble();
+                    EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
+                    EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
+                }
+                EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
@@ -255,8 +272,6 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_EQ("ID0001", jobPartId);
     EXPECT_TRUE(hasResourcePool);
     EXPECT_EQ("COMP_0000", cutProcessId);
-    EXPECT_DOUBLE_EQ(2520., width);
-    EXPECT_DOUBLE_EQ(1656., height);
     EXPECT_TRUE(hasMedia);
     EXPECT_EQ(23u, cutBlocksCount);
 }
