@@ -102,6 +102,13 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                     return ResourcePoolSP();
                 }
                 resourcePool->setMedia(media);
+            } else if (xmlReader.name() == "LaminatingIntent") {
+                LaminatingIntentSP laminatingIntent = LaminatingIntent::fromJdf(xmlReader);
+                if (!laminatingIntent) {
+                    qCCritical(proofNetworkJdfDataLog) << "LaminatingIntent not created.";
+                    return ResourcePoolSP();
+                }
+                resourcePool->setLaminatingIntent(laminatingIntent);
             } else if (xmlReader.name() == "Component") {
                 ComponentSP component = Component::fromJdf(xmlReader, jdfId);
                 if (!component) {

@@ -6,6 +6,7 @@
     <Media BackCoatings="None" Dimension="1329.44882 963.77953"
       FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper"
       MediaUnit="Roll" Status="Available" Thickness="171.7200"/>
+      <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
     <Component Amount="100" Class="Quantity" ComponentType="Sheet"
       Dimensions="1329.44882 963.77953 0.0"
       ID="061106-00002_1_Comp00001" IsWaste="false" Status="Unavailable"/>

@@ -4,6 +4,7 @@
 #include "data/cuttingparams.h"
 #include "data/resourcepool.h"
 #include "data/media.h"
+#include "data/laminatingintent.h"
 #include "data/component.h"
 #include "data/bundle.h"
 #include "data/jdfdocument.h"
@@ -22,6 +23,7 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::CuttingParamsQmlWrapper *>("Proof::Jdf::CuttingParamsQmlWrapper *");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");
     qRegisterMetaType<Proof::Jdf::MediaQmlWrapper *>("Proof::Jdf::MediaQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::LaminatingIntentQmlWrapper *>("Proof::Jdf::LaminatingIntentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ComponentQmlWrapper *>("Proof::Jdf::ComponentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ComponentQmlWrapper *>("Proof::Jdf::ComponentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocumentSP>("Proof::Jdf::JdfDocumentSP");
@@ -34,6 +36,8 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::CutBlockWP>("Proof::Jdf::CutBlockWP");
     qRegisterMetaType<Proof::Jdf::MediaSP>("Proof::Jdf::MediaSP");
     qRegisterMetaType<Proof::Jdf::MediaWP>("Proof::Jdf::MediaWP");
+    qRegisterMetaType<Proof::Jdf::LaminatingIntentSP>("Proof::Jdf::LaminatingIntentSP");
+    qRegisterMetaType<Proof::Jdf::LaminatingIntentWP>("Proof::Jdf::LaminatingIntentWP");
     qRegisterMetaType<Proof::Jdf::ComponentSP>("Proof::Jdf::ComponentSP");
     qRegisterMetaType<Proof::Jdf::ComponentWP>("Proof::Jdf::ComponentWP");
     qRegisterMetaType<Proof::Jdf::BundleSP>("Proof::Jdf::BundleSP");

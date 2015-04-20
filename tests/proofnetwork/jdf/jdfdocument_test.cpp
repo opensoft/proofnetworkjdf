@@ -7,6 +7,7 @@
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/laminatingintent.h"
 
 #include <QXmlStreamReader>
 #include <QSignalSpy>
@@ -107,6 +108,13 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
+
+    LaminatingIntentSP laminatingIntent = resourcePool->laminatingIntent();
+    ASSERT_TRUE(laminatingIntent);
+
+    EXPECT_EQ("LI_0000", laminatingIntent->id());
+    EXPECT_EQ(ApiHelper::AvailableStatus, laminatingIntent->resourceStatus());
+    EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
 }
 
 TEST_F(JdfDocumentTest, updateFrom)
@@ -177,6 +185,13 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(media1->width(), media2->width());
     EXPECT_DOUBLE_EQ(media1->height(), media2->height());
     EXPECT_DOUBLE_EQ(media1->thickness(), media2->thickness());
+
+    LaminatingIntentSP laminatingIntent1 = resourcePool->laminatingIntent();
+    ASSERT_TRUE(laminatingIntent1);
+    LaminatingIntentSP laminatingIntent2 = resourcePool2->laminatingIntent();
+    ASSERT_TRUE(laminatingIntent2);
+    EXPECT_EQ(laminatingIntent1->id(), laminatingIntent2->id());
+    EXPECT_EQ(laminatingIntent1->surface(), laminatingIntent2->surface());
 }
 
 TEST_F(JdfDocumentTest, documentToJdf)
@@ -190,6 +205,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
     bool hasJdfProductElement = false;
     bool hasResourcePool = false;
     bool hasMedia = false;
+    bool hasLaminatingIntent = false;
     QString id;
     QString jobId;
     QString jobPartId;
@@ -247,6 +263,11 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
                 EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
                 EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
+            } else if (hasResourcePool && reader.name() == "LaminatingIntent") {
+                hasLaminatingIntent = true;
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(attributes.value("ID").toString(), "LI_0000");
+                EXPECT_EQ(attributes.value("Surface").toString(), "Both");
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
@@ -273,5 +294,6 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_TRUE(hasResourcePool);
     EXPECT_EQ("COMP_0000", cutProcessId);
     EXPECT_TRUE(hasMedia);
+    EXPECT_TRUE(hasLaminatingIntent);
     EXPECT_EQ(23u, cutBlocksCount);
 }
