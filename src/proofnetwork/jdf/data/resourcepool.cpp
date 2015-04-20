@@ -3,6 +3,7 @@
 #include "component.h"
 #include "cuttingparams.h"
 #include "media.h"
+#include "laminatingintent.h"
 #include "cutblock.h"
 #include "proofnetwork/networkdataentity_p.h"
 
@@ -16,6 +17,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
     QList<ComponentSP> components;
     CuttingParamsSP cuttingParams = CuttingParams::defaultObject();
     MediaSP media = Media::defaultObject();
+    LaminatingIntentSP laminatingIntent = LaminatingIntent::defaultObject();
 
 };
 
@@ -50,6 +52,12 @@ MediaSP ResourcePool::media() const
 {
     Q_D(const ResourcePool);
     return d->media;
+}
+
+LaminatingIntentSP ResourcePool::laminatingIntent() const
+{
+    Q_D(const ResourcePool);
+    return d->laminatingIntent;
 }
 
 void ResourcePool::updateFrom(const NetworkDataEntitySP &other)
@@ -132,6 +140,8 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
         component->toJdf(jdfWriter);
     if (d->media)
         d->media->toJdf(jdfWriter);
+    if (d->laminatingIntent)
+        d->laminatingIntent->toJdf(jdfWriter);
     if (d->cuttingParams)
         d->cuttingParams->toJdf(jdfWriter);
 
@@ -148,6 +158,8 @@ void ResourcePool::toJdfLink(QXmlStreamWriter &jdfWriter)
         component->toJdfLink(jdfWriter);
     if (d->media)
         d->media->toJdfLink(jdfWriter);
+    if (d->laminatingIntent && d->laminatingIntent->surface() != Proof::Jdf::ApiHelper::LaminatingSurface::None)
+        d->laminatingIntent->toJdfLink(jdfWriter);
     if (d->cuttingParams)
         d->cuttingParams->toJdfLink(jdfWriter);
 
@@ -189,5 +201,16 @@ void ResourcePool::setMedia(const MediaSP &media)
     else if (d->media != media) {
         d->media = media;
         emit mediaChanged(d->media);
+    }
+}
+
+void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingIntent)
+{
+    Q_D(ResourcePool);
+    if (laminatingIntent == nullptr)
+        setLaminatingIntent(LaminatingIntent::defaultObject());
+    else if (d->laminatingIntent != laminatingIntent) {
+        d->laminatingIntent = laminatingIntent;
+        emit laminatingIntentChanged(d->laminatingIntent);
     }
 }

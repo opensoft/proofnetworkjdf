@@ -35,6 +35,12 @@ QHash<QString, ApiHelper::CoatingType> ApiHelper::m_coatingStringified = {
     {"Semigloss", ApiHelper::SemiglossCoating}
 };
 
+QHash<QString, ApiHelper::LaminatingSurface> ApiHelper::m_laminatingSurfaceStringified = {
+    {"Front", ApiHelper::LaminatingSurface::Front},
+    {"Back", ApiHelper::LaminatingSurface::Back},
+    {"Both", ApiHelper::LaminatingSurface::Both}
+};
+
 QHash<QString, ApiHelper::BundleType> ApiHelper::m_bundleTypeStringified = {
     {"BoundSet", ApiHelper::BoundSetBundle},
     {"Box", ApiHelper::BoxBundle},
@@ -139,6 +145,16 @@ QString ApiHelper::coatingToString(ApiHelper::CoatingType coating)
 ApiHelper::CoatingType ApiHelper::coatingFromString(const QString &coating)
 {
     return m_coatingStringified.value(coating, CoatingType::NoneCoating);
+}
+
+QString ApiHelper::laminatingSurfaceToString(ApiHelper::LaminatingSurface surface)
+{
+    return m_laminatingSurfaceStringified.key(surface, "");
+}
+
+ApiHelper::LaminatingSurface ApiHelper::laminatingSurfaceFromString(const QString &surface)
+{
+    return m_laminatingSurfaceStringified.value(surface, LaminatingSurface::None);
 }
 
 QString ApiHelper::bundleTypeToString(ApiHelper::BundleType bundleType)

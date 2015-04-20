@@ -21,6 +21,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(ProcessUsage)
     Q_ENUMS(Usage)
     Q_ENUMS(BlockType)
+    Q_ENUMS(LaminatingSurface)
 public:
     ApiHelper() = delete;
 
@@ -59,6 +60,13 @@ public:
         SilverCoating, // Coating for a silver halide process. New in JDF 1.3
         SatinCoating,
         SemiglossCoating
+    };
+
+    enum LaminatingSurface {
+        Front,
+        Back,
+        Both,
+        None
     };
 
     enum BundleType {
@@ -146,6 +154,9 @@ public:
     static QString coatingToString(CoatingType coating);
     static CoatingType coatingFromString(const QString &coating);
 
+    static QString laminatingSurfaceToString(LaminatingSurface surface);
+    static LaminatingSurface laminatingSurfaceFromString(const QString &surface);
+
     static QString bundleTypeToString(BundleType bundleType);
     static BundleType bundleTypeFromString(const QString &bundleType);
 
@@ -168,6 +179,7 @@ private:
     static QHash<QString, ResourceStatus> m_resourceStatusStringified;
     static QHash<QString, ResourceClass> m_resourceClassStringified;
     static QHash<QString, CoatingType> m_coatingStringified;
+    static QHash<QString, LaminatingSurface> m_laminatingSurfaceStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
     static QHash<QString, ComponentType> m_componentTypeStringified;
     static QHash<QString, PartIdKeysType> m_partIdKeysTypeStringified;
