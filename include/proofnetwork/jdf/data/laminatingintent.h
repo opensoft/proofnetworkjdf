@@ -34,7 +34,7 @@ public:
     static LaminatingIntentSP defaultObject();
 
 signals:
-    void surfaceChanged(ApiHelper::LaminatingSurface arg);
+    void surfaceChanged(Proof::Jdf::ApiHelper::LaminatingSurface arg);
 
 protected:
     explicit LaminatingIntent();

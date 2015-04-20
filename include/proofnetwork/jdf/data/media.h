@@ -45,9 +45,9 @@ signals:
     void thicknessChanged(double arg);
     void heightChanged(double arg);
     void widthChanged(double arg);
-    void frontCoatingChanged(ApiHelper::CoatingType arg);
-    void backCoatingChanged(ApiHelper::CoatingType arg);
-    void mediaUnitChanged(ApiHelper::MediaUnit arg);
+    void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
+    void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
+    void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit arg);
 
 protected:
     explicit Media();
