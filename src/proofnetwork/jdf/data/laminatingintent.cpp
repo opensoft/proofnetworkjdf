@@ -10,7 +10,7 @@ class LaminatingIntentPrivate : AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(LaminatingIntent)
 
-    ApiHelper::LaminatingSurface surface = ApiHelper::LaminatingSurface::Front;
+    ApiHelper::LaminatingSurface surface = ApiHelper::LaminatingSurface::None;
 };
 
 } // namespace Jdf
@@ -82,8 +82,6 @@ LaminatingIntentSP LaminatingIntent::fromJdf(QXmlStreamReader &xmlReader)
 void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(LaminatingIntent);
-    if (d->surface == Proof::Jdf::ApiHelper::LaminatingSurface::None)
-        return;
 
     jdfWriter.writeStartElement("LaminatingIntent");
     jdfWriter.writeAttribute("Surface", ApiHelper::laminatingSurfaceToString(d->surface));

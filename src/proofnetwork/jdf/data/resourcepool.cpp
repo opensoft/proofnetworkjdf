@@ -140,7 +140,7 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
         component->toJdf(jdfWriter);
     if (d->media)
         d->media->toJdf(jdfWriter);
-    if (d->laminatingIntent)
+    if (d->laminatingIntent && d->laminatingIntent->surface() != Proof::Jdf::ApiHelper::LaminatingSurface::None)
         d->laminatingIntent->toJdf(jdfWriter);
     if (d->cuttingParams)
         d->cuttingParams->toJdf(jdfWriter);
