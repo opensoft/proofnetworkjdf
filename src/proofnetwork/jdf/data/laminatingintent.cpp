@@ -36,9 +36,8 @@ void LaminatingIntent::setSurface(ApiHelper::LaminatingSurface surface)
 void LaminatingIntent::updateFrom(const NetworkDataEntitySP &other)
 {
     LaminatingIntentSP castedOther = qSharedPointerCast<LaminatingIntent>(other);
-    setId(castedOther->id());
     setSurface(castedOther->surface());
-    NetworkDataEntity::updateFrom(other);
+    AbstractResource::updateFrom(other);
 }
 
 LaminatingIntentQmlWrapper *LaminatingIntent::toQmlWrapper(QObject *parent) const

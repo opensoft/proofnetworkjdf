@@ -116,14 +116,13 @@ void Media::setWidth(double arg)
 void Media::updateFrom(const NetworkDataEntitySP &other)
 {
     MediaSP castedOther = qSharedPointerCast<Media>(other);
-    setId(castedOther->id());
     setThickness(castedOther->thickness());
     setFrontCoating(castedOther->frontCoating());
     setBackCoating(castedOther->backCoating());
     setMediaUnit(castedOther->mediaUnit());
     setHeight(castedOther->height());
     setWidth(castedOther->width());
-    NetworkDataEntity::updateFrom(other);
+    AbstractPhysicalResource::updateFrom(other);
 }
 
 MediaQmlWrapper *Media::toQmlWrapper(QObject *parent) const
