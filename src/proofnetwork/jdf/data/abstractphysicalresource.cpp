@@ -56,8 +56,10 @@ void AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, Abstra
 void AbstractPhysicalResource::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractPhysicalResource);
-    jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
-    jdfWriter.writeAttribute("ResourceWeight", QString::number(d->resourceWeight,'f', 4));
+    if (!qFuzzyCompare(d->amount, 0.0))
+        jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
+    if (!qFuzzyCompare(d->resourceWeight, 0.0))
+        jdfWriter.writeAttribute("ResourceWeight", QString::number(d->resourceWeight,'f', 4));
 
     AbstractResource::toJdf(jdfWriter);
 }
