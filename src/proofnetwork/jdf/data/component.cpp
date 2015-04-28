@@ -221,7 +221,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(Component);
     jdfWriter.writeStartElement("Component");
     jdfWriter.writeAttribute("ComponentType", ApiHelper::componentTypeToString(d->componentType));
-    if (!qFuzzyCompare(1 + d->width, 1 + 0.0) || !qFuzzyCompare(1 + d->height, 1 + 0.0) || !qFuzzyCompare(1 + d->length, 1 + 0.0)) {
+    if (!qFuzzyCompare(1.0 + d->width, 1.0) || !qFuzzyCompare(1.0 + d->height, 1.0) || !qFuzzyCompare(1.0 + d->length, 1.0)) {
         jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3")
                                  .arg(d->width, 0, 'f', 4)
                                  .arg(d->height, 0, 'f', 4)
