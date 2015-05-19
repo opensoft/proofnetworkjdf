@@ -12,6 +12,8 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 {
     Q_DECLARE_PUBLIC(Component)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     ApiHelper::ComponentType componentType = ApiHelper::SheetComponent;
     double width = 0.0;
     double height = 0.0;
@@ -117,19 +119,6 @@ QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
         emit cutBlocksChanged();
     }
     return d->cutBlocks;
-}
-
-void Component::updateFrom(const NetworkDataEntitySP &other)
-{
-    ComponentSP castedOther = qSharedPointerCast<Component>(other);
-    setComponentType(castedOther->componentType());
-    setWidth(castedOther->width());
-    setHeight(castedOther->height());
-    setLength(castedOther->length());
-    setBundle(castedOther->bundle());
-    updateCutBlocks(castedOther->cutBlocks());
-
-    AbstractPhysicalResource::updateFrom(other);
 }
 
 ComponentQmlWrapper *Component::toQmlWrapper(QObject *parent) const
@@ -256,5 +245,19 @@ Component::Component()
     : AbstractPhysicalResource(*new ComponentPrivate)
 {
     setResourceClass(ApiHelper::QuantityClass);
+}
+
+void ComponentPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(Component);
+    ComponentSP castedOther = qSharedPointerCast<Component>(other);
+    q->setComponentType(castedOther->componentType());
+    q->setWidth(castedOther->width());
+    q->setHeight(castedOther->height());
+    q->setLength(castedOther->length());
+    q->setBundle(castedOther->bundle());
+    q->updateCutBlocks(castedOther->cutBlocks());
+
+    AbstractPhysicalResourcePrivate::updateFrom(other);
 }
 

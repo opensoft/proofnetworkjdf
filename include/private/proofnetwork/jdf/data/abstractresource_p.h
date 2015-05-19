@@ -14,6 +14,8 @@ class AbstractResourcePrivate : public NetworkDataEntityPrivate
 public:
     AbstractResourcePrivate() : NetworkDataEntityPrivate() {}
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     QString id;
     ApiHelper::ResourceStatus resourceStatus = ApiHelper::IncompleteStatus;
     ApiHelper::ResourceClass resourceClass = ApiHelper::ConsumableClass;

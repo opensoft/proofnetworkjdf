@@ -10,6 +10,8 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
 {
     Q_DECLARE_PUBLIC(Media)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
@@ -113,18 +115,6 @@ void Media::setWidth(double arg)
     }
 }
 
-void Media::updateFrom(const NetworkDataEntitySP &other)
-{
-    MediaSP castedOther = qSharedPointerCast<Media>(other);
-    setThickness(castedOther->thickness());
-    setFrontCoating(castedOther->frontCoating());
-    setBackCoating(castedOther->backCoating());
-    setMediaUnit(castedOther->mediaUnit());
-    setHeight(castedOther->height());
-    setWidth(castedOther->width());
-    AbstractPhysicalResource::updateFrom(other);
-}
-
 MediaQmlWrapper *Media::toQmlWrapper(QObject *parent) const
 {
     Q_D(const Media);
@@ -201,3 +191,16 @@ Media::Media()
     setResourceClass(ApiHelper::ConsumableClass);
 }
 
+void MediaPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(Media);
+    MediaSP castedOther = qSharedPointerCast<Media>(other);
+    q->setThickness(castedOther->thickness());
+    q->setFrontCoating(castedOther->frontCoating());
+    q->setBackCoating(castedOther->backCoating());
+    q->setMediaUnit(castedOther->mediaUnit());
+    q->setHeight(castedOther->height());
+    q->setWidth(castedOther->width());
+
+    AbstractPhysicalResourcePrivate::updateFrom(other);
+}

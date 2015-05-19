@@ -35,7 +35,6 @@ public:
     void setTransformationMatrix(double x, double y, double rotation);
     void setBlockType(ApiHelper::BlockType arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static CutBlockSP create(const QString &blockName = QString());

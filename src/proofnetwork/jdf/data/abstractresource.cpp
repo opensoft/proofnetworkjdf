@@ -64,18 +64,6 @@ void AbstractResource::setUsage(ApiHelper::Usage arg)
     }
 }
 
-void AbstractResource::updateFrom(const NetworkDataEntitySP &other)
-{
-    AbstractResourceSP castedOther = qSharedPointerCast<AbstractResource>(other);
-    setId(castedOther->id());
-    setResourceStatus(castedOther->resourceStatus());
-    setResourceClass(castedOther->resourceClass());
-
-    setUsage(castedOther->usage());
-
-    NetworkDataEntity::updateFrom(other);
-}
-
 void AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
@@ -107,3 +95,17 @@ AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
 
 }
 
+
+
+void AbstractResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+{
+    Q_Q(AbstractResource);
+    AbstractResourceSP castedOther = qSharedPointerCast<AbstractResource>(other);
+    q->setId(castedOther->id());
+    q->setResourceStatus(castedOther->resourceStatus());
+    q->setResourceClass(castedOther->resourceClass());
+
+    q->setUsage(castedOther->usage());
+
+    NetworkDataEntityPrivate::updateFrom(other);
+}

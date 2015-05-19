@@ -11,6 +11,8 @@ class JdfDocumentPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(JdfDocument)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     QString id;
     QString jobId;
     QString jobPartId;
@@ -82,17 +84,6 @@ void JdfDocument::setResourcePool(const ResourcePoolSP &arg)
         d->resourcePool = arg;
         emit resourcePoolChanged(d->resourcePool);
     }
-}
-
-void JdfDocument::updateFrom(const NetworkDataEntitySP &other)
-{
-    JdfDocumentSP castedOther = qSharedPointerCast<JdfDocument>(other);
-    setId(castedOther->id());
-    setJobId(castedOther->jobId());
-    setJobPartId(castedOther->jobPartId());
-    setResourcePool(castedOther->resourcePool());
-
-    NetworkDataEntity::updateFrom(other);
 }
 
 JdfDocumentQmlWrapper *JdfDocument::toQmlWrapper(QObject *parent) const
@@ -178,3 +169,14 @@ JdfDocument::JdfDocument()
 {
 }
 
+void JdfDocumentPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(JdfDocument);
+    JdfDocumentSP castedOther = qSharedPointerCast<JdfDocument>(other);
+    q->setId(castedOther->id());
+    q->setJobId(castedOther->jobId());
+    q->setJobPartId(castedOther->jobPartId());
+    q->setResourcePool(castedOther->resourcePool());
+
+    NetworkDataEntityPrivate::updateFrom(other);
+}

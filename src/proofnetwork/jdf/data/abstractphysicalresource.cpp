@@ -34,15 +34,6 @@ void AbstractPhysicalResource::setResourceWeight(double arg)
     }
 }
 
-void AbstractPhysicalResource::updateFrom(const NetworkDataEntitySP &other)
-{
-    AbstractPhysicalResourceSP castedOther = qSharedPointerCast<AbstractPhysicalResource>(other);
-    setAmount(castedOther->amount());
-    setResourceWeight(castedOther->resourceWeight());
-
-    AbstractResource::updateFrom(other);
-}
-
 void AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
@@ -70,3 +61,14 @@ AbstractPhysicalResource::AbstractPhysicalResource(AbstractPhysicalResourcePriva
 
 }
 
+
+
+void AbstractPhysicalResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+{
+    Q_Q(AbstractPhysicalResource);
+    AbstractPhysicalResourceSP castedOther = qSharedPointerCast<AbstractPhysicalResource>(other);
+    q->setAmount(castedOther->amount());
+    q->setResourceWeight(castedOther->resourceWeight());
+
+    AbstractResourcePrivate::updateFrom(other);
+}

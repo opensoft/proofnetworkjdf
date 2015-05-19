@@ -10,6 +10,8 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(CuttingParams)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     QList<CutBlockSP> cutBlocks;
 };
 
@@ -33,14 +35,6 @@ QList<CutBlockSP> CuttingParams::cutBlocks() const
 {
     Q_D(const CuttingParams);
     return d->cutBlocks;
-}
-
-void CuttingParams::updateFrom(const NetworkDataEntitySP &other)
-{
-    CuttingParamsSP castedOther = qSharedPointerCast<CuttingParams>(other);
-    updateCutBlocks(castedOther->cutBlocks());
-
-    AbstractResource::updateFrom(other);
 }
 
 CuttingParamsQmlWrapper *CuttingParams::toQmlWrapper(QObject *parent) const
@@ -123,4 +117,14 @@ QList<CutBlockSP> CuttingParams::updateCutBlocks(const QList<CutBlockSP> &arg)
         emit cutBlocksChanged();
     }
     return d->cutBlocks;
+}
+
+
+void CuttingParamsPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(CuttingParams);
+    CuttingParamsSP castedOther = qSharedPointerCast<CuttingParams>(other);
+    q->updateCutBlocks(castedOther->cutBlocks());
+
+    AbstractResourcePrivate::updateFrom(other);
 }

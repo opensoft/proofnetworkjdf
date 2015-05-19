@@ -9,6 +9,8 @@ class BundlePrivate : NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Bundle)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     ApiHelper::BundleType bundleType = ApiHelper::BoxBundle;
     int totalAmount = 0;
 };
@@ -46,15 +48,6 @@ void Bundle::setTotalAmount(int arg)
         d->totalAmount = arg;
         emit totalAmountChanged(arg);
     }
-}
-
-void Bundle::updateFrom(const NetworkDataEntitySP &other)
-{
-    BundleSP castedOther = qSharedPointerCast<Bundle>(other);
-    setBundleType(castedOther->bundleType());
-    setTotalAmount(castedOther->totalAmount());
-
-    NetworkDataEntity::updateFrom(other);
 }
 
 BundleQmlWrapper *Bundle::toQmlWrapper(QObject *parent) const
@@ -111,5 +104,15 @@ BundleSP Bundle::defaultObject()
 Bundle::Bundle()
     : NetworkDataEntity(*new BundlePrivate)
 {
+}
+
+void BundlePrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(Bundle);
+    BundleSP castedOther = qSharedPointerCast<Bundle>(other);
+    q->setBundleType(castedOther->bundleType());
+    q->setTotalAmount(castedOther->totalAmount());
+
+    NetworkDataEntityPrivate::updateFrom(other);
 }
 

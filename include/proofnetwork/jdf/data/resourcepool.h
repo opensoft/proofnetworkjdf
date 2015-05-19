@@ -28,7 +28,6 @@ public:
     void setMedia(const MediaSP &media);
     void setLaminatingIntent(const LaminatingIntentSP &laminatingIntent);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     ResourcePoolQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static ResourcePoolSP create();

@@ -24,7 +24,6 @@ public:
 
     void setSurface(ApiHelper::LaminatingSurface surface);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     LaminatingIntentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static LaminatingIntentSP create();

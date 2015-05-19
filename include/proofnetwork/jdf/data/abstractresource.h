@@ -30,8 +30,6 @@ public:
 
     void setUsage(ApiHelper::Usage arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
-
     static void fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
     virtual void toJdfLink(QXmlStreamWriter &jdfWriter);

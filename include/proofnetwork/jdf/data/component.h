@@ -32,7 +32,6 @@ public:
     void setBundle(const BundleSP &arg);
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     ComponentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static ComponentSP create();

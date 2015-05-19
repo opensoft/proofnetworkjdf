@@ -24,7 +24,6 @@ public:
     void setBundleType(ApiHelper::BundleType arg);
     void setTotalAmount(int arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     BundleQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static BundleSP create();

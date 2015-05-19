@@ -23,8 +23,6 @@ public:
     void setAmount(double arg);
     void setResourceWeight(double arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
-
     static void fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 

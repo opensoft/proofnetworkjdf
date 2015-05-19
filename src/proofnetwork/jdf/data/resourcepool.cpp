@@ -14,6 +14,8 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(ResourcePool)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     QList<ComponentSP> components;
     CuttingParamsSP cuttingParams = CuttingParams::defaultObject();
     MediaSP media = Media::defaultObject();
@@ -58,16 +60,6 @@ LaminatingIntentSP ResourcePool::laminatingIntent() const
 {
     Q_D(const ResourcePool);
     return d->laminatingIntent;
-}
-
-void ResourcePool::updateFrom(const NetworkDataEntitySP &other)
-{
-    ResourcePoolSP castedOther = qSharedPointerCast<ResourcePool>(other);
-    setComponents(castedOther->components());
-    setCuttingParams(castedOther->cuttingParams());
-    setMedia(castedOther->media());
-
-    NetworkDataEntity::updateFrom(other);
 }
 
 ResourcePoolQmlWrapper *ResourcePool::toQmlWrapper(QObject *parent) const
@@ -220,4 +212,15 @@ void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingInten
         d->laminatingIntent = laminatingIntent;
         emit laminatingIntentChanged(d->laminatingIntent);
     }
+}
+
+void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(ResourcePool);
+    ResourcePoolSP castedOther = qSharedPointerCast<ResourcePool>(other);
+    q->setComponents(castedOther->components());
+    q->setCuttingParams(castedOther->cuttingParams());
+    q->setMedia(castedOther->media());
+
+    NetworkDataEntityPrivate::updateFrom(other);
 }

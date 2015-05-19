@@ -28,7 +28,6 @@ public:
     void setJobPartId(const QString &arg);
     void setResourcePool(const ResourcePoolSP &arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static JdfDocumentSP create();

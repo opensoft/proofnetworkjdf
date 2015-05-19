@@ -10,6 +10,8 @@ class LaminatingIntentPrivate : AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(LaminatingIntent)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     ApiHelper::LaminatingSurface surface = ApiHelper::LaminatingSurface::None;
 };
 
@@ -31,13 +33,6 @@ void LaminatingIntent::setSurface(ApiHelper::LaminatingSurface surface)
         d->surface = surface;
         emit surfaceChanged(surface);
     }
-}
-
-void LaminatingIntent::updateFrom(const NetworkDataEntitySP &other)
-{
-    LaminatingIntentSP castedOther = qSharedPointerCast<LaminatingIntent>(other);
-    setSurface(castedOther->surface());
-    AbstractResource::updateFrom(other);
 }
 
 LaminatingIntentQmlWrapper *LaminatingIntent::toQmlWrapper(QObject *parent) const
@@ -100,3 +95,11 @@ LaminatingIntent::LaminatingIntent()
     setResourceClass(ApiHelper::IntentClass);
 }
 
+void LaminatingIntentPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(LaminatingIntent);
+    LaminatingIntentSP castedOther = qSharedPointerCast<LaminatingIntent>(other);
+    q->setSurface(castedOther->surface());
+
+    AbstractResourcePrivate::updateFrom(other);
+}

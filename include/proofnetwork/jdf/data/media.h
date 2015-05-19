@@ -32,7 +32,6 @@ public:
     void setHeight(double arg);
     void setWidth(double arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     MediaQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static MediaSP create();

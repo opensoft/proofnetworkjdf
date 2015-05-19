@@ -22,7 +22,6 @@ public:
 
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     CuttingParamsQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
     static CuttingParamsSP create();

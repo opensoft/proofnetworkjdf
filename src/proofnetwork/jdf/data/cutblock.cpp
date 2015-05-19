@@ -15,6 +15,8 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     QString createRotationMatrixString(double angle);
 
     QString blockName;
@@ -69,17 +71,6 @@ ApiHelper::BlockType CutBlock::blockType() const
 {
     Q_D(const CutBlock);
     return d->blockType;
-}
-
-void CutBlock::updateFrom(const NetworkDataEntitySP &other)
-{
-    CutBlockSP castedOther = qSharedPointerCast<CutBlock>(other);
-    setBlockName(castedOther->blockName());
-    setWidth(castedOther->width());
-    setHeight(castedOther->height());
-    setTransformationMatrix(castedOther->transformationMatrix());
-    setBlockType(castedOther->blockType());
-    NetworkDataEntity::updateFrom(other);
 }
 
 CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
@@ -207,6 +198,19 @@ void CutBlock::setBlockType(ApiHelper::BlockType arg)
         d->blockType = arg;
         emit blockTypeChanged(d->blockType);
     }
+}
+
+void CutBlockPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+{
+    Q_Q(CutBlock);
+    CutBlockSP castedOther = qSharedPointerCast<CutBlock>(other);
+    q->setBlockName(castedOther->blockName());
+    q->setWidth(castedOther->width());
+    q->setHeight(castedOther->height());
+    q->setTransformationMatrix(castedOther->transformationMatrix());
+    q->setBlockType(castedOther->blockType());
+
+    NetworkDataEntityPrivate::updateFrom(other);
 }
 
 QString CutBlockPrivate::createRotationMatrixString(double angle)
