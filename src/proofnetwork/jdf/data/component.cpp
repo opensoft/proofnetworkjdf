@@ -173,7 +173,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                         cutBlocks.append(cutBlockCache().value({jdfId, blockName}));
                     } else {
                         CutBlockSP cutBlock = CutBlock::create(blockName);
-                        cutBlockCache().add({jdfId, blockName}, cutBlock);
+                        cutBlock = cutBlockCache().add({jdfId, blockName}, cutBlock);
                         cutBlocks.append(cutBlock);
                     }
                     break;

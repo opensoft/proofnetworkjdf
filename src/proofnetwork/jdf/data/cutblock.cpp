@@ -100,7 +100,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
             if (cutBlockCache().contains({jdfId, cutBlock->blockName()})) {
                 cutBlock = cutBlockCache().value({jdfId, cutBlock->blockName()});
             } else {
-                cutBlockCache().add({jdfId, cutBlock->blockName()}, cutBlock);
+                cutBlock = cutBlockCache().add({jdfId, cutBlock->blockName()}, cutBlock);
             }
             QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
             if (blockSizeList.count() >= 2) {
