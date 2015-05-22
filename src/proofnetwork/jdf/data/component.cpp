@@ -169,13 +169,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                 switch (partIDKeys) {
                 case ApiHelper::BlockNameKey: {
                     QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::BlockNameKey)).toString();
-                    if (cutBlockCache().contains({jdfId, blockName})) {
-                        cutBlocks.append(cutBlockCache().value({jdfId, blockName}));
-                    } else {
-                        CutBlockSP cutBlock = CutBlock::create(blockName);
-                        cutBlock = cutBlockCache().add({jdfId, blockName}, cutBlock);
-                        cutBlocks.append(cutBlock);
-                    }
+                    cutBlocks << cutBlockCache().add({jdfId, blockName}, CutBlock::create(blockName));
                     break;
                 }
                 case ApiHelper::BundleItemIndexKey:

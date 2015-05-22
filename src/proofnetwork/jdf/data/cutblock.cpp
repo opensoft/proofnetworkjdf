@@ -97,11 +97,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
             cutBlock->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             cutBlock->setBlockName(attributes.value("BlockName").toString());
-            if (cutBlockCache().contains({jdfId, cutBlock->blockName()})) {
-                cutBlock = cutBlockCache().value({jdfId, cutBlock->blockName()});
-            } else {
-                cutBlock = cutBlockCache().add({jdfId, cutBlock->blockName()}, cutBlock);
-            }
+            cutBlock = cutBlockCache().add({jdfId, cutBlock->blockName()}, cutBlock);
             QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
             if (blockSizeList.count() >= 2) {
                 cutBlock->setWidth(blockSizeList.at(0).toDouble());
