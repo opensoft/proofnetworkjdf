@@ -235,9 +235,9 @@ void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingInten
 void ResourcePool::setFoldingParams(const FoldingParamsSP &foldingParams)
 {
     Q_D(ResourcePool);
-    if (foldingParams == nullptr)
+    if (foldingParams == nullptr) {
         setFoldingParams(FoldingParams::defaultObject());
-    else if (d->foldingParams != foldingParams) {
+    } else if (d->foldingParams != foldingParams) {
         d->foldingParams = foldingParams;
         emit foldingParamsChanged(d->foldingParams);
     }
