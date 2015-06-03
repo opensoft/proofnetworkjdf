@@ -31,7 +31,7 @@ public:
     static FoldingParamsSP defaultObject();
 
 signals:
-    void foldCatalogChanged(QString arg);
+    void foldCatalogChanged(const QString &arg);
 
 protected:
     explicit FoldingParams();
