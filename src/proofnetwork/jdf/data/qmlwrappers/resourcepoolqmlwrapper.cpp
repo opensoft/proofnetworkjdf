@@ -2,11 +2,13 @@
 
 #include "componentqmlwrapper.h"
 #include "mediaqmlwrapper.h"
+#include "foldingparamsqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/foldingparams.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {
@@ -17,6 +19,7 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     void updateComponent();
     void updateCutingParams();
     void updateMedia();
+    void updateFoldingParams();
 
     QList<ComponentQmlWrapper *> components;
     QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> qmlComponentsList;
@@ -25,6 +28,7 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 
     CuttingParamsQmlWrapper *cuttingParams = nullptr;
     MediaQmlWrapper *media = nullptr;
+    FoldingParamsQmlWrapper * foldingParams = nullptr;
 };
 
 }
@@ -61,6 +65,12 @@ MediaQmlWrapper *ResourcePoolQmlWrapper::media() const
     return d->media;
 }
 
+FoldingParamsQmlWrapper *ResourcePoolQmlWrapper::foldingParams() const
+{
+    Q_D(const ResourcePoolQmlWrapper);
+    return d->foldingParams;
+}
+
 PROOF_NDE_WRAPPER_TOOLS_IMPL(ResourcePool)
 
 void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
@@ -80,6 +90,7 @@ void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
     d->updateComponent();
     d->updateCutingParams();
     d->updateMedia();
+    d->updateFoldingParams();
 }
 
 void ResourcePoolQmlWrapperPrivate::updateComponent()
@@ -120,6 +131,17 @@ void ResourcePoolQmlWrapperPrivate::updateMedia()
     else
         media->setEntity(cutProcess->media());
     emit q->mediaChanged(media);
+}
+
+void ResourcePoolQmlWrapperPrivate::updateFoldingParams()
+{
+    Q_Q(ResourcePoolQmlWrapper);
+    ResourcePoolSP resourcePool = entity<ResourcePool>();
+    if (foldingParams == nullptr)
+        foldingParams = resourcePool->foldingParams()->toQmlWrapper(q);
+    else
+        foldingParams->setEntity(resourcePool->foldingParams());
+    emit q->foldingParamsChanged(foldingParams);
 }
 
 ComponentQmlWrapper *ResourcePoolQmlWrapperPrivate::componentAt(QQmlListProperty<ComponentQmlWrapper> *property, int index)

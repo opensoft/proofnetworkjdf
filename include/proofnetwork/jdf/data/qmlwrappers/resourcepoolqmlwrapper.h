@@ -13,6 +13,7 @@ namespace Jdf {
 class ComponentQmlWrapper;
 class CuttingParamsQmlWrapper;
 class MediaQmlWrapper;
+class FoldingParamsQmlWrapper;
 
 class ResourcePoolQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntityQmlWrapper
@@ -32,11 +33,13 @@ public:
 
     CuttingParamsQmlWrapper *cuttingParams() const;
     MediaQmlWrapper *media() const;
+    FoldingParamsQmlWrapper *foldingParams() const;
 
 signals:
-    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &components);
-    void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams);
-    void mediaChanged(Proof::Jdf::MediaQmlWrapper *media);
+    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &arg);
+    void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *arg);
+    void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
+    void foldingParamsChanged(Proof::Jdf::FoldingParamsQmlWrapper *arg);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
