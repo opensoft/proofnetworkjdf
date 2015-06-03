@@ -33,11 +33,11 @@ public:
     ApiHelper::Usage usage() const;
 
 signals:
-    void idChanged(const QString &arg);
-    void resourceStatusChanged(Proof::Jdf::ApiHelper::ResourceStatus arg);
-    void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass arg);
+    void idChanged(const QString &id);
+    void resourceStatusChanged(Proof::Jdf::ApiHelper::ResourceStatus resourceStatus);
+    void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass resourceClass);
 
-    void usageChanged(Proof::Jdf::ApiHelper::Usage arg);
+    void usageChanged(Proof::Jdf::ApiHelper::Usage usage);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

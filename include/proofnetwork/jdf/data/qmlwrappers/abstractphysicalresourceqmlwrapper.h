@@ -27,8 +27,8 @@ public:
     double resourceWeight() const;
 
 signals:
-    void amountChanged(double arg);
-    void resourceWeightChanged(double arg);
+    void amountChanged(double amount);
+    void resourceWeightChanged(double resourceWeight);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

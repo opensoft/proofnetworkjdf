@@ -32,11 +32,11 @@ public:
     Proof::Jdf::ApiHelper::BlockType blockType() const;
 
 signals:
-    void blockNameChanged(const QString &arg);
-    void widthChanged(double arg);
-    void heightChanged(double arg);
-    void transformationMatrixChanged(const QString &arg);
-    void blockTypeChanged(Proof::Jdf::ApiHelper::BlockType arg);
+    void blockNameChanged(const QString &blockName);
+    void widthChanged(double width);
+    void heightChanged(double height);
+    void transformationMatrixChanged(const QString &transformationMatrix);
+    void blockTypeChanged(Proof::Jdf::ApiHelper::BlockType blockType);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

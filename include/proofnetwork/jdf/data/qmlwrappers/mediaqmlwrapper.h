@@ -35,12 +35,12 @@ public:
     ApiHelper::MediaUnit mediaUnit() const;
 
 signals:
-    void thicknessChanged(double arg);
-    void heightChanged(double arg);
-    void widthChanged(double arg);
-    void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
-    void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
-    void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit arg);
+    void thicknessChanged(double thickness);
+    void heightChanged(double height);
+    void widthChanged(double width);
+    void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType frontCoating);
+    void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType backCoating);
+    void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit mediaUnit);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

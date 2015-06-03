@@ -30,10 +30,10 @@ public:
     ResourcePoolQmlWrapper *resourcePool() const;
 
 signals:
-    void idChanged(const QString &arg);
-    void jobIdChanged(const QString &arg);
-    void jobPartIdChanged(const QString &arg);
-    void resourcePoolChanged(Proof::Jdf::ResourcePoolQmlWrapper *arg);
+    void idChanged(const QString &id);
+    void jobIdChanged(const QString &jobId);
+    void jobPartIdChanged(const QString &jobPartId);
+    void resourcePoolChanged(Proof::Jdf::ResourcePoolQmlWrapper *resourcePool);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

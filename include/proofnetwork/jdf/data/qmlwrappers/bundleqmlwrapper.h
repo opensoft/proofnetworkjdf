@@ -27,8 +27,8 @@ public:
     int totalAmount() const;
 
 signals:
-    void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType arg);
-    void totalAmountChanged(int arg);
+    void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType bundleType);
+    void totalAmountChanged(int totalAmount);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

@@ -25,7 +25,7 @@ public:
     ApiHelper::LaminatingSurface surface() const;
 
 signals:
-    void surfaceChanged(Proof::Jdf::ApiHelper::LaminatingSurface arg);
+    void surfaceChanged(Proof::Jdf::ApiHelper::LaminatingSurface surface);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

@@ -34,9 +34,9 @@ public:
     MediaQmlWrapper *media() const;
 
 signals:
-    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &arg);
-    void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *arg);
-    void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
+    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &components);
+    void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams);
+    void mediaChanged(Proof::Jdf::MediaQmlWrapper *media);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

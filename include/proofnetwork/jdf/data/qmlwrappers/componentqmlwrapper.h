@@ -29,8 +29,8 @@ public:
     Proof::Jdf::BundleQmlWrapper *bundle() const;
 
 signals:
-    void componentTypeChanged(Proof::Jdf::ApiHelper::ComponentType arg);
-    void bundleChanged(Proof::Jdf::BundleQmlWrapper *arg);
+    void componentTypeChanged(Proof::Jdf::ApiHelper::ComponentType componentType);
+    void bundleChanged(Proof::Jdf::BundleQmlWrapper *bundle);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

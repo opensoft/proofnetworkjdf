@@ -29,7 +29,7 @@ public:
     QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks();
 
 signals:
-    void cutBlocksChanged(const QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> &arg);
+    void cutBlocksChanged(const QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> &cutBlocks);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
