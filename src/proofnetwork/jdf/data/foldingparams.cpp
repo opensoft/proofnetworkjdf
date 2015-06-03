@@ -1,7 +1,5 @@
-#ifndef FOLDINGPARAMS_CPP
-#define FOLDINGPARAMS_CPP
-
 #include "foldingparams.h"
+#include "proofnetwork/jdf/data/abstractresource_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -29,11 +27,18 @@ QString FoldingParams::foldCatalog() const
 void FoldingParams::setFoldCatalog(const QString &foldCatalog)
 {
     Q_D(FoldingParams);
-    // TODO: verify foldCatalog
     if (d->foldCatalog != foldCatalog) {
         d->foldCatalog = foldCatalog;
         emit foldCatalogChanged(d->foldCatalog);
     }
+}
+
+FoldingParamsQmlWrapper *FoldingParams::toQmlWrapper(QObject *parent) const
+{
+    Q_D(const FoldingParams);
+    FoldingParamsSP castedSelf = qSharedPointerCast<FoldingParams>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+    return new FoldingParamsQmlWrapper(castedSelf, parent);
 }
 
 FoldingParamsSP FoldingParams::create()
@@ -83,10 +88,16 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
 }
 
 FoldingParams::FoldingParams()
+    : AbstractResource(*new FoldingParamsPrivate)
 {
     setResourceClass(ApiHelper::ParameterClass);
 }
 
+void FoldingParamsPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(FoldingParams);
+    FoldingParamsSP castedOther = qSharedPointerCast<FoldingParams>(other);
+    q->setFoldCatalog(castedOther->foldCatalog());
 
-
-#endif // FOLDINGPARAMS_CPP
+    AbstractResourcePrivate::updateFrom(other);
+}

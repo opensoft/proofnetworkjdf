@@ -5,6 +5,7 @@
 #include "media.h"
 #include "laminatingintent.h"
 #include "cutblock.h"
+#include "foldingparams.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -20,7 +21,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
     CuttingParamsSP cuttingParams = CuttingParams::defaultObject();
     MediaSP media = Media::defaultObject();
     LaminatingIntentSP laminatingIntent = LaminatingIntent::defaultObject();
-
+    FoldingParamsSP foldingParams = FoldingParams::defaultObject();
 };
 
 ObjectsCache<QString, ResourcePool> &cuttingProcessCache()
@@ -60,6 +61,12 @@ LaminatingIntentSP ResourcePool::laminatingIntent() const
 {
     Q_D(const ResourcePool);
     return d->laminatingIntent;
+}
+
+FoldingParamsSP ResourcePool::foldingParams() const
+{
+    Q_D(const ResourcePool);
+    return d->foldingParams;
 }
 
 ResourcePoolQmlWrapper *ResourcePool::toQmlWrapper(QObject *parent) const
@@ -115,6 +122,13 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                     return ResourcePoolSP();
                 }
                 resourcePool->setCuttingParams(cuttingParams);
+            } else if (xmlReader.name() == "FoldingParams") {
+                FoldingParamsSP foldingParams = FoldingParams::fromJdf(xmlReader);
+                if (!foldingParams) {
+                    qCCritical(proofNetworkJdfDataLog) << "FoldingParams not created.";
+                    return ResourcePoolSP();
+                }
+                resourcePool->setFoldingParams(foldingParams);
             } else {
                 xmlReader.skipCurrentElement();
             }
@@ -143,6 +157,8 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
         d->laminatingIntent->toJdf(jdfWriter);
     if (d->cuttingParams)
         d->cuttingParams->toJdf(jdfWriter);
+    if (d->foldingParams)
+        d->foldingParams->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
 }
@@ -161,6 +177,8 @@ void ResourcePool::toJdfLink(QXmlStreamWriter &jdfWriter)
         d->laminatingIntent->toJdfLink(jdfWriter);
     if (d->cuttingParams)
         d->cuttingParams->toJdfLink(jdfWriter);
+    if (d->foldingParams)
+        d->foldingParams->toJdfLink(jdfWriter);
 
     jdfWriter.writeEndElement();
 }
@@ -214,6 +232,17 @@ void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingInten
     }
 }
 
+void ResourcePool::setFoldingParams(const FoldingParamsSP &foldingParams)
+{
+    Q_D(ResourcePool);
+    if (foldingParams == nullptr)
+        setFoldingParams(FoldingParams::defaultObject());
+    else if (d->foldingParams != foldingParams) {
+        d->foldingParams = foldingParams;
+        emit foldingParamsChanged(d->foldingParams);
+    }
+}
+
 void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
     Q_Q(ResourcePool);
@@ -221,6 +250,7 @@ void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
     q->setComponents(castedOther->components());
     q->setCuttingParams(castedOther->cuttingParams());
     q->setMedia(castedOther->media());
+    q->setFoldingParams(castedOther->foldingParams());
 
     NetworkDataEntityPrivate::updateFrom(other);
 }

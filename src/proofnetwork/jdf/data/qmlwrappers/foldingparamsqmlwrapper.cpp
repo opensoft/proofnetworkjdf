@@ -21,9 +21,9 @@ FoldingParamsQmlWrapper::~FoldingParamsQmlWrapper()
 {
 }
 
-PROOF_NDE_WRAPPER_TOOLS_IMPL(LaminatingIntent)
+PROOF_NDE_WRAPPER_TOOLS_IMPL(FoldingParams)
 
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(LaminatingIntent, QString, foldCatalog)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(FoldingParams, QString, foldCatalog)
 
 void FoldingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
