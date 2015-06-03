@@ -49,6 +49,10 @@ class Bundle;
 typedef QSharedPointer<Bundle> BundleSP;
 typedef QWeakPointer<Bundle> BundleWP;
 
+class FoldingParams;
+typedef QSharedPointer<FoldingParams> FoldingParamsSP;
+typedef QSharedPointer<FoldingParams> FoldingParamsWP;
+
 }
 }
 
