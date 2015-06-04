@@ -1,6 +1,8 @@
 #include "foldingparams.h"
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 
+#include <QRegExp>
+
 namespace Proof {
 namespace Jdf {
 
@@ -23,6 +25,25 @@ QString FoldingParams::foldCatalog() const
     Q_D(const FoldingParams);
     return d->foldCatalog;
 }
+
+bool verifyFoldCatalog(const QString &string)
+{
+    QRegExp regexp("F(\\d{1,2})-(\\d{1,2}|X)");
+    if (regexp.exactMatch(string) && (regexp.captureCount() == 2)) {
+        QString s = regexp.cap(1);
+        int n = regexp.cap(1).toInt();
+        // http://www.cip4.org/documents/jdf_specifications/html/Resources.html#0_FoldingParams
+        if ((2 <= n) && (n <= 64)) {
+            if (regexp.cap(2) == "X")
+                return true;
+
+            int i = regexp.cap(2).toInt();
+            if ((1 <= i) && (i <= 14))
+                return true;
+        }
+    }
+    return false;
+}
 /*!
  *    \brief sets FoldCatalog resource
  *
@@ -37,6 +58,11 @@ QString FoldingParams::foldCatalog() const
 void FoldingParams::setFoldCatalog(const QString &foldCatalog)
 {
     Q_D(FoldingParams);
+
+    if (!verifyFoldCatalog(foldCatalog)) {
+        qCWarning(proofNetworkJdfDataLog) << "Wrong format of FoldCatalog: " << foldCatalog;
+        return;
+    }
     if (d->foldCatalog != foldCatalog) {
         d->foldCatalog = foldCatalog;
         emit foldCatalogChanged(d->foldCatalog);
