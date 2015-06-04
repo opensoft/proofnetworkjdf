@@ -2,6 +2,7 @@
 #include "data/abstractphysicalresource.h"
 #include "data/cutblock.h"
 #include "data/cuttingparams.h"
+#include "data/foldingparams.h"
 #include "data/resourcepool.h"
 #include "data/media.h"
 #include "data/laminatingintent.h"
