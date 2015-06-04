@@ -28,17 +28,17 @@ QString FoldingParams::foldCatalog() const
 
 bool verifyFoldCatalog(const QString &string)
 {
-    QRegExp regexp("F(\\d{1,2})-(\\d{1,2}|X)");
-    if (regexp.exactMatch(string) && (regexp.captureCount() == 2)) {
+    // http://www.cip4.org/documents/jdf_specifications/html/Resources.html#0_FoldingParams
+    QRegExp regexp("F(\\d?[02468])-(\\d{1,2}|X)");
+    if (regexp.exactMatch(string)) {
         QString s = regexp.cap(1);
         int n = regexp.cap(1).toInt();
-        // http://www.cip4.org/documents/jdf_specifications/html/Resources.html#0_FoldingParams
-        if ((2 <= n) && (n <= 64)) {
+        if ((2 <= n) && (n <= 100)) {
             if (regexp.cap(2) == "X")
                 return true;
 
             int i = regexp.cap(2).toInt();
-            if ((1 <= i) && (i <= 14))
+            if ((1 <= i) && (i <= 100))
                 return true;
         }
     }
@@ -95,8 +95,7 @@ FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
     FoldingParamsSP foldingParams = create();
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {
-            foldingParams->setFetched(true);
+        if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {            foldingParams->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             foldingParams->setFoldCatalog( attributes.value("FoldCatalog").toString());
             AbstractResourceSP castedFoldingParams = qSharedPointerCast<AbstractResource>(foldingParams);
