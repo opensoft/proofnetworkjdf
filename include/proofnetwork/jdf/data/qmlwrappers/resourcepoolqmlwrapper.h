@@ -22,6 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntity
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> components READ components NOTIFY componentsChanged)
     Q_PROPERTY(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams READ cuttingParams NOTIFY cuttingParamsChanged)
     Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
+    Q_PROPERTY(Proof::Jdf::FoldingParamsQmlWrapper *foldingParams READ foldingParams NOTIFY foldingParamsChanged)
 
     Q_DECLARE_PRIVATE(ResourcePoolQmlWrapper)
 public:
