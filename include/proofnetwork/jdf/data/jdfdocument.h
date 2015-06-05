@@ -1,53 +1,16 @@
-#ifndef JDFJDFDOCUMENT_H
-#define JDFJDFDOCUMENT_H
+#ifndef JDFDOCUMENT_H
+#define JDFDOCUMENT_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.h"
-
-#include <QXmlStreamReader>
-
-namespace Proof {
-namespace Jdf {
-
-class JdfDocumentPrivate;
-class PROOF_NETWORK_JDF_EXPORT JdfDocument : public NetworkDataEntity
+class JdfDocument : public JdfNode
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(JdfDocument)
 public:
-
-    QString id() const;
-    QString jobId() const;
-    QString jobPartId() const;
-    ResourcePoolSP resourcePool() const;
-
-    void setId(const QString &arg);
-    void setJobId(const QString &arg);
-    void setJobPartId(const QString &arg);
-    void setResourcePool(const ResourcePoolSP &arg);
-
-    JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
-
-    static JdfDocumentSP create();
-
-    static JdfDocumentSP fromJdf(QXmlStreamReader &xmlReader);
-    QString toJdf();
-    static JdfDocumentSP defaultObject();
+    explicit JdfDocument(QObject *parent = 0);
 
 signals:
-    void idChanged(const QString &arg);
-    void jobIdChanged(const QString &arg);
-    void jobPartIdChanged(const QString &arg);
-    void resourcePoolChanged(Proof::Jdf::ResourcePoolSP arg);
 
-protected:
-    explicit JdfDocument();
+public slots:
 
 };
 
-}
-}
-
-#endif // JDFJDFDOCUMENT_H
+#endif // JDFDOCUMENT_H
