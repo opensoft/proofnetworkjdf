@@ -4,7 +4,6 @@
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/apihelper.h"
 
 namespace Proof {
 namespace Jdf {
