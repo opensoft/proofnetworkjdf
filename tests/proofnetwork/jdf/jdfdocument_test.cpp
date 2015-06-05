@@ -37,6 +37,11 @@ protected:
         QXmlStreamReader xml2(&file2);
         jdfDocUT2 = JdfDocument::fromJdf(xml2);
 
+        QFile file3(":/data/jdfnested.jdf");
+        ASSERT_TRUE(file3.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml3(&file3);
+        jdfDocUT3 = JdfDocument::fromJdf(xml3);
+
         qmlWrapperUT = jdfDocUT->toQmlWrapper();
     }
 
@@ -48,6 +53,7 @@ protected:
 protected:
     JdfDocumentSP jdfDocUT;
     JdfDocumentSP jdfDocUT2;
+    JdfDocumentSP jdfDocUT3;
     JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
@@ -115,6 +121,92 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("LI_0000", laminatingIntent->id());
     EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
+}
+
+TEST_F(JdfDocumentTest, fromNestedJdf)
+{
+    EXPECT_EQ("JDF_0000", jdfDocUT3->id());
+    EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT3->jobId());
+    EXPECT_EQ("ID0001", jdfDocUT3->jobPartId());
+
+    JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
+
+    EXPECT_EQ("ID_Product_0001", jdfDocUT3->id());
+    EXPECT_EQ("Product_0001", jdfDocUT3->jobPartId());
+
+
+    ResourcePoolSP resourcePool = jdfNode->resourcePool();
+    ASSERT_TRUE(resourcePool);
+
+    EXPECT_EQ(4, resourcePool->components().count());
+
+    MediaSP media = resourcePool->media();
+    ASSERT_TRUE(media);
+
+    EXPECT_EQ("PAP_1234", media->id());
+    EXPECT_EQ(ApiHelper::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::NoneCoating, media->backCoating());
+    EXPECT_EQ(ApiHelper::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(ApiHelper::SheetMediaUnit, media->mediaUnit());
+    EXPECT_DOUBLE_EQ(2520.0, media->width());
+    EXPECT_DOUBLE_EQ(1656.0, media->height());
+    EXPECT_DOUBLE_EQ(172.72, media->thickness());
+
+    LaminatingIntentSP laminatingIntent = resourcePool->laminatingIntent();
+    ASSERT_TRUE(laminatingIntent);
+
+    EXPECT_EQ("LI_0000", laminatingIntent->id());
+    EXPECT_EQ(ApiHelper::AvailableStatus, laminatingIntent->resourceStatus());
+    EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
+
+    ComponentSP component = resourcePool->components().first();
+    ASSERT_TRUE(component);
+    EXPECT_EQ("COMP_0000", component->id());
+    EXPECT_DOUBLE_EQ(2520.0, component->width());
+    EXPECT_DOUBLE_EQ(1656.0, component->height());
+    EXPECT_DOUBLE_EQ(0.4896, component->length());
+    EXPECT_EQ(1000u, component->amount());
+
+    ComponentSP component2 = resourcePool->components().at(1);
+    ASSERT_TRUE(component2);
+    EXPECT_EQ(15, component2->cutBlocks().count());
+
+    BundleSP bundle = component2->bundle();
+    ASSERT_TRUE(bundle);
+    ASSERT_EQ(ApiHelper::BoxBundle, bundle->bundleType());
+    ASSERT_EQ(42, bundle->totalAmount());
+
+
+    JdfNodeSP jdfNode2 = jdfNode->jdfNodes().first();
+    ASSERT_TRUE(jdfNode2);
+
+    EXPECT_EQ("ID_LAYOUT_0001", jdfDocUT3->id());
+    EXPECT_EQ("LAYOUT_0001", jdfDocUT3->jobPartId());
+
+    ResourcePoolSP resourcePool2 = jdfNode2->resourcePool();
+    ASSERT_TRUE(resourcePool2);
+
+    EXPECT_EQ(1, resourcePool2->components().count());
+
+    CuttingParamsSP cuttingParams = resourcePool2->cuttingParams();
+    ASSERT_TRUE(cuttingParams);
+    ASSERT_EQ("CPM_0000", cuttingParams->id());
+    EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->resourceStatus());
+    EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
+    ASSERT_EQ(23, cuttingParams->cutBlocks().count());
+
+    CutBlockSP cutBlock1 = component2->cutBlocks().first();
+    CutBlockSP cutBlock2 = cuttingParams->cutBlocks().first();
+    for (const CutBlockSP &cutBlock : {cutBlock1, cutBlock2}) {
+        ASSERT_TRUE(cutBlock);
+        EXPECT_EQ("A-1", cutBlock->blockName());
+        EXPECT_DOUBLE_EQ(432, cutBlock->width());
+        EXPECT_DOUBLE_EQ(288, cutBlock->height());
+        EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+        EXPECT_EQ(ApiHelper::CutBlockType, cutBlock->blockType());
+    }
+
 }
 
 TEST_F(JdfDocumentTest, updateFrom)

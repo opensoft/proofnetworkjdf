@@ -12,21 +12,6 @@
             <Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="A_FOLD" Status="Available">
                 <Bundle BundleType = "Box" TotalAmount = "42"/>
             </Component>
-            <Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="B_FOLD" Status="Available">
-                <Bundle BundleType = "Box" TotalAmount = "42"/>
-            </Component>
-            <Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="A_OUT" PartIDKeys="BlockName" Status="Available">
-                <Component BlockName="A-1"/>
-                <Component BlockName="A-2"/>
-            </Component>
-            <Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="B_OUT" PartIDKeys="BlockName" Status="Available">
-                <Component BlockName="B-1"/>
-                <Component BlockName="B-2"/>
-            </Component>
-            <Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="C_OUT" PartIDKeys="BlockName" Status="Available">
-                <Component BlockName="C-1"/>
-                <Bundle BundleType = "Box" TotalAmount = "42"/>
-            </Component>
         </ResourcePool>
         <ResourceLinkPool></ResourceLinkPool>
         <JDF DescriptiveName="Layout 1" JobPartID="LAYOUT_0001" ID="ID_LAYOUT_0001" Status="Waiting" Type="Cutting">
@@ -69,4 +54,4 @@
         </JDF>
     </JDF>
 </JDF>
- 
+							
