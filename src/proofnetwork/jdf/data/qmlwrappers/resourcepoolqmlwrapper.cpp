@@ -28,7 +28,7 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 
     CuttingParamsQmlWrapper *cuttingParams = nullptr;
     MediaQmlWrapper *media = nullptr;
-    FoldingParamsQmlWrapper * foldingParams = nullptr;
+    FoldingParamsQmlWrapper *foldingParams = nullptr;
 };
 
 }
