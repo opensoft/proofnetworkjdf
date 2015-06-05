@@ -1,16 +1,31 @@
 #ifndef JDFDOCUMENT_H
 #define JDFDOCUMENT_H
 
-class JdfDocument : public JdfNode
+#include "proofnetwork/jdf/data/jdfnode.h"
+#include "proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.h"
+
+namespace Proof {
+namespace Jdf {
+
+class JdfDocumentPrivate;
+class PROOF_NETWORK_JDF_EXPORT JdfDocument : public JdfNode
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(JdfDocument)
 public:
-    explicit JdfDocument(QObject *parent = 0);
+    JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
-signals:
+    static JdfDocumentSP create();
 
-public slots:
+    static JdfDocumentSP fromJdf(QXmlStreamReader &xmlReader);
+    QString toJdf();
+    static JdfDocumentSP defaultObject();
 
+protected:
+    explicit JdfDocument();
 };
+
+}
+}
 
 #endif // JDFDOCUMENT_H
