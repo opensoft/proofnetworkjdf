@@ -12,7 +12,7 @@ class FoldingParamsPrivate : AbstractResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    QString foldCatalog = "F2-1"; //without folding by default
+    QString foldCatalog = QString();
 };
 
 } // namespace Jdf
@@ -26,23 +26,14 @@ QString FoldingParams::foldCatalog() const
     return d->foldCatalog;
 }
 
-bool verifyFoldCatalog(const QString &string)
+bool verifyFoldCatalog(const QString &foldCatalog)
 {
     // http://www.cip4.org/documents/jdf_specifications/html/Resources.html#0_FoldingParams
     QRegExp regexp("F(\\d?[02468])-(\\d{1,2}|X)");
-    if (regexp.exactMatch(string)) {
-        QString s = regexp.cap(1);
-        int n = regexp.cap(1).toInt();
-        if ((2 <= n) && (n <= 100)) {
-            if (regexp.cap(2) == "X")
-                return true;
+    if (!regexp.exactMatch(foldCatalog))
+        return false;
 
-            int i = regexp.cap(2).toInt();
-            if ((1 <= i) && (i <= 100))
-                return true;
-        }
-    }
-    return false;
+    return (regexp.cap(1).toInt() && regexp.cap(2).toInt() ||  regexp.cap(2).toLower() == "x");
 }
 /*!
  *    \brief sets FoldCatalog resource
@@ -97,7 +88,12 @@ FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {            foldingParams->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            foldingParams->setFoldCatalog( attributes.value("FoldCatalog").toString());
+            QString value = attributes.value("FoldCatalog").toString();
+            foldingParams->setFoldCatalog(value);
+            if (foldingParams->foldCatalog().isEmpty()) {
+                qCCritical(proofNetworkJdfDataLog) << "FoldingParams not created.";
+                return FoldingParamsSP();
+            }
             AbstractResourceSP castedFoldingParams = qSharedPointerCast<AbstractResource>(foldingParams);
             AbstractResource::fromJdf(xmlReader, castedFoldingParams);
 
