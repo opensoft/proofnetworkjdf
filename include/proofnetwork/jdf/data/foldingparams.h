@@ -18,7 +18,6 @@ class PROOF_NETWORK_JDF_EXPORT FoldingParams : public AbstractResource
     Q_DECLARE_PRIVATE(FoldingParams)
 public:
     QString foldCatalog() const;
-    // TODO: verify foldCatalog
     void setFoldCatalog(const QString &foldCatalog);
 
     FoldingParamsQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
