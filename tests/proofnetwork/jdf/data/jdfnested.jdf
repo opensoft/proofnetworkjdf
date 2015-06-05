@@ -19,9 +19,6 @@
                 <CuttingParams Class="Parameter" ID="CPM_0000" Status="Available">
                     <CutBlock BlockName="A-1" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 36.0000" BlockType="CutBlock"/>
                     <CutBlock BlockName="A-2" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 342.0000" BlockType="CutBlock"/>
-                    <CutBlock BlockName="B-1" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1404.0000 36.0000" BlockType="CutBlock"/>
-                    <CutBlock BlockName="B-2" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1404.0000 666.0000" BlockType="CutBlock"/>
-                    <CutBlock BlockName="C-1" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 1404.0000 666.0000" BlockType="CutBlock"/>
                 </CuttingParams>
             </ResourcePool>
             <ResourceLinkPool>
@@ -40,16 +37,6 @@
                 <FoldingParamsLink Usage="Input" rRef="FOLD-1"/>
                 <ComponentLink Usage="Input" rRef="A_OUT"/>
                 <ComponentLink Usage="Output" rRef="A_FOLD"/>
-            </ResourceLinkPool>
-        </JDF>
-        <JDF DescriptiveName="Folding-2" JobPartID="LAYOUT_0002_FOLD" ID="ID_LAYOUT_0002_FOLD" Status="Waiting" Type="Folding">
-            <ResourcePool>
-                <FoldingParams ID="FOLD-2" Class="Parameter" Status="Available" FoldCatalog="F6-4"/>
-            </ResourcePool>
-            <ResourceLinkPool>
-                <FoldingParamsLink Usage="Input" rRef="FOLD-2"/>
-                <ComponentLink Usage="Input" rRef="B_OUT"/>
-                <ComponentLink Usage="Output" rRef="B_FOLD"/>
             </ResourceLinkPool>
         </JDF>
     </JDF>
