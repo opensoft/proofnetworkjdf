@@ -137,8 +137,8 @@ INSTANTIATE_TEST_CASE_P(FoldingParamsFoldCatalogTestParameters,
                                         tuple<QString, QString>("", "F101-101"),
                                         tuple<QString, QString>("", "F3-1"),
                                         tuple<QString, QString>("", "FA-B"),
-                                        tuple<QString, QString>("F64-X",  "F64-X"),
+                                        tuple<QString, QString>("F64-X", "F64-X"),
                                         tuple<QString, QString>("F16-14", "F16-14"),
-                                        tuple<QString, QString>("F6-8",   "F6-8"),
-                                        tuple<QString, QString>("F64-2",   "F64-2"))
+                                        tuple<QString, QString>("F6-8", "F6-8"),
+                                        tuple<QString, QString>("F64-2", "F64-2"))
                         );
