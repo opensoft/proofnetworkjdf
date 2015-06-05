@@ -5,7 +5,6 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
-//TODO : impl
 #include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
 
 #include <QXmlStreamReader>
