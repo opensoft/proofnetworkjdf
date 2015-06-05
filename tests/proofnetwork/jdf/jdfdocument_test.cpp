@@ -8,6 +8,7 @@
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
+#include "proofnetwork/jdf/data/foldingparams.h"
 
 #include <QXmlStreamReader>
 #include <QSignalSpy>
@@ -123,7 +124,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
 }
 
-TEST_F(JdfDocumentTest, fromNestedJdf)
+TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 {
     EXPECT_EQ("JDF_0000", jdfDocUT3->id());
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT3->jobId());
@@ -134,7 +135,6 @@ TEST_F(JdfDocumentTest, fromNestedJdf)
 
     EXPECT_EQ("ID_Product_0001", jdfDocUT3->id());
     EXPECT_EQ("Product_0001", jdfDocUT3->jobPartId());
-
 
     ResourcePoolSP resourcePool = jdfNode->resourcePool();
     ASSERT_TRUE(resourcePool);
@@ -176,18 +176,18 @@ TEST_F(JdfDocumentTest, fromNestedJdf)
     ASSERT_TRUE(bundle);
     ASSERT_EQ(ApiHelper::BoxBundle, bundle->bundleType());
     ASSERT_EQ(42, bundle->totalAmount());
+}
 
+TEST_F(JdfDocumentTest, fromNestedJdfCutting)
+{
+    JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
 
-    JdfNodeSP jdfNode2 = jdfNode->jdfNodes().first();
+    JdfNodeSP jdfNode2 = jdfNode->jdfNodes().at(0);
     ASSERT_TRUE(jdfNode2);
-
-    EXPECT_EQ("ID_LAYOUT_0001", jdfDocUT3->id());
-    EXPECT_EQ("LAYOUT_0001", jdfDocUT3->jobPartId());
 
     ResourcePoolSP resourcePool2 = jdfNode2->resourcePool();
     ASSERT_TRUE(resourcePool2);
-
-    EXPECT_EQ(1, resourcePool2->components().count());
 
     CuttingParamsSP cuttingParams = resourcePool2->cuttingParams();
     ASSERT_TRUE(cuttingParams);
@@ -196,17 +196,34 @@ TEST_F(JdfDocumentTest, fromNestedJdf)
     EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
     ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
-    CutBlockSP cutBlock1 = component2->cutBlocks().first();
-    CutBlockSP cutBlock2 = cuttingParams->cutBlocks().first();
-    for (const CutBlockSP &cutBlock : {cutBlock1, cutBlock2}) {
-        ASSERT_TRUE(cutBlock);
-        EXPECT_EQ("A-1", cutBlock->blockName());
-        EXPECT_DOUBLE_EQ(432, cutBlock->width());
-        EXPECT_DOUBLE_EQ(288, cutBlock->height());
-        EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
-        EXPECT_EQ(ApiHelper::CutBlockType, cutBlock->blockType());
-    }
+    CutBlockSP cutBlock1 = cuttingParams->cutBlocks().at(0);
+    EXPECT_EQ("A-1", cutBlock1->blockName());
+    EXPECT_DOUBLE_EQ(432, cutBlock1->width());
+    EXPECT_DOUBLE_EQ(288, cutBlock1->height());
+    EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock1->transformationMatrix());
+    EXPECT_EQ(ApiHelper::CutBlockType, cutBlock1->blockType());
 
+    CutBlockSP cutBlock2 = cuttingParams->cutBlocks().at(1);
+    EXPECT_EQ("A-2", cutBlock2->blockName());
+    EXPECT_DOUBLE_EQ(432, cutBlock2->width());
+    EXPECT_DOUBLE_EQ(288, cutBlock2->height());
+    EXPECT_EQ("1 0 0 1 54.0000 342.0000", cutBlock2->transformationMatrix());
+    EXPECT_EQ(ApiHelper::CutBlockType, cutBlock2->blockType());
+}
+
+TEST_F(JdfDocumentTest, fromNestedJdfFolding)
+{
+    JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
+
+    JdfNodeSP jdfNode2 = jdfNode->jdfNodes().at(1);
+    ASSERT_TRUE(jdfNode2);
+
+    ResourcePoolSP resourcePool = jdfNode2->resourcePool();
+    ASSERT_TRUE(resourcePool);
+
+    FoldingParamsSP foldingParams = resourcePool->foldingParams();
+    EXPECT_EQ("F6-1", foldingParams->foldCatalog());
 }
 
 TEST_F(JdfDocumentTest, updateFrom)
