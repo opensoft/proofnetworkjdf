@@ -33,7 +33,7 @@ bool verifyFoldCatalog(const QString &foldCatalog)
     if (!regexp.exactMatch(foldCatalog))
         return false;
 
-    return (regexp.cap(1).toInt() && regexp.cap(2).toInt() ||  regexp.cap(2).toLower() == "x");
+    return (regexp.cap(1).toInt() && (regexp.cap(2).toInt() ||  regexp.cap(2).toLower() == "x"));
 }
 /*!
  *    \brief sets FoldCatalog resource
