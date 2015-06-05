@@ -52,6 +52,7 @@ void FoldingParams::setFoldCatalog(const QString &foldCatalog)
 
     if (!verifyFoldCatalog(foldCatalog)) {
         qCWarning(proofNetworkJdfDataLog) << "Wrong format of FoldCatalog: " << foldCatalog;
+        d->foldCatalog = QString();
         return;
     }
     if (d->foldCatalog != foldCatalog) {
@@ -86,7 +87,8 @@ FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
     FoldingParamsSP foldingParams = create();
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {            foldingParams->setFetched(true);
+        if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {
+            foldingParams->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             QString value = attributes.value("FoldCatalog").toString();
             foldingParams->setFoldCatalog(value);
