@@ -10,6 +10,8 @@
 using namespace Proof;
 using namespace Proof::Jdf;
 using testing::Test;
+using testing::TestWithParam;
+using std::tuple;
 
 class FoldingParamsTest: public Test
 {
@@ -54,46 +56,6 @@ TEST_F(FoldingParamsTest, fromJdf)
     EXPECT_EQ("F12-14", foldingParams2->foldCatalog());
 }
 
-TEST_F(FoldingParamsTest, setFoldCatalog)
-{
-    foldingParams1->setFoldCatalog("");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("aasdf");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("12-4");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F0-0");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F00-00");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F101-101");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F3-1");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("FA-B");
-    EXPECT_EQ("F6-1", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F64-X");
-    EXPECT_EQ("F64-X", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F16-14");
-    EXPECT_EQ("F16-14", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F6-8");
-    EXPECT_EQ("F6-8", foldingParams1->foldCatalog());
-
-    foldingParams1->setFoldCatalog("F64-2");
-    EXPECT_EQ("F64-2", foldingParams1->foldCatalog());
-
-}
-
 TEST_F(FoldingParamsTest, updateFrom)
 {
     QList<QSignalSpy *> spies = spiesForObject(foldingParams1.data());
@@ -135,3 +97,48 @@ TEST_F(FoldingParamsTest, foldingParamsToJdf)
         }
     }
 }
+
+class FoldingParamsFoldCatalogTest : public TestWithParam<tuple<QString, QString>>
+{
+public:
+    FoldingParamsFoldCatalogTest()
+    {
+    }
+protected:
+    void SetUp() override
+    {
+        QFile file(":/data/foldingparams.jdf");
+        ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml(&file);
+        foldingParams = FoldingParams::fromJdf(xml);
+        ASSERT_TRUE(foldingParams != nullptr);
+    }
+protected:
+    FoldingParamsSP foldingParams;
+};
+
+TEST_P(FoldingParamsFoldCatalogTest, foldCatalogTest)
+{
+    QString expected = std::get<0>(GetParam());
+    QString value = std::get<1>(GetParam());
+
+    foldingParams->setFoldCatalog(value);
+    QString real = foldingParams->foldCatalog();
+    EXPECT_EQ(expected, real);
+}
+
+INSTANTIATE_TEST_CASE_P(FoldingParamsFoldCatalogTestParameters,
+                        FoldingParamsFoldCatalogTest,
+                        testing::Values(tuple<QString, QString>("F6-1", ""),
+                                        tuple<QString, QString>("F6-1", "aasdf"),
+                                        tuple<QString, QString>("F6-1", "12-4"),
+                                        tuple<QString, QString>("F6-1", "F0-0"),
+                                        tuple<QString, QString>("F6-1", "F00-00"),
+                                        tuple<QString, QString>("F6-1", "F101-101"),
+                                        tuple<QString, QString>("F6-1", "F3-1"),
+                                        tuple<QString, QString>("F6-1", "FA-B"),
+                                        tuple<QString, QString>("F64-X", "F64-X"),
+                                        tuple<QString, QString>("F16-14", "F16-14"),
+                                        tuple<QString, QString>("F6-8", "F6-8"),
+                                        tuple<QString, QString>("F64-2", "F64-2"))
+                        );
