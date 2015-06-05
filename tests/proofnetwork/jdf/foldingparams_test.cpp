@@ -129,16 +129,16 @@ TEST_P(FoldingParamsFoldCatalogTest, foldCatalogTest)
 
 INSTANTIATE_TEST_CASE_P(FoldingParamsFoldCatalogTestParameters,
                         FoldingParamsFoldCatalogTest,
-                        testing::Values(tuple<QString, QString>("F6-1", ""),
-                                        tuple<QString, QString>("F6-1", "aasdf"),
-                                        tuple<QString, QString>("F6-1", "12-4"),
-                                        tuple<QString, QString>("F6-1", "F0-0"),
-                                        tuple<QString, QString>("F6-1", "F00-00"),
-                                        tuple<QString, QString>("F6-1", "F101-101"),
-                                        tuple<QString, QString>("F6-1", "F3-1"),
-                                        tuple<QString, QString>("F6-1", "FA-B"),
-                                        tuple<QString, QString>("F64-X", "F64-X"),
+                        testing::Values(tuple<QString, QString>("", ""),
+                                        tuple<QString, QString>("", "aasdf"),
+                                        tuple<QString, QString>("", "12-4"),
+                                        tuple<QString, QString>("", "F0-0"),
+                                        tuple<QString, QString>("", "F00-00"),
+                                        tuple<QString, QString>("", "F101-101"),
+                                        tuple<QString, QString>("", "F3-1"),
+                                        tuple<QString, QString>("", "FA-B"),
+                                        tuple<QString, QString>("F64-X",  "F64-X"),
                                         tuple<QString, QString>("F16-14", "F16-14"),
-                                        tuple<QString, QString>("F6-8", "F6-8"),
-                                        tuple<QString, QString>("F64-2", "F64-2"))
+                                        tuple<QString, QString>("F6-8",   "F6-8"),
+                                        tuple<QString, QString>("F64-2",   "F64-2"))
                         );
