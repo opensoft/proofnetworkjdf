@@ -17,6 +17,10 @@ class AbstractPhysicalResource;
 typedef QSharedPointer<AbstractPhysicalResource> AbstractPhysicalResourceSP;
 typedef QWeakPointer<AbstractPhysicalResource> AbstractPhysicalResourceWP;
 
+class JdfNode;
+typedef QSharedPointer<JdfNode> JdfNodeSP;
+typedef QWeakPointer<JdfNode> JdfNodeWP;
+
 class JdfDocument;
 typedef QSharedPointer<JdfDocument> JdfDocumentSP;
 typedef QWeakPointer<JdfDocument> JdfDocumentWP;

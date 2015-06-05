@@ -1,4 +1,4 @@
-#include "jdfdocumentqmlwrapper.h"
+#include "jdfnodeqmlwrapper.h"
 
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 #include "proofnetwork/jdf/data/jdfdocument.h"
@@ -8,51 +8,72 @@
 namespace Proof {
 namespace Jdf {
 
-class JdfDocumentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
+class JdfNodeQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 {
-    Q_DECLARE_PUBLIC(JdfDocumentQmlWrapper)
+    Q_DECLARE_PUBLIC(JdfNodeQmlWrapper)
 
     void updateResourcePool();
 
+    void updateJdfNodes();
+
+    static JdfNodeQmlWrapper *jdfNodeAt(QQmlListProperty<JdfNodeQmlWrapper> *property, int index);
+    static int jdfNodesCount(QQmlListProperty<JdfNodeQmlWrapper> *property);
+
     ResourcePoolQmlWrapper *resourcePool = nullptr;
+    QList<JdfNodeQmlWrapper *> jdfNodes;
+    QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper> qmlJdfNodes;
 };
 
-JdfDocumentQmlWrapper::JdfDocumentQmlWrapper(const JdfDocumentSP &jdfDoc, QObject *parent)
-    : NetworkDataEntityQmlWrapper(jdfDoc, *new JdfDocumentQmlWrapperPrivate, parent)
+}
+}
+
+using namespace Proof::Jdf;
+
+JdfNodeQmlWrapper::JdfNodeQmlWrapper(const JdfNodeSP &jdfNode, QObject *parent)
+    : NetworkDataEntityQmlWrapper(jdfNode, *new JdfNodeQmlWrapperPrivate, parent)
 {
     setupEntity();
 }
 
-JdfDocumentQmlWrapper::~JdfDocumentQmlWrapper()
+JdfNodeQmlWrapper::~JdfNodeQmlWrapper()
 {
 }
 
-PROOF_NDE_WRAPPER_TOOLS_IMPL(JdfDocument)
+PROOF_NDE_WRAPPER_TOOLS_IMPL(JdfNode)
 
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, id)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, jobId)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfDocument, QString, jobPartId)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, id)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobId)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobPartId)
 
-ResourcePoolQmlWrapper *JdfDocumentQmlWrapper::resourcePool() const
+
+
+ResourcePoolQmlWrapper *JdfNodeQmlWrapper::resourcePool() const
 {
-    Q_D(const JdfDocumentQmlWrapper);
+    Q_D(const JdfNodeQmlWrapper);
     return d->resourcePool;
 }
 
-void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
+QQmlListProperty<JdfNodeQmlWrapper> JdfNodeQmlWrapper::jdfNodes() const
 {
-    Q_D(JdfDocumentQmlWrapper);
-    JdfDocumentSP jdfDoc = entity<JdfDocument>();
+    Q_D(const JdfNodeQmlWrapper);
+    return d->qmlJdfNodes;
+}
+
+void JdfNodeQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
+{
+    Q_D(JdfNodeQmlWrapper);
+    JdfNodeSP jdfDoc = entity<JdfNode>();
     Q_ASSERT(jdfDoc);
 
-    connect(jdfDoc.data(), &JdfDocument::idChanged, this, &JdfDocumentQmlWrapper::idChanged);
-    connect(jdfDoc.data(), &JdfDocument::jobIdChanged, this, &JdfDocumentQmlWrapper::jobIdChanged);
-    connect(jdfDoc.data(), &JdfDocument::jobPartIdChanged, this, &JdfDocumentQmlWrapper::jobPartIdChanged);
-    connect(jdfDoc.data(), &JdfDocument::resourcePoolChanged, d->lambdaConnectContext, [d]{d->updateResourcePool();});
+    connect(jdfDoc.data(), &JdfNode::idChanged, this, &JdfNodeQmlWrapper::idChanged);
+    connect(jdfDoc.data(), &JdfNode::jobIdChanged, this, &JdfNodeQmlWrapper::jobIdChanged);
+    connect(jdfDoc.data(), &JdfNode::jobPartIdChanged, this, &JdfNodeQmlWrapper::jobPartIdChanged);
+    connect(jdfDoc.data(), &JdfNode::resourcePoolChanged, d->lambdaConnectContext, [d]{d->updateResourcePool();});
+    connect(jdfDoc.data(), &JdfNode::jdfNodesChanged, d->lambdaConnectContext, [d]{d->updateJdfNodes();});
 
     d->updateResourcePool();
 
-    JdfDocumentSP oldJdfDoc = qSharedPointerCast<JdfDocument>(old);
+    JdfNodeSP oldJdfDoc = qSharedPointerCast<JdfNode>(old);
     if (oldJdfDoc) {
         if (jdfDoc->id() != oldJdfDoc->id())
             emit idChanged(jdfDoc->id());
@@ -63,10 +84,10 @@ void JdfDocumentQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataE
     }
 }
 
-void JdfDocumentQmlWrapperPrivate::updateResourcePool()
+void JdfNodeQmlWrapperPrivate::updateResourcePool()
 {
-    Q_Q(JdfDocumentQmlWrapper);
-    JdfDocumentSP jdfDoc = entity<JdfDocument>();
+    Q_Q(JdfNodeQmlWrapper);
+    JdfNodeSP jdfDoc = entity<JdfNode>();
     if (resourcePool == nullptr)
         resourcePool = jdfDoc->resourcePool()->toQmlWrapper(q);
     else
@@ -74,5 +95,29 @@ void JdfDocumentQmlWrapperPrivate::updateResourcePool()
     emit q->resourcePoolChanged(resourcePool);
 }
 
+void JdfNodeQmlWrapperPrivate::updateJdfNodes()
+{
+    Q_Q(JdfNodeQmlWrapper);
+    JdfNodeSP jdfNode = entity<JdfNode>();
+    for (JdfNodeQmlWrapper *wrapper : jdfNodes)
+        wrapper->deleteLater();
+
+    jdfNodes.clear();
+    for (const JdfNodeSP &node : jdfNode->jdfNodes())
+        jdfNodes << node->toQmlWrapper(q);
+
+    qmlJdfNodes = QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper>(q, &jdfNodes,
+                                                &JdfNodeQmlWrapperPrivate::jdfNodesCount,
+                                                &JdfNodeQmlWrapperPrivate::jdfNodeAt);
+    emit q->jdfNodesChanged(qmlJdfNodes);
 }
+
+JdfNodeQmlWrapper *JdfNodeQmlWrapperPrivate::jdfNodeAt(QQmlListProperty<JdfNodeQmlWrapper> *property, int index)
+{
+    return static_cast<QList<JdfNodeQmlWrapper *> *>(property->data)->at(index);
+}
+
+int JdfNodeQmlWrapperPrivate::jdfNodesCount(QQmlListProperty<JdfNodeQmlWrapper> *property)
+{
+    return static_cast<QList<JdfNodeQmlWrapper *> *>(property->data)->count();
 }
