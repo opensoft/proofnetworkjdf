@@ -149,17 +149,20 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeStartElement("ResourcePool");
 
-    for (const ComponentSP &component : d->components) {
-        if (component != Component::defaultObject())
-            component->toJdf(jdfWriter);
-    }
-    if (d->media != Media::defaultObject())
+    for (const ComponentSP &component : d->components)
+        component->toJdf(jdfWriter);
+
+    if (isValidAndNotDefault(d->media))
         d->media->toJdf(jdfWriter);
-    if (d->laminatingIntent != LaminatingIntent::defaultObject())
+
+    if (isValidAndNotDefault(d->laminatingIntent) &&
+            d->laminatingIntent->surface() != Proof::Jdf::ApiHelper::LaminatingSurface::None) {
         d->laminatingIntent->toJdf(jdfWriter);
-    if (d->cuttingParams != CuttingParams::defaultObject())
+    }
+    if (isValidAndNotDefault(d->cuttingParams))
         d->cuttingParams->toJdf(jdfWriter);
-    if (d->foldingParams != FoldingParams::defaultObject())
+
+    if (isValidAndNotDefault(d->foldingParams))
         d->foldingParams->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();

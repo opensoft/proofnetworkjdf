@@ -125,7 +125,6 @@ JdfNodeSP JdfNode::create()
 
 JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
 {
-    // TODO: Change parsing
     JdfNodeSP document = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {        
         if (xmlReader.isStartElement()) {
@@ -174,8 +173,10 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute("Status", "Waiting");
         jdfWriter.writeAttribute("Type", "Product");
         jdfWriter.writeAttribute("Version", "1.4");
-        d->resourcePool->toJdf(jdfWriter);
-        d->resourcePool->toJdfLink(jdfWriter);
+        if (isValidAndNotDefault(d->resourcePool)) {
+            d->resourcePool->toJdf(jdfWriter);
+            d->resourcePool->toJdfLink(jdfWriter);
+        }
     }
     jdfWriter.writeEndElement();
 }
