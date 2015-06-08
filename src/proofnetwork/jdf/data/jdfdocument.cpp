@@ -37,6 +37,7 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
     JdfDocumentSP document = create();
     JdfNodeSP node = JdfNode::fromJdf(xmlReader);
     document->updateFrom(node);
+    return document;
 }
 
 QString JdfDocument::toJdf()
