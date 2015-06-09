@@ -149,16 +149,16 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeStartElement("ResourcePool");
 
-    for (const ComponentSP &component : d->components)
-        component->toJdf(jdfWriter);
-
+    for (const ComponentSP &component : d->components) {
+        if (isValidAndNotDefault(component))
+            component->toJdf(jdfWriter);
+    }
     if (isValidAndNotDefault(d->media))
         d->media->toJdf(jdfWriter);
 
-    if (isValidAndNotDefault(d->laminatingIntent) &&
-            d->laminatingIntent->surface() != Proof::Jdf::ApiHelper::LaminatingSurface::None) {
+    if (isValidAndNotDefault(d->laminatingIntent))
         d->laminatingIntent->toJdf(jdfWriter);
-    }
+
     if (isValidAndNotDefault(d->cuttingParams))
         d->cuttingParams->toJdf(jdfWriter);
 
@@ -175,16 +175,19 @@ void ResourcePool::toJdfLink(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("ResourceLinkPool");
 
     for (const ComponentSP &component : d->components) {
-        if (component != Component::defaultObject())
+        if (isValidAndNotDefault(component))
             component->toJdfLink(jdfWriter);
     }
-    if (d->media != Media::defaultObject())
+    if (isValidAndNotDefault(d->media))
         d->media->toJdfLink(jdfWriter);
-    if (d->laminatingIntent != LaminatingIntent::defaultObject())
+
+    if (isValidAndNotDefault(d->laminatingIntent))
         d->laminatingIntent->toJdfLink(jdfWriter);
-    if (d->cuttingParams != CuttingParams::defaultObject())
+
+    if (isValidAndNotDefault(d->cuttingParams))
         d->cuttingParams->toJdfLink(jdfWriter);
-    if (d->foldingParams != FoldingParams::defaultObject())
+
+    if (isValidAndNotDefault(d->foldingParams))
         d->foldingParams->toJdfLink(jdfWriter);
 
     jdfWriter.writeEndElement();
