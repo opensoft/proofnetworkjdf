@@ -17,7 +17,7 @@ class JdfDocumentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 using namespace Proof::Jdf;
 
 JdfDocumentQmlWrapper::JdfDocumentQmlWrapper(const JdfDocumentSP &jdfDoc, QObject *parent)
-    : JdfNodeQmlWrapper(jdfDoc.dynamicCast<JdfNode>(), parent)
+    : JdfNodeQmlWrapper(qSharedPointerCast<JdfNode>(jdfDoc), parent)
 {
 }
 
