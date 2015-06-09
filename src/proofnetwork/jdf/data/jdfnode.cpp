@@ -119,7 +119,7 @@ void JdfNode::setType(const QString &arg)
 {
     Q_D(JdfNode);
     if (arg != d->type) {
-        d->type = dype;
+        d->type = arg;
         emit typeChanged(d->type);
     }
 }
@@ -179,10 +179,8 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(JdfNode);
 
-
     jdfWriter.writeStartElement("JDF");
     {
-        jdfWriter.writeDefaultNamespace("http://www.CIP4.org/JDFSchema_1_1");
         jdfWriter.writeAttribute("ID", d->id);
         jdfWriter.writeAttribute("JobID", d->jobId);
         jdfWriter.writeAttribute("JobPartID", d->jobPartId);
