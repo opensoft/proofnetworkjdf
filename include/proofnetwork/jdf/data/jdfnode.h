@@ -18,18 +18,19 @@ class PROOF_NETWORK_JDF_EXPORT JdfNode : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(JdfNode)
 public:
-
     QString id() const;
     QString jobId() const;
     QString jobPartId() const;
     ResourcePoolSP resourcePool() const;
     QList<JdfNodeSP> jdfNodes() const;
+    QString type() const;
 
     void setId(const QString &arg);
     void setJobId(const QString &arg);
     void setJobPartId(const QString &arg);
     void setResourcePool(const ResourcePoolSP &arg);
     void setJdfNodes(const QList<JdfNodeSP> &jdfNodes);
+    void setType(const QString &arg);
 
     JdfNodeQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
@@ -45,6 +46,7 @@ signals:
     void jobPartIdChanged(const QString &arg);
     void resourcePoolChanged(Proof::Jdf::ResourcePoolSP arg);
     void jdfNodesChanged();
+    void typeChanged(const QString &type);
 
 protected:
     explicit JdfNode();

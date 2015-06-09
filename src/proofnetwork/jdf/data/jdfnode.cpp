@@ -20,6 +20,7 @@ class JdfNodePrivate : public NetworkDataEntityPrivate
     QString jobPartId;
     ResourcePoolSP resourcePool = ResourcePool::defaultObject();
     QList<JdfNodeSP> jdfNodes;
+    QString type = "Product";
 };
 
 }
@@ -55,6 +56,12 @@ QList<JdfNodeSP> JdfNode::jdfNodes() const
 {
     Q_D(const JdfNode);
     return d->jdfNodes;
+}
+
+QString JdfNode::type() const
+{
+    Q_D(const JdfNode);
+    return d->type;
 }
 
 void JdfNode::setId(const QString &arg)
@@ -105,6 +112,15 @@ void JdfNode::setJdfNodes(const QList<JdfNodeSP> &jdfNodes)
     if (changed) {
         d->jdfNodes = jdfNodes;
         emit jdfNodesChanged();
+    }
+}
+
+void JdfNode::setType(const QString &arg)
+{
+    Q_D(JdfNode);
+    if (arg != d->type) {
+        d->type = dype;
+        emit typeChanged(d->type);
     }
 }
 
@@ -171,7 +187,7 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute("JobID", d->jobId);
         jdfWriter.writeAttribute("JobPartID", d->jobPartId);
         jdfWriter.writeAttribute("Status", "Waiting");
-        jdfWriter.writeAttribute("Type", "Product");
+        jdfWriter.writeAttribute("Type", d->type);
         jdfWriter.writeAttribute("Version", "1.4");
         if (isValidAndNotDefault(d->resourcePool)) {
             d->resourcePool->toJdf(jdfWriter);
