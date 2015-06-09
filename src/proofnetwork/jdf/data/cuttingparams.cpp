@@ -94,8 +94,10 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
 
     AbstractResource::toJdf(jdfWriter);
 
-    for (const CutBlockSP &cutBlock : d->cutBlocks)
-        cutBlock->toJdf(jdfWriter);
+    for (const CutBlockSP &cutBlock : d->cutBlocks) {
+        if (cutBlock != CutBlock::defaultObject())
+            cutBlock->toJdf(jdfWriter);
+    }
 
     jdfWriter.writeEndElement();
 }

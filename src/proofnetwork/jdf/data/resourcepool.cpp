@@ -149,15 +149,17 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeStartElement("ResourcePool");
 
-    for (const ComponentSP &component : d->components)
-        component->toJdf(jdfWriter);
-    if (d->media)
+    for (const ComponentSP &component : d->components) {
+        if (component != Component::defaultObject())
+            component->toJdf(jdfWriter);
+    }
+    if (d->media != Media::defaultObject())
         d->media->toJdf(jdfWriter);
-    if (d->laminatingIntent && d->laminatingIntent->surface() != Proof::Jdf::ApiHelper::LaminatingSurface::None)
+    if (d->laminatingIntent != LaminatingIntent::defaultObject())
         d->laminatingIntent->toJdf(jdfWriter);
-    if (d->cuttingParams)
+    if (d->cuttingParams != CuttingParams::defaultObject())
         d->cuttingParams->toJdf(jdfWriter);
-    if (d->foldingParams)
+    if (d->foldingParams != FoldingParams::defaultObject())
         d->foldingParams->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
@@ -169,15 +171,17 @@ void ResourcePool::toJdfLink(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeStartElement("ResourceLinkPool");
 
-    for (const ComponentSP &component : d->components)
-        component->toJdfLink(jdfWriter);
-    if (d->media)
+    for (const ComponentSP &component : d->components) {
+        if (component != Component::defaultObject())
+            component->toJdfLink(jdfWriter);
+    }
+    if (d->media != Media::defaultObject())
         d->media->toJdfLink(jdfWriter);
-    if (d->laminatingIntent && d->laminatingIntent->surface() != Proof::Jdf::ApiHelper::LaminatingSurface::None)
+    if (d->laminatingIntent != LaminatingIntent::defaultObject())
         d->laminatingIntent->toJdfLink(jdfWriter);
-    if (d->cuttingParams)
+    if (d->cuttingParams != CuttingParams::defaultObject())
         d->cuttingParams->toJdfLink(jdfWriter);
-    if (d->foldingParams)
+    if (d->foldingParams != FoldingParams::defaultObject())
         d->foldingParams->toJdfLink(jdfWriter);
 
     jdfWriter.writeEndElement();
