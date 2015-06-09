@@ -105,14 +105,10 @@ void JdfNode::setResourcePool(const ResourcePoolSP &arg)
 void JdfNode::setJdfNodes(const QList<JdfNodeSP> &jdfNodes)
 {
     Q_D(JdfNode);
-    bool changed = jdfNodes.count() != d->jdfNodes.count();
-    for (int i = 0; i < jdfNodes.count() && !changed; ++i)
-        changed = jdfNodes[i]->id() != d->jdfNodes[i]->id();
 
-    if (changed) {
-        d->jdfNodes = jdfNodes;
-        emit jdfNodesChanged();
-    }
+    // TODO: check if nodes really changed
+    d->jdfNodes = jdfNodes;
+    emit jdfNodesChanged();
 }
 
 void JdfNode::setType(const QString &arg)
