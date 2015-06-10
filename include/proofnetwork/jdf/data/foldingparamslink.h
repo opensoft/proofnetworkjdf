@@ -4,6 +4,7 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
+#include "proofnetwork/jdf/data/foldingparams.h"
 
 namespace Proof {
 namespace Jdf {
