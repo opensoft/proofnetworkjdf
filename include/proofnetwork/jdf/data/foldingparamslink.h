@@ -12,7 +12,7 @@ class FoldingParamsLink : public AbstractResourceLink
 {
     Q_OBJECT
 public:
-    explicit FoldingParamsLink(const FoldingParamsLinkSP &foldingParams, QObject *parent = 0)
+    explicit FoldingParamsLink(const FoldingParamsSP &foldingParams, QObject *parent = 0)
         : AbstractResourceLink(qSharedPointerCast<AbstractResource>(foldingParams), parent)
     {
     }

@@ -12,7 +12,7 @@ class LaminatingIntentLink : public AbstractResourceLink
 {
     Q_OBJECT
 public:
-    explicit LaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent, QObject *parent = 0)
+    explicit LaminatingIntentLink(const LaminatingIntentSP &laminatingIntent, QObject *parent = 0)
         : AbstractResourceLink( qSharedPointerCast<AbstractResource>(laminatingIntent), parent)
     {
     }

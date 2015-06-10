@@ -57,10 +57,9 @@ class AbstractResourceLink;
 typedef QSharedPointer<AbstractResourceLink> AbstractResourceLinkSP;
 typedef QWeakPointer<AbstractResourceLink> AbstractResourceLinkWP;
 
-class FoldingParamsLink;
-typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;
-typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkWP;
-
+class FoldingParams;
+typedef QSharedPointer<FoldingParams> FoldingParamsSP;
+typedef QSharedPointer<FoldingParams> FoldingParamsWP;
 
 class CuttingParamsLink;
 typedef QSharedPointer<CuttingParamsLink> CuttingParamsLinkSP;
