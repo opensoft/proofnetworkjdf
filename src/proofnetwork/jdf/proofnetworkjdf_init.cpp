@@ -51,6 +51,17 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::BundleSP>("Proof::Jdf::BundleSP");
     qRegisterMetaType<Proof::Jdf::BundleWP>("Proof::Jdf::BundleWP");
 
+    qRegisterMetaType<Proof::Jdf::CuttingParamsLinkSP>("Proof::Jdf::CuttingParamsLinkSP");
+    qRegisterMetaType<Proof::Jdf::CuttingParamsLinkWP>("Proof::Jdf::CuttingParamsLinkWP");
+    qRegisterMetaType<Proof::Jdf::FoldingParamsLinkSP>("Proof::Jdf::FoldingParamsLinkSP");
+    qRegisterMetaType<Proof::Jdf::FoldingParamsLinkWP>("Proof::Jdf::FoldingParamsLinkWP");
+    qRegisterMetaType<Proof::Jdf::MediaLinkSP>("Proof::Jdf::MediaLinkSP");
+    qRegisterMetaType<Proof::Jdf::MediaLinkWP>("Proof::Jdf::MediaLinkWP");
+    qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkSP>("Proof::Jdf::LaminatingIntentLinkSP");
+    qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkWP>("Proof::Jdf::LaminatingIntentLinkWP");
+    qRegisterMetaType<Proof::Jdf::ComponentLinkSP>("Proof::Jdf::ComponentLinkSP");
+    qRegisterMetaType<Proof::Jdf::ComponentLinkWP>("Proof::Jdf::ComponentLinkWP");
+
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceStatus>("Proof::Jdf::ApiHelper::ResourceStatus");
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceClass>("Proof::Jdf::ApiHelper::ResourceClass");
     qRegisterMetaType<Proof::Jdf::ApiHelper::CoatingType>("Proof::Jdf::ApiHelper::CoatingType");

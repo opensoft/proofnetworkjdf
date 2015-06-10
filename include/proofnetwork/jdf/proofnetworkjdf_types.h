@@ -53,9 +53,35 @@ class Bundle;
 typedef QSharedPointer<Bundle> BundleSP;
 typedef QWeakPointer<Bundle> BundleWP;
 
-class FoldingParams;
-typedef QSharedPointer<FoldingParams> FoldingParamsSP;
-typedef QSharedPointer<FoldingParams> FoldingParamsWP;
+class AbstractResourceLink;
+typedef QSharedPointer<AbstractResourceLink> AbstractResourceLinkSP;
+typedef QWeakPointer<AbstractResourceLink> AbstractResourceLinkWP;
+
+class FoldingParamsLink;
+typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;
+typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkWP;
+
+
+class CuttingParamsLink;
+typedef QSharedPointer<CuttingParamsLink> CuttingParamsLinkSP;
+typedef QWeakPointer<CuttingParamsLink> CuttingParamsLinkWP;
+
+class MediaLink;
+typedef QSharedPointer<MediaLink> MediaLinkSP;
+typedef QWeakPointer<MediaLink> MediaLinkWP;
+
+class LaminatingIntentLink;
+typedef QSharedPointer<LaminatingIntentLink> LaminatingIntentLinkSP;
+typedef QWeakPointer<LaminatingIntentLink> LaminatingIntentLinkWP;
+
+class ComponentLink;
+typedef QSharedPointer<ComponentLink> ComponentLinkSP;
+typedef QWeakPointer<ComponentLink> ComponentLinkWP;
+
+
+class FoldingParamsLink;
+typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;
+typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkWP;
 
 }
 }
