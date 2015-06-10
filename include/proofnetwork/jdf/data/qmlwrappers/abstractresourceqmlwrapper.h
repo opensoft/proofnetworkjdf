@@ -18,8 +18,6 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResourceQmlWrapper : public NetworkDataEn
     Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceStatus resourceStatus READ resourceStatus NOTIFY resourceStatusChanged)
     Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceClass resourceClass READ resourceClass NOTIFY resourceClassChanged)
 
-    Q_PROPERTY(Proof::Jdf::ApiHelper::Usage usage READ usage CONSTANT)
-
     Q_DECLARE_PRIVATE(AbstractResourceQmlWrapper)
 public:
     explicit AbstractResourceQmlWrapper(const QSharedPointer<AbstractResource> &abstractResource,
@@ -30,14 +28,10 @@ public:
     ApiHelper::ResourceStatus resourceStatus() const;
     ApiHelper::ResourceClass resourceClass() const;
 
-    ApiHelper::Usage usage() const;
-
 signals:
     void idChanged(const QString &id);
     void resourceStatusChanged(Proof::Jdf::ApiHelper::ResourceStatus resourceStatus);
     void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass resourceClass);
-
-    void usageChanged(Proof::Jdf::ApiHelper::Usage usage);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

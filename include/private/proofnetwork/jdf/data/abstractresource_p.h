@@ -17,10 +17,8 @@ public:
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QString id;
-    ApiHelper::ResourceStatus resourceStatus = ApiHelper::ResourceStatus::IncompleteStatus;
-    ApiHelper::ResourceClass resourceClass = ApiHelper::ResourceClass::ConsumableClass;
-
-    ApiHelper::Usage usage = ApiHelper::Usage::InputUsage;
+    ApiHelper::ResourceStatus resourceStatus = ApiHelper::IncompleteStatus;
+    ApiHelper::ResourceClass resourceClass = ApiHelper::ConsumableClass;
 };
 
 }
