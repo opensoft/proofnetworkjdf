@@ -30,7 +30,9 @@ signals:
     void usageChanged(ApiHelper::Usage arg);
     void rRefChanged(const QString &arg);
 protected:
-    AbstractResourceLink();
+    explicit AbstractResourceLink() = delete;
+    AbstractResourceLink(const AbstractResourceSP &resource, QObject *parent = nullptr);
+    static void toJdf(QXmlStreamWriter &jdfWriter, const AbstractResourceLinkPrivate *link);
 };
 
 }
