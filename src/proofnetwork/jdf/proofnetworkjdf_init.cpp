@@ -10,6 +10,12 @@
 #include "data/bundle.h"
 #include "data/jdfdocument.h"
 
+#include "data/cuttingparamslink.h"
+#include "data/foldingparamslink.h"
+#include "data/medialink.h"
+#include "data/laminatingintentlink.h"
+#include "data/componentlink.h"
+
 #include "proofnetworkjdf_global.h"
 
 Q_LOGGING_CATEGORY(proofNetworkJdfDataLog, "proof.network.jdf.data")
