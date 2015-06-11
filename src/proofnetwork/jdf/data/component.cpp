@@ -148,12 +148,13 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
             component->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             component->setComponentType(ApiHelper::componentTypeFromString(attributes.value("ComponentType").toString()));
+
             QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
             if (dimensionsList.count() >= 3) {
                 component->setWidth(dimensionsList.at(0).toDouble());
                 component->setHeight(dimensionsList.at(1).toDouble());
                 component->setLength(dimensionsList.at(2).toDouble());
-            } else {
+            } else if (component->componentType() == ApiHelper::ComponentType::SheetComponent || dimensionsList.count()) {
                 qCCritical(proofNetworkJdfDataLog) << "Component not created. Dimensions is not valid";
                 return ComponentSP();
             }
