@@ -23,7 +23,7 @@ public:
     void setUsage(ApiHelper::Usage arg);
     void setRRef(const QString &arg);
 
-    static void fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceLinkSP &abstractResource);
+    static void fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
@@ -31,8 +31,7 @@ signals:
     void rRefChanged(const QString &arg);
 protected:
     explicit AbstractResourceLink() = delete;
-    AbstractResourceLink(const AbstractResourceSP &resource, QObject *parent = nullptr);
-    static void toJdf(QXmlStreamWriter &jdfWriter, const AbstractResourceLinkPrivate *link);
+    AbstractResourceLink(AbstractResourceLinkPrivate &dd, QObject *parent = nullptr);
 };
 
 }

@@ -1,45 +1,13 @@
 #include "abstractresourcelink.h"
 
-#include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/data/abstractresource.h"
-
-namespace Proof {
-namespace Jdf {
-
-class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
-{
-    Q_DECLARE_PUBLIC(AbstractResourceLink)
-
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override
-    {
-        Q_Q(AbstractResourceLink);
-        AbstractResourceLinkSP castedOther = qSharedPointerCast<AbstractResourceLink>(other);
-        q->setUsage(castedOther->usage());
-        q->setRRef(castedOther->rRef());
-    }
-
-    // TODO: should we use default usage?
-    ApiHelper::Usage usage = ApiHelper::InputUsage;
-    QString rRef;
-};
-
-}
-}
+#include "proofnetwork/jdf/data/abstractresourcelink_p.h"
 
 using namespace Proof::Jdf;
 
-// TODO: is it better to pass QString id, instead of object pointer?
-AbstractResourceLink::AbstractResourceLink(const AbstractResourceSP &resource, QObject *parent)
-    : NetworkDataEntity( *new AbstractResourceLinkPrivate, parent)
+AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd, QObject *parent)
+    : NetworkDataEntity(dd, parent)
 {
-    Q_D(AbstractResourceLink);
-    d->rRef = resource->id();
-}
-
-void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter, const AbstractResourceLinkPrivate *link)
-{
-    jdfWriter.writeAttribute("usage", ApiHelper::usageToString(link->usage));
-    jdfWriter.writeAttribute("rRef", link->rRef);
 }
 
 ApiHelper::Usage AbstractResourceLink::usage() const
@@ -72,7 +40,7 @@ void AbstractResourceLink::setRRef(const QString &arg)
     }
 }
 
-void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceLinkSP &abstractResource)
+void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     abstractResource->setUsage(ApiHelper::usageFromString(attributes.value("usage").toString()));
@@ -82,8 +50,7 @@ void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, AbstractRe
 void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResourceLink);
-    jdfWriter.writeStartElement(metaObject()->className());
-    toJdf(jdfWriter, d);
-    jdfWriter.writeEndElement();
+    jdfWriter.writeAttribute("usage", ApiHelper::usageToString(d->usage));
+    jdfWriter.writeAttribute("rRef", d->rRef);
 }
 
