@@ -5,18 +5,26 @@
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
+#include "proofnetwork/jdf/data/qmlwrappers/laminatingintentlinkqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
 
+class LaminatingIntentLinkPrivate;
 class LaminatingIntentLink : public AbstractResourceLink
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(LaminatingIntentLink)
 public:
-    explicit LaminatingIntentLink(const LaminatingIntentSP &laminatingIntent, QObject *parent = 0)
-        : AbstractResourceLink( qSharedPointerCast<AbstractResource>(laminatingIntent), parent)
-    {
-    }
+    LaminatingIntentLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+
+    static LaminatingIntentLinkSP create();
+
+    static LaminatingIntentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    virtual void toJdf(QXmlStreamWriter &jdfWriter);
+
+protected:
+    explicit LaminatingIntentLink(QObject *parent = 0);
 };
 
 }
