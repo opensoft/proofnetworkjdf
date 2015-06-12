@@ -5,18 +5,26 @@
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
+#include "proofnetwork/jdf/data/qmlwrappers/foldingparamslinkqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
 
+class FoldingParamsLinkPrivate;
 class FoldingParamsLink : public AbstractResourceLink
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(FoldingParamsLink)
 public:
-    explicit FoldingParamsLink(const FoldingParamsSP &foldingParams, QObject *parent = 0)
-        : AbstractResourceLink(qSharedPointerCast<AbstractResource>(foldingParams), parent)
-    {
-    }
+    FoldingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+
+    static FoldingParamsLinkSP create();
+
+    static FoldingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    virtual void toJdf(QXmlStreamWriter &jdfWriter);
+
+protected:
+    explicit FoldingParamsLink(QObject *parent = 0);
 };
 
 }
