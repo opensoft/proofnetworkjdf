@@ -82,6 +82,10 @@ class FoldingParamsLink;
 typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;
 typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkWP;
 
+class ResourceLinkPool;
+typedef QSharedPointer<ResourceLinkPool> ResourceLinkPoolSP;
+typedef QWeakPointer<ResourceLinkPool> ResourceLinkPoolWP;
+
 }
 }
 

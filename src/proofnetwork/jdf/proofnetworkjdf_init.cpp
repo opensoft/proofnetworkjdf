@@ -15,6 +15,7 @@
 #include "data/medialink.h"
 #include "data/laminatingintentlink.h"
 #include "data/componentlink.h"
+#include "data/resourcelinkpool.h"
 
 #include "proofnetworkjdf_global.h"
 
@@ -25,6 +26,8 @@ static void libraryInit()
 {
     qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
+
     qRegisterMetaType<Proof::Jdf::ResourcePoolQmlWrapper *>("Proof::Jdf::ResourcePoolQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::CuttingParamsQmlWrapper *>("Proof::Jdf::CuttingParamsQmlWrapper *");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");
@@ -38,6 +41,14 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::JdfDocumentQmlWrapper *>("Proof::Jdf::JdfDocumentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfNodeSP>("Proof::Jdf::JdfNodeSP");
     qRegisterMetaType<Proof::Jdf::JdfNodeWP>("Proof::Jdf::JdfNodeWP");
+
+    qRegisterMetaType<Proof::Jdf::ResourceLinkPoolQmlWrapper *>("Proof::Jdf::ResourceLinkPoolQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::CuttingParamsLinkQmlWrapper *>("Proof::Jdf::CuttingParamsLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::MediaLinkQmlWrapper *>("Proof::Jdf::MediaLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkQmlWrapper *>("Proof::Jdf::LaminatingIntentLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::ComponentLinkQmlWrapper *>("Proof::Jdf::ComponentLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::FoldingParamsLinkQmlWrapper *>("Proof::Jdf::FoldingParamsLinkQmlWrapper *");
+
     qRegisterMetaType<Proof::Jdf::JdfDocumentSP>("Proof::Jdf::JdfDocumentSP");
     qRegisterMetaType<Proof::Jdf::JdfDocumentWP>("Proof::Jdf::JdfDocumentWP");
     qRegisterMetaType<Proof::Jdf::ResourcePoolSP>("Proof::Jdf::ResourcePoolSP");
