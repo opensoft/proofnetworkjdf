@@ -5,18 +5,26 @@
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cuttingparamslinkqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
 
+class CuttingParamsLinkPrivate;
 class CuttingParamsLink : public AbstractResourceLink
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(CuttingParamsLink)
 public:
-    explicit CuttingParamsLink(const CuttingParamsSP &cuttingParams, QObject *parent = 0)
-        : AbstractResourceLink( qSharedPointerCast<AbstractResource>(cuttingParams), parent)
-    {
-    }
+    CuttingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+
+    static CuttingParamsLinkSP create();
+
+    static CuttingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    virtual void toJdf(QXmlStreamWriter &jdfWriter);
+
+protected:
+    explicit CuttingParamsLink(QObject *parent = 0);
 };
 
 }
