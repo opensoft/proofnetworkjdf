@@ -168,31 +168,6 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-void ResourcePool::toJdfLink(QXmlStreamWriter &jdfWriter)
-{
-    Q_D(ResourcePool);
-
-    jdfWriter.writeStartElement("ResourceLinkPool");
-
-    for (const ComponentSP &component : d->components) {
-        if (isValidAndNotDefault(component))
-            component->toJdfLink(jdfWriter);
-    }
-    if (isValidAndNotDefault(d->media))
-        d->media->toJdfLink(jdfWriter);
-
-    if (isValidAndNotDefault(d->laminatingIntent))
-        d->laminatingIntent->toJdfLink(jdfWriter);
-
-    if (isValidAndNotDefault(d->cuttingParams))
-        d->cuttingParams->toJdfLink(jdfWriter);
-
-    if (isValidAndNotDefault(d->foldingParams))
-        d->foldingParams->toJdfLink(jdfWriter);
-
-    jdfWriter.writeEndElement();
-}
-
 ResourcePoolSP ResourcePool::defaultObject()
 {
     static ResourcePoolSP entity = create();
