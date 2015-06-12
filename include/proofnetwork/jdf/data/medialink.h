@@ -5,18 +5,26 @@
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/qmlwrappers/medialinkqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
 
+class MediaLinkPrivate;
 class MediaLink : public AbstractResourceLink
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(MediaLink)
 public:
-    explicit MediaLink(const MediaSP &media, QObject *parent = 0) :
-        AbstractResourceLink( qSharedPointerCast<AbstractResource>(media), parent)
-    {
-    }
+    MediaLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+
+    static MediaLinkSP create();
+
+    static MediaLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    virtual void toJdf(QXmlStreamWriter &jdfWriter);
+
+protected:
+    explicit MediaLink(QObject *parent = 0);
 };
 
 }
