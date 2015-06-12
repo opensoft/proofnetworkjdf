@@ -14,6 +14,7 @@ class ComponentQmlWrapper;
 class CuttingParamsQmlWrapper;
 class MediaQmlWrapper;
 class FoldingParamsQmlWrapper;
+class LaminatingIntentQmlWrapper;
 
 class ResourcePoolQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntityQmlWrapper
@@ -23,8 +24,10 @@ class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntity
     Q_PROPERTY(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams READ cuttingParams NOTIFY cuttingParamsChanged)
     Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
     Q_PROPERTY(Proof::Jdf::FoldingParamsQmlWrapper *foldingParams READ foldingParams NOTIFY foldingParamsChanged)
+    Q_PROPERTY(Proof::Jdf::LaminatingIntentQmlWrapper *laminatingIntent READ laminatingIntent NOTIFY laminatingIntentChanged)
 
     Q_DECLARE_PRIVATE(ResourcePoolQmlWrapper)
+
 public:
     explicit ResourcePoolQmlWrapper(const ResourcePoolSP &resourcePool, QObject *parent = 0);
     ~ResourcePoolQmlWrapper();
@@ -35,12 +38,14 @@ public:
     CuttingParamsQmlWrapper *cuttingParams() const;
     MediaQmlWrapper *media() const;
     FoldingParamsQmlWrapper *foldingParams() const;
+    LaminatingIntentQmlWrapper * laminatingIntent() const;
 
 signals:
-    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &arg);
-    void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *arg);
-    void mediaChanged(Proof::Jdf::MediaQmlWrapper *arg);
-    void foldingParamsChanged(Proof::Jdf::FoldingParamsQmlWrapper *arg);
+    void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &components);
+    void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams);
+    void mediaChanged(Proof::Jdf::MediaQmlWrapper *media);
+    void foldingParamsChanged(Proof::Jdf::FoldingParamsQmlWrapper *foldingParams);
+    void laminatingIntentChanged(Proof::Jdf::LaminatingIntentQmlWrapper * laminatingIntent);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

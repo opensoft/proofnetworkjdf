@@ -1,14 +1,17 @@
 #include "resourcepoolqmlwrapper.h"
 
 #include "componentqmlwrapper.h"
+#include "cuttingparamsqmlwrapper.h"
 #include "mediaqmlwrapper.h"
 #include "foldingparamsqmlwrapper.h"
+#include "laminatingintentqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
+#include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {
@@ -20,6 +23,7 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     void updateCutingParams();
     void updateMedia();
     void updateFoldingParams();
+    void updateLaminatingIntent();
 
     QList<ComponentQmlWrapper *> components;
     QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> qmlComponentsList;
@@ -29,6 +33,7 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     CuttingParamsQmlWrapper *cuttingParams = nullptr;
     MediaQmlWrapper *media = nullptr;
     FoldingParamsQmlWrapper *foldingParams = nullptr;
+    LaminatingIntentQmlWrapper *laminatingIntent = nullptr;
 };
 
 }
@@ -69,6 +74,12 @@ FoldingParamsQmlWrapper *ResourcePoolQmlWrapper::foldingParams() const
 {
     Q_D(const ResourcePoolQmlWrapper);
     return d->foldingParams;
+}
+
+LaminatingIntentQmlWrapper *ResourcePoolQmlWrapper::laminatingIntent() const
+{
+    Q_D(const ResourcePoolQmlWrapper);
+    return d->laminatingIntent;
 }
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(ResourcePool)
@@ -142,6 +153,18 @@ void ResourcePoolQmlWrapperPrivate::updateFoldingParams()
     else
         foldingParams->setEntity(resourcePool->foldingParams());
     emit q->foldingParamsChanged(foldingParams);
+}
+
+void ResourcePoolQmlWrapperPrivate::updateLaminatingIntent()
+{
+    Q_Q(ResourcePoolQmlWrapper);
+    ResourcePoolSP resourcePool = entity<ResourcePool>();
+    if (laminatingIntent == nullptr)
+        laminatingIntent = resourcePool->laminatingIntent()->toQmlWrapper(q);
+    else
+        laminatingIntent->setEntity(resourcePool->laminatingIntent());
+    emit q->laminatingIntentChanged(laminatingIntent);
+
 }
 
 ComponentQmlWrapper *ResourcePoolQmlWrapperPrivate::componentAt(QQmlListProperty<ComponentQmlWrapper> *property, int index)
