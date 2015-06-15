@@ -47,10 +47,13 @@ void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const Abst
     abstractResource->setRRef(attributes.value("rRef").toString());
 }
 
+// TODO: should we make toJdf method for every subclass of AbstractResourceLink?
 void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResourceLink);
+    jdfWriter.writeStartElement(metaObject()->className());
     jdfWriter.writeAttribute("usage", ApiHelper::usageToString(d->usage));
     jdfWriter.writeAttribute("rRef", d->rRef);
+    jdfWriter.writeEndElement();
 }
 

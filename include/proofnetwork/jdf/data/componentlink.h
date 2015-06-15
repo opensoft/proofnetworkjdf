@@ -21,7 +21,6 @@ public:
     static ComponentLinkSP create();
 
     static ComponentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
-    virtual void toJdf(QXmlStreamWriter &jdfWriter);
     static ComponentLinkSP defaultObject();
 
 protected:

@@ -38,13 +38,6 @@ ComponentLinkSP ComponentLink::fromJdf(const QXmlStreamReader &xmlReader)
     return componentLink;
 }
 
-void ComponentLink::toJdf(QXmlStreamWriter &jdfWriter)
-{
-    jdfWriter.writeStartElement("ComponentLink");
-    AbstractResourceLink::toJdf(jdfWriter);
-    jdfWriter.writeEndElement();
-}
-
 ComponentLinkSP ComponentLink::defaultObject()
 {
     static ComponentLinkSP entity = create();

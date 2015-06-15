@@ -33,13 +33,6 @@ LaminatingIntentLinkSP LaminatingIntentLink::fromJdf(const QXmlStreamReader &xml
     return laminatingParams;
 }
 
-void LaminatingIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
-{
-    jdfWriter.writeStartElement("LaminatingIntentLink");
-    AbstractResourceLink::toJdf(jdfWriter);
-    jdfWriter.writeEndElement();
-}
-
 LaminatingIntentLinkSP LaminatingIntentLink::defaultObject()
 {
     static LaminatingIntentLinkSP entity = create();

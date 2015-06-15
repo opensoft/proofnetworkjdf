@@ -38,13 +38,6 @@ CuttingParamsLinkSP CuttingParamsLink::fromJdf(const QXmlStreamReader &xmlReader
     return cuttingParams;
 }
 
-void CuttingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
-{
-    jdfWriter.writeStartElement("CuttingParamsLink");
-    AbstractResourceLink::toJdf(jdfWriter);
-    jdfWriter.writeEndElement();
-}
-
 CuttingParamsLinkSP CuttingParamsLink::defaultObject()
 {
     static CuttingParamsLinkSP entity = create();

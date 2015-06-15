@@ -33,13 +33,6 @@ FoldingParamsLinkSP FoldingParamsLink::fromJdf(const QXmlStreamReader &xmlReader
     return foldingParams;
 }
 
-void FoldingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
-{
-    jdfWriter.writeStartElement("FoldingParamsLink");
-    AbstractResourceLink::toJdf(jdfWriter);
-    jdfWriter.writeEndElement();
-}
-
 FoldingParamsLinkSP FoldingParamsLink::defaultObject()
 {
     static FoldingParamsLinkSP entity = create();
