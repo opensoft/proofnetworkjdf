@@ -27,7 +27,7 @@ protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
 signals:
     void usageChanged(Proof::Jdf::ApiHelper::Usage arg);
-    void rRefChanged(QString arg);
+    void rRefChanged(const QString &arg);
 };
 
 }
