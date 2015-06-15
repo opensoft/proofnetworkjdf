@@ -34,17 +34,17 @@ public:
     PROOF_NDE_WRAPPER_TOOLS(ResourceLinkPool)
 
     QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> componentLinks() const;
-    Proof::Jdf::CuttingParamsLinkQmlWrapper * cuttingParamsLink() const;
-    Proof::Jdf::MediaLinkQmlWrapper * mediaLink() const;
-    Proof::Jdf::FoldingParamsLinkQmlWrapper * foldingParamsLink() const;
-    Proof::Jdf::LaminatingIntentLinkQmlWrapper * laminatingIntentLink() const;
+    Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink() const;
+    Proof::Jdf::MediaLinkQmlWrapper *mediaLink() const;
+    Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink() const;
+    Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink() const;
 
 signals:
     void componentLinksChanged(QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> arg);
-    void cuttingParamsLinkChanged(Proof::Jdf::CuttingParamsLinkQmlWrapper * arg);
-    void mediaLinkChanged(Proof::Jdf::MediaLinkQmlWrapper * arg);
-    void foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkQmlWrapper * arg);
-    void laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkQmlWrapper * arg);
+    void cuttingParamsLinkChanged(Proof::Jdf::CuttingParamsLinkQmlWrapper *arg);
+    void mediaLinkChanged(Proof::Jdf::MediaLinkQmlWrapper *arg);
+    void foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkQmlWrapper *arg);
+    void laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkQmlWrapper *arg);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
