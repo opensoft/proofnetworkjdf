@@ -40,6 +40,12 @@ void LaminatingIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
+LaminatingIntentLinkSP LaminatingIntentLink::defaultObject()
+{
+    static LaminatingIntentLinkSP entity = create();
+    return entity;
+}
+
 LaminatingIntentLink::LaminatingIntentLink(QObject *parent)
     : AbstractResourceLink(*new LaminatingIntentLinkPrivate, parent)
 {

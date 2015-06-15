@@ -17,10 +17,10 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QList<ComponentLinkSP> componentLinks;
-    CuttingParamsLinkSP cuttingParamsLink;
-    MediaLinkSP mediaLink;
-    LaminatingIntentLinkSP laminatingIntentLink;
-    FoldingParamsLinkSP foldingParamsLink;
+    CuttingParamsLinkSP cuttingParamsLink = CuttingParamsLink::defaultObject();
+    MediaLinkSP mediaLink = MediaLink::defaultObject();
+    LaminatingIntentLinkSP laminatingIntentLink = LaminatingIntentLink::defaultObject();
+    FoldingParamsLinkSP foldingParamsLink = FoldingParamsLink::defaultObject();
 };
 
 }

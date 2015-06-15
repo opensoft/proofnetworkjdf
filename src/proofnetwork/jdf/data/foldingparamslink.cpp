@@ -40,6 +40,12 @@ void FoldingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
+FoldingParamsLinkSP FoldingParamsLink::defaultObject()
+{
+    static FoldingParamsLinkSP entity = create();
+    return entity;
+}
+
 FoldingParamsLink::FoldingParamsLink(QObject *parent)
     : AbstractResourceLink(*new FoldingParamsLinkPrivate, parent)
 {

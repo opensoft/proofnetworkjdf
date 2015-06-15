@@ -22,6 +22,7 @@ public:
 
     static LaminatingIntentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
+    static LaminatingIntentLinkSP defaultObject();
 
 protected:
     explicit LaminatingIntentLink(QObject *parent = 0);

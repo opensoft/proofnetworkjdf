@@ -1,4 +1,4 @@
-#ifndef CUTTINGPARAMSLINK_H
+ #ifndef CUTTINGPARAMSLINK_H
 #define CUTTINGPARAMSLINK_H
 
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
@@ -22,6 +22,7 @@ public:
 
     static CuttingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
+    static CuttingParamsLinkSP defaultObject();
 
 protected:
     explicit CuttingParamsLink(QObject *parent = 0);

@@ -45,5 +45,11 @@ void CuttingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
+CuttingParamsLinkSP CuttingParamsLink::defaultObject()
+{
+    static CuttingParamsLinkSP entity = create();
+    return entity;
+}
+
 }
 }

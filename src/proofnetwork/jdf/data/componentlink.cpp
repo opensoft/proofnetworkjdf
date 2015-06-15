@@ -45,5 +45,11 @@ void ComponentLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
+ComponentLinkSP ComponentLink::defaultObject()
+{
+    static ComponentLinkSP entity = create();
+    return entity;
+}
+
 }
 }

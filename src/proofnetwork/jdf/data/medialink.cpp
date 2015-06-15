@@ -39,6 +39,12 @@ void MediaLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
+MediaLinkSP MediaLink::defaultObject()
+{
+    static MediaLinkSP entity = create();
+    return entity;
+}
+
 MediaLink::MediaLink(QObject *parent) :
     AbstractResourceLink(*new MediaLinkPrivate, parent)
 {
