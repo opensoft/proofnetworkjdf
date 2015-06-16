@@ -27,7 +27,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
 public:
     ApiHelper() = delete;
 
-    enum ResourceStatus {
+    enum class ResourceStatus {
         IncompleteStatus, // Indicates that the Resource does not exist, and the metadata is not yet valid.
         RejectedStatus, // Indicates that the Resource has been rejected by an Approval Process. The metadata is valid. New in JDF 1.2
         UnavailableStatus, // Indicates that the Resource is not ready to be used or that the Resource in the real world
@@ -40,7 +40,7 @@ public:
         AvailableStatus // Indicates that the whole Resource is available for usage.
     };
 
-    enum ResourceClass {
+    enum class ResourceClass {
         ConsumableClass,
         HandlingClass,
         ImplementationClass,
@@ -50,7 +50,7 @@ public:
         QuantityClass
     };
 
-    enum CoatingType {
+    enum class CoatingType {
         NoneCoating, // No coating.
         Coated, // A coating of a system-specified type. New in JDF 1.2
         GlossyCoating,
@@ -64,14 +64,14 @@ public:
         SemiglossCoating
     };
 
-    enum LaminatingSurface {
+    enum class LaminatingSurface {
         Front,
         Back,
         Both,
         None
     };
 
-    enum BundleType {
+    enum class BundleType {
         BoundSetBundle, // Stack of components that are bound together.
         BoxBundle,
         CartonBundle,
@@ -93,7 +93,7 @@ public:
         Rotate270Orientaiton // 270
     };
 
-    enum ComponentType {
+    enum class ComponentType {
         BlockComponent, // Folded or stacked product, (e.g., book block).
         OtherComponent, // The Component describes a sample that has not been produced in this Job.
         RibbonComponent, // The Component is a ribbon on a Web Press.
@@ -104,13 +104,13 @@ public:
         ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
     };
 
-    enum PartIdKeysType {
+    enum class PartIdKeysType {
         BlockNameKey,
         BundleItemIndexKey,
         CellIndexKey
     };
 
-    enum ProcessUsage {
+    enum class ProcessUsage {
         AcceptedProcess, // Used for Resource in an Output Resource of Approval l
         ApplicationProcess, // Used for Component in an Input Resource of BoxFolding
         BackEndSheetProcess, // Used for Component in an Input Resource of EndSheetGluing
@@ -142,74 +142,72 @@ public:
         WasteProcess, // Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
     };
 
-    enum Usage {
+    enum class Usage {
         InputUsage,
         OutputUsage
     };
 
-    enum BlockType {
+    enum class BlockType {
         CutBlockType, //Block to be cut.
         SaveBlockType, //Protected block, cut only via outer contour.
         TempBlockType, //Auxiliary block that is not taken into account during cutting.
         MarkBlockType //Contains no elements, only marks.
     };
 
-    enum MediaUnit {
+    enum class MediaUnit {
         ContinuousMediaUnit, // Continuously connected Sheets which can be fan folded
         RollMediaUnit,
         SheetMediaUnit // Individual cut Sheets.
     };
 
     static QString resourceStatusToString(ResourceStatus status);
-    static ResourceStatus resourceStatusFromString(const QString &status);
+    static ResourceStatus resourceStatusFromString(const QString &status, bool *ok = nullptr);
 
     static QString resourceClassToString(ResourceClass resourceClass);
-    static ResourceClass resourceClassFromString(const QString &resourceClass);
+    static ResourceClass resourceClassFromString(const QString &resourceClass, bool *ok = nullptr);
 
     static QString coatingToString(CoatingType coating);
-    static CoatingType coatingFromString(const QString &coating);
+    static CoatingType coatingFromString(const QString &coating, bool *ok = nullptr);
 
     static QString laminatingSurfaceToString(LaminatingSurface surface);
-    static LaminatingSurface laminatingSurfaceFromString(const QString &surface);
+    static LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok = nullptr);
 
     static QString bundleTypeToString(BundleType bundleType);
-    static BundleType bundleTypeFromString(const QString &bundleType);
+    static BundleType bundleTypeFromString(const QString &bundleType, bool *ok = nullptr);
 
     static QString componentOrientationToString(ComponentOrientation componentOrientation);
     static ComponentOrientation componentOrientationFromString(const QString &componentOrientation);
 
     static QString componentTypeToString(ComponentType componentType);
-    static ComponentType componentTypeFromString(const QString &componentType);
+    static ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
 
     static QString partIdKeysTypeToString(PartIdKeysType partIdKeysType);
-    static PartIdKeysType partIdKeysTypeFromString(const QString &partIdKeysType);
+    static PartIdKeysType partIdKeysTypeFromString(const QString &partIdKeysType, bool *ok = nullptr);
 
     static QString processUsageToString(ProcessUsage processUsage);
-    static ProcessUsage processUsageFromString(const QString &processUsage);
+    static ProcessUsage processUsageFromString(const QString &processUsage, bool *ok = nullptr);
 
     static QString usageToString(Usage usage);
-    static Usage usageFromString(const QString &usage);
+    static Usage usageFromString(const QString &usage, bool *ok = nullptr);
 
     static QString blockTypeToString(BlockType blockType);
-    static BlockType blockTypeFromString(const QString &blockType);
+    static BlockType blockTypeFromString(const QString &blockType, bool *ok = nullptr);
 
     static QString mediaUnitToString(MediaUnit mediaUnit);
-    static MediaUnit mediaUnitFromString(const QString &mediaUnit);
-
-private:
-    static QHash<QString, ResourceStatus> m_resourceStatusStringified;
-    static QHash<QString, ResourceClass> m_resourceClassStringified;
-    static QHash<QString, CoatingType> m_coatingStringified;
-    static QHash<QString, LaminatingSurface> m_laminatingSurfaceStringified;
-    static QHash<QString, BundleType> m_bundleTypeStringified;
-    static QHash<QString, ComponentOrientation> m_componentOrientationStringified;
-    static QHash<QString, ComponentType> m_componentTypeStringified;
-    static QHash<QString, PartIdKeysType> m_partIdKeysTypeStringified;
-    static QHash<QString, ProcessUsage> m_processUsageStringified;
-    static QHash<QString, Usage> m_usageStringified;
-    static QHash<QString, BlockType> m_blockTypeStringified;
-    static QHash<QString, MediaUnit> m_mediaUnitStringified;
+    static MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok = nullptr);
 };
+
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceStatus arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceClass arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::CoatingType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::LaminatingSurface arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BundleType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ComponentType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::PartIdKeysType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ProcessUsage arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::Usage arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BlockType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::MediaUnit arg, uint seed = 0);
 
 }
 }

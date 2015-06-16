@@ -123,7 +123,7 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
 FoldingParams::FoldingParams()
     : AbstractResource(*new FoldingParamsPrivate)
 {
-    setResourceClass(ApiHelper::ParameterClass);
+    setResourceClass(ApiHelper::ResourceClass::ParameterClass);
 }
 
 void FoldingParamsPrivate::updateFrom(const NetworkDataEntitySP &other)

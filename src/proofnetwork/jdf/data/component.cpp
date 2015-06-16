@@ -14,8 +14,8 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::ComponentType componentType = ApiHelper::SheetComponent;
     ApiHelper::ComponentOrientation orientation = ApiHelper::Rotate0Orientaiton;
+    ApiHelper::ComponentType componentType = ApiHelper::ComponentType::SheetComponent;
     double width = 0.0;
     double height = 0.0;
     double length = 0.0;
@@ -157,7 +157,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
     ComponentSP component = create();
 
     QList<CutBlockSP> cutBlocks;
-    ApiHelper::PartIdKeysType partIDKeys = ApiHelper::BlockNameKey;
+    ApiHelper::PartIdKeysType partIDKeys = ApiHelper::PartIdKeysType::BlockNameKey;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "Component" && xmlReader.isStartElement() && !component->isFetched()) {
@@ -184,13 +184,13 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                 QXmlStreamAttributes attributes = xmlReader.attributes();
 
                 switch (partIDKeys) {
-                case ApiHelper::BlockNameKey: {
-                    QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::BlockNameKey)).toString();
+                case ApiHelper::PartIdKeysType::BlockNameKey: {
+                    QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::PartIdKeysType::BlockNameKey)).toString();
                     cutBlocks << cutBlockCache().add({jdfId, blockName}, CutBlock::create(blockName));
                     break;
                 }
-                case ApiHelper::BundleItemIndexKey:
-                case ApiHelper::CellIndexKey:
+                case ApiHelper::PartIdKeysType::BundleItemIndexKey:
+                case ApiHelper::PartIdKeysType::CellIndexKey:
                 default:
                     break;
                 }
@@ -231,7 +231,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractPhysicalResource::toJdf(jdfWriter);
 
     if (d->cutBlocks.count()) {
-        QString blockNameText = ApiHelper::partIdKeysTypeToString(ApiHelper::BlockNameKey);
+        QString blockNameText = ApiHelper::partIdKeysTypeToString(ApiHelper::PartIdKeysType::BlockNameKey);
         jdfWriter.writeAttribute("PartIDKeys", blockNameText);
         for (const CutBlockSP &cutBlock : d->cutBlocks) {
             jdfWriter.writeStartElement("Component");
@@ -267,7 +267,7 @@ ComponentSP Component::defaultObject()
 Component::Component()
     : AbstractPhysicalResource(*new ComponentPrivate)
 {
-    setResourceClass(ApiHelper::QuantityClass);
+    setResourceClass(ApiHelper::ResourceClass::QuantityClass);
 }
 
 void ComponentPrivate::updateFrom(const NetworkDataEntitySP &other)

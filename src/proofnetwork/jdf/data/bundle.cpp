@@ -11,7 +11,7 @@ class BundlePrivate : NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::BundleType bundleType = ApiHelper::BoxBundle;
+    ApiHelper::BundleType bundleType = ApiHelper::BundleType::BoxBundle;
     int totalAmount = 0;
 };
 

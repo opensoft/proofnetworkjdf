@@ -92,7 +92,7 @@ LaminatingIntentSP LaminatingIntent::defaultObject()
 LaminatingIntent::LaminatingIntent()
     : AbstractResource(*new LaminatingIntentPrivate)
 {
-    setResourceClass(ApiHelper::IntentClass);
+    setResourceClass(ApiHelper::ResourceClass::IntentClass);
 }
 
 void LaminatingIntentPrivate::updateFrom(const NetworkDataEntitySP &other)

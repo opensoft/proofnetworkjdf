@@ -1,183 +1,195 @@
 #include "apihelper.h"
 
+#include <QHash>
+
 using namespace Proof::Jdf;
 
-QHash<QString, ApiHelper::ResourceStatus> ApiHelper::m_resourceStatusStringified = {
-    {"Incomplete", ApiHelper::IncompleteStatus},
-    {"Rejected", ApiHelper::RejectedStatus},
-    {"Unavailable", ApiHelper::UnavailableStatus},
-    {"InUse", ApiHelper::InUseStatus},
-    {"Draft", ApiHelper::DraftStatus},
-    {"Complete", ApiHelper::CompleteStatus},
-    {"Available", ApiHelper::AvailableStatus}
+static const QHash<QString, ApiHelper::ResourceStatus> RESOURCE_STATUS_STRINGIFIED = {
+    {"Incomplete", ApiHelper::ResourceStatus::IncompleteStatus},
+    {"Rejected", ApiHelper::ResourceStatus::RejectedStatus},
+    {"Unavailable", ApiHelper::ResourceStatus::UnavailableStatus},
+    {"InUse", ApiHelper::ResourceStatus::InUseStatus},
+    {"Draft", ApiHelper::ResourceStatus::DraftStatus},
+    {"Complete", ApiHelper::ResourceStatus::CompleteStatus},
+    {"Available", ApiHelper::ResourceStatus::AvailableStatus}
 };
 
-QHash<QString, ApiHelper::ResourceClass> ApiHelper::m_resourceClassStringified = {
-    {"Consumable", ApiHelper::ConsumableClass},
-    {"Handling", ApiHelper::HandlingClass},
-    {"Implementation", ApiHelper::ImplementationClass},
-    {"Intent", ApiHelper::IntentClass},
-    {"Parameter", ApiHelper::ParameterClass},
-    {"PlaceHolder", ApiHelper::PlaceHolderClass},
-    {"Quantity", ApiHelper::QuantityClass}
+static const QHash<QString, ApiHelper::ResourceClass> RESOURCE_CLASS_STRINGIFIED = {
+    {"Consumable", ApiHelper::ResourceClass::ConsumableClass},
+    {"Handling", ApiHelper::ResourceClass::HandlingClass},
+    {"Implementation", ApiHelper::ResourceClass::ImplementationClass},
+    {"Intent", ApiHelper::ResourceClass::IntentClass},
+    {"Parameter", ApiHelper::ResourceClass::ParameterClass},
+    {"PlaceHolder", ApiHelper::ResourceClass::PlaceHolderClass},
+    {"Quantity", ApiHelper::ResourceClass::QuantityClass}
 };
 
-QHash<QString, ApiHelper::CoatingType> ApiHelper::m_coatingStringified = {
-    {"None", ApiHelper::NoneCoating},
-    {"Coated", ApiHelper::Coated},
-    {"Glossy", ApiHelper::GlossyCoating},
-    {"HighGloss", ApiHelper::HighGlossCoating},
-    {"InkJet", ApiHelper::InkJetCoating},
-    {"Matte", ApiHelper::MatteCoating},
-    {"Polymer", ApiHelper::PolymerCoating},
-    {"Silver", ApiHelper::SilverCoating},
-    {"Satin", ApiHelper::SatinCoating},
-    {"Semigloss", ApiHelper::SemiglossCoating}
+static const QHash<QString, ApiHelper::CoatingType> COATING_STRINGIFIED = {
+    {"None", ApiHelper::CoatingType::NoneCoating},
+    {"Coated", ApiHelper::CoatingType::Coated},
+    {"Glossy", ApiHelper::CoatingType::GlossyCoating},
+    {"HighGloss", ApiHelper::CoatingType::HighGlossCoating},
+    {"InkJet", ApiHelper::CoatingType::InkJetCoating},
+    {"Matte", ApiHelper::CoatingType::MatteCoating},
+    {"Polymer", ApiHelper::CoatingType::PolymerCoating},
+    {"Silver", ApiHelper::CoatingType::SilverCoating},
+    {"Satin", ApiHelper::CoatingType::SatinCoating},
+    {"Semigloss", ApiHelper::CoatingType::SemiglossCoating}
 };
 
-QHash<QString, ApiHelper::LaminatingSurface> ApiHelper::m_laminatingSurfaceStringified = {
+static const QHash<QString, ApiHelper::LaminatingSurface> LAMINATING_SURFACE_STRINGIFIED = {
     {"Front", ApiHelper::LaminatingSurface::Front},
     {"Back", ApiHelper::LaminatingSurface::Back},
     {"Both", ApiHelper::LaminatingSurface::Both}
 };
 
-QHash<QString, ApiHelper::BundleType> ApiHelper::m_bundleTypeStringified = {
-    {"BoundSet", ApiHelper::BoundSetBundle},
-    {"Box", ApiHelper::BoxBundle},
-    {"Carton", ApiHelper::CartonBundle},
-    {"CollectedStack", ApiHelper::CollectedStackBundle},
-    {"CompensatedStack", ApiHelper::CompensatedStackBundle},
-    {"Pallet", ApiHelper::PalletBundle},
-    {"Roll", ApiHelper::RollBundle},
-    {"Sheet", ApiHelper::SheetBundle},
-    {"Stack", ApiHelper::StackBundle},
-    {"StrappedStack", ApiHelper::StrappedStackBundle},
-    {"StrappedCompensatedStack", ApiHelper::StrappedCompensatedStackBundle},
-    {"WrappedBundle", ApiHelper::WrappedBundle}
+static const QHash<QString, ApiHelper::BundleType> BUNDLE_TYPE_STRINGIFIED = {
+    {"BoundSet", ApiHelper::BundleType::BoundSetBundle},
+    {"Box", ApiHelper::BundleType::BoxBundle},
+    {"Carton", ApiHelper::BundleType::CartonBundle},
+    {"CollectedStack", ApiHelper::BundleType::CollectedStackBundle},
+    {"CompensatedStack", ApiHelper::BundleType::CompensatedStackBundle},
+    {"Pallet", ApiHelper::BundleType::PalletBundle},
+    {"Roll", ApiHelper::BundleType::RollBundle},
+    {"Sheet", ApiHelper::BundleType::SheetBundle},
+    {"Stack", ApiHelper::BundleType::StackBundle},
+    {"StrappedStack", ApiHelper::BundleType::StrappedStackBundle},
+    {"StrappedCompensatedStack", ApiHelper::BundleType::StrappedCompensatedStackBundle},
+    {"WrappedBundle", ApiHelper::BundleType::WrappedBundle}
 };
 
-QHash<QString, ApiHelper::ComponentOrientation> ApiHelper::m_componentOrientationStringified = {
+static const QHash<QString, ApiHelper::ComponentOrientation> ApiHelper::m_componentOrientationStringified = {
     {"Rotate0", ApiHelper::Rotate0Orientaiton},
     {"Rotate90", ApiHelper::Rotate90Orientaiton},
     {"Rotate180", ApiHelper::Rotate180Orientaiton},
     {"Rotate270", ApiHelper::Rotate270Orientaiton}
 };
 
-QHash<QString, ApiHelper::ComponentType> ApiHelper::m_componentTypeStringified = {
-    {"Block", ApiHelper::BlockComponent},
-    {"Other", ApiHelper::OtherComponent},
-    {"Ribbon", ApiHelper::RibbonComponent},
-    {"Sheet", ApiHelper::SheetComponent},
-    {"Web", ApiHelper::WebComponent},
-    {"FinalProduct", ApiHelper::FinalProductComponent},
-    {"PartialProduct", ApiHelper::PartialProductComponent},
-    {"Proof", ApiHelper::ProofComponent}
+static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED = {
+    {"Block", ApiHelper::ComponentType::BlockComponent},
+    {"Other", ApiHelper::ComponentType::OtherComponent},
+    {"Ribbon", ApiHelper::ComponentType::RibbonComponent},
+    {"Sheet", ApiHelper::ComponentType::SheetComponent},
+    {"Web", ApiHelper::ComponentType::WebComponent},
+    {"FinalProduct", ApiHelper::ComponentType::FinalProductComponent},
+    {"PartialProduct", ApiHelper::ComponentType::PartialProductComponent},
+    {"Proof", ApiHelper::ComponentType::ProofComponent}
 };
 
-QHash<QString, ApiHelper::PartIdKeysType> ApiHelper::m_partIdKeysTypeStringified = {
-    {"BlockName", ApiHelper::BlockNameKey},
-    {"BundleItemIndex", ApiHelper::BundleItemIndexKey},
-    {"CellIndex", ApiHelper::CellIndexKey}
+static const QHash<QString, ApiHelper::PartIdKeysType> PART_ID_KEYS_TYPE_STRINGIFIED = {
+    {"BlockName", ApiHelper::PartIdKeysType::BlockNameKey},
+    {"BundleItemIndex", ApiHelper::PartIdKeysType::BundleItemIndexKey},
+    {"CellIndex", ApiHelper::PartIdKeysType::CellIndexKey}
 };
 
-QHash<QString, ApiHelper::ProcessUsage> ApiHelper::m_processUsageStringified = {
-    {"Accepted", ApiHelper::AcceptedProcess},
-    {"Application", ApiHelper::ApplicationProcess},
-    {"BackEndSheet", ApiHelper::BackEndSheetProcess},
-    {"Book", ApiHelper::BookProcess},
-    {"BookBlock", ApiHelper::BookBlockProcess},
-    {"Box", ApiHelper::BoxProcess},
-    {"Case", ApiHelper::CaseProcess},
-    {"Child", ApiHelper::ChildProcess},
-    {"Cover", ApiHelper::CoverProcess},
-    {"CoverBoard", ApiHelper::CoverBoardProcess},
-    {"CoverMaterial", ApiHelper::CoverMaterialProcess},
-    {"Cylinder", ApiHelper::CylinderProcess},
-    {"Document", ApiHelper::DocumentProcess},
-    {"FrontEndSheet", ApiHelper::FrontEndSheetProcess},
-    {"Good", ApiHelper::GoodProcess},
-    {"Input", ApiHelper::InputProcess},
-    {"Jacket", ApiHelper::JacketProcess},
-    {"Label", ApiHelper::LabelProcess},
-    {"Marks", ApiHelper::MarksProcess},
-    {"Mother", ApiHelper::MotherProcess},
-    {"Plate", ApiHelper::PlateProcess},
-    {"Proof", ApiHelper::ProofProcess},
-    {"Rejected", ApiHelper::RejectedProcess},
-    {"RingBinder", ApiHelper::RingBinderProcess},
-    {"SpineBoard", ApiHelper::SpineBoardProcess},
-    {"Surface", ApiHelper::SurfaceProcess},
-    {"Tie", ApiHelper::TieProcess},
-    {"Underlay", ApiHelper::UnderlayProcess},
-    {"Waste", ApiHelper::WasteProcess}
+static const QHash<QString, ApiHelper::ProcessUsage> PROCESS_USAGE_STRINGIFIED = {
+    {"Accepted", ApiHelper::ProcessUsage::AcceptedProcess},
+    {"Application", ApiHelper::ProcessUsage::ApplicationProcess},
+    {"BackEndSheet", ApiHelper::ProcessUsage::BackEndSheetProcess},
+    {"Book", ApiHelper::ProcessUsage::BookProcess},
+    {"BookBlock", ApiHelper::ProcessUsage::BookBlockProcess},
+    {"Box", ApiHelper::ProcessUsage::BoxProcess},
+    {"Case", ApiHelper::ProcessUsage::CaseProcess},
+    {"Child", ApiHelper::ProcessUsage::ChildProcess},
+    {"Cover", ApiHelper::ProcessUsage::CoverProcess},
+    {"CoverBoard", ApiHelper::ProcessUsage::CoverBoardProcess},
+    {"CoverMaterial", ApiHelper::ProcessUsage::CoverMaterialProcess},
+    {"Cylinder", ApiHelper::ProcessUsage::CylinderProcess},
+    {"Document", ApiHelper::ProcessUsage::DocumentProcess},
+    {"FrontEndSheet", ApiHelper::ProcessUsage::FrontEndSheetProcess},
+    {"Good", ApiHelper::ProcessUsage::GoodProcess},
+    {"Input", ApiHelper::ProcessUsage::InputProcess},
+    {"Jacket", ApiHelper::ProcessUsage::JacketProcess},
+    {"Label", ApiHelper::ProcessUsage::LabelProcess},
+    {"Marks", ApiHelper::ProcessUsage::MarksProcess},
+    {"Mother", ApiHelper::ProcessUsage::MotherProcess},
+    {"Plate", ApiHelper::ProcessUsage::PlateProcess},
+    {"Proof", ApiHelper::ProcessUsage::ProofProcess},
+    {"Rejected", ApiHelper::ProcessUsage::RejectedProcess},
+    {"RingBinder", ApiHelper::ProcessUsage::RingBinderProcess},
+    {"SpineBoard", ApiHelper::ProcessUsage::SpineBoardProcess},
+    {"Surface", ApiHelper::ProcessUsage::SurfaceProcess},
+    {"Tie", ApiHelper::ProcessUsage::TieProcess},
+    {"Underlay", ApiHelper::ProcessUsage::UnderlayProcess},
+    {"Waste", ApiHelper::ProcessUsage::WasteProcess}
 };
 
-QHash<QString, ApiHelper::Usage> ApiHelper::m_usageStringified = {
-    {"Input", ApiHelper::InputUsage},
-    {"Output", ApiHelper::OutputUsage}
+static const QHash<QString, ApiHelper::Usage> USAGE_STRINGIFIED = {
+    {"Input", ApiHelper::Usage::InputUsage},
+    {"Output", ApiHelper::Usage::OutputUsage}
 };
 
-QHash<QString, ApiHelper::BlockType> ApiHelper::m_blockTypeStringified = {
-    {"CutBlock", ApiHelper::CutBlockType},
-    {"SaveBlock", ApiHelper::SaveBlockType},
-    {"TempBlock", ApiHelper::TempBlockType},
-    {"MarkBlock", ApiHelper::MarkBlockType}
+static const QHash<QString, ApiHelper::BlockType> BLOCK_TYPE_STRINGIFIED = {
+    {"CutBlock", ApiHelper::BlockType::CutBlockType},
+    {"SaveBlock", ApiHelper::BlockType::SaveBlockType},
+    {"TempBlock", ApiHelper::BlockType::TempBlockType},
+    {"MarkBlock", ApiHelper::BlockType::MarkBlockType}
 };
 
-QHash<QString, ApiHelper::MediaUnit> ApiHelper::m_mediaUnitStringified = {
-    {"Continuous", ApiHelper::ContinuousMediaUnit},
-    {"Roll", ApiHelper::RollMediaUnit},
-    {"Sheet", ApiHelper::SheetMediaUnit}
+static const QHash<QString, ApiHelper::MediaUnit> MEDIA_UNIT_STRINGIFIED = {
+    {"Continuous", ApiHelper::MediaUnit::ContinuousMediaUnit},
+    {"Roll", ApiHelper::MediaUnit::RollMediaUnit},
+    {"Sheet", ApiHelper::MediaUnit::SheetMediaUnit}
 };
 
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
-    return m_resourceStatusStringified.key(status, "");
+    return RESOURCE_STATUS_STRINGIFIED.key(status, "");
 }
 
-ApiHelper::ResourceStatus ApiHelper::resourceStatusFromString(const QString &status)
+ApiHelper::ResourceStatus ApiHelper::resourceStatusFromString(const QString &status, bool *ok)
 {
-    return m_resourceStatusStringified.value(status, ResourceStatus::IncompleteStatus);
+    if (ok != nullptr)
+        *ok = RESOURCE_STATUS_STRINGIFIED.contains(status);
+    return RESOURCE_STATUS_STRINGIFIED.value(status, ResourceStatus::IncompleteStatus);
 }
 
 QString ApiHelper::resourceClassToString(ApiHelper::ResourceClass resourceClass)
 {
-    return m_resourceClassStringified.key(resourceClass, "");
+    return RESOURCE_CLASS_STRINGIFIED.key(resourceClass, "");
 }
 
-ApiHelper::ResourceClass ApiHelper::resourceClassFromString(const QString &resourceClass)
+ApiHelper::ResourceClass ApiHelper::resourceClassFromString(const QString &resourceClass, bool *ok)
 {
-    return m_resourceClassStringified.value(resourceClass, ResourceClass::ConsumableClass);
+    if (ok != nullptr)
+        *ok = RESOURCE_CLASS_STRINGIFIED.contains(resourceClass);
+    return RESOURCE_CLASS_STRINGIFIED.value(resourceClass, ResourceClass::ConsumableClass);
 }
 
 QString ApiHelper::coatingToString(ApiHelper::CoatingType coating)
 {
-    return m_coatingStringified.key(coating, "");
+    return COATING_STRINGIFIED.key(coating, "");
 }
 
-ApiHelper::CoatingType ApiHelper::coatingFromString(const QString &coating)
+ApiHelper::CoatingType ApiHelper::coatingFromString(const QString &coating, bool *ok)
 {
-    return m_coatingStringified.value(coating, CoatingType::NoneCoating);
+    if (ok != nullptr)
+        *ok = COATING_STRINGIFIED.contains(coating);
+    return COATING_STRINGIFIED.value(coating, CoatingType::NoneCoating);
 }
 
 QString ApiHelper::laminatingSurfaceToString(ApiHelper::LaminatingSurface surface)
 {
-    return m_laminatingSurfaceStringified.key(surface, "");
+    return LAMINATING_SURFACE_STRINGIFIED.key(surface, "");
 }
 
-ApiHelper::LaminatingSurface ApiHelper::laminatingSurfaceFromString(const QString &surface)
+ApiHelper::LaminatingSurface ApiHelper::laminatingSurfaceFromString(const QString &surface, bool *ok)
 {
-    return m_laminatingSurfaceStringified.value(surface, LaminatingSurface::None);
+    if (ok != nullptr)
+        *ok = LAMINATING_SURFACE_STRINGIFIED.contains(surface);
+    return LAMINATING_SURFACE_STRINGIFIED.value(surface, LaminatingSurface::None);
 }
 
 QString ApiHelper::bundleTypeToString(ApiHelper::BundleType bundleType)
 {
-    return m_bundleTypeStringified.key(bundleType, "");
+    return BUNDLE_TYPE_STRINGIFIED.key(bundleType, "");
 }
 
-ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType)
+ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType, bool *ok)
 {
-    return m_bundleTypeStringified.value(bundleType, BundleType::BoxBundle);
+    if (ok != nullptr)
+        *ok = BUNDLE_TYPE_STRINGIFIED.contains(bundleType);
+    return BUNDLE_TYPE_STRINGIFIED.value(bundleType, BundleType::BoxBundle);
 }
 
 QString ApiHelper::componentOrientationToString(ApiHelper::ComponentOrientation componentOrientation)
@@ -193,61 +205,127 @@ ApiHelper::ComponentOrientation ApiHelper::componentOrientationFromString(const 
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
 {
-    return m_componentTypeStringified.key(componentType, "");
+    return COMPONENT_TYPE_STRINGIFIED.key(componentType, "");
 }
 
-ApiHelper::ComponentType ApiHelper::componentTypeFromString(const QString &componentType)
+ApiHelper::ComponentType ApiHelper::componentTypeFromString(const QString &componentType, bool *ok)
 {
-    return m_componentTypeStringified.value(componentType, ComponentType::SheetComponent);
+    if (ok != nullptr)
+        *ok = COMPONENT_TYPE_STRINGIFIED.contains(componentType);
+    return COMPONENT_TYPE_STRINGIFIED.value(componentType, ComponentType::SheetComponent);
 }
 
 QString ApiHelper::partIdKeysTypeToString(ApiHelper::PartIdKeysType partIdKeysType)
 {
-    return m_partIdKeysTypeStringified.key(partIdKeysType, "");
+    return PART_ID_KEYS_TYPE_STRINGIFIED.key(partIdKeysType, "");
 }
 
-ApiHelper::PartIdKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType)
+ApiHelper::PartIdKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType, bool *ok)
 {
-    return m_partIdKeysTypeStringified.value(partIdKeysType, PartIdKeysType::BlockNameKey);
+    if (ok != nullptr)
+        *ok = PART_ID_KEYS_TYPE_STRINGIFIED.contains(partIdKeysType);
+    return PART_ID_KEYS_TYPE_STRINGIFIED.value(partIdKeysType, PartIdKeysType::BlockNameKey);
 }
 
 QString ApiHelper::processUsageToString(ApiHelper::ProcessUsage processUsage)
 {
-    return m_processUsageStringified.key(processUsage, "");
+    return PROCESS_USAGE_STRINGIFIED.key(processUsage, "");
 }
 
-ApiHelper::ProcessUsage ApiHelper::processUsageFromString(const QString &processUsage)
+ApiHelper::ProcessUsage ApiHelper::processUsageFromString(const QString &processUsage, bool *ok)
 {
-    return m_processUsageStringified.value(processUsage, ProcessUsage::InputProcess);
+    if (ok != nullptr)
+        *ok = PROCESS_USAGE_STRINGIFIED.contains(processUsage);
+    return PROCESS_USAGE_STRINGIFIED.value(processUsage, ProcessUsage::InputProcess);
 }
 
 QString ApiHelper::usageToString(ApiHelper::Usage usage)
 {
-    return m_usageStringified.key(usage, "");
+    return USAGE_STRINGIFIED.key(usage, "");
 }
 
-ApiHelper::Usage ApiHelper::usageFromString(const QString &usage)
+ApiHelper::Usage ApiHelper::usageFromString(const QString &usage, bool *ok)
 {
-    return m_usageStringified.value(usage, Usage::InputUsage);
+    if (ok != nullptr)
+        *ok = USAGE_STRINGIFIED.contains(usage);
+    return USAGE_STRINGIFIED.value(usage, Usage::InputUsage);
 }
 
 QString ApiHelper::blockTypeToString(ApiHelper::BlockType blockType)
 {
-    return m_blockTypeStringified.key(blockType, "");
+    return BLOCK_TYPE_STRINGIFIED.key(blockType, "");
 }
 
-ApiHelper::BlockType ApiHelper::blockTypeFromString(const QString &blockType)
+ApiHelper::BlockType ApiHelper::blockTypeFromString(const QString &blockType, bool *ok)
 {
-    return m_blockTypeStringified.value(blockType, BlockType::CutBlockType);
+    if (ok != nullptr)
+        *ok = BLOCK_TYPE_STRINGIFIED.contains(blockType);
+    return BLOCK_TYPE_STRINGIFIED.value(blockType, BlockType::CutBlockType);
 }
 
 QString ApiHelper::mediaUnitToString(ApiHelper::MediaUnit mediaUnit)
 {
-    return m_mediaUnitStringified.key(mediaUnit, "");
+    return MEDIA_UNIT_STRINGIFIED.key(mediaUnit, "");
 }
 
-ApiHelper::MediaUnit ApiHelper::mediaUnitFromString(const QString &mediaUnit)
+ApiHelper::MediaUnit ApiHelper::mediaUnitFromString(const QString &mediaUnit, bool *ok)
 {
-    return m_mediaUnitStringified.value(mediaUnit, MediaUnit::SheetMediaUnit);
+    if (ok != nullptr)
+        *ok = MEDIA_UNIT_STRINGIFIED.contains(mediaUnit);
+    return MEDIA_UNIT_STRINGIFIED.value(mediaUnit, MediaUnit::SheetMediaUnit);
 }
 
+uint qHash(ApiHelper::ResourceStatus arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ResourceClass arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::CoatingType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::LaminatingSurface arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::BundleType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ComponentType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::PartIdKeysType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ProcessUsage arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::Usage arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::BlockType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::MediaUnit arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}

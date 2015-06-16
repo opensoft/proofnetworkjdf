@@ -23,7 +23,7 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     double width = 0.0;
     double height = 0.0;
     QString transformationMatrix;
-    ApiHelper::BlockType blockType = ApiHelper::CutBlockType;
+    ApiHelper::BlockType blockType = ApiHelper::BlockType::CutBlockType;
 
 };
 

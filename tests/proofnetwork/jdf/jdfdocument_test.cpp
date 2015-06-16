@@ -76,14 +76,14 @@ TEST_F(JdfDocumentTest, fromJdf)
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
-    ASSERT_EQ(ApiHelper::BoxBundle, bundle->bundleType());
+    ASSERT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     ASSERT_EQ(42, bundle->totalAmount());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->resourceStatus());
-    EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
+    EXPECT_EQ(ApiHelper::ResourceClass::ParameterClass, cuttingParams->resourceClass());
     ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
     CutBlockSP cutBlock1 = component2->cutBlocks().first();
@@ -94,17 +94,17 @@ TEST_F(JdfDocumentTest, fromJdf)
         EXPECT_DOUBLE_EQ(432, cutBlock->width());
         EXPECT_DOUBLE_EQ(288, cutBlock->height());
         EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
-        EXPECT_EQ(ApiHelper::CutBlockType, cutBlock->blockType());
+        EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock->blockType());
     }
 
     MediaSP media = resourcePool->media();
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::NoneCoating, media->backCoating());
-    EXPECT_EQ(ApiHelper::HighGlossCoating, media->frontCoating());
-    EXPECT_EQ(ApiHelper::SheetMediaUnit, media->mediaUnit());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::CoatingType::NoneCoating, media->backCoating());
+    EXPECT_EQ(ApiHelper::CoatingType::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(ApiHelper::MediaUnit::SheetMediaUnit, media->mediaUnit());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
@@ -113,7 +113,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(laminatingIntent);
 
     EXPECT_EQ("LI_0000", laminatingIntent->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, laminatingIntent->resourceStatus());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
 }
 
@@ -246,7 +246,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 }
             } else if (reader.name() == "Bundle") {
                 QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()), ApiHelper::BoxBundle);
+                EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()),
+                          ApiHelper::BundleType::BoxBundle);
                 EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;
@@ -271,8 +272,10 @@ TEST_F(JdfDocumentTest, documentToJdf)
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
-                EXPECT_EQ(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()), ApiHelper::AvailableStatus);
-                EXPECT_EQ(ApiHelper::resourceClassFromString(attributes.value("Class").toString()), ApiHelper::ParameterClass);
+                EXPECT_EQ(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()),
+                          ApiHelper::ResourceStatus::AvailableStatus);
+                EXPECT_EQ(ApiHelper::resourceClassFromString(attributes.value("Class").toString()),
+                          ApiHelper::ResourceClass::ParameterClass);
             } else if (hasResourcePool && reader.name() == "CutBlock") {
                 if (!cutBlocksCount++) {
                     QXmlStreamAttributes attributes = reader.attributes();

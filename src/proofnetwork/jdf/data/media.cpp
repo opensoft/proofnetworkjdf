@@ -15,9 +15,9 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
-    ApiHelper::CoatingType frontCoating = ApiHelper::NoneCoating;
-    ApiHelper::CoatingType backCoating = ApiHelper::NoneCoating;
-    ApiHelper::MediaUnit mediaUnit = ApiHelper::SheetMediaUnit;
+    ApiHelper::CoatingType frontCoating = ApiHelper::CoatingType::NoneCoating;
+    ApiHelper::CoatingType backCoating = ApiHelper::CoatingType::NoneCoating;
+    ApiHelper::MediaUnit mediaUnit = ApiHelper::MediaUnit::SheetMediaUnit;
 };
 
 } // namespace Jdf
@@ -188,7 +188,7 @@ MediaSP Media::defaultObject()
 Media::Media()
     : AbstractPhysicalResource(*new MediaPrivate)
 {
-    setResourceClass(ApiHelper::ConsumableClass);
+    setResourceClass(ApiHelper::ResourceClass::ConsumableClass);
 }
 
 void MediaPrivate::updateFrom(const NetworkDataEntitySP &other)

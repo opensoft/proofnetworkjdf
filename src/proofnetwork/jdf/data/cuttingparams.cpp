@@ -28,7 +28,7 @@ using namespace Proof::Jdf;
 CuttingParams::CuttingParams()
     : AbstractResource(*new CuttingParamsPrivate)
 {
-    setResourceClass(ApiHelper::ParameterClass);
+    setResourceClass(ApiHelper::ResourceClass::ParameterClass);
 }
 
 QList<CutBlockSP> CuttingParams::cutBlocks() const

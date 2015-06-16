@@ -54,7 +54,7 @@ TEST_F(CutBlockTest, fromJdf)
     EXPECT_DOUBLE_EQ(432, cutBlockUT->width());
     EXPECT_DOUBLE_EQ(288, cutBlockUT->height());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlockUT->transformationMatrix());
-    EXPECT_EQ(ApiHelper::CutBlockType, cutBlockUT->blockType());
+    EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlockUT->blockType());
 }
 
 TEST_F(CutBlockTest, updateFrom)
