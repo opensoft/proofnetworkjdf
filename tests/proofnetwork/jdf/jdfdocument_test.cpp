@@ -312,10 +312,10 @@ TEST_F(JdfDocumentTest, orientationTest)
     }
     ASSERT_TRUE(sheet);
 
-    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate0Orientaiton, sheet->orientation());
+    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate0Orientation, sheet->orientation());
 
-    sheet->setOrientation(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientaiton);
-    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientaiton, sheet->orientation());
+    sheet->setOrientation(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientation);
+    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientation, sheet->orientation());
 
     QString jdf = jdfDocUT->toJdf();
 

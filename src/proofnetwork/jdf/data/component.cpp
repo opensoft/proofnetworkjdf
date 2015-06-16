@@ -14,7 +14,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::ComponentOrientation orientation = ApiHelper::Rotate0Orientaiton;
+    ApiHelper::ComponentOrientation orientation = ApiHelper::ComponentOrientation::Rotate0Orientation;
     ApiHelper::ComponentType componentType = ApiHelper::ComponentType::SheetComponent;
     double width = 0.0;
     double height = 0.0;
@@ -249,10 +249,10 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
 void Component::toJdfLink(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Component);
-    QString className =  QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
     jdfWriter.writeStartElement(className + QString("Link"));
     jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
-    if (d->orientation != ApiHelper::Rotate0Orientaiton)
+    if (d->orientation != ApiHelper::ComponentOrientation::Rotate0Orientation)
         jdfWriter.writeAttribute("Orientation", ApiHelper::componentOrientationToString(d->orientation));
     jdfWriter.writeAttribute("rRef", d->id);
     jdfWriter.writeEndElement();

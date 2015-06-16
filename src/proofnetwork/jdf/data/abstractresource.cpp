@@ -82,7 +82,7 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
 void AbstractResource::toJdfLink(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResource);
-    QString className =  QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
     jdfWriter.writeStartElement(className + QString("Link"));
     jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
     jdfWriter.writeAttribute("rRef", d->id);

@@ -58,11 +58,11 @@ static const QHash<QString, ApiHelper::BundleType> BUNDLE_TYPE_STRINGIFIED = {
     {"WrappedBundle", ApiHelper::BundleType::WrappedBundle}
 };
 
-static const QHash<QString, ApiHelper::ComponentOrientation> ApiHelper::m_componentOrientationStringified = {
-    {"Rotate0", ApiHelper::Rotate0Orientaiton},
-    {"Rotate90", ApiHelper::Rotate90Orientaiton},
-    {"Rotate180", ApiHelper::Rotate180Orientaiton},
-    {"Rotate270", ApiHelper::Rotate270Orientaiton}
+static const QHash<QString, ApiHelper::ComponentOrientation> COMPONENT_ORIENTATION_STRINGIFIED = {
+    {"Rotate0", ApiHelper::ComponentOrientation::Rotate0Orientation},
+    {"Rotate90", ApiHelper::ComponentOrientation::Rotate90Orientation},
+    {"Rotate180", ApiHelper::ComponentOrientation::Rotate180Orientation},
+    {"Rotate270", ApiHelper::ComponentOrientation::Rotate270Orientation}
 };
 
 static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED = {
@@ -200,7 +200,9 @@ QString ApiHelper::componentOrientationToString(ApiHelper::ComponentOrientation 
 
 ApiHelper::ComponentOrientation ApiHelper::componentOrientationFromString(const QString &componentOrientation)
 {
-    return m_componentOrientationStringified.value(componentOrientation, ComponentOrientation::Rotate0Orientaiton);
+    if (ok != nullptr)
+        *ok = COMPONENT_ORIENTATION_STRINGIFIED.contains(componentOrientation);
+    return COMPONENT_ORIENTATION_STRINGIFIED.value(componentOrientation, ComponentOrientation::Rotate0Orientation);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)

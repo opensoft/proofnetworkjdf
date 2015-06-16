@@ -86,11 +86,11 @@ public:
         WrappedBundle
     };
 
-    enum ComponentOrientation {
-        Rotate0Orientaiton, // 0 degrees
-        Rotate90Orientaiton, // 90
-        Rotate180Orientaiton, // 180
-        Rotate270Orientaiton // 270
+    enum class ComponentOrientation {
+        Rotate0Orientation, // 0 degrees
+        Rotate90Orientation, // 90
+        Rotate180Orientation, // 180
+        Rotate270Orientation // 270
     };
 
     enum class ComponentType {
