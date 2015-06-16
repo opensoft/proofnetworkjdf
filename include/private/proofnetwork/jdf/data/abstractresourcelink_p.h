@@ -20,7 +20,7 @@ class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
     }
 
     // TODO: should we use default usage?
-    ApiHelper::Usage usage = ApiHelper::InputUsage;
+    ApiHelper::Usage usage = ApiHelper::Usage::InputUsage;
     QString rRef;
 };
 
