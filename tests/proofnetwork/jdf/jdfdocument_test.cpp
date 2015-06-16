@@ -300,3 +300,24 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_TRUE(hasLaminatingIntent);
     EXPECT_EQ(23u, cutBlocksCount);
 }
+
+TEST_F(JdfDocumentTest, orientationTest)
+{
+    Proof::Jdf::ComponentSP sheet;
+    for (const auto &component : jdfDocUT->resourcePool()->components()) {
+        if (component->componentType() == Proof::Jdf::ApiHelper::ComponentType::SheetComponent) {
+            sheet = component;
+            break;
+        }
+    }
+    EXPECT_TRUE(sheet);
+
+    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate0Orientaiton, sheet->orientation());
+
+    sheet->setOrientation(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientaiton);
+    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientaiton, sheet->orientation());
+
+    QString jdf = jdfDocUT->toJdf();
+
+    EXPECT_TRUE(jdf.contains("Orientation=\"Rotate180\""));
+}
