@@ -310,7 +310,7 @@ TEST_F(JdfDocumentTest, orientationTest)
             break;
         }
     }
-    EXPECT_TRUE(sheet);
+    ASSERT_TRUE(sheet);
 
     EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate0Orientaiton, sheet->orientation());
 
