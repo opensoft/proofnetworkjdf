@@ -15,6 +15,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     ApiHelper::ComponentType componentType = ApiHelper::SheetComponent;
+    ApiHelper::ComponentOrientation orientation = ApiHelper::Rotate0Orientaiton;
     double width = 0.0;
     double height = 0.0;
     double length = 0.0;
@@ -49,6 +50,12 @@ double Component::length() const
 {
     Q_D(const Component);
     return d->length;
+}
+
+ApiHelper::ComponentOrientation Component::orientation() const
+{
+    Q_D(const Component);
+    return d->orientation;
 }
 
 BundleSP Component::bundle() const
@@ -96,6 +103,15 @@ void Component::setLength(double arg)
     if (!qFuzzyCompare(d->length, arg)) {
         d->length = arg;
         emit lengthChanged(d->length);
+    }
+}
+
+void Component::setOrientation(ApiHelper::ComponentOrientation arg)
+{
+    Q_D(Component);
+    if (d->orientation != arg) {
+        d->orientation = arg;
+        emit orientationChanged(arg);
     }
 }
 
@@ -227,6 +243,18 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     if (d->bundle != Bundle::defaultObject())
         d->bundle->toJdf(jdfWriter);
 
+    jdfWriter.writeEndElement();
+}
+
+void Component::toJdfLink(QXmlStreamWriter &jdfWriter)
+{
+    Q_D(Component);
+    QString className =  QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    jdfWriter.writeStartElement(className + QString("Link"));
+    jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
+    if (d->orientation != ApiHelper::Rotate0Orientaiton)
+        jdfWriter.writeAttribute("Orientation", ApiHelper::componentOrientationToString(d->orientation));
+    jdfWriter.writeAttribute("rRef", d->id);
     jdfWriter.writeEndElement();
 }
 

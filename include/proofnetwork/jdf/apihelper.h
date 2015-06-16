@@ -17,6 +17,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(CoatingType)
     Q_ENUMS(BundleType)
     Q_ENUMS(ComponentType)
+    Q_ENUMS(ComponentOrientation)
     Q_ENUMS(PartIdKeysType)
     Q_ENUMS(ProcessUsage)
     Q_ENUMS(Usage)
@@ -83,6 +84,13 @@ public:
         StrappedStackBundle, // Strapped stack of equally stacked components.
         StrappedCompensatedStackBundle, // Strapped stack of compensated components.
         WrappedBundle
+    };
+
+    enum ComponentOrientation {
+        Rotate0Orientaiton, // 0 degrees
+        Rotate90Orientaiton, // 90
+        Rotate180Orientaiton, // 180
+        Rotate270Orientaiton // 270
     };
 
     enum ComponentType {
@@ -167,6 +175,9 @@ public:
     static QString bundleTypeToString(BundleType bundleType);
     static BundleType bundleTypeFromString(const QString &bundleType);
 
+    static QString componentOrientationToString(ComponentOrientation componentOrientation);
+    static ComponentOrientation componentOrientationFromString(const QString &componentOrientation);
+
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType);
 
@@ -191,6 +202,7 @@ private:
     static QHash<QString, CoatingType> m_coatingStringified;
     static QHash<QString, LaminatingSurface> m_laminatingSurfaceStringified;
     static QHash<QString, BundleType> m_bundleTypeStringified;
+    static QHash<QString, ComponentOrientation> m_componentOrientationStringified;
     static QHash<QString, ComponentType> m_componentTypeStringified;
     static QHash<QString, PartIdKeysType> m_partIdKeysTypeStringified;
     static QHash<QString, ProcessUsage> m_processUsageStringified;

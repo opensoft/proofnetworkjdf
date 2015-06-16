@@ -56,6 +56,13 @@ QHash<QString, ApiHelper::BundleType> ApiHelper::m_bundleTypeStringified = {
     {"WrappedBundle", ApiHelper::WrappedBundle}
 };
 
+QHash<QString, ApiHelper::ComponentOrientation> ApiHelper::m_componentOrientationStringified = {
+    {"Rotate0", ApiHelper::Rotate0Orientaiton},
+    {"Rotate90", ApiHelper::Rotate90Orientaiton},
+    {"Rotate180", ApiHelper::Rotate180Orientaiton},
+    {"Rotate270", ApiHelper::Rotate270Orientaiton}
+};
+
 QHash<QString, ApiHelper::ComponentType> ApiHelper::m_componentTypeStringified = {
     {"Block", ApiHelper::BlockComponent},
     {"Other", ApiHelper::OtherComponent},
@@ -171,6 +178,17 @@ QString ApiHelper::bundleTypeToString(ApiHelper::BundleType bundleType)
 ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType)
 {
     return m_bundleTypeStringified.value(bundleType, BundleType::BoxBundle);
+}
+
+QString ApiHelper::componentOrientationToString(ApiHelper::ComponentOrientation componentOrientation)
+{
+    return m_componentOrientationStringified.key(componentOrientation, "");
+
+}
+
+ApiHelper::ComponentOrientation ApiHelper::componentOrientationFromString(const QString &componentOrientation)
+{
+    return m_componentOrientationStringified.value(componentOrientation, ComponentOrientation::Rotate0Orientaiton);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)

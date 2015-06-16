@@ -22,6 +22,7 @@ public:
     double width() const;
     double height() const;
     double length() const;
+    ApiHelper::ComponentOrientation orientation() const;
     BundleSP bundle() const;
     QList<CutBlockSP> cutBlocks() const;
 
@@ -29,6 +30,7 @@ public:
     void setWidth(double arg);
     void setHeight(double arg);
     void setLength(double arg);
+    void setOrientation(ApiHelper::ComponentOrientation arg);
     void setBundle(const BundleSP &arg);
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
 
@@ -37,7 +39,8 @@ public:
     static ComponentSP create();
 
     static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
-    void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
+    void toJdfLink(QXmlStreamWriter &jdfWriter) override;
     static ComponentSP defaultObject();
 
 signals:
@@ -45,6 +48,7 @@ signals:
     void widthChanged(double arg);
     void heightChanged(double arg);
     void lengthChanged(double arg);
+    void orientationChanged(ApiHelper::ComponentOrientation arg);
     void bundleChanged(const Proof::Jdf::BundleSP &bundle);
     void cutBlocksChanged();
 
