@@ -149,7 +149,7 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
                     return ResourceLinkPoolSP();
                 }
                 components.append(component);
-            } else if (xmlReader.name() == "CuttingParams") {
+            } else if (xmlReader.name() == "CuttingParamsLink") {
                 CuttingParamsLinkSP cuttingParams = CuttingParamsLink::fromJdf(xmlReader);
                 if (!cuttingParams) {
                     qCCritical(proofNetworkJdfDataLog) << "CuttingParamsLink not created.";
@@ -163,10 +163,8 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setFoldingParamsLink(foldingParams);
-            } else {
-                xmlReader.skipCurrentElement();
-            }
-        } else if (xmlReader.isEndElement()) {
+            };
+        } else if (xmlReader.name() == "ResourceLinkPool" && xmlReader.isEndElement() && linkPool->isFetched()) {
             break;
         }
         xmlReader.readNext();
@@ -186,13 +184,13 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
         if (component)
             component->toJdf(jdfWriter);
     }
-    if (d->mediaLink)
+    if (d->mediaLink != MediaLink::defaultObject())
         d->mediaLink->toJdf(jdfWriter);
-    if (d->laminatingIntentLink)
+    if (d->laminatingIntentLink != LaminatingIntentLink::defaultObject())
         d->laminatingIntentLink->toJdf(jdfWriter);
-    if (d->cuttingParamsLink)
+    if (d->cuttingParamsLink != CuttingParamsLink::defaultObject())
         d->cuttingParamsLink->toJdf(jdfWriter);
-    if (d->foldingParamsLink)
+    if (d->foldingParamsLink != FoldingParamsLink::defaultObject())
         d->foldingParamsLink->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
@@ -216,6 +214,7 @@ void ResourceLinkPoolPrivate::updateFrom(const NetworkDataEntitySP &other)
     ResourceLinkPoolSP castedOther = qSharedPointerCast<ResourceLinkPool>(other);
     q->setComponentLinks(castedOther->componentLinks());
     q->setCuttingParamsLink(castedOther->cuttingParamsLink());
+    q->setLaminatingIntentLink(castedOther->laminatingIntentLink());
     q->setMediaLink(castedOther->mediaLink());
     q->setFoldingParamsLink(castedOther->foldingParamsLink());
 
