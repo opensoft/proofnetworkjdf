@@ -58,11 +58,16 @@ static const QHash<QString, ApiHelper::BundleType> BUNDLE_TYPE_STRINGIFIED = {
     {"WrappedBundle", ApiHelper::BundleType::WrappedBundle}
 };
 
-static const QHash<QString, ApiHelper::ComponentOrientation> COMPONENT_ORIENTATION_STRINGIFIED = {
-    {"Rotate0", ApiHelper::ComponentOrientation::Rotate0Orientation},
-    {"Rotate90", ApiHelper::ComponentOrientation::Rotate90Orientation},
-    {"Rotate180", ApiHelper::ComponentOrientation::Rotate180Orientation},
-    {"Rotate270", ApiHelper::ComponentOrientation::Rotate270Orientation}
+static const QHash<QString, ApiHelper::Orientation> COMPONENT_ORIENTATION_STRINGIFIED = {
+    {"Rotate0", ApiHelper::Orientation::Rotate0Orientation},
+    {"Rotate90", ApiHelper::Orientation::Rotate90Orientation},
+    {"Rotate180", ApiHelper::Orientation::Rotate180Orientation},
+    {"Rotate270", ApiHelper::Orientation::Rotate270Orientation},
+
+    {"Flip0", ApiHelper::Orientation::Flip0Orientation},
+    {"Flip90", ApiHelper::Orientation::Flip90Orientation},
+    {"Flip180", ApiHelper::Orientation::Flip180Orientation},
+    {"Flip270", ApiHelper::Orientation::Flip270Orientation}
 };
 
 static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED = {
@@ -192,17 +197,17 @@ ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType,
     return BUNDLE_TYPE_STRINGIFIED.value(bundleType, BundleType::BoxBundle);
 }
 
-QString ApiHelper::componentOrientationToString(ApiHelper::ComponentOrientation componentOrientation)
+QString ApiHelper::componentOrientationToString(ApiHelper::Orientation componentOrientation)
 {
     return m_componentOrientationStringified.key(componentOrientation, "");
 
 }
 
-ApiHelper::ComponentOrientation ApiHelper::componentOrientationFromString(const QString &componentOrientation)
+ApiHelper::Orientation ApiHelper::componentOrientationFromString(const QString &componentOrientation, bool *ok)
 {
     if (ok != nullptr)
         *ok = COMPONENT_ORIENTATION_STRINGIFIED.contains(componentOrientation);
-    return COMPONENT_ORIENTATION_STRINGIFIED.value(componentOrientation, ComponentOrientation::Rotate0Orientation);
+    return COMPONENT_ORIENTATION_STRINGIFIED.value(componentOrientation, Orientation::Rotate0Orientation);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
@@ -298,6 +303,11 @@ uint qHash(ApiHelper::LaminatingSurface arg, uint seed)
 }
 
 uint qHash(ApiHelper::BundleType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::Orientation arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }
