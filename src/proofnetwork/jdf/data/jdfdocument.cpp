@@ -171,3 +171,26 @@ QString JdfDocument::toJdf()
     return jdf;
 }
 
+JdfDocumentSP JdfDocument::defaultObject()
+{
+    static JdfDocumentSP entity = create();
+    return entity;
+}
+
+JdfDocument::JdfDocument()
+    : NetworkDataEntity(*new JdfDocumentPrivate)
+{
+}
+
+void JdfDocumentPrivate::updateFrom(const NetworkDataEntitySP &other)
+{
+    Q_Q(JdfDocument);
+    JdfDocumentSP castedOther = qSharedPointerCast<JdfDocument>(other);
+    q->setId(castedOther->id());
+    q->setJobId(castedOther->jobId());
+    q->setJobPartId(castedOther->jobPartId());
+    q->setResourcePool(castedOther->resourcePool());
+    q->setResourceLinkPool(castedOther->resourceLinkPool());
+
+    NetworkDataEntityPrivate::updateFrom(other);
+}
