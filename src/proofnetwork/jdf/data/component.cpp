@@ -246,18 +246,6 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-void Component::toJdfLink(QXmlStreamWriter &jdfWriter)
-{
-    Q_D(Component);
-    QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
-    jdfWriter.writeStartElement(className + QString("Link"));
-    jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
-    if (d->orientation != ApiHelper::ComponentOrientation::Rotate0Orientation)
-        jdfWriter.writeAttribute("Orientation", ApiHelper::componentOrientationToString(d->orientation));
-    jdfWriter.writeAttribute("rRef", d->id);
-    jdfWriter.writeEndElement();
-}
-
 ComponentSP Component::defaultObject()
 {
     static ComponentSP entity = create();

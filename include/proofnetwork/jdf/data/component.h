@@ -40,7 +40,6 @@ public:
 
     static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    void toJdfLink(QXmlStreamWriter &jdfWriter) override;
     static ComponentSP defaultObject();
 
 signals:
