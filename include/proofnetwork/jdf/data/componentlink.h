@@ -3,7 +3,7 @@
 
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/data/abstractresourcelink.h"
+#include "proofnetwork/jdf/data/abstractphysicalresourcelink.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/qmlwrappers/componentlinkqmlwrapper.h"
 
@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class ComponentLinkPrivate;
-class ComponentLink : public AbstractResourceLink
+class ComponentLink : public AbstractPhysicalResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ComponentLink)

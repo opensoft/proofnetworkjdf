@@ -1,17 +1,17 @@
 #include "componentlink.h"
 
-#include "proofnetwork/jdf/data/abstractresourcelink_p.h"
+#include "proofnetwork/jdf/data/abstractphysicalresourcelink_p.h"
 
 namespace Proof {
 namespace Jdf {
 
-class ComponentLinkPrivate : public AbstractResourceLinkPrivate
+class ComponentLinkPrivate : public AbstractPhysicalResourceLinkPrivate
 {
     Q_DECLARE_PUBLIC(ComponentLink)
 };
 
 ComponentLink::ComponentLink(QObject *parent)
-    : AbstractResourceLink(*new ComponentLinkPrivate, parent)
+    : AbstractPhysicalResourceLink(*new ComponentLinkPrivate, parent)
 {
 }
 
@@ -34,7 +34,7 @@ ComponentLinkQmlWrapper *ComponentLink::toQmlWrapper(QObject *parent) const
 ComponentLinkSP ComponentLink::fromJdf(const QXmlStreamReader &xmlReader)
 {
     ComponentLinkSP componentLink = create();
-    AbstractResourceLink::fromJdf(xmlReader, componentLink);
+    AbstractPhysicalResourceLink::fromJdf(xmlReader, componentLink);
     return componentLink;
 }
 
