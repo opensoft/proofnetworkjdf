@@ -43,7 +43,7 @@ void AbstractResourceLink::setRRef(const QString &arg)
 void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    abstractResource->setUsage(ApiHelper::usageFromString(attributes.value("usage").toString()));
+    abstractResource->setUsage(ApiHelper::usageFromString(attributes.value("Usage").toString()));
     abstractResource->setRRef(attributes.value("rRef").toString());
 }
 
@@ -51,9 +51,19 @@ void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const Abst
 void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResourceLink);
-    jdfWriter.writeStartElement(metaObject()->className());
-    jdfWriter.writeAttribute("usage", ApiHelper::usageToString(d->usage));
+    QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    jdfWriter.writeStartElement(className);
+    jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
     jdfWriter.writeAttribute("rRef", d->rRef);
     jdfWriter.writeEndElement();
 }
 
+void AbstractResourceLinkPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+{
+    Q_Q(AbstractResourceLink);
+    AbstractResourceLinkSP castedOther = qSharedPointerCast<AbstractResourceLink>(other);
+    q->setUsage(castedOther->usage());
+    q->setRRef(castedOther->rRef());
+
+    NetworkDataEntityPrivate::updateFrom(other);
+}
