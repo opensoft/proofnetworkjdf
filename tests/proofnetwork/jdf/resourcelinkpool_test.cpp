@@ -15,7 +15,6 @@ using namespace Proof;
 using namespace Proof::Jdf;
 using testing::Test;
 using testing::TestWithParam;
-using std::tuple;
 
 class ResourceLinkPoolTest: public Test
 {
@@ -27,21 +26,22 @@ public:
 protected:
     void SetUp() override
     {
-        {
-            QFile file1(":/data/jdfdocument.jdf");
-            ASSERT_TRUE(file1.open(QIODevice::ReadOnly | QIODevice::Text));
-            QXmlStreamReader xml1(&file1);
+        QFile file1(":/data/jdfdocument.jdf");
+        ASSERT_TRUE(file1.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml1(&file1);
 
-            linkPool2 = ResourceLinkPool::fromJdf(xml1);
-        }
-        {
-            QFile file2(":/data/jdfdocument2.jdf");
-            ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
-            QXmlStreamReader xml2(&file2);
+        linkPool1 = ResourceLinkPool::fromJdf(xml1);
+        ASSERT_TRUE(linkPool1);
+        EXPECT_EQ(true, linkPool1->isFetched());
 
-            linkPool2 = ResourceLinkPool::fromJdf(xml2);
-        }
-        qmlWrapper = linkPool2->toQmlWrapper();
+        QFile file2(":/data/jdfdocument2.jdf");
+        ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml2(&file2);
+
+        linkPool2 = ResourceLinkPool::fromJdf(xml2);
+        ASSERT_TRUE(linkPool2);
+
+        qmlWrapper = linkPool1->toQmlWrapper();
         ASSERT_TRUE(qmlWrapper != nullptr);
     }
 
@@ -58,7 +58,13 @@ protected:
 
 TEST_F(ResourceLinkPoolTest, fromJdf)
 {
-    EXPECT_EQ(3, linkPool1->componentLinks().count());
+    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->cuttingParamsLink()->usage());
+    EXPECT_EQ("CPM_0000", linkPool1->cuttingParamsLink()->rRef());
+
+    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->mediaLink()->usage());
+    EXPECT_EQ("PAP_0000", linkPool1->mediaLink()->rRef());
+
+    ASSERT_EQ(3, linkPool1->componentLinks().count());
     EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->componentLinks().at(0)->usage());
     EXPECT_EQ("COMP_0000", linkPool1->componentLinks().at(0)->rRef());
     EXPECT_EQ(ApiHelper::Usage::OutputUsage, linkPool1->componentLinks().at(1)->usage());
@@ -66,20 +72,14 @@ TEST_F(ResourceLinkPoolTest, fromJdf)
     EXPECT_EQ(ApiHelper::Usage::OutputUsage, linkPool1->componentLinks().at(2)->usage());
     EXPECT_EQ("B_OUT", linkPool1->componentLinks().at(2)->rRef());
 
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->cuttingParamsLink()->usage());
-    EXPECT_EQ("CPM_0000", linkPool1->cuttingParamsLink()->rRef());
+    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool2->cuttingParamsLink()->usage());
+    EXPECT_EQ("061106-00002_1_CutPara00001", linkPool2->cuttingParamsLink()->rRef());
 
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->mediaLink()->usage());
-    EXPECT_EQ("PAP_0000", linkPool1->mediaLink()->rRef());
-
-    EXPECT_EQ(2, linkPool2->componentLinks().count());
+    ASSERT_EQ(2, linkPool2->componentLinks().count());
     EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool2->componentLinks().at(0)->usage());
     EXPECT_EQ("061106-00002_1_Comp00001", linkPool2->componentLinks().at(0)->rRef());
     EXPECT_EQ(ApiHelper::Usage::OutputUsage, linkPool2->componentLinks().at(1)->usage());
     EXPECT_EQ("061106-00002_1_Comp00002", linkPool2->componentLinks().at(1)->rRef());
-
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool2->cuttingParamsLink()->usage());
-    EXPECT_EQ("061106-00002_1_CutPara00001", linkPool2->cuttingParamsLink()->rRef());
 }
 
 TEST_F(ResourceLinkPoolTest, updateFrom)
@@ -89,11 +89,24 @@ TEST_F(ResourceLinkPoolTest, updateFrom)
 
     linkPool1->updateFrom(linkPool2);
 
-    for (QSignalSpy *spy: qmlspies)
-        EXPECT_EQ(1, spy->count()) << spy->signal().constData();
+    for (QSignalSpy *spy: qmlspies) {
+        if (spy->signal() != "foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkQmlWrapper*)"
+            && spy->signal() != "laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkQmlWrapper*)" ) {
+            EXPECT_EQ(1, spy->count()) << spy->signal().constData();
+         } else {
+            EXPECT_EQ(0, spy->count()) << spy->signal().constData();
+         }
+    }
 
-    for (QSignalSpy *spy: spies)
-        EXPECT_EQ(1, spy->count()) << spy->signal().constData();
+    for (QSignalSpy *spy: spies) {
+        if (spy->signal() != "foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkSP)"
+            && spy->signal() != "laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkSP)" ) {
+            EXPECT_EQ(1, spy->count()) << spy->signal().constData();
+         } else {
+            EXPECT_EQ(0, spy->count()) << spy->signal().constData();
+         }
+
+    }
 
     qDeleteAll(spies);
     spies.clear();
@@ -119,22 +132,26 @@ TEST_F(ResourceLinkPoolTest, toJdf)
     bool hasMediaLink = false;
     bool hasCuttingParamsLink = false;
     while (!reader.atEnd() && !reader.hasError()) {
-        reader.readNext();
-        if (reader.name() == "ResourceLinkPool" && reader.isStartElement()) {
-            hasResourceLinkPool = true;
-        } else if (reader.name() == "MediaLink") {
-            hasMediaLink = true;
-            QXmlStreamAttributes attributes = reader.attributes();
-            EXPECT_EQ(attributes.value("rRef").toString(), "PAP_0000");
-            EXPECT_EQ(attributes.value("usage").toString(), "Input");
-        } else if (reader.name() == "CuttingParamsLink") {
-            hasCuttingParamsLink = true;
-            QXmlStreamAttributes attributes = reader.attributes();
-            EXPECT_EQ(attributes.value("rRef").toString(), "CPM_0000");
-            EXPECT_EQ(attributes.value("usage").toString(), "Input");
-        } else if (reader.name() == "Component") {
-            componentCount++;
+        if (reader.isStartElement()) {
+            if (reader.name() == "ResourceLinkPool") {
+                hasResourceLinkPool = true;
+            } else if (reader.name() == "MediaLink") {
+                hasMediaLink = true;
+                MediaLinkSP media = MediaLink::fromJdf(reader);
+                ASSERT_TRUE(media);
+                EXPECT_EQ("PAP_0000", media->rRef());
+                EXPECT_EQ(ApiHelper::Usage::InputUsage, media->usage());
+            } else if (reader.name() == "CuttingParamsLink") {
+                hasCuttingParamsLink = true;
+                CuttingParamsLinkSP cutting = CuttingParamsLink::fromJdf(reader);
+                ASSERT_TRUE(cutting);
+                EXPECT_EQ("CPM_0000", cutting->rRef());
+                EXPECT_EQ(ApiHelper::Usage::InputUsage, cutting->usage());
+            } else if (reader.name() == "ComponentLink") {
+                componentCount++;
+            }
         }
+        reader.readNext();
     }
     EXPECT_EQ(true, hasResourceLinkPool);
     EXPECT_EQ(true, hasMediaLink);
