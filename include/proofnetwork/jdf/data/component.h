@@ -22,7 +22,7 @@ public:
     double width() const;
     double height() const;
     double length() const;
-    ApiHelper::ComponentOrientation orientation() const;
+    ApiHelper::Orientation orientation() const;
     BundleSP bundle() const;
     QList<CutBlockSP> cutBlocks() const;
 
@@ -30,7 +30,7 @@ public:
     void setWidth(double arg);
     void setHeight(double arg);
     void setLength(double arg);
-    void setOrientation(ApiHelper::ComponentOrientation arg);
+    void setOrientation(ApiHelper::Orientation arg);
     void setBundle(const BundleSP &arg);
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
 
@@ -47,7 +47,7 @@ signals:
     void widthChanged(double arg);
     void heightChanged(double arg);
     void lengthChanged(double arg);
-    void orientationChanged(ApiHelper::ComponentOrientation arg);
+    void orientationChanged(ApiHelper::Orientation arg);
     void bundleChanged(const Proof::Jdf::BundleSP &bundle);
     void cutBlocksChanged();
 

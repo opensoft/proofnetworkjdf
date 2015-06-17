@@ -9,13 +9,13 @@ AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResou
 {
 }
 
-ApiHelper::ComponentOrientation AbstractPhysicalResourceLink::orientation() const
+ApiHelper::Orientation AbstractPhysicalResourceLink::orientation() const
 {
     Q_D(const AbstractPhysicalResourceLink);
     return d->orientation;
 }
 
-void AbstractPhysicalResourceLink::setOrientation(ApiHelper::ComponentOrientation arg)
+void AbstractPhysicalResourceLink::setOrientation(ApiHelper::Orientation arg)
 {
     Q_D(AbstractPhysicalResourceLink);
     if (d->orientation != arg) {
@@ -28,8 +28,7 @@ void AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, co
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QString value = attributes.value("Orientation").toString();
-    if (!value.isEmpty())
-        resource->setOrientation( ApiHelper::componentOrientationFromString(value) );
+    resource->setOrientation( ApiHelper::componentOrientationFromString(value) );
 
     AbstractResourceLink::fromJdf(xmlReader, resource);
 }
@@ -41,7 +40,7 @@ void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement(className);
     jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(usage()));
     jdfWriter.writeAttribute("rRef", rRef());
-    if (d->orientation != ApiHelper::ComponentOrientation::Rotate0Orientation)
+    if (d->orientation != ApiHelper::Orientation::Rotate0Orientation)
         jdfWriter.writeAttribute("Orientation", ApiHelper::componentOrientationToString(d->orientation));
 
     jdfWriter.writeEndElement();
