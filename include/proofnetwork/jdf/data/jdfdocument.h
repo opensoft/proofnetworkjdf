@@ -34,11 +34,11 @@ public:
     static JdfDocumentSP defaultObject();
 
 signals:
-    void idChanged(const QString &arg);
-    void jobIdChanged(const QString &arg);
-    void jobPartIdChanged(const QString &arg);
-    void resourcePoolChanged(Proof::Jdf::ResourcePoolSP arg);
-    void resourceLinkPoolChanged(Proof::Jdf::ResourceLinkPoolSP arg);
+    void idChanged(const QString &id);
+    void jobIdChanged(const QString &jobId);
+    void jobPartIdChanged(const QString &jobPartId);
+    void resourcePoolChanged(Proof::Jdf::ResourcePoolSP resourcePool);
+    void resourceLinkPoolChanged(Proof::Jdf::ResourceLinkPoolSP resourceLinkPool);
 protected:
     explicit JdfDocument();
 };
