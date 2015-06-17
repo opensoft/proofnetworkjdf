@@ -1,11 +1,11 @@
 #include "componentlinkqmlwrapper.h"
-#include "proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper_p.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper_p.h"
 #include "proofnetwork/jdf/data/componentlink.h"
 
 namespace Proof {
 namespace Jdf {
 
-class ComponentLinkQmlWrapperPrivate : public AbstractResourceLinkQmlWrapperPrivate
+class ComponentLinkQmlWrapperPrivate : public AbstractPhysicalResourceLinkQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(ComponentLinkQmlWrapper)
 };
@@ -16,7 +16,7 @@ class ComponentLinkQmlWrapperPrivate : public AbstractResourceLinkQmlWrapperPriv
 using namespace Proof::Jdf;
 
 ComponentLinkQmlWrapper::ComponentLinkQmlWrapper(const ComponentLinkSP &component, QObject *parent) :
-    AbstractResourceLinkQmlWrapper(component, *new ComponentLinkQmlWrapperPrivate, parent)
+    AbstractPhysicalResourceLinkQmlWrapper(component, *new ComponentLinkQmlWrapperPrivate, parent)
 {
 }
 
