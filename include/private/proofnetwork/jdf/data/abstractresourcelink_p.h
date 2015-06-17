@@ -11,13 +11,7 @@ class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(AbstractResourceLink)
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override
-    {
-        Q_Q(AbstractResourceLink);
-        AbstractResourceLinkSP castedOther = qSharedPointerCast<AbstractResourceLink>(other);
-        q->setUsage(castedOther->usage());
-        q->setRRef(castedOther->rRef());
-    }
+    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     // TODO: should we use default usage?
     ApiHelper::Usage usage = ApiHelper::Usage::InputUsage;
