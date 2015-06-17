@@ -1,10 +1,10 @@
 #include "medialink.h"
-#include "proofnetwork/jdf/data/abstractresourcelink_p.h"
+#include "proofnetwork/jdf/data/abstractphysicalresourcelink_p.h"
 
 namespace Proof {
 namespace Jdf {
 
-class MediaLinkPrivate : public AbstractResourceLinkPrivate
+class MediaLinkPrivate : public AbstractPhysicalResourceLinkPrivate
 {
     Q_DECLARE_PUBLIC(MediaLink)
 };
@@ -28,7 +28,7 @@ MediaLinkSP MediaLink::create()
 MediaLinkSP MediaLink::fromJdf(const QXmlStreamReader &xmlReader)
 {
     MediaLinkSP media = create();
-    AbstractResourceLink::fromJdf(xmlReader, media);
+    AbstractPhysicalResourceLink::fromJdf(xmlReader, media);
     return media;
 }
 
@@ -39,7 +39,7 @@ MediaLinkSP MediaLink::defaultObject()
 }
 
 MediaLink::MediaLink(QObject *parent) :
-    AbstractResourceLink(*new MediaLinkPrivate, parent)
+    AbstractPhysicalResourceLink(*new MediaLinkPrivate, parent)
 {
 }
 
