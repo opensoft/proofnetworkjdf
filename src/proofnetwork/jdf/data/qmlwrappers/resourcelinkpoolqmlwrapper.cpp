@@ -104,6 +104,7 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
 
     d->updateComponentLinks();
     d->updateCuttingParamsLink();
+    d->updateLaminatingParamsLink();
     d->updateMediaLink();
     d->updateFoldingParamsLink();
 }
