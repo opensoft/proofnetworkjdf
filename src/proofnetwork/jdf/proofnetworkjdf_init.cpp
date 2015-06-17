@@ -10,6 +10,8 @@
 #include "data/bundle.h"
 #include "data/jdfdocument.h"
 
+#include "data/abstractresourcelink.h"
+#include "data/abstractphysicalresourcelink.h"
 #include "data/cuttingparamslink.h"
 #include "data/foldingparamslink.h"
 #include "data/medialink.h"
@@ -26,6 +28,8 @@ static void libraryInit()
 {
     qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::AbstractResourceLinkQmlWrapper *>("Proof::Jdf::AbstractResourceLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceLinkQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
 
     qRegisterMetaType<Proof::Jdf::ResourcePoolQmlWrapper *>("Proof::Jdf::ResourcePoolQmlWrapper *");
