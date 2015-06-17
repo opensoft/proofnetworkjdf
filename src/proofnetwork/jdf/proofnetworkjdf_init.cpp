@@ -78,6 +78,8 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkWP>("Proof::Jdf::LaminatingIntentLinkWP");
     qRegisterMetaType<Proof::Jdf::ComponentLinkSP>("Proof::Jdf::ComponentLinkSP");
     qRegisterMetaType<Proof::Jdf::ComponentLinkWP>("Proof::Jdf::ComponentLinkWP");
+    qRegisterMetaType<Proof::Jdf::ResourceLinkPoolSP>("Proof::Jdf::ResourceLinkPoolSP");
+    qRegisterMetaType<Proof::Jdf::ResourceLinkPoolWP>("Proof::Jdf::ResourceLinkPoolWP");
 
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceStatus>("Proof::Jdf::ApiHelper::ResourceStatus");
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceClass>("Proof::Jdf::ApiHelper::ResourceClass");
