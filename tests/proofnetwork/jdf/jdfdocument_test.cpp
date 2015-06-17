@@ -2,7 +2,9 @@
 
 #include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
+#include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/componentlink.h"
 #include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
@@ -421,10 +423,19 @@ TEST_F(JdfDocumentTest, orientationTest)
     }
     ASSERT_TRUE(sheet);
 
-    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate0Orientation, sheet->orientation());
+    Proof::Jdf::ComponentLinkSP sheetLink;
+    for (const auto &component : jdfDocUT->resourceLinkPool()->componentLinks()) {
+        if (component->rRef() == sheet->id()) {
+            sheetLink = component;
+            break;
+        }
+    }
+    ASSERT_TRUE(sheetLink);
 
-    sheet->setOrientation(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientation);
-    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientation, sheet->orientation());
+    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate0Orientation, sheetLink->orientation());
+
+    sheetLink->setOrientation(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientation);
+    EXPECT_EQ(Proof::Jdf::ApiHelper::ComponentOrientation::Rotate180Orientation, sheetLink->orientation());
 
     QString jdf = jdfDocUT->toJdf();
 
