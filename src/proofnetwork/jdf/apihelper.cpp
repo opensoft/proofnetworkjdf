@@ -58,16 +58,16 @@ static const QHash<QString, ApiHelper::BundleType> BUNDLE_TYPE_STRINGIFIED = {
     {"WrappedBundle", ApiHelper::BundleType::WrappedBundle}
 };
 
-static const QHash<QString, ApiHelper::Orientation> COMPONENT_ORIENTATION_STRINGIFIED = {
-    {"Rotate0", ApiHelper::Orientation::Rotate0Orientation},
-    {"Rotate90", ApiHelper::Orientation::Rotate90Orientation},
-    {"Rotate180", ApiHelper::Orientation::Rotate180Orientation},
-    {"Rotate270", ApiHelper::Orientation::Rotate270Orientation},
+static const QHash<QString, ApiHelper::ResourceOrientation> RESOURCE_ORIENTATION_STRINGIFIED = {
+    {"Rotate0", ApiHelper::ResourceOrientation::Rotate0Orientation},
+    {"Rotate90", ApiHelper::ResourceOrientation::Rotate90Orientation},
+    {"Rotate180", ApiHelper::ResourceOrientation::Rotate180Orientation},
+    {"Rotate270", ApiHelper::ResourceOrientation::Rotate270Orientation},
 
-    {"Flip0", ApiHelper::Orientation::Flip0Orientation},
-    {"Flip90", ApiHelper::Orientation::Flip90Orientation},
-    {"Flip180", ApiHelper::Orientation::Flip180Orientation},
-    {"Flip270", ApiHelper::Orientation::Flip270Orientation}
+    {"Flip0", ApiHelper::ResourceOrientation::Flip0Orientation},
+    {"Flip90", ApiHelper::ResourceOrientation::Flip90Orientation},
+    {"Flip180", ApiHelper::ResourceOrientation::Flip180Orientation},
+    {"Flip270", ApiHelper::ResourceOrientation::Flip270Orientation}
 };
 
 static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED = {
@@ -197,17 +197,16 @@ ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType,
     return BUNDLE_TYPE_STRINGIFIED.value(bundleType, BundleType::BoxBundle);
 }
 
-QString ApiHelper::componentOrientationToString(ApiHelper::Orientation componentOrientation)
+QString ApiHelper::resourceOrientationToString(ApiHelper::ResourceOrientation componentOrientation)
 {
-    return m_componentOrientationStringified.key(componentOrientation, "");
-
+    return RESOURCE_ORIENTATION_STRINGIFIED.key(componentOrientation, "");
 }
 
-ApiHelper::Orientation ApiHelper::componentOrientationFromString(const QString &componentOrientation, bool *ok)
+ApiHelper::ResourceOrientation ApiHelper::resourceOrientationFromString(const QString &componentOrientation, bool *ok)
 {
     if (ok != nullptr)
-        *ok = COMPONENT_ORIENTATION_STRINGIFIED.contains(componentOrientation);
-    return COMPONENT_ORIENTATION_STRINGIFIED.value(componentOrientation, Orientation::Rotate0Orientation);
+        *ok = RESOURCE_ORIENTATION_STRINGIFIED.contains(componentOrientation);
+    return RESOURCE_ORIENTATION_STRINGIFIED.value(componentOrientation, ResourceOrientation::Rotate0Orientation);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
@@ -307,7 +306,7 @@ uint qHash(ApiHelper::BundleType arg, uint seed)
     return ::qHash(static_cast<int>(arg), seed);
 }
 
-uint qHash(ApiHelper::Orientation arg, uint seed)
+uint qHash(ApiHelper::ResourceOrientation arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }

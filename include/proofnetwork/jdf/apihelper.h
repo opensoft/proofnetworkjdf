@@ -17,7 +17,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(CoatingType)
     Q_ENUMS(BundleType)
     Q_ENUMS(ComponentType)
-    Q_ENUMS(Orientation)
+    Q_ENUMS(ResourceOrientation)
     Q_ENUMS(PartIdKeysType)
     Q_ENUMS(ProcessUsage)
     Q_ENUMS(Usage)
@@ -86,7 +86,7 @@ public:
         WrappedBundle
     };
 
-    enum class Orientation {
+    enum class ResourceOrientation {
         Rotate0Orientation, // 0 degrees
         Rotate90Orientation, // 90
         Rotate180Orientation, // 180
@@ -180,8 +180,8 @@ public:
     static QString bundleTypeToString(BundleType bundleType);
     static BundleType bundleTypeFromString(const QString &bundleType, bool *ok = nullptr);
 
-    static QString componentOrientationToString(Orientation componentOrientation);
-    static Orientation componentOrientationFromString(const QString &componentOrientation, bool *ok = nullptr);
+    static QString resourceOrientationToString(ResourceOrientation componentOrientation);
+    static ResourceOrientation resourceOrientationFromString(const QString &componentOrientation, bool *ok = nullptr);
 
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
@@ -207,7 +207,7 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceClass arg, uint seed = 0)
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::CoatingType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::LaminatingSurface arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BundleType arg, uint seed = 0);
-PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::Orientation arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceOrientation arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ComponentType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::PartIdKeysType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ProcessUsage arg, uint seed = 0);

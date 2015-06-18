@@ -9,13 +9,13 @@ AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResou
 {
 }
 
-ApiHelper::Orientation AbstractPhysicalResourceLink::orientation() const
+ApiHelper::ResourceOrientation AbstractPhysicalResourceLink::orientation() const
 {
     Q_D(const AbstractPhysicalResourceLink);
     return d->orientation;
 }
 
-void AbstractPhysicalResourceLink::setOrientation(ApiHelper::Orientation arg)
+void AbstractPhysicalResourceLink::setOrientation(ApiHelper::ResourceOrientation arg)
 {
     Q_D(AbstractPhysicalResourceLink);
     if (d->orientation != arg) {
@@ -28,7 +28,7 @@ void AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, co
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QString value = attributes.value("Orientation").toString();
-    resource->setOrientation( ApiHelper::componentOrientationFromString(value) );
+    resource->setOrientation( ApiHelper::resourceOrientationFromString(value) );
 
     AbstractResourceLink::fromJdf(xmlReader, resource);
 }
@@ -40,8 +40,8 @@ void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement(className);
     jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(usage()));
     jdfWriter.writeAttribute("rRef", rRef());
-    if (d->orientation != ApiHelper::Orientation::Rotate0Orientation)
-        jdfWriter.writeAttribute("Orientation", ApiHelper::componentOrientationToString(d->orientation));
+    if (d->orientation != ApiHelper::ResourceOrientation::Rotate0Orientation)
+        jdfWriter.writeAttribute("Orientation", ApiHelper::resourceOrientationToString(d->orientation));
 
     jdfWriter.writeEndElement();
 }
@@ -51,6 +51,8 @@ void AbstractPhysicalResourceLinkPrivate::updateFrom(const NetworkDataEntitySP &
     Q_Q(AbstractPhysicalResourceLink);
     AbstractPhysicalResourceLinkSP castedOther = qSharedPointerCast<AbstractPhysicalResourceLink>(other);
     q->setOrientation(castedOther->orientation());
+
+    AbstractResourceLinkPrivate::updateFrom(other);
 }
 
 }
