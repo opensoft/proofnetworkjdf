@@ -147,10 +147,10 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_1234", media->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::NoneCoating, media->backCoating());
-    EXPECT_EQ(ApiHelper::HighGlossCoating, media->frontCoating());
-    EXPECT_EQ(ApiHelper::SheetMediaUnit, media->mediaUnit());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::CoatingType::NoneCoating, media->backCoating());
+    EXPECT_EQ(ApiHelper::CoatingType::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(ApiHelper::MediaUnit::SheetMediaUnit, media->mediaUnit());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
@@ -159,7 +159,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ASSERT_TRUE(laminatingIntent);
 
     EXPECT_EQ("LI_0000", laminatingIntent->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, laminatingIntent->resourceStatus());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
 
     ComponentSP component = resourcePool->components().first();
@@ -176,7 +176,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
-    ASSERT_EQ(ApiHelper::BoxBundle, bundle->bundleType());
+    ASSERT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     ASSERT_EQ(42, bundle->totalAmount());
 }
 
@@ -194,8 +194,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     CuttingParamsSP cuttingParams = resourcePool2->cuttingParams();
     ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
-    EXPECT_EQ(ApiHelper::AvailableStatus, cuttingParams->resourceStatus());
-    EXPECT_EQ(ApiHelper::ParameterClass, cuttingParams->resourceClass());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
+    EXPECT_EQ(ApiHelper::ResourceClass::ParameterClass, cuttingParams->resourceClass());
     ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
     CutBlockSP cutBlock1 = cuttingParams->cutBlocks().at(0);
@@ -203,14 +203,14 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     EXPECT_DOUBLE_EQ(432, cutBlock1->width());
     EXPECT_DOUBLE_EQ(288, cutBlock1->height());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock1->transformationMatrix());
-    EXPECT_EQ(ApiHelper::CutBlockType, cutBlock1->blockType());
+    EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock1->blockType());
 
     CutBlockSP cutBlock2 = cuttingParams->cutBlocks().at(1);
     EXPECT_EQ("A-2", cutBlock2->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock2->width());
     EXPECT_DOUBLE_EQ(288, cutBlock2->height());
     EXPECT_EQ("1 0 0 1 54.0000 342.0000", cutBlock2->transformationMatrix());
-    EXPECT_EQ(ApiHelper::CutBlockType, cutBlock2->blockType());
+    EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock2->blockType());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfFolding)
