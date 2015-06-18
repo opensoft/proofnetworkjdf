@@ -17,7 +17,7 @@ public:
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::Orientation orientation = ApiHelper::Orientation::Rotate0Orientation;
+    ApiHelper::ResourceOrientation orientation = ApiHelper::ResourceOrientation::Rotate0Orientation;
 };
 
 }

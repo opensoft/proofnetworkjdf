@@ -14,7 +14,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::Orientation orientation = ApiHelper::Orientation::Rotate0Orientation;
+    ApiHelper::ResourceOrientation orientation = ApiHelper::ResourceOrientation::Rotate0Orientation;
     ApiHelper::ComponentType componentType = ApiHelper::ComponentType::SheetComponent;
     double width = 0.0;
     double height = 0.0;
@@ -52,7 +52,7 @@ double Component::length() const
     return d->length;
 }
 
-ApiHelper::Orientation Component::orientation() const
+ApiHelper::ResourceOrientation Component::orientation() const
 {
     Q_D(const Component);
     return d->orientation;
@@ -106,7 +106,7 @@ void Component::setLength(double arg)
     }
 }
 
-void Component::setOrientation(ApiHelper::Orientation arg)
+void Component::setOrientation(ApiHelper::ResourceOrientation arg)
 {
     Q_D(Component);
     if (d->orientation != arg) {
