@@ -87,6 +87,7 @@ static void libraryInit()
 
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceStatus>("Proof::Jdf::ApiHelper::ResourceStatus");
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceClass>("Proof::Jdf::ApiHelper::ResourceClass");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceOrientation>("Proof::Jdf::ApiHelper::ResourceOrientation");
     qRegisterMetaType<Proof::Jdf::ApiHelper::CoatingType>("Proof::Jdf::ApiHelper::CoatingType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::MediaUnit>("Proof::Jdf::ApiHelper::MediaUnit");
     qRegisterMetaType<Proof::Jdf::ApiHelper::LaminatingSurface>("Proof::Jdf::ApiHelper::LaminatingSurface");
