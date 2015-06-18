@@ -10,10 +10,9 @@ namespace Jdf {
 class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(AbstractResourceLink)
-
+public:
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    // TODO: should we use default usage?
     ApiHelper::Usage usage = ApiHelper::Usage::InputUsage;
     QString rRef;
 };
