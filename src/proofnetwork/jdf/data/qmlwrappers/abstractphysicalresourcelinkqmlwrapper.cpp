@@ -14,7 +14,7 @@ AbstractPhysicalResourceLinkQmlWrapper::AbstractPhysicalResourceLinkQmlWrapper(
 }
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink,
-                                  Proof::Jdf::ApiHelper::Orientation,
+                                  Proof::Jdf::ApiHelper::ResourceOrientation,
                                   orientation)
 
 void AbstractPhysicalResourceLinkQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
