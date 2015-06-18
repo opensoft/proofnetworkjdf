@@ -22,6 +22,7 @@ public:
     QString jobId() const;
     QString jobPartId() const;
     ResourcePoolSP resourcePool() const;
+    ResourceLinkPoolSP resourceLinkPool() const;
     QList<JdfNodeSP> jdfNodes() const;
     QString type() const;
 
@@ -29,6 +30,7 @@ public:
     void setJobId(const QString &arg);
     void setJobPartId(const QString &arg);
     void setResourcePool(const ResourcePoolSP &arg);
+    void setResourceLinkPool(const ResourceLinkPoolSP &arg);
     void setJdfNodes(const QList<JdfNodeSP> &jdfNodes);
     void setType(const QString &arg);
 
@@ -45,6 +47,7 @@ signals:
     void jobIdChanged(const QString &arg);
     void jobPartIdChanged(const QString &arg);
     void resourcePoolChanged(Proof::Jdf::ResourcePoolSP arg);
+    void resourceLinkPoolChanged(Proof::Jdf::ResourceLinkPoolSP resourceLinkPool);
     void jdfNodesChanged();
     void typeChanged(const QString &type);
 

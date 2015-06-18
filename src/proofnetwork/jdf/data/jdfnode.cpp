@@ -2,6 +2,7 @@
 
 #include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
+#include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 
 #include <QList>
@@ -19,6 +20,7 @@ class JdfNodePrivate : public NetworkDataEntityPrivate
     QString jobId;
     QString jobPartId;
     ResourcePoolSP resourcePool = ResourcePool::defaultObject();
+    ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::defaultObject();
     QList<JdfNodeSP> jdfNodes;
     QString type = "Product";
 };
@@ -50,6 +52,12 @@ ResourcePoolSP JdfNode::resourcePool() const
 {
     Q_D(const JdfNode);
     return d->resourcePool;
+}
+
+ResourceLinkPoolSP JdfNode::resourceLinkPool() const
+{
+    Q_D(const JdfNode);
+    return d->resourceLinkPool;
 }
 
 QList<JdfNodeSP> JdfNode::jdfNodes() const
@@ -99,6 +107,17 @@ void JdfNode::setResourcePool(const ResourcePoolSP &arg)
     else if (d->resourcePool != arg) {
         d->resourcePool = arg;
         emit resourcePoolChanged(d->resourcePool);
+    }
+}
+
+void JdfNode::setResourceLinkPool(const ResourceLinkPoolSP &arg)
+{
+    Q_D(JdfNode);
+    if (arg == nullptr)
+        setResourceLinkPool(ResourceLinkPool::defaultObject());
+    else if (d->resourceLinkPool != arg) {
+        d->resourceLinkPool = arg;
+        emit resourceLinkPoolChanged(d->resourceLinkPool);
     }
 }
 
@@ -157,7 +176,8 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
 
             if (xmlReader.name() == "ResourcePool")
                 document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->id()));
-            // TODO: Add parsing ResourceLinkPool
+            if (xmlReader.name() == "ResourceLinkPool")
+                document->setResourceLinkPool(ResourceLinkPool::fromJdf(xmlReader));
         }
 
         if (xmlReader.isEndElement()) {
@@ -185,7 +205,7 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute("Version", "1.4");
         if (isValidAndNotDefault(d->resourcePool)) {
             d->resourcePool->toJdf(jdfWriter);
-            d->resourcePool->toJdfLink(jdfWriter);
+            d->resourceLinkPool->toJdf(jdfWriter);
         }
     }
     jdfWriter.writeEndElement();
@@ -216,6 +236,7 @@ void JdfNodePrivate::updateFrom(const NetworkDataEntitySP &other)
     q->setJobId(castedOther->jobId());
     q->setJobPartId(castedOther->jobPartId());
     q->setResourcePool(castedOther->resourcePool());
+    q->setResourceLinkPool(castedOther->resourceLinkPool());
     q->setJdfNodes(castedOther->jdfNodes());
     NetworkDataEntityPrivate::updateFrom(other);
 }
