@@ -17,13 +17,13 @@ class AbstractPhysicalResourceLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLink)
 public:
-    ApiHelper::Orientation orientation() const;
-    void setOrientation(ApiHelper::Orientation arg);
+    ApiHelper::ResourceOrientation orientation() const;
+    void setOrientation(ApiHelper::ResourceOrientation arg);
 
     static void fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &abstractResource);
-    virtual void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 signals:
-    void orientationChanged(ApiHelper::Orientation orientation);
+    void orientationChanged(ApiHelper::ResourceOrientation orientation);
 protected:
     explicit AbstractPhysicalResourceLink() = delete;
     AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd, QObject *parent = nullptr);
