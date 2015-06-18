@@ -13,16 +13,16 @@ class AbstractPhysicalResourceLinkQmlWrapperPrivate;
 class AbstractPhysicalResourceLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(Proof::Jdf::ApiHelper::Orientation orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceOrientation orientation READ orientation NOTIFY orientationChanged)
 
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLinkQmlWrapper)
 public:
     AbstractPhysicalResourceLinkQmlWrapper(const QSharedPointer<AbstractPhysicalResourceLink> &link,
                                            AbstractPhysicalResourceLinkQmlWrapperPrivate &dd, QObject *parent = 0);
-    ApiHelper::Orientation orientation() const;
+    ApiHelper::ResourceOrientation orientation() const;
 
 signals:
-    void orientationChanged(ApiHelper::Orientation orientation);
+    void orientationChanged(ApiHelper::ResourceOrientation orientation);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
