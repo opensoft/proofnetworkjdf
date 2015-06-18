@@ -38,14 +38,14 @@ public:
     CuttingParamsQmlWrapper *cuttingParams() const;
     MediaQmlWrapper *media() const;
     FoldingParamsQmlWrapper *foldingParams() const;
-    LaminatingIntentQmlWrapper * laminatingIntent() const;
+    LaminatingIntentQmlWrapper *laminatingIntent() const;
 
 signals:
     void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &components);
     void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams);
     void mediaChanged(Proof::Jdf::MediaQmlWrapper *media);
     void foldingParamsChanged(Proof::Jdf::FoldingParamsQmlWrapper *foldingParams);
-    void laminatingIntentChanged(Proof::Jdf::LaminatingIntentQmlWrapper * laminatingIntent);
+    void laminatingIntentChanged(Proof::Jdf::LaminatingIntentQmlWrapper *laminatingIntent);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
