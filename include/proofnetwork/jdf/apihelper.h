@@ -180,8 +180,8 @@ public:
     static QString bundleTypeToString(BundleType bundleType);
     static BundleType bundleTypeFromString(const QString &bundleType, bool *ok = nullptr);
 
-    static QString resourceOrientationToString(ResourceOrientation componentOrientation);
-    static ResourceOrientation resourceOrientationFromString(const QString &componentOrientation, bool *ok = nullptr);
+    static QString resourceOrientationToString(ResourceOrientation resourceOrientation);
+    static ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation, bool *ok = nullptr);
 
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);

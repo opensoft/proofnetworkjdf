@@ -197,16 +197,16 @@ ApiHelper::BundleType ApiHelper::bundleTypeFromString(const QString &bundleType,
     return BUNDLE_TYPE_STRINGIFIED.value(bundleType, BundleType::BoxBundle);
 }
 
-QString ApiHelper::resourceOrientationToString(ApiHelper::ResourceOrientation componentOrientation)
+QString ApiHelper::resourceOrientationToString(ApiHelper::ResourceOrientation resourceOrientation)
 {
-    return RESOURCE_ORIENTATION_STRINGIFIED.key(componentOrientation, "");
+    return RESOURCE_ORIENTATION_STRINGIFIED.key(resourceOrientation, "");
 }
 
-ApiHelper::ResourceOrientation ApiHelper::resourceOrientationFromString(const QString &componentOrientation, bool *ok)
+ApiHelper::ResourceOrientation ApiHelper::resourceOrientationFromString(const QString &resourceOrientation, bool *ok)
 {
     if (ok != nullptr)
-        *ok = RESOURCE_ORIENTATION_STRINGIFIED.contains(componentOrientation);
-    return RESOURCE_ORIENTATION_STRINGIFIED.value(componentOrientation, ResourceOrientation::Rotate0Orientation);
+        *ok = RESOURCE_ORIENTATION_STRINGIFIED.contains(resourceOrientation);
+    return RESOURCE_ORIENTATION_STRINGIFIED.value(resourceOrientation, ResourceOrientation::Rotate0Orientation);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)
