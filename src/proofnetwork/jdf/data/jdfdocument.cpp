@@ -87,17 +87,6 @@ void JdfDocument::setResourcePool(const ResourcePoolSP &arg)
 {
 }
 
-void JdfDocument::setResourceLinkPool(const ResourceLinkPoolSP &arg)
-{
-    Q_D(JdfDocument);
-    if (arg == nullptr)
-        setResourceLinkPool(ResourceLinkPool::defaultObject());
-    else if (d->resourceLinkPool != arg) {
-        d->resourceLinkPool = arg;
-        emit resourceLinkPoolChanged(d->resourceLinkPool);
-    }
-}
-
 JdfDocumentQmlWrapper *JdfDocument::toQmlWrapper(QObject *parent) const
 {
     Q_D(const JdfDocument);
