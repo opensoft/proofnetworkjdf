@@ -1,6 +1,7 @@
 #include "abstractresource.h"
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
+#include "proofnetwork/jdf/data/abstractresourcelink.h"
 
 using namespace Proof::Jdf;
 
@@ -70,7 +71,11 @@ AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
 
 }
 
-
+void AbstractResource::toLink(const AbstractResourceLinkSP &abstractLink, ApiHelper::Usage usage) const
+{
+    abstractLink->setRRef(id());
+    abstractLink->setUsage(usage);
+}
 
 void AbstractResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

@@ -2,6 +2,7 @@
 
 #include "cutblock.h"
 #include "proofnetwork/jdf/data/abstractresource_p.h"
+#include "proofnetwork/jdf/data/cuttingparamslink.h"
 
 namespace Proof {
 namespace Jdf {
@@ -100,6 +101,13 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
     }
 
     jdfWriter.writeEndElement();
+}
+
+CuttingParamsLinkSP CuttingParams::toLink(ApiHelper::Usage usage) const
+{
+    CuttingParamsLinkSP link = CuttingParamsLink::create();
+    AbstractResource::toLink(link, usage);
+    return link;
 }
 
 CuttingParamsSP CuttingParams::defaultObject()

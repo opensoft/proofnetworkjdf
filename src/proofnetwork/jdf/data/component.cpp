@@ -2,7 +2,7 @@
 
 #include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/cutblock.h"
-
+#include "proofnetwork/jdf/data/componentlink.h"
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 
 namespace Proof {
@@ -52,12 +52,6 @@ double Component::length() const
     return d->length;
 }
 
-ApiHelper::ResourceOrientation Component::orientation() const
-{
-    Q_D(const Component);
-    return d->orientation;
-}
-
 BundleSP Component::bundle() const
 {
     Q_D(const Component);
@@ -103,15 +97,6 @@ void Component::setLength(double arg)
     if (!qFuzzyCompare(d->length, arg)) {
         d->length = arg;
         emit lengthChanged(d->length);
-    }
-}
-
-void Component::setOrientation(ApiHelper::ResourceOrientation arg)
-{
-    Q_D(Component);
-    if (d->orientation != arg) {
-        d->orientation = arg;
-        emit orientationChanged(arg);
     }
 }
 
@@ -244,6 +229,13 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
         d->bundle->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
+}
+
+ComponentLinkSP Component::toLink(ApiHelper::Usage usage) const
+{
+    ComponentLinkSP link = ComponentLink::create();
+    AbstractResource::toLink(link, usage);
+    return link;
 }
 
 ComponentSP Component::defaultObject()

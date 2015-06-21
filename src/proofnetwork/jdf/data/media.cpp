@@ -1,6 +1,7 @@
 #include "media.h"
 
 #include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
+#include "proofnetwork/jdf/data/medialink.h"
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 
 namespace Proof {
@@ -177,6 +178,13 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractPhysicalResource::toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
+}
+
+MediaLinkSP Media::toLink(ApiHelper::Usage usage) const
+{
+    MediaLinkSP link = MediaLink::create();
+    AbstractResource::toLink(link, usage);
+    return link;
 }
 
 MediaSP Media::defaultObject()

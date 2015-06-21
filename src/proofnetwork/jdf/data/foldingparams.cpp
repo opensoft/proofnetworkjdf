@@ -1,5 +1,6 @@
 #include "foldingparams.h"
 #include "proofnetwork/jdf/data/abstractresource_p.h"
+#include "proofnetwork/jdf/data/foldingparamslink.h"
 
 #include <QRegExp>
 
@@ -118,6 +119,13 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("FoldCatalog", d->foldCatalog);
     AbstractResource::toJdf(jdfWriter);
     jdfWriter.writeEndElement();
+}
+
+FoldingParamsLinkSP FoldingParams::toLink(ApiHelper::Usage usage) const
+{
+    FoldingParamsLinkSP link = FoldingParamsLink::create();
+    AbstractResource::toLink(link, usage);
+    return link;
 }
 
 FoldingParams::FoldingParams()

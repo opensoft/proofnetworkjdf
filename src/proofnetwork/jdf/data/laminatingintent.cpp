@@ -1,6 +1,8 @@
 #include "laminatingintent.h"
 
 #include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
+#include "proofnetwork/jdf/data/laminatingintentlink.h"
+
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 
 namespace Proof {
@@ -81,6 +83,13 @@ void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("Surface", ApiHelper::laminatingSurfaceToString(d->surface));
     AbstractResource::toJdf(jdfWriter);
     jdfWriter.writeEndElement();
+}
+
+LaminatingIntentLinkSP LaminatingIntent::toLink(ApiHelper::Usage usage) const
+{
+    LaminatingIntentLinkSP link = LaminatingIntentLink::create();
+    AbstractResource::toLink(link, usage);
+    return link;
 }
 
 LaminatingIntentSP LaminatingIntent::defaultObject()
