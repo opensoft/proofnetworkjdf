@@ -66,10 +66,16 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
     EXPECT_EQ("ID0001", jdfDocUT->jobPartId());
 
-    ResourcePoolSP resourcePool = jdfDocUT->resourcePool();
+    ASSERT_EQ(1, jdfDocUT->jdfNodes().count());
+
+    JdfNodeSP jdfNode = jdfDocUT->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
+    EXPECT_EQ("LAYOUT_0001", jdfNode->id());
+
+    ResourcePoolSP resourcePool = jdfNode->resourcePool();
     ASSERT_TRUE(resourcePool);
 
-    EXPECT_EQ(3, resourcePool->components().count());
+    ASSERT_EQ(3, resourcePool->components().count());
 
     ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
@@ -85,8 +91,8 @@ TEST_F(JdfDocumentTest, fromJdf)
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
-    ASSERT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
-    ASSERT_EQ(42, bundle->totalAmount());
+    EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
+    EXPECT_EQ(42, bundle->totalAmount());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
@@ -132,16 +138,17 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT3->jobId());
     EXPECT_EQ("ID0001", jdfDocUT3->jobPartId());
 
+    ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
     JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
-    EXPECT_EQ("ID_Product_0001", jdfDocUT3->id());
-    EXPECT_EQ("Product_0001", jdfDocUT3->jobPartId());
+    EXPECT_EQ("ID_Product_0001", jdfNode->id());
+    EXPECT_EQ("Product_0001", jdfNode->jobPartId());
 
     ResourcePoolSP resourcePool = jdfNode->resourcePool();
     ASSERT_TRUE(resourcePool);
 
-    EXPECT_EQ(4, resourcePool->components().count());
+    EXPECT_EQ(2, resourcePool->components().count());
 
     MediaSP media = resourcePool->media();
     ASSERT_TRUE(media);
@@ -162,6 +169,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
 
+    ASSERT_EQ(2, resourcePool->components().count());
     ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
     EXPECT_EQ("COMP_0000", component->id());
@@ -172,20 +180,21 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
-    EXPECT_EQ(15, component2->cutBlocks().count());
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
-    ASSERT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
-    ASSERT_EQ(42, bundle->totalAmount());
+    EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
+    EXPECT_EQ(42, bundle->totalAmount());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfCutting)
 {
+    ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
     JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
-    JdfNodeSP jdfNode2 = jdfNode->jdfNodes().at(0);
+    ASSERT_EQ(2, jdfNode->jdfNodes().count());
+    JdfNodeSP jdfNode2 = jdfNode->jdfNodes().first();
     ASSERT_TRUE(jdfNode2);
 
     ResourcePoolSP resourcePool2 = jdfNode2->resourcePool();
@@ -196,8 +205,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     ASSERT_EQ("CPM_0000", cuttingParams->id());
     EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
     EXPECT_EQ(ApiHelper::ResourceClass::ParameterClass, cuttingParams->resourceClass());
-    ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
+    ASSERT_EQ(2, cuttingParams->cutBlocks().count());
     CutBlockSP cutBlock1 = cuttingParams->cutBlocks().at(0);
     EXPECT_EQ("A-1", cutBlock1->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock1->width());
@@ -215,9 +224,11 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
 
 TEST_F(JdfDocumentTest, fromNestedJdfFolding)
 {
+    ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
     JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
+    ASSERT_EQ(2, jdfNode->jdfNodes().count());
     JdfNodeSP jdfNode2 = jdfNode->jdfNodes().at(1);
     ASSERT_TRUE(jdfNode2);
 
@@ -308,7 +319,6 @@ TEST_F(JdfDocumentTest, updateFrom)
 TEST_F(JdfDocumentTest, documentToJdf)
 {
     QString jdf = jdfDocUT->toJdf();
-
     QXmlStreamReader reader(jdf);
 
     EXPECT_FALSE(reader.atEnd());
@@ -414,8 +424,13 @@ TEST_F(JdfDocumentTest, documentToJdf)
 
 TEST_F(JdfDocumentTest, orientationTest)
 {
+    ASSERT_EQ(1, jdfDocUT->jdfNodes().count());
+    JdfNodeSP jdfNode = jdfDocUT->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
+
+    ASSERT_EQ(3, jdfNode->resourcePool()->components().count());
     Proof::Jdf::ComponentSP sheet;
-    for (const auto &component : jdfDocUT->resourcePool()->components()) {
+    for (const auto &component : jdfNode->resourcePool()->components()) {
         if (component->componentType() == Proof::Jdf::ApiHelper::ComponentType::SheetComponent) {
             sheet = component;
             break;
@@ -424,7 +439,7 @@ TEST_F(JdfDocumentTest, orientationTest)
     ASSERT_TRUE(sheet);
 
     Proof::Jdf::ComponentLinkSP sheetLink;
-    for (const auto &component : jdfDocUT->resourceLinkPool()->componentLinks()) {
+    for (const auto &component : jdfNode->resourceLinkPool()->componentLinks()) {
         if (component->rRef() == sheet->id()) {
             sheetLink = component;
             break;
