@@ -4,13 +4,15 @@
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/data/component.h"
-#include "proofnetwork/jdf/data/componentlink.h"
 #include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
+#include "proofnetwork/jdf/data/medialink.h"
+#include "proofnetwork/jdf/data/laminatingintentlink.h"
+#include "proofnetwork/jdf/data/componentlink.h"
 
 #include <QXmlStreamReader>
 #include <QSignalSpy>
@@ -465,8 +467,27 @@ TEST_F(JdfDocumentTest, toLink)
 
     ASSERT_EQ(3, jdfNode->resourcePool()->components().count());
     Proof::Jdf::ComponentSP component = jdfNode->resourcePool()->components().at(0);
+    ASSERT_TRUE(component);
 
-    Proof::Jdf::ComponentLinkSP link = component->toLink(ApiHelper::Usage::OutputUsage);
-    EXPECT_EQ(component->id(), link->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, link->usage());
+    Proof::Jdf::ComponentLinkSP componentLink = component->toLink(ApiHelper::Usage::OutputUsage);
+    ASSERT_TRUE(componentLink);
+    EXPECT_EQ(component->id(), componentLink->rRef());
+    EXPECT_EQ(ApiHelper::Usage::OutputUsage, componentLink->usage());
+
+    Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media();
+    ASSERT_TRUE(media);
+
+    Proof::Jdf::MediaLinkSP mediaLink = media->toLink(ApiHelper::Usage::OutputUsage);
+    ASSERT_TRUE(mediaLink);
+    EXPECT_EQ(media->id(), mediaLink->rRef());
+    EXPECT_EQ(ApiHelper::Usage::OutputUsage, mediaLink->usage());
+
+    Proof::Jdf::LaminatingIntentSP laminatingIntent = jdfNode->resourcePool()->laminatingIntent();
+    ASSERT_TRUE(laminatingIntent);
+
+    Proof::Jdf::LaminatingIntentLinkSP laminatingIntentLink = laminatingIntent->toLink(ApiHelper::Usage::OutputUsage);
+    ASSERT_TRUE(laminatingIntentLink);
+    EXPECT_EQ(laminatingIntent->id(), laminatingIntentLink->rRef());
+    EXPECT_EQ(ApiHelper::Usage::OutputUsage, laminatingIntentLink->usage());
+
 }
