@@ -28,7 +28,7 @@ void AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, co
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QString value = attributes.value("Orientation").toString();
-    resource->setOrientation( ApiHelper::resourceOrientationFromString(value) );
+    resource->setOrientation(ApiHelper::resourceOrientationFromString(value));
 
     AbstractResourceLink::fromJdf(xmlReader, resource);
 }
