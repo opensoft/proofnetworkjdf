@@ -456,3 +456,17 @@ TEST_F(JdfDocumentTest, orientationTest)
 
     EXPECT_TRUE(jdf.contains("Orientation=\"Rotate180\""));
 }
+
+TEST_F(JdfDocumentTest, toLink)
+{
+    ASSERT_EQ(1, jdfDocUT->jdfNodes().count());
+    JdfNodeSP jdfNode = jdfDocUT->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
+
+    ASSERT_EQ(3, jdfNode->resourcePool()->components().count());
+    Proof::Jdf::ComponentSP component = jdfNode->resourcePool()->components().at(0);
+
+    Proof::Jdf::ComponentLinkSP link = component->toLink(ApiHelper::Usage::OutputUsage);
+    EXPECT_EQ(component->id(), link->rRef());
+    EXPECT_EQ(ApiHelper::Usage::OutputUsage, link->usage());
+}
