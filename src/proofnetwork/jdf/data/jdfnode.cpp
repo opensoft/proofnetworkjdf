@@ -22,7 +22,7 @@ class JdfNodePrivate : public NetworkDataEntityPrivate
     ResourcePoolSP resourcePool = ResourcePool::defaultObject();
     ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::defaultObject();
     QList<JdfNodeSP> jdfNodes;
-    QString type = "Product";
+    QString type = "";
 };
 
 }
@@ -157,17 +157,16 @@ JdfNodeSP JdfNode::create()
 JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
 {
     JdfNodeSP document = create();
-    while (!xmlReader.atEnd() && !xmlReader.hasError()) {        
+    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "JDF") {
                 if (!document->isFetched()) {
                     document->setFetched(true);
                     QXmlStreamAttributes attributes = xmlReader.attributes();
-                    if (attributes.value("Type").toString() == "Product") {
-                        document->setId(attributes.value("ID").toString());
-                        document->setJobId(attributes.value("JobID").toString());
-                        document->setJobPartId(attributes.value("JobPartID").toString());
-                    }
+                    document->setId(attributes.value("ID").toString());
+                    document->setJobId(attributes.value("JobID").toString());
+                    document->setJobPartId(attributes.value("JobPartID").toString());
+                    document->setType(attributes.value("Type").toString());
                 } else {
                     JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader);
                     document->d_func()->jdfNodes.push_back(jdfNode);
@@ -181,8 +180,10 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
         }
 
         if (xmlReader.isEndElement()) {
-            if (xmlReader.name() == "JDF")
+            if (xmlReader.name() == "JDF") {
+                xmlReader.readNext();
                 return document;
+            }
         }
 
         xmlReader.readNext();
@@ -198,15 +199,21 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("JDF");
     {
         jdfWriter.writeAttribute("ID", d->id);
-        jdfWriter.writeAttribute("JobID", d->jobId);
-        jdfWriter.writeAttribute("JobPartID", d->jobPartId);
+        if (!d->jobId.isEmpty())
+            jdfWriter.writeAttribute("JobID", d->jobId);
+        if (!d->jobPartId.isEmpty())
+            jdfWriter.writeAttribute("JobPartID", d->jobPartId);
+        if (!d->type.isEmpty())
+            jdfWriter.writeAttribute("Type", d->type);
+
         jdfWriter.writeAttribute("Status", "Waiting");
-        jdfWriter.writeAttribute("Type", d->type);
         jdfWriter.writeAttribute("Version", "1.4");
         if (isValidAndNotDefault(d->resourcePool)) {
             d->resourcePool->toJdf(jdfWriter);
             d->resourceLinkPool->toJdf(jdfWriter);
         }
+        for (const JdfNodeSP &jdf: jdfNodes())
+            jdf->toJdf(jdfWriter);
     }
     jdfWriter.writeEndElement();
 }
@@ -235,6 +242,7 @@ void JdfNodePrivate::updateFrom(const NetworkDataEntitySP &other)
     q->setId(castedOther->id());
     q->setJobId(castedOther->jobId());
     q->setJobPartId(castedOther->jobPartId());
+    q->setType(castedOther->type());
     q->setResourcePool(castedOther->resourcePool());
     q->setResourceLinkPool(castedOther->resourceLinkPool());
     q->setJdfNodes(castedOther->jdfNodes());
