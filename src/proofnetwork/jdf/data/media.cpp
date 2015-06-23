@@ -183,7 +183,7 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
 MediaLinkSP Media::toLink(ApiHelper::Usage usage) const
 {
     MediaLinkSP link = MediaLink::create();
-    AbstractResource::toLink(link, usage);
+    AbstractResource::setupLink(link, usage);
     return link;
 }
 

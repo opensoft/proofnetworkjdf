@@ -124,7 +124,7 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
 FoldingParamsLinkSP FoldingParams::toLink(ApiHelper::Usage usage) const
 {
     FoldingParamsLinkSP link = FoldingParamsLink::create();
-    AbstractResource::toLink(link, usage);
+    AbstractResource::setupLink(link, usage);
     return link;
 }
 

@@ -88,7 +88,7 @@ void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
 LaminatingIntentLinkSP LaminatingIntent::toLink(ApiHelper::Usage usage) const
 {
     LaminatingIntentLinkSP link = LaminatingIntentLink::create();
-    AbstractResource::toLink(link, usage);
+    AbstractResource::setupLink(link, usage);
     return link;
 }
 

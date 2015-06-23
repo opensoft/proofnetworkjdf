@@ -71,7 +71,7 @@ AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
 
 }
 
-void AbstractResource::toLink(const AbstractResourceLinkSP &abstractLink, ApiHelper::Usage usage) const
+void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, ApiHelper::Usage usage) const
 {
     abstractLink->setRRef(id());
     abstractLink->setUsage(usage);

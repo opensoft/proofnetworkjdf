@@ -106,7 +106,7 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
 CuttingParamsLinkSP CuttingParams::toLink(ApiHelper::Usage usage) const
 {
     CuttingParamsLinkSP link = CuttingParamsLink::create();
-    AbstractResource::toLink(link, usage);
+    AbstractResource::setupLink(link, usage);
     return link;
 }
 

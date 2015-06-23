@@ -234,7 +234,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
 ComponentLinkSP Component::toLink(ApiHelper::Usage usage) const
 {
     ComponentLinkSP link = ComponentLink::create();
-    AbstractResource::toLink(link, usage);
+    AbstractResource::setupLink(link, usage);
     return link;
 }
 
