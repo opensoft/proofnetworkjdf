@@ -141,7 +141,7 @@ void JdfNode::setType(const QString &arg)
 
 JdfNodeSP Proof::Jdf::JdfNode::findSubNode(std::function<bool (const JdfNodeSP &)> predicate) const
 {
-    for (const Proof::Jdf::JdfNodeSP &node: jdfNodes()) {
+    for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
         if (predicate(node))
             return node;
 
