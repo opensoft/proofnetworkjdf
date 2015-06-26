@@ -1,32 +1,7 @@
 #include "jdfdocument.h"
 
-#include "proofnetwork/networkdataentity_p.h"
-#include "proofnetwork/jdf/data/resourcepool.h"
-#include "proofnetwork/jdf/data/resourcelinkpool.h"
+#include "proofnetwork/jdf/data/jdfnode_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
-
-#include <QList>
-
-namespace Proof {
-namespace Jdf {
-
-class JdfNodePrivate : public NetworkDataEntityPrivate
-{
-    Q_DECLARE_PUBLIC(JdfNode)
-
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
-    QString id;
-    QString jobId;
-    QString jobPartId;
-    ResourcePoolSP resourcePool = ResourcePool::defaultObject();
-    ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::defaultObject();
-    QList<JdfNodeSP> jdfNodes;
-    QString type = "";
-};
-
-}
-}
 
 using namespace Proof::Jdf;
 
@@ -237,9 +212,18 @@ JdfNodeSP JdfNode::defaultObject()
     return entity;
 }
 
-JdfNode::JdfNode()
-    : NetworkDataEntity(*new JdfNodePrivate)
+JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent)
+    : NetworkDataEntity(dd, parent)
 {
+}
+
+void JdfNode::update(const JdfNodeSP &other)
+{
+}
+
+Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
+{
+    registerChilds(resourcePool, resourceLinkPool, jdfNodes);
 }
 
 void JdfNodePrivate::updateFrom(const NetworkDataEntitySP &other)

@@ -1,13 +1,10 @@
 #include "jdfdocument.h"
-#include "proofnetwork/networkdataentity_p.h"
-#include "proofnetwork/jdf/data/resourcepool.h"
-#include "proofnetwork/jdf/data/resourcelinkpool.h"
-#include "proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.h"
+#include "proofnetwork/jdf/data/jdfnode_p.h"
 
 namespace Proof {
 namespace Jdf {
 
-class JdfDocumentPrivate : public NetworkDataEntityPrivate
+class JdfDocumentPrivate : public JdfNodePrivate
 {
     Q_DECLARE_PUBLIC(JdfDocument)
 
@@ -30,37 +27,8 @@ class JdfDocumentPrivate : public NetworkDataEntityPrivate
 
 using namespace Proof::Jdf;
 
-QString JdfDocument::id() const
-{
-    Q_D(const JdfDocument);
-    return d->id;
-}
-
-QString JdfDocument::jobId() const
-{
-    Q_D(const JdfDocument);
-    return d->jobId;
-}
-
-QString JdfDocument::jobPartId() const
-{
-    Q_D(const JdfDocument);
-    return d->jobPartId;
-}
-
-ResourcePoolSP JdfDocument::resourcePool() const
-{
-    Q_D(const JdfDocument);
-    return d->resourcePool;
-}
-
-ResourceLinkPoolSP JdfDocument::resourceLinkPool() const
-{
-    Q_D(const JdfDocument);
-    return d->resourceLinkPool;
-}
-
-void JdfDocument::setId(const QString &arg)
+JdfDocument::JdfDocument()
+    : JdfNode(*new JdfDocumentPrivate)
 {
     Q_D(JdfDocument);
     if (d->id != arg) {

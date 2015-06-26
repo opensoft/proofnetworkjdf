@@ -54,7 +54,9 @@ signals:
     void typeChanged(const QString &type);
 
 protected:
-    explicit JdfNode();
+    JdfNode();
+    JdfNode(JdfNodePrivate &dd, QObject *parent = nullptr);
+    void update(const JdfNodeSP &other);
 
 };
 
