@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class CuttingParamsLinkPrivate;
-class CuttingParamsLink : public AbstractResourceLink
+class PROOF_NETWORK_JDF_EXPORT CuttingParamsLink : public AbstractResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParamsLink)

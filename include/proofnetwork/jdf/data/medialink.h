@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class MediaLinkPrivate;
-class MediaLink : public AbstractPhysicalResourceLink
+class PROOF_NETWORK_JDF_EXPORT MediaLink : public AbstractPhysicalResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(MediaLink)

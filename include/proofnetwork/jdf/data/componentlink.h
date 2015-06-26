@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class ComponentLinkPrivate;
-class ComponentLink : public AbstractPhysicalResourceLink
+class PROOF_NETWORK_JDF_EXPORT ComponentLink : public AbstractPhysicalResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ComponentLink)

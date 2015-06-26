@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class FoldingParamsLinkPrivate;
-class FoldingParamsLink : public AbstractResourceLink
+class PROOF_NETWORK_JDF_EXPORT FoldingParamsLink : public AbstractResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingParamsLink)

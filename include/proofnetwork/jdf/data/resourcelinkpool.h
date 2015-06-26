@@ -13,7 +13,7 @@ namespace Proof {
 namespace Jdf {
 
 class ResourceLinkPoolPrivate;
-class ResourceLinkPool : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT ResourceLinkPool : public NetworkDataEntity
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourceLinkPool)

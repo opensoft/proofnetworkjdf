@@ -12,7 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class AbstractPhysicalResourceLinkPrivate;
-class AbstractPhysicalResourceLink : public AbstractResourceLink
+class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceLink : public AbstractResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLink)

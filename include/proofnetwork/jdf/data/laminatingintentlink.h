@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class LaminatingIntentLinkPrivate;
-class LaminatingIntentLink : public AbstractResourceLink
+class PROOF_NETWORK_JDF_EXPORT LaminatingIntentLink : public AbstractResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(LaminatingIntentLink)
