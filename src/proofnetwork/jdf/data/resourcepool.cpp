@@ -189,7 +189,9 @@ void ResourcePool::setComponents(const QList<ComponentSP> &arg)
 void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
 {
     Q_D(ResourcePool);
-    if (d->cuttingParams != arg) {
+    if (arg == nullptr)
+        setCuttingParams(CuttingParams::defaultObject());
+    else if (d->cuttingParams != arg) {
         d->cuttingParams = arg;
         emit cuttingParamsChanged(d->cuttingParams);
     }
