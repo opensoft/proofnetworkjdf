@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JDF DescriptiveName="testNo.01t" ID="061106-00002_1_ShtFin000"
+  JobID="061106-00002" JobPartID="ID061106" Status="Waiting" Type="ProcessGroup"
+  Version="1.4" xmlns="http://www.CIP4.org/JDFSchema_1_1">
+  <ResourcePool>
+    <Media BackCoatings="None" Dimension="1329.44882 963.77953"
+      FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper"
+      MediaUnit="Roll" Status="Available" Thickness="171.7200"/>
+      <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
+    <Component Amount="100" Class="Quantity" ComponentType="Sheet"
+      Dimensions="1329.44882 963.77953 0.0"
+      ID="061106-00002_1_Comp00001" IsWaste="false" Status="Unavailable"/>
+    <CuttingParams Class="Parameter" ID="061106-00002_1_CutPara00001" Status="Unavailable">
+      <CutBlock BlockName="061106-00002_1_CutBlc00001"
+        BlockSize="1207.55906 858.8976399999999"
+        BlockTrf="1 0 0 1 60.94488 52.44094" BlockType="SaveBlock"
+        Class="Parameter" ID="061106-00002_1_CutBlc00001"/>
+    </CuttingParams>
+    <Component Class="Quantity" ComponentType="Block"
+      Dimensions="1207.55906 858.8976399999999 0.0"
+      ID="061106-00002_1_Comp00002" IsWaste="false" Status="Unavailable"/>
+  </ResourcePool>
+  <JDF DescriptiveName="CuttingProcess00001"
+    ID="061106-00002_1_Cut00001" JobPartID="061106-0000200001"
+    Status="Waiting" Type="Cutting">
+    <Comment Name="Instruction">061106-00002_1_CutBlc00001(Front{0,3},
+      Back{1,2}) </Comment>
+    <ResourceLinkPool>
+      <ComponentLink Usage="Input" rRef="061106-00002_1_Comp00001"/>
+      <CuttingParamsLink Usage="Input" rRef="061106-00002_1_CutPara00001"/>
+      <ComponentLink Usage="Output" rRef="061106-00002_1_Comp00002"/>
+    </ResourceLinkPool>
+  </JDF>
+</JDF>
