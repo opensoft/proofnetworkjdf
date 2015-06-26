@@ -11,6 +11,8 @@ class FoldingParamsPrivate : AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(FoldingParams)
 
+    FoldingParamsPrivate() : AbstractResourcePrivate(ApiHelper::ResourceClass::ParameterClass) {}
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QString foldCatalog = QString();
@@ -73,14 +75,8 @@ FoldingParamsQmlWrapper *FoldingParams::toQmlWrapper(QObject *parent) const
 FoldingParamsSP FoldingParams::create()
 {
     FoldingParamsSP result(new FoldingParams());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
-}
-
-FoldingParamsSP FoldingParams::defaultObject()
-{
-    static FoldingParamsSP entity = create();
-    return entity;
 }
 
 FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
@@ -131,7 +127,6 @@ FoldingParamsLinkSP FoldingParams::toLink(ApiHelper::Usage usage) const
 FoldingParams::FoldingParams()
     : AbstractResource(*new FoldingParamsPrivate)
 {
-    setResourceClass(ApiHelper::ResourceClass::ParameterClass);
 }
 
 void FoldingParamsPrivate::updateFrom(const NetworkDataEntitySP &other)

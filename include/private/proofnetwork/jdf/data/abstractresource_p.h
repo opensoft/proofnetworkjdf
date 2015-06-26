@@ -13,6 +13,9 @@ class AbstractResourcePrivate : public NetworkDataEntityPrivate
     Q_DECLARE_PUBLIC(AbstractResource)
 public:
     AbstractResourcePrivate() : NetworkDataEntityPrivate() {}
+    AbstractResourcePrivate(ApiHelper::ResourceClass resourceClass)
+        : NetworkDataEntityPrivate(), resourceClass(resourceClass)
+    {}
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 

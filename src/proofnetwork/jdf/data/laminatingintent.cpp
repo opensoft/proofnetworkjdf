@@ -12,6 +12,8 @@ class LaminatingIntentPrivate : AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(LaminatingIntent)
 
+    LaminatingIntentPrivate() : AbstractResourcePrivate(ApiHelper::ResourceClass::IntentClass) {}
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     ApiHelper::LaminatingSurface surface = ApiHelper::LaminatingSurface::None;
@@ -48,7 +50,7 @@ LaminatingIntentQmlWrapper *LaminatingIntent::toQmlWrapper(QObject *parent) cons
 LaminatingIntentSP LaminatingIntent::create()
 {
     LaminatingIntentSP result(new LaminatingIntent());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -85,6 +87,7 @@ void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
+<<<<<<< HEAD
 LaminatingIntentLinkSP LaminatingIntent::toLink(ApiHelper::Usage usage) const
 {
     LaminatingIntentLinkSP link = LaminatingIntentLink::create();
@@ -98,10 +101,11 @@ LaminatingIntentSP LaminatingIntent::defaultObject()
     return entity;
 }
 
+=======
+>>>>>>> 2aa092e7... Dirty attribute for DTOs
 LaminatingIntent::LaminatingIntent()
     : AbstractResource(*new LaminatingIntentPrivate)
 {
-    setResourceClass(ApiHelper::ResourceClass::IntentClass);
 }
 
 void LaminatingIntentPrivate::updateFrom(const NetworkDataEntitySP &other)

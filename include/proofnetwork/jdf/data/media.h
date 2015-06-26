@@ -39,7 +39,6 @@ public:
     static MediaSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter);
     MediaLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
-    static MediaSP defaultObject();
 
 signals:
     void thicknessChanged(double arg);

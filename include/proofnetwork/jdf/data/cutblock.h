@@ -41,7 +41,6 @@ public:
 
     static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter);
-    static CutBlockSP defaultObject();
 
 signals:
     void blockNameChanged(const QString &arg);

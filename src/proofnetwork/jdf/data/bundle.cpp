@@ -61,7 +61,7 @@ BundleQmlWrapper *Bundle::toQmlWrapper(QObject *parent) const
 BundleSP Bundle::create()
 {
     BundleSP result(new Bundle());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -93,12 +93,6 @@ void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("BundleType", ApiHelper::bundleTypeToString(d->bundleType));
     jdfWriter.writeAttribute("TotalAmount", QString::number(d->totalAmount));
     jdfWriter.writeEndElement();
-}
-
-BundleSP Bundle::defaultObject()
-{
-    static BundleSP entity = create();
-    return entity;
 }
 
 Bundle::Bundle()

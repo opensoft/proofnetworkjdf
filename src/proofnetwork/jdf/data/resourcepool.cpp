@@ -15,13 +15,18 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(ResourcePool)
 
+    ResourcePoolPrivate()
+    {
+        registerChilds(components, cuttingParams, media, laminatingIntent, foldingParams);
+    }
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QList<ComponentSP> components;
-    CuttingParamsSP cuttingParams = CuttingParams::defaultObject();
-    MediaSP media = Media::defaultObject();
-    LaminatingIntentSP laminatingIntent = LaminatingIntent::defaultObject();
-    FoldingParamsSP foldingParams = FoldingParams::defaultObject();
+    CuttingParamsSP cuttingParams = CuttingParams::create();
+    MediaSP media = Media::create();
+    LaminatingIntentSP laminatingIntent = LaminatingIntent::create();
+    FoldingParamsSP foldingParams = FoldingParams::create();
 };
 
 ObjectsCache<QString, ResourcePool> &cuttingProcessCache()
@@ -80,7 +85,7 @@ ResourcePoolQmlWrapper *ResourcePool::toQmlWrapper(QObject *parent) const
 ResourcePoolSP ResourcePool::create()
 {
     ResourcePoolSP result(new ResourcePool());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -150,11 +155,17 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("ResourcePool");
 
     for (const ComponentSP &component : d->components) {
-        if (isValidAndNotDefault(component))
+        if (component->isDirty())
             component->toJdf(jdfWriter);
     }
-    if (isValidAndNotDefault(d->media))
+    if (d->media->isDirty())
         d->media->toJdf(jdfWriter);
+    if (d->laminatingIntent->isDirty())
+        d->laminatingIntent->toJdf(jdfWriter);
+    if (d->cuttingParams->isDirty())
+        d->cuttingParams->toJdf(jdfWriter);
+    if (d->foldingParams->isDirty())
+        d->foldingParams->toJdf(jdfWriter);
 
     if (isValidAndNotDefault(d->laminatingIntent))
         d->laminatingIntent->toJdf(jdfWriter);
@@ -162,16 +173,20 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
     if (isValidAndNotDefault(d->cuttingParams))
         d->cuttingParams->toJdf(jdfWriter);
 
-    if (isValidAndNotDefault(d->foldingParams))
-        d->foldingParams->toJdf(jdfWriter);
+    for (const ComponentSP &component : d->components) {
+        if (component->isDirty())
+            component->toJdfLink(jdfWriter);
+    }
+    if (d->media->isDirty())
+        d->media->toJdfLink(jdfWriter);
+    if (d->laminatingIntent->isDirty())
+        d->laminatingIntent->toJdfLink(jdfWriter);
+    if (d->cuttingParams->isDirty())
+        d->cuttingParams->toJdfLink(jdfWriter);
+    if (d->foldingParams->isDirty())
+        d->foldingParams->toJdfLink(jdfWriter);
 
     jdfWriter.writeEndElement();
-}
-
-ResourcePoolSP ResourcePool::defaultObject()
-{
-    static ResourcePoolSP entity = create();
-    return entity;
 }
 
 void ResourcePool::setComponents(const QList<ComponentSP> &arg)
@@ -201,7 +216,7 @@ void ResourcePool::setMedia(const MediaSP &media)
 {
     Q_D(ResourcePool);
     if (media == nullptr)
-        setMedia(Media::defaultObject());
+        setMedia(Media::create());
     else if (d->media != media) {
         d->media = media;
         emit mediaChanged(d->media);
@@ -212,7 +227,7 @@ void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingInten
 {
     Q_D(ResourcePool);
     if (laminatingIntent == nullptr)
-        setLaminatingIntent(LaminatingIntent::defaultObject());
+        setLaminatingIntent(LaminatingIntent::create());
     else if (d->laminatingIntent != laminatingIntent) {
         d->laminatingIntent = laminatingIntent;
         emit laminatingIntentChanged(d->laminatingIntent);
@@ -223,7 +238,7 @@ void ResourcePool::setFoldingParams(const FoldingParamsSP &foldingParams)
 {
     Q_D(ResourcePool);
     if (foldingParams == nullptr) {
-        setFoldingParams(FoldingParams::defaultObject());
+        setFoldingParams(FoldingParams::create());
     } else if (d->foldingParams != foldingParams) {
         d->foldingParams = foldingParams;
         emit foldingParamsChanged(d->foldingParams);

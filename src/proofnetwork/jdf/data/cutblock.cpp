@@ -15,6 +15,8 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
+    explicit CutBlockPrivate(const QString &blockName) : blockName(blockName) {}
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QString createRotationMatrixString(double angle);
@@ -38,9 +40,8 @@ ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache()
 using namespace Proof::Jdf;
 
 CutBlock::CutBlock(const QString &blockName)
-    : NetworkDataEntity(*new CutBlockPrivate)
+    : NetworkDataEntity(*new CutBlockPrivate(blockName))
 {
-    setBlockName(blockName);
 }
 
 QString CutBlock::blockName() const
@@ -84,7 +85,7 @@ CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
 CutBlockSP CutBlock::create(const QString &blockName)
 {
     CutBlockSP result(new CutBlock(blockName));
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -129,12 +130,6 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("BlockTrf", d->transformationMatrix);
     jdfWriter.writeAttribute("BlockType", ApiHelper::blockTypeToString(d->blockType));
     jdfWriter.writeEndElement();
-}
-
-CutBlockSP CutBlock::defaultObject()
-{
-    static CutBlockSP entity = create();
-    return entity;
 }
 
 void CutBlock::setBlockName(const QString &arg)

@@ -30,7 +30,6 @@ public:
 
     static BundleSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter);
-    static BundleSP defaultObject();
 
 signals:
     void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType arg);

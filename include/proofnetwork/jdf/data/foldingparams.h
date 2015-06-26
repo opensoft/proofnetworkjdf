@@ -27,7 +27,6 @@ public:
     static FoldingParamsSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter);
     FoldingParamsLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
-    static FoldingParamsSP defaultObject();
 
 signals:
     void foldCatalogChanged(const QString &arg);

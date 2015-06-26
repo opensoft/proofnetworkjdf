@@ -30,7 +30,6 @@ public:
     static LaminatingIntentSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter);
     LaminatingIntentLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
-    static LaminatingIntentSP defaultObject();
 
 signals:
     void surfaceChanged(Proof::Jdf::ApiHelper::LaminatingSurface arg);

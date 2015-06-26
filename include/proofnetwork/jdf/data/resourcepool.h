@@ -36,7 +36,7 @@ public:
 
     static ResourcePoolSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter);
-    static ResourcePoolSP defaultObject();
+    void toJdfLink(QXmlStreamWriter &jdfWriter);
 
 signals:
     void componentsChanged();

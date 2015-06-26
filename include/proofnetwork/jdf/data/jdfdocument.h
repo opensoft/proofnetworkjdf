@@ -31,7 +31,6 @@ public:
 
     static JdfDocumentSP fromJdf(QXmlStreamReader &xmlReader);
     QString toJdf();
-    static JdfDocumentSP defaultObject();
 
 signals:
     void idChanged(const QString &id);

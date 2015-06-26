@@ -11,6 +11,8 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
 {
     Q_DECLARE_PUBLIC(Media)
 
+    MediaPrivate() : AbstractPhysicalResourcePrivate(ApiHelper::ResourceClass::ConsumableClass) {}
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     double thickness = 0.0;
@@ -127,7 +129,7 @@ MediaQmlWrapper *Media::toQmlWrapper(QObject *parent) const
 MediaSP Media::create()
 {
     MediaSP result(new Media());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -187,16 +189,9 @@ MediaLinkSP Media::toLink(ApiHelper::Usage usage) const
     return link;
 }
 
-MediaSP Media::defaultObject()
-{
-    static MediaSP entity = create();
-    return entity;
-}
-
 Media::Media()
     : AbstractPhysicalResource(*new MediaPrivate)
 {
-    setResourceClass(ApiHelper::ResourceClass::ConsumableClass);
 }
 
 void MediaPrivate::updateFrom(const NetworkDataEntitySP &other)

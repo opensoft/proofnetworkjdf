@@ -11,6 +11,12 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(CuttingParams)
 
+    CuttingParamsPrivate()
+        : AbstractResourcePrivate(ApiHelper::ResourceClass::ParameterClass)
+    {
+        registerChilds(cutBlocks);
+    }
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QList<CutBlockSP> cutBlocks;
@@ -29,7 +35,6 @@ using namespace Proof::Jdf;
 CuttingParams::CuttingParams()
     : AbstractResource(*new CuttingParamsPrivate)
 {
-    setResourceClass(ApiHelper::ResourceClass::ParameterClass);
 }
 
 QList<CutBlockSP> CuttingParams::cutBlocks() const
@@ -49,7 +54,7 @@ CuttingParamsQmlWrapper *CuttingParams::toQmlWrapper(QObject *parent) const
 CuttingParamsSP CuttingParams::create()
 {
     CuttingParamsSP result(new CuttingParams());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -96,7 +101,7 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractResource::toJdf(jdfWriter);
 
     for (const CutBlockSP &cutBlock : d->cutBlocks) {
-        if (cutBlock != CutBlock::defaultObject())
+        if (cutBlock->isDirty())
             cutBlock->toJdf(jdfWriter);
     }
 
@@ -108,12 +113,6 @@ CuttingParamsLinkSP CuttingParams::toLink(ApiHelper::Usage usage) const
     CuttingParamsLinkSP link = CuttingParamsLink::create();
     AbstractResource::setupLink(link, usage);
     return link;
-}
-
-CuttingParamsSP CuttingParams::defaultObject()
-{
-    static CuttingParamsSP entity = create();
-    return entity;
 }
 
 QList<CutBlockSP> CuttingParams::updateCutBlocks(const QList<CutBlockSP> &arg)

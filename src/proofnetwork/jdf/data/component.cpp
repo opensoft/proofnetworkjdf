@@ -12,6 +12,11 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 {
     Q_DECLARE_PUBLIC(Component)
 
+    ComponentPrivate()
+    {
+        registerChilds(bundle, cutBlocks);
+    }
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     ApiHelper::ResourceOrientation orientation = ApiHelper::ResourceOrientation::Rotate0Orientation;
@@ -19,7 +24,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     double width = 0.0;
     double height = 0.0;
     double length = 0.0;
-    BundleSP bundle = Bundle::defaultObject();
+    BundleSP bundle = Bundle::create();
     QList<CutBlockSP> cutBlocks;
 };
 
@@ -133,7 +138,7 @@ ComponentQmlWrapper *Component::toQmlWrapper(QObject *parent) const
 ComponentSP Component::create()
 {
     ComponentSP result(new Component());
-    result->d_func()->weakSelf = result.toWeakRef();
+    makeWeakSelf(result);
     return result;
 }
 
@@ -225,7 +230,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
         }
     }
 
-    if (d->bundle != Bundle::defaultObject())
+    if (d->bundle->isDirty())
         d->bundle->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
@@ -236,12 +241,6 @@ ComponentLinkSP Component::toLink(ApiHelper::Usage usage) const
     ComponentLinkSP link = ComponentLink::create();
     AbstractResource::setupLink(link, usage);
     return link;
-}
-
-ComponentSP Component::defaultObject()
-{
-    static ComponentSP entity = create();
-    return entity;
 }
 
 Component::Component()
