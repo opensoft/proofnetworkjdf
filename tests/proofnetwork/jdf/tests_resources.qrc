@@ -7,5 +7,7 @@
         <file>data/cutblock2.jdf</file>
         <file>data/foldingparams.jdf</file>
         <file>data/foldingparams2.jdf</file>
+        <file>data/resourcelinkpool.jdf</file>
+        <file>data/resourcelinkpool2.jdf</file>
     </qresource>
 </RCC>

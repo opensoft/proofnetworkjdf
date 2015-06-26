@@ -26,7 +26,7 @@ public:
 protected:
     void SetUp() override
     {
-        QFile file1(":/data/jdfdocument.jdf");
+        QFile file1(":/data/resourcelinkpool.jdf");
         ASSERT_TRUE(file1.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml1(&file1);
 
@@ -34,7 +34,7 @@ protected:
         ASSERT_TRUE(linkPool1);
         EXPECT_EQ(true, linkPool1->isFetched());
 
-        QFile file2(":/data/jdfdocument2.jdf");
+        QFile file2(":/data/resourcelinkpool2.jdf");
         ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml2(&file2);
 
