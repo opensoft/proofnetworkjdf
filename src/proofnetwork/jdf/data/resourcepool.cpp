@@ -190,7 +190,7 @@ void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
 {
     Q_D(ResourcePool);
     if (arg == nullptr)
-        setCuttingParams(CuttingParams::defaultObject());
+        setCuttingParams(CuttingParams::create());
     else if (d->cuttingParams != arg) {
         d->cuttingParams = arg;
         emit cuttingParamsChanged(d->cuttingParams);
