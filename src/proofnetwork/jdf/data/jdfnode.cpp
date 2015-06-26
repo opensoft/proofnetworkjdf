@@ -242,12 +242,6 @@ JdfNode::JdfNode()
 {
 }
 
-void JdfNode::update(const JdfNodeSP &other)
-{
-    Q_D(JdfNode);
-    d->updateFrom(other.dynamicCast<NetworkDataEntity>());
-}
-
 void JdfNodePrivate::updateFrom(const NetworkDataEntitySP &other)
 {
     Q_Q(JdfNode);

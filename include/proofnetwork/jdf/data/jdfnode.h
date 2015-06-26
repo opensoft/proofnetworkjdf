@@ -55,7 +55,6 @@ signals:
 
 protected:
     explicit JdfNode();
-    void update(const JdfNodeSP &other);
 
 };
 
