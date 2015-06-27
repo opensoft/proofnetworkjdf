@@ -184,13 +184,13 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
         if (component)
             component->toJdf(jdfWriter);
     }
-    if (d->mediaLink != MediaLink::defaultObject())
+    if (NetworkDataEntity::isValidAndNotDefault(d->mediaLink))
         d->mediaLink->toJdf(jdfWriter);
-    if (d->laminatingIntentLink != LaminatingIntentLink::defaultObject())
+    if (NetworkDataEntity::isValidAndNotDefault(d->laminatingIntentLink))
         d->laminatingIntentLink->toJdf(jdfWriter);
-    if (d->cuttingParamsLink != CuttingParamsLink::defaultObject())
+    if (NetworkDataEntity::isValidAndNotDefault(d->cuttingParamsLink))
         d->cuttingParamsLink->toJdf(jdfWriter);
-    if (d->foldingParamsLink != FoldingParamsLink::defaultObject())
+    if (NetworkDataEntity::isValidAndNotDefault(d->foldingParamsLink))
         d->foldingParamsLink->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
