@@ -217,12 +217,6 @@ JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent)
 {
 }
 
-void JdfNode::update(const JdfNodeSP &other)
-{
-    Q_D(JdfNode);
-    d->updateFrom(other.dynamicCast<NetworkDataEntity>());
-}
-
 Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
 {
     registerChildren(resourcePool, resourceLinkPool, jdfNodes);
