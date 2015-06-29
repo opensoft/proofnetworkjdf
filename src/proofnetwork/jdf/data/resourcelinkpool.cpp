@@ -14,13 +14,18 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(ResourceLinkPool)
 
+    ResourceLinkPoolPrivate()
+    {
+        registerChildren(componentLinks, cuttingParamsLink, mediaLink, laminatingIntentLink, foldingParamsLink);
+    }
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QList<ComponentLinkSP> componentLinks;
-    CuttingParamsLinkSP cuttingParamsLink = CuttingParamsLink::defaultObject();
-    MediaLinkSP mediaLink = MediaLink::defaultObject();
-    LaminatingIntentLinkSP laminatingIntentLink = LaminatingIntentLink::defaultObject();
-    FoldingParamsLinkSP foldingParamsLink = FoldingParamsLink::defaultObject();
+    CuttingParamsLinkSP cuttingParamsLink = CuttingParamsLink::create();
+    MediaLinkSP mediaLink = MediaLink::create();
+    LaminatingIntentLinkSP laminatingIntentLink = LaminatingIntentLink::create();
+    FoldingParamsLinkSP foldingParamsLink = FoldingParamsLink::create();
 };
 
 }
@@ -115,7 +120,7 @@ ResourceLinkPoolQmlWrapper *ResourceLinkPool::toQmlWrapper(QObject *parent) cons
 ResourceLinkPoolSP ResourceLinkPool::create()
 {
     ResourceLinkPoolSP result(new ResourceLinkPool());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -184,22 +189,16 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
         if (component)
             component->toJdf(jdfWriter);
     }
-    if (NetworkDataEntity::isValidAndNotDefault(d->mediaLink))
+    if (d->mediaLink->isDirty())
         d->mediaLink->toJdf(jdfWriter);
-    if (NetworkDataEntity::isValidAndNotDefault(d->laminatingIntentLink))
+    if (d->laminatingIntentLink->isDirty())
         d->laminatingIntentLink->toJdf(jdfWriter);
-    if (NetworkDataEntity::isValidAndNotDefault(d->cuttingParamsLink))
+    if (d->cuttingParamsLink->isDirty())
         d->cuttingParamsLink->toJdf(jdfWriter);
-    if (NetworkDataEntity::isValidAndNotDefault(d->foldingParamsLink))
+    if (d->foldingParamsLink->isDirty())
         d->foldingParamsLink->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
-}
-
-ResourceLinkPoolSP ResourceLinkPool::defaultObject()
-{
-    static ResourceLinkPoolSP entity = create();
-    return entity;
 }
 
 ResourceLinkPool::ResourceLinkPool() :

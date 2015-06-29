@@ -75,7 +75,7 @@ FoldingParamsQmlWrapper *FoldingParams::toQmlWrapper(QObject *parent) const
 FoldingParamsSP FoldingParams::create()
 {
     FoldingParamsSP result(new FoldingParams());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 

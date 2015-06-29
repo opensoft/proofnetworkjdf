@@ -14,7 +14,7 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
     CuttingParamsPrivate()
         : AbstractResourcePrivate(ApiHelper::ResourceClass::ParameterClass)
     {
-        registerChilds(cutBlocks);
+        registerChildren(cutBlocks);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
@@ -54,7 +54,7 @@ CuttingParamsQmlWrapper *CuttingParams::toQmlWrapper(QObject *parent) const
 CuttingParamsSP CuttingParams::create()
 {
     CuttingParamsSP result(new CuttingParams());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 

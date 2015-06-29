@@ -21,7 +21,7 @@ MediaLinkQmlWrapper *MediaLink::toQmlWrapper(QObject *parent) const
 MediaLinkSP MediaLink::create()
 {
     MediaLinkSP result(new MediaLink());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -30,12 +30,6 @@ MediaLinkSP MediaLink::fromJdf(const QXmlStreamReader &xmlReader)
     MediaLinkSP media = create();
     AbstractPhysicalResourceLink::fromJdf(xmlReader, media);
     return media;
-}
-
-MediaLinkSP MediaLink::defaultObject()
-{
-    static MediaLinkSP entity = create();
-    return entity;
 }
 
 MediaLink::MediaLink(QObject *parent) :

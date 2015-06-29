@@ -14,13 +14,14 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     ComponentPrivate()
     {
-        registerChilds(bundle, cutBlocks);
+        registerChildren(bundle, cutBlocks);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     ApiHelper::ResourceOrientation orientation = ApiHelper::ResourceOrientation::Rotate0Orientation;
     ApiHelper::ComponentType componentType = ApiHelper::ComponentType::SheetComponent;
+
     double width = 0.0;
     double height = 0.0;
     double length = 0.0;
@@ -138,7 +139,7 @@ ComponentQmlWrapper *Component::toQmlWrapper(QObject *parent) const
 ComponentSP Component::create()
 {
     ComponentSP result(new Component());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 

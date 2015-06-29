@@ -22,7 +22,7 @@ LaminatingIntentLinkQmlWrapper *LaminatingIntentLink::toQmlWrapper(QObject *pare
 LaminatingIntentLinkSP LaminatingIntentLink::create()
 {
     LaminatingIntentLinkSP result(new LaminatingIntentLink());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -31,12 +31,6 @@ LaminatingIntentLinkSP LaminatingIntentLink::fromJdf(const QXmlStreamReader &xml
     LaminatingIntentLinkSP laminatingParams = create();
     AbstractResourceLink::fromJdf(xmlReader, laminatingParams);
     return laminatingParams;
-}
-
-LaminatingIntentLinkSP LaminatingIntentLink::defaultObject()
-{
-    static LaminatingIntentLinkSP entity = create();
-    return entity;
 }
 
 LaminatingIntentLink::LaminatingIntentLink(QObject *parent)

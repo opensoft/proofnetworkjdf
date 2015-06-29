@@ -85,7 +85,7 @@ CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
 CutBlockSP CutBlock::create(const QString &blockName)
 {
     CutBlockSP result(new CutBlock(blockName));
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 

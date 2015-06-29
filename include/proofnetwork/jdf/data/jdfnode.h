@@ -42,7 +42,6 @@ public:
 
     static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter);
-    static JdfNodeSP defaultObject();
 
 signals:
     void idChanged(const QString &arg);

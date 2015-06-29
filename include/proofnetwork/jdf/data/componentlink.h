@@ -21,7 +21,6 @@ public:
     static ComponentLinkSP create();
 
     static ComponentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
-    static ComponentLinkSP defaultObject();
 
 protected:
     explicit ComponentLink(QObject *parent = 0);

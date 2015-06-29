@@ -7,19 +7,6 @@ namespace Jdf {
 class JdfDocumentPrivate : public JdfNodePrivate
 {
     Q_DECLARE_PUBLIC(JdfDocument)
-
-    JdfDocumentPrivate()
-    {
-        registerChilds(resourcePool);
-    }
-
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
-    QString id;
-    QString jobId;
-    QString jobPartId;
-    ResourcePoolSP resourcePool = ResourcePool::create();
-    ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::create();
 };
 
 }
@@ -30,40 +17,6 @@ using namespace Proof::Jdf;
 JdfDocument::JdfDocument()
     : JdfNode(*new JdfDocumentPrivate)
 {
-    Q_D(JdfDocument);
-    if (d->id != arg) {
-        d->id = arg;
-        emit idChanged(d->id);
-    }
-}
-
-void JdfDocument::setJobId(const QString &arg)
-{
-    Q_D(JdfDocument);
-    if (d->jobId != arg) {
-        d->jobId = arg;
-        emit jobIdChanged(d->jobId);
-    }
-}
-
-void JdfDocument::setJobPartId(const QString &arg)
-{
-    Q_D(JdfDocument);
-    if (d->jobPartId != arg) {
-        d->jobPartId = arg;
-        emit jobPartIdChanged(d->jobPartId);
-    }
-}
-
-void JdfDocument::setResourcePool(const ResourcePoolSP &arg)
-{
-    Q_D(JdfDocument);
-    if (arg == nullptr)
-        setResourcePool(ResourcePool::create());
-    else if (d->resourcePool != arg) {
-        d->resourcePool = arg;
-        emit resourcePoolChanged(d->resourcePool);
-    }
 }
 
 JdfDocumentQmlWrapper *JdfDocument::toQmlWrapper(QObject *parent) const
@@ -77,37 +30,15 @@ JdfDocumentQmlWrapper *JdfDocument::toQmlWrapper(QObject *parent) const
 JdfDocumentSP JdfDocument::create()
 {
     JdfDocumentSP result(new JdfDocument());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 
 JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
 {
     JdfDocumentSP document = create();
-    document->setFetched(true);
-
-    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        QXmlStreamReader::TokenType token = xmlReader.readNext();
-        if (token == QXmlStreamReader::StartDocument)
-            continue;
-        if (token == QXmlStreamReader::StartElement) {
-            if (xmlReader.name() == "JDF") {
-                QXmlStreamAttributes attributes = xmlReader.attributes();
-                if (attributes.value("Type").toString() == "Product") {
-                    document->setId(attributes.value("ID").toString());
-                    document->setJobId(attributes.value("JobID").toString());
-                    document->setJobPartId(attributes.value("JobPartID").toString());
-                }
-            }
-
-            if (xmlReader.name() == "ResourcePool")
-                document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->id()));
-
-            if (xmlReader.name() == "ResourceLinkPool")
-                document->setResourceLinkPool(ResourceLinkPool::fromJdf(xmlReader));
-        }
-    }
-
+    JdfNodeSP node = JdfNode::fromJdf(xmlReader);
+    document->updateFrom(node);
     return document;
 }
 
@@ -119,40 +50,8 @@ QString JdfDocument::toJdf()
     jdfWriter.setAutoFormatting(true);
     jdfWriter.writeStartDocument();
     jdfWriter.writeDefaultNamespace("http://www.CIP4.org/JDFSchema_1_1");
-
-    jdfWriter.writeStartElement("JDF");
-    {
-        jdfWriter.writeDefaultNamespace("http://www.CIP4.org/JDFSchema_1_1");
-        jdfWriter.writeAttribute("ID", d->id);
-        jdfWriter.writeAttribute("JobID", d->jobId);
-        jdfWriter.writeAttribute("JobPartID", d->jobPartId);
-        jdfWriter.writeAttribute("Status", "Waiting");
-        jdfWriter.writeAttribute("Type", "Product");
-        jdfWriter.writeAttribute("Version", "1.4");
-        d->resourcePool->toJdf(jdfWriter);
-        d->resourceLinkPool->toJdf(jdfWriter);
-    }
-    jdfWriter.writeEndElement();
-
+    JdfNode::toJdf(jdfWriter);
     jdfWriter.writeEndDocument();
-
     return jdf;
 }
 
-JdfDocument::JdfDocument()
-    : NetworkDataEntity(*new JdfDocumentPrivate)
-{
-}
-
-void JdfDocumentPrivate::updateFrom(const NetworkDataEntitySP &other)
-{
-    Q_Q(JdfDocument);
-    JdfDocumentSP castedOther = qSharedPointerCast<JdfDocument>(other);
-    q->setId(castedOther->id());
-    q->setJobId(castedOther->jobId());
-    q->setJobPartId(castedOther->jobPartId());
-    q->setResourcePool(castedOther->resourcePool());
-    q->setResourceLinkPool(castedOther->resourceLinkPool());
-
-    NetworkDataEntityPrivate::updateFrom(other);
-}

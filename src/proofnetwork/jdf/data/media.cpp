@@ -129,7 +129,7 @@ MediaQmlWrapper *Media::toQmlWrapper(QObject *parent) const
 MediaSP Media::create()
 {
     MediaSP result(new Media());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 

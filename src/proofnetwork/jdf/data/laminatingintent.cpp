@@ -50,7 +50,7 @@ LaminatingIntentQmlWrapper *LaminatingIntent::toQmlWrapper(QObject *parent) cons
 LaminatingIntentSP LaminatingIntent::create()
 {
     LaminatingIntentSP result(new LaminatingIntent());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -87,7 +87,6 @@ void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-<<<<<<< HEAD
 LaminatingIntentLinkSP LaminatingIntent::toLink(ApiHelper::Usage usage) const
 {
     LaminatingIntentLinkSP link = LaminatingIntentLink::create();
@@ -95,14 +94,6 @@ LaminatingIntentLinkSP LaminatingIntent::toLink(ApiHelper::Usage usage) const
     return link;
 }
 
-LaminatingIntentSP LaminatingIntent::defaultObject()
-{
-    static LaminatingIntentSP entity = create();
-    return entity;
-}
-
-=======
->>>>>>> 2aa092e7... Dirty attribute for DTOs
 LaminatingIntent::LaminatingIntent()
     : AbstractResource(*new LaminatingIntentPrivate)
 {

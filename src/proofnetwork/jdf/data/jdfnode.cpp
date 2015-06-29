@@ -3,6 +3,7 @@
 #include "proofnetwork/jdf/data/jdfnode_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 
+
 using namespace Proof::Jdf;
 
 QString JdfNode::id() const
@@ -78,7 +79,7 @@ void JdfNode::setResourcePool(const ResourcePoolSP &arg)
 {
     Q_D(JdfNode);
     if (arg == nullptr)
-        setResourcePool(ResourcePool::defaultObject());
+        setResourcePool(ResourcePool::create());
     else if (d->resourcePool != arg) {
         d->resourcePool = arg;
         emit resourcePoolChanged(d->resourcePool);
@@ -89,7 +90,7 @@ void JdfNode::setResourceLinkPool(const ResourceLinkPoolSP &arg)
 {
     Q_D(JdfNode);
     if (arg == nullptr)
-        setResourceLinkPool(ResourceLinkPool::defaultObject());
+        setResourceLinkPool(ResourceLinkPool::create());
     else if (d->resourceLinkPool != arg) {
         d->resourceLinkPool = arg;
         emit resourceLinkPoolChanged(d->resourceLinkPool);
@@ -138,7 +139,7 @@ JdfNodeQmlWrapper *JdfNode::toQmlWrapper(QObject *parent) const
 JdfNodeSP JdfNode::create()
 {
     JdfNodeSP result(new JdfNode());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -196,7 +197,7 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
 
         jdfWriter.writeAttribute("Status", "Waiting");
         jdfWriter.writeAttribute("Version", "1.4");
-        if (isValidAndNotDefault(d->resourcePool)) {
+        if (isValidAndDirty(d->resourcePool)) {
             d->resourcePool->toJdf(jdfWriter);
             d->resourceLinkPool->toJdf(jdfWriter);
         }
@@ -206,10 +207,9 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-JdfNodeSP JdfNode::defaultObject()
+JdfNode::JdfNode()
+    : NetworkDataEntity(*new JdfNodePrivate)
 {
-    static JdfNodeSP entity = create();
-    return entity;
 }
 
 JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent)
@@ -219,11 +219,13 @@ JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent)
 
 void JdfNode::update(const JdfNodeSP &other)
 {
+    Q_D(JdfNode);
+    d->updateFrom(other.dynamicCast<NetworkDataEntity>());
 }
 
 Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
 {
-    registerChilds(resourcePool, resourceLinkPool, jdfNodes);
+    registerChildren(resourcePool, resourceLinkPool, jdfNodes);
 }
 
 void JdfNodePrivate::updateFrom(const NetworkDataEntitySP &other)

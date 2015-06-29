@@ -99,6 +99,8 @@ void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
             d->lambdaConnectContext, [d](){d->updateLaminatingIntent();});
     connect(cuttingProcess.data(), &ResourcePool::mediaChanged,
             d->lambdaConnectContext, [d](){d->updateMedia();});
+    connect(cuttingProcess.data(), &ResourcePool::foldingParamsChanged,
+            d->lambdaConnectContext, [d](){d->updateFoldingParams();});
 
     d->updateComponent();
     d->updateCutingParams();

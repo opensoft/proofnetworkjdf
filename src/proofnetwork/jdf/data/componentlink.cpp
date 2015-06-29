@@ -18,7 +18,7 @@ ComponentLink::ComponentLink(QObject *parent)
 ComponentLinkSP ComponentLink::create()
 {
     ComponentLinkSP result(new ComponentLink());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -36,12 +36,6 @@ ComponentLinkSP ComponentLink::fromJdf(const QXmlStreamReader &xmlReader)
     ComponentLinkSP componentLink = create();
     AbstractPhysicalResourceLink::fromJdf(xmlReader, componentLink);
     return componentLink;
-}
-
-ComponentLinkSP ComponentLink::defaultObject()
-{
-    static ComponentLinkSP entity = create();
-    return entity;
 }
 
 }

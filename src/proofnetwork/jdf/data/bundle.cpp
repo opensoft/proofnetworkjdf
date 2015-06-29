@@ -61,7 +61,7 @@ BundleQmlWrapper *Bundle::toQmlWrapper(QObject *parent) const
 BundleSP Bundle::create()
 {
     BundleSP result(new Bundle());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 

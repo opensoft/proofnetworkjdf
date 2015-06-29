@@ -39,7 +39,6 @@ public:
     static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
     ComponentLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
-    static ComponentSP defaultObject();
 
 signals:
     void componentTypeChanged(Proof::Jdf::ApiHelper::ComponentType arg);

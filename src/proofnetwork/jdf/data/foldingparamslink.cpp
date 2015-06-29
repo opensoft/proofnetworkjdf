@@ -22,7 +22,7 @@ FoldingParamsLinkQmlWrapper *FoldingParamsLink::toQmlWrapper(QObject *parent) co
 FoldingParamsLinkSP FoldingParamsLink::create()
 {
     FoldingParamsLinkSP result(new FoldingParamsLink());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -31,12 +31,6 @@ FoldingParamsLinkSP FoldingParamsLink::fromJdf(const QXmlStreamReader &xmlReader
     FoldingParamsLinkSP foldingParams = create();
     AbstractResourceLink::fromJdf(xmlReader, foldingParams);
     return foldingParams;
-}
-
-FoldingParamsLinkSP FoldingParamsLink::defaultObject()
-{
-    static FoldingParamsLinkSP entity = create();
-    return entity;
 }
 
 FoldingParamsLink::FoldingParamsLink(QObject *parent)

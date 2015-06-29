@@ -27,7 +27,7 @@ CuttingParamsLinkQmlWrapper *CuttingParamsLink::toQmlWrapper(QObject *parent) co
 CuttingParamsLinkSP CuttingParamsLink::create()
 {
     CuttingParamsLinkSP result(new CuttingParamsLink());
-    result->d_func()->weakSelf = result.toWeakRef();
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -36,12 +36,6 @@ CuttingParamsLinkSP CuttingParamsLink::fromJdf(const QXmlStreamReader &xmlReader
     CuttingParamsLinkSP cuttingParams = create();
     AbstractResourceLink::fromJdf(xmlReader, cuttingParams);
     return cuttingParams;
-}
-
-CuttingParamsLinkSP CuttingParamsLink::defaultObject()
-{
-    static CuttingParamsLinkSP entity = create();
-    return entity;
 }
 
 }

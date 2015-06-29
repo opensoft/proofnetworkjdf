@@ -21,7 +21,6 @@ public:
     static FoldingParamsLinkSP create();
 
     static FoldingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
-    static FoldingParamsLinkSP defaultObject();
 
 protected:
     explicit FoldingParamsLink(QObject *parent = 0);

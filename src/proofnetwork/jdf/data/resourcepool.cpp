@@ -17,7 +17,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 
     ResourcePoolPrivate()
     {
-        registerChilds(components, cuttingParams, media, laminatingIntent, foldingParams);
+        registerChildren(components, cuttingParams, media, laminatingIntent, foldingParams);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
@@ -85,7 +85,7 @@ ResourcePoolQmlWrapper *ResourcePool::toQmlWrapper(QObject *parent) const
 ResourcePoolSP ResourcePool::create()
 {
     ResourcePoolSP result(new ResourcePool());
-    makeWeakSelf(result);
+    initSelfWeakPtr(result);
     return result;
 }
 
@@ -155,36 +155,20 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("ResourcePool");
 
     for (const ComponentSP &component : d->components) {
-        if (component->isDirty())
+        if (isValidAndDirty(component))
             component->toJdf(jdfWriter);
     }
-    if (d->media->isDirty())
+    if (isValidAndDirty(d->media))
         d->media->toJdf(jdfWriter);
-    if (d->laminatingIntent->isDirty())
+
+    if (isValidAndDirty(d->laminatingIntent))
         d->laminatingIntent->toJdf(jdfWriter);
-    if (d->cuttingParams->isDirty())
+
+    if (isValidAndDirty(d->cuttingParams))
         d->cuttingParams->toJdf(jdfWriter);
-    if (d->foldingParams->isDirty())
+
+    if (isValidAndDirty(d->foldingParams))
         d->foldingParams->toJdf(jdfWriter);
-
-    if (isValidAndNotDefault(d->laminatingIntent))
-        d->laminatingIntent->toJdf(jdfWriter);
-
-    if (isValidAndNotDefault(d->cuttingParams))
-        d->cuttingParams->toJdf(jdfWriter);
-
-    for (const ComponentSP &component : d->components) {
-        if (component->isDirty())
-            component->toJdfLink(jdfWriter);
-    }
-    if (d->media->isDirty())
-        d->media->toJdfLink(jdfWriter);
-    if (d->laminatingIntent->isDirty())
-        d->laminatingIntent->toJdfLink(jdfWriter);
-    if (d->cuttingParams->isDirty())
-        d->cuttingParams->toJdfLink(jdfWriter);
-    if (d->foldingParams->isDirty())
-        d->foldingParams->toJdfLink(jdfWriter);
 
     jdfWriter.writeEndElement();
 }
@@ -204,9 +188,7 @@ void ResourcePool::setComponents(const QList<ComponentSP> &arg)
 void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
 {
     Q_D(ResourcePool);
-    if (arg == nullptr) {
-        setCuttingParams(CuttingParams::create());
-    } else if (d->cuttingParams != arg) {
+    if (d->cuttingParams != arg) {
         d->cuttingParams = arg;
         emit cuttingParamsChanged(d->cuttingParams);
     }
