@@ -15,7 +15,11 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
-    explicit CutBlockPrivate(const QString &blockName) : blockName(blockName) {}
+    explicit CutBlockPrivate(const QString &blockName)
+        : blockName(blockName)
+    {
+        setDirty(!blockName.isEmpty());
+    }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 

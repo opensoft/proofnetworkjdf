@@ -13,6 +13,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     Q_DECLARE_PUBLIC(Component)
 
     ComponentPrivate()
+        : AbstractPhysicalResourcePrivate(ApiHelper::ResourceClass::QuantityClass)
     {
         registerChildren(bundle, cutBlocks);
     }
@@ -247,7 +248,6 @@ ComponentLinkSP Component::toLink(ApiHelper::Usage usage) const
 Component::Component()
     : AbstractPhysicalResource(*new ComponentPrivate)
 {
-    setResourceClass(ApiHelper::ResourceClass::QuantityClass);
 }
 
 void ComponentPrivate::updateFrom(const NetworkDataEntitySP &other)
