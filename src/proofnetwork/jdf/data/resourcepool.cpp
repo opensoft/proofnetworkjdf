@@ -187,6 +187,7 @@ void ResourcePool::setComponents(const QList<ComponentSP> &arg)
 
 void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
 {
+    Q_ASSERT(arg);
     Q_D(ResourcePool);
     if (d->cuttingParams != arg) {
         d->cuttingParams = arg;
@@ -196,6 +197,7 @@ void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
 
 void ResourcePool::setMedia(const MediaSP &media)
 {
+    Q_ASSERT(media);
     Q_D(ResourcePool);
     if (media == nullptr)
         setMedia(Media::create());
@@ -207,6 +209,7 @@ void ResourcePool::setMedia(const MediaSP &media)
 
 void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingIntent)
 {
+    Q_ASSERT(laminatingIntent);
     Q_D(ResourcePool);
     if (laminatingIntent == nullptr)
         setLaminatingIntent(LaminatingIntent::create());
@@ -218,6 +221,7 @@ void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingInten
 
 void ResourcePool::setFoldingParams(const FoldingParamsSP &foldingParams)
 {
+    Q_ASSERT(foldingParams);
     Q_D(ResourcePool);
     if (foldingParams == nullptr) {
         setFoldingParams(FoldingParams::create());

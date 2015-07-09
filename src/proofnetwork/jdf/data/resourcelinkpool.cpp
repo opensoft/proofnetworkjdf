@@ -74,6 +74,7 @@ void ResourceLinkPool::setComponentLinks(const QList<ComponentLinkSP> &component
 
 void ResourceLinkPool::setCuttingParamsLink(const CuttingParamsLinkSP &cuttingParams)
 {
+    Q_ASSERT(cuttingParams);
     Q_D(ResourceLinkPool);
     if (d->cuttingParamsLink != cuttingParams) {
         d->cuttingParamsLink = cuttingParams;
@@ -83,6 +84,7 @@ void ResourceLinkPool::setCuttingParamsLink(const CuttingParamsLinkSP &cuttingPa
 
 void ResourceLinkPool::setMediaLink(const MediaLinkSP &mediaLink)
 {
+    Q_ASSERT(mediaLink);
     Q_D(ResourceLinkPool);
     if (d->mediaLink != mediaLink) {
         d->mediaLink = mediaLink;
@@ -92,6 +94,7 @@ void ResourceLinkPool::setMediaLink(const MediaLinkSP &mediaLink)
 
 void ResourceLinkPool::setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent)
 {
+    Q_ASSERT(laminatingIntent);
     Q_D(ResourceLinkPool);
     if (d->laminatingIntentLink != laminatingIntent) {
         d->laminatingIntentLink = laminatingIntent;
@@ -101,6 +104,7 @@ void ResourceLinkPool::setLaminatingIntentLink(const LaminatingIntentLinkSP &lam
 
 void ResourceLinkPool::setFoldingParamsLink(const FoldingParamsLinkSP &foldingParamsLink)
 {
+    Q_ASSERT(foldingParamsLink);
     Q_D(ResourceLinkPool);
     if (d->foldingParamsLink != foldingParamsLink) {
         d->foldingParamsLink = foldingParamsLink;
