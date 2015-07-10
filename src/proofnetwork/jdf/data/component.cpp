@@ -109,6 +109,7 @@ void Component::setLength(double arg)
 
 void Component::setBundle(const BundleSP &arg)
 {
+    Q_ASSERT(arg);
     Q_D(Component);
     if (d->bundle != arg) {
         d->bundle = arg;

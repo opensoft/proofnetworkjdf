@@ -77,10 +77,9 @@ void JdfNode::setJobPartId(const QString &arg)
 
 void JdfNode::setResourcePool(const ResourcePoolSP &arg)
 {
+    Q_ASSERT(arg);
     Q_D(JdfNode);
-    if (arg == nullptr)
-        setResourcePool(ResourcePool::create());
-    else if (d->resourcePool != arg) {
+    if (d->resourcePool != arg) {
         d->resourcePool = arg;
         emit resourcePoolChanged(d->resourcePool);
     }
@@ -88,10 +87,9 @@ void JdfNode::setResourcePool(const ResourcePoolSP &arg)
 
 void JdfNode::setResourceLinkPool(const ResourceLinkPoolSP &arg)
 {
+    Q_ASSERT(arg);
     Q_D(JdfNode);
-    if (arg == nullptr)
-        setResourceLinkPool(ResourceLinkPool::create());
-    else if (d->resourceLinkPool != arg) {
+    if (d->resourceLinkPool != arg) {
         d->resourceLinkPool = arg;
         emit resourceLinkPoolChanged(d->resourceLinkPool);
     }
