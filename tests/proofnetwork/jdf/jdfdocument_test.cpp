@@ -150,7 +150,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ResourcePoolSP resourcePool = jdfNode->resourcePool();
     ASSERT_TRUE(resourcePool);
 
-    EXPECT_EQ(2, resourcePool->components().count());
+    EXPECT_EQ(3, resourcePool->components().count());
 
     MediaSP media = resourcePool->media();
     ASSERT_TRUE(media);
@@ -171,7 +171,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
 
-    ASSERT_EQ(2, resourcePool->components().count());
+    ASSERT_EQ(3, resourcePool->components().count());
     ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
     EXPECT_EQ("COMP_0000", component->id());
@@ -182,8 +182,17 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
+    EXPECT_EQ("A_OUT", component2->id());
+    ASSERT_TRUE(component2->cutBlocks().count());
+    CutBlockSP cutBlock = component2->cutBlocks().first();
+    ASSERT_TRUE(cutBlock);
+    EXPECT_EQ("A-1", cutBlock->blockName());
+    EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
 
-    BundleSP bundle = component2->bundle();
+    ComponentSP componentFold = resourcePool->components().last();
+    ASSERT_TRUE(componentFold);
+
+    BundleSP bundle = componentFold->bundle();
     ASSERT_TRUE(bundle);
     EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());

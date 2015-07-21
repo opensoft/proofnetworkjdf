@@ -39,7 +39,7 @@ public:
 
     static CutBlockSP create(const QString &blockName = QString());
 
-    static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
+    static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId);
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:

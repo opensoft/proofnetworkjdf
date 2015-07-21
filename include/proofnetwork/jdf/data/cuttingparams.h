@@ -26,7 +26,7 @@ public:
 
     static CuttingParamsSP create();
 
-    static CuttingParamsSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
+    static CuttingParamsSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
     CuttingParamsLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
 

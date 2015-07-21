@@ -161,7 +161,7 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
             }
 
             if (xmlReader.name() == "ResourcePool")
-                document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->id()));
+                document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->jobId()));
             if (xmlReader.name() == "ResourceLinkPool")
                 document->setResourceLinkPool(ResourceLinkPool::fromJdf(xmlReader));
         }

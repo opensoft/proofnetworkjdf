@@ -145,7 +145,7 @@ ComponentSP Component::create()
     return result;
 }
 
-ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
+ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId)
 {
     ComponentSP component = create();
 
@@ -179,7 +179,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId
                 switch (partIDKeys) {
                 case ApiHelper::PartIdKeysType::BlockNameKey: {
                     QString blockName = attributes.value(ApiHelper::partIdKeysTypeToString(ApiHelper::PartIdKeysType::BlockNameKey)).toString();
-                    cutBlocks << cutBlockCache().add({jdfId, blockName}, CutBlock::create(blockName));
+                    cutBlocks << cutBlockCache().add({jobId, blockName}, CutBlock::create(blockName));
                     break;
                 }
                 case ApiHelper::PartIdKeysType::BundleItemIndexKey:

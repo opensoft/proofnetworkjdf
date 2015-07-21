@@ -89,7 +89,7 @@ ResourcePoolSP ResourcePool::create()
     return result;
 }
 
-ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId)
+ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId)
 {
     ResourcePoolSP resourcePool = create();
 
@@ -114,14 +114,14 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                 }
                 resourcePool->setLaminatingIntent(laminatingIntent);
             } else if (xmlReader.name() == "Component") {
-                ComponentSP component = Component::fromJdf(xmlReader, jdfId);
+                ComponentSP component = Component::fromJdf(xmlReader, jobId);
                 if (!component) {
                     qCCritical(proofNetworkJdfDataLog) << "Component not created.";
                     return ResourcePoolSP();
                 }
                 components.append(component);
             } else if (xmlReader.name() == "CuttingParams") {
-                CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jdfId);
+                CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jobId);
                 if (!cuttingParams) {
                     qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created.";
                     return ResourcePoolSP();

@@ -36,7 +36,7 @@ public:
 
     static ComponentSP create();
 
-    static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jdfId);
+    static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
     ComponentLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
 
