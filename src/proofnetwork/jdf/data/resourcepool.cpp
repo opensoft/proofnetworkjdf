@@ -102,35 +102,35 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
             if (xmlReader.name() == "Media") {
                 MediaSP media = Media::fromJdf(xmlReader);
                 if (!media) {
-                    qCCritical(proofNetworkJdfDataLog) << "Media not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Media is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setMedia(media);
             } else if (xmlReader.name() == "LaminatingIntent") {
                 LaminatingIntentSP laminatingIntent = LaminatingIntent::fromJdf(xmlReader);
                 if (!laminatingIntent) {
-                    qCCritical(proofNetworkJdfDataLog) << "LaminatingIntent not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. LaminatingIntent is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setLaminatingIntent(laminatingIntent);
             } else if (xmlReader.name() == "Component") {
                 ComponentSP component = Component::fromJdf(xmlReader, jobId);
                 if (!component) {
-                    qCCritical(proofNetworkJdfDataLog) << "Component not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Component is invalid.";
                     return ResourcePoolSP();
                 }
                 components.append(component);
             } else if (xmlReader.name() == "CuttingParams") {
                 CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jobId);
                 if (!cuttingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. CuttingParams is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setCuttingParams(cuttingParams);
             } else if (xmlReader.name() == "FoldingParams") {
                 FoldingParamsSP foldingParams = FoldingParams::fromJdf(xmlReader);
                 if (!foldingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "FoldingParams not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. FoldingParams is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setFoldingParams(foldingParams);

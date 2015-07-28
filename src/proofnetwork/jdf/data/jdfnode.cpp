@@ -156,14 +156,30 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
                     document->setType(attributes.value("Type").toString());
                 } else {
                     JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader);
+                    if (!jdfNode) {
+                        qCCritical(proofNetworkJdfDataLog) << "JDF not created. Sub JDF node is invalid.";
+                        return JdfNodeSP();
+                    }
                     document->d_func()->jdfNodes.push_back(jdfNode);
                 }
             }
 
-            if (xmlReader.name() == "ResourcePool")
-                document->setResourcePool(ResourcePool::fromJdf(xmlReader, document->jobId()));
-            if (xmlReader.name() == "ResourceLinkPool")
-                document->setResourceLinkPool(ResourceLinkPool::fromJdf(xmlReader));
+            if (xmlReader.name() == "ResourcePool") {
+                auto resourcePool = ResourcePool::fromJdf(xmlReader, document->jobId());
+                if (!resourcePool) {
+                    qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourcePool is invalid.";
+                    return JdfNodeSP();
+                }
+                document->setResourcePool(resourcePool);
+            }
+            if (xmlReader.name() == "ResourceLinkPool") {
+                auto resourceLinkPool = ResourceLinkPool::fromJdf(xmlReader);
+                if (!resourceLinkPool) {
+                    qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourceLinkPool is invalid.";
+                    return JdfNodeSP();
+                }
+                document->setResourceLinkPool(resourceLinkPool);
+            }
         }
 
         if (xmlReader.isEndElement()) {

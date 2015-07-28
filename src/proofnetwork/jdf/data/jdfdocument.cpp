@@ -38,6 +38,10 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader)
 {
     JdfDocumentSP document = create();
     JdfNodeSP node = JdfNode::fromJdf(xmlReader);
+    if (!node) {
+        qCCritical(proofNetworkJdfDataLog) << "JDF Document not created. Root JDF node is invalid.";
+        return JdfDocumentSP();
+    }
     document->updateFrom(node);
     return document;
 }

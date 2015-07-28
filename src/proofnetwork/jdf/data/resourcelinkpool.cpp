@@ -140,35 +140,35 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
             if (xmlReader.name() == "MediaLink") {
                 MediaLinkSP media = MediaLink::fromJdf(xmlReader);
                 if (!media) {
-                    qCCritical(proofNetworkJdfDataLog) << "MediaLink not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. MediaLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setMediaLink(media);
             } else if (xmlReader.name() == "LaminatingIntentLink") {
                 LaminatingIntentLinkSP laminatingIntent = LaminatingIntentLink::fromJdf(xmlReader);
                 if (!laminatingIntent) {
-                    qCCritical(proofNetworkJdfDataLog) << "LaminatingIntentLink not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. LaminatingIntentLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setLaminatingIntentLink(laminatingIntent);
             } else if (xmlReader.name() == "ComponentLink") {
                 ComponentLinkSP component = ComponentLink::fromJdf(xmlReader);
                 if (!component) {
-                    qCCritical(proofNetworkJdfDataLog) << "ComponentLink not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. ComponentLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 components.append(component);
             } else if (xmlReader.name() == "CuttingParamsLink") {
                 CuttingParamsLinkSP cuttingParams = CuttingParamsLink::fromJdf(xmlReader);
                 if (!cuttingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "CuttingParamsLink not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. CuttingParamsLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setCuttingParamsLink(cuttingParams);
             } else if (xmlReader.name() == "FoldingParamsLink") {
                 FoldingParamsLinkSP foldingParams = FoldingParamsLink::fromJdf(xmlReader);
                 if (!foldingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "FoldingParamsLink not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. FoldingParamsLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setFoldingParamsLink(foldingParams);

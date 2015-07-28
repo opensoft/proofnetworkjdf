@@ -74,7 +74,7 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QStrin
             if (xmlReader.name() == "CutBlock") {
                 CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader, jobId);
                 if (!cutBlock) {
-                    qCCritical(proofNetworkJdfDataLog) << "CutBlock not created.";
+                    qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created. Invalid CutBlock found";
                     return CuttingParamsSP();
                 }
                 cutBlocks.append(cutBlock);

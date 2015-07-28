@@ -90,7 +90,7 @@ FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
             QString value = attributes.value("FoldCatalog").toString();
             foldingParams->setFoldCatalog(value);
             if (foldingParams->foldCatalog().isEmpty()) {
-                qCCritical(proofNetworkJdfDataLog) << "FoldingParams not created.";
+                qCCritical(proofNetworkJdfDataLog) << "FoldingParams not created. Wrong FoldCatalog:" << value;
                 return FoldingParamsSP();
             }
             AbstractResourceSP castedFoldingParams = qSharedPointerCast<AbstractResource>(foldingParams);
