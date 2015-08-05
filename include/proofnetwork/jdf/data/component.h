@@ -24,6 +24,8 @@ public:
     double length() const;
     BundleSP bundle() const;
     QList<CutBlockSP> cutBlocks() const;
+    //TODO: added to qml wrapper
+    QList<ComponentSP> parts() const;
 
     void setComponentType(ApiHelper::ComponentType arg);
     void setWidth(double arg);
@@ -31,6 +33,8 @@ public:
     void setLength(double arg);
     void setBundle(const BundleSP &arg);
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
+    QList<ComponentSP> updateParts(const QList<ComponentSP> &arg);
+    void addPart(const ComponentSP &arg);
 
     ComponentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
@@ -47,6 +51,7 @@ signals:
     void lengthChanged(double arg);
     void bundleChanged(const Proof::Jdf::BundleSP &bundle);
     void cutBlocksChanged();
+    void partsChanged();
 
 protected:
     explicit Component();

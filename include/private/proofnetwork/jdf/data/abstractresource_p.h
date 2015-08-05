@@ -21,8 +21,11 @@ public:
 
     QString id;
 
-    ApiHelper::ResourceStatus resourceStatus = ApiHelper::ResourceStatus::IncompleteStatus;
-    ApiHelper::ResourceClass resourceClass = ApiHelper::ResourceClass::ConsumableClass;
+    ApiHelper::ResourceStatus resourceStatus = ApiHelper::ResourceStatus::NoStatus;
+    ApiHelper::ResourceClass resourceClass = ApiHelper::ResourceClass::NoClass;
+
+    QList<ApiHelper::ResourcePartType> partIdKeys;
+    QHash<ApiHelper::ResourcePartType, QString> partAttributes;
 };
 
 }

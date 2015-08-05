@@ -40,11 +40,13 @@ void AbstractResourceLink::setRRef(const QString &arg)
     }
 }
 
-void AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
+bool AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     abstractResource->setUsage(ApiHelper::usageFromString(attributes.value("Usage").toString()));
     abstractResource->setRRef(attributes.value("rRef").toString());
+
+    return true;
 }
 
 void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)

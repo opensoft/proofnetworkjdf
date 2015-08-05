@@ -21,18 +21,27 @@ public:
     QString id() const;
     ApiHelper::ResourceStatus resourceStatus() const;
     ApiHelper::ResourceClass resourceClass() const;
+    //TODO: add to qml wrapper
+    QList<ApiHelper::ResourcePartType> partIdKeys() const;
 
     void setId(const QString &arg);
     void setResourceStatus(ApiHelper::ResourceStatus arg);
     void setResourceClass(ApiHelper::ResourceClass arg);
+    void setPartIdKeys(const QList<ApiHelper::ResourcePartType> &arg);
 
-    static void fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
+    QString partAttribute(ApiHelper::ResourcePartType attribute) const;
+    bool hasPartAttribute(ApiHelper::ResourcePartType attribute) const;
+    void setPartAttribute(ApiHelper::ResourcePartType attribute, const QString &value);
+
+    static bool fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
     void idChanged(const QString &arg);
     void statusChanged(Proof::Jdf::ApiHelper::ResourceStatus arg);
     void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass arg);
+    void partIdKeysChanged(const QList<Proof::Jdf::ApiHelper::ResourcePartType> &arg);
+    void partAttributeChanged(ApiHelper::ResourcePartType attribute, const QString &value);
 
 protected:
     explicit AbstractResource() = delete;

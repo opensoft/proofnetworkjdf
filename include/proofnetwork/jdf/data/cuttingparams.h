@@ -19,8 +19,12 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource
     Q_DECLARE_PRIVATE(CuttingParams)
 public:
     QList<CutBlockSP> cutBlocks() const;
+    //TODO: added to qml wrapper
+    QList<CuttingParamsSP> parts() const;
 
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
+    QList<CuttingParamsSP> updateParts(const QList<CuttingParamsSP> &arg);
+    void addPart(const CuttingParamsSP &arg);
 
     CuttingParamsQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
@@ -32,6 +36,7 @@ public:
 
 signals:
     void cutBlocksChanged();
+    void partsChanged();
 
 protected:
     explicit CuttingParams();

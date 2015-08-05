@@ -18,7 +18,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(BundleType)
     Q_ENUMS(ComponentType)
     Q_ENUMS(ResourceOrientation)
-    Q_ENUMS(PartIdKeysType)
+    Q_ENUMS(ResourcePartType)
     Q_ENUMS(ProcessUsage)
     Q_ENUMS(Usage)
     Q_ENUMS(BlockType)
@@ -28,19 +28,21 @@ public:
     ApiHelper() = delete;
 
     enum class ResourceStatus {
+        NoStatus,
         IncompleteStatus, // Indicates that the Resource does not exist, and the metadata is not yet valid.
         RejectedStatus, // Indicates that the Resource has been rejected by an Approval Process. The metadata is valid. New in JDF 1.2
         UnavailableStatus, // Indicates that the Resource is not ready to be used or that the Resource in the real world
-                     //represented by the Physical Resource in JDF is not available for processing. The metadata is valid.
+        //represented by the Physical Resource in JDF is not available for processing. The metadata is valid.
         InUseStatus, // Indicates that the Resource exists, but is in use by another Process. Also used for active pipes
         DraftStatus, // Indicates that the Resource exists in a state that is suffi­cient for setting up the next Process but not for production.
         CompleteStatus, // Indicates that the Resource is completely specified and the parameters are valid for usage.
-                 //A Physical Resource with Status = "Complete" is not yet available for produc­tion,
-                 //although it is sufficiently specified for a Process that refer­ences it through a ResourceRef from a Parameter Resource to commence execution.
+        //A Physical Resource with Status = "Complete" is not yet available for produc­tion,
+        //although it is sufficiently specified for a Process that refer­ences it through a ResourceRef from a Parameter Resource to commence execution.
         AvailableStatus // Indicates that the whole Resource is available for usage.
     };
 
     enum class ResourceClass {
+        NoClass,
         ConsumableClass,
         HandlingClass,
         ImplementationClass,
@@ -56,7 +58,7 @@ public:
         GlossyCoating,
         HighGlossCoating,
         InkJetCoating, // A coating intended for use with inkjet technology.
-                // Deprecation note: use PrintingTechnology = "InkJet". New in JDF 1.2. Deprecated in JDF 1.4
+        // Deprecation note: use PrintingTechnology = "InkJet". New in JDF 1.2. Deprecated in JDF 1.4
         MatteCoating,
         PolymerCoating, // Coating for a photo polymer process. New in JDF 1.3
         SilverCoating, // Coating for a silver halide process. New in JDF 1.3
@@ -99,6 +101,7 @@ public:
     };
 
     enum class ComponentType {
+        NotTypedComponent, //No ComponentType attribute set for this component
         BlockComponent, // Folded or stacked product, (e.g., book block).
         OtherComponent, // The Component describes a sample that has not been produced in this Job.
         RibbonComponent, // The Component is a ribbon on a Web Press.
@@ -109,10 +112,75 @@ public:
         ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
     };
 
-    enum class PartIdKeysType {
-        BlockNameKey,
-        BundleItemIndexKey,
-        CellIndexKey
+    enum class ResourcePartType {
+        BinderySignatureNamePart,
+        BinderySignaturePaginationIndexPart,
+        BlockNamePart,
+        BundleItemIndexPart,
+        CellIndexPart,
+        ConditionPart,
+        DeliveryUnit0Part,
+        DeliveryUnit1Part,
+        DeliveryUnit2Part,
+        DeliveryUnit3Part,
+        DeliveryUnit4Part,
+        DeliveryUnit5Part,
+        DeliveryUnit6Part,
+        DeliveryUnit7Part,
+        DeliveryUnit8Part,
+        DeliveryUnit9Part,
+        DocCopiesPart,
+        DocIndexPart,
+        DocRunIndexPart,
+        DocSheetIndexPart,
+        DocTagsPart,
+        EditionPart,
+        EditionVersionPart,
+        FountainNumberPart,
+        ItemNamesPart,
+        LayerIdsPart,
+        LocationPart,
+        Metadata0Part,
+        Metadata1Part,
+        Metadata2Part,
+        Metadata3Part,
+        Metadata4Part,
+        Metadata5Part,
+        Metadata6Part,
+        Metadata7Part,
+        Metadata8Part,
+        Metadata9Part,
+        OptionPart,
+        PageNumberPart,
+        PageTagsPart,
+        PartVersionPart,
+        PlateLayoutPart,
+        PreflightRulePart,
+        PreviewTypePart,
+        RibbonNamePart,
+        RunPart,
+        RunIndexPart,
+        RunPagePart,
+        RunPageRangePart,
+        RunSetPart,
+        RunTagsPart,
+        SectionIndexPart,
+        SeparationPart,
+        SetDocIndexPart,
+        SetIndexPart,
+        SetRunIndexPart,
+        SetSheetIndexPart,
+        SetTagsPart,
+        SheetIndexPart,
+        SheetNamePart,
+        SidePart,
+        SignatureNamePart,
+        StationNamePart,
+        SubRunPart,
+        TileIdPart,
+        WebNamePart,
+        WebProductPart,
+        WebSetupPart
     };
 
     enum class ProcessUsage {
@@ -186,8 +254,8 @@ public:
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
 
-    static QString partIdKeysTypeToString(PartIdKeysType partIdKeysType);
-    static PartIdKeysType partIdKeysTypeFromString(const QString &partIdKeysType, bool *ok = nullptr);
+    static QString resourcePartTypeToString(ResourcePartType resourcePartType);
+    static ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, bool *ok = nullptr);
 
     static QString processUsageToString(ProcessUsage processUsage);
     static ProcessUsage processUsageFromString(const QString &processUsage, bool *ok = nullptr);
@@ -209,7 +277,7 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::LaminatingSurface arg, uint seed 
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BundleType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceOrientation arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ComponentType arg, uint seed = 0);
-PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::PartIdKeysType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourcePartType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ProcessUsage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::Usage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BlockType arg, uint seed = 0);

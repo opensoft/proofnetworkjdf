@@ -423,7 +423,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
         }
     }
 
-    EXPECT_FALSE(reader.hasError());
+    EXPECT_FALSE(reader.hasError()) << reader.errorString().toLatin1().constData();
     EXPECT_TRUE(hasJdfProductElement);
     EXPECT_EQ("1.4", version);
     EXPECT_EQ("Waiting", status);

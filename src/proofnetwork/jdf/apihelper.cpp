@@ -2,9 +2,75 @@
 
 #include <QHash>
 
+namespace Proof {
+namespace Jdf {
+
+uint qHash(ApiHelper::ResourceStatus arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ResourceClass arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::CoatingType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::LaminatingSurface arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::BundleType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ResourceOrientation arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ComponentType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ResourcePartType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::ProcessUsage arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::Usage arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::BlockType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::MediaUnit arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+}
+}
+
 using namespace Proof::Jdf;
 
 static const QHash<QString, ApiHelper::ResourceStatus> RESOURCE_STATUS_STRINGIFIED = {
+    {"", ApiHelper::ResourceStatus::NoStatus},
     {"Incomplete", ApiHelper::ResourceStatus::IncompleteStatus},
     {"Rejected", ApiHelper::ResourceStatus::RejectedStatus},
     {"Unavailable", ApiHelper::ResourceStatus::UnavailableStatus},
@@ -15,6 +81,7 @@ static const QHash<QString, ApiHelper::ResourceStatus> RESOURCE_STATUS_STRINGIFI
 };
 
 static const QHash<QString, ApiHelper::ResourceClass> RESOURCE_CLASS_STRINGIFIED = {
+    {"", ApiHelper::ResourceClass::NoClass},
     {"Consumable", ApiHelper::ResourceClass::ConsumableClass},
     {"Handling", ApiHelper::ResourceClass::HandlingClass},
     {"Implementation", ApiHelper::ResourceClass::ImplementationClass},
@@ -71,6 +138,7 @@ static const QHash<QString, ApiHelper::ResourceOrientation> RESOURCE_ORIENTATION
 };
 
 static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED = {
+    {"", ApiHelper::ComponentType::NotTypedComponent},
     {"Block", ApiHelper::ComponentType::BlockComponent},
     {"Other", ApiHelper::ComponentType::OtherComponent},
     {"Ribbon", ApiHelper::ComponentType::RibbonComponent},
@@ -81,10 +149,75 @@ static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED
     {"Proof", ApiHelper::ComponentType::ProofComponent}
 };
 
-static const QHash<QString, ApiHelper::PartIdKeysType> PART_ID_KEYS_TYPE_STRINGIFIED = {
-    {"BlockName", ApiHelper::PartIdKeysType::BlockNameKey},
-    {"BundleItemIndex", ApiHelper::PartIdKeysType::BundleItemIndexKey},
-    {"CellIndex", ApiHelper::PartIdKeysType::CellIndexKey}
+static const QHash<QString, ApiHelper::ResourcePartType> PART_ID_KEYS_TYPE_STRINGIFIED = {
+    {"BinderySignatureName", ApiHelper::ResourcePartType::BinderySignatureNamePart},
+    {"BinderySignaturePaginationIndex", ApiHelper::ResourcePartType::BinderySignaturePaginationIndexPart},
+    {"BlockName", ApiHelper::ResourcePartType::BlockNamePart},
+    {"BundleItemIndex", ApiHelper::ResourcePartType::BundleItemIndexPart},
+    {"CellIndex", ApiHelper::ResourcePartType::CellIndexPart},
+    {"Condition", ApiHelper::ResourcePartType::ConditionPart},
+    {"DeliveryUnit0", ApiHelper::ResourcePartType::DeliveryUnit0Part},
+    {"DeliveryUnit1", ApiHelper::ResourcePartType::DeliveryUnit1Part},
+    {"DeliveryUnit2", ApiHelper::ResourcePartType::DeliveryUnit2Part},
+    {"DeliveryUnit3", ApiHelper::ResourcePartType::DeliveryUnit3Part},
+    {"DeliveryUnit4", ApiHelper::ResourcePartType::DeliveryUnit4Part},
+    {"DeliveryUnit5", ApiHelper::ResourcePartType::DeliveryUnit5Part},
+    {"DeliveryUnit6", ApiHelper::ResourcePartType::DeliveryUnit6Part},
+    {"DeliveryUnit7", ApiHelper::ResourcePartType::DeliveryUnit7Part},
+    {"DeliveryUnit8", ApiHelper::ResourcePartType::DeliveryUnit8Part},
+    {"DeliveryUnit9", ApiHelper::ResourcePartType::DeliveryUnit9Part},
+    {"DocCopies", ApiHelper::ResourcePartType::DocCopiesPart},
+    {"DocIndex", ApiHelper::ResourcePartType::DocIndexPart},
+    {"DocRunIndex", ApiHelper::ResourcePartType::DocRunIndexPart},
+    {"DocSheetIndex", ApiHelper::ResourcePartType::DocSheetIndexPart},
+    {"DocTags", ApiHelper::ResourcePartType::DocTagsPart},
+    {"Edition", ApiHelper::ResourcePartType::EditionPart},
+    {"EditionVersion", ApiHelper::ResourcePartType::EditionVersionPart},
+    {"FountainNumber", ApiHelper::ResourcePartType::FountainNumberPart},
+    {"ItemNames", ApiHelper::ResourcePartType::ItemNamesPart},
+    {"LayerIDs", ApiHelper::ResourcePartType::LayerIdsPart},
+    {"Location", ApiHelper::ResourcePartType::LocationPart},
+    {"Metadata0", ApiHelper::ResourcePartType::Metadata0Part},
+    {"Metadata1", ApiHelper::ResourcePartType::Metadata1Part},
+    {"Metadata2", ApiHelper::ResourcePartType::Metadata2Part},
+    {"Metadata3", ApiHelper::ResourcePartType::Metadata3Part},
+    {"Metadata4", ApiHelper::ResourcePartType::Metadata4Part},
+    {"Metadata5", ApiHelper::ResourcePartType::Metadata5Part},
+    {"Metadata6", ApiHelper::ResourcePartType::Metadata6Part},
+    {"Metadata7", ApiHelper::ResourcePartType::Metadata7Part},
+    {"Metadata8", ApiHelper::ResourcePartType::Metadata8Part},
+    {"Metadata9", ApiHelper::ResourcePartType::Metadata9Part},
+    {"Option", ApiHelper::ResourcePartType::OptionPart},
+    {"PageNumber", ApiHelper::ResourcePartType::PageNumberPart},
+    {"PageTags", ApiHelper::ResourcePartType::PageTagsPart},
+    {"PartVersion", ApiHelper::ResourcePartType::PartVersionPart},
+    {"PlateLayout", ApiHelper::ResourcePartType::PlateLayoutPart},
+    {"PreflightRule", ApiHelper::ResourcePartType::PreflightRulePart},
+    {"PreviewType", ApiHelper::ResourcePartType::PreviewTypePart},
+    {"RibbonName", ApiHelper::ResourcePartType::RibbonNamePart},
+    {"Run", ApiHelper::ResourcePartType::RunPart},
+    {"RunIndex", ApiHelper::ResourcePartType::RunIndexPart},
+    {"RunPage", ApiHelper::ResourcePartType::RunPagePart},
+    {"RunPageRange", ApiHelper::ResourcePartType::RunPageRangePart},
+    {"RunSet", ApiHelper::ResourcePartType::RunSetPart},
+    {"RunTags", ApiHelper::ResourcePartType::RunTagsPart},
+    {"SectionIndex", ApiHelper::ResourcePartType::SectionIndexPart},
+    {"Separation", ApiHelper::ResourcePartType::SeparationPart},
+    {"SetDocIndex", ApiHelper::ResourcePartType::SetDocIndexPart},
+    {"SetIndex", ApiHelper::ResourcePartType::SetIndexPart},
+    {"SetRunIndex", ApiHelper::ResourcePartType::SetRunIndexPart},
+    {"SetSheetIndex", ApiHelper::ResourcePartType::SetSheetIndexPart},
+    {"SetTags", ApiHelper::ResourcePartType::SetTagsPart},
+    {"SheetIndex", ApiHelper::ResourcePartType::SheetIndexPart},
+    {"SheetName", ApiHelper::ResourcePartType::SheetNamePart},
+    {"Side", ApiHelper::ResourcePartType::SidePart},
+    {"SignatureName", ApiHelper::ResourcePartType::SignatureNamePart},
+    {"StationName", ApiHelper::ResourcePartType::StationNamePart},
+    {"SubRun", ApiHelper::ResourcePartType::SubRunPart},
+    {"TileID", ApiHelper::ResourcePartType::TileIdPart},
+    {"WebName", ApiHelper::ResourcePartType::WebNamePart},
+    {"WebProduct", ApiHelper::ResourcePartType::WebProductPart},
+    {"WebSetup", ApiHelper::ResourcePartType::WebSetupPart}
 };
 
 static const QHash<QString, ApiHelper::ProcessUsage> PROCESS_USAGE_STRINGIFIED = {
@@ -146,7 +279,7 @@ ApiHelper::ResourceStatus ApiHelper::resourceStatusFromString(const QString &sta
 {
     if (ok != nullptr)
         *ok = RESOURCE_STATUS_STRINGIFIED.contains(status);
-    return RESOURCE_STATUS_STRINGIFIED.value(status, ResourceStatus::IncompleteStatus);
+    return RESOURCE_STATUS_STRINGIFIED.value(status, ResourceStatus::NoStatus);
 }
 
 QString ApiHelper::resourceClassToString(ApiHelper::ResourceClass resourceClass)
@@ -158,7 +291,7 @@ ApiHelper::ResourceClass ApiHelper::resourceClassFromString(const QString &resou
 {
     if (ok != nullptr)
         *ok = RESOURCE_CLASS_STRINGIFIED.contains(resourceClass);
-    return RESOURCE_CLASS_STRINGIFIED.value(resourceClass, ResourceClass::ConsumableClass);
+    return RESOURCE_CLASS_STRINGIFIED.value(resourceClass, ResourceClass::NoClass);
 }
 
 QString ApiHelper::coatingToString(ApiHelper::CoatingType coating)
@@ -218,19 +351,19 @@ ApiHelper::ComponentType ApiHelper::componentTypeFromString(const QString &compo
 {
     if (ok != nullptr)
         *ok = COMPONENT_TYPE_STRINGIFIED.contains(componentType);
-    return COMPONENT_TYPE_STRINGIFIED.value(componentType, ComponentType::SheetComponent);
+    return COMPONENT_TYPE_STRINGIFIED.value(componentType, ComponentType::NotTypedComponent);
 }
 
-QString ApiHelper::partIdKeysTypeToString(ApiHelper::PartIdKeysType partIdKeysType)
+QString ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType resourcePartType)
 {
-    return PART_ID_KEYS_TYPE_STRINGIFIED.key(partIdKeysType, "");
+    return PART_ID_KEYS_TYPE_STRINGIFIED.key(resourcePartType, "");
 }
 
-ApiHelper::PartIdKeysType ApiHelper::partIdKeysTypeFromString(const QString &partIdKeysType, bool *ok)
+ApiHelper::ResourcePartType ApiHelper::resourcePartTypeFromString(const QString &resourcePartType, bool *ok)
 {
     if (ok != nullptr)
-        *ok = PART_ID_KEYS_TYPE_STRINGIFIED.contains(partIdKeysType);
-    return PART_ID_KEYS_TYPE_STRINGIFIED.value(partIdKeysType, PartIdKeysType::BlockNameKey);
+        *ok = PART_ID_KEYS_TYPE_STRINGIFIED.contains(resourcePartType);
+    return PART_ID_KEYS_TYPE_STRINGIFIED.value(resourcePartType, ResourcePartType::BlockNamePart);
 }
 
 QString ApiHelper::processUsageToString(ApiHelper::ProcessUsage processUsage)
@@ -281,62 +414,3 @@ ApiHelper::MediaUnit ApiHelper::mediaUnitFromString(const QString &mediaUnit, bo
     return MEDIA_UNIT_STRINGIFIED.value(mediaUnit, MediaUnit::SheetMediaUnit);
 }
 
-uint qHash(ApiHelper::ResourceStatus arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::ResourceClass arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::CoatingType arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::LaminatingSurface arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::BundleType arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::ResourceOrientation arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::ComponentType arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::PartIdKeysType arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::ProcessUsage arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::Usage arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::BlockType arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}
-
-uint qHash(ApiHelper::MediaUnit arg, uint seed)
-{
-    return ::qHash(static_cast<int>(arg), seed);
-}

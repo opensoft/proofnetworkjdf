@@ -34,14 +34,14 @@ void AbstractPhysicalResource::setResourceWeight(double arg)
     }
 }
 
-void AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource)
+bool AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     abstractPhysicalResource->setAmount(attributes.value("Amount").toDouble());
     abstractPhysicalResource->setResourceWeight(attributes.value("ResourceWeight").toDouble());
 
     AbstractResourceSP castedAbstractPhysicalResource = qSharedPointerCast<AbstractResource>(abstractPhysicalResource);
-    AbstractResource::fromJdf(xmlReader, castedAbstractPhysicalResource);
+    return AbstractResource::fromJdf(xmlReader, castedAbstractPhysicalResource);
 }
 
 void AbstractPhysicalResource::toJdf(QXmlStreamWriter &jdfWriter)

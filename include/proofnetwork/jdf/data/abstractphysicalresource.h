@@ -23,7 +23,7 @@ public:
     void setAmount(double arg);
     void setResourceWeight(double arg);
 
-    static void fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource);
+    static bool fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:

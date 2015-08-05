@@ -20,7 +20,7 @@ public:
     ApiHelper::ResourceOrientation orientation() const;
     void setOrientation(ApiHelper::ResourceOrientation arg);
 
-    static void fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &abstractResource);
+    static bool fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &abstractResource);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 signals:
     void orientationChanged(ApiHelper::ResourceOrientation orientation);

@@ -23,7 +23,7 @@ public:
     void setUsage(ApiHelper::Usage arg);
     void setRRef(const QString &arg);
 
-    static void fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource);
+    static bool fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
