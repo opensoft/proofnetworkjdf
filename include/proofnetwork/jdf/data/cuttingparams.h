@@ -19,7 +19,8 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource
     Q_DECLARE_PRIVATE(CuttingParams)
 public:
     QList<CutBlockSP> cutBlocks() const;
-    //TODO: added to qml wrapper
+    //TODO: add to qml wrapper
+    //TODO: add to tests
     QList<CuttingParamsSP> parts() const;
 
     QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);

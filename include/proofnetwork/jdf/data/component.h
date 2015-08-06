@@ -24,7 +24,8 @@ public:
     double length() const;
     BundleSP bundle() const;
     QList<CutBlockSP> cutBlocks() const;
-    //TODO: added to qml wrapper
+    //TODO: add to qml wrapper
+    //TODO: add to tests
     QList<ComponentSP> parts() const;
 
     void setComponentType(ApiHelper::ComponentType arg);
