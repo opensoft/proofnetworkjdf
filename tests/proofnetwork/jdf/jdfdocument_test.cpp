@@ -95,6 +95,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(bundle);
     EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
+    EXPECT_EQ(42, bundle->bundleItemAmount());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
@@ -196,6 +197,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ASSERT_TRUE(bundle);
     EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
+    EXPECT_EQ(1, bundle->bundleItemAmount());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfCutting)
@@ -381,6 +383,9 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()),
                           ApiHelper::BundleType::BoxBundle);
                 EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
+            } else if (reader.name() == "BundleItem") {
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(attributes.value("Amount").toInt(), 42);
             } else if (hasResourcePool && reader.name() == "Media") {
                 hasMedia = true;
                 QXmlStreamAttributes attributes = reader.attributes();

@@ -17,6 +17,7 @@ class PROOF_NETWORK_JDF_EXPORT BundleQmlWrapper : public NetworkDataEntityQmlWra
     Q_OBJECT
     Q_PROPERTY(Proof::Jdf::ApiHelper::BundleType bundleType READ bundleType NOTIFY bundleTypeChanged)
     Q_PROPERTY(int totalAmount READ totalAmount NOTIFY totalAmountChanged)
+    Q_PROPERTY(int bundleItemAmount READ bundleItemAmount NOTIFY bundleItemAmountChanged)
     Q_DECLARE_PRIVATE(BundleQmlWrapper)
 public:
     explicit BundleQmlWrapper(const BundleSP &bundle, QObject *parent = 0);
@@ -25,10 +26,12 @@ public:
 
     ApiHelper::BundleType bundleType() const;
     int totalAmount() const;
+    int bundleItemAmount() const;
 
 signals:
     void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType bundleType);
     void totalAmountChanged(int totalAmount);
+    void bundleItemAmountChanged(int bundleItemAmount);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

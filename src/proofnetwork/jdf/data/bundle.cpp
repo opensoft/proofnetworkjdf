@@ -13,6 +13,7 @@ class BundlePrivate : NetworkDataEntityPrivate
 
     ApiHelper::BundleType bundleType = ApiHelper::BundleType::BoxBundle;
     int totalAmount = 0;
+    int bundleItemAmount = 1;
 };
 
 } // namespace Jdf
@@ -32,6 +33,12 @@ int Bundle::totalAmount() const
     return d->totalAmount;
 }
 
+int Bundle::bundleItemAmount() const
+{
+    Q_D(const Bundle);
+    return d->bundleItemAmount;
+}
+
 void Bundle::setBundleType(ApiHelper::BundleType arg)
 {
     Q_D(Bundle);
@@ -47,6 +54,15 @@ void Bundle::setTotalAmount(int arg)
     if (d->totalAmount != arg) {
         d->totalAmount = arg;
         emit totalAmountChanged(arg);
+    }
+}
+
+void Bundle::setBundleItemAmount(int arg)
+{
+    Q_D(Bundle);
+    if (d->bundleItemAmount != arg) {
+        d->bundleItemAmount = arg;
+        emit bundleItemAmountChanged(arg);
     }
 }
 
@@ -76,8 +92,14 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader)
             bundle->setBundleType(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()));
             bundle->setTotalAmount(attributes.value("TotalAmount").toInt());
         } else if (xmlReader.isStartElement()) {
-            xmlReader.skipCurrentElement();
-        } else if (xmlReader.isEndElement()) {
+            if (xmlReader.name() == "BundleItem") {
+                QXmlStreamAttributes attributes = xmlReader.attributes();
+                bundle->setBundleItemAmount(attributes.value("Amount").toInt());
+                xmlReader.skipCurrentElement();
+            } else {
+                xmlReader.skipCurrentElement();
+            }
+        } else if (xmlReader.name() == "Bundle" && xmlReader.isEndElement()) {
             break;
         }
         xmlReader.readNext();
@@ -92,6 +114,13 @@ void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("Bundle");
     jdfWriter.writeAttribute("BundleType", ApiHelper::bundleTypeToString(d->bundleType));
     jdfWriter.writeAttribute("TotalAmount", QString::number(d->totalAmount));
+
+    if (d->bundleItemAmount != 1) {
+        jdfWriter.writeStartElement("BundleItem");
+        jdfWriter.writeAttribute("Amount", QString::number(d->bundleItemAmount));
+        jdfWriter.writeEndElement();
+    }
+
     jdfWriter.writeEndElement();
 }
 

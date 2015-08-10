@@ -25,6 +25,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(Bundle)
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, Proof::Jdf::ApiHelper::BundleType, bundleType)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, int, totalAmount)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, int, bundleItemAmount)
 
 void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
@@ -34,6 +35,7 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 
     connect(bundle.data(), &Bundle::bundleTypeChanged, this, &BundleQmlWrapper::bundleTypeChanged);
     connect(bundle.data(), &Bundle::totalAmountChanged, this, &BundleQmlWrapper::totalAmountChanged);
+    connect(bundle.data(), &Bundle::bundleItemAmountChanged, this, &BundleQmlWrapper::bundleItemAmountChanged);
 
     BundleSP oldBundle = qSharedPointerCast<Bundle>(old);
     if (oldBundle) {
@@ -41,6 +43,8 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
             emit bundleTypeChanged(bundle->bundleType());
         if (bundle->totalAmount() != oldBundle->totalAmount())
             emit totalAmountChanged(bundle->totalAmount());
+        if (bundle->bundleItemAmount() != oldBundle->bundleItemAmount())
+            emit bundleItemAmountChanged(bundle->bundleItemAmount());
     }
 }
 
