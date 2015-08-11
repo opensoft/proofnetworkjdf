@@ -99,7 +99,7 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader)
             } else {
                 xmlReader.skipCurrentElement();
             }
-        } else if (xmlReader.name() == "Bundle" && xmlReader.isEndElement()) {
+        } else if (xmlReader.isEndElement()) {
             break;
         }
         xmlReader.readNext();
