@@ -5,6 +5,7 @@
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/bundle.h"
+#include "proofnetwork/jdf/data/bundleitem.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
@@ -95,7 +96,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(bundle);
     EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
-    EXPECT_EQ(42, bundle->bundleItemAmount());
+    EXPECT_EQ(42, bundle->bundleItem()->amount());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
@@ -197,7 +198,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ASSERT_TRUE(bundle);
     EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
-    EXPECT_EQ(1, bundle->bundleItemAmount());
+    EXPECT_EQ(1, bundle->bundleItem()->amount());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfCutting)

@@ -53,6 +53,10 @@ class Bundle;
 typedef QSharedPointer<Bundle> BundleSP;
 typedef QWeakPointer<Bundle> BundleWP;
 
+class BundleItem;
+typedef QSharedPointer<BundleItem> BundleItemSP;
+typedef QWeakPointer<BundleItem> BundleItemWP;
+
 class AbstractResourceLink;
 typedef QSharedPointer<AbstractResourceLink> AbstractResourceLinkSP;
 typedef QWeakPointer<AbstractResourceLink> AbstractResourceLinkWP;
