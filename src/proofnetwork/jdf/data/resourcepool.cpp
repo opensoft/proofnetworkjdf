@@ -185,6 +185,15 @@ void ResourcePool::setComponents(const QList<ComponentSP> &arg)
     }
 }
 
+void ResourcePool::addComponent(const ComponentSP &arg)
+{
+    Q_D(ResourcePool);
+    if (!arg)
+        return;
+    d->components << arg;
+    emit componentsChanged();
+}
+
 void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
 {
     Q_ASSERT(arg);

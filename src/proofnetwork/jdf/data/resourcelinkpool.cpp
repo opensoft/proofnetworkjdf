@@ -72,6 +72,16 @@ void ResourceLinkPool::setComponentLinks(const QList<ComponentLinkSP> &component
     emit componentLinksChanged();
 }
 
+void ResourceLinkPool::addComponentLink(const ComponentLinkSP &componentLink)
+{
+    Q_D(ResourceLinkPool);
+    if (!componentLink)
+        return;
+
+    d->componentLinks << componentLink;
+    emit componentLinksChanged();
+}
+
 void ResourceLinkPool::setCuttingParamsLink(const CuttingParamsLinkSP &cuttingParams)
 {
     Q_ASSERT(cuttingParams);

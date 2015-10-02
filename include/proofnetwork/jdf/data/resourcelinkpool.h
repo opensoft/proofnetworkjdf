@@ -25,6 +25,7 @@ public:
     FoldingParamsLinkSP foldingParamsLink() const;
 
     void setComponentLinks(const QList<ComponentLinkSP> &componentLinks);
+    void addComponentLink(const ComponentLinkSP &componentLink);
     void setCuttingParamsLink(const CuttingParamsLinkSP &cuttingParams);
     void setMediaLink(const MediaLinkSP &mediaLink);
     void setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent);

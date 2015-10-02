@@ -25,6 +25,7 @@ public:
     FoldingParamsSP foldingParams() const;
 
     void setComponents(const QList<ComponentSP> &arg);
+    void addComponent(const ComponentSP &arg);
     void setCuttingParams(const CuttingParamsSP &arg);
     void setMedia(const MediaSP &media);
     void setLaminatingIntent(const LaminatingIntentSP &laminatingIntent);
