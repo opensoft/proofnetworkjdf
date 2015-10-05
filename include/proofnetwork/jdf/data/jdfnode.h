@@ -40,7 +40,7 @@ public:
 
     static JdfNodeSP create();
 
-    static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader);
+    static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes = QStringList());
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:

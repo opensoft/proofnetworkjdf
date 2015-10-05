@@ -141,7 +141,7 @@ JdfNodeSP JdfNode::create()
     return result;
 }
 
-JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
+JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes)
 {
     JdfNodeSP document = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
@@ -154,8 +154,18 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader)
                     document->setJobId(attributes.value("JobID").toString());
                     document->setJobPartId(attributes.value("JobPartID").toString());
                     document->setType(attributes.value("Type").toString());
+
+                    if (document->id().isEmpty()) {
+                        for (const QString &attribute : alternativeIdAttributes) {
+                            if (!attributes.hasAttribute(attribute))
+                                continue;
+                            document->setId(attributes.value(attribute).toString());
+                            if (!document->id().isEmpty())
+                                break;
+                        }
+                    }
                 } else {
-                    JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader);
+                    JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader, alternativeIdAttributes);
                     if (!jdfNode) {
                         qCCritical(proofNetworkJdfDataLog) << "JDF not created. Sub JDF node is invalid.";
                         return JdfNodeSP();
