@@ -221,10 +221,10 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
 
         jdfWriter.writeAttribute("Status", "Waiting");
         jdfWriter.writeAttribute("Version", "1.4");
-        if (isValidAndDirty(d->resourcePool)) {
+        if (isValidAndDirty(d->resourcePool))
             d->resourcePool->toJdf(jdfWriter);
+        if (isValidAndDirty(d->resourceLinkPool))
             d->resourceLinkPool->toJdf(jdfWriter);
-        }
         for (const JdfNodeSP &jdf: jdfNodes())
             jdf->toJdf(jdfWriter);
     }
