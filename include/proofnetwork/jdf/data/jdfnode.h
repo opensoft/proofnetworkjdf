@@ -34,7 +34,7 @@ public:
     void setJdfNodes(const QList<JdfNodeSP> &jdfNodes);
     void setType(const QString &arg);
 
-    JdfNodeSP findSubNode(std::function<bool(const Proof::Jdf::JdfNodeSP &)> predicate) const;
+    JdfNodeSP findNode(std::function<bool(const Proof::Jdf::JdfNodeSP &)> predicate) const;
 
     JdfNodeQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 

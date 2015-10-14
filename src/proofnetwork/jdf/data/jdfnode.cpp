@@ -113,13 +113,19 @@ void JdfNode::setType(const QString &arg)
     }
 }
 
-JdfNodeSP Proof::Jdf::JdfNode::findSubNode(std::function<bool (const JdfNodeSP &)> predicate) const
+JdfNodeSP Proof::Jdf::JdfNode::findNode(std::function<bool (const JdfNodeSP &)> predicate) const
 {
+    Q_D(const JdfNode);
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+    if (predicate(castedSelf))
+        return castedSelf;
+
     for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
         if (predicate(node))
             return node;
 
-        Proof::Jdf::JdfNodeSP result = node->findSubNode(predicate);
+        Proof::Jdf::JdfNodeSP result = node->findNode(predicate);
         if (result)
             return result;
     }
