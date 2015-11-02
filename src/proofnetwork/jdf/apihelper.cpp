@@ -137,6 +137,19 @@ static const QHash<QString, ApiHelper::ResourceOrientation> RESOURCE_ORIENTATION
     {"Flip270", ApiHelper::ResourceOrientation::Flip270Orientation}
 };
 
+static const QHash<int, ApiHelper::ResourceOrientation> RESOURCE_ROTATE_NUMERICAL = {
+    {0, ApiHelper::ResourceOrientation::Rotate0Orientation},
+    {90, ApiHelper::ResourceOrientation::Rotate90Orientation},
+    {180, ApiHelper::ResourceOrientation::Rotate180Orientation},
+    {270, ApiHelper::ResourceOrientation::Rotate270Orientation},
+};
+static const QHash<int, ApiHelper::ResourceOrientation> RESOURCE_FLIP_NUMERICAL = {
+    {0, ApiHelper::ResourceOrientation::Flip0Orientation},
+    {90, ApiHelper::ResourceOrientation::Flip90Orientation},
+    {180, ApiHelper::ResourceOrientation::Flip180Orientation},
+    {270, ApiHelper::ResourceOrientation::Flip270Orientation}
+};
+
 static const QHash<QString, ApiHelper::ComponentType> COMPONENT_TYPE_STRINGIFIED = {
     {"", ApiHelper::ComponentType::NotTypedComponent},
     {"Block", ApiHelper::ComponentType::BlockComponent},
@@ -340,6 +353,30 @@ ApiHelper::ResourceOrientation ApiHelper::resourceOrientationFromString(const QS
     if (ok != nullptr)
         *ok = RESOURCE_ORIENTATION_STRINGIFIED.contains(resourceOrientation);
     return RESOURCE_ORIENTATION_STRINGIFIED.value(resourceOrientation, ResourceOrientation::Rotate0Orientation);
+}
+
+int ApiHelper::resourceRotateToInt(ApiHelper::ResourceOrientation resourceOrientation)
+{
+    return RESOURCE_ROTATE_NUMERICAL.key(resourceOrientation, 0);
+}
+
+ApiHelper::ResourceOrientation ApiHelper::resourceRotateFromInt(int resourceRotate, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = RESOURCE_ROTATE_NUMERICAL.contains(resourceRotate);
+    return RESOURCE_ROTATE_NUMERICAL.value(resourceRotate, ResourceOrientation::Rotate0Orientation);
+}
+
+int ApiHelper::resourceFlipToInt(ApiHelper::ResourceOrientation resourceOrientation)
+{
+    return RESOURCE_FLIP_NUMERICAL.key(resourceOrientation, 0);
+}
+
+ApiHelper::ResourceOrientation ApiHelper::resourceFlipFromInt(int resourceFlip, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = RESOURCE_FLIP_NUMERICAL.contains(resourceFlip);
+    return RESOURCE_FLIP_NUMERICAL.value(resourceFlip, ResourceOrientation::Flip0Orientation);
 }
 
 QString ApiHelper::componentTypeToString(ApiHelper::ComponentType componentType)

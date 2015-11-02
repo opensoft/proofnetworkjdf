@@ -250,6 +250,10 @@ public:
 
     static QString resourceOrientationToString(ResourceOrientation resourceOrientation);
     static ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation, bool *ok = nullptr);
+    static int resourceRotateToInt(ResourceOrientation resourceOrientation);
+    static ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok = nullptr);
+    static int resourceFlipToInt(ResourceOrientation resourceOrientation);
+    static ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok = nullptr);
 
     static QString componentTypeToString(ComponentType componentType);
     static ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
