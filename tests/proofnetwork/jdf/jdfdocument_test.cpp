@@ -506,3 +506,9 @@ TEST_F(JdfDocumentTest, toLink)
     EXPECT_EQ(ApiHelper::Usage::OutputUsage, laminatingIntentLink->usage());
 
 }
+
+TEST_F(JdfDocumentTest, findComponent)
+{
+    Proof::Jdf::ComponentSP component = jdfDocUT->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "COMP_0000";});
+    EXPECT_EQ(component->id(), "COMP_0000");
+}

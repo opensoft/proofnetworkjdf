@@ -2,6 +2,7 @@
 
 #include "proofnetwork/jdf/data/jdfnode_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
+#include "proofnetwork/jdf/data/component.h"
 
 
 using namespace Proof::Jdf;
@@ -130,6 +131,39 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(std::function<bool (const JdfNodeSP &)> 
             return result;
     }
     return Proof::Jdf::JdfNodeSP();
+}
+
+ComponentSP Proof::Jdf::JdfNode::findComponent(std::function<bool (const ComponentSP &)> predicate) const
+{
+    Q_D(const JdfNode);
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+    Q_ASSERT(castedSelf->resourcePool());
+
+    for (const auto &component : castedSelf->resourcePool()->components()) {
+        for (const auto &componentOther : component->parts()) {
+            if (predicate(componentOther))
+                return componentOther;
+        }
+    }
+
+    for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
+        for (const auto &component : node->resourcePool()->components()) {
+            if (predicate(component)) {
+                return component;
+            } else {
+                for (const auto &componentOther : component->parts()) {
+                    if (predicate(componentOther))
+                        return componentOther;
+                }
+            }
+        }
+
+        Proof::Jdf::ComponentSP result = node->findComponent(predicate);
+        if (result)
+            return result;
+    }
+    return Proof::Jdf::ComponentSP();
 }
 
 JdfNodeQmlWrapper *JdfNode::toQmlWrapper(QObject *parent) const
