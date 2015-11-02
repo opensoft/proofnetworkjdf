@@ -9,5 +9,11 @@
         <file>data/foldingparams2.jdf</file>
         <file>data/resourcelinkpool.jdf</file>
         <file>data/resourcelinkpool2.jdf</file>
+        <file>data/knowndevicesquery.jmf</file>
+        <file>data/knowndevicesquery2.jmf</file>
+        <file>data/jmfdocument.jmf</file>
+        <file>data/jmfdocument2.jmf</file>
+        <file>data/knowndevicesresponse.jmf</file>
+        <file>data/knowndevicesresponse2.jmf</file>
     </qresource>
 </RCC>

@@ -64,6 +64,21 @@ uint qHash(ApiHelper::MediaUnit arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }
+
+uint qHash(ApiHelper::DeviceFilterDetails arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::DeviceStatus arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ApiHelper::NotificationClass arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
 }
 }
 
@@ -283,6 +298,41 @@ static const QHash<QString, ApiHelper::MediaUnit> MEDIA_UNIT_STRINGIFIED = {
     {"Sheet", ApiHelper::MediaUnit::SheetMediaUnit}
 };
 
+static const QHash<QString, ApiHelper::DeviceFilterDetails> DEVICE_FILTER_DETAILS_STRINGIFIED = {
+    {"None", ApiHelper::DeviceFilterDetails::NoneDeviceFilterDetails},
+    {"Brief", ApiHelper::DeviceFilterDetails::BriefDeviceFilterDetails},
+    {"Module", ApiHelper::DeviceFilterDetails::ModulesDeviceFilterDetails},
+    {"Details", ApiHelper::DeviceFilterDetails::DetailsDeviceFilterDetails},
+    {"NamedFeature", ApiHelper::DeviceFilterDetails::NamedFeatureDeviceFilterDetails},
+    {"Capability", ApiHelper::DeviceFilterDetails::CapabilityDeviceFilterDetails},
+    {"Full", ApiHelper::DeviceFilterDetails::FullDeviceFilterDetails}
+};
+
+static const QHash<QString, ApiHelper::DeviceStatus> DEVICE_STATUS_STRINGIFIED = {
+    {"Unknown", ApiHelper::DeviceStatus::UnknownDeviceStatus},
+    {"Idle", ApiHelper::DeviceStatus::IdleDeviceStatus},
+    {"Down", ApiHelper::DeviceStatus::DownDeviceStatus},
+    {"Setup", ApiHelper::DeviceStatus::SetupDeviceStatus},
+    {"Running", ApiHelper::DeviceStatus::RunningDeviceStatus},
+    {"Cleanup", ApiHelper::DeviceStatus::CleanupDeviceStatus},
+    {"Stopped", ApiHelper::DeviceStatus::StoppedDeviceStatus}
+};
+
+static const QHash<QString, ApiHelper::DeviceCondition> DEVICE_CONDITION_STRINGIFIED = {
+    {"OK", ApiHelper::DeviceCondition::OkDeviceCondition},
+    {"NeedsAttention", ApiHelper::DeviceCondition::NeedsAttentionDeviceCondition},
+    {"Failure", ApiHelper::DeviceCondition::FailureDeviceCondition},
+    {"OffLine", ApiHelper::DeviceCondition::OffLineDeviceCondition}
+};
+
+static const QHash<QString, ApiHelper::NotificationClass> NOTIFICATION_CLASS_STRINGIFIED = {
+    {"Event", ApiHelper::NotificationClass::EventNotificationClass},
+    {"Information", ApiHelper::NotificationClass::InformationNotificationClass},
+    {"Warning", ApiHelper::NotificationClass::WarningNotificationClass},
+    {"Error", ApiHelper::NotificationClass::ErrorNotificationClass},
+    {"Fatal", ApiHelper::NotificationClass::FatalNotificationClass}
+};
+
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return RESOURCE_STATUS_STRINGIFIED.key(status, "");
@@ -451,3 +501,50 @@ ApiHelper::MediaUnit ApiHelper::mediaUnitFromString(const QString &mediaUnit, bo
     return MEDIA_UNIT_STRINGIFIED.value(mediaUnit, MediaUnit::SheetMediaUnit);
 }
 
+QString ApiHelper::deviceFilterDetailsToString(ApiHelper::DeviceFilterDetails details)
+{
+    return DEVICE_FILTER_DETAILS_STRINGIFIED.key(details, "");
+}
+
+ApiHelper::DeviceFilterDetails ApiHelper::deviceFilterDetailsFromString(const QString &details, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = DEVICE_FILTER_DETAILS_STRINGIFIED.contains(details);
+    return DEVICE_FILTER_DETAILS_STRINGIFIED.value(details, DeviceFilterDetails::NoneDeviceFilterDetails);
+}
+
+QString ApiHelper::deviceStatusToString(DeviceStatus status)
+{
+    return DEVICE_STATUS_STRINGIFIED.key(status, "");
+}
+
+ApiHelper::DeviceStatus ApiHelper::deviceStatusFromString(const QString &status, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = DEVICE_STATUS_STRINGIFIED.contains(status);
+    return DEVICE_STATUS_STRINGIFIED.value(status, DeviceStatus::UnknownDeviceStatus);
+}
+
+QString ApiHelper::deviceConditionToString(DeviceCondition condition)
+{
+    return DEVICE_CONDITION_STRINGIFIED.key(condition, "");
+}
+
+ApiHelper::DeviceCondition ApiHelper::deviceConditionFromString(const QString &condition, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = DEVICE_CONDITION_STRINGIFIED.contains(condition);
+    return DEVICE_CONDITION_STRINGIFIED.value(condition, DeviceCondition::OkDeviceCondition);
+}
+
+QString ApiHelper::notificationClassToString(NotificationClass notification)
+{
+    return NOTIFICATION_CLASS_STRINGIFIED.key(notification, "");
+}
+
+ApiHelper::NotificationClass ApiHelper::notificationClassFromString(const QString &notification, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = NOTIFICATION_CLASS_STRINGIFIED.contains(notification);
+    return NOTIFICATION_CLASS_STRINGIFIED.value(notification, NotificationClass::EventNotificationClass);
+}

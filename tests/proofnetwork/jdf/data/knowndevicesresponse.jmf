@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JMF xmlns="http://www.CIP4.org/JDFSchema_1_1" MaxVersion="1.4" SenderID="HPIN150-SM1" TimeStamp="2015-10-29T10:50:30-04:00" Version="1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="JMFRootMessage">
+        <Response ID="Rmisb41feececf78250c" ReturnCode="0" Type="KnownDevices" refID="misb41feececf78250c" xsi:type="ResponseKnownDevices">
+                <DeviceList>
+                        <DeviceInfo CounterUnit="Impressions" DeviceCondition="OK" DeviceID="10.1.0.159" DeviceStatus="Idle" ProductionCounter="8427233" StatusDetails="Indigo: Off">
+                                <GeneralID IDUsage="hpCustomerImpressionCounter" IDValue="8373198.0"/>
+                                <Device DescriptiveName="HP Indigo Press at 10.1.0.159" DeviceFamily="foundation" DeviceID="10.1.0.159" DeviceType="HP Indigo Press" FriendlyName="HP-10K-2" JDFVersions="1.2 1.3 1.4" JMFSenderID="10.1.0.159" JMFURL="http://10.1.0.150:8080/prodflow/jmf/10.1.0.159" Manufacturer="HP Indigo" ManufacturerURL="http://www.hp.com/" ModelDescription="HP Indigo 10000 Digital Press" ModelName="HP Indigo 10000 Digital Press" ModelNumber="10000" ModelURL="http://www.hp.com" SerialNumber="50000279" xmlns="http://www.CIP4.org/JDFSchema_1_1"/>
+                        </DeviceInfo>
+                        <DeviceInfo CounterUnit="Impressions" DeviceCondition="OK" DeviceID="10.1.0.158" DeviceStatus="Idle" ProductionCounter="10456489" StatusDetails="Indigo: Standby Mode">
+                                <GeneralID IDUsage="hpCustomerImpressionCounter" IDValue="1.0368286E7"/>
+                                <Device DescriptiveName="HP Indigo Press at 10.1.0.158" DeviceFamily="foundation" DeviceID="10.1.0.158" DeviceType="HP Indigo Press" FriendlyName="HP-10K-1" JDFVersions="1.2 1.3 1.4" JMFSenderID="10.1.0.158" JMFURL="http://10.1.0.150:8080/prodflow/jmf/10.1.0.158" Manufacturer="HP Indigo" ManufacturerURL="http://www.hp.com/" ModelDescription="HP-Indigo 10000 Digital Press" ModelName="HP-Indigo 10000 Digital Press" ModelNumber="10000" ModelURL="http://www.hp.com" SerialNumber="EPRINT50000272" xmlns="http://www.CIP4.org/JDFSchema_1_1"/>
+                        </DeviceInfo>
+                </DeviceList>
+        </Response>
+</JMF>

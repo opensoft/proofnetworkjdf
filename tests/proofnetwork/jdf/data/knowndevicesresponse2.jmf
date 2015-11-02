@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JMF xmlns="http://www.CIP4.org/JDFSchema_1_1" MaxVersion="1.4" SenderID="HPIN150-SM1" TimeStamp="2015-10-29T10:50:30-04:00" Version="1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="JMFRootMessage">
+        <Response ID="Rmisb41feececf78250c" ReturnCode="0" Type="KnownDevices" refID="misb41feececf78250c" xsi:type="ResponseKnownDevices">
+                <DeviceList>
+                        <DeviceInfo DeviceCondition="OK" DeviceID="HPIN150-SM1" DeviceStatus="Running" StatusDetails="Running">
+                                <Device DescriptiveName="Integrated Digital Printer at HPIN150-SM1" DeviceID="HPIN150-SM1" DeviceType="Integrated Digital Printer" JDFVersions="1.2 1.3 1.4" JMFSenderID="HPIN150-SM1" JMFURL="http://10.1.0.150:8080/prodflow/jmf/HPIN150-SM1" ModelName="HP SmartStream Production Pro Print Server" ModelNumber="2.5.82.31226_5.1.17 IFix 1_i6" xmlns="http://www.CIP4.org/JDFSchema_1_1" xmlns:hp="http://www.hp.com/schema/JDFSchema_1_1/JDFExtensions">
+                                        <CostCenter CostCenterID="HP Cost Center"/>
+                                </Device>
+                        </DeviceInfo>
+                </DeviceList>
+        </Response>
+</JMF>

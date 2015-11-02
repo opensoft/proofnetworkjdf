@@ -9,6 +9,16 @@
 #include "data/component.h"
 #include "data/bundle.h"
 #include "data/jdfdocument.h"
+#include "data/jmfdocument.h"
+#include "data/message.h"
+#include "data/message_p.h"
+#include "data/query.h"
+#include "data/response.h"
+#include "data/knowndevicesquery.h"
+#include "data/devicefilter.h"
+#include "data/knowndevicesresponse.h"
+#include "data/deviceinfo.h"
+#include "data/notification.h"
 
 #include "data/abstractresourcelink.h"
 #include "data/abstractphysicalresourcelink.h"
@@ -53,6 +63,8 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::JdfNodeWP>("Proof::Jdf::JdfNodeWP");
     qRegisterMetaType<Proof::Jdf::JdfDocumentSP>("Proof::Jdf::JdfDocumentSP");
     qRegisterMetaType<Proof::Jdf::JdfDocumentWP>("Proof::Jdf::JdfDocumentWP");
+    qRegisterMetaType<Proof::Jdf::JmfDocumentSP>("Proof::Jdf::JmfDocumentSP");
+    qRegisterMetaType<Proof::Jdf::JmfDocumentWP>("Proof::Jdf::JmfDocumentWP");
     qRegisterMetaType<Proof::Jdf::ResourcePoolSP>("Proof::Jdf::ResourcePoolSP");
     qRegisterMetaType<Proof::Jdf::ResourcePoolWP>("Proof::Jdf::ResourcePoolWP");
     qRegisterMetaType<Proof::Jdf::CuttingParamsSP>("Proof::Jdf::CuttingParamsSP");
@@ -95,4 +107,27 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::ApiHelper::ProcessUsage>("Proof::Jdf::ApiHelper::ProcessUsage");
     qRegisterMetaType<Proof::Jdf::ApiHelper::Usage>("Proof::Jdf::ApiHelper::Usage");
     qRegisterMetaType<Proof::Jdf::ApiHelper::BlockType>("Proof::Jdf::ApiHelper::BlockType");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::DeviceFilterDetails>("Proof::Jdf::ApiHelper::DeviceFilterDetails");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::DeviceStatus>("Proof::Jdf::ApiHelper::DeviceStatus");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::DeviceCondition>("Proof::Jdf::ApiHelper::DeviceCondition");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::NotificationClass>("Proof::Jdf::ApiHelper::NotificationClass");
+
+    qRegisterMetaType<Proof::Jdf::MessageSP>("Proof::Jdf::MessageSP");
+    qRegisterMetaType<Proof::Jdf::MessageWP>("Proof::Jdf::MessageWP");
+    qRegisterMetaType<Proof::Jdf::QuerySP>("Proof::Jdf::QuerySP");
+    qRegisterMetaType<Proof::Jdf::QueryWP>("Proof::Jdf::QueryWP");
+    qRegisterMetaType<Proof::Jdf::ResponseSP>("Proof::Jdf::ResponseSP");
+    qRegisterMetaType<Proof::Jdf::ResponseWP>("Proof::Jdf::ResponseWP");
+    qRegisterMetaType<Proof::Jdf::KnownDevicesQuerySP>("Proof::Jdf::KnownDevicesSP");
+    qRegisterMetaType<Proof::Jdf::KnownDevicesQueryWP>("Proof::Jdf::KnownDevicesWP");
+    Proof::Jdf::registerJmfMessage<Proof::Jdf::KnownDevicesQuery>("Query", "KnownDevices");
+    qRegisterMetaType<Proof::Jdf::DeviceFilterSP>("Proof::Jdf::DeviceFilterSP");
+    qRegisterMetaType<Proof::Jdf::DeviceFilterWP>("Proof::Jdf::DeviceFilterWP");
+    qRegisterMetaType<Proof::Jdf::KnownDevicesResponseSP>("Proof::Jdf::KnownDevicesResponseSP");
+    qRegisterMetaType<Proof::Jdf::KnownDevicesResponseWP>("Proof::Jdf::KnownDevicesResponseWP");
+    Proof::Jdf::registerJmfMessage<Proof::Jdf::KnownDevicesResponse>("Response", "KnownDevices");
+    qRegisterMetaType<Proof::Jdf::DeviceInfoSP>("Proof::Jdf::DeviceInfoSP");
+    qRegisterMetaType<Proof::Jdf::DeviceInfoWP>("Proof::Jdf::DeviceInfoWP");
+    qRegisterMetaType<Proof::Jdf::NotificationSP>("Proof::Jdf::NotificationSP");
+    qRegisterMetaType<Proof::Jdf::NotificationWP>("Proof::Jdf::NotificationWP");
 }

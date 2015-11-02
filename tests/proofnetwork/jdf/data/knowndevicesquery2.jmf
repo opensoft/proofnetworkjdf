@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JMF xmlns="http://www.CIP4.org/JDFSchema_1_1" SenderID="Proof" TimeStamp="2015-10-29T14:01:00+03:00" Version="1.4">
+  <Query ID="proof123" Type="KnownDevices">
+    <DeviceFilter DeviceDetails="Details" />
+  </Query>
+</JMF>

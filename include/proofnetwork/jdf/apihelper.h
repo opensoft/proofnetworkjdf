@@ -233,6 +233,73 @@ public:
         SheetMediaUnit // Individual cut Sheets.
     };
 
+    enum class DeviceFilterDetails {
+        // Provide only DeviceID and DeviceStatus.
+        NoneDeviceFilterDetails,
+        // Provide all available Device information except for Device Ele­ments.
+        BriefDeviceFilterDetails,
+        // ModuleStatus Elements are to be provided without module specific status details
+        // and without module specific employee information.
+        ModulesDeviceFilterDetails,
+        // Provide maximum available Device information excluding Device capability descriptions.
+        // Includes Device Elements which repre­sent details of the Device.
+        DetailsDeviceFilterDetails,
+        // Provide maximum available Device information includ­ing limited Device capability descriptions.
+        // Includes Device Elements which represent details of the Device
+        // and Device/DeviceCap/FeaturePool Subelements which represent named features of the Device.
+        NamedFeatureDeviceFilterDetails,
+        // Provide Device/DeviceCap Subelements which represent details of the capabilities of the Device.
+        CapabilityDeviceFilterDetails,
+        // Provide maximum available Device information including Device capability descriptions.
+        // Includes Device Elements which represent details of the Device.
+        FullDeviceFilterDetails
+    };
+
+    enum class DeviceStatus {
+        UnknownDeviceStatus, // No Device is known or the Device cannot provide a DeviceStatus.
+        IdleDeviceStatus, // No Job is being processed and the Device is accepting new Jobs.
+        DownDeviceStatus, // No Job is being processed and the Device currently cannot execute a Job.
+                          // The Device might be broken, switched off, etc.
+        SetupDeviceStatus, // The Device is currently being set up.
+                           // This state is allowed to occur also during the execution of a Job.
+        RunningDeviceStatus, // The Device is currently executing a Job.
+        CleanupDeviceStatus, // The Device is currently being cleaned.
+                             // This state is allowed to occur also during the execution of a Job.
+        StoppedDeviceStatus // The Device has been stopped, probably temporarily.
+                            // This status indicates some kind of break, including a pause, maintenance or a breakdown,
+                            // as long as execution has not been aborted.
+    };
+
+    enum class DeviceCondition {
+        OkDeviceCondition, // The Device is in working condition.
+        NeedsAttentionDeviceCondition, // The Device is still in working condition but requires attention.
+        FailureDeviceCondition, // The Device is not in working condition.
+        OffLineDeviceCondition  // The Device is off line and its condition is unknown.
+    };
+
+    enum class NotificationClass {
+        // Indicates that a pure event due to certain operation-related activity has occurred,
+        // (e.g., Machine events, operator activities, etc.).
+        // This Class is used for the transfer of conventional event Messages.
+        // In case of Class = "Event", further event informa­tion is to be provided by the Type Attribute
+        // and NotificationDetails Element.
+        EventNotificationClass,
+        // Any information about a Process which cannot be expressed by the other Classes (e.g., the beginning of execu­tion).
+        // No user interaction is needed.
+        InformationNotificationClass,
+        // Indicates that a minor error has occurred, and an auto­matic fix was applied. Execution continues.
+        // The Node’s Status is unchanged. This appears in situations such as A4-Letter sub­stitutions when toner is low or when unknown extensions are encountered in a REQUIRED Resource
+        WarningNotificationClass,
+        // Indicates that an error has occurred that requires user inter­action.
+        // Execution cannot continue until the problem has been fixed. The Node’s Status is Stopped.
+        // This value appears in situations such as when Resources are missing, when major incompatibilities are detected,
+        // or when the toner is empty.
+        ErrorNotificationClass,
+        // Indicates that a fatal error led to abortion of the Process. The Node’s Status is Aborted.
+        // This value is seen with most protocol errors or when major Device malfunction has occurred.
+        FatalNotificationClass
+    };
+
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status, bool *ok = nullptr);
 
@@ -272,6 +339,18 @@ public:
 
     static QString mediaUnitToString(MediaUnit mediaUnit);
     static MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok = nullptr);
+
+    static QString deviceFilterDetailsToString(DeviceFilterDetails details);
+    static DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *ok = nullptr);
+
+    static QString deviceStatusToString(DeviceStatus status);
+    static DeviceStatus deviceStatusFromString(const QString &status, bool *ok = nullptr);
+
+    static QString deviceConditionToString(DeviceCondition condition);
+    static DeviceCondition deviceConditionFromString(const QString &condition, bool *ok = nullptr);
+
+    static QString notificationClassToString(NotificationClass notification);
+    static NotificationClass notificationClassFromString(const QString &notification, bool *ok = nullptr);
 };
 
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceStatus arg, uint seed = 0);
@@ -286,6 +365,10 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ProcessUsage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::Usage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BlockType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::MediaUnit arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceFilterDetails arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceStatus arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceCondition arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::NotificationClass arg, uint seed = 0);
 
 }
 }

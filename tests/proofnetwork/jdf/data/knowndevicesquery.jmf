@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JMF xmlns="http://www.CIP4.org/JDFSchema_1_1" SenderID="MIS System" TimeStamp="2006-04-19T14:48:12-07:00" Version="1.2">
+  <Query ID="misb41feececf78250c" Type="KnownDevices">
+    <DeviceFilter DeviceDetails="Brief" />
+  </Query>
+</JMF>

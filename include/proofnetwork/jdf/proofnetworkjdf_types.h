@@ -25,6 +25,10 @@ class JdfDocument;
 typedef QSharedPointer<JdfDocument> JdfDocumentSP;
 typedef QWeakPointer<JdfDocument> JdfDocumentWP;
 
+class JmfDocument;
+typedef QSharedPointer<JmfDocument> JmfDocumentSP;
+typedef QWeakPointer<JmfDocument> JmfDocumentWP;
+
 class ResourcePool;
 typedef QSharedPointer<ResourcePool> ResourcePoolSP;
 typedef QWeakPointer<ResourcePool> ResourcePoolWP;
@@ -88,11 +92,43 @@ typedef QWeakPointer<ComponentLink> ComponentLinkWP;
 
 class FoldingParamsLink;
 typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;
-typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkWP;
+typedef QWeakPointer<FoldingParamsLink> FoldingParamsLinkWP;
 
 class ResourceLinkPool;
 typedef QSharedPointer<ResourceLinkPool> ResourceLinkPoolSP;
 typedef QWeakPointer<ResourceLinkPool> ResourceLinkPoolWP;
+
+class Message;
+typedef QSharedPointer<Message> MessageSP;
+typedef QWeakPointer<Message> MessageWP;
+
+class Query;
+typedef QSharedPointer<Query> QuerySP;
+typedef QWeakPointer<Query> QueryWP;
+
+class Response;
+typedef QSharedPointer<Response> ResponseSP;
+typedef QWeakPointer<Response> ResponseWP;
+
+class KnownDevicesQuery;
+typedef QSharedPointer<KnownDevicesQuery> KnownDevicesQuerySP;
+typedef QWeakPointer<KnownDevicesQuery> KnownDevicesQueryWP;
+
+class KnownDevicesResponse;
+typedef QSharedPointer<KnownDevicesResponse> KnownDevicesResponseSP;
+typedef QWeakPointer<KnownDevicesResponse> KnownDevicesResponseWP;
+
+class DeviceFilter;
+typedef QSharedPointer<DeviceFilter> DeviceFilterSP;
+typedef QWeakPointer<DeviceFilter> DeviceFilterWP;
+
+class DeviceInfo;
+typedef QSharedPointer<DeviceInfo> DeviceInfoSP;
+typedef QWeakPointer<DeviceInfo> DeviceInfoWP;
+
+class Notification;
+typedef QSharedPointer<Notification> NotificationSP;
+typedef QWeakPointer<Notification> NotificationWP;
 
 }
 }
