@@ -16,12 +16,7 @@ class MessagePrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Message)
 
-    template<class T>
-    friend void registerJmfMessage(const QString &tagName, const QString &type)
-    {
-        MessagePrivate::messageCreators.insert(qMakePair(tagName, type), &T::create);
-    }
-
+    template<class T> friend void registerJmfMessage(const QString &tagName, const QString &type);
     friend MessageSP instantiateJmfMessage(const QString &tagName, const QString &typeName);
 
 protected:
@@ -38,6 +33,12 @@ private:
     using CreatorType = std::function<MessageSP ()>;
     static QHash<CreatorKey, CreatorType> messageCreators;
 };
+
+template<class T>
+void registerJmfMessage(const QString &tagName, const QString &type)
+{
+    MessagePrivate::messageCreators.insert(qMakePair(tagName, type), &T::create);
+}
 
 }
 }
