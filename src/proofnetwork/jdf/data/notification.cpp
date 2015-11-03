@@ -54,6 +54,7 @@ NotificationSP Notification::create()
 
 NetworkDataEntityQmlWrapper *Notification::toQmlWrapper(QObject *parent) const
 {
+    Q_UNUSED(parent);
     Q_ASSERT(false);
     return nullptr;
 }

@@ -31,13 +31,13 @@ private:
 
     using CreatorKey = QPair<QString, QString>;
     using CreatorType = std::function<MessageSP ()>;
-    static QHash<CreatorKey, CreatorType> messageCreators;
+    static QHash<CreatorKey, CreatorType> &messageCreators();
 };
 
 template<class T>
 void registerJmfMessage(const QString &tagName, const QString &type)
 {
-    MessagePrivate::messageCreators.insert(qMakePair(tagName, type), &T::create);
+    MessagePrivate::messageCreators().insert(qMakePair(tagName, type), &T::create);
 }
 
 }

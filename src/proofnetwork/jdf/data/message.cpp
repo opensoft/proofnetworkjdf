@@ -5,12 +5,12 @@
 namespace Proof {
 namespace Jdf {
 
-QHash<MessagePrivate::CreatorKey, MessagePrivate::CreatorType> MessagePrivate::messageCreators;
+
 
 MessageSP instantiateJmfMessage(const QString &tagName, const QString &type)
 {
     MessageSP result;
-    auto creator = MessagePrivate::messageCreators.value(qMakePair(tagName, type));
+    auto creator = MessagePrivate::messageCreators().value(qMakePair(tagName, type));
     if (creator)
         result = creator();
     return result;
@@ -75,6 +75,12 @@ void MessagePrivate::updateFrom(const NetworkDataEntitySP &other)
     MessageSP castedOther = qSharedPointerCast<Message>(other);
     q->setId(castedOther->id());
     NetworkDataEntityPrivate::updateFrom(other);
+}
+
+QHash<MessagePrivate::CreatorKey, MessagePrivate::CreatorType> &MessagePrivate::messageCreators()
+{
+    static QHash<MessagePrivate::CreatorKey, MessagePrivate::CreatorType> creators;
+    return creators;
 }
 
 } // namespace Jdf
