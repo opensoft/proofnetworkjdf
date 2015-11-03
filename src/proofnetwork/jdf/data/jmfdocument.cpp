@@ -94,6 +94,7 @@ void JmfDocument::addMessage(const MessageSP &arg)
 
 NetworkDataEntityQmlWrapper *JmfDocument::toQmlWrapper(QObject *) const
 {
+    Q_ASSERT(false);
     return nullptr;
 }
 

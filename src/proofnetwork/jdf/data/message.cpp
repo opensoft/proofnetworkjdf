@@ -33,6 +33,7 @@ void Message::setId(const QString &arg)
 
 NetworkDataEntityQmlWrapper *Message::toQmlWrapper(QObject *) const
 {
+    Q_ASSERT(false);
     return nullptr;
 }
 

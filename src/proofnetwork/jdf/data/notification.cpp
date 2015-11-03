@@ -54,6 +54,7 @@ NotificationSP Notification::create()
 
 NetworkDataEntityQmlWrapper *Notification::toQmlWrapper(QObject *parent) const
 {
+    Q_ASSERT(false);
     return nullptr;
 }
 
@@ -82,6 +83,7 @@ NotificationSP Notification::fromJdf(QXmlStreamReader &xmlReader)
                 xmlReader.skipCurrentElement();
         }
     }
+    return result;
 }
 
 Notification::Notification()

@@ -32,6 +32,7 @@ void DeviceFilter::setDetails(ApiHelper::DeviceFilterDetails arg)
 
 NetworkDataEntityQmlWrapper *DeviceFilter::toQmlWrapper(QObject *) const
 {
+    Q_ASSERT(false);
     return nullptr;
 }
 

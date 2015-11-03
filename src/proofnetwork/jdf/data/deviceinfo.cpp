@@ -61,6 +61,7 @@ void Proof::Jdf::DeviceInfo::setCondition(ApiHelper::DeviceCondition arg)
 
 NetworkDataEntityQmlWrapper *DeviceInfo::toQmlWrapper(QObject *) const
 {
+    Q_ASSERT(false);
     return nullptr;
 }
 
