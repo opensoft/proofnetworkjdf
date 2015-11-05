@@ -141,6 +141,8 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(std::function<bool (const Compone
     Q_ASSERT(castedSelf->resourcePool());
 
     for (const auto &component : castedSelf->resourcePool()->components()) {
+        if (predicate(component))
+            return component;
         for (const auto &componentOther : component->parts()) {
             if (predicate(componentOther))
                 return componentOther;
