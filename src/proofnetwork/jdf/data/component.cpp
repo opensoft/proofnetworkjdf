@@ -205,7 +205,13 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
                 QXmlStreamAttributes attributes = xmlReader.attributes();
 
                 bool partitionedComponent = true;
-                if (component->partIdKeys().count() == 1) {
+                if (component->partIdKeys().count() == 0) {
+                    if (attributes.hasAttribute(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart))) {
+                        QString blockName = attributes.value(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart)).toString();
+                        cutBlocks << cutBlockCache().add({jobId, blockName}, CutBlock::create(blockName));
+                        partitionedComponent = false;
+                    }
+                } else if (component->partIdKeys().count() == 1) {
                     switch (component->partIdKeys()[0]) {
                     case ApiHelper::ResourcePartType::BlockNamePart: {
                         QString blockName = attributes.value(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart)).toString();
