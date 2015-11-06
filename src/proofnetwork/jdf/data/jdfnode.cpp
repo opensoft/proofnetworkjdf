@@ -183,7 +183,7 @@ JdfNodeSP JdfNode::create()
     return result;
 }
 
-JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes)
+JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes, bool makeUnique)
 {
     JdfNodeSP document = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
@@ -207,17 +207,17 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                         }
                     }
                 } else {
-                    JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader, alternativeIdAttributes);
+                    JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader, alternativeIdAttributes, makeUnique);
                     if (!jdfNode) {
                         qCCritical(proofNetworkJdfDataLog) << "JDF not created. Sub JDF node is invalid.";
                         return JdfNodeSP();
                     }
-                    document->d_func()->jdfNodes.push_back(jdfNode);
+                    document->d_func()->jdfNodes << jdfNode;
                 }
             }
 
             if (xmlReader.name() == "ResourcePool") {
-                auto resourcePool = ResourcePool::fromJdf(xmlReader, document->jobId());
+                auto resourcePool = ResourcePool::fromJdf(xmlReader, document->jobId(), makeUnique);
                 if (!resourcePool) {
                     qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourcePool is invalid.";
                     return JdfNodeSP();

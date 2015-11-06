@@ -35,7 +35,7 @@ public:
 
     static ResourcePoolSP create();
 
-    static ResourcePoolSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId);
+    static ResourcePoolSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool makeUnique = false);
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
