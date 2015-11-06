@@ -41,7 +41,7 @@ public:
 
     static JdfNodeSP create();
 
-    static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes = QStringList(), bool makeUnique = false);
+    static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes = QStringList(), bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:

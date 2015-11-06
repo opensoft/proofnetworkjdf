@@ -67,7 +67,7 @@ CuttingParamsSP CuttingParams::create()
     return result;
 }
 
-CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool makeUnique)
+CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     CuttingParamsSP cuttingParams = create();
 
@@ -81,14 +81,14 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QStrin
             AbstractResource::fromJdf(xmlReader, castedCuttingParams);
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "CuttingParams") {
-                CuttingParamsSP part = CuttingParams::fromJdf(xmlReader, jobId, makeUnique);
+                CuttingParamsSP part = CuttingParams::fromJdf(xmlReader, jobId, sanitize);
                 if (!part) {
                     qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created. Part is not valid";
                     return CuttingParamsSP();
                 }
                 cuttingParams->addPart(part);
             } else if (xmlReader.name() == "CutBlock") {
-                CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader, jobId, makeUnique);
+                CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader, jobId, sanitize);
                 if (!cutBlock) {
                     qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created. Invalid CutBlock found";
                     return CuttingParamsSP();

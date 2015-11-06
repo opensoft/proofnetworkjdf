@@ -174,7 +174,7 @@ ComponentSP Component::create()
     return result;
 }
 
-ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool makeUnique)
+ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     ComponentSP component = create();
 
@@ -222,7 +222,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
                     }
                 }
                 if (partitionedComponent) {
-                    ComponentSP part = Component::fromJdf(xmlReader, jobId, makeUnique);
+                    ComponentSP part = Component::fromJdf(xmlReader, jobId, sanitize);
                     if (!part) {
                         qCCritical(proofNetworkJdfDataLog) << "Component not created. Part is not valid";
                         return ComponentSP();

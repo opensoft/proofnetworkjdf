@@ -93,7 +93,7 @@ CutBlockSP CutBlock::create(const QString &blockName)
     return result;
 }
 
-CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool makeUnique)
+CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     CutBlockSP cutBlock = create();
 
@@ -103,7 +103,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
 
             QString blockName = attributes.value("BlockName").toString();
             cutBlock->setBlockName(blockName);
-            if (makeUnique) {
+            if (sanitize) {
                 CutBlockSP cutBlockFromCache = cutBlockCache().value({jobId, cutBlock->blockName()});
                 int index = 0;
                 while (cutBlockFromCache && cutBlockFromCache->isFetched()) {

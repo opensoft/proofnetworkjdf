@@ -21,7 +21,6 @@ class PROOF_NETWORK_JDF_EXPORT CutBlock : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(CutBlock)
 public:
-
     QString blockName() const;
     double width() const;
     double height() const;
@@ -39,7 +38,7 @@ public:
 
     static CutBlockSP create(const QString &blockName = QString());
 
-    static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool makeUnique = false);
+    static CutBlockSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
