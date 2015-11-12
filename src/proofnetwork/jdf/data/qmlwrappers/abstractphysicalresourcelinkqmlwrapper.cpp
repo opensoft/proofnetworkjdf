@@ -16,6 +16,7 @@ AbstractPhysicalResourceLinkQmlWrapper::AbstractPhysicalResourceLinkQmlWrapper(
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink,
                                   Proof::Jdf::ApiHelper::ResourceOrientation,
                                   orientation)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink, double, amount)
 
 void AbstractPhysicalResourceLinkQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
@@ -25,10 +26,14 @@ void AbstractPhysicalResourceLinkQmlWrapper::setupEntity(const QSharedPointer<Ne
 
     connect(link.data(), &AbstractPhysicalResourceLink::orientationChanged,
             this, &AbstractPhysicalResourceLinkQmlWrapper::orientationChanged);
+    connect(link.data(), &AbstractPhysicalResourceLink::amountChanged,
+            this, &AbstractPhysicalResourceLinkQmlWrapper::amountChanged);
 
     AbstractPhysicalResourceLinkSP oldLink = qSharedPointerCast<AbstractPhysicalResourceLink>(old);
     if (oldLink) {
         if (link->orientation() != oldLink->orientation())
             emit orientationChanged(link->orientation());
+        if (link->amount() != oldLink->amount())
+            emit amountChanged(link->amount());
     }
 }
