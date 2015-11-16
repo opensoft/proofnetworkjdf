@@ -127,6 +127,7 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::KnownDevicesResponseWP>("Proof::Jdf::KnownDevicesResponseWP");
     Proof::Jdf::registerJmfMessage<Proof::Jdf::KnownDevicesResponse>("Response", "KnownDevices");
     qRegisterMetaType<Proof::Jdf::DeviceInfoSP>("Proof::Jdf::DeviceInfoSP");
+    qRegisterMetaType<QList<Proof::Jdf::DeviceInfoSP>>("QList<Proof::Jdf::DeviceInfoSP>");
     qRegisterMetaType<Proof::Jdf::DeviceInfoWP>("Proof::Jdf::DeviceInfoWP");
     qRegisterMetaType<Proof::Jdf::NotificationSP>("Proof::Jdf::NotificationSP");
     qRegisterMetaType<Proof::Jdf::NotificationWP>("Proof::Jdf::NotificationWP");

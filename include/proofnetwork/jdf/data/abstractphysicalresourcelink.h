@@ -23,7 +23,7 @@ public:
     static bool fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &abstractResource);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 signals:
-    void orientationChanged(ApiHelper::ResourceOrientation orientation);
+    void orientationChanged(Proof::Jdf::ApiHelper::ResourceOrientation orientation);
 protected:
     explicit AbstractPhysicalResourceLink() = delete;
     AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd, QObject *parent = nullptr);
