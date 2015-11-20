@@ -214,17 +214,14 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                     }
                     document->d_func()->jdfNodes << jdfNode;
                 }
-            }
-
-            if (xmlReader.name() == "ResourcePool") {
+            } else if (xmlReader.name() == "ResourcePool") {
                 auto resourcePool = ResourcePool::fromJdf(xmlReader, document->jobId(), sanitize);
                 if (!resourcePool) {
                     qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourcePool is invalid.";
                     return JdfNodeSP();
                 }
                 document->setResourcePool(resourcePool);
-            }
-            if (xmlReader.name() == "ResourceLinkPool") {
+            } else if (xmlReader.name() == "ResourceLinkPool") {
                 auto resourceLinkPool = ResourceLinkPool::fromJdf(xmlReader);
                 if (!resourceLinkPool) {
                     qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourceLinkPool is invalid.";
@@ -232,13 +229,9 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                 }
                 document->setResourceLinkPool(resourceLinkPool);
             }
-        }
-
-        if (xmlReader.isEndElement()) {
-            if (xmlReader.name() == "JDF") {
-                xmlReader.readNext();
+        } else if (xmlReader.isEndElement()) {
+            if (xmlReader.name() == "JDF")
                 return document;
-            }
         }
 
         xmlReader.readNext();
