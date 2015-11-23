@@ -23,11 +23,13 @@ public:
     ~AbstractResourceLinkQmlWrapper();
     Proof::Jdf::ApiHelper::Usage usage() const;
     QString rRef() const;
+
+signals:
+    void usageChanged(Proof::Jdf::ApiHelper::Usage usage);
+    void rRefChanged(const QString &rRef);
+
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
-signals:
-    void usageChanged(Proof::Jdf::ApiHelper::Usage arg);
-    void rRefChanged(const QString &arg);
 };
 
 }

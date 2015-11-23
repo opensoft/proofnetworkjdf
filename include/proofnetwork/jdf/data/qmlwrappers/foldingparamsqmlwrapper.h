@@ -24,7 +24,7 @@ public:
     QString foldCatalog() const;
 
 signals:
-    void foldCatalogChanged(const QString &arg);
+    void foldCatalogChanged(const QString &foldCatalog);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
