@@ -37,16 +37,12 @@ QList<DeviceInfoSP> KnownDevicesResponse::deviceInfos() const
 void KnownDevicesResponse::setDeviceInfos(const QList<DeviceInfoSP> &arg)
 {
     Q_D(KnownDevicesResponse);
-    if (d->deviceInfos.size() == arg.size()) {
-        bool equal = std::all_of(d->deviceInfos.cbegin(), d->deviceInfos.cend(), [&arg](const DeviceInfoSP &lhs)
-        {
-            return std::any_of(arg.cbegin(), arg.cend(), [&lhs](const DeviceInfoSP &rhs) { return lhs == rhs; });
-        });
-        if (equal)
-            return;
+    bool notEqual = d->deviceInfos.size() != arg.size()
+            || !std::is_permutation(d->deviceInfos.cbegin(), d->deviceInfos.cend(), arg.cbegin());
+    if (notEqual) {
+        d->deviceInfos = arg;
+        emit deviceInfosChanged(d->deviceInfos);
     }
-    d->deviceInfos = arg;
-    emit deviceInfosChanged(d->deviceInfos);
 }
 
 void KnownDevicesResponse::addDeviceInfo(const DeviceInfoSP &arg)

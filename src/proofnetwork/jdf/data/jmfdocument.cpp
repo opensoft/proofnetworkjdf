@@ -73,16 +73,12 @@ void JmfDocument::setTimeStamp(const QDateTime &arg)
 void JmfDocument::setMessages(const QList<MessageSP> &arg)
 {
     Q_D(JmfDocument);
-    if (d->messages.size() == arg.size()) {
-        bool equal = std::all_of(d->messages.cbegin(), d->messages.cend(), [&arg](const MessageSP &lhs)
-        {
-            return std::any_of(arg.cbegin(), arg.cend(), [&lhs](const MessageSP &rhs) { return lhs == rhs; });
-        });
-        if (equal)
-            return;
+    bool notEqual = d->messages.size() != arg.size()
+            || !std::is_permutation(d->messages.cbegin(), d->messages.cend(), arg.cbegin());
+    if (notEqual) {
+        d->messages = arg;
+        emit messagesChanged(d->messages);
     }
-    d->messages = arg;
-    emit messagesChanged(d->messages);
 }
 
 void JmfDocument::addMessage(const MessageSP &arg)
