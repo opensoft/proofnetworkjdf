@@ -48,6 +48,11 @@ protected:
         QXmlStreamReader xml3(&file3);
         jdfDocUT3 = JdfDocument::fromJdf(xml3);
 
+        QFile file4(":/data/jdfwithpartitionedcomponents.jdf");
+        ASSERT_TRUE(file4.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml4(&file4);
+        jdfDocUT4 = JdfDocument::fromJdf(xml4);
+
         qmlWrapperUT = jdfDocUT->toQmlWrapper();
     }
 
@@ -60,6 +65,7 @@ protected:
     JdfDocumentSP jdfDocUT;
     JdfDocumentSP jdfDocUT2;
     JdfDocumentSP jdfDocUT3;
+    JdfDocumentSP jdfDocUT4;
     JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
@@ -91,6 +97,9 @@ TEST_F(JdfDocumentTest, fromJdf)
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
     EXPECT_EQ(15, component2->cutBlocks().count());
+
+    EXPECT_EQ(1, component2->partIdKeys().count());
+    EXPECT_EQ(ApiHelper::ResourcePartType::BlockNamePart, component2->partIdKeys().first());
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
@@ -234,6 +243,25 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     EXPECT_DOUBLE_EQ(288, cutBlock2->height());
     EXPECT_EQ("1 0 0 1 54.0000 342.0000", cutBlock2->transformationMatrix());
     EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock2->blockType());
+}
+
+TEST_F(JdfDocumentTest, fromJdfWithPartitionedComponents)
+{
+    JdfNodeSP jdfNode = jdfDocUT4->jdfNodes().first();
+    ASSERT_TRUE(jdfNode);
+    EXPECT_EQ("LAYOUT_0001", jdfNode->id());
+    ResourcePoolSP resourcePool = jdfNode->resourcePool();
+    ASSERT_TRUE(resourcePool);
+    ASSERT_EQ(1, resourcePool->components().count());
+    ComponentSP component = resourcePool->components().first();
+    ASSERT_TRUE(component);
+
+    EXPECT_EQ(1000u, component->amount());
+
+    EXPECT_EQ(1, component->parts().count());
+    EXPECT_EQ(1, component->parts().first()->parts().count());
+    EXPECT_DOUBLE_EQ(2016, component->parts().first()->parts().first()->width());
+    EXPECT_DOUBLE_EQ(1440, component->parts().first()->parts().first()->height());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfFolding)

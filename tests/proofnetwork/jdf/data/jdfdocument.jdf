@@ -8,7 +8,7 @@
 <ResourcePool>
 <Media BackCoatings="None" Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200"/>
 <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
-<Component Amount="1000" Class="Quantity" ComponentType="Sheet" Dimensions="2520.0000 1656.0000 0.4896" ID="COMP_0000" IsWaste="false" Status="Available"/>
+<Component Amount="1000" Class="Quantity" ComponentType="Sheet" Dimensions="2520.0000 1656.0000 0.4896" ID="COMP_0000" IsWaste="false" Status="Available"/>z
 <CuttingParams Class="Parameter" ID="CPM_0000" Status="Available">
 <CutBlock BlockName="A-1" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="A-1_BLK" Status="Available"/>
 <CutBlock BlockName="A-2" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 342.0000" BlockType="CutBlock" Class="Parameter" ID="A-2_BLK" Status="Available"/>

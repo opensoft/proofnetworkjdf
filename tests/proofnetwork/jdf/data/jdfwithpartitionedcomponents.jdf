@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<JDF xmlns="http://www.CIP4.org/JDFSchema_1_1" DescriptiveName="" ID="JDF_0000" JobPartID="ID0001" JobID="mixed-flatwork (groups)" Status="Waiting" Type="Product" Version="1.2">
+<Comment AgentName="Metrix" AgentVersion="2013.0 (1050)" TimeStamp="2014-08-26T08:35:28-07:00"/>
+<AuditPool>
+<Created AgentName="Metrix" AgentVersion="2013.0 (1050)" ID="AUD_0000" TimeStamp="2014-08-26T08:35:28-07:00"/>
+</AuditPool>
+<JDF DescriptiveName="Layout 1" ID="LAYOUT_0001" Status="Waiting" Type="Cutting">
+<ResourcePool>
+<Media BackCoatings="None" Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200"/>
+<LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
+<Component Amount="1000" Class="Quantity" ComponentType="Sheet" ID="COMP_0000" PartIDKeys="SignatureName SheetName" IsWaste="false" Status="Available">
+<Component SignatureName="2">
+<Component Dimensions="2016.0000 1440.0000 0" SheetName="Sheet-1" SourceSheet="Sheet-1"/>
+</Component>
+</Component>
+</ResourcePool>
+<ResourceLinkPool>
+<ComponentLink Usage="Input" rRef="COMP_0000"/>
+<MediaLink Usage="Input" rRef="PAP_0000"/>
+<CuttingParamsLink Usage="Input" rRef="CPM_0000"/>
+<ComponentLink Usage="Output" rRef="A_OUT"/>
+<ComponentLink Usage="Output" rRef="B_OUT"/>
+</ResourceLinkPool>
+</JDF>
+</JDF>

@@ -15,5 +15,6 @@
         <file>data/jmfdocument2.jmf</file>
         <file>data/knowndevicesresponse.jmf</file>
         <file>data/knowndevicesresponse2.jmf</file>
+        <file>data/jdfwithpartitionedcomponents.jdf</file>
     </qresource>
 </RCC>

@@ -13,12 +13,19 @@ class CuttingParamsQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(CuttingParamsQmlWrapper)
     void updateCutBlocks();
+    void updateParts();
 
     static CutBlockQmlWrapper *cutBlockAt(QQmlListProperty<CutBlockQmlWrapper> *property, int index);
     static int cutBlocksCount(QQmlListProperty<CutBlockQmlWrapper> *property);
 
+    static CuttingParamsQmlWrapper *partAt(QQmlListProperty<CuttingParamsQmlWrapper> *property, int index);
+    static int partsCount(QQmlListProperty<CuttingParamsQmlWrapper> *property);
+
     QList<CutBlockQmlWrapper *> cutBlocks;
     QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> qmlCutBlocksList;
+
+    QList<CuttingParamsQmlWrapper *> parts;
+    QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper> qmlPartsList;
 };
 
 }
@@ -45,29 +52,37 @@ QQmlListProperty<CutBlockQmlWrapper> CuttingParamsQmlWrapper::cutBlocks()
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(CuttingParams)
 
-void CuttingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
+QQmlListProperty<CuttingParamsQmlWrapper> CuttingParamsQmlWrapper::parts()
 {
     Q_D(CuttingParamsQmlWrapper);
-    CuttingParamsSP cuttingParams = d->entity<CuttingParams>();
-    Q_ASSERT(cuttingParams);
+    return d->qmlPartsList;
+}
 
-    connect(cuttingParams.data(), &CuttingParams::cutBlocksChanged,
-            d->lambdaConnectContext, [d](){d->updateCutBlocks();});
+void CuttingParamsQmlWrapperPrivate::updateParts()
+{
+    Q_Q(CuttingParamsQmlWrapper);
+    CuttingParamsSP cuttingParams = entity<CuttingParams>();
+    for (CuttingParamsQmlWrapper *wrapper : parts)
+        wrapper->deleteLater();
 
-    d->updateCutBlocks();
+    parts.clear();
+    for (const CuttingParamsSP &part : cuttingParams->parts())
+        parts << part->toQmlWrapper(q);
 
-    CuttingParamsSP oldCuttingParams = qSharedPointerCast<CuttingParams>(old);
-    if (oldCuttingParams) {
-        bool equal = true;
-        for( int i = 0; i < cuttingParams->cutBlocks().count(); ++i ) {
-            if (cuttingParams->cutBlocks()[i]->blockName() != cuttingParams->cutBlocks()[i]->blockName()) {
-                equal = false;
-                break;
-            }
-        }
-        if (!equal)
-            emit cutBlocksChanged(cuttingParams->toQmlWrapper()->cutBlocks());
-    }
+    qmlPartsList = QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper>(q, &parts,
+                                                                        &CuttingParamsQmlWrapperPrivate::partsCount,
+                                                                        &CuttingParamsQmlWrapperPrivate::partAt);
+    emit q->partsChanged(qmlPartsList);
+}
+
+CuttingParamsQmlWrapper *CuttingParamsQmlWrapperPrivate::partAt(QQmlListProperty<CuttingParamsQmlWrapper> *property, int index)
+{
+    return static_cast<QList<CuttingParamsQmlWrapper *> *>(property->data)->at(index);
+}
+
+int CuttingParamsQmlWrapperPrivate::partsCount(QQmlListProperty<CuttingParamsQmlWrapper> *property)
+{
+    return static_cast<QList<CuttingParamsQmlWrapper *> *>(property->data)->count();
 }
 
 void CuttingParamsQmlWrapperPrivate::updateCutBlocks()
@@ -97,3 +112,30 @@ int CuttingParamsQmlWrapperPrivate::cutBlocksCount(QQmlListProperty<CutBlockQmlW
     return static_cast<QList<CutBlockQmlWrapper *> *>(property->data)->count();
 }
 
+void CuttingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
+{
+    Q_D(CuttingParamsQmlWrapper);
+    CuttingParamsSP cuttingParams = d->entity<CuttingParams>();
+    Q_ASSERT(cuttingParams);
+
+    connect(cuttingParams.data(), &CuttingParams::cutBlocksChanged,
+            d->lambdaConnectContext, [d](){d->updateCutBlocks();});
+    connect(cuttingParams.data(), &CuttingParams::partsChanged,
+            d->lambdaConnectContext, [d](){d->updateParts();});
+
+    d->updateCutBlocks();
+    d->updateParts();
+
+    CuttingParamsSP oldCuttingParams = qSharedPointerCast<CuttingParams>(old);
+    if (oldCuttingParams) {
+        bool equal = true;
+        for( int i = 0; i < cuttingParams->cutBlocks().count(); ++i ) {
+            if (cuttingParams->cutBlocks()[i]->blockName() != cuttingParams->cutBlocks()[i]->blockName()) {
+                equal = false;
+                break;
+            }
+        }
+        if (!equal)
+            emit cutBlocksChanged(cuttingParams->toQmlWrapper()->cutBlocks());
+    }
+}

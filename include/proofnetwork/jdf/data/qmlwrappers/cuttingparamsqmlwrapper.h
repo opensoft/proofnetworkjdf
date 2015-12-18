@@ -19,6 +19,7 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParamsQmlWrapper : public AbstractResource
     Q_OBJECT
 
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks READ cutBlocks NOTIFY cutBlocksChanged)
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper> parts READ parts NOTIFY partsChanged)
 
     Q_DECLARE_PRIVATE(CuttingParamsQmlWrapper)
 public:
@@ -27,9 +28,11 @@ public:
     PROOF_NDE_WRAPPER_TOOLS(CuttingParams)
 
     QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> cutBlocks();
+    QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper> parts();
 
 signals:
     void cutBlocksChanged(const QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> &cutBlocks);
+    void partsChanged(const QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper> &parts);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
