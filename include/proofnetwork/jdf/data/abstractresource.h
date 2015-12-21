@@ -21,7 +21,6 @@ public:
     QString id() const;
     ApiHelper::ResourceStatus resourceStatus() const;
     ApiHelper::ResourceClass resourceClass() const;
-    //TODO: add to qml wrapper
     QList<ApiHelper::ResourcePartType> partIdKeys() const;
 
     void setId(const QString &arg);
