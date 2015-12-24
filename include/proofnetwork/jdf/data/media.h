@@ -37,7 +37,7 @@ public:
     static MediaSP create();
 
     static MediaSP fromJdf(QXmlStreamReader &xmlReader);
-    void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
     MediaLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
 
 signals:

@@ -28,7 +28,7 @@ public:
     static LaminatingIntentSP create();
 
     static LaminatingIntentSP fromJdf(QXmlStreamReader &xmlReader);
-    void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
     LaminatingIntentLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
 
 signals:

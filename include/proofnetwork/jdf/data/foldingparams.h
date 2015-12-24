@@ -25,7 +25,7 @@ public:
     static FoldingParamsSP create();
 
     static FoldingParamsSP fromJdf(QXmlStreamReader &xmlReader);
-    void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
     FoldingParamsLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
 
 signals:
