@@ -131,6 +131,7 @@ typedef QSharedPointer<Notification> NotificationSP;
 typedef QWeakPointer<Notification> NotificationWP;
 
 }
+constexpr long NETWORK_JDF_MODULE_CODE = 304;
 }
 
 #endif // PROOFNETWORKJDF_TYPES_H
