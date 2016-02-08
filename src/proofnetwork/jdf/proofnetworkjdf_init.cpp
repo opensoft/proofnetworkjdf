@@ -114,6 +114,7 @@ static void libraryInit()
 
     qRegisterMetaType<Proof::Jdf::MessageSP>("Proof::Jdf::MessageSP");
     qRegisterMetaType<Proof::Jdf::MessageWP>("Proof::Jdf::MessageWP");
+    qRegisterMetaType<QList<Proof::Jdf::MessageSP>>("QList<Proof::Jdf::MessageSP>");
     qRegisterMetaType<Proof::Jdf::QuerySP>("Proof::Jdf::QuerySP");
     qRegisterMetaType<Proof::Jdf::QueryWP>("Proof::Jdf::QueryWP");
     qRegisterMetaType<Proof::Jdf::ResponseSP>("Proof::Jdf::ResponseSP");
