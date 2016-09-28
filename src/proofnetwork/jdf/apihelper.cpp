@@ -79,6 +79,11 @@ uint qHash(ApiHelper::NotificationClass arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }
+
+uint qHash(ApiHelper::SpanDataType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
 }
 }
 
@@ -333,6 +338,20 @@ static const QHash<QString, ApiHelper::NotificationClass> NOTIFICATION_CLASS_STR
     {"Fatal", ApiHelper::NotificationClass::FatalNotificationClass}
 };
 
+static const QHash<QString, ApiHelper::SpanDataType> SPAN_DATA_TYPE_STRINGIFIED = {
+    {"DurationSpan", ApiHelper::SpanDataType::DurationSpan},
+    {"EnumerationSpan", ApiHelper::SpanDataType::EnumerationSpan},
+    {"IntegerSpan", ApiHelper::SpanDataType::IntegerSpan},
+    {"NameSpan", ApiHelper::SpanDataType::NameSpan},
+    {"NumberSpan", ApiHelper::SpanDataType::NumberSpan},
+    {"OptionSpan", ApiHelper::SpanDataType::OptionSpan},
+    {"ShapeSpan", ApiHelper::SpanDataType::ShapeSpan},
+    {"StringSpan", ApiHelper::SpanDataType::StringSpan},
+    {"TimeSpan", ApiHelper::SpanDataType::TimeSpan},
+    {"XYPairSpan", ApiHelper::SpanDataType::XYPairSpan}
+};
+
+
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return RESOURCE_STATUS_STRINGIFIED.key(status, "");
@@ -547,4 +566,16 @@ ApiHelper::NotificationClass ApiHelper::notificationClassFromString(const QStrin
     if (ok != nullptr)
         *ok = NOTIFICATION_CLASS_STRINGIFIED.contains(notification);
     return NOTIFICATION_CLASS_STRINGIFIED.value(notification, NotificationClass::EventNotificationClass);
+}
+
+QString ApiHelper::spanDataTypeToString(ApiHelper::SpanDataType dataType)
+{
+    return SPAN_DATA_TYPE_STRINGIFIED.key(dataType, "");
+}
+
+ApiHelper::SpanDataType ApiHelper::spanDataTypeFromString(const QString &dataType, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = SPAN_DATA_TYPE_STRINGIFIED.contains(dataType);
+    return SPAN_DATA_TYPE_STRINGIFIED.value(dataType, SpanDataType::DurationSpan);
 }

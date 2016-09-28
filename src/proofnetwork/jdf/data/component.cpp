@@ -33,6 +33,11 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     QList<ComponentSP> parts;
 };
 
+ObjectsCache<JdfComponentDataKey, Component> &componentsCache()
+{
+    return WeakObjectsCache<JdfComponentDataKey, Component>::instance();
+}
+
 } // namespace Jdf
 } // namespace Proof
 
@@ -136,6 +141,16 @@ QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
         d->cutBlocks = arg;
         emit cutBlocksChanged();
     }
+    if (d->cutBlocks.count() > 0 && !partIdKeys().contains(ApiHelper::ResourcePartType::BlockNamePart)) {
+        QList<ApiHelper::ResourcePartType> partIdKeysOther = partIdKeys();
+        partIdKeysOther.append(ApiHelper::ResourcePartType::BlockNamePart);
+        setPartIdKeys(partIdKeysOther);
+    } else if (d->cutBlocks.count() == 0 && partIdKeys().contains(ApiHelper::ResourcePartType::BlockNamePart)) {
+        QList<ApiHelper::ResourcePartType> partIdKeysOther = partIdKeys();
+        partIdKeysOther.removeAll(ApiHelper::ResourcePartType::BlockNamePart);
+        setPartIdKeys(partIdKeysOther);
+    }
+
     return d->cutBlocks;
 }
 
@@ -167,9 +182,9 @@ ComponentQmlWrapper *Component::toQmlWrapper(QObject *parent) const
     return new ComponentQmlWrapper(castedSelf, parent);
 }
 
-ComponentSP Component::create()
+ComponentSP Component::create(const QString &id)
 {
-    ComponentSP result(new Component());
+    ComponentSP result(new Component(id));
     initSelfWeakPtr(result);
     return result;
 }
@@ -177,7 +192,6 @@ ComponentSP Component::create()
 ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     ComponentSP component = create();
-
     QList<CutBlockSP> cutBlocks;
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "Component" && xmlReader.isStartElement() && !component->isFetched()) {
@@ -260,6 +274,20 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 
     component->updateCutBlocks(cutBlocks);
 
+    ComponentSP componentFromCache = componentsCache().value({jobId, component->id()});
+    if (!component->id().isEmpty()) {
+        if (componentFromCache && !sanitize) {
+            componentFromCache->updateFrom(component);
+            component = componentFromCache;
+        } else {
+            componentFromCache = componentsCache().add({jobId, component->id()}, component);
+            if (component != componentFromCache) {
+                componentFromCache->updateFrom(component);
+                component = componentFromCache;
+            }
+        }
+    }
+
     return component;
 }
 
@@ -302,9 +330,10 @@ ComponentLinkSP Component::toLink(ApiHelper::Usage usage) const
     return link;
 }
 
-Component::Component()
+Component::Component(const QString &id)
     : AbstractPhysicalResource(*new ComponentPrivate)
 {
+    setId(id);
 }
 
 void ComponentPrivate::updateFrom(const NetworkDataEntitySP &other)
@@ -316,6 +345,7 @@ void ComponentPrivate::updateFrom(const NetworkDataEntitySP &other)
     q->setHeight(castedOther->height());
     q->setLength(castedOther->length());
     q->setBundle(castedOther->bundle());
+    q->setPartIdKeys(castedOther->partIdKeys());
     q->updateCutBlocks(castedOther->cutBlocks());
 
     AbstractPhysicalResourcePrivate::updateFrom(other);

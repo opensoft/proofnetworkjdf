@@ -5,12 +5,15 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofcore/objectscache.h"
 #include "proofnetwork/jdf/data/qmlwrappers/componentqmlwrapper.h"
 
 #include <QXmlStreamReader>
 
 namespace Proof {
 namespace Jdf {
+
+typedef QPair<QString, QString> JdfComponentDataKey;
 
 class ComponentPrivate;
 class PROOF_NETWORK_JDF_EXPORT Component : public AbstractPhysicalResource
@@ -37,7 +40,7 @@ public:
 
     ComponentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
 
-    static ComponentSP create();
+    static ComponentSP create(const QString &id = QString());
 
     static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
@@ -53,9 +56,11 @@ signals:
     void partsChanged();
 
 protected:
-    explicit Component();
+    explicit Component(const QString &id);
 
 };
+
+PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfComponentDataKey, Component> &componentsCache();
 
 }
 }

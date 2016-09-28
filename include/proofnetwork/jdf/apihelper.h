@@ -300,6 +300,19 @@ public:
         FatalNotificationClass
     };
 
+    enum class SpanDataType {
+        DurationSpan,
+        EnumerationSpan,
+        IntegerSpan,
+        NameSpan,
+        NumberSpan,
+        OptionSpan,
+        ShapeSpan,
+        StringSpan,
+        TimeSpan,
+        XYPairSpan
+    };
+
     static QString resourceStatusToString(ResourceStatus status);
     static ResourceStatus resourceStatusFromString(const QString &status, bool *ok = nullptr);
 
@@ -351,6 +364,9 @@ public:
 
     static QString notificationClassToString(NotificationClass notification);
     static NotificationClass notificationClassFromString(const QString &notification, bool *ok = nullptr);
+
+    static QString spanDataTypeToString(ApiHelper::SpanDataType dataType);
+    static SpanDataType spanDataTypeFromString(const QString &dataType, bool *ok = nullptr);
 };
 
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ResourceStatus arg, uint seed = 0);
@@ -369,6 +385,7 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceFilterDetails arg, uint see
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceStatus arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceCondition arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::NotificationClass arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::SpanDataType arg, uint seed = 0);
 
 }
 }

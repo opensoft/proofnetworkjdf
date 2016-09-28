@@ -6,6 +6,9 @@
 #include "data/resourcepool.h"
 #include "data/media.h"
 #include "data/laminatingintent.h"
+#include "data/deliveryintent.h"
+#include "data/dropintent.h"
+#include "data/dropitemintent.h"
 #include "data/component.h"
 #include "data/bundle.h"
 #include "data/jdfdocument.h"
@@ -26,6 +29,7 @@
 #include "data/foldingparamslink.h"
 #include "data/medialink.h"
 #include "data/laminatingintentlink.h"
+#include "data/deliveryintentlink.h"
 #include "data/componentlink.h"
 #include "data/resourcelinkpool.h"
 
@@ -47,6 +51,9 @@ static void libraryInit()
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>>("QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>");
     qRegisterMetaType<Proof::Jdf::MediaQmlWrapper *>("Proof::Jdf::MediaQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentQmlWrapper *>("Proof::Jdf::LaminatingIntentQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::DeliveryIntentQmlWrapper *>("Proof::Jdf::DeliveryIntentQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::DropIntentQmlWrapper *>("Proof::Jdf::DropIntentQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::DropItemIntentQmlWrapper *>("Proof::Jdf::DropItemIntentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ComponentQmlWrapper *>("Proof::Jdf::ComponentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::FoldingParamsQmlWrapper *>("Proof::Jdf::FoldingParamsQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfNodeQmlWrapper *>("Proof::Jdf::JdfNodeQmlWrapper *");
@@ -55,6 +62,7 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::CuttingParamsLinkQmlWrapper *>("Proof::Jdf::CuttingParamsLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::MediaLinkQmlWrapper *>("Proof::Jdf::MediaLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkQmlWrapper *>("Proof::Jdf::LaminatingIntentLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::DeliveryIntentLinkQmlWrapper *>("Proof::Jdf::DeliveryIntentLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ComponentLinkQmlWrapper *>("Proof::Jdf::ComponentLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::FoldingParamsLinkQmlWrapper *>("Proof::Jdf::FoldingParamsLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
@@ -77,6 +85,12 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::MediaWP>("Proof::Jdf::MediaWP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentSP>("Proof::Jdf::LaminatingIntentSP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentWP>("Proof::Jdf::LaminatingIntentWP");
+    qRegisterMetaType<Proof::Jdf::DeliveryIntentSP>("Proof::Jdf::DeliveryIntentSP");
+    qRegisterMetaType<Proof::Jdf::DeliveryIntentWP>("Proof::Jdf::DeliveryIntentWP");
+    qRegisterMetaType<Proof::Jdf::DropIntentSP>("Proof::Jdf::DropIntentSP");
+    qRegisterMetaType<Proof::Jdf::DropIntentWP>("Proof::Jdf::DropIntentWP");
+    qRegisterMetaType<Proof::Jdf::DropItemIntentSP>("Proof::Jdf::DropItemIntentSP");
+    qRegisterMetaType<Proof::Jdf::DropItemIntentWP>("Proof::Jdf::DropItemIntentWP");
     qRegisterMetaType<Proof::Jdf::ComponentSP>("Proof::Jdf::ComponentSP");
     qRegisterMetaType<Proof::Jdf::ComponentWP>("Proof::Jdf::ComponentWP");
     qRegisterMetaType<Proof::Jdf::BundleSP>("Proof::Jdf::BundleSP");
@@ -90,6 +104,8 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::MediaLinkWP>("Proof::Jdf::MediaLinkWP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkSP>("Proof::Jdf::LaminatingIntentLinkSP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkWP>("Proof::Jdf::LaminatingIntentLinkWP");
+    qRegisterMetaType<Proof::Jdf::DeliveryIntentLinkSP>("Proof::Jdf::DeliveryIntentLinkSP");
+    qRegisterMetaType<Proof::Jdf::DeliveryIntentLinkWP>("Proof::Jdf::DeliveryIntentLinkWP");
     qRegisterMetaType<Proof::Jdf::ComponentLinkSP>("Proof::Jdf::ComponentLinkSP");
     qRegisterMetaType<Proof::Jdf::ComponentLinkWP>("Proof::Jdf::ComponentLinkWP");
     qRegisterMetaType<Proof::Jdf::ResourceLinkPoolSP>("Proof::Jdf::ResourceLinkPoolSP");

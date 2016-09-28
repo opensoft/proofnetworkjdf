@@ -22,6 +22,7 @@ public:
     CuttingParamsLinkSP cuttingParamsLink() const;
     MediaLinkSP mediaLink() const;
     LaminatingIntentLinkSP laminatingIntentLink() const;
+    DeliveryIntentLinkSP deliveryIntentLink() const;
     FoldingParamsLinkSP foldingParamsLink() const;
 
     void setComponentLinks(const QList<ComponentLinkSP> &componentLinks);
@@ -29,6 +30,7 @@ public:
     void setCuttingParamsLink(const CuttingParamsLinkSP &cuttingParams);
     void setMediaLink(const MediaLinkSP &mediaLink);
     void setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent);
+    void setDeliveryIntentLink(const DeliveryIntentLinkSP &deliveryIntent);
     void setFoldingParamsLink(const FoldingParamsLinkSP &foldingParamsLink);
 
     ResourceLinkPoolQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
@@ -43,6 +45,7 @@ signals:
     void cuttingParamsLinkChanged(const Proof::Jdf::CuttingParamsLinkSP &arg);
     void mediaLinkChanged(const Proof::Jdf::MediaLinkSP &arg);
     void laminatingIntentLinkChanged(const Proof::Jdf::LaminatingIntentLinkSP &arg);
+    void deliveryIntentLinkChanged(const Proof::Jdf::DeliveryIntentLinkSP &arg);
     void foldingParamsLinkChanged(const Proof::Jdf::FoldingParamsLinkSP &arg);
 
 protected:

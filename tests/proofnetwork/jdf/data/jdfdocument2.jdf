@@ -7,6 +7,14 @@
       FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper"
       MediaUnit="Roll" Status="Available" Thickness="171.7200"/>
       <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
+      <DeliveryIntent Class="Intent" ID="DI_0000" Status="Available">
+          <DropIntent>
+              <Required DataType="TimeSpan" Actual="2014-08-26T08:35:28-11:00" />
+              <DropItemIntent>
+                  <ComponentRef rRef="B_OUT" />
+              </DropItemIntent>
+          </DropIntent>
+      </DeliveryIntent>
     <Component Amount="100" Class="Quantity" ComponentType="Sheet"
       Dimensions="1329.44882 963.77953 0.0"
       ID="061106-00002_1_Comp00001" IsWaste="false" Status="Unavailable"/>

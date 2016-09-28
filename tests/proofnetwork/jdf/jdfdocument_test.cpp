@@ -10,6 +10,9 @@
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
+#include "proofnetwork/jdf/data/deliveryintent.h"
+#include "proofnetwork/jdf/data/dropintent.h"
+#include "proofnetwork/jdf/data/dropitemintent.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
 #include "proofnetwork/jdf/data/medialink.h"
 #include "proofnetwork/jdf/data/laminatingintentlink.h"
@@ -37,21 +40,25 @@ protected:
         ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml(&file);
         jdfDocUT = JdfDocument::fromJdf(xml);
+        ASSERT_TRUE(jdfDocUT);
 
         QFile file2(":/data/jdfdocument2.jdf");
         ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml2(&file2);
         jdfDocUT2 = JdfDocument::fromJdf(xml2);
+        ASSERT_TRUE(jdfDocUT2);
 
         QFile file3(":/data/jdfnested.jdf");
         ASSERT_TRUE(file3.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml3(&file3);
         jdfDocUT3 = JdfDocument::fromJdf(xml3);
+        ASSERT_TRUE(jdfDocUT3);
 
         QFile file4(":/data/jdfwithpartitionedcomponents.jdf");
         ASSERT_TRUE(file4.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml4(&file4);
         jdfDocUT4 = JdfDocument::fromJdf(xml4);
+        ASSERT_TRUE(jdfDocUT4);
 
         qmlWrapperUT = jdfDocUT->toQmlWrapper();
     }
@@ -96,6 +103,12 @@ TEST_F(JdfDocumentTest, fromJdf)
 
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
+    EXPECT_EQ("A_OUT", component2->id());
+    EXPECT_EQ("Block", ApiHelper::componentTypeToString(component2->componentType()));
+    EXPECT_DOUBLE_EQ(432.0, component2->width());
+    EXPECT_DOUBLE_EQ(288.0, component2->height());
+    EXPECT_DOUBLE_EQ(0.4896, component2->length());
+
     EXPECT_EQ(15, component2->cutBlocks().count());
 
     EXPECT_EQ(1, component2->partIdKeys().count());
@@ -143,12 +156,25 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("LI_0000", laminatingIntent->id());
     EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
     EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
+
+    DeliveryIntentSP deliveryIntent = resourcePool->deliveryIntent();
+    ASSERT_TRUE(deliveryIntent);
+    EXPECT_EQ("DI_0000", deliveryIntent->id());
+
+    ASSERT_TRUE(deliveryIntent->dropIntents().count());
+    DropIntentSP dropIntent = deliveryIntent->dropIntents().first();
+    ASSERT_TRUE(dropIntent);
+    EXPECT_EQ(QDateTime::fromString(QString("2014-08-26T08:35:28-07:00"), Qt::ISODate), dropIntent->required().actual());
+
+    DropItemIntentSP dropItemIntent = dropIntent->dropItemIntents().first();
+    ASSERT_TRUE(dropItemIntent);
+    EXPECT_EQ("A_OUT", dropItemIntent->component()->id());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 {
     EXPECT_EQ("JDF_0000", jdfDocUT3->id());
-    EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT3->jobId());
+    EXPECT_EQ("mixed-flatwork (groups)_2", jdfDocUT3->jobId());
     EXPECT_EQ("ID0001", jdfDocUT3->jobPartId());
 
     ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
@@ -258,7 +284,7 @@ TEST_F(JdfDocumentTest, fromJdfWithPartitionedComponents)
 
     EXPECT_EQ(1000u, component->amount());
 
-    EXPECT_EQ(1, component->parts().count());
+    ASSERT_TRUE(component->parts().count());
     EXPECT_EQ(1, component->parts().first()->parts().count());
     EXPECT_DOUBLE_EQ(2016, component->parts().first()->parts().first()->width());
     EXPECT_DOUBLE_EQ(1440, component->parts().first()->parts().first()->height());
@@ -356,6 +382,20 @@ TEST_F(JdfDocumentTest, updateFrom)
     ASSERT_TRUE(laminatingIntent2);
     EXPECT_EQ(laminatingIntent1->id(), laminatingIntent2->id());
     EXPECT_EQ(laminatingIntent1->surface(), laminatingIntent2->surface());
+
+    DeliveryIntentSP deliveryIntent1 = resourcePool->deliveryIntent();
+    ASSERT_TRUE(deliveryIntent1);
+    DeliveryIntentSP  deliveryIntent2 = resourcePool2->deliveryIntent();
+    ASSERT_TRUE(deliveryIntent2);
+    EXPECT_EQ(deliveryIntent1->required(), deliveryIntent2->required());
+    ASSERT_TRUE(deliveryIntent1->dropIntents().count());
+    DropIntentSP dropIntent1 = deliveryIntent1->dropIntents().first();
+    ASSERT_TRUE(dropIntent1);
+    ASSERT_TRUE(deliveryIntent2->dropIntents().count());
+    DropIntentSP dropIntent2 = deliveryIntent2->dropIntents().first();
+    ASSERT_TRUE(dropIntent2);
+
+    EXPECT_EQ(dropIntent1->required().actual(), dropIntent2->required().actual());
 }
 
 TEST_F(JdfDocumentTest, documentToJdf)
@@ -369,6 +409,9 @@ TEST_F(JdfDocumentTest, documentToJdf)
     bool hasResourcePool = false;
     bool hasMedia = false;
     bool hasLaminatingIntent = false;
+    bool hasDeliveryIntent = false;
+    bool hasRequired = false;
+    bool hasComponentRef = false;
     QString id;
     QString jobId;
     QString jobPartId;
@@ -435,6 +478,18 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("ID").toString(), "LI_0000");
                 EXPECT_EQ(attributes.value("Surface").toString(), "Both");
+            } else if (hasResourcePool && reader.name() == "DeliveryIntent") {
+                hasDeliveryIntent = true;
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ("DI_0000", attributes.value("ID").toString());
+            } else if (hasResourcePool && reader.name() == "Required") {
+                hasRequired = true;
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(attributes.value("Actual").toString(), "2014-08-26T08:35:28-07:00");
+            } else if (hasResourcePool && reader.name() == "ComponentRef") {
+                hasComponentRef = true;
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ(attributes.value("rRef").toString(), "A_OUT");
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
@@ -464,6 +519,9 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_EQ("COMP_0000", cutProcessId);
     EXPECT_TRUE(hasMedia);
     EXPECT_TRUE(hasLaminatingIntent);
+    EXPECT_TRUE(hasDeliveryIntent);
+    EXPECT_TRUE(hasRequired);
+    EXPECT_TRUE(hasComponentRef);
     EXPECT_EQ(23u, cutBlocksCount);
 }
 

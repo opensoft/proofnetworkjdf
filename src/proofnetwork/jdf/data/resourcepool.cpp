@@ -4,6 +4,7 @@
 #include "cuttingparams.h"
 #include "media.h"
 #include "laminatingintent.h"
+#include "deliveryintent.h"
 #include "cutblock.h"
 #include "foldingparams.h"
 #include "proofnetwork/networkdataentity_p.h"
@@ -17,7 +18,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 
     ResourcePoolPrivate()
     {
-        registerChildren(components, cuttingParams, media, laminatingIntent, foldingParams);
+        registerChildren(components, cuttingParams, media, laminatingIntent, deliveryIntent, foldingParams);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
@@ -26,6 +27,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
     CuttingParamsSP cuttingParams = CuttingParams::create();
     MediaSP media = Media::create();
     LaminatingIntentSP laminatingIntent = LaminatingIntent::create();
+    DeliveryIntentSP deliveryIntent = DeliveryIntent::create();
     FoldingParamsSP foldingParams = FoldingParams::create();
 };
 
@@ -66,6 +68,12 @@ LaminatingIntentSP ResourcePool::laminatingIntent() const
 {
     Q_D(const ResourcePool);
     return d->laminatingIntent;
+}
+
+DeliveryIntentSP ResourcePool::deliveryIntent() const
+{
+    Q_D(const ResourcePool);
+    return d->deliveryIntent;
 }
 
 FoldingParamsSP ResourcePool::foldingParams() const
@@ -113,6 +121,13 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                     return ResourcePoolSP();
                 }
                 resourcePool->setLaminatingIntent(laminatingIntent);
+            } else if (xmlReader.name() == "DeliveryIntent") {
+                DeliveryIntentSP deliveryIntent = DeliveryIntent::fromJdf(xmlReader, jobId, sanitize);
+                if (!deliveryIntent) {
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. DeliveryIntent is invalid.";
+                    return ResourcePoolSP();
+                }
+                resourcePool->setDeliveryIntent(deliveryIntent);
             } else if (xmlReader.name() == "Component") {
                 ComponentSP component = Component::fromJdf(xmlReader, jobId, sanitize);
                 if (!component) {
@@ -163,6 +178,9 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 
     if (isValidAndDirty(d->laminatingIntent))
         d->laminatingIntent->toJdf(jdfWriter);
+
+    if (isValidAndDirty(d->deliveryIntent))
+        d->deliveryIntent->toJdf(jdfWriter);
 
     if (isValidAndDirty(d->cuttingParams))
         d->cuttingParams->toJdf(jdfWriter);
@@ -220,11 +238,23 @@ void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingInten
 {
     Q_ASSERT(laminatingIntent);
     Q_D(ResourcePool);
-    if (laminatingIntent == nullptr)
+    if (laminatingIntent == nullptr) {
         setLaminatingIntent(LaminatingIntent::create());
-    else if (d->laminatingIntent != laminatingIntent) {
+    } else if (d->laminatingIntent != laminatingIntent) {
         d->laminatingIntent = laminatingIntent;
         emit laminatingIntentChanged(d->laminatingIntent);
+    }
+}
+
+void ResourcePool::setDeliveryIntent(const DeliveryIntentSP &arg)
+{
+    Q_ASSERT(arg);
+    Q_D(ResourcePool);
+    if (arg == nullptr) {
+        setDeliveryIntent(DeliveryIntent::create());
+    } else if (d->deliveryIntent != arg) {
+        d->deliveryIntent = arg;
+        emit deliveryIntentChanged(d->deliveryIntent);
     }
 }
 
@@ -247,6 +277,8 @@ void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
     q->setComponents(castedOther->components());
     q->setCuttingParams(castedOther->cuttingParams());
     q->setMedia(castedOther->media());
+    q->setLaminatingIntent(castedOther->laminatingIntent());
+    q->setDeliveryIntent(castedOther->deliveryIntent());
     q->setFoldingParams(castedOther->foldingParams());
 
     NetworkDataEntityPrivate::updateFrom(other);

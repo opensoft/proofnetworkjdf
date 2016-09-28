@@ -49,6 +49,18 @@ class LaminatingIntent;
 typedef QSharedPointer<LaminatingIntent> LaminatingIntentSP;
 typedef QWeakPointer<LaminatingIntent> LaminatingIntentWP;
 
+class DeliveryIntent;
+typedef QSharedPointer<DeliveryIntent> DeliveryIntentSP;
+typedef QWeakPointer<DeliveryIntent> DeliveryIntentWP;
+
+class DropIntent;
+typedef QSharedPointer<DropIntent> DropIntentSP;
+typedef QWeakPointer<DropIntent> DropIntentWP;
+
+class DropItemIntent;
+typedef QSharedPointer<DropItemIntent> DropItemIntentSP;
+typedef QWeakPointer<DropItemIntent> DropItemIntentWP;
+
 class Component;
 typedef QSharedPointer<Component> ComponentSP;
 typedef QWeakPointer<Component> ComponentWP;
@@ -85,10 +97,13 @@ class LaminatingIntentLink;
 typedef QSharedPointer<LaminatingIntentLink> LaminatingIntentLinkSP;
 typedef QWeakPointer<LaminatingIntentLink> LaminatingIntentLinkWP;
 
+class DeliveryIntentLink;
+typedef QSharedPointer<DeliveryIntentLink> DeliveryIntentLinkSP;
+typedef QWeakPointer<DeliveryIntentLink> DeliveryIntentLinkWP;
+
 class ComponentLink;
 typedef QSharedPointer<ComponentLink> ComponentLinkSP;
 typedef QWeakPointer<ComponentLink> ComponentLinkWP;
-
 
 class FoldingParamsLink;
 typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;

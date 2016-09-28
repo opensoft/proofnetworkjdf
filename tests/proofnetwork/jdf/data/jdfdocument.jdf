@@ -4,10 +4,18 @@
 <AuditPool>
 <Created AgentName="Metrix" AgentVersion="2013.0 (1050)" ID="AUD_0000" TimeStamp="2014-08-26T08:35:28-07:00"/>
 </AuditPool>
-<JDF DescriptiveName="Layout 1" ID="LAYOUT_0001" Status="Waiting" Type="Cutting">
+<JDF DescriptiveName="Layout 1" ID="LAYOUT_0001" Status="Waiting" Type="Cutting" JobID="mixed-flatwork (groups)">
 <ResourcePool>
 <Media BackCoatings="None" Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200"/>
 <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
+<DeliveryIntent Class="Intent" ID="DI_0000" Status="Available">
+    <DropIntent>
+        <Required DataType="TimeSpan" Actual="2014-08-26T08:35:28-07:00" />
+        <DropItemIntent>
+            <ComponentRef rRef="A_OUT" />
+        </DropItemIntent>
+    </DropIntent>
+</DeliveryIntent>
 <Component Amount="1000" Class="Quantity" ComponentType="Sheet" Dimensions="2520.0000 1656.0000 0.4896" ID="COMP_0000" IsWaste="false" Status="Available"/>
 <CuttingParams Class="Parameter" ID="CPM_0000" Status="Available">
 <CutBlock BlockName="A-1" BlockSize="432.0000 288.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 54.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="A-1_BLK" Status="Available"/>
