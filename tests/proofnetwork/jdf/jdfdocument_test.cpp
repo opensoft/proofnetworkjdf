@@ -576,7 +576,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
             } else if (hasResourcePool && reader.name() == "Required") {
                 hasRequired = true;
                 QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("Actual").toString(), "2014-08-26T08:35:28-07:00");
+                EXPECT_EQ(attributes.value("Actual").toString(), "2014-08-26T15:35:28Z");
             } else if (hasResourcePool && reader.name() == "ComponentRef") {
                 hasComponentRef = true;
                 QXmlStreamAttributes attributes = reader.attributes();

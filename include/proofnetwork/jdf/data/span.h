@@ -82,7 +82,7 @@ private:
 
     void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, const QDateTime &data)
     {
-        jdfWriter.writeAttribute(name, data.toString(Qt::ISODate));
+        jdfWriter.writeAttribute(name, data.toUTC().toString(Qt::ISODate));
     }
 
     T readAttribute(const QStringRef &attribute);
