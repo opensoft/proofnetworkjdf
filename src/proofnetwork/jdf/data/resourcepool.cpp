@@ -3,6 +3,7 @@
 #include "component.h"
 #include "cuttingparams.h"
 #include "media.h"
+#include "layout.h"
 #include "laminatingintent.h"
 #include "deliveryintent.h"
 #include "cutblock.h"
@@ -18,14 +19,15 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 
     ResourcePoolPrivate()
     {
-        registerChildren(components, cuttingParams, media, laminatingIntent, deliveryIntent, foldingParams);
+        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QList<ComponentSP> components;
     CuttingParamsSP cuttingParams = CuttingParams::create();
-    MediaSP media = Media::create();
+    QList<MediaSP> media;
+    QList<LayoutSP> layouts;
     LaminatingIntentSP laminatingIntent = LaminatingIntent::create();
     DeliveryIntentSP deliveryIntent = DeliveryIntent::create();
     FoldingParamsSP foldingParams = FoldingParams::create();
@@ -58,7 +60,7 @@ CuttingParamsSP ResourcePool::cuttingParams() const
     return d->cuttingParams;
 }
 
-MediaSP ResourcePool::media() const
+QList<MediaSP> ResourcePool::media() const
 {
     Q_D(const ResourcePool);
     return d->media;
@@ -82,6 +84,12 @@ FoldingParamsSP ResourcePool::foldingParams() const
     return d->foldingParams;
 }
 
+QList<LayoutSP> ResourcePool::layouts() const
+{
+    Q_D(const ResourcePool);
+    return d->layouts;
+}
+
 ResourcePoolQmlWrapper *ResourcePool::toQmlWrapper(QObject *parent) const
 {
     Q_D(const ResourcePool);
@@ -101,7 +109,9 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
 {
     ResourcePoolSP resourcePool = create();
 
-    QList<ComponentSP> components;
+    QList<ComponentSP> componentsList;
+    QList<MediaSP> mediaList;
+    QList<LayoutSP> layoutsList;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "ResourcePool" && xmlReader.isStartElement() && !resourcePool->isFetched()) {
@@ -113,7 +123,14 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                     qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Media is invalid.";
                     return ResourcePoolSP();
                 }
-                resourcePool->setMedia(media);
+                mediaList << media;
+            } else if (xmlReader.name() == "Layout") {
+                LayoutSP layout = Layout::fromJdf(xmlReader);
+                if (!layout) {
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Layout is invalid.";
+                    return ResourcePoolSP();
+                }
+                layoutsList << layout;
             } else if (xmlReader.name() == "LaminatingIntent") {
                 LaminatingIntentSP laminatingIntent = LaminatingIntent::fromJdf(xmlReader);
                 if (!laminatingIntent) {
@@ -134,7 +151,7 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                     qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Component is invalid.";
                     return ResourcePoolSP();
                 }
-                components.append(component);
+                componentsList.append(component);
             } else if (xmlReader.name() == "CuttingParams") {
                 CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jobId, sanitize);
                 if (!cuttingParams) {
@@ -158,7 +175,9 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
         xmlReader.readNext();
     }
 
-    resourcePool->setComponents(components);
+    resourcePool->setComponents(componentsList);
+    resourcePool->setMedia(mediaList);
+    resourcePool->setLayouts(layoutsList);
 
     return resourcePool;
 }
@@ -173,8 +192,16 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
         if (isValidAndDirty(component))
             component->toJdf(jdfWriter);
     }
-    if (isValidAndDirty(d->media))
-        d->media->toJdf(jdfWriter);
+
+    for (const MediaSP &media : d->media) {
+        if (isValidAndDirty(media))
+            media->toJdf(jdfWriter);
+    }
+
+    for (const LayoutSP &layout : d->layouts) {
+        if (isValidAndDirty(layout))
+            layout->toJdf(jdfWriter);
+    }
 
     if (isValidAndDirty(d->laminatingIntent))
         d->laminatingIntent->toJdf(jdfWriter);
@@ -222,16 +249,25 @@ void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
     }
 }
 
-void ResourcePool::setMedia(const MediaSP &media)
+void ResourcePool::setMedia(const QList<MediaSP> &arg)
 {
-    Q_ASSERT(media);
     Q_D(ResourcePool);
-    if (media == nullptr)
-        setMedia(Media::create());
-    else if (d->media != media) {
-        d->media = media;
-        emit mediaChanged(d->media);
+    bool emitNeeded = arg.count() != d->media.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->id() != d->media[i]->id();
+    if (emitNeeded) {
+        d->media = arg;
+        emit mediaChanged();
     }
+}
+
+void ResourcePool::addMedia(const MediaSP &arg)
+{
+    Q_D(ResourcePool);
+    if (!arg)
+        return;
+    d->media << arg;
+    emit mediaChanged();
 }
 
 void ResourcePool::setLaminatingIntent(const LaminatingIntentSP &laminatingIntent)
@@ -270,6 +306,27 @@ void ResourcePool::setFoldingParams(const FoldingParamsSP &foldingParams)
     }
 }
 
+void ResourcePool::setLayouts(const QList<LayoutSP> &arg)
+{
+    Q_D(ResourcePool);
+    bool emitNeeded = arg.count() != d->layouts.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->id() != d->layouts[i]->id();
+    if (emitNeeded) {
+        d->layouts = arg;
+        emit layoutsChanged();
+    }
+}
+
+void ResourcePool::addLayout(const LayoutSP &arg)
+{
+    Q_D(ResourcePool);
+    if (!arg)
+        return;
+    d->layouts << arg;
+    emit layoutsChanged();
+}
+
 void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
     Q_Q(ResourcePool);
@@ -280,6 +337,7 @@ void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
     q->setLaminatingIntent(castedOther->laminatingIntent());
     q->setDeliveryIntent(castedOther->deliveryIntent());
     q->setFoldingParams(castedOther->foldingParams());
+    q->setLayouts(castedOther->layouts());
 
     NetworkDataEntityPrivate::updateFrom(other);
 }

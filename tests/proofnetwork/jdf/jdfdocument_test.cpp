@@ -9,6 +9,7 @@
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/layout.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/jdf/data/deliveryintent.h"
 #include "proofnetwork/jdf/data/dropintent.h"
@@ -138,7 +139,8 @@ TEST_F(JdfDocumentTest, fromJdf)
         EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock->blockType());
     }
 
-    MediaSP media = resourcePool->media();
+    ASSERT_EQ(2, resourcePool->media().count());
+    MediaSP media = resourcePool->media()[0];
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
@@ -146,9 +148,53 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ(ApiHelper::CoatingType::NoneCoating, media->backCoating());
     EXPECT_EQ(ApiHelper::CoatingType::HighGlossCoating, media->frontCoating());
     EXPECT_EQ(ApiHelper::MediaUnit::SheetMediaUnit, media->mediaUnit());
+    EXPECT_EQ(ApiHelper::MediaType::PaperMedia, media->mediaType());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
+
+    media = resourcePool->media()[1];
+    ASSERT_TRUE(media);
+
+    EXPECT_EQ("PAP_0001", media->id());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::MediaType::PlateMedia, media->mediaType());
+    EXPECT_DOUBLE_EQ(2620.0, media->width());
+    EXPECT_DOUBLE_EQ(1756.0, media->height());
+
+    ASSERT_EQ(1, resourcePool->layouts().count());
+    LayoutSP layout = resourcePool->layouts()[0];
+    ASSERT_TRUE(layout);
+    EXPECT_EQ("Layout1", layout->id());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, layout->resourceStatus());
+
+    ASSERT_EQ(3, layout->media().count());
+    media = layout->media()[0];
+    ASSERT_TRUE(media);
+
+    EXPECT_EQ("PAP_0002", media->id());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::MediaType::PaperMedia, media->mediaType());
+    EXPECT_DOUBLE_EQ(2521.0, media->width());
+    EXPECT_DOUBLE_EQ(1657.0, media->height());
+
+    media = layout->media()[1];
+    ASSERT_TRUE(media);
+
+    EXPECT_EQ("PAP_0003", media->id());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::MediaType::PlateMedia, media->mediaType());
+    EXPECT_DOUBLE_EQ(2621.0, media->width());
+    EXPECT_DOUBLE_EQ(1757.0, media->height());
+
+    media = layout->media()[2];
+    ASSERT_TRUE(media);
+
+    EXPECT_EQ("PAP_0004", media->id());
+    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(ApiHelper::MediaType::OtherMedia, media->mediaType());
+    EXPECT_DOUBLE_EQ(2721.0, media->width());
+    EXPECT_DOUBLE_EQ(1857.0, media->height());
 
     LaminatingIntentSP laminatingIntent = resourcePool->laminatingIntent();
     ASSERT_TRUE(laminatingIntent);
@@ -189,7 +235,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     EXPECT_EQ(3, resourcePool->components().count());
 
-    MediaSP media = resourcePool->media();
+    ASSERT_EQ(1, resourcePool->media().count());
+    MediaSP media = resourcePool->media().first();
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_1234", media->id());
@@ -364,14 +411,17 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_EQ(cutBlock->transformationMatrix(), cutBlock2->transformationMatrix());
     EXPECT_EQ(cutBlock->blockType(), cutBlock2->blockType());
 
-    MediaSP media1 = resourcePool->media();
+    ASSERT_EQ(1, resourcePool->media().count());
+    MediaSP media1 = resourcePool->media().first();
     ASSERT_TRUE(media1);
-    MediaSP media2 = resourcePool2->media();
+    ASSERT_EQ(1, resourcePool2->media().count());
+    MediaSP media2 = resourcePool2->media().first();
     ASSERT_TRUE(media2);
     EXPECT_EQ(media1->id(), media2->id());
     EXPECT_EQ(media1->backCoating(), media2->backCoating());
     EXPECT_EQ(media1->frontCoating(), media2->frontCoating());
     EXPECT_EQ(media1->mediaUnit(), media2->mediaUnit());
+    EXPECT_EQ(media1->mediaType(), media2->mediaType());
     EXPECT_DOUBLE_EQ(media1->width(), media2->width());
     EXPECT_DOUBLE_EQ(media1->height(), media2->height());
     EXPECT_DOUBLE_EQ(media1->thickness(), media2->thickness());
@@ -407,7 +457,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
 
     bool hasJdfProductElement = false;
     bool hasResourcePool = false;
-    bool hasMedia = false;
+    int mediaCount = 0;
+    bool hasLayout = false;
     bool hasLaminatingIntent = false;
     bool hasDeliveryIntent = false;
     bool hasRequired = false;
@@ -459,20 +510,60 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("Amount").toInt(), 42);
             } else if (hasResourcePool && reader.name() == "Media") {
-                hasMedia = true;
+                ++mediaCount;
                 QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("ID").toString(), "PAP_0000");
-                EXPECT_EQ(attributes.value("FrontCoatings").toString(), "HighGloss");
-                EXPECT_EQ(attributes.value("BackCoatings").toString(), "None");
-                EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
-                QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-
-                ASSERT_EQ(dimensionsList.count(),2);
-                double widthMedia = dimensionsList.at(0).toDouble();
-                double heightMedia = dimensionsList.at(1).toDouble();
-                EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
-                EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
-                EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
+                QString mediaId = attributes.value("ID").toString();
+                if (mediaId == "PAP_0000") {
+                    EXPECT_EQ(attributes.value("FrontCoatings").toString(), "HighGloss");
+                    EXPECT_EQ(attributes.value("BackCoatings").toString(), "");
+                    EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
+                    EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
+                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                    ASSERT_EQ(dimensionsList.count(), 2);
+                    double widthMedia = dimensionsList.at(0).toDouble();
+                    double heightMedia = dimensionsList.at(1).toDouble();
+                    EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
+                    EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
+                    EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
+                } else if (mediaId == "PAP_0001") {
+                    EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
+                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                    ASSERT_EQ(dimensionsList.count(), 2);
+                    double widthMedia = dimensionsList.at(0).toDouble();
+                    double heightMedia = dimensionsList.at(1).toDouble();
+                    EXPECT_DOUBLE_EQ(widthMedia, 2620.0000);
+                    EXPECT_DOUBLE_EQ(heightMedia, 1756.0000);
+                } else if (mediaId == "PAP_0002") {
+                    EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
+                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                    ASSERT_EQ(dimensionsList.count(), 2);
+                    double widthMedia = dimensionsList.at(0).toDouble();
+                    double heightMedia = dimensionsList.at(1).toDouble();
+                    EXPECT_DOUBLE_EQ(widthMedia, 2521.0000);
+                    EXPECT_DOUBLE_EQ(heightMedia, 1657.0000);
+                } else if (mediaId == "PAP_0003") {
+                    EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
+                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                    ASSERT_EQ(dimensionsList.count(), 2);
+                    double widthMedia = dimensionsList.at(0).toDouble();
+                    double heightMedia = dimensionsList.at(1).toDouble();
+                    EXPECT_DOUBLE_EQ(widthMedia, 2621.0000);
+                    EXPECT_DOUBLE_EQ(heightMedia, 1757.0000);
+                } else if (mediaId == "PAP_0004") {
+                    EXPECT_EQ(attributes.value("MediaType").toString(), "Other");
+                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                    ASSERT_EQ(dimensionsList.count(), 2);
+                    double widthMedia = dimensionsList.at(0).toDouble();
+                    double heightMedia = dimensionsList.at(1).toDouble();
+                    EXPECT_DOUBLE_EQ(widthMedia, 2721.0000);
+                    EXPECT_DOUBLE_EQ(heightMedia, 1857.0000);
+                } else {
+                    EXPECT_TRUE(false);
+                }
+            } else if (hasResourcePool && reader.name() == "Layout") {
+                hasLayout = true;
+                QXmlStreamAttributes attributes = reader.attributes();
+                EXPECT_EQ("Layout1", attributes.value("ID").toString());
             } else if (hasResourcePool && reader.name() == "LaminatingIntent") {
                 hasLaminatingIntent = true;
                 QXmlStreamAttributes attributes = reader.attributes();
@@ -517,7 +608,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_EQ("ID0001", jobPartId);
     EXPECT_TRUE(hasResourcePool);
     EXPECT_EQ("COMP_0000", cutProcessId);
-    EXPECT_TRUE(hasMedia);
+    EXPECT_EQ(5, mediaCount);
+    EXPECT_TRUE(hasLayout);
     EXPECT_TRUE(hasLaminatingIntent);
     EXPECT_TRUE(hasDeliveryIntent);
     EXPECT_TRUE(hasRequired);
@@ -575,7 +667,8 @@ TEST_F(JdfDocumentTest, toLink)
     EXPECT_EQ(component->id(), componentLink->rRef());
     EXPECT_EQ(ApiHelper::Usage::OutputUsage, componentLink->usage());
 
-    Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media();
+    ASSERT_EQ(2, jdfNode->resourcePool()->media().count());
+    Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media().first();
     ASSERT_TRUE(media);
 
     Proof::Jdf::MediaLinkSP mediaLink = media->toLink(ApiHelper::Usage::OutputUsage);

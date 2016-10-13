@@ -21,6 +21,7 @@ class PROOF_NETWORK_JDF_EXPORT MediaQmlWrapper : public AbstractPhysicalResource
     Q_PROPERTY(Proof::Jdf::ApiHelper::CoatingType frontCoating READ frontCoating NOTIFY frontCoatingChanged)
     Q_PROPERTY(Proof::Jdf::ApiHelper::CoatingType backCoating READ backCoating NOTIFY backCoatingChanged)
     Q_PROPERTY(Proof::Jdf::ApiHelper::MediaUnit mediaUnit READ mediaUnit NOTIFY mediaUnitChanged)
+    Q_PROPERTY(Proof::Jdf::ApiHelper::MediaType mediaType READ mediaType NOTIFY mediaTypeChanged)
     Q_DECLARE_PRIVATE(MediaQmlWrapper)
 public:
     explicit MediaQmlWrapper(const MediaSP &media, QObject *parent = 0);
@@ -33,6 +34,7 @@ public:
     ApiHelper::CoatingType frontCoating() const;
     ApiHelper::CoatingType backCoating() const;
     ApiHelper::MediaUnit mediaUnit() const;
+    ApiHelper::MediaType mediaType() const;
 
 signals:
     void thicknessChanged(double thickness);
@@ -41,6 +43,7 @@ signals:
     void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType frontCoating);
     void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType backCoating);
     void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit mediaUnit);
+    void mediaTypeChanged(Proof::Jdf::ApiHelper::MediaType mediaType);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

@@ -45,6 +45,10 @@ class Media;
 typedef QSharedPointer<Media> MediaSP;
 typedef QWeakPointer<Media> MediaWP;
 
+class Layout;
+typedef QSharedPointer<Layout> LayoutSP;
+typedef QWeakPointer<Layout> LayoutWP;
+
 class LaminatingIntent;
 typedef QSharedPointer<LaminatingIntent> LaminatingIntentSP;
 typedef QWeakPointer<LaminatingIntent> LaminatingIntentWP;

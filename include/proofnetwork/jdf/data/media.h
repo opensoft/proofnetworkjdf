@@ -22,6 +22,7 @@ public:
     ApiHelper::CoatingType frontCoating() const;
     ApiHelper::CoatingType backCoating() const;
     ApiHelper::MediaUnit mediaUnit() const;
+    ApiHelper::MediaType mediaType() const;
     double height() const;
     double width() const;
 
@@ -29,6 +30,7 @@ public:
     void setFrontCoating(ApiHelper::CoatingType coating);
     void setBackCoating(ApiHelper::CoatingType coating);
     void setMediaUnit(ApiHelper::MediaUnit mediaUnit);
+    void setMediaType(ApiHelper::MediaType mediaType);
     void setHeight(double arg);
     void setWidth(double arg);
 
@@ -47,6 +49,7 @@ signals:
     void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
     void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
     void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit arg);
+    void mediaTypeChanged(Proof::Jdf::ApiHelper::MediaType arg);
 
 protected:
     explicit Media();

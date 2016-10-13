@@ -22,7 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntity
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> components READ components NOTIFY componentsChanged)
     Q_PROPERTY(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams READ cuttingParams NOTIFY cuttingParamsChanged)
-    Q_PROPERTY(Proof::Jdf::MediaQmlWrapper *media READ media NOTIFY mediaChanged)
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::MediaQmlWrapper> media READ media NOTIFY mediaChanged)
     Q_PROPERTY(Proof::Jdf::FoldingParamsQmlWrapper *foldingParams READ foldingParams NOTIFY foldingParamsChanged)
     Q_PROPERTY(Proof::Jdf::LaminatingIntentQmlWrapper *laminatingIntent READ laminatingIntent NOTIFY laminatingIntentChanged)
 
@@ -36,14 +36,14 @@ public:
     QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> components() const;
 
     CuttingParamsQmlWrapper *cuttingParams() const;
-    MediaQmlWrapper *media() const;
+    QQmlListProperty<Proof::Jdf::MediaQmlWrapper> media() const;
     FoldingParamsQmlWrapper *foldingParams() const;
     LaminatingIntentQmlWrapper *laminatingIntent() const;
 
 signals:
     void componentsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &components);
     void cuttingParamsChanged(Proof::Jdf::CuttingParamsQmlWrapper *cuttingParams);
-    void mediaChanged(Proof::Jdf::MediaQmlWrapper *media);
+    void mediaChanged(const QQmlListProperty<Proof::Jdf::MediaQmlWrapper> &media);
     void foldingParamsChanged(Proof::Jdf::FoldingParamsQmlWrapper *foldingParams);
     void laminatingIntentChanged(Proof::Jdf::LaminatingIntentQmlWrapper *laminatingIntent);
 

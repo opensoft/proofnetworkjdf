@@ -24,6 +24,7 @@ class PROOF_NETWORK_JDF_EXPORT ApiHelper : public ProofObject
     Q_ENUMS(BlockType)
     Q_ENUMS(LaminatingSurface)
     Q_ENUMS(MediaUnit)
+    Q_ENUMS(MediaType)
 public:
     ApiHelper() = delete;
 
@@ -233,6 +234,28 @@ public:
         SheetMediaUnit // Individual cut Sheets.
     };
 
+    enum class MediaType {
+        CorrugatedBoardMedia,
+        DiscMedia,
+        EndBoardMedia,
+        EmbossingFoilMedia,
+        FilmMedia,
+        FoilMedia,
+        GravureCylinderMedia,
+        ImagingCylinderMedia,
+        LaminatingFoilMedia,
+        MountingTapeMedia,
+        PaperMedia,
+        PlateMedia,
+        ScreenMedia,
+        SelfAdhesiveMedia,
+        SleeveMedia,
+        ShrinkFoilMedia,
+        TextileMedia,
+        OtherMedia
+    };
+
+
     enum class DeviceFilterDetails {
         // Provide only DeviceID and DeviceStatus.
         NoneDeviceFilterDetails,
@@ -353,6 +376,9 @@ public:
     static QString mediaUnitToString(MediaUnit mediaUnit);
     static MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok = nullptr);
 
+    static QString mediaTypeToString(MediaType mediaType);
+    static MediaType mediaTypeFromString(const QString &mediaType, bool *ok = nullptr);
+
     static QString deviceFilterDetailsToString(DeviceFilterDetails details);
     static DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *ok = nullptr);
 
@@ -381,6 +407,7 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::ProcessUsage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::Usage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::BlockType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::MediaUnit arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::MediaType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceFilterDetails arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceStatus arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ApiHelper::DeviceCondition arg, uint seed = 0);

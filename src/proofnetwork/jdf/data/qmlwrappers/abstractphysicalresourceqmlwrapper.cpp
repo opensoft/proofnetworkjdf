@@ -38,6 +38,8 @@ void AbstractPhysicalResourceQmlWrapper::setupEntity(const QSharedPointer<Networ
         if (abstractPhysicalResource->resourceWeight() != oldAbstractPhysicalResource->resourceWeight())
             emit resourceWeightChanged(abstractPhysicalResource->resourceWeight());
     }
+
+    AbstractResourceQmlWrapper::setupEntity(old);
 }
 
 

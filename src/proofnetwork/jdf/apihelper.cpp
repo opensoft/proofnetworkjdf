@@ -65,6 +65,11 @@ uint qHash(ApiHelper::MediaUnit arg, uint seed)
     return ::qHash(static_cast<int>(arg), seed);
 }
 
+uint qHash(ApiHelper::MediaType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
 uint qHash(ApiHelper::DeviceFilterDetails arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
@@ -303,6 +308,27 @@ static const QHash<QString, ApiHelper::MediaUnit> MEDIA_UNIT_STRINGIFIED = {
     {"Sheet", ApiHelper::MediaUnit::SheetMediaUnit}
 };
 
+static const QHash<QString, ApiHelper::MediaType> MEDIA_TYPE_STRINGIFIED = {
+    {"CorrugatedBoard", ApiHelper::MediaType::CorrugatedBoardMedia},
+    {"Disc", ApiHelper::MediaType::DiscMedia},
+    {"EndBoard", ApiHelper::MediaType::EndBoardMedia},
+    {"EmbossingFoil", ApiHelper::MediaType::EmbossingFoilMedia},
+    {"Film", ApiHelper::MediaType::FilmMedia},
+    {"Foil", ApiHelper::MediaType::FoilMedia},
+    {"GravureCylinder", ApiHelper::MediaType::GravureCylinderMedia},
+    {"ImagingCylinder", ApiHelper::MediaType::ImagingCylinderMedia},
+    {"LaminatingFoil", ApiHelper::MediaType::LaminatingFoilMedia},
+    {"MountingTape", ApiHelper::MediaType::MountingTapeMedia},
+    {"Paper", ApiHelper::MediaType::PaperMedia},
+    {"Plate", ApiHelper::MediaType::PlateMedia},
+    {"Screen", ApiHelper::MediaType::ScreenMedia},
+    {"SelfAdhesive", ApiHelper::MediaType::SelfAdhesiveMedia},
+    {"Sleeve", ApiHelper::MediaType::SleeveMedia},
+    {"ShrinkFoil", ApiHelper::MediaType::ShrinkFoilMedia},
+    {"Textile", ApiHelper::MediaType::TextileMedia},
+    {"Other", ApiHelper::MediaType::OtherMedia}
+};
+
 static const QHash<QString, ApiHelper::DeviceFilterDetails> DEVICE_FILTER_DETAILS_STRINGIFIED = {
     {"None", ApiHelper::DeviceFilterDetails::NoneDeviceFilterDetails},
     {"Brief", ApiHelper::DeviceFilterDetails::BriefDeviceFilterDetails},
@@ -518,6 +544,18 @@ ApiHelper::MediaUnit ApiHelper::mediaUnitFromString(const QString &mediaUnit, bo
     if (ok != nullptr)
         *ok = MEDIA_UNIT_STRINGIFIED.contains(mediaUnit);
     return MEDIA_UNIT_STRINGIFIED.value(mediaUnit, MediaUnit::SheetMediaUnit);
+}
+
+QString ApiHelper::mediaTypeToString(ApiHelper::MediaType mediaType)
+{
+    return MEDIA_TYPE_STRINGIFIED.key(mediaType, "");
+}
+
+ApiHelper::MediaType ApiHelper::mediaTypeFromString(const QString &mediaType, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = MEDIA_TYPE_STRINGIFIED.contains(mediaType);
+    return MEDIA_TYPE_STRINGIFIED.value(mediaType, MediaType::OtherMedia);
 }
 
 QString ApiHelper::deviceFilterDetailsToString(ApiHelper::DeviceFilterDetails details)

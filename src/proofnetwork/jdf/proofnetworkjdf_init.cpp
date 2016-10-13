@@ -5,6 +5,7 @@
 #include "data/foldingparams.h"
 #include "data/resourcepool.h"
 #include "data/media.h"
+#include "data/layout.h"
 #include "data/laminatingintent.h"
 #include "data/deliveryintent.h"
 #include "data/dropintent.h"
@@ -49,7 +50,11 @@ static void libraryInit()
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper>>("QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>>("QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>");
+    qRegisterMetaType<QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>>("QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>");
+    qRegisterMetaType<QQmlListProperty<Proof::Jdf::MediaQmlWrapper>>("QQmlListProperty<Proof::Jdf::MediaQmlWrapper>");
+    qRegisterMetaType<QQmlListProperty<Proof::Jdf::LayoutQmlWrapper>>("QQmlListProperty<Proof::Jdf::LayoutQmlWrapper>");
     qRegisterMetaType<Proof::Jdf::MediaQmlWrapper *>("Proof::Jdf::MediaQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::LayoutQmlWrapper *>("Proof::Jdf::LayoutQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentQmlWrapper *>("Proof::Jdf::LaminatingIntentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::DeliveryIntentQmlWrapper *>("Proof::Jdf::DeliveryIntentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::DropIntentQmlWrapper *>("Proof::Jdf::DropIntentQmlWrapper *");
@@ -83,6 +88,8 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::CutBlockWP>("Proof::Jdf::CutBlockWP");
     qRegisterMetaType<Proof::Jdf::MediaSP>("Proof::Jdf::MediaSP");
     qRegisterMetaType<Proof::Jdf::MediaWP>("Proof::Jdf::MediaWP");
+    qRegisterMetaType<Proof::Jdf::LayoutSP>("Proof::Jdf::LayoutSP");
+    qRegisterMetaType<Proof::Jdf::LayoutWP>("Proof::Jdf::LayoutWP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentSP>("Proof::Jdf::LaminatingIntentSP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentWP>("Proof::Jdf::LaminatingIntentWP");
     qRegisterMetaType<Proof::Jdf::DeliveryIntentSP>("Proof::Jdf::DeliveryIntentSP");
@@ -116,6 +123,7 @@ static void libraryInit()
     qRegisterMetaType<Proof::Jdf::ApiHelper::ResourceOrientation>("Proof::Jdf::ApiHelper::ResourceOrientation");
     qRegisterMetaType<Proof::Jdf::ApiHelper::CoatingType>("Proof::Jdf::ApiHelper::CoatingType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::MediaUnit>("Proof::Jdf::ApiHelper::MediaUnit");
+    qRegisterMetaType<Proof::Jdf::ApiHelper::MediaType>("Proof::Jdf::ApiHelper::MediaType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::LaminatingSurface>("Proof::Jdf::ApiHelper::LaminatingSurface");
     qRegisterMetaType<Proof::Jdf::ApiHelper::BundleType>("Proof::Jdf::ApiHelper::BundleType");
     qRegisterMetaType<Proof::Jdf::ApiHelper::ComponentType>("Proof::Jdf::ApiHelper::ComponentType");

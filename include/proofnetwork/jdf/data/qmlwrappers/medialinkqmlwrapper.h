@@ -9,7 +9,7 @@ namespace Proof {
 namespace Jdf {
 
 class MediaLinkQmlWrapperPrivate;
-class MediaLinkQmlWrapper : public AbstractPhysicalResourceLinkQmlWrapper
+class PROOF_NETWORK_JDF_EXPORT MediaLinkQmlWrapper : public AbstractPhysicalResourceLinkQmlWrapper
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(MediaLinkQmlWrapper)

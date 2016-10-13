@@ -29,6 +29,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, double, width)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::CoatingType, frontCoating)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::CoatingType, backCoating)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::MediaUnit, mediaUnit)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::ApiHelper::MediaType, mediaType)
 
 void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
@@ -42,6 +43,7 @@ void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
     connect(media.data(), &Media::frontCoatingChanged, this, &MediaQmlWrapper::frontCoatingChanged);
     connect(media.data(), &Media::backCoatingChanged, this, &MediaQmlWrapper::backCoatingChanged);
     connect(media.data(), &Media::mediaUnitChanged, this, &MediaQmlWrapper::mediaUnitChanged);
+    connect(media.data(), &Media::mediaTypeChanged, this, &MediaQmlWrapper::mediaTypeChanged);
 
     MediaSP oldMedia = qSharedPointerCast<Media>(old);
     if (oldMedia) {
@@ -57,7 +59,11 @@ void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
             emit backCoatingChanged(media->backCoating());
         if (media->mediaUnit() != oldMedia->mediaUnit())
             emit mediaUnitChanged(media->mediaUnit());
+        if (media->mediaType() != oldMedia->mediaType())
+            emit mediaTypeChanged(media->mediaType());
     }
+
+    AbstractPhysicalResourceQmlWrapper::setupEntity(old);
 }
 
 }
