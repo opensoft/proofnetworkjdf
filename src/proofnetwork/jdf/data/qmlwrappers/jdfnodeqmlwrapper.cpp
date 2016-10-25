@@ -77,10 +77,10 @@ void JdfNodeQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntit
     if (oldJdfDoc) {
         if (jdfDoc->id() != oldJdfDoc->id())
             emit idChanged(jdfDoc->id());
-        if (oldJdfDoc->jobId() != oldJdfDoc->jobId())
-            emit jobIdChanged(oldJdfDoc->jobId());
-        if (oldJdfDoc->jobPartId() != oldJdfDoc->jobPartId())
-            emit jobPartIdChanged(oldJdfDoc->jobPartId());
+        if (jdfDoc->jobId() != oldJdfDoc->jobId())
+            emit jobIdChanged(jdfDoc->jobId());
+        if (jdfDoc->jobPartId() != oldJdfDoc->jobPartId())
+            emit jobPartIdChanged(jdfDoc->jobPartId());
     }
 }
 
