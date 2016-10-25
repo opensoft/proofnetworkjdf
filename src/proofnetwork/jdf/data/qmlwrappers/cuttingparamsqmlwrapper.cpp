@@ -128,12 +128,10 @@ void CuttingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity
 
     CuttingParamsSP oldCuttingParams = qSharedPointerCast<CuttingParams>(old);
     if (oldCuttingParams) {
-        bool equal = true;
-        for( int i = 0; i < cuttingParams->cutBlocks().count(); ++i ) {
-            if (oldCuttingParams->cutBlocks()[i]->blockName() != cuttingParams->cutBlocks()[i]->blockName()) {
+        bool equal = cuttingParams->cutBlocks().count() == oldCuttingParams->cutBlocks().count();
+        for (int i = 0; equal && i < cuttingParams->cutBlocks().count(); ++i) {
+            if (oldCuttingParams->cutBlocks()[i]->blockName() != cuttingParams->cutBlocks()[i]->blockName())
                 equal = false;
-                break;
-            }
         }
         if (!equal)
             emit cutBlocksChanged(cuttingParams->toQmlWrapper()->cutBlocks());
