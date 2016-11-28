@@ -23,11 +23,19 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
+    void setX(double arg);
+    void setY(double arg);
+    void setRotation(double arg);
     QString createRotationMatrixString(double angle);
+    double rotationFromTransformationMatrix(const QString &transformationMatrix);
+
 
     QString blockName;
     double width = 0.0;
     double height = 0.0;
+    double x = 0.0;
+    double y = 0.0;
+    double rotation = 0.0;
     QString transformationMatrix;
     ApiHelper::BlockType blockType = ApiHelper::BlockType::CutBlockType;
 
@@ -64,6 +72,24 @@ double CutBlock::height() const
 {
     Q_D(const CutBlock);
     return d->height;
+}
+
+double CutBlock::x() const
+{
+    Q_D(const CutBlock);
+    return d->x;
+}
+
+double CutBlock::y() const
+{
+    Q_D(const CutBlock);
+    return d->y;
+}
+
+double CutBlock::rotation() const
+{
+    Q_D(const CutBlock);
+    return d->rotation;
 }
 
 QString CutBlock::transformationMatrix() const
@@ -174,10 +200,37 @@ void CutBlock::setHeight(double arg)
     }
 }
 
+void CutBlock::setX(double arg)
+{
+    setTransformationMatrix(arg, y(), rotation());
+}
+
+void CutBlock::setY(double arg)
+{
+    setTransformationMatrix(x(), arg, rotation());
+}
+
+void CutBlock::setRotation(double arg)
+{
+    setTransformationMatrix(x(), y(), arg);
+}
+
 void CutBlock::setTransformationMatrix(const QString &arg)
 {
     Q_D(CutBlock);
     if (d->transformationMatrix != arg) {
+        QStringList transformationMatrix = arg.split(" ", QString::SkipEmptyParts);
+        double x = 0.0;
+        double y = 0.0;
+        double rotation = d->rotationFromTransformationMatrix(arg);
+        if (transformationMatrix.count() == 6) {
+            x = transformationMatrix.at(4).toDouble();
+            y = transformationMatrix.at(5).toDouble();
+        }
+
+        d->setX(x);
+        d->setY(y);
+        d->setRotation(rotation);
         d->transformationMatrix = arg;
         emit transformationMatrixChanged(d->transformationMatrix);
     }
@@ -191,10 +244,7 @@ void CutBlock::setTransformationMatrix(double x, double y, double rotation)
             .arg(x)
             .arg(y);
 
-    if (d->transformationMatrix != transformationMatrix) {
-        d->transformationMatrix = transformationMatrix;
-        emit transformationMatrixChanged(d->transformationMatrix);
-    }
+    setTransformationMatrix(transformationMatrix);
 }
 
 void CutBlock::setBlockType(ApiHelper::BlockType arg)
@@ -219,6 +269,33 @@ void CutBlockPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     NetworkDataEntityPrivate::updateFrom(other);
 }
 
+void CutBlockPrivate::setX(double arg)
+{
+    Q_Q(CutBlock);
+    if (!qFuzzyCompare(x, arg)) {
+        x = arg;
+        emit q->xChanged(x);
+    }
+}
+
+void CutBlockPrivate::setY(double arg)
+{
+    Q_Q(CutBlock);
+    if (!qFuzzyCompare(y, arg)) {
+        y = arg;
+        emit q->yChanged(y);
+    }
+}
+
+void CutBlockPrivate::setRotation(double arg)
+{
+    Q_Q(CutBlock);
+    if (!qFuzzyCompare(rotation, arg)) {
+        rotation = arg;
+        emit q->rotationChanged(rotation);
+    }
+}
+
 QString CutBlockPrivate::createRotationMatrixString(double angle)
 {
     if (angle < 0)
@@ -230,4 +307,19 @@ QString CutBlockPrivate::createRotationMatrixString(double angle)
             .arg(qRound(-std::sin(radian)))
             .arg(qRound(std::sin(radian)))
             .arg(qRound(std::cos(radian)));
+}
+
+double CutBlockPrivate::rotationFromTransformationMatrix(const QString &transformationMatrix)
+{
+    QStringList transformationMatrixList = transformationMatrix.split(" ", QString::SkipEmptyParts);
+    double cutBlockRotation = 0.0;
+    if (transformationMatrixList.count() == 6) {
+        if (qFuzzyCompare(transformationMatrixList.at(0).toDouble() + 2.0, 2.0))
+            cutBlockRotation = std::asin(transformationMatrixList.at(2).toDouble()) * 180 / PI;
+        else
+            cutBlockRotation = std::acos(transformationMatrixList.at(0).toDouble()) * 180 / PI;
+    }
+    if (cutBlockRotation < 0)
+        cutBlockRotation += 360;
+    return cutBlockRotation;
 }

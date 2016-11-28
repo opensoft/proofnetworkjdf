@@ -24,12 +24,18 @@ public:
     QString blockName() const;
     double width() const;
     double height() const;
+    double x() const;
+    double y() const;
+    double rotation() const;
     QString transformationMatrix() const;
     ApiHelper::BlockType blockType() const;
 
     void setBlockName(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
+    void setX(double arg);
+    void setY(double arg);
+    void setRotation(double arg);
     void setTransformationMatrix(const QString &arg);
     void setTransformationMatrix(double x, double y, double rotation);
     void setBlockType(ApiHelper::BlockType arg);
@@ -45,6 +51,9 @@ signals:
     void blockNameChanged(const QString &arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
+    void xChanged(double arg);
+    void yChanged(double arg);
+    void rotationChanged(double arg);
     void transformationMatrixChanged(const QString &arg);
     void blockTypeChanged(Proof::Jdf::ApiHelper::BlockType arg);
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <CutBlock BlockName="061106-00002_1_CutBlc00001"
         BlockSize="1207.55906 858.8976399999999"
-        BlockTrf="1 0 0 1 60.94488 52.44094" BlockType="SaveBlock"
+        BlockTrf="0 -1 1 0 60.94488 52.44094" BlockType="SaveBlock"
         Class="Parameter" ID="061106-00002_1_CutBlc00001"/>
