@@ -36,7 +36,7 @@ bool verifyFoldCatalog(const QString &foldCatalog)
     if (!regexp.exactMatch(foldCatalog))
         return false;
 
-    return (regexp.cap(1).toInt() && (regexp.cap(2).toInt() ||  regexp.cap(2).toLower() == "x"));
+    return (regexp.cap(1).toInt() && (regexp.cap(2).toInt() || regexp.cap(2).toLower() == "x"));
 }
 /*!
  *    \brief sets FoldCatalog resource
@@ -87,12 +87,8 @@ FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {
             foldingParams->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            QString value = attributes.value("FoldCatalog").toString();
+            QString value = attributes.value("FoldCatalog").toString().trimmed();
             foldingParams->setFoldCatalog(value);
-            if (foldingParams->foldCatalog().isEmpty()) {
-                qCCritical(proofNetworkJdfDataLog) << "FoldingParams not created. Wrong FoldCatalog:" << value;
-                return FoldingParamsSP();
-            }
             AbstractResourceSP castedFoldingParams = qSharedPointerCast<AbstractResource>(foldingParams);
             AbstractResource::fromJdf(xmlReader, castedFoldingParams);
 
