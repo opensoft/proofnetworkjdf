@@ -109,7 +109,6 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
     d->updateFoldingParamsLink();
 }
 
-
 void ResourceLinkPoolQmlWrapperPrivate::updateComponentLinks()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);

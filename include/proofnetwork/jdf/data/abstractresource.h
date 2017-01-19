@@ -51,5 +51,4 @@ protected:
 }
 }
 
-
 #endif // PROOF_JDF_ABSTRACTRESOURCE_H

@@ -61,8 +61,6 @@ AbstractPhysicalResource::AbstractPhysicalResource(AbstractPhysicalResourcePriva
 
 }
 
-
-
 void AbstractPhysicalResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(AbstractPhysicalResource);

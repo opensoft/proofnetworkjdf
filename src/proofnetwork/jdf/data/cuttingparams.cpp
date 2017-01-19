@@ -174,7 +174,6 @@ void CuttingParams::addPart(const CuttingParamsSP &arg)
     emit partsChanged();
 }
 
-
 void CuttingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(CuttingParams);

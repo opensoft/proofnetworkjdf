@@ -7,7 +7,6 @@
 #include "proofnetwork/jdf/data/deliveryintentlink.h"
 #include "proofnetwork/jdf/data/medialink.h"
 
-
 namespace Proof {
 namespace Jdf {
 
@@ -246,7 +245,6 @@ ResourceLinkPool::ResourceLinkPool() :
     NetworkDataEntity(*new ResourceLinkPoolPrivate)
 {
 }
-
 
 void ResourceLinkPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

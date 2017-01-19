@@ -122,8 +122,6 @@ void Layout::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-
-
 void LayoutPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
     Q_Q(Layout);

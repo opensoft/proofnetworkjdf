@@ -50,4 +50,3 @@ void AbstractResourceQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEnt
     }
 }
 
-

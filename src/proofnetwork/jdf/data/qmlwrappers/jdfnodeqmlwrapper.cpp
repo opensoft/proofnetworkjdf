@@ -45,8 +45,6 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobId)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobPartId)
 
-
-
 ResourcePoolQmlWrapper *JdfNodeQmlWrapper::resourcePool() const
 {
     Q_D(const JdfNodeQmlWrapper);

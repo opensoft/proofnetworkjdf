@@ -5,8 +5,6 @@
 namespace Proof {
 namespace Jdf {
 
-
-
 MessageSP instantiateJmfMessage(const QString &tagName, const QString &type)
 {
     MessageSP result;

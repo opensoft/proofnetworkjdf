@@ -4,7 +4,6 @@
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 #include "proofnetwork/jdf/data/component.h"
 
-
 using namespace Proof::Jdf;
 
 QString JdfNode::id() const

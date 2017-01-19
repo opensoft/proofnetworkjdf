@@ -41,5 +41,4 @@ protected:
 }
 }
 
-
 #endif // PROOF_JDF_CUTTINGPARAMSQMLWRAPPER_H

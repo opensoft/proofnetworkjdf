@@ -22,7 +22,6 @@ class DeliveryIntentQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
 }
 }
 
-
 using namespace Proof;
 using namespace Proof::Jdf;
 
@@ -37,7 +36,6 @@ DeliveryIntentQmlWrapper::~DeliveryIntentQmlWrapper()
 }
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(DeliveryIntent)
-
 
 QQmlListProperty<DropIntentQmlWrapper> DeliveryIntentQmlWrapper::dropIntents() const
 {

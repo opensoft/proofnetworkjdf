@@ -1,7 +1,6 @@
 #ifndef PROOF_JDF_COMPONENTQMLWRAPPER_H
 #define PROOF_JDF_COMPONENTQMLWRAPPER_H
 
-
 #include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"

@@ -29,7 +29,6 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     QString createRotationMatrixString(double angle);
     double rotationFromTransformationMatrix(const QString &transformationMatrix);
 
-
     QString blockName;
     double width = 0.0;
     double height = 0.0;

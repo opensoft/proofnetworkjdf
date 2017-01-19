@@ -74,4 +74,3 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 }
 }
 
-

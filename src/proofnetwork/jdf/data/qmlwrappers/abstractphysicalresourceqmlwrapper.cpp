@@ -42,4 +42,3 @@ void AbstractPhysicalResourceQmlWrapper::setupEntity(const QSharedPointer<Networ
     AbstractResourceQmlWrapper::setupEntity(old);
 }
 
-

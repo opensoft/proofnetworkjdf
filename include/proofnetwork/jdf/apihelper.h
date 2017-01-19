@@ -255,7 +255,6 @@ public:
         OtherMedia
     };
 
-
     enum class DeviceFilterDetails {
         // Provide only DeviceID and DeviceStatus.
         NoneDeviceFilterDetails,

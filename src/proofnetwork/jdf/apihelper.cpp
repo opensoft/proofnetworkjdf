@@ -377,7 +377,6 @@ static const QHash<QString, ApiHelper::SpanDataType> SPAN_DATA_TYPE_STRINGIFIED 
     {"XYPairSpan", ApiHelper::SpanDataType::XYPairSpan}
 };
 
-
 QString ApiHelper::resourceStatusToString(ApiHelper::ResourceStatus status)
 {
     return RESOURCE_STATUS_STRINGIFIED.key(status, "");

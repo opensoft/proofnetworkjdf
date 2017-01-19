@@ -1,7 +1,6 @@
 #ifndef PROOF_JDF_LAYOUT_H
 #define PROOF_JDF_LAYOUT_H
 
-
 #include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
