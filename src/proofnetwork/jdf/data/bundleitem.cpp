@@ -81,7 +81,7 @@ BundleItem::BundleItem()
 {
 }
 
-void BundleItemPrivate::updateFrom(const NetworkDataEntitySP &other)
+void BundleItemPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(BundleItem);
     BundleItemSP castedOther = qSharedPointerCast<BundleItem>(other);

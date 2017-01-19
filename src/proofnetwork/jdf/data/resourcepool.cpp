@@ -327,7 +327,7 @@ void ResourcePool::addLayout(const LayoutSP &arg)
     emit layoutsChanged();
 }
 
-void ResourcePoolPrivate::updateFrom(const NetworkDataEntitySP &other)
+void ResourcePoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(ResourcePool);
     ResourcePoolSP castedOther = qSharedPointerCast<ResourcePool>(other);

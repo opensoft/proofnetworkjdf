@@ -24,6 +24,7 @@ class LayoutPrivate : public AbstractResourcePrivate
 } // namespace Jdf
 } // namespace Proof
 
+using namespace Proof;
 using namespace Proof::Jdf;
 
 Layout::Layout()

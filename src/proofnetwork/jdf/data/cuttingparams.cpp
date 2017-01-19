@@ -175,7 +175,7 @@ void CuttingParams::addPart(const CuttingParamsSP &arg)
 }
 
 
-void CuttingParamsPrivate::updateFrom(const NetworkDataEntitySP &other)
+void CuttingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(CuttingParams);
     CuttingParamsSP castedOther = qSharedPointerCast<CuttingParams>(other);

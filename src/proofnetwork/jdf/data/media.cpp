@@ -215,7 +215,7 @@ Media::Media()
 {
 }
 
-void MediaPrivate::updateFrom(const NetworkDataEntitySP &other)
+void MediaPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(Media);
     MediaSP castedOther = qSharedPointerCast<Media>(other);

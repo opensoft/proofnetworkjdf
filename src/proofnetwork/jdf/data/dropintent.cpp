@@ -125,7 +125,7 @@ DropIntent::DropIntent()
 {
 }
 
-void DropIntentPrivate::updateFrom(const NetworkDataEntitySP &other)
+void DropIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(DropIntent);
     DropIntentSP castedOther = qSharedPointerCast<DropIntent>(other);

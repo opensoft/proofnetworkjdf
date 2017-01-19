@@ -139,7 +139,7 @@ DeliveryIntent::DeliveryIntent()
 {
 }
 
-void DeliveryIntentPrivate::updateFrom(const NetworkDataEntitySP &other)
+void DeliveryIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(DeliveryIntent);
     DeliveryIntentSP castedOther = qSharedPointerCast<DeliveryIntent>(other);

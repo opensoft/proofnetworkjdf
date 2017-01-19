@@ -35,11 +35,11 @@
 #include "data/resourcelinkpool.h"
 
 #include "proofnetworkjdf_global.h"
+#include "proofcore/proofglobal.h"
 
 Q_LOGGING_CATEGORY(proofNetworkJdfDataLog, "proof.network.jdf.data")
 
-__attribute__((constructor))
-static void libraryInit()
+PROOF_LIBRARY_INITIALIZER(libraryInit)
 {
     qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceQmlWrapper *");

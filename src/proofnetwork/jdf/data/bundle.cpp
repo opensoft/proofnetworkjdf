@@ -126,7 +126,7 @@ Bundle::Bundle()
 {
 }
 
-void BundlePrivate::updateFrom(const NetworkDataEntitySP &other)
+void BundlePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(Bundle);
     BundleSP castedOther = qSharedPointerCast<Bundle>(other);

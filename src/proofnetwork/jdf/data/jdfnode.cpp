@@ -281,7 +281,7 @@ Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
     registerChildren(resourcePool, resourceLinkPool, jdfNodes);
 }
 
-void JdfNodePrivate::updateFrom(const NetworkDataEntitySP &other)
+void JdfNodePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(JdfNode);
     JdfNodeSP castedOther = qSharedPointerCast<JdfNode>(other);

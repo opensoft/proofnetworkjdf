@@ -330,7 +330,7 @@ Component::Component(const QString &id)
     setId(id);
 }
 
-void ComponentPrivate::updateFrom(const NetworkDataEntitySP &other)
+void ComponentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(Component);
     ComponentSP castedOther = qSharedPointerCast<Component>(other);

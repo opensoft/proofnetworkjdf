@@ -110,7 +110,7 @@ DropItemIntent::DropItemIntent()
 {
 }
 
-void DropItemIntentPrivate::updateFrom(const NetworkDataEntitySP &other)
+void DropItemIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(DropItemIntent);
     DropItemIntentSP castedOther = qSharedPointerCast<DropItemIntent>(other);

@@ -99,7 +99,7 @@ LaminatingIntent::LaminatingIntent()
 {
 }
 
-void LaminatingIntentPrivate::updateFrom(const NetworkDataEntitySP &other)
+void LaminatingIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(LaminatingIntent);
     LaminatingIntentSP castedOther = qSharedPointerCast<LaminatingIntent>(other);

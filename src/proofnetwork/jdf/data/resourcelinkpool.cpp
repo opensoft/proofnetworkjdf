@@ -248,7 +248,7 @@ ResourceLinkPool::ResourceLinkPool() :
 }
 
 
-void ResourceLinkPoolPrivate::updateFrom(const NetworkDataEntitySP &other)
+void ResourceLinkPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(ResourceLinkPool);
     ResourceLinkPoolSP castedOther = qSharedPointerCast<ResourceLinkPool>(other);

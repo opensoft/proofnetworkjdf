@@ -125,7 +125,7 @@ FoldingParams::FoldingParams()
 {
 }
 
-void FoldingParamsPrivate::updateFrom(const NetworkDataEntitySP &other)
+void FoldingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(FoldingParams);
     FoldingParamsSP castedOther = qSharedPointerCast<FoldingParams>(other);
