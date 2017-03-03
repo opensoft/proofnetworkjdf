@@ -47,6 +47,7 @@ bool AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, Abstra
 void AbstractPhysicalResource::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractPhysicalResource);
+    //TODO: 1.0: replace all qFuzzyCompare checks for 0 with qFuzzyIsNull
     if (!qFuzzyCompare(1.0 + d->amount, 1.0))
         jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
     if (!qFuzzyCompare(1.0 + d->resourceWeight, 1.0))

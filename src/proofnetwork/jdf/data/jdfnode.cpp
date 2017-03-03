@@ -121,25 +121,20 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(std::function<bool (const JdfNodeSP &)> 
     if (predicate(castedSelf))
         return castedSelf;
 
-    for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
+    for (const auto &node : jdfNodes()) {
         if (predicate(node))
             return node;
 
-        Proof::Jdf::JdfNodeSP result = node->findNode(predicate);
+        auto result = node->findNode(predicate);
         if (result)
             return result;
     }
-    return Proof::Jdf::JdfNodeSP();
+    return JdfNodeSP();
 }
 
 ComponentSP Proof::Jdf::JdfNode::findComponent(std::function<bool (const ComponentSP &)> predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
-    Q_ASSERT(castedSelf);
-    Q_ASSERT(castedSelf->resourcePool());
-
-    for (const auto &component : castedSelf->resourcePool()->components()) {
+    for (const auto &component : resourcePool()->components()) {
         if (predicate(component))
             return component;
         for (const auto &componentOther : component->parts()) {
@@ -148,23 +143,57 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(std::function<bool (const Compone
         }
     }
 
-    for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
-        for (const auto &component : node->resourcePool()->components()) {
-            if (predicate(component)) {
-                return component;
-            } else {
-                for (const auto &componentOther : component->parts()) {
-                    if (predicate(componentOther))
-                        return componentOther;
-                }
-            }
-        }
-
-        Proof::Jdf::ComponentSP result = node->findComponent(predicate);
+    for (const auto &node : jdfNodes()) {
+        auto result = node->findComponent(predicate);
         if (result)
             return result;
     }
-    return Proof::Jdf::ComponentSP();
+    return ComponentSP();
+}
+
+ComponentLinkSP JdfNode::findComponentLink(std::function<bool (const ComponentLinkSP &)> predicate) const
+{
+    for (const auto &componentLink : resourceLinkPool()->componentLinks()) {
+        if (predicate(componentLink))
+            return componentLink;
+    }
+
+    for (const auto &node : jdfNodes()) {
+        auto result = node->findComponentLink(predicate);
+        if (result)
+            return result;
+    }
+    return ComponentLinkSP();
+}
+
+MediaSP JdfNode::findMedia(std::function<bool (const MediaSP &)> predicate) const
+{
+    for (const auto &media : resourcePool()->media()) {
+        if (predicate(media))
+            return media;
+    }
+
+    for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
+        auto result = node->findMedia(predicate);
+        if (result)
+            return result;
+    }
+    return MediaSP();
+}
+
+LayoutSP JdfNode::findLayout(std::function<bool (const LayoutSP &)> predicate) const
+{
+    for (const auto &layout : resourcePool()->layouts()) {
+        if (predicate(layout))
+            return layout;
+    }
+
+    for (const Proof::Jdf::JdfNodeSP &node : jdfNodes()) {
+        auto result = node->findLayout(predicate);
+        if (result)
+            return result;
+    }
+    return LayoutSP();
 }
 
 JdfNodeQmlWrapper *JdfNode::toQmlWrapper(QObject *parent) const

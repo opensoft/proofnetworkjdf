@@ -695,8 +695,39 @@ TEST_F(JdfDocumentTest, toLink)
 
 }
 
+//TODO: cover these methods better
+TEST_F(JdfDocumentTest, findNode)
+{
+    Proof::Jdf::JdfNodeSP node = jdfDocUT->findNode([](const Proof::Jdf::JdfNodeSP &node){return node->type() == "Cutting";});
+    EXPECT_EQ("LAYOUT_0001", node->id());
+    EXPECT_EQ("Cutting", node->type());
+}
+
 TEST_F(JdfDocumentTest, findComponent)
 {
     Proof::Jdf::ComponentSP component = jdfDocUT->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "COMP_0000";});
-    EXPECT_EQ(component->id(), "COMP_0000");
+    EXPECT_EQ("COMP_0000", component->id());
+    component = jdfDocUT2->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "061106-00002_1_Comp00001";});
+    EXPECT_EQ("061106-00002_1_Comp00001", component->id());
+}
+
+TEST_F(JdfDocumentTest, findComponentLink)
+{
+    Proof::Jdf::ComponentLinkSP link = jdfDocUT->findComponentLink([](const Proof::Jdf::ComponentLinkSP &link){return link->rRef() == "COMP_0000";});
+    EXPECT_EQ("COMP_0000", link->rRef());
+    EXPECT_EQ(Proof::Jdf::ApiHelper::Usage::InputUsage, link->usage());
+}
+
+TEST_F(JdfDocumentTest, findMedia)
+{
+    Proof::Jdf::MediaSP media = jdfDocUT->findMedia([](const Proof::Jdf::MediaSP &media){return media->mediaType() == Proof::Jdf::ApiHelper::MediaType::PaperMedia;});
+    EXPECT_EQ("PAP_0000", media->id());
+    EXPECT_EQ(Proof::Jdf::ApiHelper::MediaType::PaperMedia, media->mediaType());
+}
+
+TEST_F(JdfDocumentTest, findLayout)
+{
+    Proof::Jdf::LayoutSP layout = jdfDocUT->findLayout([](const Proof::Jdf::LayoutSP &layout){return layout->id() == "Layout1";});
+    EXPECT_EQ("Layout1", layout->id());
+    EXPECT_EQ(3, layout->media().count());
 }
