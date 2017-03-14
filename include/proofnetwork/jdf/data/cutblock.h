@@ -13,7 +13,7 @@
 namespace Proof {
 namespace Jdf {
 
-typedef QPair<QString, QString> JdfCutBlockDataKey;
+using JdfCutBlockDataKey = QPair<QString, QString>;
 
 class CutBlockPrivate;
 class PROOF_NETWORK_JDF_EXPORT CutBlock : public NetworkDataEntity

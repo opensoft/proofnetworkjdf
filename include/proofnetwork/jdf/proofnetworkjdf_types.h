@@ -10,144 +10,144 @@ namespace Proof {
 namespace Jdf {
 
 class AbstractResource;
-typedef QSharedPointer<AbstractResource> AbstractResourceSP;
-typedef QWeakPointer<AbstractResource> AbstractResourceWP;
+using AbstractResourceSP = QSharedPointer<AbstractResource>;
+using AbstractResourceWP = QWeakPointer<AbstractResource>;
 
 class AbstractPhysicalResource;
-typedef QSharedPointer<AbstractPhysicalResource> AbstractPhysicalResourceSP;
-typedef QWeakPointer<AbstractPhysicalResource> AbstractPhysicalResourceWP;
+using AbstractPhysicalResourceSP = QSharedPointer<AbstractPhysicalResource>;
+using AbstractPhysicalResourceWP = QWeakPointer<AbstractPhysicalResource>;
 
 class JdfNode;
-typedef QSharedPointer<JdfNode> JdfNodeSP;
-typedef QWeakPointer<JdfNode> JdfNodeWP;
+using JdfNodeSP = QSharedPointer<JdfNode>;
+using JdfNodeWP = QWeakPointer<JdfNode>;
 
 class JdfDocument;
-typedef QSharedPointer<JdfDocument> JdfDocumentSP;
-typedef QWeakPointer<JdfDocument> JdfDocumentWP;
+using JdfDocumentSP = QSharedPointer<JdfDocument>;
+using JdfDocumentWP = QWeakPointer<JdfDocument>;
 
 class JmfDocument;
-typedef QSharedPointer<JmfDocument> JmfDocumentSP;
-typedef QWeakPointer<JmfDocument> JmfDocumentWP;
+using JmfDocumentSP = QSharedPointer<JmfDocument>;
+using JmfDocumentWP = QWeakPointer<JmfDocument>;
 
 class ResourcePool;
-typedef QSharedPointer<ResourcePool> ResourcePoolSP;
-typedef QWeakPointer<ResourcePool> ResourcePoolWP;
+using ResourcePoolSP = QSharedPointer<ResourcePool>;
+using ResourcePoolWP = QWeakPointer<ResourcePool>;
 
 class CuttingParams;
-typedef QSharedPointer<CuttingParams> CuttingParamsSP;
-typedef QWeakPointer<CuttingParams> CuttingParamsWP;
+using CuttingParamsSP = QSharedPointer<CuttingParams>;
+using CuttingParamsWP = QWeakPointer<CuttingParams>;
 
 class CutBlock;
-typedef QSharedPointer<CutBlock> CutBlockSP;
-typedef QWeakPointer<CutBlock> CutBlockWP;
+using CutBlockSP = QSharedPointer<CutBlock>;
+using CutBlockWP = QWeakPointer<CutBlock>;
 
 class Media;
-typedef QSharedPointer<Media> MediaSP;
-typedef QWeakPointer<Media> MediaWP;
+using MediaSP = QSharedPointer<Media>;
+using MediaWP = QWeakPointer<Media>;
 
 class Layout;
-typedef QSharedPointer<Layout> LayoutSP;
-typedef QWeakPointer<Layout> LayoutWP;
+using LayoutSP = QSharedPointer<Layout>;
+using LayoutWP = QWeakPointer<Layout>;
 
 class LaminatingIntent;
-typedef QSharedPointer<LaminatingIntent> LaminatingIntentSP;
-typedef QWeakPointer<LaminatingIntent> LaminatingIntentWP;
+using LaminatingIntentSP = QSharedPointer<LaminatingIntent>;
+using LaminatingIntentWP = QWeakPointer<LaminatingIntent>;
 
 class DeliveryIntent;
-typedef QSharedPointer<DeliveryIntent> DeliveryIntentSP;
-typedef QWeakPointer<DeliveryIntent> DeliveryIntentWP;
+using DeliveryIntentSP = QSharedPointer<DeliveryIntent>;
+using DeliveryIntentWP = QWeakPointer<DeliveryIntent>;
 
 class DropIntent;
-typedef QSharedPointer<DropIntent> DropIntentSP;
-typedef QWeakPointer<DropIntent> DropIntentWP;
+using DropIntentSP = QSharedPointer<DropIntent>;
+using DropIntentWP = QWeakPointer<DropIntent>;
 
 class DropItemIntent;
-typedef QSharedPointer<DropItemIntent> DropItemIntentSP;
-typedef QWeakPointer<DropItemIntent> DropItemIntentWP;
+using DropItemIntentSP = QSharedPointer<DropItemIntent>;
+using DropItemIntentWP = QWeakPointer<DropItemIntent>;
 
 class Component;
-typedef QSharedPointer<Component> ComponentSP;
-typedef QWeakPointer<Component> ComponentWP;
+using ComponentSP = QSharedPointer<Component>;
+using ComponentWP = QWeakPointer<Component>;
 
 class Bundle;
-typedef QSharedPointer<Bundle> BundleSP;
-typedef QWeakPointer<Bundle> BundleWP;
+using BundleSP = QSharedPointer<Bundle>;
+using BundleWP = QWeakPointer<Bundle>;
 
 class BundleItem;
-typedef QSharedPointer<BundleItem> BundleItemSP;
-typedef QWeakPointer<BundleItem> BundleItemWP;
+using BundleItemSP = QSharedPointer<BundleItem>;
+using BundleItemWP = QWeakPointer<BundleItem>;
 
 class AbstractResourceLink;
-typedef QSharedPointer<AbstractResourceLink> AbstractResourceLinkSP;
-typedef QWeakPointer<AbstractResourceLink> AbstractResourceLinkWP;
+using AbstractResourceLinkSP = QSharedPointer<AbstractResourceLink>;
+using AbstractResourceLinkWP = QWeakPointer<AbstractResourceLink>;
 
 class AbstractPhysicalResourceLink;
-typedef QSharedPointer<AbstractPhysicalResourceLink> AbstractPhysicalResourceLinkSP;
-typedef QWeakPointer<AbstractPhysicalResourceLink> AbstractPhysicalResourceLinkWP;
+using AbstractPhysicalResourceLinkSP = QSharedPointer<AbstractPhysicalResourceLink>;
+using AbstractPhysicalResourceLinkWP = QWeakPointer<AbstractPhysicalResourceLink>;
 
 class FoldingParams;
-typedef QSharedPointer<FoldingParams> FoldingParamsSP;
-typedef QSharedPointer<FoldingParams> FoldingParamsWP;
+using FoldingParamsSP = QSharedPointer<FoldingParams>;
+using FoldingParamsWP = QSharedPointer<FoldingParams>;
 
 class CuttingParamsLink;
-typedef QSharedPointer<CuttingParamsLink> CuttingParamsLinkSP;
-typedef QWeakPointer<CuttingParamsLink> CuttingParamsLinkWP;
+using CuttingParamsLinkSP = QSharedPointer<CuttingParamsLink>;
+using CuttingParamsLinkWP = QWeakPointer<CuttingParamsLink>;
 
 class MediaLink;
-typedef QSharedPointer<MediaLink> MediaLinkSP;
-typedef QWeakPointer<MediaLink> MediaLinkWP;
+using MediaLinkSP = QSharedPointer<MediaLink>;
+using MediaLinkWP = QWeakPointer<MediaLink>;
 
 class LaminatingIntentLink;
-typedef QSharedPointer<LaminatingIntentLink> LaminatingIntentLinkSP;
-typedef QWeakPointer<LaminatingIntentLink> LaminatingIntentLinkWP;
+using LaminatingIntentLinkSP = QSharedPointer<LaminatingIntentLink>;
+using LaminatingIntentLinkWP = QWeakPointer<LaminatingIntentLink>;
 
 class DeliveryIntentLink;
-typedef QSharedPointer<DeliveryIntentLink> DeliveryIntentLinkSP;
-typedef QWeakPointer<DeliveryIntentLink> DeliveryIntentLinkWP;
+using DeliveryIntentLinkSP = QSharedPointer<DeliveryIntentLink>;
+using DeliveryIntentLinkWP = QWeakPointer<DeliveryIntentLink>;
 
 class ComponentLink;
-typedef QSharedPointer<ComponentLink> ComponentLinkSP;
-typedef QWeakPointer<ComponentLink> ComponentLinkWP;
+using ComponentLinkSP = QSharedPointer<ComponentLink>;
+using ComponentLinkWP = QWeakPointer<ComponentLink>;
 
 class FoldingParamsLink;
-typedef QSharedPointer<FoldingParamsLink> FoldingParamsLinkSP;
-typedef QWeakPointer<FoldingParamsLink> FoldingParamsLinkWP;
+using FoldingParamsLinkSP = QSharedPointer<FoldingParamsLink>;
+using FoldingParamsLinkWP = QWeakPointer<FoldingParamsLink>;
 
 class ResourceLinkPool;
-typedef QSharedPointer<ResourceLinkPool> ResourceLinkPoolSP;
-typedef QWeakPointer<ResourceLinkPool> ResourceLinkPoolWP;
+using ResourceLinkPoolSP = QSharedPointer<ResourceLinkPool>;
+using ResourceLinkPoolWP = QWeakPointer<ResourceLinkPool>;
 
 class Message;
-typedef QSharedPointer<Message> MessageSP;
-typedef QWeakPointer<Message> MessageWP;
+using MessageSP = QSharedPointer<Message>;
+using MessageWP = QWeakPointer<Message>;
 
 class Query;
-typedef QSharedPointer<Query> QuerySP;
-typedef QWeakPointer<Query> QueryWP;
+using QuerySP = QSharedPointer<Query>;
+using QueryWP = QWeakPointer<Query>;
 
 class Response;
-typedef QSharedPointer<Response> ResponseSP;
-typedef QWeakPointer<Response> ResponseWP;
+using ResponseSP = QSharedPointer<Response>;
+using ResponseWP = QWeakPointer<Response>;
 
 class KnownDevicesQuery;
-typedef QSharedPointer<KnownDevicesQuery> KnownDevicesQuerySP;
-typedef QWeakPointer<KnownDevicesQuery> KnownDevicesQueryWP;
+using KnownDevicesQuerySP = QSharedPointer<KnownDevicesQuery>;
+using KnownDevicesQueryWP = QWeakPointer<KnownDevicesQuery>;
 
 class KnownDevicesResponse;
-typedef QSharedPointer<KnownDevicesResponse> KnownDevicesResponseSP;
-typedef QWeakPointer<KnownDevicesResponse> KnownDevicesResponseWP;
+using KnownDevicesResponseSP = QSharedPointer<KnownDevicesResponse>;
+using KnownDevicesResponseWP = QWeakPointer<KnownDevicesResponse>;
 
 class DeviceFilter;
-typedef QSharedPointer<DeviceFilter> DeviceFilterSP;
-typedef QWeakPointer<DeviceFilter> DeviceFilterWP;
+using DeviceFilterSP = QSharedPointer<DeviceFilter>;
+using DeviceFilterWP = QWeakPointer<DeviceFilter>;
 
 class DeviceInfo;
-typedef QSharedPointer<DeviceInfo> DeviceInfoSP;
-typedef QWeakPointer<DeviceInfo> DeviceInfoWP;
+using DeviceInfoSP = QSharedPointer<DeviceInfo>;
+using DeviceInfoWP = QWeakPointer<DeviceInfo>;
 
 class Notification;
-typedef QSharedPointer<Notification> NotificationSP;
-typedef QWeakPointer<Notification> NotificationWP;
+using NotificationSP = QSharedPointer<Notification>;
+using NotificationWP = QWeakPointer<Notification>;
 
 }
 }

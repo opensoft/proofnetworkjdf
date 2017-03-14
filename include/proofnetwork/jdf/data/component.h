@@ -13,7 +13,7 @@
 namespace Proof {
 namespace Jdf {
 
-typedef QPair<QString, QString> JdfComponentDataKey;
+using JdfComponentDataKey = QPair<QString, QString>;
 
 class ComponentPrivate;
 class PROOF_NETWORK_JDF_EXPORT Component : public AbstractPhysicalResource
