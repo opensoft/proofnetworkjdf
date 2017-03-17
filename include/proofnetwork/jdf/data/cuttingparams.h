@@ -25,7 +25,7 @@ public:
     QList<CuttingParamsSP> updateParts(const QList<CuttingParamsSP> &arg);
     void addPart(const CuttingParamsSP &arg);
 
-    CuttingParamsQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    CuttingParamsQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static CuttingParamsSP create();
 

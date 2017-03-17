@@ -23,7 +23,7 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParamsQmlWrapper : public AbstractResource
 
     Q_DECLARE_PRIVATE(CuttingParamsQmlWrapper)
 public:
-    explicit CuttingParamsQmlWrapper(const CuttingParamsSP &cuttingParams, QObject *parent = 0);
+    explicit CuttingParamsQmlWrapper(const CuttingParamsSP &cuttingParams, QObject *parent = nullptr);
     ~CuttingParamsQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(CuttingParams)
 

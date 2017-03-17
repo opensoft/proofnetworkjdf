@@ -23,7 +23,7 @@ public:
 
     void setSurface(ApiHelper::LaminatingSurface surface);
 
-    LaminatingIntentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    LaminatingIntentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static LaminatingIntentSP create();
 

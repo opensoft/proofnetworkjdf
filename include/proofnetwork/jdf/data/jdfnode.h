@@ -40,7 +40,7 @@ public:
     MediaSP findMedia(std::function<bool (const MediaSP &)> predicate) const;
     LayoutSP findLayout(std::function<bool (const LayoutSP &)> predicate) const;
 
-    JdfNodeQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    JdfNodeQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static JdfNodeSP create();
 

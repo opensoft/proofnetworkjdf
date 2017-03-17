@@ -19,7 +19,7 @@ class AbstractResourceLinkQmlWrapper : public NetworkDataEntityQmlWrapper
 public:
     explicit AbstractResourceLinkQmlWrapper(const QSharedPointer<AbstractResourceLink> &link,
                                             AbstractResourceLinkQmlWrapperPrivate &dd,
-                                            QObject *parent = 0);
+                                            QObject *parent = nullptr);
     ~AbstractResourceLinkQmlWrapper();
     Proof::Jdf::ApiHelper::Usage usage() const;
     QString rRef() const;

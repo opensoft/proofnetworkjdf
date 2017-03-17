@@ -19,7 +19,7 @@ class PROOF_NETWORK_JDF_EXPORT LayoutQmlWrapper : public AbstractResourceQmlWrap
 
     Q_DECLARE_PRIVATE(LayoutQmlWrapper)
 public:
-    explicit LayoutQmlWrapper(const LayoutSP &layout, QObject *parent = 0);
+    explicit LayoutQmlWrapper(const LayoutSP &layout, QObject *parent = nullptr);
     ~LayoutQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(Layout)
 

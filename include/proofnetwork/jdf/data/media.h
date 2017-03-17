@@ -34,7 +34,7 @@ public:
     void setHeight(double arg);
     void setWidth(double arg);
 
-    MediaQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    MediaQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static MediaSP create();
 

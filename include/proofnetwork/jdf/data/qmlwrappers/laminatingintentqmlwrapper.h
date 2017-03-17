@@ -18,7 +18,7 @@ class PROOF_NETWORK_JDF_EXPORT LaminatingIntentQmlWrapper : public AbstractResou
     Q_PROPERTY(Proof::Jdf::ApiHelper::LaminatingSurface surface READ surface NOTIFY surfaceChanged)
     Q_DECLARE_PRIVATE(LaminatingIntentQmlWrapper)
 public:
-    explicit LaminatingIntentQmlWrapper(const LaminatingIntentSP &laminatingIntent, QObject *parent = 0);
+    explicit LaminatingIntentQmlWrapper(const LaminatingIntentSP &laminatingIntent, QObject *parent = nullptr);
     ~LaminatingIntentQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(LaminatingIntent)
 

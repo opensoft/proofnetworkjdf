@@ -23,7 +23,7 @@ class PROOF_NETWORK_JDF_EXPORT JdfNodeQmlWrapper : public NetworkDataEntityQmlWr
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper> jdfNodes READ jdfNodes NOTIFY jdfNodesChanged)
     Q_DECLARE_PRIVATE(JdfNodeQmlWrapper)
 public:
-    explicit JdfNodeQmlWrapper(const JdfNodeSP &jdfNode, QObject *parent = 0);
+    explicit JdfNodeQmlWrapper(const JdfNodeSP &jdfNode, QObject *parent = nullptr);
     ~JdfNodeQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(JdfNode)
 

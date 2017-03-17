@@ -32,7 +32,7 @@ signals:
 
 protected:
     explicit AbstractPhysicalResource() = delete;
-    AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd, QObject *parent = 0);
+    AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd, QObject *parent = nullptr);
 
 };
 

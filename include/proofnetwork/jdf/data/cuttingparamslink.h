@@ -16,14 +16,14 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParamsLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParamsLink)
 public:
-    CuttingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    CuttingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static CuttingParamsLinkSP create();
 
     static CuttingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
 
 protected:
-    explicit CuttingParamsLink(QObject *parent = 0);
+    explicit CuttingParamsLink(QObject *parent = nullptr);
 };
 
 }

@@ -20,7 +20,7 @@ public:
 
     void setId(const QString &arg);
 
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static MessageSP fromJmf(QXmlStreamReader &xmlReader);
     void toJmf(QXmlStreamWriter &xmlWriter);

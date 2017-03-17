@@ -25,7 +25,7 @@ public:
 
     void setComponent(const ComponentSP &arg);
 
-    DropItemIntentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    DropItemIntentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static DropItemIntentSP create();
 

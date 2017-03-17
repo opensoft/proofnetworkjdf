@@ -24,7 +24,7 @@ class PROOF_NETWORK_JDF_EXPORT ComponentQmlWrapper : public AbstractPhysicalReso
 
     Q_DECLARE_PRIVATE(ComponentQmlWrapper)
 public:
-    explicit ComponentQmlWrapper(const ComponentSP &component, QObject *parent = 0);
+    explicit ComponentQmlWrapper(const ComponentSP &component, QObject *parent = nullptr);
     ~ComponentQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(Component)
 

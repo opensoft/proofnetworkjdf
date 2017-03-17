@@ -13,7 +13,7 @@ class PROOF_NETWORK_JDF_EXPORT JdfDocument : public JdfNode
     Q_OBJECT
     Q_DECLARE_PRIVATE(JdfDocument)
 public:
-    JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static JdfDocumentSP create();
 

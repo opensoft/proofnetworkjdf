@@ -16,14 +16,14 @@ class PROOF_NETWORK_JDF_EXPORT FoldingParamsLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingParamsLink)
 public:
-    FoldingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    FoldingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static FoldingParamsLinkSP create();
 
     static FoldingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
 
 protected:
-    explicit FoldingParamsLink(QObject *parent = 0);
+    explicit FoldingParamsLink(QObject *parent = nullptr);
 };
 
 }

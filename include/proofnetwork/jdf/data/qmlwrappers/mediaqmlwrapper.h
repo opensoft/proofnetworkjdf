@@ -24,7 +24,7 @@ class PROOF_NETWORK_JDF_EXPORT MediaQmlWrapper : public AbstractPhysicalResource
     Q_PROPERTY(Proof::Jdf::ApiHelper::MediaType mediaType READ mediaType NOTIFY mediaTypeChanged)
     Q_DECLARE_PRIVATE(MediaQmlWrapper)
 public:
-    explicit MediaQmlWrapper(const MediaSP &media, QObject *parent = 0);
+    explicit MediaQmlWrapper(const MediaSP &media, QObject *parent = nullptr);
     ~MediaQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(Media)
 

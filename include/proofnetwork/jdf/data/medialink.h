@@ -16,14 +16,14 @@ class PROOF_NETWORK_JDF_EXPORT MediaLink : public AbstractPhysicalResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(MediaLink)
 public:
-    MediaLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    MediaLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static MediaLinkSP create();
 
     static MediaLinkSP fromJdf(const QXmlStreamReader &xmlReader);
 
 protected:
-    explicit MediaLink(QObject *parent = 0);
+    explicit MediaLink(QObject *parent = nullptr);
 };
 
 }

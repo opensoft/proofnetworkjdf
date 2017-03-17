@@ -21,7 +21,7 @@ class PROOF_NETWORK_JDF_EXPORT BundleQmlWrapper : public NetworkDataEntityQmlWra
     Q_PROPERTY(Proof::Jdf::BundleItemQmlWrapper *bundleItem READ bundleItem NOTIFY bundleItemChanged)
     Q_DECLARE_PRIVATE(BundleQmlWrapper)
 public:
-    explicit BundleQmlWrapper(const BundleSP &bundle, QObject *parent = 0);
+    explicit BundleQmlWrapper(const BundleSP &bundle, QObject *parent = nullptr);
     ~BundleQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(Bundle)
 

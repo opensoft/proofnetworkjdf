@@ -26,7 +26,7 @@ public:
     void setStatus(ApiHelper::DeviceStatus arg);
     void setCondition(ApiHelper::DeviceCondition arg);
 
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static DeviceInfoSP create();
 

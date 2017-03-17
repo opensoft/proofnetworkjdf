@@ -33,7 +33,7 @@ public:
     void setDeliveryIntentLink(const DeliveryIntentLinkSP &deliveryIntent);
     void setFoldingParamsLink(const FoldingParamsLinkSP &foldingParamsLink);
 
-    ResourceLinkPoolQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    ResourceLinkPoolQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static ResourceLinkPoolSP create();
 

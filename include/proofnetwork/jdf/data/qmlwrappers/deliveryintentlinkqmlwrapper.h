@@ -14,7 +14,7 @@ class DeliveryIntentLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryIntentLinkQmlWrapper)
 public:
-    explicit DeliveryIntentLinkQmlWrapper(const DeliveryIntentLinkSP &delivery, QObject *parent = 0);
+    explicit DeliveryIntentLinkQmlWrapper(const DeliveryIntentLinkSP &delivery, QObject *parent = nullptr);
     PROOF_NDE_WRAPPER_TOOLS(DeliveryIntentLink)
 };
 

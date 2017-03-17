@@ -23,7 +23,7 @@ class PROOF_NETWORK_JDF_EXPORT DeliveryIntentQmlWrapper : public AbstractResourc
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::DropIntentQmlWrapper> dropIntents READ dropIntents NOTIFY dropIntentsChanged)
     Q_DECLARE_PRIVATE(DeliveryIntentQmlWrapper)
 public:
-    explicit DeliveryIntentQmlWrapper(const DeliveryIntentSP &deliveryIntent, QObject *parent = 0);
+    explicit DeliveryIntentQmlWrapper(const DeliveryIntentSP &deliveryIntent, QObject *parent = nullptr);
     ~DeliveryIntentQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(DeliveryIntent)
 

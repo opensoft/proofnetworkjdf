@@ -29,7 +29,7 @@ class ResourceLinkPoolQmlWrapper : public NetworkDataEntityQmlWrapper
     Q_DECLARE_PRIVATE(ResourceLinkPoolQmlWrapper)
 
 public:
-    explicit ResourceLinkPoolQmlWrapper(const ResourceLinkPoolSP &pool, QObject *parent = 0);
+    explicit ResourceLinkPoolQmlWrapper(const ResourceLinkPoolSP &pool, QObject *parent = nullptr);
     ~ResourceLinkPoolQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(ResourceLinkPool)
 

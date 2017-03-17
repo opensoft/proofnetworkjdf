@@ -26,7 +26,7 @@ public:
     void setMessages(const QList<MessageSP> &arg);
     void addMessage(const MessageSP &arg);
 
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static JmfDocumentSP create();
 

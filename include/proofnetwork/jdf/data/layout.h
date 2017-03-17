@@ -23,7 +23,7 @@ public:
     void setMedia(const QList<MediaSP> &arg);
     void addMedia(const MediaSP &arg);
 
-    LayoutQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    LayoutQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static LayoutSP create();
 

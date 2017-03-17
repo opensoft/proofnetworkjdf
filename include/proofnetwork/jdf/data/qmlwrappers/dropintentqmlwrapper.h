@@ -22,7 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT DropIntentQmlWrapper : public NetworkDataEntityQm
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper> dropItemIntents READ dropItemIntents NOTIFY dropItemIntentsChanged)
     Q_DECLARE_PRIVATE(DropIntentQmlWrapper)
 public:
-    explicit DropIntentQmlWrapper(const DropIntentSP &dropIntent, QObject *parent = 0);
+    explicit DropIntentQmlWrapper(const DropIntentSP &dropIntent, QObject *parent = nullptr);
     ~DropIntentQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(DropIntent)
 

@@ -17,7 +17,7 @@ class PROOF_NETWORK_JDF_EXPORT FoldingParamsQmlWrapper : public AbstractResource
     Q_PROPERTY(QString foldCatalog READ foldCatalog NOTIFY foldCatalogChanged)
     Q_DECLARE_PRIVATE(FoldingParamsQmlWrapper)
 public:
-    explicit FoldingParamsQmlWrapper(const FoldingParamsSP &foldingParams, QObject *parent = 0);
+    explicit FoldingParamsQmlWrapper(const FoldingParamsSP &foldingParams, QObject *parent = nullptr);
     ~FoldingParamsQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(FoldingParams)
 

@@ -29,7 +29,7 @@ public:
     void setDropItemIntents(const QList<DropItemIntentSP> &arg);
     void addDropItemIntent(const DropItemIntentSP &arg);
 
-    DropIntentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    DropIntentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static DropIntentSP create();
 

@@ -20,7 +20,7 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceQmlWrapper : public Abstr
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceQmlWrapper)
 public:
     explicit AbstractPhysicalResourceQmlWrapper(const QSharedPointer<AbstractPhysicalResource> &abstractPhysicalResource,
-                                        AbstractPhysicalResourceQmlWrapperPrivate &dd, QObject *parent = 0);
+                                        AbstractPhysicalResourceQmlWrapperPrivate &dd, QObject *parent = nullptr);
     ~AbstractPhysicalResourceQmlWrapper();
 
     double amount() const;

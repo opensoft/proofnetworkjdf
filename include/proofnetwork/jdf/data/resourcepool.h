@@ -37,7 +37,7 @@ public:
     void setLayouts(const QList<LayoutSP> &arg);
     void addLayout(const LayoutSP &arg);
 
-    ResourcePoolQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    ResourcePoolQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static ResourcePoolSP create();
 

@@ -44,7 +44,7 @@ signals:
 
 protected:
     explicit AbstractResource() = delete;
-    AbstractResource(AbstractResourcePrivate &dd, QObject *parent = 0);
+    AbstractResource(AbstractResourcePrivate &dd, QObject *parent = nullptr);
     void setupLink(const AbstractResourceLinkSP &abstractLink, ApiHelper::Usage usage) const;
 };
 

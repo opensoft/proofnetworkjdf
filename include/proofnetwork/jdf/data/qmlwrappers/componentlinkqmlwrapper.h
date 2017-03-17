@@ -14,7 +14,7 @@ class ComponentLinkQmlWrapper : public AbstractPhysicalResourceLinkQmlWrapper
     Q_OBJECT
     Q_DECLARE_PRIVATE(ComponentLinkQmlWrapper)
 public:
-    explicit ComponentLinkQmlWrapper(const ComponentLinkSP &component, QObject *parent = 0);
+    explicit ComponentLinkQmlWrapper(const ComponentLinkSP &component, QObject *parent = nullptr);
     PROOF_NDE_WRAPPER_TOOLS(ComponentLink)
 };
 

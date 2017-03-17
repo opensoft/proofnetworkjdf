@@ -29,7 +29,7 @@ class PROOF_NETWORK_JDF_EXPORT ResourcePoolQmlWrapper : public NetworkDataEntity
     Q_DECLARE_PRIVATE(ResourcePoolQmlWrapper)
 
 public:
-    explicit ResourcePoolQmlWrapper(const ResourcePoolSP &resourcePool, QObject *parent = 0);
+    explicit ResourcePoolQmlWrapper(const ResourcePoolSP &resourcePool, QObject *parent = nullptr);
     ~ResourcePoolQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(ResourcePool)
 

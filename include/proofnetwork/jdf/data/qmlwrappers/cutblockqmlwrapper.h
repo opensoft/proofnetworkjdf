@@ -21,7 +21,7 @@ class PROOF_NETWORK_JDF_EXPORT CutBlockQmlWrapper : public NetworkDataEntityQmlW
     Q_PROPERTY(Proof::Jdf::ApiHelper::BlockType blockType READ blockType NOTIFY blockTypeChanged)
     Q_DECLARE_PRIVATE(CutBlockQmlWrapper)
 public:
-    explicit CutBlockQmlWrapper(const CutBlockSP &cutBlock, QObject *parent = 0);
+    explicit CutBlockQmlWrapper(const CutBlockSP &cutBlock, QObject *parent = nullptr);
     ~CutBlockQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(CutBlock)
 

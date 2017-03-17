@@ -16,14 +16,14 @@ class PROOF_NETWORK_JDF_EXPORT DeliveryIntentLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryIntentLink)
 public:
-    DeliveryIntentLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    DeliveryIntentLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static DeliveryIntentLinkSP create();
 
     static DeliveryIntentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
 
 protected:
-    explicit DeliveryIntentLink(QObject *parent = 0);
+    explicit DeliveryIntentLink(QObject *parent = nullptr);
 };
 
 }

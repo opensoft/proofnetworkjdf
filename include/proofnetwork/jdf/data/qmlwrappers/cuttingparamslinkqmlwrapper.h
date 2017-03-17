@@ -15,7 +15,7 @@ class CuttingParamsLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
     Q_DECLARE_PRIVATE(CuttingParamsLinkQmlWrapper)
 public:
     explicit CuttingParamsLinkQmlWrapper(const CuttingParamsLinkSP &cuttingParamsLink,
-                                         QObject *parent = 0);
+                                         QObject *parent = nullptr);
     PROOF_NDE_WRAPPER_TOOLS(CuttingParamsLink)
 };
 

@@ -38,7 +38,7 @@ public:
     QList<ComponentSP> updateParts(const QList<ComponentSP> &arg);
     void addPart(const ComponentSP &arg);
 
-    ComponentQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    ComponentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static ComponentSP create(const QString &id = QString());
 

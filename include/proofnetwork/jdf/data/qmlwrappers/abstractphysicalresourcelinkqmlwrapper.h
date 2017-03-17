@@ -19,7 +19,7 @@ class AbstractPhysicalResourceLinkQmlWrapper : public AbstractResourceLinkQmlWra
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLinkQmlWrapper)
 public:
     AbstractPhysicalResourceLinkQmlWrapper(const QSharedPointer<AbstractPhysicalResourceLink> &link,
-                                           AbstractPhysicalResourceLinkQmlWrapperPrivate &dd, QObject *parent = 0);
+                                           AbstractPhysicalResourceLinkQmlWrapperPrivate &dd, QObject *parent = nullptr);
     ApiHelper::ResourceOrientation orientation() const;
     double amount() const;
 

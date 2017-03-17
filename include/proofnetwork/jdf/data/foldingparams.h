@@ -20,7 +20,7 @@ public:
     QString foldCatalog() const;
     void setFoldCatalog(const QString &foldCatalog);
 
-    FoldingParamsQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    FoldingParamsQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static FoldingParamsSP create();
 

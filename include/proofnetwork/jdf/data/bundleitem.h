@@ -22,7 +22,7 @@ public:
 
     void setAmount(int arg);
 
-    BundleItemQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    BundleItemQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static BundleItemSP create();
 

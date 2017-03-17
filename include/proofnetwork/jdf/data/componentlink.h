@@ -16,14 +16,14 @@ class PROOF_NETWORK_JDF_EXPORT ComponentLink : public AbstractPhysicalResourceLi
     Q_OBJECT
     Q_DECLARE_PRIVATE(ComponentLink)
 public:
-    ComponentLinkQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    ComponentLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static ComponentLinkSP create();
 
     static ComponentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
 
 protected:
-    explicit ComponentLink(QObject *parent = 0);
+    explicit ComponentLink(QObject *parent = nullptr);
 };
 
 }

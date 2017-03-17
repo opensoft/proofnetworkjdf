@@ -21,7 +21,7 @@ public:
 
     void setDetails(ApiHelper::DeviceFilterDetails arg);
 
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static DeviceFilterSP create();
 

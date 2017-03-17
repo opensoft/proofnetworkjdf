@@ -22,7 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResourceQmlWrapper : public NetworkDataEn
     Q_DECLARE_PRIVATE(AbstractResourceQmlWrapper)
 public:
     explicit AbstractResourceQmlWrapper(const QSharedPointer<AbstractResource> &abstractResource,
-                                        AbstractResourceQmlWrapperPrivate &dd, QObject *parent = 0);
+                                        AbstractResourceQmlWrapperPrivate &dd, QObject *parent = nullptr);
     ~AbstractResourceQmlWrapper();
 
     QString id() const;

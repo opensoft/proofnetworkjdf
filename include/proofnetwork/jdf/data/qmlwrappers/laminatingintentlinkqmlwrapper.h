@@ -15,7 +15,7 @@ class LaminatingIntentLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
     Q_DECLARE_PRIVATE(LaminatingIntentLinkQmlWrapper)
 public:
     explicit LaminatingIntentLinkQmlWrapper(const LaminatingIntentLinkSP &laminating,
-                                            QObject *parent = 0);
+                                            QObject *parent = nullptr);
     PROOF_NDE_WRAPPER_TOOLS(LaminatingIntentLink)
 };
 

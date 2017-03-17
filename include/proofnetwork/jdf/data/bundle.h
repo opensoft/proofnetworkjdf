@@ -26,7 +26,7 @@ public:
     void setTotalAmount(int arg);
     void setBundleItem(const BundleItemSP &arg);
 
-    BundleQmlWrapper *toQmlWrapper(QObject *parent = 0) const override;
+    BundleQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static BundleSP create();
 
