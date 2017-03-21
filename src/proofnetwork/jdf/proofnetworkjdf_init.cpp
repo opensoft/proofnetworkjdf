@@ -41,6 +41,7 @@ Q_LOGGING_CATEGORY(proofNetworkJdfDataLog, "proof.network.jdf.data")
 
 PROOF_LIBRARY_INITIALIZER(libraryInit)
 {
+    //clang-format off
     qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractResourceLinkQmlWrapper *>("Proof::Jdf::AbstractResourceLinkQmlWrapper *");
@@ -156,4 +157,5 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::DeviceInfoWP>("Proof::Jdf::DeviceInfoWP");
     qRegisterMetaType<Proof::Jdf::NotificationSP>("Proof::Jdf::NotificationSP");
     qRegisterMetaType<Proof::Jdf::NotificationWP>("Proof::Jdf::NotificationWP");
+    //clang-format on
 }
