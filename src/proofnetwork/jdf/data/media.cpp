@@ -187,7 +187,7 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Media);
     jdfWriter.writeStartElement("Media");
-    if (!qFuzzyCompare(1.0 + d->width, 1.0) || !qFuzzyCompare(1.0 + d->height, 1.0))
+    if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height))
         jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
     if (d->backCoating != ApiHelper::CoatingType::NoneCoating)
         jdfWriter.writeAttribute("BackCoatings", ApiHelper::coatingToString(d->backCoating));

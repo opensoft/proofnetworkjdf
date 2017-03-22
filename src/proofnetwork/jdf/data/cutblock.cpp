@@ -313,7 +313,7 @@ double CutBlockPrivate::rotationFromTransformationMatrix(const QString &transfor
     QStringList transformationMatrixList = transformationMatrix.split(" ", QString::SkipEmptyParts);
     double cutBlockRotation = 0.0;
     if (transformationMatrixList.count() == 6) {
-        if (qFuzzyCompare(transformationMatrixList.at(0).toDouble() + 2.0, 2.0))
+        if (qFuzzyIsNull(transformationMatrixList.at(0).toDouble()))
             cutBlockRotation = std::asin(transformationMatrixList.at(2).toDouble()) * 180 / PI;
         else
             cutBlockRotation = std::acos(transformationMatrixList.at(0).toDouble()) * 180 / PI;
