@@ -91,7 +91,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(ResourcePool)
 void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
     Q_D(ResourcePoolQmlWrapper);
-    Q_UNUSED(old);
+    Q_UNUSED(old)
     ResourcePoolSP resourcePool = d->entity<ResourcePool>();
     Q_ASSERT(resourcePool);
 

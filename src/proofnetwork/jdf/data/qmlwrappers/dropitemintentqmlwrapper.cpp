@@ -38,7 +38,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(DropItemIntent)
 void DropItemIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
     Q_D(DropItemIntentQmlWrapper);
-    Q_UNUSED(old);
+    Q_UNUSED(old)
     DropItemIntentSP dropItemIntent = d->entity<DropItemIntent>();
     Q_ASSERT(dropItemIntent);
 

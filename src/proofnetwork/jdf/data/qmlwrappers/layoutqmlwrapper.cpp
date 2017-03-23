@@ -45,7 +45,7 @@ QQmlListProperty<Proof::Jdf::MediaQmlWrapper> LayoutQmlWrapper::media() const
 void LayoutQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
 {
     Q_D(LayoutQmlWrapper);
-    Q_UNUSED(old);
+    Q_UNUSED(old)
     LayoutSP layout = d->entity<Layout>();
     Q_ASSERT(layout);
 
