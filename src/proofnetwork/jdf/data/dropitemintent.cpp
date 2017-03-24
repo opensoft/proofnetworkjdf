@@ -71,8 +71,11 @@ DropItemIntentSP DropItemIntent::fromJdf(QXmlStreamReader &xmlReader, const QStr
                         QXmlStreamAttributes attributes = xmlReader.attributes();
                         QString componentId = attributes.value("rRef").toString();
                         ComponentSP component = Component::create(componentId);
-                        if (componentsCache().contains({jobId, componentId}) && !sanitize)
-                            component = componentsCache().value({jobId, componentId});
+                        if (!sanitize) {
+                            auto fromCache = componentsCache().value({jobId, componentId});
+                            if (fromCache)
+                                component = fromCache;
+                        }
                         dropItemIntent->setComponent(component);
                     } else if (xmlReader.isStartElement()) {
                         xmlReader.skipCurrentElement();

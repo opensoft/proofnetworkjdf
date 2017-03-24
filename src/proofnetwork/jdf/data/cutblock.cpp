@@ -129,14 +129,15 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
             QString blockName = attributes.value("BlockName").toString();
             cutBlock->setBlockName(blockName);
             if (sanitize) {
-                CutBlockSP cutBlockFromCache = cutBlockCache().value({jobId, cutBlock->blockName()});
+                CutBlockSP cutBlockFromCache = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
                 int index = 0;
-                while (cutBlockFromCache && cutBlockFromCache->isFetched()) {
+                while (cutBlockFromCache != cutBlock && cutBlockFromCache->isFetched()) {
                     cutBlock->setBlockName(QString("%1_%2").arg(blockName).arg(++index));
-                    cutBlockFromCache = cutBlockCache().value({jobId, cutBlock->blockName()});
+                    cutBlockFromCache = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
                 }
+            } else {
+                cutBlock = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
             }
-            cutBlock = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
             cutBlock->setFetched(true);
 
             QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
