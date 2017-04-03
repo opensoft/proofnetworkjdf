@@ -16,7 +16,7 @@ class BundleQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT BundleQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(Proof::Jdf::ApiHelper::BundleType bundleType READ bundleType NOTIFY bundleTypeChanged)
+    Q_PROPERTY(Proof::Jdf::BundleType bundleType READ bundleType NOTIFY bundleTypeChanged)
     Q_PROPERTY(int totalAmount READ totalAmount NOTIFY totalAmountChanged)
     Q_PROPERTY(Proof::Jdf::BundleItemQmlWrapper *bundleItem READ bundleItem NOTIFY bundleItemChanged)
     Q_DECLARE_PRIVATE(BundleQmlWrapper)
@@ -25,12 +25,12 @@ public:
     ~BundleQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(Bundle)
 
-    ApiHelper::BundleType bundleType() const;
+    BundleType bundleType() const;
     int totalAmount() const;
     Proof::Jdf::BundleItemQmlWrapper *bundleItem() const;
 
 signals:
-    void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType bundleType);
+    void bundleTypeChanged(Proof::Jdf::BundleType bundleType);
     void totalAmountChanged(int totalAmount);
     void bundleItemChanged(Proof::Jdf::BundleItemQmlWrapper *bundleItem);
 

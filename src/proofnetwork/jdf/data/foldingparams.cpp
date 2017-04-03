@@ -11,7 +11,7 @@ class FoldingParamsPrivate : AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(FoldingParams)
 
-    FoldingParamsPrivate() : AbstractResourcePrivate(ApiHelper::ResourceClass::ParameterClass) {}
+    FoldingParamsPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) {}
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -113,7 +113,7 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-FoldingParamsLinkSP FoldingParams::toLink(ApiHelper::Usage usage) const
+FoldingParamsLinkSP FoldingParams::toLink(Usage usage) const
 {
     FoldingParamsLinkSP link = FoldingParamsLink::create();
     AbstractResource::setupLink(link, usage);

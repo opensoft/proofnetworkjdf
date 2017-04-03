@@ -12,14 +12,14 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
     Q_DECLARE_PUBLIC(CuttingParams)
 
     CuttingParamsPrivate()
-        : AbstractResourcePrivate(ApiHelper::ResourceClass::ParameterClass)
+        : AbstractResourcePrivate(ResourceClass::ParameterClass)
     {
         registerChildren(cutBlocks);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    bool partsAreValid(QList<ApiHelper::ResourcePartType> partsToCheck = QList<ApiHelper::ResourcePartType>()) const;
+    bool partsAreValid(QList<ResourcePartType> partsToCheck = QList<ResourcePartType>()) const;
 
     QList<CutBlockSP> cutBlocks;
     QList<CuttingParamsSP> parts;
@@ -133,7 +133,7 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-CuttingParamsLinkSP CuttingParams::toLink(ApiHelper::Usage usage) const
+CuttingParamsLinkSP CuttingParams::toLink(Usage usage) const
 {
     CuttingParamsLinkSP link = CuttingParamsLink::create();
     AbstractResource::setupLink(link, usage);
@@ -183,7 +183,7 @@ void CuttingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     AbstractResourcePrivate::updateFrom(other);
 }
 
-bool CuttingParamsPrivate::partsAreValid(QList<ApiHelper::ResourcePartType> partsToCheck) const
+bool CuttingParamsPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) const
 {
     if (partsToCheck.isEmpty() && !partIdKeys.isEmpty())
         partsToCheck = partIdKeys;
@@ -197,7 +197,7 @@ bool CuttingParamsPrivate::partsAreValid(QList<ApiHelper::ResourcePartType> part
 
     for (const auto &part : parts) {
         if (!part->hasPartAttribute(currentPart)) {
-            qCCritical(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Part" << ApiHelper::resourcePartTypeToString(currentPart) << "not found";
+            qCCritical(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
             return false;
         }
         if (!part->d_func()->partsAreValid(partsToCheck))

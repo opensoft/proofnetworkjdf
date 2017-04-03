@@ -19,33 +19,33 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResource : public NetworkDataEntity
 public:
 
     QString id() const;
-    ApiHelper::ResourceStatus resourceStatus() const;
-    ApiHelper::ResourceClass resourceClass() const;
-    QList<ApiHelper::ResourcePartType> partIdKeys() const;
+    ResourceStatus resourceStatus() const;
+    ResourceClass resourceClass() const;
+    QList<ResourcePartType> partIdKeys() const;
 
     void setId(const QString &arg);
-    void setResourceStatus(ApiHelper::ResourceStatus arg);
-    void setResourceClass(ApiHelper::ResourceClass arg);
-    void setPartIdKeys(const QList<ApiHelper::ResourcePartType> &arg);
+    void setResourceStatus(ResourceStatus arg);
+    void setResourceClass(ResourceClass arg);
+    void setPartIdKeys(const QList<ResourcePartType> &arg);
 
-    QString partAttribute(ApiHelper::ResourcePartType attribute) const;
-    bool hasPartAttribute(ApiHelper::ResourcePartType attribute) const;
-    void setPartAttribute(ApiHelper::ResourcePartType attribute, const QString &value);
+    QString partAttribute(ResourcePartType attribute) const;
+    bool hasPartAttribute(ResourcePartType attribute) const;
+    void setPartAttribute(ResourcePartType attribute, const QString &value);
 
     static bool fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
     void idChanged(const QString &arg);
-    void statusChanged(Proof::Jdf::ApiHelper::ResourceStatus arg);
-    void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass arg);
-    void partIdKeysChanged(const QList<Proof::Jdf::ApiHelper::ResourcePartType> &arg);
-    void partAttributeChanged(ApiHelper::ResourcePartType attribute, const QString &value);
+    void statusChanged(Proof::Jdf::ResourceStatus arg);
+    void resourceClassChanged(Proof::Jdf::ResourceClass arg);
+    void partIdKeysChanged(const QList<Proof::Jdf::ResourcePartType> &arg);
+    void partAttributeChanged(ResourcePartType attribute, const QString &value);
 
 protected:
     explicit AbstractResource() = delete;
     AbstractResource(AbstractResourcePrivate &dd, QObject *parent = nullptr);
-    void setupLink(const AbstractResourceLinkSP &abstractLink, ApiHelper::Usage usage) const;
+    void setupLink(const AbstractResourceLinkSP &abstractLink, Usage usage) const;
 };
 
 }

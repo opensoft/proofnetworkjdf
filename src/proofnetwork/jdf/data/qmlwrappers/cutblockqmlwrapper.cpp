@@ -32,7 +32,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, QString, blockName)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, double, width)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, double, height)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, QString, transformationMatrix)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, Proof::Jdf::ApiHelper::BlockType, blockType)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, Proof::Jdf::BlockType, blockType)
 
 void CutBlockQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {

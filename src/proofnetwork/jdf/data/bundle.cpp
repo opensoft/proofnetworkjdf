@@ -12,7 +12,7 @@ class BundlePrivate : NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::BundleType bundleType = ApiHelper::BundleType::BoxBundle;
+    BundleType bundleType = BundleType::BoxBundle;
     int totalAmount = 0;
     BundleItemSP bundleItem = BundleItem::create();
 };
@@ -22,7 +22,7 @@ class BundlePrivate : NetworkDataEntityPrivate
 
 using namespace Proof::Jdf;
 
-ApiHelper::BundleType Bundle::bundleType() const
+BundleType Bundle::bundleType() const
 {
     Q_D(const Bundle);
     return d->bundleType;
@@ -40,7 +40,7 @@ BundleItemSP Bundle::bundleItem() const
     return d->bundleItem;
 }
 
-void Bundle::setBundleType(ApiHelper::BundleType arg)
+void Bundle::setBundleType(BundleType arg)
 {
     Q_D(Bundle);
     if (d->bundleType != arg) {
@@ -90,7 +90,7 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "Bundle" && xmlReader.isStartElement() && ! bundle->isFetched()) {
             bundle->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            bundle->setBundleType(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()));
+            bundle->setBundleType(bundleTypeFromString(attributes.value("BundleType").toString()));
             bundle->setTotalAmount(attributes.value("TotalAmount").toInt());
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "BundleItem") {
@@ -112,7 +112,7 @@ void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Bundle);
     jdfWriter.writeStartElement("Bundle");
-    jdfWriter.writeAttribute("BundleType", ApiHelper::bundleTypeToString(d->bundleType));
+    jdfWriter.writeAttribute("BundleType", bundleTypeToString(d->bundleType));
     jdfWriter.writeAttribute("TotalAmount", QString::number(d->totalAmount));
 
     if (d->bundleItem->amount() != 1)

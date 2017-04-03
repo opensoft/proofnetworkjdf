@@ -17,9 +17,9 @@ class PROOF_NETWORK_JDF_EXPORT DeviceFilter : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeviceFilter)
 public:
-    ApiHelper::DeviceFilterDetails details() const;
+    DeviceFilterDetails details() const;
 
-    void setDetails(ApiHelper::DeviceFilterDetails arg);
+    void setDetails(DeviceFilterDetails arg);
 
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -29,7 +29,7 @@ public:
     static DeviceFilterSP fromJmf(QXmlStreamReader &xmlReader);
 
 signals:
-    void detailsChanged(Proof::Jdf::ApiHelper::DeviceFilterDetails arg);
+    void detailsChanged(Proof::Jdf::DeviceFilterDetails arg);
 
 protected:
     DeviceFilter();

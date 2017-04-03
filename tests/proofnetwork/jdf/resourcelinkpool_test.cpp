@@ -58,27 +58,27 @@ protected:
 
 TEST_F(ResourceLinkPoolTest, fromJdf)
 {
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->cuttingParamsLink()->usage());
+    EXPECT_EQ(Usage::InputUsage, linkPool1->cuttingParamsLink()->usage());
     EXPECT_EQ("CPM_0000", linkPool1->cuttingParamsLink()->rRef());
 
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->mediaLink()->usage());
+    EXPECT_EQ(Usage::InputUsage, linkPool1->mediaLink()->usage());
     EXPECT_EQ("PAP_0000", linkPool1->mediaLink()->rRef());
 
     ASSERT_EQ(3, linkPool1->componentLinks().count());
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool1->componentLinks().at(0)->usage());
+    EXPECT_EQ(Usage::InputUsage, linkPool1->componentLinks().at(0)->usage());
     EXPECT_EQ("COMP_0000", linkPool1->componentLinks().at(0)->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, linkPool1->componentLinks().at(1)->usage());
+    EXPECT_EQ(Usage::OutputUsage, linkPool1->componentLinks().at(1)->usage());
     EXPECT_EQ("A_OUT", linkPool1->componentLinks().at(1)->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, linkPool1->componentLinks().at(2)->usage());
+    EXPECT_EQ(Usage::OutputUsage, linkPool1->componentLinks().at(2)->usage());
     EXPECT_EQ("B_OUT", linkPool1->componentLinks().at(2)->rRef());
 
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool2->cuttingParamsLink()->usage());
+    EXPECT_EQ(Usage::InputUsage, linkPool2->cuttingParamsLink()->usage());
     EXPECT_EQ("061106-00002_1_CutPara00001", linkPool2->cuttingParamsLink()->rRef());
 
     ASSERT_EQ(2, linkPool2->componentLinks().count());
-    EXPECT_EQ(ApiHelper::Usage::InputUsage, linkPool2->componentLinks().at(0)->usage());
+    EXPECT_EQ(Usage::InputUsage, linkPool2->componentLinks().at(0)->usage());
     EXPECT_EQ("061106-00002_1_Comp00001", linkPool2->componentLinks().at(0)->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, linkPool2->componentLinks().at(1)->usage());
+    EXPECT_EQ(Usage::OutputUsage, linkPool2->componentLinks().at(1)->usage());
     EXPECT_EQ("061106-00002_1_Comp00002", linkPool2->componentLinks().at(1)->rRef());
 }
 
@@ -140,13 +140,13 @@ TEST_F(ResourceLinkPoolTest, toJdf)
                 MediaLinkSP media = MediaLink::fromJdf(reader);
                 ASSERT_TRUE(media);
                 EXPECT_EQ("PAP_0000", media->rRef());
-                EXPECT_EQ(ApiHelper::Usage::InputUsage, media->usage());
+                EXPECT_EQ(Usage::InputUsage, media->usage());
             } else if (reader.name() == "CuttingParamsLink") {
                 hasCuttingParamsLink = true;
                 CuttingParamsLinkSP cutting = CuttingParamsLink::fromJdf(reader);
                 ASSERT_TRUE(cutting);
                 EXPECT_EQ("CPM_0000", cutting->rRef());
-                EXPECT_EQ(ApiHelper::Usage::InputUsage, cutting->usage());
+                EXPECT_EQ(Usage::InputUsage, cutting->usage());
             } else if (reader.name() == "ComponentLink") {
                 componentCount++;
             }

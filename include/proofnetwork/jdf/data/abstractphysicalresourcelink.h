@@ -17,16 +17,16 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceLink : public AbstractRes
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLink)
 public:
-    ApiHelper::ResourceOrientation orientation() const;
+    ResourceOrientation orientation() const;
     double amount() const;
 
-    void setOrientation(ApiHelper::ResourceOrientation arg);
+    void setOrientation(ResourceOrientation arg);
     void setAmount(double arg);
 
     static bool fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &abstractResource);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 signals:
-    void orientationChanged(Proof::Jdf::ApiHelper::ResourceOrientation orientation);
+    void orientationChanged(Proof::Jdf::ResourceOrientation orientation);
     void amountChanged(double arg);
 protected:
     explicit AbstractPhysicalResourceLink() = delete;

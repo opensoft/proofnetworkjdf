@@ -13,7 +13,7 @@ class AbstractResourcePrivate : public NetworkDataEntityPrivate
     Q_DECLARE_PUBLIC(AbstractResource)
 public:
     AbstractResourcePrivate() : NetworkDataEntityPrivate() {}
-    AbstractResourcePrivate(ApiHelper::ResourceClass resourceClass)
+    AbstractResourcePrivate(ResourceClass resourceClass)
         : NetworkDataEntityPrivate(), resourceClass(resourceClass)
     {}
 
@@ -21,11 +21,11 @@ public:
 
     QString id;
 
-    ApiHelper::ResourceStatus resourceStatus = ApiHelper::ResourceStatus::NoStatus;
-    ApiHelper::ResourceClass resourceClass = ApiHelper::ResourceClass::NoClass;
+    ResourceStatus resourceStatus = ResourceStatus::NoStatus;
+    ResourceClass resourceClass = ResourceClass::NoClass;
 
-    QList<ApiHelper::ResourcePartType> partIdKeys;
-    QHash<ApiHelper::ResourcePartType, QString> partAttributes;
+    QList<ResourcePartType> partIdKeys;
+    QHash<ResourcePartType, QString> partAttributes;
 };
 
 }

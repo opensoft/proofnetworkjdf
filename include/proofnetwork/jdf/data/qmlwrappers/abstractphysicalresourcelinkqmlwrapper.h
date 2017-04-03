@@ -13,18 +13,18 @@ class AbstractPhysicalResourceLinkQmlWrapperPrivate;
 class AbstractPhysicalResourceLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceOrientation orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(Proof::Jdf::ResourceOrientation orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(double amount READ amount NOTIFY amountChanged)
 
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLinkQmlWrapper)
 public:
     AbstractPhysicalResourceLinkQmlWrapper(const QSharedPointer<AbstractPhysicalResourceLink> &link,
                                            AbstractPhysicalResourceLinkQmlWrapperPrivate &dd, QObject *parent = nullptr);
-    ApiHelper::ResourceOrientation orientation() const;
+    ResourceOrientation orientation() const;
     double amount() const;
 
 signals:
-    void orientationChanged(ApiHelper::ResourceOrientation orientation);
+    void orientationChanged(ResourceOrientation orientation);
     void amountChanged(double amount);
 
 protected:

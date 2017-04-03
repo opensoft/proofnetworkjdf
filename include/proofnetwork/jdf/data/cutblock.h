@@ -28,7 +28,7 @@ public:
     double y() const;
     double rotation() const;
     QString transformationMatrix() const;
-    ApiHelper::BlockType blockType() const;
+    BlockType blockType() const;
 
     void setBlockName(const QString &arg);
     void setWidth(double arg);
@@ -38,7 +38,7 @@ public:
     void setRotation(double arg);
     void setTransformationMatrix(const QString &arg);
     void setTransformationMatrix(double x, double y, double rotation);
-    void setBlockType(ApiHelper::BlockType arg);
+    void setBlockType(BlockType arg);
 
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -55,7 +55,7 @@ signals:
     void yChanged(double arg);
     void rotationChanged(double arg);
     void transformationMatrixChanged(const QString &arg);
-    void blockTypeChanged(Proof::Jdf::ApiHelper::BlockType arg);
+    void blockTypeChanged(Proof::Jdf::BlockType arg);
 
 protected:
     explicit CutBlock(const QString &blockName = QString());

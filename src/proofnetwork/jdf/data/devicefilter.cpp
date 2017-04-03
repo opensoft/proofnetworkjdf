@@ -12,16 +12,16 @@ class DeviceFilterPrivate : public NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::DeviceFilterDetails details = ApiHelper::DeviceFilterDetails::NoneDeviceFilterDetails;
+    DeviceFilterDetails details = DeviceFilterDetails::NoneDeviceFilterDetails;
 };
 
-ApiHelper::DeviceFilterDetails DeviceFilter::details() const
+DeviceFilterDetails DeviceFilter::details() const
 {
     Q_D(const DeviceFilter);
     return d->details;
 }
 
-void DeviceFilter::setDetails(ApiHelper::DeviceFilterDetails arg)
+void DeviceFilter::setDetails(DeviceFilterDetails arg)
 {
     Q_D(DeviceFilter);
     if (d->details != arg) {
@@ -46,7 +46,7 @@ DeviceFilterSP DeviceFilter::create()
 void DeviceFilter::toJmf(QXmlStreamWriter &xmlWriter)
 {
     xmlWriter.writeStartElement("DeviceFilter");
-    xmlWriter.writeAttribute("DeviceDetails", ApiHelper::deviceFilterDetailsToString(details()));
+    xmlWriter.writeAttribute("DeviceDetails", deviceFilterDetailsToString(details()));
     xmlWriter.writeEndElement();
 }
 
@@ -57,7 +57,7 @@ DeviceFilterSP DeviceFilter::fromJmf(QXmlStreamReader &xmlReader)
         result = create();
         result->setFetched(true);
         auto attributes = xmlReader.attributes();
-        result->setDetails(ApiHelper::deviceFilterDetailsFromString(attributes.value("DeviceDetails").toString()));
+        result->setDetails(deviceFilterDetailsFromString(attributes.value("DeviceDetails").toString()));
         xmlReader.skipCurrentElement();
     }
     return result;

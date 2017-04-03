@@ -13,17 +13,17 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     Q_DECLARE_PUBLIC(Component)
 
     ComponentPrivate()
-        : AbstractPhysicalResourcePrivate(ApiHelper::ResourceClass::QuantityClass)
+        : AbstractPhysicalResourcePrivate(ResourceClass::QuantityClass)
     {
         registerChildren(bundle, cutBlocks);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    bool partsAreValid(QList<ApiHelper::ResourcePartType> partsToCheck = QList<ApiHelper::ResourcePartType>()) const;
+    bool partsAreValid(QList<ResourcePartType> partsToCheck = QList<ResourcePartType>()) const;
 
-    ApiHelper::ResourceOrientation orientation = ApiHelper::ResourceOrientation::Rotate0Orientation;
-    ApiHelper::ComponentType componentType = ApiHelper::ComponentType::NotTypedComponent;
+    ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
+    ComponentType componentType = ComponentType::NotTypedComponent;
 
     double width = 0.0;
     double height = 0.0;
@@ -43,7 +43,7 @@ ObjectsCache<JdfComponentDataKey, Component> &componentsCache()
 
 using namespace Proof::Jdf;
 
-ApiHelper::ComponentType Component::componentType() const
+ComponentType Component::componentType() const
 {
     Q_D(const Component);
     return d->componentType;
@@ -85,7 +85,7 @@ QList<ComponentSP> Component::parts() const
     return d->parts;
 }
 
-void Component::setComponentType(ApiHelper::ComponentType arg)
+void Component::setComponentType(ComponentType arg)
 {
     Q_D(Component);
     if (d->componentType != arg) {
@@ -141,13 +141,13 @@ QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
         d->cutBlocks = arg;
         emit cutBlocksChanged();
     }
-    if (d->cutBlocks.count() > 0 && !partIdKeys().contains(ApiHelper::ResourcePartType::BlockNamePart)) {
-        QList<ApiHelper::ResourcePartType> partIdKeysOther = partIdKeys();
-        partIdKeysOther.append(ApiHelper::ResourcePartType::BlockNamePart);
+    if (d->cutBlocks.count() > 0 && !partIdKeys().contains(ResourcePartType::BlockNamePart)) {
+        QList<ResourcePartType> partIdKeysOther = partIdKeys();
+        partIdKeysOther.append(ResourcePartType::BlockNamePart);
         setPartIdKeys(partIdKeysOther);
-    } else if (d->cutBlocks.count() == 0 && partIdKeys().contains(ApiHelper::ResourcePartType::BlockNamePart)) {
-        QList<ApiHelper::ResourcePartType> partIdKeysOther = partIdKeys();
-        partIdKeysOther.removeAll(ApiHelper::ResourcePartType::BlockNamePart);
+    } else if (d->cutBlocks.count() == 0 && partIdKeys().contains(ResourcePartType::BlockNamePart)) {
+        QList<ResourcePartType> partIdKeysOther = partIdKeys();
+        partIdKeysOther.removeAll(ResourcePartType::BlockNamePart);
         setPartIdKeys(partIdKeysOther);
     }
 
@@ -200,7 +200,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
             AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
 
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            component->setComponentType(ApiHelper::componentTypeFromString(attributes.value("ComponentType").toString()));
+            component->setComponentType(componentTypeFromString(attributes.value("ComponentType").toString()));
 
             QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ", QString::SkipEmptyParts);
             if (dimensionsList.count() >= 3) {
@@ -214,21 +214,21 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 
                 bool partitionedComponent = true;
                 if (component->partIdKeys().count() == 0) {
-                    if (attributes.hasAttribute(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart))) {
-                        QString blockName = attributes.value(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart)).toString();
+                    if (attributes.hasAttribute(resourcePartTypeToString(ResourcePartType::BlockNamePart))) {
+                        QString blockName = attributes.value(resourcePartTypeToString(ResourcePartType::BlockNamePart)).toString();
                         cutBlocks << cutBlockCache().add({jobId, blockName}, CutBlock::create(blockName));
                         partitionedComponent = false;
                     }
                 } else if (component->partIdKeys().count() == 1) {
                     switch (component->partIdKeys()[0]) {
-                    case ApiHelper::ResourcePartType::BlockNamePart: {
-                        QString blockName = attributes.value(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart)).toString();
+                    case ResourcePartType::BlockNamePart: {
+                        QString blockName = attributes.value(resourcePartTypeToString(ResourcePartType::BlockNamePart)).toString();
                         cutBlocks << cutBlockCache().add({jobId, blockName}, CutBlock::create(blockName));
                         partitionedComponent = false;
                         break;
                     }
-                    case ApiHelper::ResourcePartType::BundleItemIndexPart:
-                    case ApiHelper::ResourcePartType::CellIndexPart:
+                    case ResourcePartType::BundleItemIndexPart:
+                    case ResourcePartType::CellIndexPart:
                         partitionedComponent = false;
                         break;
                     default:
@@ -289,8 +289,8 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Component);
     jdfWriter.writeStartElement("Component");
-    if (d->componentType != ApiHelper::ComponentType::NotTypedComponent)
-        jdfWriter.writeAttribute("ComponentType", ApiHelper::componentTypeToString(d->componentType));
+    if (d->componentType != ComponentType::NotTypedComponent)
+        jdfWriter.writeAttribute("ComponentType", componentTypeToString(d->componentType));
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height) || !qFuzzyIsNull(d->length)) {
         jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3")
                                  .arg(d->width, 0, 'f', 4)
@@ -302,7 +302,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
 
     for (const CutBlockSP &cutBlock : d->cutBlocks) {
         jdfWriter.writeStartElement("Component");
-        jdfWriter.writeAttribute(ApiHelper::resourcePartTypeToString(ApiHelper::ResourcePartType::BlockNamePart), cutBlock->blockName());
+        jdfWriter.writeAttribute(resourcePartTypeToString(ResourcePartType::BlockNamePart), cutBlock->blockName());
         jdfWriter.writeEndElement();
     }
 
@@ -317,7 +317,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-ComponentLinkSP Component::toLink(ApiHelper::Usage usage) const
+ComponentLinkSP Component::toLink(Usage usage) const
 {
     ComponentLinkSP link = ComponentLink::create();
     AbstractResource::setupLink(link, usage);
@@ -345,7 +345,7 @@ void ComponentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     AbstractPhysicalResourcePrivate::updateFrom(other);
 }
 
-bool ComponentPrivate::partsAreValid(QList<ApiHelper::ResourcePartType> partsToCheck) const
+bool ComponentPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) const
 {
     if (partsToCheck.isEmpty() && !partIdKeys.isEmpty())
         partsToCheck = partIdKeys;
@@ -359,7 +359,7 @@ bool ComponentPrivate::partsAreValid(QList<ApiHelper::ResourcePartType> partsToC
 
     for (const auto &part : parts) {
         if (!part->hasPartAttribute(currentPart)) {
-            qCCritical(proofNetworkJdfDataLog) << "Component partioning is not valid. Part" << ApiHelper::resourcePartTypeToString(currentPart) << "not found";
+            qCCritical(proofNetworkJdfDataLog) << "Component partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
             return false;
         }
         if (!part->d_func()->partsAreValid(partsToCheck))

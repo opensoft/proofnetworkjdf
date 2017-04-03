@@ -55,12 +55,12 @@ TEST_F(KnownDevicesResponseTest, fromJmf)
     ASSERT_EQ(2, devices.size());
     auto first = devices.at(0);
     EXPECT_EQ("10.1.0.159", first->deviceId());
-    EXPECT_EQ(ApiHelper::DeviceStatus::IdleDeviceStatus, first->status());
-    EXPECT_EQ(ApiHelper::DeviceCondition::OkDeviceCondition, first->condition());
+    EXPECT_EQ(DeviceStatus::IdleDeviceStatus, first->status());
+    EXPECT_EQ(DeviceCondition::OkDeviceCondition, first->condition());
     auto second = devices.at(1);
     EXPECT_EQ("10.1.0.158", second->deviceId());
-    EXPECT_EQ(ApiHelper::DeviceStatus::IdleDeviceStatus, second->status());
-    EXPECT_EQ(ApiHelper::DeviceCondition::OkDeviceCondition, second->condition());
+    EXPECT_EQ(DeviceStatus::IdleDeviceStatus, second->status());
+    EXPECT_EQ(DeviceCondition::OkDeviceCondition, second->condition());
 }
 
 TEST_F(KnownDevicesResponseTest, toJmf)

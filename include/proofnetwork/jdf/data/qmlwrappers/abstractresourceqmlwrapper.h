@@ -15,9 +15,9 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResourceQmlWrapper : public NetworkDataEn
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceStatus resourceStatus READ resourceStatus NOTIFY resourceStatusChanged)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::ResourceClass resourceClass READ resourceClass NOTIFY resourceClassChanged)
-    Q_PROPERTY(QList<ApiHelper::ResourcePartType> partIdKeys READ partIdKeys NOTIFY partIdKeysChanged)
+    Q_PROPERTY(Proof::Jdf::ResourceStatus resourceStatus READ resourceStatus NOTIFY resourceStatusChanged)
+    Q_PROPERTY(Proof::Jdf::ResourceClass resourceClass READ resourceClass NOTIFY resourceClassChanged)
+    Q_PROPERTY(QList<ResourcePartType> partIdKeys READ partIdKeys NOTIFY partIdKeysChanged)
 
     Q_DECLARE_PRIVATE(AbstractResourceQmlWrapper)
 public:
@@ -26,15 +26,15 @@ public:
     ~AbstractResourceQmlWrapper();
 
     QString id() const;
-    ApiHelper::ResourceStatus resourceStatus() const;
-    ApiHelper::ResourceClass resourceClass() const;
-    QList<ApiHelper::ResourcePartType> partIdKeys() const;
+    ResourceStatus resourceStatus() const;
+    ResourceClass resourceClass() const;
+    QList<ResourcePartType> partIdKeys() const;
 
 signals:
     void idChanged(const QString &id);
-    void resourceStatusChanged(Proof::Jdf::ApiHelper::ResourceStatus resourceStatus);
-    void resourceClassChanged(Proof::Jdf::ApiHelper::ResourceClass resourceClass);
-    void partIdKeysChanged(const QList<ApiHelper::ResourcePartType> &partIdKeys);
+    void resourceStatusChanged(Proof::Jdf::ResourceStatus resourceStatus);
+    void resourceClassChanged(Proof::Jdf::ResourceClass resourceClass);
+    void partIdKeysChanged(const QList<ResourcePartType> &partIdKeys);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

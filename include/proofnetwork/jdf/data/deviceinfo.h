@@ -19,12 +19,12 @@ class PROOF_NETWORK_JDF_EXPORT DeviceInfo : public NetworkDataEntity
 
 public:
     QString deviceId() const;
-    ApiHelper::DeviceStatus status() const;
-    ApiHelper::DeviceCondition condition() const;
+    DeviceStatus status() const;
+    DeviceCondition condition() const;
 
     void setDeviceId(const QString &arg);
-    void setStatus(ApiHelper::DeviceStatus arg);
-    void setCondition(ApiHelper::DeviceCondition arg);
+    void setStatus(DeviceStatus arg);
+    void setCondition(DeviceCondition arg);
 
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -35,8 +35,8 @@ public:
 
 signals:
     void deviceIdChanged(const QString &arg);
-    void statusChanged(Proof::Jdf::ApiHelper::DeviceStatus arg);
-    void conditionChanged(Proof::Jdf::ApiHelper::DeviceCondition arg);
+    void statusChanged(Proof::Jdf::DeviceStatus arg);
+    void conditionChanged(Proof::Jdf::DeviceCondition arg);
 
 protected:
     explicit DeviceInfo();

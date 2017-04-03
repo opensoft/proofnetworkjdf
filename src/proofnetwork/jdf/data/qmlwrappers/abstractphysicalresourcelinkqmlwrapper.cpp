@@ -14,7 +14,7 @@ AbstractPhysicalResourceLinkQmlWrapper::AbstractPhysicalResourceLinkQmlWrapper(
 }
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink,
-                                  Proof::Jdf::ApiHelper::ResourceOrientation,
+                                  Proof::Jdf::ResourceOrientation,
                                   orientation)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink, double, amount)
 

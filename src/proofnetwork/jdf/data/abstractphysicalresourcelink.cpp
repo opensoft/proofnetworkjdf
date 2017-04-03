@@ -9,7 +9,7 @@ AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResou
 {
 }
 
-ApiHelper::ResourceOrientation AbstractPhysicalResourceLink::orientation() const
+ResourceOrientation AbstractPhysicalResourceLink::orientation() const
 {
     Q_D(const AbstractPhysicalResourceLink);
     return d->orientation;
@@ -21,7 +21,7 @@ double AbstractPhysicalResourceLink::amount() const
     return d->amount;
 }
 
-void AbstractPhysicalResourceLink::setOrientation(ApiHelper::ResourceOrientation arg)
+void AbstractPhysicalResourceLink::setOrientation(ResourceOrientation arg)
 {
     Q_D(AbstractPhysicalResourceLink);
     if (d->orientation != arg) {
@@ -43,7 +43,7 @@ bool AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, co
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QString value = attributes.value("Orientation").toString();
-    resource->setOrientation(ApiHelper::resourceOrientationFromString(value));
+    resource->setOrientation(resourceOrientationFromString(value));
     resource->setAmount(attributes.value("Amount").toDouble());
 
     return AbstractResourceLink::fromJdf(xmlReader, resource);
@@ -54,10 +54,10 @@ void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(AbstractPhysicalResourceLink);
     QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
     jdfWriter.writeStartElement(className);
-    jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(usage()));
+    jdfWriter.writeAttribute("Usage", usageToString(usage()));
     jdfWriter.writeAttribute("rRef", rRef());
-    if (d->orientation != ApiHelper::ResourceOrientation::Rotate0Orientation)
-        jdfWriter.writeAttribute("Orientation", ApiHelper::resourceOrientationToString(d->orientation));
+    if (d->orientation != ResourceOrientation::Rotate0Orientation)
+        jdfWriter.writeAttribute("Orientation", resourceOrientationToString(d->orientation));
     if (d->amount != 0)
         jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
 

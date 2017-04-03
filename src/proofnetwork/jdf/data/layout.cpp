@@ -11,7 +11,7 @@ class LayoutPrivate : public AbstractResourcePrivate
     Q_DECLARE_PUBLIC(Layout)
 
     LayoutPrivate()
-        : AbstractResourcePrivate(ApiHelper::ResourceClass::ParameterClass)
+        : AbstractResourcePrivate(ResourceClass::ParameterClass)
     {
         registerChildren(media);
     }

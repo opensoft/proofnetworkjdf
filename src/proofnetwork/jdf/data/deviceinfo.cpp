@@ -10,8 +10,8 @@ class DeviceInfoPrivate : public NetworkDataEntityPrivate
     Q_DECLARE_PUBLIC(DeviceInfo)
 
     QString deviceId;
-    ApiHelper::DeviceStatus status = ApiHelper::DeviceStatus::UnknownDeviceStatus;
-    ApiHelper::DeviceCondition condition = ApiHelper::DeviceCondition::OkDeviceCondition;
+    DeviceStatus status = DeviceStatus::UnknownDeviceStatus;
+    DeviceCondition condition = DeviceCondition::OkDeviceCondition;
 };
 
 QString DeviceInfo::deviceId() const
@@ -20,13 +20,13 @@ QString DeviceInfo::deviceId() const
     return d->deviceId;
 }
 
-ApiHelper::DeviceStatus Proof::Jdf::DeviceInfo::status() const
+DeviceStatus Proof::Jdf::DeviceInfo::status() const
 {
     Q_D(const DeviceInfo);
     return d->status;
 }
 
-ApiHelper::DeviceCondition DeviceInfo::condition() const
+DeviceCondition DeviceInfo::condition() const
 {
     Q_D(const DeviceInfo);
     return d->condition;
@@ -41,7 +41,7 @@ void DeviceInfo::setDeviceId(const QString &arg)
     }
 }
 
-void Proof::Jdf::DeviceInfo::setStatus(ApiHelper::DeviceStatus arg)
+void Proof::Jdf::DeviceInfo::setStatus(DeviceStatus arg)
 {
     Q_D(DeviceInfo);
     if (d->status != arg) {
@@ -50,7 +50,7 @@ void Proof::Jdf::DeviceInfo::setStatus(ApiHelper::DeviceStatus arg)
     }
 }
 
-void Proof::Jdf::DeviceInfo::setCondition(ApiHelper::DeviceCondition arg)
+void Proof::Jdf::DeviceInfo::setCondition(DeviceCondition arg)
 {
     Q_D(DeviceInfo);
     if (d->condition != arg) {
@@ -80,8 +80,8 @@ DeviceInfoSP DeviceInfo::fromJmf(QXmlStreamReader &xmlReader)
         deviceInfo->setFetched(true);
         auto attributes = xmlReader.attributes();
         deviceInfo->setDeviceId(attributes.value("DeviceID").toString());
-        deviceInfo->setStatus(ApiHelper::deviceStatusFromString(attributes.value("DeviceStatus").toString()));
-        deviceInfo->setCondition(ApiHelper::deviceConditionFromString(attributes.value("DeviceCondition").toString()));
+        deviceInfo->setStatus(deviceStatusFromString(attributes.value("DeviceStatus").toString()));
+        deviceInfo->setCondition(deviceConditionFromString(attributes.value("DeviceCondition").toString()));
     }
     xmlReader.skipCurrentElement();
     return deviceInfo;
@@ -92,8 +92,8 @@ void DeviceInfo::toJmf(QXmlStreamWriter &xmlWriter)
     Q_D(DeviceInfo);
     xmlWriter.writeStartElement("DeviceInfo");
     xmlWriter.writeAttribute("DeviceID", d->deviceId);
-    xmlWriter.writeAttribute("DeviceStatus", ApiHelper::deviceStatusToString(d->status));
-    xmlWriter.writeAttribute("DeviceCondition", ApiHelper::deviceConditionToString(d->condition));
+    xmlWriter.writeAttribute("DeviceStatus", deviceStatusToString(d->status));
+    xmlWriter.writeAttribute("DeviceCondition", deviceConditionToString(d->condition));
     xmlWriter.writeEndElement();
 }
 

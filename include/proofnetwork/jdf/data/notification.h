@@ -17,10 +17,10 @@ class PROOF_NETWORK_JDF_EXPORT Notification : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(Notification)
 public:
-    ApiHelper::NotificationClass notificationClass() const;
+    NotificationClass notificationClass() const;
     QString comment() const;
 
-    void setNotificationClass(ApiHelper::NotificationClass arg);
+    void setNotificationClass(NotificationClass arg);
     void setComment(const QString &arg);
 
     static NotificationSP create();
@@ -31,7 +31,7 @@ public:
     static NotificationSP fromJdf(QXmlStreamReader &xmlReader);
 
 signals:
-    void notificationClassChanged(Proof::Jdf::ApiHelper::NotificationClass arg);
+    void notificationClassChanged(Proof::Jdf::NotificationClass arg);
     void commentChanged(const QString &arg);
 
 protected:

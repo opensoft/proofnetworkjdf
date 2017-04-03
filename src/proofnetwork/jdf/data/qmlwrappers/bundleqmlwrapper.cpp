@@ -29,7 +29,7 @@ BundleQmlWrapper::~BundleQmlWrapper()
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Bundle)
 
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, Proof::Jdf::ApiHelper::BundleType, bundleType)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, Proof::Jdf::BundleType, bundleType)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, int, totalAmount)
 
 BundleItemQmlWrapper *BundleQmlWrapper::bundleItem() const

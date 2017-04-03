@@ -35,7 +35,7 @@ ComponentQmlWrapper::~ComponentQmlWrapper()
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Component)
 
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Component, Proof::Jdf::ApiHelper::ComponentType, componentType)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Component, Proof::Jdf::ComponentType, componentType)
 
 BundleQmlWrapper *ComponentQmlWrapper::bundle() const
 {

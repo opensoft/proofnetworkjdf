@@ -10,7 +10,7 @@ AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd, QObj
 {
 }
 
-ApiHelper::Usage AbstractResourceLink::usage() const
+Usage AbstractResourceLink::usage() const
 {
     Q_D(const AbstractResourceLink);
     return d->usage;
@@ -22,7 +22,7 @@ QString AbstractResourceLink::rRef() const
     return d->rRef;
 }
 
-void AbstractResourceLink::setUsage(ApiHelper::Usage arg)
+void AbstractResourceLink::setUsage(Usage arg)
 {
     Q_D(AbstractResourceLink);
     if (d->usage != arg) {
@@ -43,7 +43,7 @@ void AbstractResourceLink::setRRef(const QString &arg)
 bool AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    abstractResource->setUsage(ApiHelper::usageFromString(attributes.value("Usage").toString()));
+    abstractResource->setUsage(usageFromString(attributes.value("Usage").toString()));
     abstractResource->setRRef(attributes.value("rRef").toString());
 
     return true;
@@ -54,7 +54,7 @@ void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(AbstractResourceLink);
     QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
     jdfWriter.writeStartElement(className);
-    jdfWriter.writeAttribute("Usage", ApiHelper::usageToString(d->usage));
+    jdfWriter.writeAttribute("Usage", usageToString(d->usage));
     jdfWriter.writeAttribute("rRef", d->rRef);
     jdfWriter.writeEndElement();
 }

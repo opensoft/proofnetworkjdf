@@ -15,7 +15,7 @@ class DeliveryIntentPrivate : public AbstractResourcePrivate
     Q_DECLARE_PUBLIC(DeliveryIntent)
 
 public:
-    DeliveryIntentPrivate() : AbstractResourcePrivate(ApiHelper::ResourceClass::IntentClass)
+    DeliveryIntentPrivate() : AbstractResourcePrivate(ResourceClass::IntentClass)
     {
         registerChildren(dropIntents);
     }
@@ -127,7 +127,7 @@ void DeliveryIntent::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-DeliveryIntentLinkSP DeliveryIntent::toLink(ApiHelper::Usage usage) const
+DeliveryIntentLinkSP DeliveryIntent::toLink(Usage usage) const
 {
     DeliveryIntentLinkSP link = DeliveryIntentLink::create();
     AbstractResource::setupLink(link, usage);

@@ -13,7 +13,7 @@ class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
 public:
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::Usage usage = ApiHelper::Usage::InputUsage;
+    Usage usage = Usage::InputUsage;
     QString rRef;
 };
 

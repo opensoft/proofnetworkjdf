@@ -57,7 +57,7 @@ TEST_F(CutBlockTest, fromJdf)
     EXPECT_DOUBLE_EQ(36.0000, cutBlockUT->y());
     EXPECT_DOUBLE_EQ(0.0, cutBlockUT->rotation());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlockUT->transformationMatrix());
-    EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlockUT->blockType());
+    EXPECT_EQ(BlockType::CutBlock, cutBlockUT->blockType());
 }
 
 TEST_F(CutBlockTest, updateFrom)

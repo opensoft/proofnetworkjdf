@@ -11,19 +11,19 @@ QString AbstractResource::id() const
     return d->id;
 }
 
-ApiHelper::ResourceStatus AbstractResource::resourceStatus() const
+ResourceStatus AbstractResource::resourceStatus() const
 {
     Q_D(const AbstractResource);
     return d->resourceStatus;
 }
 
-ApiHelper::ResourceClass AbstractResource::resourceClass() const
+ResourceClass AbstractResource::resourceClass() const
 {
     Q_D(const AbstractResource);
     return d->resourceClass;
 }
 
-QList<ApiHelper::ResourcePartType> AbstractResource::partIdKeys() const
+QList<ResourcePartType> AbstractResource::partIdKeys() const
 {
     Q_D(const AbstractResource);
     return d->partIdKeys;
@@ -38,7 +38,7 @@ void AbstractResource::setId(const QString &arg)
     }
 }
 
-void AbstractResource::setResourceStatus(ApiHelper::ResourceStatus arg)
+void AbstractResource::setResourceStatus(ResourceStatus arg)
 {
     Q_D(AbstractResource);
     if (d->resourceStatus != arg) {
@@ -47,7 +47,7 @@ void AbstractResource::setResourceStatus(ApiHelper::ResourceStatus arg)
     }
 }
 
-void AbstractResource::setResourceClass(ApiHelper::ResourceClass arg)
+void AbstractResource::setResourceClass(ResourceClass arg)
 {
     Q_D(AbstractResource);
     if (d->resourceClass != arg) {
@@ -56,7 +56,7 @@ void AbstractResource::setResourceClass(ApiHelper::ResourceClass arg)
     }
 }
 
-void AbstractResource::setPartIdKeys(const QList<ApiHelper::ResourcePartType> &arg)
+void AbstractResource::setPartIdKeys(const QList<ResourcePartType> &arg)
 {
     Q_D(AbstractResource);
     if (d->partIdKeys != arg) {
@@ -65,19 +65,19 @@ void AbstractResource::setPartIdKeys(const QList<ApiHelper::ResourcePartType> &a
     }
 }
 
-QString AbstractResource::partAttribute(ApiHelper::ResourcePartType attribute) const
+QString AbstractResource::partAttribute(ResourcePartType attribute) const
 {
     Q_D(const AbstractResource);
     return d->partAttributes.value(attribute, QString());
 }
 
-bool AbstractResource::hasPartAttribute(ApiHelper::ResourcePartType attribute) const
+bool AbstractResource::hasPartAttribute(ResourcePartType attribute) const
 {
     Q_D(const AbstractResource);
     return d->partAttributes.contains(attribute);
 }
 
-void AbstractResource::setPartAttribute(ApiHelper::ResourcePartType attribute, const QString &value)
+void AbstractResource::setPartAttribute(ResourcePartType attribute, const QString &value)
 {
     Q_D(AbstractResource);
     d->partAttributes[attribute] = value;
@@ -88,21 +88,21 @@ bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResour
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QStringList partIdKeysStringified = attributes.value("PartIDKeys").toString().split(" ", QString::SkipEmptyParts);
-    QList<ApiHelper::ResourcePartType> partIdKeys;
+    QList<ResourcePartType> partIdKeys;
     for (const QString &partName : partIdKeysStringified) {
         bool ok = false;
-        ApiHelper::ResourcePartType part = ApiHelper::resourcePartTypeFromString(partName, &ok);
+        ResourcePartType part = resourcePartTypeFromString(partName, &ok);
         if (!ok)
             return false;
         partIdKeys << part;
     }
     abstractResource->setPartIdKeys(partIdKeys);
     abstractResource->setId(attributes.value("ID").toString());
-    abstractResource->setResourceStatus(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()));
+    abstractResource->setResourceStatus(resourceStatusFromString(attributes.value("Status").toString()));
 
     for (const auto &attribute : attributes) {
         bool isPartAttribute = false;
-        auto part = ApiHelper::resourcePartTypeFromString(attribute.name().toString(), &isPartAttribute);
+        auto part = resourcePartTypeFromString(attribute.name().toString(), &isPartAttribute);
         if (!isPartAttribute)
             continue;
         abstractResource->setPartAttribute(part, attribute.value().toString());
@@ -116,17 +116,17 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(AbstractResource);
     if (!d->id.isEmpty())
         jdfWriter.writeAttribute("ID", d->id);
-    if (d->resourceStatus != ApiHelper::ResourceStatus::NoStatus)
-        jdfWriter.writeAttribute("Status", ApiHelper::resourceStatusToString(d->resourceStatus));
-    if (d->resourceClass != ApiHelper::ResourceClass::NoClass)
-        jdfWriter.writeAttribute("Class", ApiHelper::resourceClassToString(d->resourceClass));
+    if (d->resourceStatus != ResourceStatus::NoStatus)
+        jdfWriter.writeAttribute("Status", resourceStatusToString(d->resourceStatus));
+    if (d->resourceClass != ResourceClass::NoClass)
+        jdfWriter.writeAttribute("Class", resourceClassToString(d->resourceClass));
     QStringList partIdKeysStringified;
     for (auto part : d->partIdKeys)
-        partIdKeysStringified += ApiHelper::resourcePartTypeToString(part);
+        partIdKeysStringified += resourcePartTypeToString(part);
     if (partIdKeysStringified.count())
         jdfWriter.writeAttribute("PartIDKeys", partIdKeysStringified.join(" "));
     for (auto part : d->partAttributes.keys())
-        jdfWriter.writeAttribute(ApiHelper::resourcePartTypeToString(part), d->partAttributes[part]);
+        jdfWriter.writeAttribute(resourcePartTypeToString(part), d->partAttributes[part]);
 }
 
 AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
@@ -135,7 +135,7 @@ AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
 
 }
 
-void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, ApiHelper::Usage usage) const
+void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, Usage usage) const
 {
     abstractLink->setRRef(id());
     abstractLink->setUsage(usage);

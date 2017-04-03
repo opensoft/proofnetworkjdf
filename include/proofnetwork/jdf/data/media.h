@@ -19,18 +19,18 @@ class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource
     Q_DECLARE_PRIVATE(Media)
 public:
     double thickness() const;
-    ApiHelper::CoatingType frontCoating() const;
-    ApiHelper::CoatingType backCoating() const;
-    ApiHelper::MediaUnit mediaUnit() const;
-    ApiHelper::MediaType mediaType() const;
+    CoatingType frontCoating() const;
+    CoatingType backCoating() const;
+    MediaUnit mediaUnit() const;
+    MediaType mediaType() const;
     double height() const;
     double width() const;
 
     void setThickness(double microns);
-    void setFrontCoating(ApiHelper::CoatingType coating);
-    void setBackCoating(ApiHelper::CoatingType coating);
-    void setMediaUnit(ApiHelper::MediaUnit mediaUnit);
-    void setMediaType(ApiHelper::MediaType mediaType);
+    void setFrontCoating(CoatingType coating);
+    void setBackCoating(CoatingType coating);
+    void setMediaUnit(MediaUnit mediaUnit);
+    void setMediaType(MediaType mediaType);
     void setHeight(double arg);
     void setWidth(double arg);
 
@@ -40,16 +40,16 @@ public:
 
     static MediaSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    MediaLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
+    MediaLinkSP toLink(Usage usage = Usage::InputUsage) const;
 
 signals:
     void thicknessChanged(double arg);
     void heightChanged(double arg);
     void widthChanged(double arg);
-    void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
-    void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType arg);
-    void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit arg);
-    void mediaTypeChanged(Proof::Jdf::ApiHelper::MediaType arg);
+    void frontCoatingChanged(Proof::Jdf::CoatingType arg);
+    void backCoatingChanged(Proof::Jdf::CoatingType arg);
+    void mediaUnitChanged(Proof::Jdf::MediaUnit arg);
+    void mediaTypeChanged(Proof::Jdf::MediaType arg);
 
 protected:
     explicit Media();

@@ -23,7 +23,7 @@ LaminatingIntentQmlWrapper::~LaminatingIntentQmlWrapper()
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(LaminatingIntent)
 
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(LaminatingIntent, Proof::Jdf::ApiHelper::LaminatingSurface, surface)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(LaminatingIntent, Proof::Jdf::LaminatingSurface, surface)
 
 void LaminatingIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {

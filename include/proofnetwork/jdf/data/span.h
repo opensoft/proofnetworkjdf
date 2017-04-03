@@ -10,19 +10,19 @@
 namespace Proof {
 namespace Jdf {
 
-template <class T, ApiHelper::SpanDataType DATA_TYPE>
+template <class T, SpanDataType DATA_TYPE>
 class Span;
 
-using TimeSpan = Span<QDateTime, ApiHelper::SpanDataType::TimeSpan>;
+using TimeSpan = Span<QDateTime, SpanDataType::TimeSpan>;
 
-template <class T, ApiHelper::SpanDataType DATA_TYPE>
+template <class T, SpanDataType DATA_TYPE>
 class PROOF_NETWORK_JDF_EXPORT Span
 {
 
 public:
     explicit Span() {}
 
-    constexpr ApiHelper::SpanDataType dataType() const
+    constexpr SpanDataType dataType() const
     {
         return DATA_TYPE;
     }
@@ -72,7 +72,7 @@ public:
     void toJdf(const QString &name, QXmlStreamWriter &jdfWriter)
     {
         jdfWriter.writeStartElement(name);
-        jdfWriter.writeAttribute("DataType", ApiHelper::spanDataTypeToString(dataType()));
+        jdfWriter.writeAttribute("DataType", spanDataTypeToString(dataType()));
         if (!actual().isNull())
             writeAttribute(jdfWriter, "Actual", actual());
         jdfWriter.writeEndElement();

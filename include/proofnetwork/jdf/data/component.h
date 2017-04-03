@@ -21,7 +21,7 @@ class PROOF_NETWORK_JDF_EXPORT Component : public AbstractPhysicalResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(Component)
 public:
-    ApiHelper::ComponentType componentType() const;
+    ComponentType componentType() const;
     double width() const;
     double height() const;
     double length() const;
@@ -29,7 +29,7 @@ public:
     QList<CutBlockSP> cutBlocks() const;
     QList<ComponentSP> parts() const;
 
-    void setComponentType(ApiHelper::ComponentType arg);
+    void setComponentType(ComponentType arg);
     void setWidth(double arg);
     void setHeight(double arg);
     void setLength(double arg);
@@ -44,10 +44,10 @@ public:
 
     static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    ComponentLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
+    ComponentLinkSP toLink(Usage usage = Usage::InputUsage) const;
 
 signals:
-    void componentTypeChanged(Proof::Jdf::ApiHelper::ComponentType arg);
+    void componentTypeChanged(Proof::Jdf::ComponentType arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
     void lengthChanged(double arg);

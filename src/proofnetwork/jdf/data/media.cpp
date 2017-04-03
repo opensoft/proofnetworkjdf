@@ -11,17 +11,17 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
 {
     Q_DECLARE_PUBLIC(Media)
 
-    MediaPrivate() : AbstractPhysicalResourcePrivate(ApiHelper::ResourceClass::ConsumableClass) {}
+    MediaPrivate() : AbstractPhysicalResourcePrivate(ResourceClass::ConsumableClass) {}
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
-    ApiHelper::CoatingType frontCoating = ApiHelper::CoatingType::NoneCoating;
-    ApiHelper::CoatingType backCoating = ApiHelper::CoatingType::NoneCoating;
-    ApiHelper::MediaUnit mediaUnit = ApiHelper::MediaUnit::SheetMediaUnit;
-    ApiHelper::MediaType mediaType = ApiHelper::MediaType::OtherMedia;
+    CoatingType frontCoating = CoatingType::NoCoating;
+    CoatingType backCoating = CoatingType::NoCoating;
+    MediaUnit mediaUnit = MediaUnit::SheetMediaUnit;
+    MediaType mediaType = MediaType::OtherMedia;
 };
 
 } // namespace Jdf
@@ -35,25 +35,25 @@ double Media::thickness() const
     return d->thickness;
 }
 
-ApiHelper::CoatingType Media::frontCoating() const
+CoatingType Media::frontCoating() const
 {
     Q_D(const Media);
     return d->frontCoating;
 }
 
-ApiHelper::CoatingType Media::backCoating() const
+CoatingType Media::backCoating() const
 {
     Q_D(const Media);
     return d->backCoating;
 }
 
-ApiHelper::MediaUnit Media::mediaUnit() const
+MediaUnit Media::mediaUnit() const
 {
     Q_D(const Media);
     return d->mediaUnit;
 }
 
-ApiHelper::MediaType Media::mediaType() const
+MediaType Media::mediaType() const
 {
     Q_D(const Media);
     return d->mediaType;
@@ -80,7 +80,7 @@ void Media::setThickness(double microns)
     }
 }
 
-void Media::setFrontCoating(ApiHelper::CoatingType coating)
+void Media::setFrontCoating(CoatingType coating)
 {
     Q_D(Media);
     if (d->frontCoating != coating) {
@@ -89,7 +89,7 @@ void Media::setFrontCoating(ApiHelper::CoatingType coating)
     }
 }
 
-void Media::setBackCoating(ApiHelper::CoatingType coating)
+void Media::setBackCoating(CoatingType coating)
 {
     Q_D(Media);
     if (d->backCoating != coating) {
@@ -98,7 +98,7 @@ void Media::setBackCoating(ApiHelper::CoatingType coating)
     }
 }
 
-void Media::setMediaUnit(ApiHelper::MediaUnit mediaUnit)
+void Media::setMediaUnit(MediaUnit mediaUnit)
 {
     Q_D(Media);
     if (d->mediaUnit != mediaUnit) {
@@ -107,7 +107,7 @@ void Media::setMediaUnit(ApiHelper::MediaUnit mediaUnit)
     }
 }
 
-void Media::setMediaType(ApiHelper::MediaType mediaType)
+void Media::setMediaType(MediaType mediaType)
 {
     Q_D(Media);
     if (d->mediaType != mediaType) {
@@ -158,10 +158,10 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
             media->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             media->setId(attributes.value("ID").toString());
-            media->setBackCoating(ApiHelper::coatingFromString(attributes.value("BackCoatings").toString()));
-            media->setFrontCoating(ApiHelper::coatingFromString(attributes.value("FrontCoatings").toString()));
-            media->setMediaUnit(ApiHelper::mediaUnitFromString(attributes.value("MediaUnit").toString()));
-            media->setMediaType(ApiHelper::mediaTypeFromString(attributes.value("MediaType").toString()));
+            media->setBackCoating(coatingFromString(attributes.value("BackCoatings").toString()));
+            media->setFrontCoating(coatingFromString(attributes.value("FrontCoatings").toString()));
+            media->setMediaUnit(mediaUnitFromString(attributes.value("MediaUnit").toString()));
+            media->setMediaType(mediaTypeFromString(attributes.value("MediaType").toString()));
             media->setThickness(attributes.value("Thickness").toDouble());
             QStringList dimensions = attributes.value("Dimension").toString().split(' ', QString::SkipEmptyParts);
             if (dimensions.size() >= 2) {
@@ -189,12 +189,12 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("Media");
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height))
         jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
-    if (d->backCoating != ApiHelper::CoatingType::NoneCoating)
-        jdfWriter.writeAttribute("BackCoatings", ApiHelper::coatingToString(d->backCoating));
-    if (d->frontCoating != ApiHelper::CoatingType::NoneCoating)
-        jdfWriter.writeAttribute("FrontCoatings", ApiHelper::coatingToString(d->frontCoating));
-    jdfWriter.writeAttribute("MediaUnit", ApiHelper::mediaUnitToString(d->mediaUnit));
-    jdfWriter.writeAttribute("MediaType", ApiHelper::mediaTypeToString(d->mediaType));
+    if (d->backCoating != CoatingType::NoCoating)
+        jdfWriter.writeAttribute("BackCoatings", coatingToString(d->backCoating));
+    if (d->frontCoating != CoatingType::NoCoating)
+        jdfWriter.writeAttribute("FrontCoatings", coatingToString(d->frontCoating));
+    jdfWriter.writeAttribute("MediaUnit", mediaUnitToString(d->mediaUnit));
+    jdfWriter.writeAttribute("MediaType", mediaTypeToString(d->mediaType));
     if (d->thickness > 0)
         jdfWriter.writeAttribute("Thickness", QString::number(d->thickness,'f', 4));
 
@@ -203,7 +203,7 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-MediaLinkSP Media::toLink(ApiHelper::Usage usage) const
+MediaLinkSP Media::toLink(Usage usage) const
 {
     MediaLinkSP link = MediaLink::create();
     AbstractResource::setupLink(link, usage);

@@ -53,7 +53,7 @@ TEST_F(KnownDevicesQueryTest, fromJmf)
     ASSERT_FALSE(knownDevices.isNull());
     EXPECT_EQ("misb41feececf78250c", knownDevices->id());
     ASSERT_FALSE(knownDevices->deviceFilter().isNull());
-    EXPECT_EQ(ApiHelper::DeviceFilterDetails::BriefDeviceFilterDetails, knownDevices->deviceFilter()->details());
+    EXPECT_EQ(DeviceFilterDetails::BriefDeviceFilterDetails, knownDevices->deviceFilter()->details());
 }
 
 TEST_F(KnownDevicesQueryTest, updateFrom)

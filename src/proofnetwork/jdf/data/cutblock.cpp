@@ -36,7 +36,7 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     double y = 0.0;
     double rotation = 0.0;
     QString transformationMatrix;
-    ApiHelper::BlockType blockType = ApiHelper::BlockType::CutBlockType;
+    BlockType blockType = BlockType::CutBlock;
 
 };
 
@@ -97,7 +97,7 @@ QString CutBlock::transformationMatrix() const
     return d->transformationMatrix;
 }
 
-ApiHelper::BlockType CutBlock::blockType() const
+BlockType CutBlock::blockType() const
 {
     Q_D(const CutBlock);
     return d->blockType;
@@ -149,7 +149,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
                 return CutBlockSP();
             }
             cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
-            cutBlock->setBlockType(ApiHelper::blockTypeFromString(attributes.value("BlockType").toString()));
+            cutBlock->setBlockType(blockTypeFromString(attributes.value("BlockType").toString()));
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
         } else if (xmlReader.isEndElement()) {
@@ -169,7 +169,7 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("BlockName", d->blockName);
     jdfWriter.writeAttribute("BlockSize", QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
     jdfWriter.writeAttribute("BlockTrf", d->transformationMatrix);
-    jdfWriter.writeAttribute("BlockType", ApiHelper::blockTypeToString(d->blockType));
+    jdfWriter.writeAttribute("BlockType", blockTypeToString(d->blockType));
     jdfWriter.writeEndElement();
 }
 
@@ -247,7 +247,7 @@ void CutBlock::setTransformationMatrix(double x, double y, double rotation)
     setTransformationMatrix(transformationMatrix);
 }
 
-void CutBlock::setBlockType(ApiHelper::BlockType arg)
+void CutBlock::setBlockType(BlockType arg)
 {
     Q_D(CutBlock);
     if (d->blockType != arg) {

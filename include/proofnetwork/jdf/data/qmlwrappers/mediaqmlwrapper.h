@@ -18,10 +18,10 @@ class PROOF_NETWORK_JDF_EXPORT MediaQmlWrapper : public AbstractPhysicalResource
     Q_PROPERTY(double thickness READ thickness NOTIFY thicknessChanged)
     Q_PROPERTY(double height READ height NOTIFY heightChanged)
     Q_PROPERTY(double width READ width NOTIFY widthChanged)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::CoatingType frontCoating READ frontCoating NOTIFY frontCoatingChanged)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::CoatingType backCoating READ backCoating NOTIFY backCoatingChanged)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::MediaUnit mediaUnit READ mediaUnit NOTIFY mediaUnitChanged)
-    Q_PROPERTY(Proof::Jdf::ApiHelper::MediaType mediaType READ mediaType NOTIFY mediaTypeChanged)
+    Q_PROPERTY(Proof::Jdf::CoatingType frontCoating READ frontCoating NOTIFY frontCoatingChanged)
+    Q_PROPERTY(Proof::Jdf::CoatingType backCoating READ backCoating NOTIFY backCoatingChanged)
+    Q_PROPERTY(Proof::Jdf::MediaUnit mediaUnit READ mediaUnit NOTIFY mediaUnitChanged)
+    Q_PROPERTY(Proof::Jdf::MediaType mediaType READ mediaType NOTIFY mediaTypeChanged)
     Q_DECLARE_PRIVATE(MediaQmlWrapper)
 public:
     explicit MediaQmlWrapper(const MediaSP &media, QObject *parent = nullptr);
@@ -31,19 +31,19 @@ public:
     double thickness() const;
     double height() const;
     double width() const;
-    ApiHelper::CoatingType frontCoating() const;
-    ApiHelper::CoatingType backCoating() const;
-    ApiHelper::MediaUnit mediaUnit() const;
-    ApiHelper::MediaType mediaType() const;
+    CoatingType frontCoating() const;
+    CoatingType backCoating() const;
+    MediaUnit mediaUnit() const;
+    MediaType mediaType() const;
 
 signals:
     void thicknessChanged(double thickness);
     void heightChanged(double height);
     void widthChanged(double width);
-    void frontCoatingChanged(Proof::Jdf::ApiHelper::CoatingType frontCoating);
-    void backCoatingChanged(Proof::Jdf::ApiHelper::CoatingType backCoating);
-    void mediaUnitChanged(Proof::Jdf::ApiHelper::MediaUnit mediaUnit);
-    void mediaTypeChanged(Proof::Jdf::ApiHelper::MediaType mediaType);
+    void frontCoatingChanged(Proof::Jdf::CoatingType frontCoating);
+    void backCoatingChanged(Proof::Jdf::CoatingType backCoating);
+    void mediaUnitChanged(Proof::Jdf::MediaUnit mediaUnit);
+    void mediaTypeChanged(Proof::Jdf::MediaType mediaType);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

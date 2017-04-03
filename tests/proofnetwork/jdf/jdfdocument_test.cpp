@@ -105,7 +105,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
     EXPECT_EQ("A_OUT", component2->id());
-    EXPECT_EQ("Block", ApiHelper::componentTypeToString(component2->componentType()));
+    EXPECT_EQ("Block", componentTypeToString(component2->componentType()));
     EXPECT_DOUBLE_EQ(432.0, component2->width());
     EXPECT_DOUBLE_EQ(288.0, component2->height());
     EXPECT_DOUBLE_EQ(0.4896, component2->length());
@@ -113,19 +113,19 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ(15, component2->cutBlocks().count());
 
     EXPECT_EQ(1, component2->partIdKeys().count());
-    EXPECT_EQ(ApiHelper::ResourcePartType::BlockNamePart, component2->partIdKeys().first());
+    EXPECT_EQ(ResourcePartType::BlockNamePart, component2->partIdKeys().first());
 
     BundleSP bundle = component2->bundle();
     ASSERT_TRUE(bundle);
-    EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
+    EXPECT_EQ(BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
     EXPECT_EQ(42, bundle->bundleItem()->amount());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
-    EXPECT_EQ(ApiHelper::ResourceClass::ParameterClass, cuttingParams->resourceClass());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
+    EXPECT_EQ(ResourceClass::ParameterClass, cuttingParams->resourceClass());
     ASSERT_EQ(23, cuttingParams->cutBlocks().count());
 
     CutBlockSP cutBlock1 = component2->cutBlocks().first();
@@ -139,7 +139,7 @@ TEST_F(JdfDocumentTest, fromJdf)
         EXPECT_DOUBLE_EQ(36.0000, cutBlock->y());
         EXPECT_DOUBLE_EQ(0.0, cutBlock->rotation());
         EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
-        EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock->blockType());
+        EXPECT_EQ(BlockType::CutBlock, cutBlock->blockType());
     }
 
     ASSERT_EQ(2, resourcePool->media().count());
@@ -147,11 +147,11 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::CoatingType::NoneCoating, media->backCoating());
-    EXPECT_EQ(ApiHelper::CoatingType::HighGlossCoating, media->frontCoating());
-    EXPECT_EQ(ApiHelper::MediaUnit::SheetMediaUnit, media->mediaUnit());
-    EXPECT_EQ(ApiHelper::MediaType::PaperMedia, media->mediaType());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(CoatingType::NoCoating, media->backCoating());
+    EXPECT_EQ(CoatingType::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(MediaUnit::SheetMediaUnit, media->mediaUnit());
+    EXPECT_EQ(MediaType::PaperMedia, media->mediaType());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
@@ -160,8 +160,8 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0001", media->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::MediaType::PlateMedia, media->mediaType());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(MediaType::PlateMedia, media->mediaType());
     EXPECT_DOUBLE_EQ(2620.0, media->width());
     EXPECT_DOUBLE_EQ(1756.0, media->height());
 
@@ -169,15 +169,15 @@ TEST_F(JdfDocumentTest, fromJdf)
     LayoutSP layout = resourcePool->layouts()[0];
     ASSERT_TRUE(layout);
     EXPECT_EQ("Layout1", layout->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, layout->resourceStatus());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, layout->resourceStatus());
 
     ASSERT_EQ(3, layout->media().count());
     media = layout->media()[0];
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0002", media->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::MediaType::PaperMedia, media->mediaType());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(MediaType::PaperMedia, media->mediaType());
     EXPECT_DOUBLE_EQ(2521.0, media->width());
     EXPECT_DOUBLE_EQ(1657.0, media->height());
 
@@ -185,8 +185,8 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0003", media->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::MediaType::PlateMedia, media->mediaType());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(MediaType::PlateMedia, media->mediaType());
     EXPECT_DOUBLE_EQ(2621.0, media->width());
     EXPECT_DOUBLE_EQ(1757.0, media->height());
 
@@ -194,8 +194,8 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0004", media->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::MediaType::OtherMedia, media->mediaType());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(MediaType::OtherMedia, media->mediaType());
     EXPECT_DOUBLE_EQ(2721.0, media->width());
     EXPECT_DOUBLE_EQ(1857.0, media->height());
 
@@ -203,8 +203,8 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(laminatingIntent);
 
     EXPECT_EQ("LI_0000", laminatingIntent->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
-    EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
+    EXPECT_EQ(LaminatingSurface::BothLaminated, laminatingIntent->surface());
 
     DeliveryIntentSP deliveryIntent = resourcePool->deliveryIntent();
     ASSERT_TRUE(deliveryIntent);
@@ -243,10 +243,10 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_1234", media->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(ApiHelper::CoatingType::NoneCoating, media->backCoating());
-    EXPECT_EQ(ApiHelper::CoatingType::HighGlossCoating, media->frontCoating());
-    EXPECT_EQ(ApiHelper::MediaUnit::SheetMediaUnit, media->mediaUnit());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
+    EXPECT_EQ(CoatingType::NoCoating, media->backCoating());
+    EXPECT_EQ(CoatingType::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(MediaUnit::SheetMediaUnit, media->mediaUnit());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
@@ -255,8 +255,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     ASSERT_TRUE(laminatingIntent);
 
     EXPECT_EQ("LI_0000", laminatingIntent->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
-    EXPECT_EQ(ApiHelper::LaminatingSurface::Both, laminatingIntent->surface());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, laminatingIntent->resourceStatus());
+    EXPECT_EQ(LaminatingSurface::BothLaminated, laminatingIntent->surface());
 
     ASSERT_EQ(3, resourcePool->components().count());
     ComponentSP component = resourcePool->components().first();
@@ -281,7 +281,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     BundleSP bundle = componentFold->bundle();
     ASSERT_TRUE(bundle);
-    EXPECT_EQ(ApiHelper::BundleType::BoxBundle, bundle->bundleType());
+    EXPECT_EQ(BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
     EXPECT_EQ(1, bundle->bundleItem()->amount());
 }
@@ -302,8 +302,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     CuttingParamsSP cuttingParams = resourcePool2->cuttingParams();
     ASSERT_TRUE(cuttingParams);
     ASSERT_EQ("CPM_0000", cuttingParams->id());
-    EXPECT_EQ(ApiHelper::ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
-    EXPECT_EQ(ApiHelper::ResourceClass::ParameterClass, cuttingParams->resourceClass());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, cuttingParams->resourceStatus());
+    EXPECT_EQ(ResourceClass::ParameterClass, cuttingParams->resourceClass());
 
     ASSERT_EQ(2, cuttingParams->cutBlocks().count());
     CutBlockSP cutBlock1 = cuttingParams->cutBlocks().at(0);
@@ -314,14 +314,14 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     EXPECT_DOUBLE_EQ(36.0000, cutBlock1->y());
     EXPECT_DOUBLE_EQ(0.0, cutBlock1->rotation());
     EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock1->transformationMatrix());
-    EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock1->blockType());
+    EXPECT_EQ(BlockType::CutBlock, cutBlock1->blockType());
 
     CutBlockSP cutBlock2 = cuttingParams->cutBlocks().at(1);
     EXPECT_EQ("A-2", cutBlock2->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock2->width());
     EXPECT_DOUBLE_EQ(288, cutBlock2->height());
     EXPECT_EQ("1 0 0 1 54.0000 342.0000", cutBlock2->transformationMatrix());
-    EXPECT_EQ(ApiHelper::BlockType::CutBlockType, cutBlock2->blockType());
+    EXPECT_EQ(BlockType::CutBlock, cutBlock2->blockType());
 }
 
 TEST_F(JdfDocumentTest, fromJdfWithPartitionedComponents)
@@ -512,8 +512,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 }
             } else if (reader.name() == "Bundle") {
                 QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(ApiHelper::bundleTypeFromString(attributes.value("BundleType").toString()),
-                          ApiHelper::BundleType::BoxBundle);
+                EXPECT_EQ(bundleTypeFromString(attributes.value("BundleType").toString()),
+                          BundleType::BoxBundle);
                 EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
             } else if (reader.name() == "BundleItem") {
                 QXmlStreamAttributes attributes = reader.attributes();
@@ -593,10 +593,10 @@ TEST_F(JdfDocumentTest, documentToJdf)
             } else if (hasResourcePool && reader.name() == "CuttingParams") {
                 QXmlStreamAttributes attributes = reader.attributes();
                 EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
-                EXPECT_EQ(ApiHelper::resourceStatusFromString(attributes.value("Status").toString()),
-                          ApiHelper::ResourceStatus::AvailableStatus);
-                EXPECT_EQ(ApiHelper::resourceClassFromString(attributes.value("Class").toString()),
-                          ApiHelper::ResourceClass::ParameterClass);
+                EXPECT_EQ(resourceStatusFromString(attributes.value("Status").toString()),
+                          ResourceStatus::AvailableStatus);
+                EXPECT_EQ(resourceClassFromString(attributes.value("Class").toString()),
+                          ResourceClass::ParameterClass);
             } else if (hasResourcePool && reader.name() == "CutBlock") {
                 if (!cutBlocksCount++) {
                     QXmlStreamAttributes attributes = reader.attributes();
@@ -635,7 +635,7 @@ TEST_F(JdfDocumentTest, orientationTest)
     ASSERT_EQ(3, jdfNode->resourcePool()->components().count());
     Proof::Jdf::ComponentSP sheet;
     for (const auto &component : jdfNode->resourcePool()->components()) {
-        if (component->componentType() == Proof::Jdf::ApiHelper::ComponentType::SheetComponent) {
+        if (component->componentType() == Proof::Jdf::ComponentType::SheetComponent) {
             sheet = component;
             break;
         }
@@ -651,10 +651,10 @@ TEST_F(JdfDocumentTest, orientationTest)
     }
     ASSERT_TRUE(sheetLink);
 
-    EXPECT_EQ(Proof::Jdf::ApiHelper::ResourceOrientation::Rotate0Orientation, sheetLink->orientation());
+    EXPECT_EQ(Proof::Jdf::ResourceOrientation::Rotate0Orientation, sheetLink->orientation());
 
-    sheetLink->setOrientation(Proof::Jdf::ApiHelper::ResourceOrientation::Rotate180Orientation);
-    EXPECT_EQ(Proof::Jdf::ApiHelper::ResourceOrientation::Rotate180Orientation, sheetLink->orientation());
+    sheetLink->setOrientation(Proof::Jdf::ResourceOrientation::Rotate180Orientation);
+    EXPECT_EQ(Proof::Jdf::ResourceOrientation::Rotate180Orientation, sheetLink->orientation());
 
     QString jdf = jdfDocUT->toJdf();
 
@@ -671,27 +671,27 @@ TEST_F(JdfDocumentTest, toLink)
     Proof::Jdf::ComponentSP component = jdfNode->resourcePool()->components().at(0);
     ASSERT_TRUE(component);
 
-    Proof::Jdf::ComponentLinkSP componentLink = component->toLink(ApiHelper::Usage::OutputUsage);
+    Proof::Jdf::ComponentLinkSP componentLink = component->toLink(Usage::OutputUsage);
     ASSERT_TRUE(componentLink);
     EXPECT_EQ(component->id(), componentLink->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, componentLink->usage());
+    EXPECT_EQ(Usage::OutputUsage, componentLink->usage());
 
     ASSERT_EQ(2, jdfNode->resourcePool()->media().count());
     Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media().first();
     ASSERT_TRUE(media);
 
-    Proof::Jdf::MediaLinkSP mediaLink = media->toLink(ApiHelper::Usage::OutputUsage);
+    Proof::Jdf::MediaLinkSP mediaLink = media->toLink(Usage::OutputUsage);
     ASSERT_TRUE(mediaLink);
     EXPECT_EQ(media->id(), mediaLink->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, mediaLink->usage());
+    EXPECT_EQ(Usage::OutputUsage, mediaLink->usage());
 
     Proof::Jdf::LaminatingIntentSP laminatingIntent = jdfNode->resourcePool()->laminatingIntent();
     ASSERT_TRUE(laminatingIntent);
 
-    Proof::Jdf::LaminatingIntentLinkSP laminatingIntentLink = laminatingIntent->toLink(ApiHelper::Usage::OutputUsage);
+    Proof::Jdf::LaminatingIntentLinkSP laminatingIntentLink = laminatingIntent->toLink(Usage::OutputUsage);
     ASSERT_TRUE(laminatingIntentLink);
     EXPECT_EQ(laminatingIntent->id(), laminatingIntentLink->rRef());
-    EXPECT_EQ(ApiHelper::Usage::OutputUsage, laminatingIntentLink->usage());
+    EXPECT_EQ(Usage::OutputUsage, laminatingIntentLink->usage());
 
 }
 
@@ -715,14 +715,14 @@ TEST_F(JdfDocumentTest, findComponentLink)
 {
     Proof::Jdf::ComponentLinkSP link = jdfDocUT->findComponentLink([](const Proof::Jdf::ComponentLinkSP &link){return link->rRef() == "COMP_0000";});
     EXPECT_EQ("COMP_0000", link->rRef());
-    EXPECT_EQ(Proof::Jdf::ApiHelper::Usage::InputUsage, link->usage());
+    EXPECT_EQ(Proof::Jdf::Usage::InputUsage, link->usage());
 }
 
 TEST_F(JdfDocumentTest, findMedia)
 {
-    Proof::Jdf::MediaSP media = jdfDocUT->findMedia([](const Proof::Jdf::MediaSP &media){return media->mediaType() == Proof::Jdf::ApiHelper::MediaType::PaperMedia;});
+    Proof::Jdf::MediaSP media = jdfDocUT->findMedia([](const Proof::Jdf::MediaSP &media){return media->mediaType() == Proof::Jdf::MediaType::PaperMedia;});
     EXPECT_EQ("PAP_0000", media->id());
-    EXPECT_EQ(Proof::Jdf::ApiHelper::MediaType::PaperMedia, media->mediaType());
+    EXPECT_EQ(Proof::Jdf::MediaType::PaperMedia, media->mediaType());
 }
 
 TEST_F(JdfDocumentTest, findLayout)

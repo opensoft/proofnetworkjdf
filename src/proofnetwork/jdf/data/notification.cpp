@@ -11,11 +11,11 @@ class NotificationPrivate : public NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::NotificationClass notificationClass;
+    NotificationClass notificationClass;
     QString comment;
 };
 
-ApiHelper::NotificationClass Notification::notificationClass() const
+NotificationClass Notification::notificationClass() const
 {
     Q_D(const Notification);
     return d->notificationClass;
@@ -27,7 +27,7 @@ QString Notification::comment() const
     return d->comment;
 }
 
-void Notification::setNotificationClass(ApiHelper::NotificationClass arg)
+void Notification::setNotificationClass(NotificationClass arg)
 {
     Q_D(Notification);
     if (d->notificationClass != arg) {
@@ -63,7 +63,7 @@ void Notification::toJdf(QXmlStreamWriter &xmlWriter)
 {
     Q_D(Notification);
     xmlWriter.writeStartElement("Notification");
-    xmlWriter.writeAttribute("Class", ApiHelper::notificationClassToString(d->notificationClass));
+    xmlWriter.writeAttribute("Class", notificationClassToString(d->notificationClass));
     xmlWriter.writeStartElement("Comment");
     xmlWriter.writeCharacters(d->comment);
     xmlWriter.writeEndElement();
@@ -76,7 +76,7 @@ NotificationSP Notification::fromJdf(QXmlStreamReader &xmlReader)
     if (xmlReader.isStartElement() && xmlReader.name() == "Notification") {
         result = create();
         auto attributes = xmlReader.attributes();
-        result->setNotificationClass(ApiHelper::notificationClassFromString(attributes.value("Class").toString()));
+        result->setNotificationClass(notificationClassFromString(attributes.value("Class").toString()));
         while (xmlReader.readNextStartElement()) {
             if (xmlReader.name() == "Comment")
                 result->setComment(xmlReader.readElementText());

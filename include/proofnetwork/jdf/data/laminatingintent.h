@@ -19,9 +19,9 @@ class PROOF_NETWORK_JDF_EXPORT LaminatingIntent : public AbstractResource
     Q_DECLARE_PRIVATE(LaminatingIntent)
 public:
 
-    ApiHelper::LaminatingSurface surface() const;
+    LaminatingSurface surface() const;
 
-    void setSurface(ApiHelper::LaminatingSurface surface);
+    void setSurface(LaminatingSurface surface);
 
     LaminatingIntentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -29,10 +29,10 @@ public:
 
     static LaminatingIntentSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    LaminatingIntentLinkSP toLink(ApiHelper::Usage usage = ApiHelper::Usage::InputUsage) const;
+    LaminatingIntentLinkSP toLink(Usage usage = Usage::InputUsage) const;
 
 signals:
-    void surfaceChanged(Proof::Jdf::ApiHelper::LaminatingSurface arg);
+    void surfaceChanged(Proof::Jdf::LaminatingSurface arg);
 
 protected:
     explicit LaminatingIntent();

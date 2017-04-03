@@ -18,11 +18,11 @@ class PROOF_NETWORK_JDF_EXPORT Bundle : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(Bundle)
 public:
-    ApiHelper::BundleType bundleType() const;
+    BundleType bundleType() const;
     int totalAmount() const;
     BundleItemSP bundleItem() const;
 
-    void setBundleType(ApiHelper::BundleType arg);
+    void setBundleType(BundleType arg);
     void setTotalAmount(int arg);
     void setBundleItem(const BundleItemSP &arg);
 
@@ -34,7 +34,7 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
-    void bundleTypeChanged(Proof::Jdf::ApiHelper::BundleType arg);
+    void bundleTypeChanged(Proof::Jdf::BundleType arg);
     void totalAmountChanged(int arg);
     void bundleItemChanged(const Proof::Jdf::BundleItemSP &arg);
 

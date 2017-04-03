@@ -15,17 +15,17 @@ class LaminatingIntentQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT LaminatingIntentQmlWrapper : public AbstractResourceQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(Proof::Jdf::ApiHelper::LaminatingSurface surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(Proof::Jdf::LaminatingSurface surface READ surface NOTIFY surfaceChanged)
     Q_DECLARE_PRIVATE(LaminatingIntentQmlWrapper)
 public:
     explicit LaminatingIntentQmlWrapper(const LaminatingIntentSP &laminatingIntent, QObject *parent = nullptr);
     ~LaminatingIntentQmlWrapper();
     PROOF_NDE_WRAPPER_TOOLS(LaminatingIntent)
 
-    ApiHelper::LaminatingSurface surface() const;
+    LaminatingSurface surface() const;
 
 signals:
-    void surfaceChanged(Proof::Jdf::ApiHelper::LaminatingSurface surface);
+    void surfaceChanged(Proof::Jdf::LaminatingSurface surface);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

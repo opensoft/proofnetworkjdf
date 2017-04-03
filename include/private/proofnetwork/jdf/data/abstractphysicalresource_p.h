@@ -13,7 +13,7 @@ class AbstractPhysicalResourcePrivate : public  AbstractResourcePrivate
     Q_DECLARE_PUBLIC(AbstractPhysicalResource)
 public:
     AbstractPhysicalResourcePrivate() :  AbstractResourcePrivate() {}
-    explicit AbstractPhysicalResourcePrivate(ApiHelper::ResourceClass resourceClass)
+    explicit AbstractPhysicalResourcePrivate(ResourceClass resourceClass)
         : AbstractResourcePrivate(resourceClass)
     {
     }

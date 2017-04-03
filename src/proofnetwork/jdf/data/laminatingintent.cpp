@@ -12,11 +12,11 @@ class LaminatingIntentPrivate : AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(LaminatingIntent)
 
-    LaminatingIntentPrivate() : AbstractResourcePrivate(ApiHelper::ResourceClass::IntentClass) {}
+    LaminatingIntentPrivate() : AbstractResourcePrivate(ResourceClass::IntentClass) {}
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    ApiHelper::LaminatingSurface surface = ApiHelper::LaminatingSurface::None;
+    LaminatingSurface surface = LaminatingSurface::NoneLaminated;
 };
 
 } // namespace Jdf
@@ -24,13 +24,13 @@ class LaminatingIntentPrivate : AbstractResourcePrivate
 
 using namespace Proof::Jdf;
 
-ApiHelper::LaminatingSurface LaminatingIntent::surface() const
+LaminatingSurface LaminatingIntent::surface() const
 {
     Q_D(const LaminatingIntent);
     return d->surface;
 }
 
-void LaminatingIntent::setSurface(ApiHelper::LaminatingSurface surface)
+void LaminatingIntent::setSurface(LaminatingSurface surface)
 {
     Q_D(LaminatingIntent);
     if (d->surface != surface) {
@@ -62,7 +62,7 @@ LaminatingIntentSP LaminatingIntent::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "LaminatingIntent" && xmlReader.isStartElement() && !laminatingIntent->isFetched()) {
             laminatingIntent->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            laminatingIntent->setSurface(ApiHelper::laminatingSurfaceFromString(attributes.value("Surface").toString()));
+            laminatingIntent->setSurface(laminatingSurfaceFromString(attributes.value("Surface").toString()));
             AbstractResourceSP castedLaminatingIntent = qSharedPointerCast<AbstractResource>(laminatingIntent);
             AbstractResource::fromJdf(xmlReader, castedLaminatingIntent);
 
@@ -82,12 +82,12 @@ void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(LaminatingIntent);
 
     jdfWriter.writeStartElement("LaminatingIntent");
-    jdfWriter.writeAttribute("Surface", ApiHelper::laminatingSurfaceToString(d->surface));
+    jdfWriter.writeAttribute("Surface", laminatingSurfaceToString(d->surface));
     AbstractResource::toJdf(jdfWriter);
     jdfWriter.writeEndElement();
 }
 
-LaminatingIntentLinkSP LaminatingIntent::toLink(ApiHelper::Usage usage) const
+LaminatingIntentLinkSP LaminatingIntent::toLink(Usage usage) const
 {
     LaminatingIntentLinkSP link = LaminatingIntentLink::create();
     AbstractResource::setupLink(link, usage);

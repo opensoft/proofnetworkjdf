@@ -17,17 +17,17 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResourceLink : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractResourceLink)
 public:
-    ApiHelper::Usage usage() const;
+    Usage usage() const;
     QString rRef() const;
 
-    void setUsage(ApiHelper::Usage arg);
+    void setUsage(Usage arg);
     void setRRef(const QString &arg);
 
     static bool fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
-    void usageChanged(ApiHelper::Usage arg);
+    void usageChanged(Usage arg);
     void rRefChanged(const QString &arg);
 protected:
     explicit AbstractResourceLink() = delete;
