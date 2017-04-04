@@ -8,7 +8,7 @@
 
 namespace Proof {
 namespace Jdf {
-Q_NAMESPACE
+PROOF_NETWORK_JDF_EXPORT Q_NAMESPACE
 
 enum class ResourceStatus {
     NoStatus,
