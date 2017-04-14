@@ -6,7 +6,7 @@
     </AuditPool>
     <JDF DescriptiveName="Layout 1" ID="LAYOUT_0001" Status="Waiting" Type="Cutting" JobID="mixed-flatwork (groups)">
         <ResourcePool>
-            <Media Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200"/>
+            <Media Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" FrontCoatingDetail="ProFIT:Full" ID="PAP_0000" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200"/>
             <Media Dimension="2620.0000 1756.0000" ID="PAP_0001" MediaType="Plate" MediaUnit="Sheet" Status="Available"/>
             <Layout ID="Layout1" Class="Parameter" Status="Available">
                 <Media Dimension="2521.0000 1657.0000" ID="PAP_0002" MediaType="Paper" Status="Available"/>

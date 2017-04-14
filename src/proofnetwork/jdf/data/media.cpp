@@ -19,7 +19,9 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
     double height = 0.0;
     double width = 0.0;
     CoatingType frontCoating = CoatingType::NoCoating;
+    CoatingDetail frontCoatingDetail = CoatingDetail::NoCoatingDetail;
     CoatingType backCoating = CoatingType::NoCoating;
+    CoatingDetail backCoatingDetail = CoatingDetail::NoCoatingDetail;
     MediaUnit mediaUnit = MediaUnit::SheetMediaUnit;
     MediaType mediaType = MediaType::OtherMedia;
 };
@@ -41,10 +43,22 @@ CoatingType Media::frontCoating() const
     return d->frontCoating;
 }
 
+CoatingDetail Media::frontCoatingDetail() const
+{
+    Q_D(const Media);
+    return d->frontCoatingDetail;
+}
+
 CoatingType Media::backCoating() const
 {
     Q_D(const Media);
     return d->backCoating;
+}
+
+CoatingDetail Media::backCoatingDetail() const
+{
+    Q_D(const Media);
+    return d->backCoatingDetail;
 }
 
 MediaUnit Media::mediaUnit() const
@@ -89,12 +103,30 @@ void Media::setFrontCoating(CoatingType coating)
     }
 }
 
+void Media::setFrontCoatingDetail(CoatingDetail coatingDetail)
+{
+    Q_D(Media);
+    if (d->frontCoatingDetail != coatingDetail) {
+        d->frontCoatingDetail = coatingDetail;
+        emit frontCoatingDetailChanged(coatingDetail);
+    }
+}
+
 void Media::setBackCoating(CoatingType coating)
 {
     Q_D(Media);
     if (d->backCoating != coating) {
         d->backCoating = coating;
         emit backCoatingChanged(coating);
+    }
+}
+
+void Media::setBackCoatingDetail(CoatingDetail coatingDetail)
+{
+    Q_D(Media);
+    if (d->backCoatingDetail != coatingDetail) {
+        d->backCoatingDetail = coatingDetail;
+        emit backCoatingDetailChanged(coatingDetail);
     }
 }
 
@@ -158,8 +190,10 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
             media->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             media->setId(attributes.value("ID").toString());
-            media->setBackCoating(coatingFromString(attributes.value("BackCoatings").toString()));
             media->setFrontCoating(coatingFromString(attributes.value("FrontCoatings").toString()));
+            media->setFrontCoatingDetail(coatingDetailFromString(attributes.value("FrontCoatingDetail").toString()));
+            media->setBackCoating(coatingFromString(attributes.value("BackCoatings").toString()));
+            media->setBackCoatingDetail(coatingDetailFromString(attributes.value("BackCoatingDetail").toString()));
             media->setMediaUnit(mediaUnitFromString(attributes.value("MediaUnit").toString()));
             media->setMediaType(mediaTypeFromString(attributes.value("MediaType").toString()));
             media->setThickness(attributes.value("Thickness").toDouble());
@@ -189,10 +223,14 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("Media");
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height))
         jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
-    if (d->backCoating != CoatingType::NoCoating)
-        jdfWriter.writeAttribute("BackCoatings", coatingToString(d->backCoating));
     if (d->frontCoating != CoatingType::NoCoating)
         jdfWriter.writeAttribute("FrontCoatings", coatingToString(d->frontCoating));
+    if (d->frontCoatingDetail != CoatingDetail::NoCoatingDetail)
+        jdfWriter.writeAttribute("FrontCoatingDetail", coatingDetailToString(d->frontCoatingDetail));
+    if (d->backCoating != CoatingType::NoCoating)
+        jdfWriter.writeAttribute("BackCoatings", coatingToString(d->backCoating));
+    if (d->backCoatingDetail != CoatingDetail::NoCoatingDetail)
+        jdfWriter.writeAttribute("BackCoatingDetail", coatingDetailToString(d->backCoatingDetail));
     jdfWriter.writeAttribute("MediaUnit", mediaUnitToString(d->mediaUnit));
     jdfWriter.writeAttribute("MediaType", mediaTypeToString(d->mediaType));
     if (d->thickness > 0)
@@ -221,7 +259,9 @@ void MediaPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     MediaSP castedOther = qSharedPointerCast<Media>(other);
     q->setThickness(castedOther->thickness());
     q->setFrontCoating(castedOther->frontCoating());
+    q->setFrontCoatingDetail(castedOther->frontCoatingDetail());
     q->setBackCoating(castedOther->backCoating());
+    q->setBackCoatingDetail(castedOther->backCoatingDetail());
     q->setMediaUnit(castedOther->mediaUnit());
     q->setMediaType(castedOther->mediaType());
     q->setHeight(castedOther->height());

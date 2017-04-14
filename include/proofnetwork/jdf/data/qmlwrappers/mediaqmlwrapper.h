@@ -19,7 +19,9 @@ class PROOF_NETWORK_JDF_EXPORT MediaQmlWrapper : public AbstractPhysicalResource
     Q_PROPERTY(double height READ height NOTIFY heightChanged)
     Q_PROPERTY(double width READ width NOTIFY widthChanged)
     Q_PROPERTY(Proof::Jdf::CoatingType frontCoating READ frontCoating NOTIFY frontCoatingChanged)
+    Q_PROPERTY(Proof::Jdf::CoatingDetail frontCoatingDetail READ frontCoatingDetail NOTIFY frontCoatingDetailChanged)
     Q_PROPERTY(Proof::Jdf::CoatingType backCoating READ backCoating NOTIFY backCoatingChanged)
+    Q_PROPERTY(Proof::Jdf::CoatingDetail backCoatingDetail READ backCoatingDetail NOTIFY backCoatingDetailChanged)
     Q_PROPERTY(Proof::Jdf::MediaUnit mediaUnit READ mediaUnit NOTIFY mediaUnitChanged)
     Q_PROPERTY(Proof::Jdf::MediaType mediaType READ mediaType NOTIFY mediaTypeChanged)
     Q_DECLARE_PRIVATE(MediaQmlWrapper)
@@ -32,7 +34,9 @@ public:
     double height() const;
     double width() const;
     CoatingType frontCoating() const;
+    CoatingDetail frontCoatingDetail() const;
     CoatingType backCoating() const;
+    CoatingDetail backCoatingDetail() const;
     MediaUnit mediaUnit() const;
     MediaType mediaType() const;
 
@@ -41,7 +45,9 @@ signals:
     void heightChanged(double height);
     void widthChanged(double width);
     void frontCoatingChanged(Proof::Jdf::CoatingType frontCoating);
+    void frontCoatingDetailChanged(Proof::Jdf::CoatingDetail frontCoating);
     void backCoatingChanged(Proof::Jdf::CoatingType backCoating);
+    void backCoatingDetailChanged(Proof::Jdf::CoatingDetail backCoating);
     void mediaUnitChanged(Proof::Jdf::MediaUnit mediaUnit);
     void mediaTypeChanged(Proof::Jdf::MediaType mediaType);
 

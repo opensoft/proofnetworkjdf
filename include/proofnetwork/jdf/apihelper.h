@@ -49,6 +49,13 @@ enum class CoatingType {
     SemiglossCoating
 };
 
+enum class CoatingDetail {
+    NoCoatingDetail, // No coating detail specified.
+    CastCoating,
+    ProfitFullCoating,
+    ProfitSpotCoating
+};
+
 enum class LaminatingSurface {
     FrontLaminated,
     BackLaminated,
@@ -288,6 +295,7 @@ enum class SpanDataType {
 Q_ENUM_NS(ResourceStatus)
 Q_ENUM_NS(ResourceClass)
 Q_ENUM_NS(CoatingType)
+Q_ENUM_NS(CoatingDetail)
 Q_ENUM_NS(BundleType)
 Q_ENUM_NS(ComponentType)
 Q_ENUM_NS(ResourceOrientation)
@@ -306,6 +314,9 @@ PROOF_NETWORK_JDF_EXPORT ResourceClass resourceClassFromString(const QString &re
 
 PROOF_NETWORK_JDF_EXPORT QString coatingToString(CoatingType coating);
 PROOF_NETWORK_JDF_EXPORT CoatingType coatingFromString(const QString &coating, bool *ok = nullptr);
+
+PROOF_NETWORK_JDF_EXPORT QString coatingDetailToString(CoatingDetail coatingDetail);
+PROOF_NETWORK_JDF_EXPORT CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok = nullptr);
 
 PROOF_NETWORK_JDF_EXPORT QString laminatingSurfaceToString(LaminatingSurface surface);
 PROOF_NETWORK_JDF_EXPORT LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok = nullptr);

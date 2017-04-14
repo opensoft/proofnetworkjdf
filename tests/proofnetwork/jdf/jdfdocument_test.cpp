@@ -244,8 +244,10 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     EXPECT_EQ("PAP_1234", media->id());
     EXPECT_EQ(ResourceStatus::AvailableStatus, media->resourceStatus());
-    EXPECT_EQ(CoatingType::NoCoating, media->backCoating());
     EXPECT_EQ(CoatingType::HighGlossCoating, media->frontCoating());
+    EXPECT_EQ(CoatingDetail::ProfitFullCoating, media->frontCoatingDetail());
+    EXPECT_EQ(CoatingType::NoCoating, media->backCoating());
+    EXPECT_EQ(CoatingDetail::NoCoatingDetail, media->backCoatingDetail());
     EXPECT_EQ(MediaUnit::SheetMediaUnit, media->mediaUnit());
     EXPECT_DOUBLE_EQ(2520.0, media->width());
     EXPECT_DOUBLE_EQ(1656.0, media->height());
@@ -387,6 +389,8 @@ TEST_F(JdfDocumentTest, updateFrom)
     ResourcePoolSP resourcePool2 = jdfDocUT2->resourcePool();
     ASSERT_TRUE(resourcePool2);
 
+    ASSERT_FALSE(resourcePool->components().isEmpty());
+    ASSERT_FALSE(resourcePool2->components().isEmpty());
     ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
     ComponentSP component2 = resourcePool2->components().first();
@@ -427,8 +431,10 @@ TEST_F(JdfDocumentTest, updateFrom)
     MediaSP media2 = resourcePool2->media().first();
     ASSERT_TRUE(media2);
     EXPECT_EQ(media1->id(), media2->id());
-    EXPECT_EQ(media1->backCoating(), media2->backCoating());
     EXPECT_EQ(media1->frontCoating(), media2->frontCoating());
+    EXPECT_EQ(media1->frontCoatingDetail(), media2->frontCoatingDetail());
+    EXPECT_EQ(media1->backCoating(), media2->backCoating());
+    EXPECT_EQ(media1->backCoatingDetail(), media2->backCoatingDetail());
     EXPECT_EQ(media1->mediaUnit(), media2->mediaUnit());
     EXPECT_EQ(media1->mediaType(), media2->mediaType());
     EXPECT_DOUBLE_EQ(media1->width(), media2->width());
@@ -524,7 +530,9 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 QString mediaId = attributes.value("ID").toString();
                 if (mediaId == "PAP_0000") {
                     EXPECT_EQ(attributes.value("FrontCoatings").toString(), "HighGloss");
+                    EXPECT_EQ(attributes.value("FrontCoatingDetail").toString(), "ProFIT:Full");
                     EXPECT_EQ(attributes.value("BackCoatings").toString(), "");
+                    EXPECT_EQ(attributes.value("BackCoatingDetail").toString(), "");
                     EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
                     EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
                     QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
@@ -706,8 +714,10 @@ TEST_F(JdfDocumentTest, findNode)
 TEST_F(JdfDocumentTest, findComponent)
 {
     Proof::Jdf::ComponentSP component = jdfDocUT->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "COMP_0000";});
+    ASSERT_TRUE(component);
     EXPECT_EQ("COMP_0000", component->id());
     component = jdfDocUT2->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "061106-00002_1_Comp00001";});
+    ASSERT_TRUE(component);
     EXPECT_EQ("061106-00002_1_Comp00001", component->id());
 }
 

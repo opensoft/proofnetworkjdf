@@ -20,7 +20,9 @@ class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource
 public:
     double thickness() const;
     CoatingType frontCoating() const;
+    CoatingDetail frontCoatingDetail() const;
     CoatingType backCoating() const;
+    CoatingDetail backCoatingDetail() const;
     MediaUnit mediaUnit() const;
     MediaType mediaType() const;
     double height() const;
@@ -28,7 +30,9 @@ public:
 
     void setThickness(double microns);
     void setFrontCoating(CoatingType coating);
+    void setFrontCoatingDetail(CoatingDetail coatingDetail);
     void setBackCoating(CoatingType coating);
+    void setBackCoatingDetail(CoatingDetail coatingDetail);
     void setMediaUnit(MediaUnit mediaUnit);
     void setMediaType(MediaType mediaType);
     void setHeight(double arg);
@@ -47,7 +51,9 @@ signals:
     void heightChanged(double arg);
     void widthChanged(double arg);
     void frontCoatingChanged(Proof::Jdf::CoatingType arg);
+    void frontCoatingDetailChanged(Proof::Jdf::CoatingDetail arg);
     void backCoatingChanged(Proof::Jdf::CoatingType arg);
+    void backCoatingDetailChanged(Proof::Jdf::CoatingDetail arg);
     void mediaUnitChanged(Proof::Jdf::MediaUnit arg);
     void mediaTypeChanged(Proof::Jdf::MediaType arg);
 

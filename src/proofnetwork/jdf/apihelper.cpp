@@ -120,6 +120,13 @@ static const QHash<QString, CoatingType> COATING_STRINGIFIED = {
     {"Semigloss", CoatingType::SemiglossCoating}
 };
 
+static const QHash<QString, CoatingDetail> COATING_DETAIL_STRINGIFIED = {
+    {"", CoatingDetail::NoCoatingDetail},
+    {"Cast", CoatingDetail::CastCoating},
+    {"ProFIT:Full", CoatingDetail::ProfitFullCoating},
+    {"ProFIT:Spot", CoatingDetail::ProfitSpotCoating}
+};
+
 static const QHash<QString, LaminatingSurface> LAMINATING_SURFACE_STRINGIFIED = {
     {"Front", LaminatingSurface::FrontLaminated},
     {"Back", LaminatingSurface::BackLaminated},
@@ -370,6 +377,18 @@ CoatingType coatingFromString(const QString &coating, bool *ok)
     if (ok != nullptr)
         *ok = COATING_STRINGIFIED.contains(coating);
     return COATING_STRINGIFIED.value(coating, CoatingType::NoCoating);
+}
+
+QString coatingDetailToString(CoatingDetail coatingDetail)
+{
+    return COATING_DETAIL_STRINGIFIED.key(coatingDetail, "");
+}
+
+CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = COATING_DETAIL_STRINGIFIED.contains(coatingDetail);
+    return COATING_DETAIL_STRINGIFIED.value(coatingDetail, CoatingDetail::NoCoatingDetail);
 }
 
 QString laminatingSurfaceToString(LaminatingSurface surface)

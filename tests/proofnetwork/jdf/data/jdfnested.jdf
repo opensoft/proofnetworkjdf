@@ -6,7 +6,7 @@
     </AuditPool>
     <JDF DescriptiveName="Job_Product" JobPartID="Product_0001" ID="ID_Product_0001" JobID="mixed-flatwork (groups)_2" Status="Waiting" Type="Product">
         <ResourcePool>
-            <Media BackCoatings="None" Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" ID="PAP_1234" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200" Class="Consumable"/>
+            <Media BackCoatings="None" Dimension="2520.0000 1656.0000" FrontCoatings="HighGloss" FrontCoatingDetail="ProFIT:Full" ID="PAP_1234" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200" Class="Consumable"/>
             <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both" Temperature="Cold"/>
             <Component Amount="1000" Class="Quantity" ComponentType="Sheet" Dimensions="2520.0000 1656.0000 0.4896" ID="COMP_0000" IsWaste="false" Status="Available"/>
             <Component Class="Quantity" ComponentType="Block" ID="A_OUT" IsWaste="false" PartIDKeys="BlockName" Status="Available">

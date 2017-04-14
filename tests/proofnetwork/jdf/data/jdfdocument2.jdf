@@ -3,8 +3,9 @@
   JobID="061106-00002" JobPartID="ID061106" Status="Waiting" Type="ProcessGroup"
   Version="1.4" xmlns="http://www.CIP4.org/JDFSchema_1_1">
   <ResourcePool>
-    <Media BackCoatings="None" Dimension="1329.44882 963.77953"
-      FrontCoatings="HighGloss" ID="PAP_0000" MediaType="Paper"
+    <Media Dimension="1329.44882 963.77953"
+      FrontCoatings="Coated" BackCoatings="Coated" FrontCoatingDetail="ProFIT:Spot" BackCoatingDetail="ProFIT:Full"
+      ID="PAP_0000" MediaType="Paper"
       MediaUnit="Roll" Status="Available" Thickness="171.7200"/>
       <LaminatingIntent Class="Intent" ID="LI_0000" Status="Available" Surface="Both"/>
       <DeliveryIntent Class="Intent" ID="DI_0000" Status="Available">
