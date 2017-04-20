@@ -66,27 +66,11 @@ DropItemIntentSP DropItemIntent::fromJdf(QXmlStreamReader &xmlReader, const QStr
             dropItemIntent->setFetched(true);
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "ComponentRef") {
-                while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-                    if (xmlReader.name() == "ComponentRef" && xmlReader.isStartElement()) {
-                        QXmlStreamAttributes attributes = xmlReader.attributes();
-                        QString componentId = attributes.value("rRef").toString();
-                        ComponentSP component = Component::create(componentId);
-                        if (!sanitize) {
-                            auto fromCache = componentsCache().value({jobId, componentId});
-                            if (fromCache)
-                                component = fromCache;
-                        }
-                        dropItemIntent->setComponent(component);
-                    } else if (xmlReader.isStartElement()) {
-                        xmlReader.skipCurrentElement();
-                    } else if (xmlReader.isEndElement()) {
-                        break;
-                    }
-                    xmlReader.readNext();
-                }
+                ComponentSP component = Component::fromJdf(xmlReader, jobId, sanitize);
+                dropItemIntent->setComponent(component);
+            } else {
+                xmlReader.skipCurrentElement();
             }
-            else if (xmlReader.isEndElement())
-                break;
         } else if (xmlReader.isEndElement()) {
             break;
         }
@@ -100,11 +84,8 @@ void DropItemIntent::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(DropItemIntent);
     jdfWriter.writeStartElement("DropItemIntent");
-    if (isValidAndDirty(d->component)) {
-        jdfWriter.writeStartElement("ComponentRef");
-        jdfWriter.writeAttribute("rRef", d->component->id());
-        jdfWriter.writeEndElement();
-    }
+    if (isValidAndDirty(d->component))
+        d->component->refToJdf(jdfWriter);
     jdfWriter.writeEndElement();
 }
 

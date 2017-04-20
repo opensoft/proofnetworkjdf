@@ -24,6 +24,7 @@ public:
     LaminatingIntentSP laminatingIntent() const;
     DeliveryIntentSP deliveryIntent() const;
     FoldingParamsSP foldingParams() const;
+    BoxPackingParamsSP boxPackingParams() const;
     QList<LayoutSP> layouts() const;
 
     void setComponents(const QList<ComponentSP> &arg);
@@ -34,6 +35,7 @@ public:
     void setLaminatingIntent(const LaminatingIntentSP &laminatingIntent);
     void setDeliveryIntent(const DeliveryIntentSP &arg);
     void setFoldingParams(const FoldingParamsSP &foldingParams);
+    void setBoxPackingParams(const BoxPackingParamsSP &boxPackingParams);
     void setLayouts(const QList<LayoutSP> &arg);
     void addLayout(const LayoutSP &arg);
 
@@ -51,6 +53,7 @@ signals:
     void laminatingIntentChanged(const Proof::Jdf::LaminatingIntentSP &arg);
     void deliveryIntentChanged(const Proof::Jdf::DeliveryIntentSP &arg);
     void foldingParamsChanged(const Proof::Jdf::FoldingParamsSP &arg);
+    void boxPackingParamsChanged(const Proof::Jdf::BoxPackingParamsSP &arg);
     void layoutsChanged();
 
 protected:

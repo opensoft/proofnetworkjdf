@@ -241,7 +241,7 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-MediaLinkSP Media::toLink(Usage usage) const
+MediaLinkSP Media::toLink(LinkUsage usage) const
 {
     MediaLinkSP link = MediaLink::create();
     AbstractResource::setupLink(link, usage);

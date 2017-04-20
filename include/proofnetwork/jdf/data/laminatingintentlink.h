@@ -21,6 +21,7 @@ public:
     static LaminatingIntentLinkSP create();
 
     static LaminatingIntentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
     explicit LaminatingIntentLink(QObject *parent = nullptr);

@@ -3,6 +3,7 @@
 #include "data/cutblock.h"
 #include "data/cuttingparams.h"
 #include "data/foldingparams.h"
+#include "data/boxpackingparams.h"
 #include "data/resourcepool.h"
 #include "data/media.h"
 #include "data/layout.h"
@@ -28,6 +29,7 @@
 #include "data/abstractphysicalresourcelink.h"
 #include "data/cuttingparamslink.h"
 #include "data/foldingparamslink.h"
+#include "data/boxpackingparamslink.h"
 #include "data/medialink.h"
 #include "data/laminatingintentlink.h"
 #include "data/deliveryintentlink.h"
@@ -62,6 +64,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::DropItemIntentQmlWrapper *>("Proof::Jdf::DropItemIntentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ComponentQmlWrapper *>("Proof::Jdf::ComponentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::FoldingParamsQmlWrapper *>("Proof::Jdf::FoldingParamsQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::BoxPackingParamsQmlWrapper *>("Proof::Jdf::BoxPackingParamsQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfNodeQmlWrapper *>("Proof::Jdf::JdfNodeQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocumentQmlWrapper *>("Proof::Jdf::JdfDocumentQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ResourceLinkPoolQmlWrapper *>("Proof::Jdf::ResourceLinkPoolQmlWrapper *");
@@ -71,6 +74,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::DeliveryIntentLinkQmlWrapper *>("Proof::Jdf::DeliveryIntentLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ComponentLinkQmlWrapper *>("Proof::Jdf::ComponentLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::FoldingParamsLinkQmlWrapper *>("Proof::Jdf::FoldingParamsLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::BoxPackingParamsLinkQmlWrapper *>("Proof::Jdf::BoxPackingParamsLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
 
     qRegisterMetaType<Proof::Jdf::JdfNodeSP>("Proof::Jdf::JdfNodeSP");
@@ -85,6 +89,8 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::CuttingParamsWP>("Proof::Jdf::CuttingParamsWP");
     qRegisterMetaType<Proof::Jdf::FoldingParamsSP>("Proof::Jdf::FoldingParamsSP");
     qRegisterMetaType<Proof::Jdf::FoldingParamsWP>("Proof::Jdf::FoldingParamsWP");
+    qRegisterMetaType<Proof::Jdf::BoxPackingParamsSP>("Proof::Jdf::BoxPackingParamsSP");
+    qRegisterMetaType<Proof::Jdf::BoxPackingParamsWP>("Proof::Jdf::BoxPackingParamsWP");
     qRegisterMetaType<Proof::Jdf::CutBlockSP>("Proof::Jdf::CutBlockSP");
     qRegisterMetaType<Proof::Jdf::CutBlockWP>("Proof::Jdf::CutBlockWP");
     qRegisterMetaType<Proof::Jdf::MediaSP>("Proof::Jdf::MediaSP");
@@ -108,6 +114,8 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::CuttingParamsLinkWP>("Proof::Jdf::CuttingParamsLinkWP");
     qRegisterMetaType<Proof::Jdf::FoldingParamsLinkSP>("Proof::Jdf::FoldingParamsLinkSP");
     qRegisterMetaType<Proof::Jdf::FoldingParamsLinkWP>("Proof::Jdf::FoldingParamsLinkWP");
+    qRegisterMetaType<Proof::Jdf::BoxPackingParamsLinkSP>("Proof::Jdf::BoxPackingParamsLinkSP");
+    qRegisterMetaType<Proof::Jdf::BoxPackingParamsLinkWP>("Proof::Jdf::BoxPackingParamsLinkWP");
     qRegisterMetaType<Proof::Jdf::MediaLinkSP>("Proof::Jdf::MediaLinkSP");
     qRegisterMetaType<Proof::Jdf::MediaLinkWP>("Proof::Jdf::MediaLinkWP");
     qRegisterMetaType<Proof::Jdf::LaminatingIntentLinkSP>("Proof::Jdf::LaminatingIntentLinkSP");
@@ -129,7 +137,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::BundleType>("Proof::Jdf::BundleType");
     qRegisterMetaType<Proof::Jdf::ComponentType>("Proof::Jdf::ComponentType");
     qRegisterMetaType<Proof::Jdf::ResourcePartType>("Proof::Jdf::PartIdKeysType");
-    qRegisterMetaType<Proof::Jdf::Usage>("Proof::Jdf::Usage");
+    qRegisterMetaType<Proof::Jdf::LinkUsage>("Proof::Jdf::Usage");
     qRegisterMetaType<Proof::Jdf::BlockType>("Proof::Jdf::BlockType");
     qRegisterMetaType<Proof::Jdf::DeviceFilterDetails>("Proof::Jdf::DeviceFilterDetails");
     qRegisterMetaType<Proof::Jdf::DeviceStatus>("Proof::Jdf::DeviceStatus");

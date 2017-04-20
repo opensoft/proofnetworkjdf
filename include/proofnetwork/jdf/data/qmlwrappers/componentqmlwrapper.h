@@ -19,6 +19,8 @@ class PROOF_NETWORK_JDF_EXPORT ComponentQmlWrapper : public AbstractPhysicalReso
 {
     Q_OBJECT
     Q_PROPERTY(Proof::Jdf::ComponentType componentType READ componentType NOTIFY componentTypeChanged)
+    Q_PROPERTY(Proof::Jdf::ProductType productType READ productType NOTIFY productTypeChanged)
+    Q_PROPERTY(QString productTypeDetails READ productTypeDetails NOTIFY productTypeDetailsChanged)
     Q_PROPERTY(Proof::Jdf::BundleQmlWrapper *bundle READ bundle NOTIFY bundleChanged)
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> parts READ parts NOTIFY partsChanged)
 
@@ -29,11 +31,15 @@ public:
     PROOF_NDE_WRAPPER_TOOLS(Component)
 
     Proof::Jdf::ComponentType componentType() const;
+    Proof::Jdf::ProductType productType() const;
+    QString productTypeDetails() const;
     Proof::Jdf::BundleQmlWrapper *bundle() const;
     QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> parts();
 
 signals:
     void componentTypeChanged(Proof::Jdf::ComponentType componentType);
+    void productTypeChanged(Proof::Jdf::ProductType productType);
+    void productTypeDetailsChanged(const QString &productTypeDetails);
     void bundleChanged(Proof::Jdf::BundleQmlWrapper *bundle);
     void partsChanged(const QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> &parts);
 

@@ -48,7 +48,7 @@
                 <CutBlock BlockName="B-7" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 2214.0000 36.0000" BlockType="CutBlock" Class="Parameter" ID="B-7_BLK" Status="Available"/>
                 <CutBlock BlockName="B-8" BlockSize="252.0000 612.0000" BlockSubdivision="1 1" BlockTrf="1 0 0 1 2214.0000 666.0000" BlockType="CutBlock" Class="Parameter" ID="B-8_BLK" Status="Available"/>
             </CuttingParams>
-            <Component Class="Quantity" ComponentType="Block" Dimensions="432.0000 288.0000 0.4896" ID="A_OUT" IsWaste="false" PartIDKeys="BlockName" ReaderPageCount="2" Status="Available">
+            <Component Class="Quantity" ComponentType="PartialProduct" Dimensions="432.0000 288.0000 0.4896" ID="A_OUT" IsWaste="false" PartIDKeys="BlockName" ReaderPageCount="2" Status="Available">
                 <Bundle BundleType = "Box" TotalAmount = "42">
                     <BundleItem Amount = "42">
                         <ComponentRef rRef = "ComponentID"/>
@@ -70,7 +70,7 @@
                 <Component BlockName="A-14"/>
                 <Component BlockName="A-15"/>
             </Component>
-            <Component Class="Quantity" ComponentType="Block" Dimensions="252.0000 612.0000 0.4896" ID="B_OUT" IsWaste="false" PartIDKeys="BlockName" ReaderPageCount="2" Status="Available">
+            <Component Class="Quantity" ComponentType="PartialProduct" Dimensions="252.0000 612.0000 0.4896" ID="B_OUT" IsWaste="false" PartIDKeys="BlockName" ReaderPageCount="2" Status="Available">
                 <Component BlockName="B-1"/>
                 <Component BlockName="B-2"/>
                 <Component BlockName="B-3"/>
@@ -80,6 +80,13 @@
                 <Component BlockName="B-7"/>
                 <Component BlockName="B-8"/>
             </Component>
+            <Component ComponentType="PartialProduct" ID="B_OUT_BOXED" Status="Available" Class="Quantity">
+                <Bundle BundleType="Box" TotalAmount="1000">
+                    <BundleItem Amount="500">
+                        <ComponentRef rRef="B_OUT"/>
+                    </BundleItem>
+                </Bundle>
+            </Component>
         </ResourcePool>
         <ResourceLinkPool>
             <ComponentLink Usage="Input" rRef="COMP_0000"/>
@@ -87,6 +94,18 @@
             <CuttingParamsLink Usage="Input" rRef="CPM_0000"/>
             <ComponentLink Usage="Output" rRef="A_OUT"/>
             <ComponentLink Usage="Output" rRef="B_OUT"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_B" Type="BoxPacking" Status="Waiting" Version="1.4">
+        <ResourcePool>
+            <BoxPackingParams Class="Parameter" ID="BoxPackingParams_B" Status="Available"/>
+            <Component Class="Quantity" ID="Box1ID" Status="Available" ComponentType="Sheet" ProductType="FlatBox" ProductTypeDetails="Envelope"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink ProcessUsage="Box" Usage="Input" rRef="Box1ID"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxParams1ID"/>
+            <ComponentLink Usage="Input" rRef="B_OUT" />
+            <ComponentLink Usage="Output" rRef="B_OUT_BOXED"/>
         </ResourceLinkPool>
     </JDF>
 </JDF>

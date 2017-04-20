@@ -10,10 +10,16 @@ AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd, QObj
 {
 }
 
-Usage AbstractResourceLink::usage() const
+LinkUsage AbstractResourceLink::usage() const
 {
     Q_D(const AbstractResourceLink);
     return d->usage;
+}
+
+ProcessUsage AbstractResourceLink::processUsage() const
+{
+    Q_D(const AbstractResourceLink);
+    return d->processUsage;
 }
 
 QString AbstractResourceLink::rRef() const
@@ -22,12 +28,21 @@ QString AbstractResourceLink::rRef() const
     return d->rRef;
 }
 
-void AbstractResourceLink::setUsage(Usage arg)
+void AbstractResourceLink::setUsage(LinkUsage arg)
 {
     Q_D(AbstractResourceLink);
     if (d->usage != arg) {
         d->usage = arg;
         emit usageChanged(d->usage);
+    }
+}
+
+void AbstractResourceLink::setProcessUsage(ProcessUsage arg)
+{
+    Q_D(AbstractResourceLink);
+    if (d->processUsage != arg) {
+        d->processUsage = arg;
+        emit processUsageChanged(d->processUsage);
     }
 }
 
@@ -43,7 +58,8 @@ void AbstractResourceLink::setRRef(const QString &arg)
 bool AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    abstractResource->setUsage(usageFromString(attributes.value("Usage").toString()));
+    abstractResource->setUsage(linkUsageFromString(attributes.value("Usage").toString()));
+    abstractResource->setProcessUsage(processUsageFromString(attributes.value("ProcessUsage").toString()));
     abstractResource->setRRef(attributes.value("rRef").toString());
 
     return true;
@@ -52,11 +68,20 @@ bool AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const Abst
 void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResourceLink);
-    QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
-    jdfWriter.writeStartElement(className);
-    jdfWriter.writeAttribute("Usage", usageToString(d->usage));
+    jdfWriter.writeAttribute("Usage", linkUsageToString(d->usage));
+    if (d->processUsage != ProcessUsage::UseAsDefault)
+        jdfWriter.writeAttribute("ProcessUsage", processUsageToString(d->processUsage));
     jdfWriter.writeAttribute("rRef", d->rRef);
-    jdfWriter.writeEndElement();
+}
+
+QString AbstractResourceLink::jdfNodeName() const
+{
+    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+}
+
+QString AbstractResourceLink::jdfNodeRefName() const
+{
+    return QString("%1Ref").arg(jdfNodeName());
 }
 
 void AbstractResourceLinkPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
@@ -64,6 +89,7 @@ void AbstractResourceLinkPrivate::updateFrom(const Proof::NetworkDataEntitySP &o
     Q_Q(AbstractResourceLink);
     AbstractResourceLinkSP castedOther = qSharedPointerCast<AbstractResourceLink>(other);
     q->setUsage(castedOther->usage());
+    q->setProcessUsage(castedOther->processUsage());
     q->setRRef(castedOther->rRef());
 
     NetworkDataEntityPrivate::updateFrom(other);

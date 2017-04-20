@@ -1,5 +1,6 @@
 #include "bundleitem.h"
 
+#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -9,8 +10,15 @@ class BundleItemPrivate : NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(BundleItem)
 
+    BundleItemPrivate() : NetworkDataEntityPrivate()
+    {
+        registerChildren(component);
+    }
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
+
     int amount = 1;
+    ComponentSP component = Component::create();
 };
 
 } // namespace Jdf
@@ -24,12 +32,27 @@ int BundleItem::amount() const
     return d->amount;
 }
 
+ComponentSP BundleItem::component() const
+{
+    Q_D(const BundleItem);
+    return d->component;
+}
+
 void BundleItem::setAmount(int arg)
 {
     Q_D(BundleItem);
     if (d->amount != arg) {
         d->amount = arg;
         emit amountChanged(arg);
+    }
+}
+
+void BundleItem::setComponent(const ComponentSP &arg)
+{
+    Q_D(BundleItem);
+    if (d->component != arg) {
+        d->component = arg;
+        emit componentChanged(arg);
     }
 }
 
@@ -48,17 +71,19 @@ BundleItemSP BundleItem::create()
     return result;
 }
 
-BundleItemSP BundleItem::fromJdf(QXmlStreamReader &xmlReader)
+BundleItemSP BundleItem::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     BundleItemSP bundleItem = create();
-
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "BundleItem" && xmlReader.isStartElement() && ! bundleItem->isFetched()) {
             bundleItem->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             bundleItem->setAmount(attributes.value("Amount").toInt());
         } else if (xmlReader.isStartElement()) {
-            xmlReader.skipCurrentElement();
+            if (xmlReader.name() == "ComponentRef") {
+                ComponentSP component = Component::fromJdf(xmlReader, jobId, sanitize);
+                bundleItem->setComponent(component);
+            }
         } else if (xmlReader.isEndElement()) {
             break;
         }
@@ -73,6 +98,8 @@ void BundleItem::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(BundleItem);
     jdfWriter.writeStartElement("BundleItem");
     jdfWriter.writeAttribute("Amount", QString::number(d->amount));
+    if (isValidAndDirty(d->component))
+        d->component->refToJdf(jdfWriter);
     jdfWriter.writeEndElement();
 }
 
@@ -86,6 +113,7 @@ void BundleItemPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     Q_Q(BundleItem);
     BundleItemSP castedOther = qSharedPointerCast<BundleItem>(other);
     q->setAmount(castedOther->amount());
+    q->setComponent(castedOther->component());
 
     NetworkDataEntityPrivate::updateFrom(other);
 }

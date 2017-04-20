@@ -129,13 +129,31 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute(resourcePartTypeToString(part), d->partAttributes[part]);
 }
 
+void AbstractResource::refToJdf(QXmlStreamWriter &jdfWriter)
+{
+    Q_D(AbstractResource);
+    jdfWriter.writeStartElement(jdfNodeRefName());
+    jdfWriter.writeAttribute("rRef", d->id);
+    jdfWriter.writeEndElement();
+}
+
+QString AbstractResource::jdfNodeName() const
+{
+    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+}
+
+QString AbstractResource::jdfNodeRefName() const
+{
+    return QString("%1Ref").arg(jdfNodeName());
+}
+
 AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
     : NetworkDataEntity(dd, parent)
 {
 
 }
 
-void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, Usage usage) const
+void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const
 {
     abstractLink->setRRef(id());
     abstractLink->setUsage(usage);

@@ -36,6 +36,8 @@ ComponentQmlWrapper::~ComponentQmlWrapper()
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Component)
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Component, Proof::Jdf::ComponentType, componentType)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Component, Proof::Jdf::ProductType, productType)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Component, QString, productTypeDetails)
 
 BundleQmlWrapper *ComponentQmlWrapper::bundle() const
 {
@@ -95,6 +97,10 @@ void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
 
     connect(component.data(), &Component::componentTypeChanged,
             this, &ComponentQmlWrapper::componentTypeChanged);
+    connect(component.data(), &Component::productTypeChanged,
+            this, &ComponentQmlWrapper::productTypeChanged);
+    connect(component.data(), &Component::productTypeDetailsChanged,
+            this, &ComponentQmlWrapper::productTypeDetailsChanged);
     connect(component.data(), &Component::bundleChanged,
             d->lambdaConnectContext, [d](){d->updateBundle();});
     connect(component.data(), &Component::partsChanged,
@@ -104,6 +110,10 @@ void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
     if (oldComponent) {
         if (component->componentType() != oldComponent->componentType())
             emit componentTypeChanged(component->componentType());
+        if (component->productType() != oldComponent->productType())
+            emit productTypeChanged(component->productType());
+        if (component->productTypeDetails() != oldComponent->productTypeDetails())
+            emit productTypeDetailsChanged(component->productTypeDetails());
     }
 
     d->updateBundle();

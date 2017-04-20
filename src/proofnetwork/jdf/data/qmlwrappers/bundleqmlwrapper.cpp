@@ -12,9 +12,12 @@ class BundleQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(BundleQmlWrapper)
 
-    void updateBundleItem();
+    void updateBundleItems();
 
-    BundleItemQmlWrapper *bundleItem = nullptr;
+    QList<BundleItemQmlWrapper *> bundleItems;
+    QQmlListProperty<Proof::Jdf::BundleItemQmlWrapper> qmlBundleItemsList;
+    static BundleItemQmlWrapper *bundleItemAt(QQmlListProperty<BundleItemQmlWrapper> *property, int index);
+    static int bundleItemsCount(QQmlListProperty<BundleItemQmlWrapper> *property);
 };
 
 BundleQmlWrapper::BundleQmlWrapper(const BundleSP &bundle, QObject *parent)
@@ -32,21 +35,28 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(Bundle)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, Proof::Jdf::BundleType, bundleType)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, int, totalAmount)
 
-BundleItemQmlWrapper *BundleQmlWrapper::bundleItem() const
+QQmlListProperty<BundleItemQmlWrapper> BundleQmlWrapper::bundleItems() const
 {
     Q_D(const BundleQmlWrapper);
-    return d->bundleItem;
+    return d->qmlBundleItemsList;
 }
 
-void BundleQmlWrapperPrivate::updateBundleItem()
+void BundleQmlWrapperPrivate::updateBundleItems()
 {
     Q_Q(BundleQmlWrapper);
+    for (BundleItemQmlWrapper *wrapper : bundleItems)
+        wrapper->deleteLater();
+
+    bundleItems.clear();
+
     BundleSP bundle = entity<Bundle>();
-    if (!bundleItem)
-        bundleItem = bundle->bundleItem()->toQmlWrapper(q);
-    else
-        bundleItem->setEntity(bundle->bundleItem());
-    q->bundleItemChanged(bundleItem);
+    for (const auto &bundleItem : bundle->bundleItems())
+        bundleItems << bundleItem->toQmlWrapper(q);
+
+    qmlBundleItemsList = QQmlListProperty<Proof::Jdf::BundleItemQmlWrapper>(q, &bundleItems,
+                                                                            &BundleQmlWrapperPrivate::bundleItemsCount,
+                                                                            &BundleQmlWrapperPrivate::bundleItemAt);
+    emit q->bundleItemsChanged(qmlBundleItemsList);
 }
 
 void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
@@ -57,8 +67,8 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 
     connect(bundle.data(), &Bundle::bundleTypeChanged, this, &BundleQmlWrapper::bundleTypeChanged);
     connect(bundle.data(), &Bundle::totalAmountChanged, this, &BundleQmlWrapper::totalAmountChanged);
-    connect(bundle.data(), &Bundle::bundleItemChanged,
-            d->lambdaConnectContext, [d](){d->updateBundleItem();});
+    connect(bundle.data(), &Bundle::bundleItemsChanged,
+            d->lambdaConnectContext, [d](){d->updateBundleItems();});
 
     BundleSP oldBundle = qSharedPointerCast<Bundle>(old);
     if (oldBundle) {
@@ -68,7 +78,17 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
             emit totalAmountChanged(bundle->totalAmount());
     }
 
-    d->updateBundleItem();
+    d->updateBundleItems();
+}
+
+BundleItemQmlWrapper *BundleQmlWrapperPrivate::bundleItemAt(QQmlListProperty<BundleItemQmlWrapper> *property, int index)
+{
+    return static_cast<QList<BundleItemQmlWrapper *> *>(property->data)->at(index);
+}
+
+int BundleQmlWrapperPrivate::bundleItemsCount(QQmlListProperty<BundleItemQmlWrapper> *property)
+{
+    return static_cast<QList<BundleItemQmlWrapper *> *>(property->data)->count();
 }
 
 }

@@ -13,7 +13,8 @@ class AbstractResourceLinkQmlWrapperPrivate;
 class AbstractResourceLinkQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(Proof::Jdf::Usage usage READ usage NOTIFY usageChanged)
+    Q_PROPERTY(Proof::Jdf::LinkUsage usage READ usage NOTIFY usageChanged)
+    Q_PROPERTY(Proof::Jdf::ProcessUsage processUsage READ processUsage NOTIFY processUsageChanged)
     Q_PROPERTY(QString rRef READ rRef NOTIFY rRefChanged)
     Q_DECLARE_PRIVATE(AbstractResourceLinkQmlWrapper)
 public:
@@ -21,11 +22,13 @@ public:
                                             AbstractResourceLinkQmlWrapperPrivate &dd,
                                             QObject *parent = nullptr);
     ~AbstractResourceLinkQmlWrapper();
-    Proof::Jdf::Usage usage() const;
+    Proof::Jdf::LinkUsage usage() const;
+    Proof::Jdf::ProcessUsage processUsage() const;
     QString rRef() const;
 
 signals:
-    void usageChanged(Proof::Jdf::Usage usage);
+    void usageChanged(Proof::Jdf::LinkUsage usage);
+    void processUsageChanged(Proof::Jdf::ProcessUsage processUsage);
     void rRefChanged(const QString &rRef);
 
 protected:

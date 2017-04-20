@@ -21,6 +21,7 @@ public:
     static CuttingParamsLinkSP create();
 
     static CuttingParamsLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
     explicit CuttingParamsLink(QObject *parent = nullptr);

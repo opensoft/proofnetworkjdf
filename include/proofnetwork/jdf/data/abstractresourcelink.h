@@ -17,17 +17,23 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResourceLink : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractResourceLink)
 public:
-    Usage usage() const;
+    LinkUsage usage() const;
+    ProcessUsage processUsage() const;
     QString rRef() const;
 
-    void setUsage(Usage arg);
+    void setUsage(LinkUsage arg);
+    void setProcessUsage(ProcessUsage arg);
     void setRRef(const QString &arg);
 
     static bool fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
+    QString jdfNodeName() const;
+    QString jdfNodeRefName() const;
+
 signals:
-    void usageChanged(Usage arg);
+    void usageChanged(LinkUsage arg);
+    void processUsageChanged(ProcessUsage arg);
     void rRefChanged(const QString &arg);
 protected:
     explicit AbstractResourceLink() = delete;

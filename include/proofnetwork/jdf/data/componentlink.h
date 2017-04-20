@@ -21,6 +21,7 @@ public:
     static ComponentLinkSP create();
 
     static ComponentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
     explicit ComponentLink(QObject *parent = nullptr);

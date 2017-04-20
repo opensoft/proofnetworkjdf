@@ -13,6 +13,7 @@ class FoldingParamsLinkQmlWrapperPrivate : public AbstractResourceLinkQmlWrapper
 }
 }
 
+using namespace Proof;
 using namespace Proof::Jdf;
 
 FoldingParamsLinkQmlWrapper::FoldingParamsLinkQmlWrapper(const FoldingParamsLinkSP &folding, QObject *parent) :

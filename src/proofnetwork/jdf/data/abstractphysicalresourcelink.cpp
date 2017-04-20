@@ -52,16 +52,11 @@ bool AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, co
 void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractPhysicalResourceLink);
-    QString className = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
-    jdfWriter.writeStartElement(className);
-    jdfWriter.writeAttribute("Usage", usageToString(usage()));
-    jdfWriter.writeAttribute("rRef", rRef());
     if (d->orientation != ResourceOrientation::Rotate0Orientation)
         jdfWriter.writeAttribute("Orientation", resourceOrientationToString(d->orientation));
     if (d->amount != 0)
         jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
-
-    jdfWriter.writeEndElement();
+    AbstractResourceLink::toJdf(jdfWriter);
 }
 
 void AbstractPhysicalResourceLinkPrivate::updateFrom(const NetworkDataEntitySP &other)

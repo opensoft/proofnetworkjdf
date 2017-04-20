@@ -21,6 +21,7 @@ public:
     static MediaLinkSP create();
 
     static MediaLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
     explicit MediaLink(QObject *parent = nullptr);

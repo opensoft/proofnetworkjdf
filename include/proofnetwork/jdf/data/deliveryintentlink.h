@@ -21,6 +21,7 @@ public:
     static DeliveryIntentLinkSP create();
 
     static DeliveryIntentLinkSP fromJdf(const QXmlStreamReader &xmlReader);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
     explicit DeliveryIntentLink(QObject *parent = nullptr);

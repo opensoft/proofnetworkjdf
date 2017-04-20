@@ -18,7 +18,8 @@ AbstractResourceLinkQmlWrapper::~AbstractResourceLinkQmlWrapper()
 }
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResourceLink, QString, rRef)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResourceLink, Proof::Jdf::Usage, usage)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResourceLink, Proof::Jdf::LinkUsage, usage)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResourceLink, Proof::Jdf::ProcessUsage, processUsage)
 
 void AbstractResourceLinkQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
 {
@@ -30,6 +31,8 @@ void AbstractResourceLinkQmlWrapper::setupEntity(const QSharedPointer<Proof::Net
             this, &AbstractResourceLinkQmlWrapper::rRefChanged);
     connect(abstractResourceLink.data(), &AbstractResourceLink::usageChanged,
             this, &AbstractResourceLinkQmlWrapper::usageChanged);
+    connect(abstractResourceLink.data(), &AbstractResourceLink::processUsageChanged,
+            this, &AbstractResourceLinkQmlWrapper::processUsageChanged);
 
     AbstractResourceLinkSP castedOld = qSharedPointerCast<AbstractResourceLink>(old);
     if (castedOld) {
@@ -38,6 +41,9 @@ void AbstractResourceLinkQmlWrapper::setupEntity(const QSharedPointer<Proof::Net
 
         if (abstractResourceLink->usage() != castedOld->usage())
             emit usageChanged(abstractResourceLink->usage());
+
+        if (abstractResourceLink->processUsage() != castedOld->processUsage())
+            emit processUsageChanged(abstractResourceLink->processUsage());
     }
 }
 

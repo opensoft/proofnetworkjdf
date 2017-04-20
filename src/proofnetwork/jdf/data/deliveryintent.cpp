@@ -127,7 +127,7 @@ void DeliveryIntent::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-DeliveryIntentLinkSP DeliveryIntent::toLink(Usage usage) const
+DeliveryIntentLinkSP DeliveryIntent::toLink(LinkUsage usage) const
 {
     DeliveryIntentLinkSP link = DeliveryIntentLink::create();
     AbstractResource::setupLink(link, usage);

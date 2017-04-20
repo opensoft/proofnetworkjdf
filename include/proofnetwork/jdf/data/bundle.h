@@ -20,23 +20,24 @@ class PROOF_NETWORK_JDF_EXPORT Bundle : public NetworkDataEntity
 public:
     BundleType bundleType() const;
     int totalAmount() const;
-    BundleItemSP bundleItem() const;
+    QList<BundleItemSP> bundleItems() const;
 
     void setBundleType(BundleType arg);
     void setTotalAmount(int arg);
-    void setBundleItem(const BundleItemSP &arg);
+    void setBundleItems(const QList<BundleItemSP> &arg);
+    void addBundleItem(const BundleItemSP &arg);
 
     BundleQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static BundleSP create();
 
-    static BundleSP fromJdf(QXmlStreamReader &xmlReader);
+    static BundleSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize);
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
     void bundleTypeChanged(Proof::Jdf::BundleType arg);
     void totalAmountChanged(int arg);
-    void bundleItemChanged(const Proof::Jdf::BundleItemSP &arg);
+    void bundleItemsChanged();
 
 protected:
     explicit Bundle();

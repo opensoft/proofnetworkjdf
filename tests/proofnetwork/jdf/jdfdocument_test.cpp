@@ -83,7 +83,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
     EXPECT_EQ("ID0001", jdfDocUT->jobPartId());
 
-    ASSERT_EQ(1, jdfDocUT->jdfNodes().count());
+    ASSERT_EQ(2, jdfDocUT->jdfNodes().count());
 
     JdfNodeSP jdfNode = jdfDocUT->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
@@ -92,7 +92,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     ResourcePoolSP resourcePool = jdfNode->resourcePool();
     ASSERT_TRUE(resourcePool);
 
-    ASSERT_EQ(3, resourcePool->components().count());
+    ASSERT_EQ(4, resourcePool->components().count());
 
     ComponentSP component = resourcePool->components().first();
     ASSERT_TRUE(component);
@@ -105,7 +105,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     ComponentSP component2 = resourcePool->components().at(1);
     ASSERT_TRUE(component2);
     EXPECT_EQ("A_OUT", component2->id());
-    EXPECT_EQ("Block", componentTypeToString(component2->componentType()));
+    EXPECT_EQ("PartialProduct", componentTypeToString(component2->componentType()));
     EXPECT_DOUBLE_EQ(432.0, component2->width());
     EXPECT_DOUBLE_EQ(288.0, component2->height());
     EXPECT_DOUBLE_EQ(0.4896, component2->length());
@@ -119,7 +119,20 @@ TEST_F(JdfDocumentTest, fromJdf)
     ASSERT_TRUE(bundle);
     EXPECT_EQ(BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
-    EXPECT_EQ(42, bundle->bundleItem()->amount());
+    ASSERT_TRUE(bundle->bundleItems().count());
+    EXPECT_EQ(42, bundle->bundleItems().first()->amount());
+
+    ComponentSP component3 = resourcePool->components().last();
+    ASSERT_TRUE(component3);
+    BundleSP bundle2 = component3->bundle();
+    ASSERT_TRUE(bundle2);
+    EXPECT_EQ(BundleType::BoxBundle, bundle2->bundleType());
+    EXPECT_EQ(1000, bundle2->totalAmount());
+    ASSERT_TRUE(bundle2->bundleItems().count());
+    BundleItemSP bundleItem = bundle2->bundleItems().first();
+    ASSERT_TRUE(bundleItem);
+    EXPECT_EQ(500, bundleItem->amount());
+    EXPECT_EQ("B_OUT", bundleItem->component()->id());
 
     CuttingParamsSP cuttingParams = resourcePool->cuttingParams();
     ASSERT_TRUE(cuttingParams);
@@ -218,6 +231,31 @@ TEST_F(JdfDocumentTest, fromJdf)
     DropItemIntentSP dropItemIntent = dropIntent->dropItemIntents().first();
     ASSERT_TRUE(dropItemIntent);
     EXPECT_EQ("A_OUT", dropItemIntent->component()->id());
+
+    JdfNodeSP jdfNode2 = jdfDocUT->jdfNodes().last();
+    ASSERT_TRUE(jdfNode2);
+    EXPECT_EQ("BoxPacking_B", jdfNode2->id());
+
+    ResourcePoolSP resourcePoolBoxPacking = jdfNode2->resourcePool();
+    ASSERT_TRUE(resourcePoolBoxPacking);
+
+    ASSERT_EQ(1, resourcePoolBoxPacking->components().count());
+
+    ComponentSP componentBox = resourcePoolBoxPacking->components().first();
+    ASSERT_TRUE(componentBox);
+    EXPECT_EQ("Box1ID", componentBox->id());
+    EXPECT_EQ(ComponentType::SheetComponent, componentBox->componentType());
+    EXPECT_EQ(ProductType::FlatBoxProduct, componentBox->productType());
+    EXPECT_EQ("Envelope", componentBox->productTypeDetails());
+
+    ResourceLinkPoolSP resourceLinkPoolBoxPacking = jdfNode2->resourceLinkPool();
+    ASSERT_TRUE(resourceLinkPoolBoxPacking);
+
+    ASSERT_EQ(3, resourceLinkPoolBoxPacking->componentLinks().count());
+    ComponentLinkSP componentLinkBox = resourceLinkPoolBoxPacking->componentLinks().first();
+    ASSERT_TRUE(componentLinkBox);
+    EXPECT_EQ("Box1ID", componentLinkBox->rRef());
+    EXPECT_EQ(ProcessUsage::UseAsBox, componentLinkBox->processUsage());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
@@ -280,12 +318,12 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
     ComponentSP componentFold = resourcePool->components().last();
     ASSERT_TRUE(componentFold);
+    EXPECT_EQ("A_FOLD", componentFold->id());
 
     BundleSP bundle = componentFold->bundle();
     ASSERT_TRUE(bundle);
     EXPECT_EQ(BundleType::BoxBundle, bundle->bundleType());
     EXPECT_EQ(42, bundle->totalAmount());
-    EXPECT_EQ(1, bundle->bundleItem()->amount());
 }
 
 TEST_F(JdfDocumentTest, fromNestedJdfCutting)
@@ -471,145 +509,175 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_FALSE(reader.atEnd());
 
     bool hasJdfProductElement = false;
+    bool hasJdfNodeCutting = false;
+    bool hasJdfNodeBoxPacking = false;
     bool hasResourcePool = false;
     int mediaCount = 0;
     bool hasLayout = false;
     bool hasLaminatingIntent = false;
     bool hasDeliveryIntent = false;
     bool hasRequired = false;
-    bool hasComponentRef = false;
-    QString id;
-    QString jobId;
-    QString jobPartId;
-    QString version;
-    QString status;
-    QString defaultNamespace;
-    QString cutProcessId;
+    bool hasComponentOneRef = false;
+    bool hasComponentTwoRef = false;
+    bool hasComponentBox = false;
+    bool hasComponentLinkBox = false;
+    bool hasBoxPackingParams = false;
+    bool hasBoxPackingParamsLink = false;
+    bool hasBundleItemOne = false;
+    bool hasBundleItemTwo = false;
+    QString currentNodeId;
+    QString currentComponentId;
     unsigned int cutBlocksCount = 0;
     while (!reader.atEnd() && !reader.hasError()) {
-        QXmlStreamReader::TokenType token = reader.readNext();
-        if (token == QXmlStreamReader::StartElement) {
+        if (reader.readNext() == QXmlStreamReader::StartElement) {
+            QXmlStreamAttributes attributes = reader.attributes();
             if (reader.name() == "JDF") {
-                QXmlStreamAttributes attributes = reader.attributes();
-                if (attributes.value("Type").toString() == "Product") {
+                currentNodeId = attributes.value("ID").toString();
+                QString typeNode = attributes.value("Type").toString();
+                if (typeNode == "Product") {
                     hasJdfProductElement = true;
-                    id = attributes.value("ID").toString();
-                    jobId = attributes.value("JobID").toString();
-                    jobPartId = attributes.value("JobPartID").toString();
-                    status = attributes.value("Status").toString();
-                    version = attributes.value("Version").toString();
-                    defaultNamespace = reader.namespaceUri().toString();
+                    EXPECT_EQ("1.4", attributes.value("Version").toString());
+                    EXPECT_EQ("Waiting", attributes.value("Status").toString());
+                    EXPECT_EQ("http://www.CIP4.org/JDFSchema_1_1", reader.namespaceUri().toString());
+                    EXPECT_EQ("JDF_0000", currentNodeId);
+                    EXPECT_EQ("mixed-flatwork (groups)", attributes.value("JobID").toString());
+                    EXPECT_EQ("ID0001", attributes.value("JobPartID").toString());
+                } else if (typeNode == "Cutting") {
+                    hasJdfNodeCutting = true;
+                } else if (typeNode == "BoxPacking") {
+                    hasJdfNodeBoxPacking = true;
                 }
-            } else if (reader.name() == "ResourcePool") {
-                hasResourcePool = true;
-            } else if (hasResourcePool && reader.name() == "Component") {
-                QXmlStreamAttributes attributes = reader.attributes();
-                if (attributes.value("ComponentType").toString() == "Sheet") {
-                    cutProcessId = attributes.value("ID").toString();
-                    QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
+            }
 
-                    ASSERT_EQ(dimensionsList.count(), 3);
-                    double width = dimensionsList.at(0).toDouble();
-                    double height = dimensionsList.at(1).toDouble();
-                    double length = dimensionsList.at(2).toDouble();
-                    EXPECT_DOUBLE_EQ(2520.0000, width);
-                    EXPECT_DOUBLE_EQ(1656.0000, height);
-                    EXPECT_DOUBLE_EQ(0.4896, length);
+            if (currentNodeId == "LAYOUT_0001") {
+                if (reader.name() == "ResourcePool") {
+                    hasResourcePool = true;
+                } else if (hasResourcePool && reader.name() == "Component") {
+                    if (!attributes.value("ID").toString().isEmpty())
+                        currentComponentId = attributes.value("ID").toString();
+                    if (attributes.value("ComponentType").toString() == "Sheet") {
+                        QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
+
+                        ASSERT_EQ(dimensionsList.count(), 3);
+                        double width = dimensionsList.at(0).toDouble();
+                        double height = dimensionsList.at(1).toDouble();
+                        double length = dimensionsList.at(2).toDouble();
+                        EXPECT_DOUBLE_EQ(2520.0000, width);
+                        EXPECT_DOUBLE_EQ(1656.0000, height);
+                        EXPECT_DOUBLE_EQ(0.4896, length);
+                    }
+                } else if (reader.name() == "Bundle") {
+                    if (currentComponentId == "A_OUT") {
+                        EXPECT_EQ(bundleTypeFromString(attributes.value("BundleType").toString()), BundleType::BoxBundle);
+                        EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
+                    } else if (currentComponentId == "B_OUT_BOXED") {
+                        EXPECT_EQ(bundleTypeFromString(attributes.value("BundleType").toString()), BundleType::BoxBundle);
+                        EXPECT_EQ(attributes.value("TotalAmount").toInt(), 1000);
+                    }
+                } else if (reader.name() == "BundleItem") {
+                    if (currentComponentId == "A_OUT") {
+                        hasBundleItemOne = true;
+                        EXPECT_EQ(attributes.value("Amount").toInt(), 42);
+                    } else if (currentComponentId == "B_OUT_BOXED") {
+                        hasBundleItemTwo = true;
+                        EXPECT_EQ(attributes.value("Amount").toInt(), 500);
+                    }
+                } else if (reader.name() == "ComponentRef") {
+                    if (!hasComponentOneRef && currentComponentId == "A_OUT") {
+                        hasComponentOneRef = true;
+                        EXPECT_EQ(attributes.value("rRef").toString(), "ComponentID");
+                    } else if (!hasComponentTwoRef && currentComponentId == "B_OUT_BOXED") {
+                        hasComponentTwoRef = true;
+                        EXPECT_EQ(attributes.value("rRef").toString(), "B_OUT");
+                    }
+                } else if (hasResourcePool && reader.name() == "Media") {
+                    ++mediaCount;
+                    QString mediaId = attributes.value("ID").toString();
+                    if (mediaId == "PAP_0000") {
+                        EXPECT_EQ(attributes.value("FrontCoatings").toString(), "HighGloss");
+                        EXPECT_EQ(attributes.value("BackCoatings").toString(), "");
+                        EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
+                        EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
+                    } else if (mediaId == "PAP_0001") {
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2620.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1756.0000);
+                    } else if (mediaId == "PAP_0002") {
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2521.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1657.0000);
+                    } else if (mediaId == "PAP_0003") {
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2621.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1757.0000);
+                    } else if (mediaId == "PAP_0004") {
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "Other");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2721.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1857.0000);
+                    } else {
+                        EXPECT_TRUE(false);
+                    }
+                } else if (hasResourcePool && reader.name() == "Layout") {
+                    hasLayout = true;
+                    EXPECT_EQ("Layout1", attributes.value("ID").toString());
+                } else if (hasResourcePool && reader.name() == "LaminatingIntent") {
+                    hasLaminatingIntent = true;
+                    EXPECT_EQ(attributes.value("ID").toString(), "LI_0000");
+                    EXPECT_EQ(attributes.value("Surface").toString(), "Both");
+                } else if (hasResourcePool && reader.name() == "DeliveryIntent") {
+                    hasDeliveryIntent = true;
+                    EXPECT_EQ("DI_0000", attributes.value("ID").toString());
+                } else if (hasResourcePool && reader.name() == "Required") {
+                    hasRequired = true;
+                    EXPECT_EQ(attributes.value("Actual").toString(), "2014-08-26T15:35:28Z");
+                } else if (hasResourcePool && reader.name() == "CuttingParams") {
+                    EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
+                    EXPECT_EQ(resourceStatusFromString(attributes.value("Status").toString()),
+                              ResourceStatus::AvailableStatus);
+                    EXPECT_EQ(resourceClassFromString(attributes.value("Class").toString()),
+                              ResourceClass::ParameterClass);
+                } else if (hasResourcePool && reader.name() == "CutBlock") {
+                    if (!cutBlocksCount++) {
+                        EXPECT_EQ(attributes.value("BlockName").toString(), "A-1");
+                        EXPECT_EQ(attributes.value("BlockType").toString(), "CutBlock");
+                    }
                 }
-            } else if (reader.name() == "Bundle") {
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(bundleTypeFromString(attributes.value("BundleType").toString()),
-                          BundleType::BoxBundle);
-                EXPECT_EQ(attributes.value("TotalAmount").toInt(), 42);
-            } else if (reader.name() == "BundleItem") {
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("Amount").toInt(), 42);
-            } else if (hasResourcePool && reader.name() == "Media") {
-                ++mediaCount;
-                QXmlStreamAttributes attributes = reader.attributes();
-                QString mediaId = attributes.value("ID").toString();
-                if (mediaId == "PAP_0000") {
-                    EXPECT_EQ(attributes.value("FrontCoatings").toString(), "HighGloss");
-                    EXPECT_EQ(attributes.value("FrontCoatingDetail").toString(), "ProFIT:Full");
-                    EXPECT_EQ(attributes.value("BackCoatings").toString(), "");
-                    EXPECT_EQ(attributes.value("BackCoatingDetail").toString(), "");
-                    EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
-                    EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
-                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-                    ASSERT_EQ(dimensionsList.count(), 2);
-                    double widthMedia = dimensionsList.at(0).toDouble();
-                    double heightMedia = dimensionsList.at(1).toDouble();
-                    EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
-                    EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
-                    EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
-                } else if (mediaId == "PAP_0001") {
-                    EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
-                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-                    ASSERT_EQ(dimensionsList.count(), 2);
-                    double widthMedia = dimensionsList.at(0).toDouble();
-                    double heightMedia = dimensionsList.at(1).toDouble();
-                    EXPECT_DOUBLE_EQ(widthMedia, 2620.0000);
-                    EXPECT_DOUBLE_EQ(heightMedia, 1756.0000);
-                } else if (mediaId == "PAP_0002") {
-                    EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
-                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-                    ASSERT_EQ(dimensionsList.count(), 2);
-                    double widthMedia = dimensionsList.at(0).toDouble();
-                    double heightMedia = dimensionsList.at(1).toDouble();
-                    EXPECT_DOUBLE_EQ(widthMedia, 2521.0000);
-                    EXPECT_DOUBLE_EQ(heightMedia, 1657.0000);
-                } else if (mediaId == "PAP_0003") {
-                    EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
-                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-                    ASSERT_EQ(dimensionsList.count(), 2);
-                    double widthMedia = dimensionsList.at(0).toDouble();
-                    double heightMedia = dimensionsList.at(1).toDouble();
-                    EXPECT_DOUBLE_EQ(widthMedia, 2621.0000);
-                    EXPECT_DOUBLE_EQ(heightMedia, 1757.0000);
-                } else if (mediaId == "PAP_0004") {
-                    EXPECT_EQ(attributes.value("MediaType").toString(), "Other");
-                    QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
-                    ASSERT_EQ(dimensionsList.count(), 2);
-                    double widthMedia = dimensionsList.at(0).toDouble();
-                    double heightMedia = dimensionsList.at(1).toDouble();
-                    EXPECT_DOUBLE_EQ(widthMedia, 2721.0000);
-                    EXPECT_DOUBLE_EQ(heightMedia, 1857.0000);
-                } else {
-                    EXPECT_TRUE(false);
-                }
-            } else if (hasResourcePool && reader.name() == "Layout") {
-                hasLayout = true;
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ("Layout1", attributes.value("ID").toString());
-            } else if (hasResourcePool && reader.name() == "LaminatingIntent") {
-                hasLaminatingIntent = true;
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("ID").toString(), "LI_0000");
-                EXPECT_EQ(attributes.value("Surface").toString(), "Both");
-            } else if (hasResourcePool && reader.name() == "DeliveryIntent") {
-                hasDeliveryIntent = true;
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ("DI_0000", attributes.value("ID").toString());
-            } else if (hasResourcePool && reader.name() == "Required") {
-                hasRequired = true;
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("Actual").toString(), "2014-08-26T15:35:28Z");
-            } else if (hasResourcePool && reader.name() == "ComponentRef") {
-                hasComponentRef = true;
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("rRef").toString(), "A_OUT");
-            } else if (hasResourcePool && reader.name() == "CuttingParams") {
-                QXmlStreamAttributes attributes = reader.attributes();
-                EXPECT_EQ(attributes.value("ID").toString(), "CPM_0000");
-                EXPECT_EQ(resourceStatusFromString(attributes.value("Status").toString()),
-                          ResourceStatus::AvailableStatus);
-                EXPECT_EQ(resourceClassFromString(attributes.value("Class").toString()),
-                          ResourceClass::ParameterClass);
-            } else if (hasResourcePool && reader.name() == "CutBlock") {
-                if (!cutBlocksCount++) {
-                    QXmlStreamAttributes attributes = reader.attributes();
-                    EXPECT_EQ(attributes.value("BlockName").toString(), "A-1");
-                    EXPECT_EQ(attributes.value("BlockType").toString(), "CutBlock");
+            } else if (currentNodeId == "BoxPacking_B") {
+                if (reader.name() == "Component" && attributes.value("ID").toString() == "Box1ID") {
+                    hasComponentBox = true;
+                    EXPECT_EQ(componentTypeFromString(attributes.value("ComponentType").toString()), ComponentType::SheetComponent);
+                    EXPECT_EQ(productTypeFromString(attributes.value("ProductType").toString()), ProductType::FlatBoxProduct);
+                    EXPECT_EQ(attributes.value("ProductTypeDetails").toString(), "Envelope");
+                } else if (reader.name() == "BoxPackingParams") {
+                    hasBoxPackingParams = true;
+                } else if (reader.name() == "BoxPackingParamsLink") {
+                    hasBoxPackingParamsLink = true;
+                } else if (reader.name() == "ComponentLink" && attributes.value("rRef").toString() == "Box1ID") {
+                    hasComponentLinkBox = true;
+                    EXPECT_EQ(attributes.value("ProcessUsage").toString(), "Box");
                 }
             }
         }
@@ -617,30 +685,32 @@ TEST_F(JdfDocumentTest, documentToJdf)
 
     EXPECT_FALSE(reader.hasError()) << reader.errorString().toLatin1().constData();
     EXPECT_TRUE(hasJdfProductElement);
-    EXPECT_EQ("1.4", version);
-    EXPECT_EQ("Waiting", status);
-    EXPECT_EQ("http://www.CIP4.org/JDFSchema_1_1", defaultNamespace);
-    EXPECT_EQ("JDF_0000", id);
-    EXPECT_EQ("mixed-flatwork (groups)", jobId);
-    EXPECT_EQ("ID0001", jobPartId);
+    EXPECT_TRUE(hasJdfNodeCutting);
+    EXPECT_TRUE(hasJdfNodeBoxPacking);
+    EXPECT_TRUE(hasBoxPackingParams);
+    EXPECT_TRUE(hasBoxPackingParamsLink);
+    EXPECT_TRUE(hasComponentBox);
+    EXPECT_TRUE(hasComponentLinkBox);
     EXPECT_TRUE(hasResourcePool);
-    EXPECT_EQ("COMP_0000", cutProcessId);
+    EXPECT_TRUE(hasBundleItemOne);
+    EXPECT_TRUE(hasBundleItemTwo);
     EXPECT_EQ(5, mediaCount);
     EXPECT_TRUE(hasLayout);
     EXPECT_TRUE(hasLaminatingIntent);
     EXPECT_TRUE(hasDeliveryIntent);
     EXPECT_TRUE(hasRequired);
-    EXPECT_TRUE(hasComponentRef);
+    EXPECT_TRUE(hasComponentOneRef);
+    EXPECT_TRUE(hasComponentTwoRef);
     EXPECT_EQ(23u, cutBlocksCount);
 }
 
 TEST_F(JdfDocumentTest, orientationTest)
 {
-    ASSERT_EQ(1, jdfDocUT->jdfNodes().count());
+    ASSERT_EQ(2, jdfDocUT->jdfNodes().count());
     JdfNodeSP jdfNode = jdfDocUT->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
-    ASSERT_EQ(3, jdfNode->resourcePool()->components().count());
+    ASSERT_EQ(4, jdfNode->resourcePool()->components().count());
     Proof::Jdf::ComponentSP sheet;
     for (const auto &component : jdfNode->resourcePool()->components()) {
         if (component->componentType() == Proof::Jdf::ComponentType::SheetComponent) {
@@ -671,35 +741,35 @@ TEST_F(JdfDocumentTest, orientationTest)
 
 TEST_F(JdfDocumentTest, toLink)
 {
-    ASSERT_EQ(1, jdfDocUT->jdfNodes().count());
+    ASSERT_EQ(2, jdfDocUT->jdfNodes().count());
     JdfNodeSP jdfNode = jdfDocUT->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
-    ASSERT_EQ(3, jdfNode->resourcePool()->components().count());
+    ASSERT_EQ(4, jdfNode->resourcePool()->components().count());
     Proof::Jdf::ComponentSP component = jdfNode->resourcePool()->components().at(0);
     ASSERT_TRUE(component);
 
-    Proof::Jdf::ComponentLinkSP componentLink = component->toLink(Usage::OutputUsage);
+    Proof::Jdf::ComponentLinkSP componentLink = component->toLink(LinkUsage::OutputLink);
     ASSERT_TRUE(componentLink);
     EXPECT_EQ(component->id(), componentLink->rRef());
-    EXPECT_EQ(Usage::OutputUsage, componentLink->usage());
+    EXPECT_EQ(LinkUsage::OutputLink, componentLink->usage());
 
     ASSERT_EQ(2, jdfNode->resourcePool()->media().count());
     Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media().first();
     ASSERT_TRUE(media);
 
-    Proof::Jdf::MediaLinkSP mediaLink = media->toLink(Usage::OutputUsage);
+    Proof::Jdf::MediaLinkSP mediaLink = media->toLink(LinkUsage::OutputLink);
     ASSERT_TRUE(mediaLink);
     EXPECT_EQ(media->id(), mediaLink->rRef());
-    EXPECT_EQ(Usage::OutputUsage, mediaLink->usage());
+    EXPECT_EQ(LinkUsage::OutputLink, mediaLink->usage());
 
     Proof::Jdf::LaminatingIntentSP laminatingIntent = jdfNode->resourcePool()->laminatingIntent();
     ASSERT_TRUE(laminatingIntent);
 
-    Proof::Jdf::LaminatingIntentLinkSP laminatingIntentLink = laminatingIntent->toLink(Usage::OutputUsage);
+    Proof::Jdf::LaminatingIntentLinkSP laminatingIntentLink = laminatingIntent->toLink(LinkUsage::OutputLink);
     ASSERT_TRUE(laminatingIntentLink);
     EXPECT_EQ(laminatingIntent->id(), laminatingIntentLink->rRef());
-    EXPECT_EQ(Usage::OutputUsage, laminatingIntentLink->usage());
+    EXPECT_EQ(LinkUsage::OutputLink, laminatingIntentLink->usage());
 
 }
 
@@ -707,6 +777,7 @@ TEST_F(JdfDocumentTest, toLink)
 TEST_F(JdfDocumentTest, findNode)
 {
     Proof::Jdf::JdfNodeSP node = jdfDocUT->findNode([](const Proof::Jdf::JdfNodeSP &node){return node->type() == "Cutting";});
+    ASSERT_TRUE(node);
     EXPECT_EQ("LAYOUT_0001", node->id());
     EXPECT_EQ("Cutting", node->type());
 }
@@ -725,7 +796,7 @@ TEST_F(JdfDocumentTest, findComponentLink)
 {
     Proof::Jdf::ComponentLinkSP link = jdfDocUT->findComponentLink([](const Proof::Jdf::ComponentLinkSP &link){return link->rRef() == "COMP_0000";});
     EXPECT_EQ("COMP_0000", link->rRef());
-    EXPECT_EQ(Proof::Jdf::Usage::InputUsage, link->usage());
+    EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
 }
 
 TEST_F(JdfDocumentTest, findMedia)

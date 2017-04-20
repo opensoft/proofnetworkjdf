@@ -8,6 +8,7 @@
 #include "deliveryintent.h"
 #include "cutblock.h"
 #include "foldingparams.h"
+#include "boxpackingparams.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -19,7 +20,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 
     ResourcePoolPrivate()
     {
-        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams);
+        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams, boxPackingParams);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
@@ -31,6 +32,7 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
     LaminatingIntentSP laminatingIntent = LaminatingIntent::create();
     DeliveryIntentSP deliveryIntent = DeliveryIntent::create();
     FoldingParamsSP foldingParams = FoldingParams::create();
+    BoxPackingParamsSP boxPackingParams = BoxPackingParams::create();
 };
 
 ObjectsCache<QString, ResourcePool> &cuttingProcessCache()
@@ -82,6 +84,12 @@ FoldingParamsSP ResourcePool::foldingParams() const
 {
     Q_D(const ResourcePool);
     return d->foldingParams;
+}
+
+BoxPackingParamsSP ResourcePool::boxPackingParams() const
+{
+    Q_D(const ResourcePool);
+    return d->boxPackingParams;
 }
 
 QList<LayoutSP> ResourcePool::layouts() const
@@ -166,6 +174,13 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
                     return ResourcePoolSP();
                 }
                 resourcePool->setFoldingParams(foldingParams);
+            } else if (xmlReader.name() == "BoxPackingParams") {
+                BoxPackingParamsSP boxPackingParams = BoxPackingParams::fromJdf(xmlReader);
+                if (!boxPackingParams) {
+                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. BoxPackingParams is invalid.";
+                    return ResourcePoolSP();
+                }
+                resourcePool->setBoxPackingParams(boxPackingParams);
             } else {
                 xmlReader.skipCurrentElement();
             }
@@ -214,6 +229,9 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 
     if (isValidAndDirty(d->foldingParams))
         d->foldingParams->toJdf(jdfWriter);
+
+    if (isValidAndDirty(d->boxPackingParams))
+        d->boxPackingParams->toJdf(jdfWriter);
 
     jdfWriter.writeEndElement();
 }
@@ -306,6 +324,18 @@ void ResourcePool::setFoldingParams(const FoldingParamsSP &foldingParams)
     }
 }
 
+void ResourcePool::setBoxPackingParams(const BoxPackingParamsSP &boxPackingParams)
+{
+    Q_ASSERT(boxPackingParams);
+    Q_D(ResourcePool);
+    if (boxPackingParams == nullptr) {
+        setBoxPackingParams(BoxPackingParams::create());
+    } else if (d->boxPackingParams != boxPackingParams) {
+        d->boxPackingParams = boxPackingParams;
+        emit boxPackingParamsChanged(d->boxPackingParams);
+    }
+}
+
 void ResourcePool::setLayouts(const QList<LayoutSP> &arg)
 {
     Q_D(ResourcePool);
@@ -337,6 +367,7 @@ void ResourcePoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     q->setLaminatingIntent(castedOther->laminatingIntent());
     q->setDeliveryIntent(castedOther->deliveryIntent());
     q->setFoldingParams(castedOther->foldingParams());
+    q->setBoxPackingParams(castedOther->boxPackingParams());
     q->setLayouts(castedOther->layouts());
 
     NetworkDataEntityPrivate::updateFrom(other);

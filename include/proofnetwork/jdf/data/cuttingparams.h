@@ -31,7 +31,7 @@ public:
 
     static CuttingParamsSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    CuttingParamsLinkSP toLink(Usage usage = Usage::InputUsage) const;
+    CuttingParamsLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
     void cutBlocksChanged();

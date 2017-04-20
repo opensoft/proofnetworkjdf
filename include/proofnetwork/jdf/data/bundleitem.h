@@ -19,18 +19,21 @@ class PROOF_NETWORK_JDF_EXPORT BundleItem : public NetworkDataEntity
     Q_DECLARE_PRIVATE(BundleItem)
 public:
     int amount() const;
+    ComponentSP component() const;
 
     void setAmount(int arg);
+    void setComponent(const ComponentSP &arg);
 
     BundleItemQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static BundleItemSP create();
 
-    static BundleItemSP fromJdf(QXmlStreamReader &xmlReader);
+    static BundleItemSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize);
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
     void amountChanged(int arg);
+    void componentChanged(const ComponentSP &component);
 
 protected:
     explicit BundleItem();

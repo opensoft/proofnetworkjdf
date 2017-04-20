@@ -32,6 +32,13 @@ DeliveryIntentLinkSP DeliveryIntentLink::fromJdf(const QXmlStreamReader &xmlRead
     return deliveryParams;
 }
 
+void DeliveryIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
+{
+    jdfWriter.writeStartElement(jdfNodeName());
+    AbstractResourceLink::toJdf(jdfWriter);
+    jdfWriter.writeEndElement();
+}
+
 DeliveryIntentLink::DeliveryIntentLink(QObject *parent)
     : AbstractResourceLink(*new DeliveryIntentLinkPrivate, parent)
 {

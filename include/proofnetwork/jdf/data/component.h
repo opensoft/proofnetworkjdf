@@ -22,6 +22,8 @@ class PROOF_NETWORK_JDF_EXPORT Component : public AbstractPhysicalResource
     Q_DECLARE_PRIVATE(Component)
 public:
     ComponentType componentType() const;
+    ProductType productType() const;
+    QString productTypeDetails() const;
     double width() const;
     double height() const;
     double length() const;
@@ -30,6 +32,8 @@ public:
     QList<ComponentSP> parts() const;
 
     void setComponentType(ComponentType arg);
+    void setProductType(ProductType arg);
+    void setProductTypeDetails(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
     void setLength(double arg);
@@ -44,10 +48,12 @@ public:
 
     static ComponentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    ComponentLinkSP toLink(Usage usage = Usage::InputUsage) const;
+    ComponentLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
     void componentTypeChanged(Proof::Jdf::ComponentType arg);
+    void productTypeChanged(Proof::Jdf::ProductType arg);
+    void productTypeDetailsChanged(const QString &arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
     void lengthChanged(double arg);

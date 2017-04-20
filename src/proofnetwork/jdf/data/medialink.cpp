@@ -32,6 +32,13 @@ MediaLinkSP MediaLink::fromJdf(const QXmlStreamReader &xmlReader)
     return media;
 }
 
+void MediaLink::toJdf(QXmlStreamWriter &jdfWriter)
+{
+    jdfWriter.writeStartElement(jdfNodeName());
+    AbstractPhysicalResourceLink::toJdf(jdfWriter);
+    jdfWriter.writeEndElement();
+}
+
 MediaLink::MediaLink(QObject *parent) :
     AbstractPhysicalResourceLink(*new MediaLinkPrivate, parent)
 {

@@ -10,11 +10,17 @@ class BundlePrivate : NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Bundle)
 
+
+    BundlePrivate() : NetworkDataEntityPrivate()
+    {
+        registerChildren(bundleItems);
+    }
+
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     BundleType bundleType = BundleType::BoxBundle;
     int totalAmount = 0;
-    BundleItemSP bundleItem = BundleItem::create();
+    QList<BundleItemSP> bundleItems;
 };
 
 } // namespace Jdf
@@ -34,10 +40,10 @@ int Bundle::totalAmount() const
     return d->totalAmount;
 }
 
-BundleItemSP Bundle::bundleItem() const
+QList<BundleItemSP> Bundle::bundleItems() const
 {
     Q_D(const Bundle);
-    return d->bundleItem;
+    return d->bundleItems;
 }
 
 void Bundle::setBundleType(BundleType arg)
@@ -58,13 +64,20 @@ void Bundle::setTotalAmount(int arg)
     }
 }
 
-void Bundle::setBundleItem(const BundleItemSP &arg)
+void Bundle::setBundleItems(const QList<BundleItemSP> &arg)
 {
     Q_D(Bundle);
-    if (d->bundleItem != arg) {
-        d->bundleItem = arg;
-        emit bundleItemChanged(arg);
-    }
+    d->bundleItems = arg;
+    emit bundleItemsChanged();
+}
+
+void Bundle::addBundleItem(const BundleItemSP &arg)
+{
+    Q_D(Bundle);
+    if (!arg)
+        return;
+    d->bundleItems.append(arg);
+    emit bundleItemsChanged();
 }
 
 BundleQmlWrapper *Bundle::toQmlWrapper(QObject *parent) const
@@ -82,10 +95,9 @@ BundleSP Bundle::create()
     return result;
 }
 
-BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader)
+BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     BundleSP bundle = create();
-
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "Bundle" && xmlReader.isStartElement() && ! bundle->isFetched()) {
             bundle->setFetched(true);
@@ -94,8 +106,8 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader)
             bundle->setTotalAmount(attributes.value("TotalAmount").toInt());
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "BundleItem") {
-                BundleItemSP bundleItem = BundleItem::fromJdf(xmlReader);
-                bundle->setBundleItem(bundleItem);
+                BundleItemSP bundleItem = BundleItem::fromJdf(xmlReader, jobId, sanitize);
+                bundle->addBundleItem(bundleItem);
             } else {
                 xmlReader.skipCurrentElement();
             }
@@ -115,8 +127,10 @@ void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("BundleType", bundleTypeToString(d->bundleType));
     jdfWriter.writeAttribute("TotalAmount", QString::number(d->totalAmount));
 
-    if (d->bundleItem->amount() != 1)
-        d->bundleItem->toJdf(jdfWriter);
+    for (const auto &bundleItem : d->bundleItems) {
+        if (isValidAndDirty(bundleItem))
+            bundleItem->toJdf(jdfWriter);
+    }
 
     jdfWriter.writeEndElement();
 }
@@ -132,7 +146,7 @@ void BundlePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     BundleSP castedOther = qSharedPointerCast<Bundle>(other);
     q->setBundleType(castedOther->bundleType());
     q->setTotalAmount(castedOther->totalAmount());
-    q->setBundleItem(castedOther->bundleItem());
+    q->setBundleItems(castedOther->bundleItems());
 
     NetworkDataEntityPrivate::updateFrom(other);
 }

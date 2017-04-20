@@ -38,5 +38,12 @@ ComponentLinkSP ComponentLink::fromJdf(const QXmlStreamReader &xmlReader)
     return componentLink;
 }
 
+void ComponentLink::toJdf(QXmlStreamWriter &jdfWriter)
+{
+    jdfWriter.writeStartElement(jdfNodeName());
+    AbstractPhysicalResourceLink::toJdf(jdfWriter);
+    jdfWriter.writeEndElement();
+}
+
 }
 }

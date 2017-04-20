@@ -113,7 +113,7 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-FoldingParamsLinkSP FoldingParams::toLink(Usage usage) const
+FoldingParamsLinkSP FoldingParams::toLink(LinkUsage usage) const
 {
     FoldingParamsLinkSP link = FoldingParamsLink::create();
     AbstractResource::setupLink(link, usage);

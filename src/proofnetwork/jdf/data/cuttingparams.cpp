@@ -133,7 +133,7 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-CuttingParamsLinkSP CuttingParams::toLink(Usage usage) const
+CuttingParamsLinkSP CuttingParams::toLink(LinkUsage usage) const
 {
     CuttingParamsLinkSP link = CuttingParamsLink::create();
     AbstractResource::setupLink(link, usage);

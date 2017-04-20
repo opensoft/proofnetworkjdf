@@ -102,6 +102,34 @@ enum class ComponentType {
     ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
 };
 
+enum class ProductType {
+    NoProduct,
+    BackCoverProduct,
+    BlankBoxProduct, // Cut, Unfolded box, input for folder-gluer
+    BlankSheetProduct, // A sheet with connected blanks after a die cutting
+    BlankWebProduct, // A web with connected blanks after a die cutting.
+    BodyProduct, //Generic content inside of a cover.
+    BookProduct,
+    BookBlockProduct,
+    BookCaseProduct,
+    BoxProduct, // Convenience packaging that is not envisioned to be protection for shipping.
+    BrochureProduct,
+    BusinessCardProduct,
+    CartonProduct, // Protection packaging for shipping.
+    CoverProduct,
+    EndSheetProduct, // Endsheet for hard cover books.
+    FlatBoxProduct, // A folded and glued blank (not opened). Output from a box folder-gluer.
+    FlatWorkProduct, // Non-bound, non-folded Products or Products that only have packaging folds.
+    FrontCoverProduct,
+    InsertProduct,
+    JacketProduct, //Hard cover case jacket.
+    LabelProduct,
+    NewspaperProduct, //A newspaper-product
+    PalletProduct, //Loaded pallet of Boxes, Cartons or Component Resources
+    PosterProduct,
+    StackProduct //Stacked Component.
+};
+
 enum class ResourcePartType {
     BinderySignatureNamePart,
     BinderySignaturePaginationIndexPart,
@@ -173,9 +201,42 @@ enum class ResourcePartType {
     WebSetupPart
 };
 
-enum class Usage {
-    InputUsage,
-    OutputUsage
+enum class LinkUsage {
+    InputLink,
+    OutputLink
+};
+
+enum class ProcessUsage {
+    UseAsDefault,
+    UseAsAccepted, //Used for Resource in an Output Resource of Approvall
+    UseAsApplication, //Used for Component in an Input Resource of BoxFolding
+    UseAsBackEndSheet, //Used for Component in an Input Resource of EndSheetGluing
+    UseAsBook, //Used for Component in an Input Resource of Jacketing
+    UseAsBookBlock, //Used for Component in an Input Resource of ChannelBinding, EndSheetGluing and RingBinding
+    UseAsBox, //Used for Component in an Input Resource of BoxPacking
+    UseAsCase, //Used for Component in an Input Resource of CasingIn
+    UseAsChild, //Used for Component in an Input Resource of Inserting
+    UseAsCover, //Used for Component in an Input Resource of ChannelBinding and CoverApplication
+    UseAsCoverBoard, //Used for Media in an Input Resource of CaseMaking
+    UseAsCoverMaterial, //Used for Component and Media in an Input Resource of CaseMaking
+    UseAsCylinder, //Used for ExposedMedia in an Input Resource of ConventionalPrinting
+    UseAsDocument, //Used for RunList in an Input Resource of Imposition, LayoutPreparation and Stripping and used for RunList in an Output Resource of Stripping
+    UseAsFrontEndSheet, //Used for Component in an Input Resource of EndSheetGluing
+    UseAsGood, //Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
+    UseAsInput, //Used for Component in an Input Resource of ConventionalPrinting and DigitalPrinting
+    UseAsJacket, //Used for Component in an Input Resource of Jacketing
+    UseAsLabel, //Used for Component in an Input Resource of Labeling
+    UseAsMarks, //Used for RunList in an Input Resource of Imposition, LayoutPreparation and Tiling, and used for RunList in an Output Resource of LayoutPreparation and Stripping
+    UseAsMother, //Used for Component in an Input Resource of Inserting
+    UseAsPlate, //Used for ExposedMedia in an Input Resource of ConventionalPrinting
+    UseAsProof, //Used for Component in an Input Resource of ConventionalPrinting and DigitalPrinting, and used for ExposedMedia in an Input Resource of ConventionalPrinting
+    UseAsRejected, //Used for Resource in an Output Resource of Approval
+    UseAsRingBinder, //Used for Component in an Input Resource of RingBinding
+    UseAsSpineBoard, //Used for Media in an Input Resource of CaseMaking
+    UseAsSurface, //Used for RunList in an Input Resource of Tiling
+    UseAsTie, //Used for Media in an Input Resource of BoxPacking
+    UseAsUnderlay, //Used for Media in an Input Resource of BoxPacking
+    UseAsWaste //Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
 };
 
 enum class BlockType {
@@ -298,9 +359,11 @@ Q_ENUM_NS(CoatingType)
 Q_ENUM_NS(CoatingDetail)
 Q_ENUM_NS(BundleType)
 Q_ENUM_NS(ComponentType)
+Q_ENUM_NS(ProductType)
 Q_ENUM_NS(ResourceOrientation)
 Q_ENUM_NS(ResourcePartType)
-Q_ENUM_NS(Usage)
+Q_ENUM_NS(LinkUsage)
+Q_ENUM_NS(ProcessUsage)
 Q_ENUM_NS(BlockType)
 Q_ENUM_NS(LaminatingSurface)
 Q_ENUM_NS(MediaUnit)
@@ -334,11 +397,17 @@ PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceFlipFromInt(int resourceFli
 PROOF_NETWORK_JDF_EXPORT QString componentTypeToString(ComponentType componentType);
 PROOF_NETWORK_JDF_EXPORT ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
 
+PROOF_NETWORK_JDF_EXPORT QString productTypeToString(ProductType productType);
+PROOF_NETWORK_JDF_EXPORT ProductType productTypeFromString(const QString &productType, bool *ok = nullptr);
+
 PROOF_NETWORK_JDF_EXPORT QString resourcePartTypeToString(ResourcePartType resourcePartType);
 PROOF_NETWORK_JDF_EXPORT ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, bool *ok = nullptr);
 
-PROOF_NETWORK_JDF_EXPORT QString usageToString(Usage usage);
-PROOF_NETWORK_JDF_EXPORT Usage usageFromString(const QString &usage, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT QString linkUsageToString(LinkUsage usage);
+PROOF_NETWORK_JDF_EXPORT LinkUsage linkUsageFromString(const QString &usage, bool *ok = nullptr);
+
+PROOF_NETWORK_JDF_EXPORT QString processUsageToString(ProcessUsage processusage);
+PROOF_NETWORK_JDF_EXPORT ProcessUsage processUsageFromString(const QString &processUsage, bool *ok = nullptr);
 
 PROOF_NETWORK_JDF_EXPORT QString blockTypeToString(BlockType blockType);
 PROOF_NETWORK_JDF_EXPORT BlockType blockTypeFromString(const QString &blockType, bool *ok = nullptr);
@@ -371,8 +440,10 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(LaminatingSurface arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(BundleType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ResourceOrientation arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ComponentType arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ProductType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ResourcePartType arg, uint seed = 0);
-PROOF_NETWORK_JDF_EXPORT uint qHash(Usage arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(LinkUsage arg, uint seed = 0);
+PROOF_NETWORK_JDF_EXPORT uint qHash(ProcessUsage arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(BlockType arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(MediaUnit arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(MediaType arg, uint seed = 0);

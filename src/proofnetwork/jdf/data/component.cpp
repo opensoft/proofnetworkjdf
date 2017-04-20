@@ -24,6 +24,8 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     ComponentType componentType = ComponentType::NotTypedComponent;
+    ProductType productType = ProductType::NoProduct;
+    QString productTypeDetails;
 
     double width = 0.0;
     double height = 0.0;
@@ -47,6 +49,18 @@ ComponentType Component::componentType() const
 {
     Q_D(const Component);
     return d->componentType;
+}
+
+ProductType Component::productType() const
+{
+    Q_D(const Component);
+    return d->productType;
+}
+
+QString Component::productTypeDetails() const
+{
+    Q_D(const Component);
+    return d->productTypeDetails;
 }
 
 double Component::width() const
@@ -91,6 +105,24 @@ void Component::setComponentType(ComponentType arg)
     if (d->componentType != arg) {
         d->componentType = arg;
         emit componentTypeChanged(arg);
+    }
+}
+
+void Component::setProductType(ProductType arg)
+{
+    Q_D(Component);
+    if (d->productType != arg) {
+        d->productType = arg;
+        emit productTypeChanged(arg);
+    }
+}
+
+void Component::setProductTypeDetails(const QString &arg)
+{
+    Q_D(Component);
+    if (d->productTypeDetails != arg) {
+        d->productTypeDetails = arg;
+        emit productTypeDetailsChanged(arg);
     }
 }
 
@@ -194,19 +226,30 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
     ComponentSP component = create();
     QList<CutBlockSP> cutBlocks;
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == "Component" && xmlReader.isStartElement() && !component->isFetched()) {
+        if (xmlReader.name() == component->jdfNodeName() && xmlReader.isStartElement() && !component->isFetched()) {
             component->setFetched(true);
             AbstractPhysicalResourceSP castedComponent = qSharedPointerCast<AbstractPhysicalResource>(component);
             AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
 
             QXmlStreamAttributes attributes = xmlReader.attributes();
             component->setComponentType(componentTypeFromString(attributes.value("ComponentType").toString()));
+            component->setProductType(productTypeFromString(attributes.value("ProductType").toString()));
+            component->setProductTypeDetails(attributes.value("ProductTypeDetails").toString());
 
             QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ", QString::SkipEmptyParts);
             if (dimensionsList.count() >= 3) {
                 component->setWidth(dimensionsList.at(0).toDouble());
                 component->setHeight(dimensionsList.at(1).toDouble());
                 component->setLength(dimensionsList.at(2).toDouble());
+            }
+        } else if (xmlReader.name() == component->jdfNodeRefName() && xmlReader.isStartElement() && !component->isFetched()) {
+            QXmlStreamAttributes attributes = xmlReader.attributes();
+            QString componentId = attributes.value("rRef").toString();
+            component->setId(componentId);
+            if (!sanitize) {
+                auto fromCache = componentsCache().value({jobId, componentId});
+                if (fromCache)
+                    component = fromCache;
             }
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "Component") {
@@ -246,7 +289,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
                     xmlReader.skipCurrentElement();
                 }
             } else if (xmlReader.name() == "Bundle") {
-                BundleSP bundle = Bundle::fromJdf(xmlReader);
+                BundleSP bundle = Bundle::fromJdf(xmlReader, jobId, sanitize);
                 if (!bundle) {
                     qCCritical(proofNetworkJdfDataLog) << "Bundle not created.";
                     return ComponentSP();
@@ -291,6 +334,10 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("Component");
     if (d->componentType != ComponentType::NotTypedComponent)
         jdfWriter.writeAttribute("ComponentType", componentTypeToString(d->componentType));
+    if (d->productType != ProductType::NoProduct)
+        jdfWriter.writeAttribute("ProductType", productTypeToString(d->productType));
+    if (!d->productTypeDetails.isEmpty())
+        jdfWriter.writeAttribute("ProductTypeDetails", d->productTypeDetails);
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height) || !qFuzzyIsNull(d->length)) {
         jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3")
                                  .arg(d->width, 0, 'f', 4)
@@ -317,7 +364,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-ComponentLinkSP Component::toLink(Usage usage) const
+ComponentLinkSP Component::toLink(LinkUsage usage) const
 {
     ComponentLinkSP link = ComponentLink::create();
     AbstractResource::setupLink(link, usage);
@@ -327,7 +374,8 @@ ComponentLinkSP Component::toLink(Usage usage) const
 Component::Component(const QString &id)
     : AbstractPhysicalResource(*new ComponentPrivate)
 {
-    setId(id);
+    if (!id.isEmpty())
+        setId(id);
 }
 
 void ComponentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
@@ -335,6 +383,8 @@ void ComponentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     Q_Q(Component);
     ComponentSP castedOther = qSharedPointerCast<Component>(other);
     q->setComponentType(castedOther->componentType());
+    q->setProductType(castedOther->productType());
+    q->setProductTypeDetails(castedOther->productTypeDetails());
     q->setWidth(castedOther->width());
     q->setHeight(castedOther->height());
     q->setLength(castedOther->length());

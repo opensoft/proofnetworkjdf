@@ -34,7 +34,7 @@ public:
 
     static DeliveryIntentSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    DeliveryIntentLinkSP toLink(Usage usage = Usage::InputUsage) const;
+    DeliveryIntentLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
     void requiredChanged(const TimeSpan &required);

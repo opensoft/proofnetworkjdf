@@ -26,7 +26,7 @@ public:
 
     static FoldingParamsSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    FoldingParamsLinkSP toLink(Usage usage = Usage::InputUsage) const;
+    FoldingParamsLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
     void foldCatalogChanged(const QString &arg);

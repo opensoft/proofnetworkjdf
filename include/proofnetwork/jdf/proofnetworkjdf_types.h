@@ -89,6 +89,10 @@ class FoldingParams;
 using FoldingParamsSP = QSharedPointer<FoldingParams>;
 using FoldingParamsWP = QSharedPointer<FoldingParams>;
 
+class BoxPackingParams;
+using BoxPackingParamsSP = QSharedPointer<BoxPackingParams>;
+using BoxPackingParamsWP = QSharedPointer<BoxPackingParams>;
+
 class CuttingParamsLink;
 using CuttingParamsLinkSP = QSharedPointer<CuttingParamsLink>;
 using CuttingParamsLinkWP = QWeakPointer<CuttingParamsLink>;
@@ -112,6 +116,10 @@ using ComponentLinkWP = QWeakPointer<ComponentLink>;
 class FoldingParamsLink;
 using FoldingParamsLinkSP = QSharedPointer<FoldingParamsLink>;
 using FoldingParamsLinkWP = QWeakPointer<FoldingParamsLink>;
+
+class BoxPackingParamsLink;
+using BoxPackingParamsLinkSP = QSharedPointer<BoxPackingParamsLink>;
+using BoxPackingParamsLinkWP = QWeakPointer<BoxPackingParamsLink>;
 
 class ResourceLinkPool;
 using ResourceLinkPoolSP = QSharedPointer<ResourceLinkPool>;

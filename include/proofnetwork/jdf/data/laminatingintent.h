@@ -29,7 +29,7 @@ public:
 
     static LaminatingIntentSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    LaminatingIntentLinkSP toLink(Usage usage = Usage::InputUsage) const;
+    LaminatingIntentLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
     void surfaceChanged(Proof::Jdf::LaminatingSurface arg);

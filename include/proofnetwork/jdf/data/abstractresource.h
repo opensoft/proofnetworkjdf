@@ -35,6 +35,11 @@ public:
     static bool fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource);
     virtual void toJdf(QXmlStreamWriter &jdfWriter);
 
+    void refToJdf(QXmlStreamWriter &jdfWriter);
+
+    QString jdfNodeName() const;
+    QString jdfNodeRefName() const;
+
 signals:
     void idChanged(const QString &arg);
     void statusChanged(Proof::Jdf::ResourceStatus arg);
@@ -45,7 +50,7 @@ signals:
 protected:
     explicit AbstractResource() = delete;
     AbstractResource(AbstractResourcePrivate &dd, QObject *parent = nullptr);
-    void setupLink(const AbstractResourceLinkSP &abstractLink, Usage usage) const;
+    void setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const;
 };
 
 }

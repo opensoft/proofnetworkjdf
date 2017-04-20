@@ -13,7 +13,8 @@ class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
 public:
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    Usage usage = Usage::InputUsage;
+    LinkUsage usage = LinkUsage::InputLink;
+    ProcessUsage processUsage = ProcessUsage::UseAsDefault;
     QString rRef;
 };
 

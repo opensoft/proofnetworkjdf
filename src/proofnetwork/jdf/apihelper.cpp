@@ -40,12 +40,22 @@ uint qHash(ComponentType arg, uint seed)
     return ::qHash(static_cast<int>(arg), seed);
 }
 
+uint qHash(ProductType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
 uint qHash(ResourcePartType arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }
 
-uint qHash(Usage arg, uint seed)
+uint qHash(LinkUsage arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
+uint qHash(ProcessUsage arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }
@@ -185,6 +195,34 @@ static const QHash<QString, ComponentType> COMPONENT_TYPE_STRINGIFIED = {
     {"Proof", ComponentType::ProofComponent}
 };
 
+static const QHash<QString, ProductType> PRODUCT_TYPE_STRINGIFIED = {
+    {"", ProductType::NoProduct},
+    {"BackCover", ProductType::BackCoverProduct},
+    {"BlankBox", ProductType::BlankBoxProduct},
+    {"BlankSheet", ProductType::BlankSheetProduct},
+    {"BlankWeb", ProductType::BlankWebProduct},
+    {"Body", ProductType::BodyProduct},
+    {"Book", ProductType::BookProduct},
+    {"BookBlock", ProductType::BookBlockProduct},
+    {"BookCase", ProductType::BookCaseProduct},
+    {"Box", ProductType::BoxProduct},
+    {"Brochure", ProductType::BrochureProduct},
+    {"BusinessCard", ProductType::BusinessCardProduct},
+    {"Carton", ProductType::CartonProduct},
+    {"Cover", ProductType::CoverProduct},
+    {"EndSheet", ProductType::EndSheetProduct},
+    {"FlatBox", ProductType::FlatBoxProduct},
+    {"FlatWork", ProductType::FlatWorkProduct},
+    {"FrontCover", ProductType::FrontCoverProduct},
+    {"Insert", ProductType::InsertProduct},
+    {"Jacket", ProductType::JacketProduct},
+    {"Label", ProductType::LabelProduct},
+    {"Newspaper", ProductType::NewspaperProduct},
+    {"Pallet", ProductType::PalletProduct},
+    {"Poster", ProductType::PosterProduct},
+    {"Stack", ProductType::StackProduct}
+};
+
 static const QHash<QString, ResourcePartType> PART_ID_KEYS_TYPE_STRINGIFIED = {
     {"BinderySignatureName", ResourcePartType::BinderySignatureNamePart},
     {"BinderySignaturePaginationIndex", ResourcePartType::BinderySignaturePaginationIndexPart},
@@ -256,9 +294,42 @@ static const QHash<QString, ResourcePartType> PART_ID_KEYS_TYPE_STRINGIFIED = {
     {"WebSetup", ResourcePartType::WebSetupPart}
 };
 
-static const QHash<QString, Usage> USAGE_STRINGIFIED = {
-    {"Input", Usage::InputUsage},
-    {"Output", Usage::OutputUsage}
+static const QHash<QString, LinkUsage> LINK_USAGE_STRINGIFIED = {
+    {"Input", LinkUsage::InputLink},
+    {"Output", LinkUsage::OutputLink}
+};
+
+static const QHash<QString, ProcessUsage> PROCESS_USAGE_STRINGIFIED = {
+    {"", ProcessUsage::UseAsDefault},
+    {"Accepted", ProcessUsage::UseAsAccepted},
+    {"Application", ProcessUsage::UseAsApplication},
+    {"BackEndSheet", ProcessUsage::UseAsBackEndSheet},
+    {"Book", ProcessUsage::UseAsBook},
+    {"BookBlock", ProcessUsage::UseAsBookBlock},
+    {"Box", ProcessUsage::UseAsBox},
+    {"Case", ProcessUsage::UseAsCase},
+    {"Child", ProcessUsage::UseAsChild},
+    {"Cover", ProcessUsage::UseAsCover},
+    {"CoverBoard", ProcessUsage::UseAsCoverBoard},
+    {"CoverMaterial", ProcessUsage::UseAsCoverMaterial},
+    {"Cylinder", ProcessUsage::UseAsCylinder},
+    {"Document", ProcessUsage::UseAsDocument},
+    {"FrontEndSheet", ProcessUsage::UseAsFrontEndSheet},
+    {"Good", ProcessUsage::UseAsGood},
+    {"Input", ProcessUsage::UseAsInput},
+    {"Jacket", ProcessUsage::UseAsJacket},
+    {"Label", ProcessUsage::UseAsLabel},
+    {"Marks", ProcessUsage::UseAsMarks},
+    {"Mother", ProcessUsage::UseAsMother},
+    {"Plate", ProcessUsage::UseAsPlate},
+    {"Proof", ProcessUsage::UseAsProof},
+    {"Rejected", ProcessUsage::UseAsRejected},
+    {"RingBinder", ProcessUsage::UseAsRingBinder},
+    {"SpineBoard", ProcessUsage::UseAsSpineBoard},
+    {"Surface", ProcessUsage::UseAsSurface},
+    {"Tie", ProcessUsage::UseAsTie},
+    {"Underlay", ProcessUsage::UseAsUnderlay},
+    {"Waste", ProcessUsage::UseAsWaste}
 };
 
 static const QHash<QString, BlockType> BLOCK_TYPE_STRINGIFIED = {
@@ -463,6 +534,18 @@ ComponentType componentTypeFromString(const QString &componentType, bool *ok)
     return COMPONENT_TYPE_STRINGIFIED.value(componentType, ComponentType::NotTypedComponent);
 }
 
+QString productTypeToString(ProductType productType)
+{
+    return PRODUCT_TYPE_STRINGIFIED.key(productType, "");
+}
+
+ProductType productTypeFromString(const QString &productType, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = PRODUCT_TYPE_STRINGIFIED.contains(productType);
+    return PRODUCT_TYPE_STRINGIFIED.value(productType, ProductType::NoProduct);
+}
+
 QString resourcePartTypeToString(ResourcePartType resourcePartType)
 {
     return PART_ID_KEYS_TYPE_STRINGIFIED.key(resourcePartType, "");
@@ -475,16 +558,28 @@ ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, boo
     return PART_ID_KEYS_TYPE_STRINGIFIED.value(resourcePartType, ResourcePartType::BlockNamePart);
 }
 
-QString usageToString(Usage usage)
+QString linkUsageToString(LinkUsage usage)
 {
-    return USAGE_STRINGIFIED.key(usage, "");
+    return LINK_USAGE_STRINGIFIED.key(usage, "");
 }
 
-Usage usageFromString(const QString &usage, bool *ok)
+LinkUsage linkUsageFromString(const QString &usage, bool *ok)
 {
     if (ok != nullptr)
-        *ok = USAGE_STRINGIFIED.contains(usage);
-    return USAGE_STRINGIFIED.value(usage, Usage::InputUsage);
+        *ok = LINK_USAGE_STRINGIFIED.contains(usage);
+    return LINK_USAGE_STRINGIFIED.value(usage, LinkUsage::InputLink);
+}
+
+QString processUsageToString(ProcessUsage processUsage)
+{
+    return PROCESS_USAGE_STRINGIFIED.key(processUsage, "");
+}
+
+ProcessUsage processUsageFromString(const QString &processUsage, bool *ok)
+{
+    if (ok != nullptr)
+        *ok = PROCESS_USAGE_STRINGIFIED.contains(processUsage);
+    return PROCESS_USAGE_STRINGIFIED.value(processUsage, ProcessUsage::UseAsDefault);
 }
 
 QString blockTypeToString(BlockType blockType)

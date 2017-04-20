@@ -24,6 +24,7 @@ public:
     LaminatingIntentLinkSP laminatingIntentLink() const;
     DeliveryIntentLinkSP deliveryIntentLink() const;
     FoldingParamsLinkSP foldingParamsLink() const;
+    BoxPackingParamsLinkSP boxPackingParamsLink() const;
 
     void setComponentLinks(const QList<ComponentLinkSP> &componentLinks);
     void addComponentLink(const ComponentLinkSP &componentLink);
@@ -32,6 +33,7 @@ public:
     void setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent);
     void setDeliveryIntentLink(const DeliveryIntentLinkSP &deliveryIntent);
     void setFoldingParamsLink(const FoldingParamsLinkSP &foldingParamsLink);
+    void setBoxPackingParamsLink(const BoxPackingParamsLinkSP &boxPackingParamsLink);
 
     ResourceLinkPoolQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -47,6 +49,7 @@ signals:
     void laminatingIntentLinkChanged(const Proof::Jdf::LaminatingIntentLinkSP &arg);
     void deliveryIntentLinkChanged(const Proof::Jdf::DeliveryIntentLinkSP &arg);
     void foldingParamsLinkChanged(const Proof::Jdf::FoldingParamsLinkSP &arg);
+    void boxPackingParamsLinkChanged(const Proof::Jdf::BoxPackingParamsLinkSP &arg);
 
 protected:
     explicit ResourceLinkPool();

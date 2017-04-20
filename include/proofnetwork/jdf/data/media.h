@@ -44,7 +44,7 @@ public:
 
     static MediaSP fromJdf(QXmlStreamReader &xmlReader);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
-    MediaLinkSP toLink(Usage usage = Usage::InputUsage) const;
+    MediaLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
     void thicknessChanged(double arg);
