@@ -61,11 +61,12 @@ void LayoutQmlWrapperPrivate::updateMedia()
 {
     Q_Q(LayoutQmlWrapper);
     LayoutSP layout = entity<Layout>();
-    for (MediaQmlWrapper *wrapper : media)
+    for (MediaQmlWrapper *wrapper : qAsConst(media))
         wrapper->deleteLater();
 
     media.clear();
-    for (const MediaSP &md : layout->media())
+    const auto ndeMedia = layout->media();
+    for (const MediaSP &md : ndeMedia)
         media << md->toQmlWrapper(q);
 
     qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media,

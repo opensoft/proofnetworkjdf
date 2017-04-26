@@ -97,11 +97,12 @@ void JdfNodeQmlWrapperPrivate::updateJdfNodes()
 {
     Q_Q(JdfNodeQmlWrapper);
     JdfNodeSP jdfNode = entity<JdfNode>();
-    for (JdfNodeQmlWrapper *wrapper : jdfNodes)
+    for (JdfNodeQmlWrapper *wrapper : qAsConst(jdfNodes))
         wrapper->deleteLater();
 
     jdfNodes.clear();
-    for (const JdfNodeSP &node : jdfNode->jdfNodes())
+    const auto allNdeNodes = jdfNode->jdfNodes();
+    for (const JdfNodeSP &node : allNdeNodes)
         jdfNodes << node->toQmlWrapper(q);
 
     qmlJdfNodes = QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper>(q, &jdfNodes,

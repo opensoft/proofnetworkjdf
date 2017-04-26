@@ -121,12 +121,12 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
     if (d->resourceClass != ResourceClass::NoClass)
         jdfWriter.writeAttribute("Class", resourceClassToString(d->resourceClass));
     QStringList partIdKeysStringified;
-    for (auto part : d->partIdKeys)
+    for (auto part : qAsConst(d->partIdKeys))
         partIdKeysStringified += resourcePartTypeToString(part);
     if (partIdKeysStringified.count())
         jdfWriter.writeAttribute("PartIDKeys", partIdKeysStringified.join(" "));
-    for (auto part : d->partAttributes.keys())
-        jdfWriter.writeAttribute(resourcePartTypeToString(part), d->partAttributes[part]);
+    for (auto it = d->partAttributes.cbegin(); it != d->partAttributes.cend(); ++it)
+        jdfWriter.writeAttribute(resourcePartTypeToString(it.key()), it.value());
 }
 
 void AbstractResource::refToJdf(QXmlStreamWriter &jdfWriter)

@@ -113,11 +113,12 @@ void ResourceLinkPoolQmlWrapperPrivate::updateComponentLinks()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
     ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
-    for (ComponentLinkQmlWrapper *wrapper : componentLinks)
+    for (ComponentLinkQmlWrapper *wrapper : qAsConst(componentLinks))
         wrapper->deleteLater();
 
     componentLinks.clear();
-    for (const ComponentLinkSP &component : linkPool->componentLinks())
+    const auto ndeComponentLinks = linkPool->componentLinks();
+    for (const ComponentLinkSP &component : ndeComponentLinks)
         componentLinks << component->toQmlWrapper(q);
 
     qmlComponentLinks = QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>(q, &componentLinks,

@@ -62,11 +62,12 @@ void CuttingParamsQmlWrapperPrivate::updateParts()
 {
     Q_Q(CuttingParamsQmlWrapper);
     CuttingParamsSP cuttingParams = entity<CuttingParams>();
-    for (CuttingParamsQmlWrapper *wrapper : parts)
+    for (CuttingParamsQmlWrapper *wrapper : qAsConst(parts))
         wrapper->deleteLater();
 
     parts.clear();
-    for (const CuttingParamsSP &part : cuttingParams->parts())
+    const auto ndeParts = cuttingParams->parts();
+    for (const CuttingParamsSP &part : ndeParts)
         parts << part->toQmlWrapper(q);
 
     qmlPartsList = QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper>(q, &parts,
@@ -89,11 +90,12 @@ void CuttingParamsQmlWrapperPrivate::updateCutBlocks()
 {
     Q_Q(CuttingParamsQmlWrapper);
     CuttingParamsSP cuttingParam = entity<CuttingParams>();
-    for (CutBlockQmlWrapper *wrapper : cutBlocks)
+    for (CutBlockQmlWrapper *wrapper : qAsConst(cutBlocks))
         wrapper->deleteLater();
 
     cutBlocks.clear();
-    for (const CutBlockSP &cutBlock : cuttingParam->cutBlocks())
+    const auto ndeBlocks = cuttingParam->cutBlocks();
+    for (const CutBlockSP &cutBlock : ndeBlocks)
         cutBlocks << cutBlock->toQmlWrapper(q);
 
     qmlCutBlocksList = QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>(q, &cutBlocks,

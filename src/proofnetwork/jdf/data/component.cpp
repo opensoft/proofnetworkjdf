@@ -347,13 +347,13 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
 
     AbstractPhysicalResource::toJdf(jdfWriter);
 
-    for (const CutBlockSP &cutBlock : d->cutBlocks) {
+    for (const CutBlockSP &cutBlock : qAsConst(d->cutBlocks)) {
         jdfWriter.writeStartElement("Component");
         jdfWriter.writeAttribute(resourcePartTypeToString(ResourcePartType::BlockNamePart), cutBlock->blockName());
         jdfWriter.writeEndElement();
     }
 
-    for (const auto &part : d->parts) {
+    for (const auto &part : qAsConst(d->parts)) {
         if (part->isDirty())
             part->toJdf(jdfWriter);
     }

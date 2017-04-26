@@ -203,17 +203,17 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeStartElement("ResourcePool");
 
-    for (const ComponentSP &component : d->components) {
+    for (const ComponentSP &component : qAsConst(d->components)) {
         if (isValidAndDirty(component))
             component->toJdf(jdfWriter);
     }
 
-    for (const MediaSP &media : d->media) {
+    for (const MediaSP &media : qAsConst(d->media)) {
         if (isValidAndDirty(media))
             media->toJdf(jdfWriter);
     }
 
-    for (const LayoutSP &layout : d->layouts) {
+    for (const LayoutSP &layout : qAsConst(d->layouts)) {
         if (isValidAndDirty(layout))
             layout->toJdf(jdfWriter);
     }

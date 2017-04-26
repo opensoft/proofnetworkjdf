@@ -44,13 +44,14 @@ QQmlListProperty<BundleItemQmlWrapper> BundleQmlWrapper::bundleItems() const
 void BundleQmlWrapperPrivate::updateBundleItems()
 {
     Q_Q(BundleQmlWrapper);
-    for (BundleItemQmlWrapper *wrapper : bundleItems)
+    for (BundleItemQmlWrapper *wrapper : qAsConst(bundleItems))
         wrapper->deleteLater();
 
     bundleItems.clear();
 
     BundleSP bundle = entity<Bundle>();
-    for (const auto &bundleItem : bundle->bundleItems())
+    const auto allNdeItems = bundle->bundleItems();
+    for (const auto &bundleItem : allNdeItems)
         bundleItems << bundleItem->toQmlWrapper(q);
 
     qmlBundleItemsList = QQmlListProperty<Proof::Jdf::BundleItemQmlWrapper>(q, &bundleItems,

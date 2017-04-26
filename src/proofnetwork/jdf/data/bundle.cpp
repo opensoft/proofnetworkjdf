@@ -127,7 +127,7 @@ void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute("BundleType", bundleTypeToString(d->bundleType));
     jdfWriter.writeAttribute("TotalAmount", QString::number(d->totalAmount));
 
-    for (const auto &bundleItem : d->bundleItems) {
+    for (const auto &bundleItem : qAsConst(d->bundleItems)) {
         if (isValidAndDirty(bundleItem))
             bundleItem->toJdf(jdfWriter);
     }

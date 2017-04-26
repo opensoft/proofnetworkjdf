@@ -112,7 +112,7 @@ void DropIntent::toJdf(QXmlStreamWriter &jdfWriter)
     if (!d->required.actual().isNull())
         d->required.toJdf("Required", jdfWriter);
 
-    for (const auto &dropItemIntent : dropItemIntents()) {
+    for (const auto &dropItemIntent : qAsConst(d->dropItemIntents)) {
         if (isValidAndDirty(dropItemIntent))
             dropItemIntent->toJdf(jdfWriter);
     }

@@ -143,7 +143,7 @@ QString JmfDocument::toJmf()
         jmfWriter.writeAttribute("SenderID", d->senderId);
         jmfWriter.writeAttribute("Version", d->version);
         jmfWriter.writeAttribute("TimeStamp", d->timeStamp.toString(Qt::ISODate));
-        for (const MessageSP &message : d->messages)
+        for (const MessageSP &message : qAsConst(d->messages))
             message->toJmf(jmfWriter);
     }
     jmfWriter.writeEndElement();

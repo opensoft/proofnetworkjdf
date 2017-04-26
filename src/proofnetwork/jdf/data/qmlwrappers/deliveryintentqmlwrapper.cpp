@@ -59,11 +59,12 @@ void DeliveryIntentQmlWrapperPrivate::updateDropIntents()
 {
     Q_Q(DeliveryIntentQmlWrapper);
     DeliveryIntentSP resourcePool = entity<DeliveryIntent>();
-    for (DropIntentQmlWrapper *wrapper : dropIntents)
+    for (DropIntentQmlWrapper *wrapper : qAsConst(dropIntents))
         wrapper->deleteLater();
 
     dropIntents.clear();
-    for (const DropIntentSP &dropIntent : resourcePool->dropIntents())
+    const auto ndeIntents = resourcePool->dropIntents();
+    for (const DropIntentSP &dropIntent : ndeIntents)
         dropIntents << dropIntent->toQmlWrapper(q);
 
     qmlDropIntentsList = QQmlListProperty<Proof::Jdf::DropIntentQmlWrapper>(q, &dropIntents,

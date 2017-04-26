@@ -116,11 +116,12 @@ void ResourcePoolQmlWrapperPrivate::updateComponents()
 {
     Q_Q(ResourcePoolQmlWrapper);
     ResourcePoolSP resourcePool = entity<ResourcePool>();
-    for (ComponentQmlWrapper *wrapper : components)
+    for (ComponentQmlWrapper *wrapper : qAsConst(components))
         wrapper->deleteLater();
 
     components.clear();
-    for (const ComponentSP &component : resourcePool->components())
+    const auto ndeComponents = resourcePool->components();
+    for (const ComponentSP &component : ndeComponents)
         components << component->toQmlWrapper(q);
 
     qmlComponentsList = QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>(q, &components,
@@ -145,11 +146,12 @@ void ResourcePoolQmlWrapperPrivate::updateMedia()
 {
     Q_Q(ResourcePoolQmlWrapper);
     ResourcePoolSP resourcePool = entity<ResourcePool>();
-    for (MediaQmlWrapper *wrapper : media)
+    for (MediaQmlWrapper *wrapper : qAsConst(media))
         wrapper->deleteLater();
 
     media.clear();
-    for (const MediaSP &md : resourcePool->media())
+    const auto ndeMedia = resourcePool->media();
+    for (const MediaSP &md : ndeMedia)
         media << md->toQmlWrapper(q);
 
     qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media,

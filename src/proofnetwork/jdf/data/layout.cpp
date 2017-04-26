@@ -114,7 +114,7 @@ void Layout::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeStartElement("Layout");
     AbstractResource::toJdf(jdfWriter);
 
-    for (const MediaSP &media : d->media) {
+    for (const MediaSP &media : qAsConst(d->media)) {
         if (isValidAndDirty(media))
             media->toJdf(jdfWriter);
     }

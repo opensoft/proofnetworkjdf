@@ -53,11 +53,12 @@ void DropIntentQmlWrapperPrivate::updateDropItemIntents()
 {
     Q_Q(DropIntentQmlWrapper);
     DropIntentSP dropIntent = entity<DropIntent>();
-    for (DropItemIntentQmlWrapper *wrapper : dropItemIntents)
+    for (DropItemIntentQmlWrapper *wrapper : qAsConst(dropItemIntents))
         wrapper->deleteLater();
 
     dropItemIntents.clear();
-    for (const DropItemIntentSP &dropItemIntent : dropIntent->dropItemIntents())
+    const auto ndeIntents = dropIntent->dropItemIntents();
+    for (const DropItemIntentSP &dropItemIntent : ndeIntents)
         dropItemIntents << dropItemIntent->toQmlWrapper(q);
 
     qmlDropItemIntentsList = QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper>(q, &dropItemIntents,

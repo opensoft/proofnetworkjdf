@@ -120,7 +120,7 @@ void DeliveryIntent::toJdf(QXmlStreamWriter &jdfWriter)
     if (!required().actual().isNull())
         required().toJdf("Required", jdfWriter);
 
-    for (const DropIntentSP &dropIntent : d->dropIntents) {
+    for (const DropIntentSP &dropIntent : qAsConst(d->dropIntents)) {
         if (isValidAndDirty(dropIntent))
             dropIntent->toJdf(jdfWriter);
     }

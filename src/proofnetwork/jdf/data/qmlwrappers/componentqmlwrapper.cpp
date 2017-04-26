@@ -59,18 +59,19 @@ void ComponentQmlWrapperPrivate::updateBundle()
         bundle = component->bundle()->toQmlWrapper(q);
     else
         bundle->setEntity(component->bundle());
-    q->bundleChanged(bundle);
+    emit q->bundleChanged(bundle);
 }
 
 void ComponentQmlWrapperPrivate::updateParts()
 {
     Q_Q(ComponentQmlWrapper);
     ComponentSP component = entity<Component>();
-    for (ComponentQmlWrapper *wrapper : parts)
+    for (ComponentQmlWrapper *wrapper : qAsConst(parts))
         wrapper->deleteLater();
 
     parts.clear();
-    for (const ComponentSP &part : component->parts())
+    const auto ndeParts = component->parts();
+    for (const ComponentSP &part : ndeParts)
         parts << part->toQmlWrapper(q);
 
     qmlPartsList = QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>(q, &parts,

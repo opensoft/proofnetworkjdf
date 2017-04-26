@@ -121,11 +121,11 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
 
     AbstractResource::toJdf(jdfWriter);
 
-    for (const CutBlockSP &cutBlock : d->cutBlocks) {
+    for (const CutBlockSP &cutBlock : qAsConst(d->cutBlocks)) {
         if (cutBlock->isDirty())
             cutBlock->toJdf(jdfWriter);
     }
-    for (const auto &part : d->parts) {
+    for (const auto &part : qAsConst(d->parts)) {
         if (part->isDirty())
             part->toJdf(jdfWriter);
     }
