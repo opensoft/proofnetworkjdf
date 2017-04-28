@@ -16,7 +16,7 @@ namespace Jdf {
 using JdfCutBlockDataKey = QPair<QString, QString>;
 
 class CutBlockPrivate;
-class PROOF_NETWORK_JDF_EXPORT CutBlock : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT CutBlock : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CutBlock)

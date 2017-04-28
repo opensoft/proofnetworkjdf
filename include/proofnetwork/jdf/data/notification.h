@@ -12,7 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class NotificationPrivate;
-class PROOF_NETWORK_JDF_EXPORT Notification : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT Notification : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Notification)

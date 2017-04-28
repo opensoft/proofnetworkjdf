@@ -15,7 +15,7 @@ namespace Proof {
 namespace Jdf {
 
 class DeliveryIntentPrivate;
-class PROOF_NETWORK_JDF_EXPORT DeliveryIntent : public AbstractResource
+class PROOF_NETWORK_JDF_EXPORT DeliveryIntent : public AbstractResource // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryIntent)

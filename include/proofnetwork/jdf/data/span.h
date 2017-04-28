@@ -10,21 +10,18 @@
 namespace Proof {
 namespace Jdf {
 
-template <class T, SpanDataType DATA_TYPE>
+template <class T, SpanDataType DataType>
 class Span;
 
 using TimeSpan = Span<QDateTime, SpanDataType::TimeSpan>;
 
-template <class T, SpanDataType DATA_TYPE>
+template <class T, SpanDataType DataType>
 class PROOF_NETWORK_JDF_EXPORT Span
 {
-
 public:
-    explicit Span() {}
-
     constexpr SpanDataType dataType() const
     {
-        return DATA_TYPE;
+        return DataType;
     }
 
     T actual() const
@@ -36,25 +33,19 @@ public:
         m_actual = arg;
     }
 
-    Span<T, DATA_TYPE> &operator=(const Span<T, DATA_TYPE> &other)
-    {
-        m_actual = other.actual();
-        return *this;
-    }
-
-    bool operator==(const Span<T, DATA_TYPE> &other) const
+    bool operator==(const Span<T, DataType> &other) const
     {
         return m_actual == other.actual();
     }
 
-    bool operator!=(const Span<T, DATA_TYPE> &other) const
+    bool operator!=(const Span<T, DataType> &other) const
     {
         return !(*this == other);
     }
 
-    static Span<T, DATA_TYPE> fromJdf(const QString &name, QXmlStreamReader &jdfReader)
+    static Span<T, DataType> fromJdf(const QString &name, QXmlStreamReader &jdfReader)
     {
-        Span<T, DATA_TYPE> span;
+        Span<T, DataType> span;
         while (!jdfReader.atEnd() && !jdfReader.hasError()) {
             if (jdfReader.name() == name && jdfReader.isStartElement()) {
                 QXmlStreamAttributes attributes = jdfReader.attributes();
@@ -79,7 +70,6 @@ public:
     }
 
 private:
-
     void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, const QDateTime &data)
     {
         jdfWriter.writeAttribute(name, data.toUTC().toString(Qt::ISODate));
@@ -96,6 +86,8 @@ QDateTime TimeSpan::readAttribute(const QStringRef &attribute)
 {
     return QDateTime::fromString(attribute.toString(), Qt::ISODate);
 }
+
+//TODO: 1.0 add other spans
 
 }
 }

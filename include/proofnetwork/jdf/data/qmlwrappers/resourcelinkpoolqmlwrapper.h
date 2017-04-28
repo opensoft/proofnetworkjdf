@@ -40,7 +40,7 @@ public:
     Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink() const;
 
 signals:
-    void componentLinksChanged(QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> componentLinks);
+    void componentLinksChanged(const QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> &componentLinks);
     void cuttingParamsLinkChanged(Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink);
     void mediaLinkChanged(Proof::Jdf::MediaLinkQmlWrapper *mediaLink);
     void foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink);

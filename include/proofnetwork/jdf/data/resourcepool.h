@@ -13,7 +13,7 @@ namespace Proof {
 namespace Jdf {
 
 class ResourcePoolPrivate;
-class PROOF_NETWORK_JDF_EXPORT ResourcePool : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT ResourcePool : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourcePool)

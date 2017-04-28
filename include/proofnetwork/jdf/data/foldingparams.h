@@ -12,7 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class FoldingParamsPrivate;
-class PROOF_NETWORK_JDF_EXPORT FoldingParams : public AbstractResource
+class PROOF_NETWORK_JDF_EXPORT FoldingParams : public AbstractResource // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingParams)

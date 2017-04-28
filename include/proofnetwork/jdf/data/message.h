@@ -11,7 +11,7 @@ namespace Proof {
 namespace Jdf {
 
 class MessagePrivate;
-class PROOF_NETWORK_JDF_EXPORT Message : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT Message : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Message)

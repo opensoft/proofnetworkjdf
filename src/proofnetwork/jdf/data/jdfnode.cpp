@@ -113,7 +113,7 @@ void JdfNode::setType(const QString &arg)
     }
 }
 
-JdfNodeSP Proof::Jdf::JdfNode::findNode(std::function<bool (const JdfNodeSP &)> predicate) const
+JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -132,7 +132,7 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(std::function<bool (const JdfNodeSP &)> 
     return JdfNodeSP();
 }
 
-ComponentSP Proof::Jdf::JdfNode::findComponent(std::function<bool (const ComponentSP &)> predicate) const
+ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool (const ComponentSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     const auto allComponents = resourcePool()->components();
@@ -154,7 +154,7 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(std::function<bool (const Compone
     return ComponentSP();
 }
 
-ComponentLinkSP JdfNode::findComponentLink(std::function<bool (const ComponentLinkSP &)> predicate) const
+ComponentLinkSP JdfNode::findComponentLink(const std::function<bool (const ComponentLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     const auto allComponentLinks = resourceLinkPool()->componentLinks();
@@ -171,7 +171,7 @@ ComponentLinkSP JdfNode::findComponentLink(std::function<bool (const ComponentLi
     return ComponentLinkSP();
 }
 
-MediaSP JdfNode::findMedia(std::function<bool (const MediaSP &)> predicate) const
+MediaSP JdfNode::findMedia(const std::function<bool (const MediaSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     const auto allMedia = resourcePool()->media();
@@ -188,7 +188,7 @@ MediaSP JdfNode::findMedia(std::function<bool (const MediaSP &)> predicate) cons
     return MediaSP();
 }
 
-LayoutSP JdfNode::findLayout(std::function<bool (const LayoutSP &)> predicate) const
+LayoutSP JdfNode::findLayout(const std::function<bool (const LayoutSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     const auto allLayouts = resourcePool()->layouts();

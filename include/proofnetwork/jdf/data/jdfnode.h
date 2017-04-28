@@ -13,7 +13,7 @@ namespace Proof {
 namespace Jdf {
 
 class JdfNodePrivate;
-class PROOF_NETWORK_JDF_EXPORT JdfNode : public NetworkDataEntity
+class PROOF_NETWORK_JDF_EXPORT JdfNode : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(JdfNode)
@@ -34,11 +34,11 @@ public:
     void setJdfNodes(const QList<JdfNodeSP> &jdfNodes);
     void setType(const QString &arg);
 
-    JdfNodeSP findNode(std::function<bool(const Proof::Jdf::JdfNodeSP &)> predicate) const;
-    ComponentSP findComponent(std::function<bool (const Proof::Jdf::ComponentSP &)> predicate) const;
-    ComponentLinkSP findComponentLink(std::function<bool (const Proof::Jdf::ComponentLinkSP &)> predicate) const;
-    MediaSP findMedia(std::function<bool (const MediaSP &)> predicate) const;
-    LayoutSP findLayout(std::function<bool (const LayoutSP &)> predicate) const;
+    JdfNodeSP findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const;
+    ComponentSP findComponent(const std::function<bool (const Proof::Jdf::ComponentSP &)> &predicate) const;
+    ComponentLinkSP findComponentLink(const std::function<bool (const Proof::Jdf::ComponentLinkSP &)> &predicate) const;
+    MediaSP findMedia(const std::function<bool (const MediaSP &)> &predicate) const;
+    LayoutSP findLayout(const std::function<bool (const LayoutSP &)> &predicate) const;
 
     JdfNodeQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -51,8 +51,8 @@ signals:
     void idChanged(const QString &arg);
     void jobIdChanged(const QString &arg);
     void jobPartIdChanged(const QString &arg);
-    void resourcePoolChanged(Proof::Jdf::ResourcePoolSP arg);
-    void resourceLinkPoolChanged(Proof::Jdf::ResourceLinkPoolSP resourceLinkPool);
+    void resourcePoolChanged(const Proof::Jdf::ResourcePoolSP &arg);
+    void resourceLinkPoolChanged(const Proof::Jdf::ResourceLinkPoolSP &resourceLinkPool);
     void jdfNodesChanged();
     void typeChanged(const QString &type);
 

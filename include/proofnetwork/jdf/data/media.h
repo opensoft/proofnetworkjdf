@@ -13,7 +13,7 @@ namespace Proof {
 namespace Jdf {
 
 class MediaPrivate;
-class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource
+class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)
