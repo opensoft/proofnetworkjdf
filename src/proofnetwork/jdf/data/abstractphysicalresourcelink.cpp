@@ -42,9 +42,9 @@ void AbstractPhysicalResourceLink::setAmount(double arg)
 bool AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &resource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    QString value = attributes.value("Orientation").toString();
+    QString value = attributes.value(QStringLiteral("Orientation")).toString();
     resource->setOrientation(resourceOrientationFromString(value));
-    resource->setAmount(attributes.value("Amount").toDouble());
+    resource->setAmount(attributes.value(QStringLiteral("Amount")).toDouble());
 
     return AbstractResourceLink::fromJdf(xmlReader, resource);
 }
@@ -53,9 +53,9 @@ void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractPhysicalResourceLink);
     if (d->orientation != ResourceOrientation::Rotate0Orientation)
-        jdfWriter.writeAttribute("Orientation", resourceOrientationToString(d->orientation));
+        jdfWriter.writeAttribute(QStringLiteral("Orientation"), resourceOrientationToString(d->orientation));
     if (d->amount != 0)
-        jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount,'f', 4));
     AbstractResourceLink::toJdf(jdfWriter);
 }
 

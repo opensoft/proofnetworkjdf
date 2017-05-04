@@ -232,11 +232,11 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
             AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
 
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            component->setComponentType(componentTypeFromString(attributes.value("ComponentType").toString()));
-            component->setProductType(productTypeFromString(attributes.value("ProductType").toString()));
-            component->setProductTypeDetails(attributes.value("ProductTypeDetails").toString());
+            component->setComponentType(componentTypeFromString(attributes.value(QStringLiteral("ComponentType")).toString()));
+            component->setProductType(productTypeFromString(attributes.value(QStringLiteral("ProductType")).toString()));
+            component->setProductTypeDetails(attributes.value(QStringLiteral("ProductTypeDetails")).toString());
 
-            QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ", QString::SkipEmptyParts);
+            QStringList dimensionsList = attributes.value(QStringLiteral("Dimensions")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
             if (dimensionsList.count() >= 3) {
                 component->setWidth(dimensionsList.at(0).toDouble());
                 component->setHeight(dimensionsList.at(1).toDouble());
@@ -244,7 +244,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
             }
         } else if (xmlReader.name() == component->jdfNodeRefName() && xmlReader.isStartElement() && !component->isFetched()) {
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            QString componentId = attributes.value("rRef").toString();
+            QString componentId = attributes.value(QStringLiteral("rRef")).toString();
             component->setId(componentId);
             if (!sanitize) {
                 auto fromCache = componentsCache().value({jobId, componentId});
@@ -331,15 +331,15 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 void Component::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Component);
-    jdfWriter.writeStartElement("Component");
+    jdfWriter.writeStartElement(QStringLiteral("Component"));
     if (d->componentType != ComponentType::NotTypedComponent)
-        jdfWriter.writeAttribute("ComponentType", componentTypeToString(d->componentType));
+        jdfWriter.writeAttribute(QStringLiteral("ComponentType"), componentTypeToString(d->componentType));
     if (d->productType != ProductType::NoProduct)
-        jdfWriter.writeAttribute("ProductType", productTypeToString(d->productType));
+        jdfWriter.writeAttribute(QStringLiteral("ProductType"), productTypeToString(d->productType));
     if (!d->productTypeDetails.isEmpty())
-        jdfWriter.writeAttribute("ProductTypeDetails", d->productTypeDetails);
+        jdfWriter.writeAttribute(QStringLiteral("ProductTypeDetails"), d->productTypeDetails);
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height) || !qFuzzyIsNull(d->length)) {
-        jdfWriter.writeAttribute("Dimensions", QString("%1 %2 %3")
+        jdfWriter.writeAttribute(QStringLiteral("Dimensions"), QStringLiteral("%1 %2 %3")
                                  .arg(d->width, 0, 'f', 4)
                                  .arg(d->height, 0, 'f', 4)
                                  .arg(d->length, 0, 'f', 4));
@@ -348,7 +348,7 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractPhysicalResource::toJdf(jdfWriter);
 
     for (const CutBlockSP &cutBlock : qAsConst(d->cutBlocks)) {
-        jdfWriter.writeStartElement("Component");
+        jdfWriter.writeStartElement(QStringLiteral("Component"));
         jdfWriter.writeAttribute(resourcePartTypeToString(ResourcePartType::BlockNamePart), cutBlock->blockName());
         jdfWriter.writeEndElement();
     }

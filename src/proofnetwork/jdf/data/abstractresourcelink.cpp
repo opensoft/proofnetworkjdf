@@ -58,9 +58,9 @@ void AbstractResourceLink::setRRef(const QString &arg)
 bool AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractResourceLinkSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    abstractResource->setUsage(linkUsageFromString(attributes.value("Usage").toString()));
-    abstractResource->setProcessUsage(processUsageFromString(attributes.value("ProcessUsage").toString()));
-    abstractResource->setRRef(attributes.value("rRef").toString());
+    abstractResource->setUsage(linkUsageFromString(attributes.value(QStringLiteral("Usage")).toString()));
+    abstractResource->setProcessUsage(processUsageFromString(attributes.value(QStringLiteral("ProcessUsage")).toString()));
+    abstractResource->setRRef(attributes.value(QStringLiteral("rRef")).toString());
 
     return true;
 }
@@ -68,20 +68,20 @@ bool AbstractResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const Abst
 void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResourceLink);
-    jdfWriter.writeAttribute("Usage", linkUsageToString(d->usage));
+    jdfWriter.writeAttribute(QStringLiteral("Usage"), linkUsageToString(d->usage));
     if (d->processUsage != ProcessUsage::UseAsDefault)
-        jdfWriter.writeAttribute("ProcessUsage", processUsageToString(d->processUsage));
-    jdfWriter.writeAttribute("rRef", d->rRef);
+        jdfWriter.writeAttribute(QStringLiteral("ProcessUsage"), processUsageToString(d->processUsage));
+    jdfWriter.writeAttribute(QStringLiteral("rRef"), d->rRef);
 }
 
 QString AbstractResourceLink::jdfNodeName() const
 {
-    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
 }
 
 QString AbstractResourceLink::jdfNodeRefName() const
 {
-    return QString("%1Ref").arg(jdfNodeName());
+    return QStringLiteral("%1Ref").arg(jdfNodeName());
 }
 
 void AbstractResourceLinkPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)

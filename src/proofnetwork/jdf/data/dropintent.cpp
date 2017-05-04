@@ -89,7 +89,7 @@ DropIntentSP DropIntent::fromJdf(QXmlStreamReader &xmlReader, const QString &job
             dropIntent->setFetched(true);
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "Required") {
-                dropIntent->setRequired(TimeSpan::fromJdf("Required", xmlReader));
+                dropIntent->setRequired(TimeSpan::fromJdf(QStringLiteral("Required"), xmlReader));
             } else if (xmlReader.name() == "DropItemIntent") {
                 DropItemIntentSP dropItemIntent = DropItemIntent::fromJdf(xmlReader, jobId, sanitize);
                 dropIntent->addDropItemIntent(dropItemIntent);
@@ -107,10 +107,10 @@ DropIntentSP DropIntent::fromJdf(QXmlStreamReader &xmlReader, const QString &job
 void DropIntent::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(DropIntent);
-    jdfWriter.writeStartElement("DropIntent");
+    jdfWriter.writeStartElement(QStringLiteral("DropIntent"));
 
     if (!d->required.actual().isNull())
-        d->required.toJdf("Required", jdfWriter);
+        d->required.toJdf(QStringLiteral("Required"), jdfWriter);
 
     for (const auto &dropItemIntent : qAsConst(d->dropItemIntents)) {
         if (isValidAndDirty(dropItemIntent))

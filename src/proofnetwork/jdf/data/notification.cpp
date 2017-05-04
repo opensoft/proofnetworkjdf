@@ -62,9 +62,9 @@ NetworkDataEntityQmlWrapper *Notification::toQmlWrapper(QObject *parent) const
 void Notification::toJdf(QXmlStreamWriter &xmlWriter)
 {
     Q_D(Notification);
-    xmlWriter.writeStartElement("Notification");
-    xmlWriter.writeAttribute("Class", notificationClassToString(d->notificationClass));
-    xmlWriter.writeStartElement("Comment");
+    xmlWriter.writeStartElement(QStringLiteral("Notification"));
+    xmlWriter.writeAttribute(QStringLiteral("Class"), notificationClassToString(d->notificationClass));
+    xmlWriter.writeStartElement(QStringLiteral("Comment"));
     xmlWriter.writeCharacters(d->comment);
     xmlWriter.writeEndElement();
     xmlWriter.writeEndElement();
@@ -76,7 +76,7 @@ NotificationSP Notification::fromJdf(QXmlStreamReader &xmlReader)
     if (xmlReader.isStartElement() && xmlReader.name() == "Notification") {
         result = create();
         auto attributes = xmlReader.attributes();
-        result->setNotificationClass(notificationClassFromString(attributes.value("Class").toString()));
+        result->setNotificationClass(notificationClassFromString(attributes.value(QStringLiteral("Class")).toString()));
         while (xmlReader.readNextStartElement()) {
             if (xmlReader.name() == "Comment")
                 result->setComment(xmlReader.readElementText());

@@ -17,7 +17,7 @@ void QueryPrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)
 
 QString QueryPrivate::tagName() const
 {
-    return "Query";
+    return QStringLiteral("Query");
 }
 
 void QueryPrivate::specificMessageToJmf(QXmlStreamWriter &) const

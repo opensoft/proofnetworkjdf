@@ -201,7 +201,7 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(ResourcePool);
 
-    jdfWriter.writeStartElement("ResourcePool");
+    jdfWriter.writeStartElement(QStringLiteral("ResourcePool"));
 
     for (const ComponentSP &component : qAsConst(d->components)) {
         if (isValidAndDirty(component))

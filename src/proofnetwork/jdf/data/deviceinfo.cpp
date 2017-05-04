@@ -79,9 +79,9 @@ DeviceInfoSP DeviceInfo::fromJmf(QXmlStreamReader &xmlReader)
         deviceInfo = create();
         deviceInfo->setFetched(true);
         auto attributes = xmlReader.attributes();
-        deviceInfo->setDeviceId(attributes.value("DeviceID").toString());
-        deviceInfo->setStatus(deviceStatusFromString(attributes.value("DeviceStatus").toString()));
-        deviceInfo->setCondition(deviceConditionFromString(attributes.value("DeviceCondition").toString()));
+        deviceInfo->setDeviceId(attributes.value(QStringLiteral("DeviceID")).toString());
+        deviceInfo->setStatus(deviceStatusFromString(attributes.value(QStringLiteral("DeviceStatus")).toString()));
+        deviceInfo->setCondition(deviceConditionFromString(attributes.value(QStringLiteral("DeviceCondition")).toString()));
     }
     xmlReader.skipCurrentElement();
     return deviceInfo;
@@ -90,10 +90,10 @@ DeviceInfoSP DeviceInfo::fromJmf(QXmlStreamReader &xmlReader)
 void DeviceInfo::toJmf(QXmlStreamWriter &xmlWriter)
 {
     Q_D(DeviceInfo);
-    xmlWriter.writeStartElement("DeviceInfo");
-    xmlWriter.writeAttribute("DeviceID", d->deviceId);
-    xmlWriter.writeAttribute("DeviceStatus", deviceStatusToString(d->status));
-    xmlWriter.writeAttribute("DeviceCondition", deviceConditionToString(d->condition));
+    xmlWriter.writeStartElement(QStringLiteral("DeviceInfo"));
+    xmlWriter.writeAttribute(QStringLiteral("DeviceID"), d->deviceId);
+    xmlWriter.writeAttribute(QStringLiteral("DeviceStatus"), deviceStatusToString(d->status));
+    xmlWriter.writeAttribute(QStringLiteral("DeviceCondition"), deviceConditionToString(d->condition));
     xmlWriter.writeEndElement();
 }
 

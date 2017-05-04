@@ -102,8 +102,8 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
         if (xmlReader.name() == "Bundle" && xmlReader.isStartElement() && ! bundle->isFetched()) {
             bundle->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            bundle->setBundleType(bundleTypeFromString(attributes.value("BundleType").toString()));
-            bundle->setTotalAmount(attributes.value("TotalAmount").toInt());
+            bundle->setBundleType(bundleTypeFromString(attributes.value(QStringLiteral("BundleType")).toString()));
+            bundle->setTotalAmount(attributes.value(QStringLiteral("TotalAmount")).toInt());
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "BundleItem") {
                 BundleItemSP bundleItem = BundleItem::fromJdf(xmlReader, jobId, sanitize);
@@ -123,9 +123,9 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
 void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Bundle);
-    jdfWriter.writeStartElement("Bundle");
-    jdfWriter.writeAttribute("BundleType", bundleTypeToString(d->bundleType));
-    jdfWriter.writeAttribute("TotalAmount", QString::number(d->totalAmount));
+    jdfWriter.writeStartElement(QStringLiteral("Bundle"));
+    jdfWriter.writeAttribute(QStringLiteral("BundleType"), bundleTypeToString(d->bundleType));
+    jdfWriter.writeAttribute(QStringLiteral("TotalAmount"), QString::number(d->totalAmount));
 
     for (const auto &bundleItem : qAsConst(d->bundleItems)) {
         if (isValidAndDirty(bundleItem))

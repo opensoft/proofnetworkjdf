@@ -117,7 +117,7 @@ void CuttingParams::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(CuttingParams);
 
-    jdfWriter.writeStartElement("CuttingParams");
+    jdfWriter.writeStartElement(QStringLiteral("CuttingParams"));
 
     AbstractResource::toJdf(jdfWriter);
 

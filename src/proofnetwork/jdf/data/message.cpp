@@ -41,8 +41,8 @@ MessageSP Message::fromJmf(QXmlStreamReader &xmlReader)
     if (xmlReader.isStartElement()) {
         QString tag = xmlReader.name().toString();
         auto attributes = xmlReader.attributes();
-        QString id = attributes.value("ID").toString();
-        QString type = attributes.value("Type").toString();
+        QString id = attributes.value(QStringLiteral("ID")).toString();
+        QString type = attributes.value(QStringLiteral("Type")).toString();
         message = instantiateJmfMessage(tag, type);
         if (message != nullptr) {
             message->setId(id);
@@ -56,8 +56,8 @@ void Message::toJmf(QXmlStreamWriter &xmlWriter)
 {
     Q_D(Message);
     xmlWriter.writeStartElement(d->tagName());
-    xmlWriter.writeAttribute("ID", d->id);
-    xmlWriter.writeAttribute("Type", d->typeName());
+    xmlWriter.writeAttribute(QStringLiteral("ID"), d->id);
+    xmlWriter.writeAttribute(QStringLiteral("Type"), d->typeName());
     d->specificMessageToJmf(xmlWriter);
     xmlWriter.writeEndElement();
 }

@@ -87,7 +87,7 @@ void AbstractResource::setPartAttribute(ResourcePartType attribute, const QStrin
 bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    QStringList partIdKeysStringified = attributes.value("PartIDKeys").toString().split(" ", QString::SkipEmptyParts);
+    QStringList partIdKeysStringified = attributes.value(QStringLiteral("PartIDKeys")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
     QList<ResourcePartType> partIdKeys;
     for (const QString &partName : partIdKeysStringified) {
         bool ok = false;
@@ -97,8 +97,8 @@ bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResour
         partIdKeys << part;
     }
     abstractResource->setPartIdKeys(partIdKeys);
-    abstractResource->setId(attributes.value("ID").toString());
-    abstractResource->setResourceStatus(resourceStatusFromString(attributes.value("Status").toString()));
+    abstractResource->setId(attributes.value(QStringLiteral("ID")).toString());
+    abstractResource->setResourceStatus(resourceStatusFromString(attributes.value(QStringLiteral("Status")).toString()));
 
     for (const auto &attribute : attributes) {
         bool isPartAttribute = false;
@@ -115,16 +115,16 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResource);
     if (!d->id.isEmpty())
-        jdfWriter.writeAttribute("ID", d->id);
+        jdfWriter.writeAttribute(QStringLiteral("ID"), d->id);
     if (d->resourceStatus != ResourceStatus::NoStatus)
-        jdfWriter.writeAttribute("Status", resourceStatusToString(d->resourceStatus));
+        jdfWriter.writeAttribute(QStringLiteral("Status"), resourceStatusToString(d->resourceStatus));
     if (d->resourceClass != ResourceClass::NoClass)
-        jdfWriter.writeAttribute("Class", resourceClassToString(d->resourceClass));
+        jdfWriter.writeAttribute(QStringLiteral("Class"), resourceClassToString(d->resourceClass));
     QStringList partIdKeysStringified;
     for (auto part : qAsConst(d->partIdKeys))
         partIdKeysStringified += resourcePartTypeToString(part);
     if (partIdKeysStringified.count())
-        jdfWriter.writeAttribute("PartIDKeys", partIdKeysStringified.join(" "));
+        jdfWriter.writeAttribute(QStringLiteral("PartIDKeys"), partIdKeysStringified.join(QStringLiteral(" ")));
     for (auto it = d->partAttributes.cbegin(); it != d->partAttributes.cend(); ++it)
         jdfWriter.writeAttribute(resourcePartTypeToString(it.key()), it.value());
 }
@@ -133,18 +133,18 @@ void AbstractResource::refToJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractResource);
     jdfWriter.writeStartElement(jdfNodeRefName());
-    jdfWriter.writeAttribute("rRef", d->id);
+    jdfWriter.writeAttribute(QStringLiteral("rRef"), d->id);
     jdfWriter.writeEndElement();
 }
 
 QString AbstractResource::jdfNodeName() const
 {
-    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(":") + 1);
+    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
 }
 
 QString AbstractResource::jdfNodeRefName() const
 {
-    return QString("%1Ref").arg(jdfNodeName());
+    return QStringLiteral("%1Ref").arg(jdfNodeName());
 }
 
 AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)

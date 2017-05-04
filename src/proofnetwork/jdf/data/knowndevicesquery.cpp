@@ -78,7 +78,7 @@ void KnownDevicesQueryPrivate::specificMessageFromJmf(QXmlStreamReader &xmlReade
 
 QString KnownDevicesQueryPrivate::typeName() const
 {
-    return "KnownDevices";
+    return QStringLiteral("KnownDevices");
 }
 
 void KnownDevicesQueryPrivate::specificMessageToJmf(QXmlStreamWriter &xmlWriter) const

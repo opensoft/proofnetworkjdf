@@ -246,7 +246,7 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(ResourceLinkPool);
 
-    jdfWriter.writeStartElement("ResourceLinkPool");
+    jdfWriter.writeStartElement(QStringLiteral("ResourceLinkPool"));
 
     for (const ComponentLinkSP &component : qAsConst(d->componentLinks)) {
         if (component)

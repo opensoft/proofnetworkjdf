@@ -126,13 +126,13 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
         if (xmlReader.name() == "CutBlock" && xmlReader.isStartElement()) {
             QXmlStreamAttributes attributes = xmlReader.attributes();
 
-            QString blockName = attributes.value("BlockName").toString();
+            QString blockName = attributes.value(QStringLiteral("BlockName")).toString();
             cutBlock->setBlockName(blockName);
             if (sanitize) {
                 CutBlockSP cutBlockFromCache = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
                 int index = 0;
                 while (cutBlockFromCache != cutBlock && cutBlockFromCache->isFetched()) {
-                    cutBlock->setBlockName(QString("%1_%2").arg(blockName).arg(++index));
+                    cutBlock->setBlockName(QStringLiteral("%1_%2").arg(blockName).arg(++index));
                     cutBlockFromCache = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
                 }
             } else {
@@ -140,7 +140,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
             }
             cutBlock->setFetched(true);
 
-            QStringList blockSizeList = attributes.value("BlockSize").toString().split(" ", QString::SkipEmptyParts);
+            QStringList blockSizeList = attributes.value(QStringLiteral("BlockSize")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
             if (blockSizeList.count() >= 2) {
                 cutBlock->setWidth(blockSizeList.at(0).toDouble());
                 cutBlock->setHeight(blockSizeList.at(1).toDouble());
@@ -148,8 +148,8 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
                 qCCritical(proofNetworkJdfDataLog) << "CutBlock not created. BlockSize is not valid";
                 return CutBlockSP();
             }
-            cutBlock->setTransformationMatrix(attributes.value("BlockTrf").toString());
-            cutBlock->setBlockType(blockTypeFromString(attributes.value("BlockType").toString()));
+            cutBlock->setTransformationMatrix(attributes.value(QStringLiteral("BlockTrf")).toString());
+            cutBlock->setBlockType(blockTypeFromString(attributes.value(QStringLiteral("BlockType")).toString()));
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
         } else if (xmlReader.isEndElement()) {
@@ -165,11 +165,11 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(CutBlock);
 
-    jdfWriter.writeStartElement("CutBlock");
-    jdfWriter.writeAttribute("BlockName", d->blockName);
-    jdfWriter.writeAttribute("BlockSize", QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
-    jdfWriter.writeAttribute("BlockTrf", d->transformationMatrix);
-    jdfWriter.writeAttribute("BlockType", blockTypeToString(d->blockType));
+    jdfWriter.writeStartElement(QStringLiteral("CutBlock"));
+    jdfWriter.writeAttribute(QStringLiteral("BlockName"), d->blockName);
+    jdfWriter.writeAttribute(QStringLiteral("BlockSize"), QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
+    jdfWriter.writeAttribute(QStringLiteral("BlockTrf"), d->transformationMatrix);
+    jdfWriter.writeAttribute(QStringLiteral("BlockType"), blockTypeToString(d->blockType));
     jdfWriter.writeEndElement();
 }
 
@@ -219,7 +219,7 @@ void CutBlock::setTransformationMatrix(const QString &arg)
 {
     Q_D(CutBlock);
     if (d->transformationMatrix != arg) {
-        QStringList transformationMatrix = arg.split(" ", QString::SkipEmptyParts);
+        QStringList transformationMatrix = arg.split(QStringLiteral(" "), QString::SkipEmptyParts);
         double x = 0.0;
         double y = 0.0;
         double rotation = d->rotationFromTransformationMatrix(arg);
@@ -239,7 +239,7 @@ void CutBlock::setTransformationMatrix(const QString &arg)
 void CutBlock::setTransformationMatrix(double x, double y, double rotation)
 {
     Q_D(CutBlock);
-    QString transformationMatrix = QString("%1 %2 %3")
+    QString transformationMatrix = QStringLiteral("%1 %2 %3")
             .arg(d->createRotationMatrixString(rotation))
             .arg(x)
             .arg(y);
@@ -302,7 +302,7 @@ QString CutBlockPrivate::createRotationMatrixString(double angle)
         angle += 360;
     double radian = (angle * PI) / 180;
 
-    return QString("%1 %2 %3 %4")
+    return QStringLiteral("%1 %2 %3 %4")
             .arg(qRound(std::cos(radian)))
             .arg(qRound(-std::sin(radian)))
             .arg(qRound(std::sin(radian)))
@@ -311,7 +311,7 @@ QString CutBlockPrivate::createRotationMatrixString(double angle)
 
 double CutBlockPrivate::rotationFromTransformationMatrix(const QString &transformationMatrix)
 {
-    QStringList transformationMatrixList = transformationMatrix.split(" ", QString::SkipEmptyParts);
+    QStringList transformationMatrixList = transformationMatrix.split(QStringLiteral(" "), QString::SkipEmptyParts);
     double cutBlockRotation = 0.0;
     if (transformationMatrixList.count() == 6) {
         if (qFuzzyIsNull(transformationMatrixList.at(0).toDouble()))

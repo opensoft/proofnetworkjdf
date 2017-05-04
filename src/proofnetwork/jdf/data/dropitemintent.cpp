@@ -83,7 +83,7 @@ DropItemIntentSP DropItemIntent::fromJdf(QXmlStreamReader &xmlReader, const QStr
 void DropItemIntent::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(DropItemIntent);
-    jdfWriter.writeStartElement("DropItemIntent");
+    jdfWriter.writeStartElement(QStringLiteral("DropItemIntent"));
     if (isValidAndDirty(d->component))
         d->component->refToJdf(jdfWriter);
     jdfWriter.writeEndElement();

@@ -229,10 +229,10 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                 if (!document->isFetched()) {
                     document->setFetched(true);
                     QXmlStreamAttributes attributes = xmlReader.attributes();
-                    document->setId(attributes.value("ID").toString());
-                    document->setJobId(attributes.value("JobID").toString());
-                    document->setJobPartId(attributes.value("JobPartID").toString());
-                    document->setType(attributes.value("Type").toString());
+                    document->setId(attributes.value(QStringLiteral("ID")).toString());
+                    document->setJobId(attributes.value(QStringLiteral("JobID")).toString());
+                    document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
+                    document->setType(attributes.value(QStringLiteral("Type")).toString());
 
                     if (document->id().isEmpty()) {
                         for (const QString &attribute : alternativeIdAttributes) {
@@ -281,18 +281,18 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(JdfNode);
 
-    jdfWriter.writeStartElement("JDF");
+    jdfWriter.writeStartElement(QStringLiteral("JDF"));
     {
-        jdfWriter.writeAttribute("ID", d->id);
+        jdfWriter.writeAttribute(QStringLiteral("ID"), d->id);
         if (!d->jobId.isEmpty())
-            jdfWriter.writeAttribute("JobID", d->jobId);
+            jdfWriter.writeAttribute(QStringLiteral("JobID"), d->jobId);
         if (!d->jobPartId.isEmpty())
-            jdfWriter.writeAttribute("JobPartID", d->jobPartId);
+            jdfWriter.writeAttribute(QStringLiteral("JobPartID"), d->jobPartId);
         if (!d->type.isEmpty())
-            jdfWriter.writeAttribute("Type", d->type);
+            jdfWriter.writeAttribute(QStringLiteral("Type"), d->type);
 
-        jdfWriter.writeAttribute("Status", "Waiting");
-        jdfWriter.writeAttribute("Version", "1.4");
+        jdfWriter.writeAttribute(QStringLiteral("Status"), QStringLiteral("Waiting"));
+        jdfWriter.writeAttribute(QStringLiteral("Version"), QStringLiteral("1.4"));
         if (isValidAndDirty(d->resourcePool))
             d->resourcePool->toJdf(jdfWriter);
         if (isValidAndDirty(d->resourceLinkPool))

@@ -36,7 +36,7 @@ bool verifyFoldCatalog(const QString &foldCatalog)
     if (!regexp.exactMatch(foldCatalog))
         return false;
 
-    return (regexp.cap(1).toInt() && (regexp.cap(2).toInt() || regexp.cap(2).toLower() == "x"));
+    return (regexp.cap(1).toInt() && (regexp.cap(2).toInt() || regexp.cap(2).toLower() == QLatin1String("x")));
 }
 /*!
  *    \brief sets FoldCatalog resource
@@ -87,7 +87,7 @@ FoldingParamsSP FoldingParams::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "FoldingParams" && xmlReader.isStartElement() && !foldingParams->isFetched()) {
             foldingParams->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            QString value = attributes.value("FoldCatalog").toString().trimmed();
+            QString value = attributes.value(QStringLiteral("FoldCatalog")).toString().trimmed();
             foldingParams->setFoldCatalog(value);
             AbstractResourceSP castedFoldingParams = qSharedPointerCast<AbstractResource>(foldingParams);
             AbstractResource::fromJdf(xmlReader, castedFoldingParams);
@@ -107,8 +107,8 @@ void FoldingParams::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(FoldingParams);
 
-    jdfWriter.writeStartElement("FoldingParams");
-    jdfWriter.writeAttribute("FoldCatalog", d->foldCatalog);
+    jdfWriter.writeStartElement(QStringLiteral("FoldingParams"));
+    jdfWriter.writeAttribute(QStringLiteral("FoldCatalog"), d->foldCatalog);
     AbstractResource::toJdf(jdfWriter);
     jdfWriter.writeEndElement();
 }

@@ -49,7 +49,7 @@ public:
         while (!jdfReader.atEnd() && !jdfReader.hasError()) {
             if (jdfReader.name() == name && jdfReader.isStartElement()) {
                 QXmlStreamAttributes attributes = jdfReader.attributes();
-                span.setActual(span.readAttribute(attributes.value("Actual")));
+                span.setActual(span.readAttribute(attributes.value(QStringLiteral("Actual"))));
             } else if (jdfReader.isStartElement()) {
                 jdfReader.skipCurrentElement();
             } else if (jdfReader.isEndElement()) {

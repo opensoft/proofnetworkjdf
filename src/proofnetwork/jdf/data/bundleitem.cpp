@@ -78,7 +78,7 @@ BundleItemSP BundleItem::fromJdf(QXmlStreamReader &xmlReader, const QString &job
         if (xmlReader.name() == "BundleItem" && xmlReader.isStartElement() && ! bundleItem->isFetched()) {
             bundleItem->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            bundleItem->setAmount(attributes.value("Amount").toInt());
+            bundleItem->setAmount(attributes.value(QStringLiteral("Amount")).toInt());
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "ComponentRef") {
                 ComponentSP component = Component::fromJdf(xmlReader, jobId, sanitize);
@@ -96,8 +96,8 @@ BundleItemSP BundleItem::fromJdf(QXmlStreamReader &xmlReader, const QString &job
 void BundleItem::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(BundleItem);
-    jdfWriter.writeStartElement("BundleItem");
-    jdfWriter.writeAttribute("Amount", QString::number(d->amount));
+    jdfWriter.writeStartElement(QStringLiteral("BundleItem"));
+    jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
     if (isValidAndDirty(d->component))
         d->component->refToJdf(jdfWriter);
     jdfWriter.writeEndElement();

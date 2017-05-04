@@ -62,7 +62,7 @@ LaminatingIntentSP LaminatingIntent::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "LaminatingIntent" && xmlReader.isStartElement() && !laminatingIntent->isFetched()) {
             laminatingIntent->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            laminatingIntent->setSurface(laminatingSurfaceFromString(attributes.value("Surface").toString()));
+            laminatingIntent->setSurface(laminatingSurfaceFromString(attributes.value(QStringLiteral("Surface")).toString()));
             AbstractResourceSP castedLaminatingIntent = qSharedPointerCast<AbstractResource>(laminatingIntent);
             AbstractResource::fromJdf(xmlReader, castedLaminatingIntent);
 
@@ -81,8 +81,8 @@ void LaminatingIntent::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(LaminatingIntent);
 
-    jdfWriter.writeStartElement("LaminatingIntent");
-    jdfWriter.writeAttribute("Surface", laminatingSurfaceToString(d->surface));
+    jdfWriter.writeStartElement(QStringLiteral("LaminatingIntent"));
+    jdfWriter.writeAttribute(QStringLiteral("Surface"), laminatingSurfaceToString(d->surface));
     AbstractResource::toJdf(jdfWriter);
     jdfWriter.writeEndElement();
 }

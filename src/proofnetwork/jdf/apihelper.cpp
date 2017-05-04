@@ -416,7 +416,7 @@ static const QHash<QString, SpanDataType> SPAN_DATA_TYPE_STRINGIFIED = {
 
 QString resourceStatusToString(ResourceStatus status)
 {
-    return RESOURCE_STATUS_STRINGIFIED.key(status, "");
+    return RESOURCE_STATUS_STRINGIFIED.key(status, QLatin1String(""));
 }
 
 ResourceStatus resourceStatusFromString(const QString &status, bool *ok)
@@ -428,7 +428,7 @@ ResourceStatus resourceStatusFromString(const QString &status, bool *ok)
 
 QString resourceClassToString(ResourceClass resourceClass)
 {
-    return RESOURCE_CLASS_STRINGIFIED.key(resourceClass, "");
+    return RESOURCE_CLASS_STRINGIFIED.key(resourceClass, QLatin1String(""));
 }
 
 ResourceClass resourceClassFromString(const QString &resourceClass, bool *ok)
@@ -440,7 +440,7 @@ ResourceClass resourceClassFromString(const QString &resourceClass, bool *ok)
 
 QString coatingToString(CoatingType coating)
 {
-    return COATING_STRINGIFIED.key(coating, "");
+    return COATING_STRINGIFIED.key(coating, QLatin1String(""));
 }
 
 CoatingType coatingFromString(const QString &coating, bool *ok)
@@ -452,7 +452,7 @@ CoatingType coatingFromString(const QString &coating, bool *ok)
 
 QString coatingDetailToString(CoatingDetail coatingDetail)
 {
-    return COATING_DETAIL_STRINGIFIED.key(coatingDetail, "");
+    return COATING_DETAIL_STRINGIFIED.key(coatingDetail, QLatin1String(""));
 }
 
 CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok)
@@ -464,7 +464,7 @@ CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok)
 
 QString laminatingSurfaceToString(LaminatingSurface surface)
 {
-    return LAMINATING_SURFACE_STRINGIFIED.key(surface, "");
+    return LAMINATING_SURFACE_STRINGIFIED.key(surface, QLatin1String(""));
 }
 
 LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok)
@@ -476,7 +476,7 @@ LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok)
 
 QString bundleTypeToString(BundleType bundleType)
 {
-    return BUNDLE_TYPE_STRINGIFIED.key(bundleType, "");
+    return BUNDLE_TYPE_STRINGIFIED.key(bundleType, QLatin1String(""));
 }
 
 BundleType bundleTypeFromString(const QString &bundleType, bool *ok)
@@ -488,7 +488,7 @@ BundleType bundleTypeFromString(const QString &bundleType, bool *ok)
 
 QString resourceOrientationToString(ResourceOrientation resourceOrientation)
 {
-    return RESOURCE_ORIENTATION_STRINGIFIED.key(resourceOrientation, "");
+    return RESOURCE_ORIENTATION_STRINGIFIED.key(resourceOrientation, QLatin1String(""));
 }
 
 ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation, bool *ok)
@@ -524,7 +524,7 @@ ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok)
 
 QString componentTypeToString(ComponentType componentType)
 {
-    return COMPONENT_TYPE_STRINGIFIED.key(componentType, "");
+    return COMPONENT_TYPE_STRINGIFIED.key(componentType, QLatin1String(""));
 }
 
 ComponentType componentTypeFromString(const QString &componentType, bool *ok)
@@ -536,7 +536,7 @@ ComponentType componentTypeFromString(const QString &componentType, bool *ok)
 
 QString productTypeToString(ProductType productType)
 {
-    return PRODUCT_TYPE_STRINGIFIED.key(productType, "");
+    return PRODUCT_TYPE_STRINGIFIED.key(productType, QLatin1String(""));
 }
 
 ProductType productTypeFromString(const QString &productType, bool *ok)
@@ -548,7 +548,7 @@ ProductType productTypeFromString(const QString &productType, bool *ok)
 
 QString resourcePartTypeToString(ResourcePartType resourcePartType)
 {
-    return PART_ID_KEYS_TYPE_STRINGIFIED.key(resourcePartType, "");
+    return PART_ID_KEYS_TYPE_STRINGIFIED.key(resourcePartType, QLatin1String(""));
 }
 
 ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, bool *ok)
@@ -560,7 +560,7 @@ ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, boo
 
 QString linkUsageToString(LinkUsage usage)
 {
-    return LINK_USAGE_STRINGIFIED.key(usage, "");
+    return LINK_USAGE_STRINGIFIED.key(usage, QLatin1String(""));
 }
 
 LinkUsage linkUsageFromString(const QString &usage, bool *ok)
@@ -572,7 +572,7 @@ LinkUsage linkUsageFromString(const QString &usage, bool *ok)
 
 QString processUsageToString(ProcessUsage processUsage)
 {
-    return PROCESS_USAGE_STRINGIFIED.key(processUsage, "");
+    return PROCESS_USAGE_STRINGIFIED.key(processUsage, QLatin1String(""));
 }
 
 ProcessUsage processUsageFromString(const QString &processUsage, bool *ok)
@@ -584,7 +584,7 @@ ProcessUsage processUsageFromString(const QString &processUsage, bool *ok)
 
 QString blockTypeToString(BlockType blockType)
 {
-    return BLOCK_TYPE_STRINGIFIED.key(blockType, "");
+    return BLOCK_TYPE_STRINGIFIED.key(blockType, QLatin1String(""));
 }
 
 BlockType blockTypeFromString(const QString &blockType, bool *ok)
@@ -596,7 +596,7 @@ BlockType blockTypeFromString(const QString &blockType, bool *ok)
 
 QString mediaUnitToString(MediaUnit mediaUnit)
 {
-    return MEDIA_UNIT_STRINGIFIED.key(mediaUnit, "");
+    return MEDIA_UNIT_STRINGIFIED.key(mediaUnit, QLatin1String(""));
 }
 
 MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok)
@@ -608,7 +608,7 @@ MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok)
 
 QString mediaTypeToString(MediaType mediaType)
 {
-    return MEDIA_TYPE_STRINGIFIED.key(mediaType, "");
+    return MEDIA_TYPE_STRINGIFIED.key(mediaType, QLatin1String(""));
 }
 
 MediaType mediaTypeFromString(const QString &mediaType, bool *ok)
@@ -620,7 +620,7 @@ MediaType mediaTypeFromString(const QString &mediaType, bool *ok)
 
 QString deviceFilterDetailsToString(DeviceFilterDetails details)
 {
-    return DEVICE_FILTER_DETAILS_STRINGIFIED.key(details, "");
+    return DEVICE_FILTER_DETAILS_STRINGIFIED.key(details, QLatin1String(""));
 }
 
 DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *ok)
@@ -632,7 +632,7 @@ DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *
 
 QString deviceStatusToString(DeviceStatus status)
 {
-    return DEVICE_STATUS_STRINGIFIED.key(status, "");
+    return DEVICE_STATUS_STRINGIFIED.key(status, QLatin1String(""));
 }
 
 DeviceStatus deviceStatusFromString(const QString &status, bool *ok)
@@ -644,7 +644,7 @@ DeviceStatus deviceStatusFromString(const QString &status, bool *ok)
 
 QString deviceConditionToString(DeviceCondition condition)
 {
-    return DEVICE_CONDITION_STRINGIFIED.key(condition, "");
+    return DEVICE_CONDITION_STRINGIFIED.key(condition, QLatin1String(""));
 }
 
 DeviceCondition deviceConditionFromString(const QString &condition, bool *ok)
@@ -656,7 +656,7 @@ DeviceCondition deviceConditionFromString(const QString &condition, bool *ok)
 
 QString notificationClassToString(NotificationClass notification)
 {
-    return NOTIFICATION_CLASS_STRINGIFIED.key(notification, "");
+    return NOTIFICATION_CLASS_STRINGIFIED.key(notification, QLatin1String(""));
 }
 
 NotificationClass notificationClassFromString(const QString &notification, bool *ok)
@@ -668,7 +668,7 @@ NotificationClass notificationClassFromString(const QString &notification, bool 
 
 QString spanDataTypeToString(SpanDataType dataType)
 {
-    return SPAN_DATA_TYPE_STRINGIFIED.key(dataType, "");
+    return SPAN_DATA_TYPE_STRINGIFIED.key(dataType, QLatin1String(""));
 }
 
 SpanDataType spanDataTypeFromString(const QString &dataType, bool *ok)

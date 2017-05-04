@@ -93,13 +93,13 @@ void KnownDevicesResponsePrivate::specificMessageFromJmf(QXmlStreamReader &xmlRe
 
 QString KnownDevicesResponsePrivate::typeName() const
 {
-    return "KnownDevices";
+    return QStringLiteral("KnownDevices");
 }
 
 void KnownDevicesResponsePrivate::specificMessageToJmf(QXmlStreamWriter &xmlWriter) const
 {
     if (!deviceInfos.isEmpty()) {
-        xmlWriter.writeStartElement("DeviceList");
+        xmlWriter.writeStartElement(QStringLiteral("DeviceList"));
         for (const DeviceInfoSP &deviceInfo : deviceInfos)
             deviceInfo->toJmf(xmlWriter);
         xmlWriter.writeEndElement();

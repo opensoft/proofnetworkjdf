@@ -37,8 +37,8 @@ void AbstractPhysicalResource::setResourceWeight(double arg)
 bool AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    abstractPhysicalResource->setAmount(attributes.value("Amount").toDouble());
-    abstractPhysicalResource->setResourceWeight(attributes.value("ResourceWeight").toDouble());
+    abstractPhysicalResource->setAmount(attributes.value(QStringLiteral("Amount")).toDouble());
+    abstractPhysicalResource->setResourceWeight(attributes.value(QStringLiteral("ResourceWeight")).toDouble());
 
     AbstractResourceSP castedAbstractPhysicalResource = qSharedPointerCast<AbstractResource>(abstractPhysicalResource);
     return AbstractResource::fromJdf(xmlReader, castedAbstractPhysicalResource);
@@ -48,9 +48,9 @@ void AbstractPhysicalResource::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractPhysicalResource);
     if (!qFuzzyIsNull(d->amount))
-        jdfWriter.writeAttribute("Amount", QString::number(d->amount,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount,'f', 4));
     if (!qFuzzyIsNull(d->resourceWeight))
-        jdfWriter.writeAttribute("ResourceWeight", QString::number(d->resourceWeight,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("ResourceWeight"), QString::number(d->resourceWeight,'f', 4));
 
     AbstractResource::toJdf(jdfWriter);
 }

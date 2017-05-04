@@ -22,8 +22,8 @@ class JmfDocumentPrivate : public NetworkDataEntityPrivate
 
     void updateFrom(const NetworkDataEntitySP &other) override;
 
-    QString senderId = "Proof generator";
-    QString version = "1.4";
+    QString senderId = QStringLiteral("Proof generator");
+    QString version = QStringLiteral("1.4");
     QDateTime timeStamp;
     QList<MessageSP> messages;
 };
@@ -110,9 +110,9 @@ JmfDocumentSP JmfDocument::fromJmf(QXmlStreamReader &xmlReader)
                 document = create();
                 document->setFetched(true);
                 QXmlStreamAttributes attributes = xmlReader.attributes();
-                document->setSenderId(attributes.value("SenderID").toString());
-                document->d_func()->version = attributes.value("Version").toString();
-                document->setTimeStamp(QDateTime::fromString(attributes.value("TimeStamp").toString(), Qt::ISODate));
+                document->setSenderId(attributes.value(QStringLiteral("SenderID")).toString());
+                document->d_func()->version = attributes.value(QStringLiteral("Version")).toString();
+                document->setTimeStamp(QDateTime::fromString(attributes.value(QStringLiteral("TimeStamp")).toString(), Qt::ISODate));
 
                 while (xmlReader.readNextStartElement()) {
                     auto message = Message::fromJmf(xmlReader);
@@ -137,12 +137,12 @@ QString JmfDocument::toJmf()
 
     jmfWriter.setAutoFormatting(true);
     jmfWriter.writeStartDocument();
-    jmfWriter.writeDefaultNamespace("http://www.CIP4.org/JDFSchema_1_1");
-    jmfWriter.writeStartElement("JMF");
+    jmfWriter.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_1_1"));
+    jmfWriter.writeStartElement(QStringLiteral("JMF"));
     {
-        jmfWriter.writeAttribute("SenderID", d->senderId);
-        jmfWriter.writeAttribute("Version", d->version);
-        jmfWriter.writeAttribute("TimeStamp", d->timeStamp.toString(Qt::ISODate));
+        jmfWriter.writeAttribute(QStringLiteral("SenderID"), d->senderId);
+        jmfWriter.writeAttribute(QStringLiteral("Version"), d->version);
+        jmfWriter.writeAttribute(QStringLiteral("TimeStamp"), d->timeStamp.toString(Qt::ISODate));
         for (const MessageSP &message : qAsConst(d->messages))
             message->toJmf(jmfWriter);
     }

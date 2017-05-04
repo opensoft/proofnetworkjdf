@@ -111,7 +111,7 @@ LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader)
 void Layout::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Layout);
-    jdfWriter.writeStartElement("Layout");
+    jdfWriter.writeStartElement(QStringLiteral("Layout"));
     AbstractResource::toJdf(jdfWriter);
 
     for (const MediaSP &media : qAsConst(d->media)) {

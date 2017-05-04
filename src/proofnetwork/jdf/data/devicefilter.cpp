@@ -45,8 +45,8 @@ DeviceFilterSP DeviceFilter::create()
 
 void DeviceFilter::toJmf(QXmlStreamWriter &xmlWriter)
 {
-    xmlWriter.writeStartElement("DeviceFilter");
-    xmlWriter.writeAttribute("DeviceDetails", deviceFilterDetailsToString(details()));
+    xmlWriter.writeStartElement(QStringLiteral("DeviceFilter"));
+    xmlWriter.writeAttribute(QStringLiteral("DeviceDetails"), deviceFilterDetailsToString(details()));
     xmlWriter.writeEndElement();
 }
 
@@ -57,7 +57,7 @@ DeviceFilterSP DeviceFilter::fromJmf(QXmlStreamReader &xmlReader)
         result = create();
         result->setFetched(true);
         auto attributes = xmlReader.attributes();
-        result->setDetails(deviceFilterDetailsFromString(attributes.value("DeviceDetails").toString()));
+        result->setDetails(deviceFilterDetailsFromString(attributes.value(QStringLiteral("DeviceDetails")).toString()));
         xmlReader.skipCurrentElement();
     }
     return result;

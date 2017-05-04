@@ -53,7 +53,7 @@ QString JdfDocument::toJdf()
 
     jdfWriter.setAutoFormatting(true);
     jdfWriter.writeStartDocument();
-    jdfWriter.writeDefaultNamespace("http://www.CIP4.org/JDFSchema_1_1");
+    jdfWriter.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_1_1"));
     JdfNode::toJdf(jdfWriter);
     jdfWriter.writeEndDocument();
     return jdf;

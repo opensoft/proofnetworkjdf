@@ -44,7 +44,7 @@ void ResponsePrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)
 
 QString ResponsePrivate::tagName() const
 {
-    return "Response";
+    return QStringLiteral("Response");
 }
 
 void ResponsePrivate::specificMessageToJmf(QXmlStreamWriter &xmlWriter) const

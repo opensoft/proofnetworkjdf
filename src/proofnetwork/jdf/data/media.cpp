@@ -189,15 +189,15 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "Media" && xmlReader.isStartElement() && !media->isFetched()) {
             media->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            media->setId(attributes.value("ID").toString());
-            media->setFrontCoating(coatingFromString(attributes.value("FrontCoatings").toString()));
-            media->setFrontCoatingDetail(coatingDetailFromString(attributes.value("FrontCoatingDetail").toString()));
-            media->setBackCoating(coatingFromString(attributes.value("BackCoatings").toString()));
-            media->setBackCoatingDetail(coatingDetailFromString(attributes.value("BackCoatingDetail").toString()));
-            media->setMediaUnit(mediaUnitFromString(attributes.value("MediaUnit").toString()));
-            media->setMediaType(mediaTypeFromString(attributes.value("MediaType").toString()));
-            media->setThickness(attributes.value("Thickness").toDouble());
-            QStringList dimensions = attributes.value("Dimension").toString().split(' ', QString::SkipEmptyParts);
+            media->setId(attributes.value(QStringLiteral("ID")).toString());
+            media->setFrontCoating(coatingFromString(attributes.value(QStringLiteral("FrontCoatings")).toString()));
+            media->setFrontCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("FrontCoatingDetail")).toString()));
+            media->setBackCoating(coatingFromString(attributes.value(QStringLiteral("BackCoatings")).toString()));
+            media->setBackCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("BackCoatingDetail")).toString()));
+            media->setMediaUnit(mediaUnitFromString(attributes.value(QStringLiteral("MediaUnit")).toString()));
+            media->setMediaType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
+            media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
+            QStringList dimensions = attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
             if (dimensions.size() >= 2) {
                 media->setWidth(dimensions[0].toDouble());
                 media->setHeight(dimensions[1].toDouble());
@@ -220,21 +220,21 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
 void Media::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(Media);
-    jdfWriter.writeStartElement("Media");
+    jdfWriter.writeStartElement(QStringLiteral("Media"));
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height))
-        jdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Dimension"), QStringLiteral("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
     if (d->frontCoating != CoatingType::NoCoating)
-        jdfWriter.writeAttribute("FrontCoatings", coatingToString(d->frontCoating));
+        jdfWriter.writeAttribute(QStringLiteral("FrontCoatings"), coatingToString(d->frontCoating));
     if (d->frontCoatingDetail != CoatingDetail::NoCoatingDetail)
-        jdfWriter.writeAttribute("FrontCoatingDetail", coatingDetailToString(d->frontCoatingDetail));
+        jdfWriter.writeAttribute(QStringLiteral("FrontCoatingDetail"), coatingDetailToString(d->frontCoatingDetail));
     if (d->backCoating != CoatingType::NoCoating)
-        jdfWriter.writeAttribute("BackCoatings", coatingToString(d->backCoating));
+        jdfWriter.writeAttribute(QStringLiteral("BackCoatings"), coatingToString(d->backCoating));
     if (d->backCoatingDetail != CoatingDetail::NoCoatingDetail)
-        jdfWriter.writeAttribute("BackCoatingDetail", coatingDetailToString(d->backCoatingDetail));
-    jdfWriter.writeAttribute("MediaUnit", mediaUnitToString(d->mediaUnit));
-    jdfWriter.writeAttribute("MediaType", mediaTypeToString(d->mediaType));
+        jdfWriter.writeAttribute(QStringLiteral("BackCoatingDetail"), coatingDetailToString(d->backCoatingDetail));
+    jdfWriter.writeAttribute(QStringLiteral("MediaUnit"), mediaUnitToString(d->mediaUnit));
+    jdfWriter.writeAttribute(QStringLiteral("MediaType"), mediaTypeToString(d->mediaType));
     if (d->thickness > 0)
-        jdfWriter.writeAttribute("Thickness", QString::number(d->thickness,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Thickness"), QString::number(d->thickness,'f', 4));
 
     AbstractPhysicalResource::toJdf(jdfWriter);
 

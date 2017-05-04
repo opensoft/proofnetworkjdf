@@ -114,11 +114,11 @@ void DeliveryIntent::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(DeliveryIntent);
 
-    jdfWriter.writeStartElement("DeliveryIntent");
+    jdfWriter.writeStartElement(QStringLiteral("DeliveryIntent"));
     AbstractResource::toJdf(jdfWriter);
 
     if (!required().actual().isNull())
-        required().toJdf("Required", jdfWriter);
+        required().toJdf(QStringLiteral("Required"), jdfWriter);
 
     for (const DropIntentSP &dropIntent : qAsConst(d->dropIntents)) {
         if (isValidAndDirty(dropIntent))
