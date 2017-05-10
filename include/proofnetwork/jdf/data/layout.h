@@ -27,7 +27,7 @@ public:
 
     static LayoutSP create();
 
-    static LayoutSP fromJdf(QXmlStreamReader &xmlReader);
+    static LayoutSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 signals:

@@ -5,6 +5,7 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofcore/objectscache.h"
 #include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
 
 #include <QXmlStreamReader>
@@ -12,12 +13,15 @@
 namespace Proof {
 namespace Jdf {
 
+using JdfMediaDataKey = QPair<QString, QString>;
+
 class MediaPrivate;
 class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource // clazy:exclude=ctor-missing-parent-argument
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)
 public:
+    QList<MediaSP> layers() const;
     double thickness() const;
     CoatingType frontCoating() const;
     CoatingDetail frontCoatingDetail() const;
@@ -28,6 +32,7 @@ public:
     double height() const;
     double width() const;
 
+    void setLayers(const QList<MediaSP> &layers);
     void setThickness(double microns);
     void setFrontCoating(CoatingType coating);
     void setFrontCoatingDetail(CoatingDetail coatingDetail);
@@ -42,11 +47,12 @@ public:
 
     static MediaSP create();
 
-    static MediaSP fromJdf(QXmlStreamReader &xmlReader);
+    static MediaSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter) override;
     MediaLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
+    void layersChanged(const QList<Proof::Jdf::MediaSP> &arg);
     void thicknessChanged(double arg);
     void heightChanged(double arg);
     void widthChanged(double arg);
@@ -61,6 +67,8 @@ protected:
     explicit Media();
 
 };
+
+PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfMediaDataKey, Media> &mediaCache();
 
 }
 }

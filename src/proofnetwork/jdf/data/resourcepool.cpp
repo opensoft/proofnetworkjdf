@@ -126,14 +126,14 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
             resourcePool->setFetched(true);
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "Media") {
-                MediaSP media = Media::fromJdf(xmlReader);
+                MediaSP media = Media::fromJdf(xmlReader, jobId, sanitize);
                 if (!media) {
                     qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Media is invalid.";
                     return ResourcePoolSP();
                 }
                 mediaList << media;
             } else if (xmlReader.name() == "Layout") {
-                LayoutSP layout = Layout::fromJdf(xmlReader);
+                LayoutSP layout = Layout::fromJdf(xmlReader, jobId, sanitize);
                 if (!layout) {
                     qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Layout is invalid.";
                     return ResourcePoolSP();

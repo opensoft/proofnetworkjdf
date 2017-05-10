@@ -226,7 +226,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
     ComponentSP component = create();
     QList<CutBlockSP> cutBlocks;
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == component->jdfNodeName() && xmlReader.isStartElement() && !component->isFetched()) {
+        if (!xmlReader.name().compare(component->jdfNodeName(), Qt::CaseInsensitive) && xmlReader.isStartElement() && !component->isFetched()) {
             component->setFetched(true);
             AbstractPhysicalResourceSP castedComponent = qSharedPointerCast<AbstractPhysicalResource>(component);
             AbstractPhysicalResource::fromJdf(xmlReader, castedComponent);
@@ -242,7 +242,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
                 component->setHeight(dimensionsList.at(1).toDouble());
                 component->setLength(dimensionsList.at(2).toDouble());
             }
-        } else if (xmlReader.name() == component->jdfNodeRefName() && xmlReader.isStartElement() && !component->isFetched()) {
+        } else if (!xmlReader.name().compare(component->jdfNodeRefName(), Qt::CaseInsensitive) && xmlReader.isStartElement() && !component->isFetched()) {
             QXmlStreamAttributes attributes = xmlReader.attributes();
             QString componentId = attributes.value(QStringLiteral("rRef")).toString();
             component->setId(componentId);
@@ -252,7 +252,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
                     component = fromCache;
             }
         } else if (xmlReader.isStartElement()) {
-            if (xmlReader.name() == "Component") {
+            if (!xmlReader.name().compare(component->jdfNodeName(), Qt::CaseInsensitive)) {
                 QXmlStreamAttributes attributes = xmlReader.attributes();
 
                 bool partitionedComponent = true;
@@ -311,8 +311,9 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 
     component->updateCutBlocks(cutBlocks);
 
-    ComponentSP componentFromCache = componentsCache().value({jobId, component->id()});
+    //TODO: 1.0: check this, looks like it doesn't do anything useful
     if (!component->id().isEmpty()) {
+        ComponentSP componentFromCache = componentsCache().value({jobId, component->id()});
         if (componentFromCache && !sanitize) {
             componentFromCache->updateFrom(component);
             component = componentFromCache;

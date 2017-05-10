@@ -20,6 +20,8 @@ public:
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QString id;
+    mutable QString jdfNodeName;
+    mutable QString jdfNodeRefName;
 
     ResourceStatus resourceStatus = ResourceStatus::NoStatus;
     ResourceClass resourceClass = ResourceClass::NoClass;

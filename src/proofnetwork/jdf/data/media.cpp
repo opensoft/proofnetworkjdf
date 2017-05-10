@@ -15,6 +15,7 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
+    QList<MediaSP> layers;
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
@@ -26,10 +27,21 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
     MediaType mediaType = MediaType::OtherMedia;
 };
 
+ObjectsCache<JdfMediaDataKey, Media> &mediaCache()
+{
+    return WeakObjectsCache<JdfMediaDataKey, Media>::instance();
+}
+
 } // namespace Jdf
 } // namespace Proof
 
 using namespace Proof::Jdf;
+
+QList<MediaSP> Media::layers() const
+{
+    Q_D(const Media);
+    return d->layers;
+}
 
 double Media::thickness() const
 {
@@ -83,6 +95,15 @@ double Media::width() const
 {
     Q_D(const Media);
     return d->width;
+}
+
+void Media::setLayers(const QList<MediaSP> &layers)
+{
+    Q_D(Media);
+    if (d->layers != layers) {
+        d->layers = layers;
+        emit layersChanged(d->layers);
+    }
 }
 
 void Media::setThickness(double microns)
@@ -181,37 +202,83 @@ MediaSP Media::create()
     return result;
 }
 
-MediaSP Media::fromJdf(QXmlStreamReader &xmlReader)
+MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     MediaSP media = create();
+    QList<MediaSP> layers;
 
+    bool inLayers = false;
+
+    auto mediaParser = [&xmlReader](MediaSP media) {
+        media->setFetched(true);
+        QXmlStreamAttributes attributes = xmlReader.attributes();
+        media->setId(attributes.value(QStringLiteral("ID")).toString());
+        media->setFrontCoating(coatingFromString(attributes.value(QStringLiteral("FrontCoatings")).toString()));
+        media->setFrontCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("FrontCoatingDetail")).toString()));
+        media->setBackCoating(coatingFromString(attributes.value(QStringLiteral("BackCoatings")).toString()));
+        media->setBackCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("BackCoatingDetail")).toString()));
+        media->setMediaUnit(mediaUnitFromString(attributes.value(QStringLiteral("MediaUnit")).toString()));
+        media->setMediaType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
+        media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
+        QStringList dimensions = attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
+        if (dimensions.size() >= 2) {
+            media->setWidth(dimensions[0].toDouble());
+            media->setHeight(dimensions[1].toDouble());
+        }
+
+        AbstractPhysicalResourceSP castedMedia = qSharedPointerCast<AbstractPhysicalResource>(media);
+        AbstractPhysicalResource::fromJdf(xmlReader, castedMedia);
+    };
+
+    //TODO: make comparisons in jdf parser more generic
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == "Media" && xmlReader.isStartElement() && !media->isFetched()) {
-            media->setFetched(true);
+        if (!xmlReader.name().compare(QLatin1String("MediaLayers"), Qt::CaseInsensitive)
+                && media->isFetched()) {
+            inLayers = xmlReader.isStartElement();
+        } else if (!xmlReader.name().compare(media->jdfNodeName(), Qt::CaseInsensitive) && xmlReader.isStartElement()
+                   && media->isFetched() && inLayers) {
+            MediaSP newLayer = create();
+            mediaParser(newLayer);
+            layers << newLayer;
+        } else if (!xmlReader.name().compare(media->jdfNodeName(), Qt::CaseInsensitive) && xmlReader.isStartElement()
+                   && !media->isFetched()) {
+            mediaParser(media);
+        } else if (!xmlReader.name().compare(media->jdfNodeRefName(), Qt::CaseInsensitive) && xmlReader.isStartElement()
+                   && media->isFetched() && inLayers) {
+            MediaSP newLayer = create();
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            media->setId(attributes.value(QStringLiteral("ID")).toString());
-            media->setFrontCoating(coatingFromString(attributes.value(QStringLiteral("FrontCoatings")).toString()));
-            media->setFrontCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("FrontCoatingDetail")).toString()));
-            media->setBackCoating(coatingFromString(attributes.value(QStringLiteral("BackCoatings")).toString()));
-            media->setBackCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("BackCoatingDetail")).toString()));
-            media->setMediaUnit(mediaUnitFromString(attributes.value(QStringLiteral("MediaUnit")).toString()));
-            media->setMediaType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
-            media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
-            QStringList dimensions = attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
-            if (dimensions.size() >= 2) {
-                media->setWidth(dimensions[0].toDouble());
-                media->setHeight(dimensions[1].toDouble());
-            }
-
-            AbstractPhysicalResourceSP castedMedia = qSharedPointerCast<AbstractPhysicalResource>(media);
-            AbstractPhysicalResource::fromJdf(xmlReader, castedMedia);
-
+            QString mediaId = attributes.value(QStringLiteral("rRef")).toString();
+            newLayer->setId(mediaId);
+            newLayer = mediaCache().add({jobId, mediaId}, newLayer);
+            layers << newLayer;
+        } else if (!xmlReader.name().compare(media->jdfNodeRefName(), Qt::CaseInsensitive) && xmlReader.isStartElement()
+                   && !media->isFetched()) {
+            QXmlStreamAttributes attributes = xmlReader.attributes();
+            QString mediaId = attributes.value(QStringLiteral("rRef")).toString();
+            media->setId(mediaId);
+            media = mediaCache().add({jobId, mediaId}, media);
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
-        } else if (xmlReader.isEndElement()) {
+        } else if (xmlReader.isEndElement() && !inLayers) {
             break;
         }
         xmlReader.readNext();
+    }
+
+    media->setLayers(layers);
+
+    MediaSP mediaFromCache = mediaCache().value({jobId, media->id()});
+    if (!media->id().isEmpty()) {
+        if (mediaFromCache && !sanitize) {
+            mediaFromCache->updateFrom(media);
+            media = mediaFromCache;
+        } else {
+            mediaFromCache = mediaCache().add({jobId, media->id()}, media);
+            if (media != mediaFromCache) {
+                mediaFromCache->updateFrom(media);
+                media = mediaFromCache;
+            }
+        }
     }
 
     return media;
@@ -238,6 +305,14 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
 
     AbstractPhysicalResource::toJdf(jdfWriter);
 
+    //TODO: add proper check for layers media existing in document
+    if (d->layers.count()) {
+        jdfWriter.writeStartElement(QStringLiteral("MediaLayers"));
+        for (const auto &layer : qAsConst(d->layers))
+            layer->refToJdf(jdfWriter);
+        jdfWriter.writeEndElement();
+    }
+
     jdfWriter.writeEndElement();
 }
 
@@ -257,6 +332,7 @@ void MediaPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
     Q_Q(Media);
     MediaSP castedOther = qSharedPointerCast<Media>(other);
+    q->setLayers(castedOther->layers());
     q->setThickness(castedOther->thickness());
     q->setFrontCoating(castedOther->frontCoating());
     q->setFrontCoatingDetail(castedOther->frontCoatingDetail());

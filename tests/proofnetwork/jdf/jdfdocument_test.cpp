@@ -156,8 +156,8 @@ TEST_F(JdfDocumentTest, fromJdf)
         EXPECT_EQ(BlockType::CutBlock, cutBlock->blockType());
     }
 
-    ASSERT_EQ(2, resourcePool->media().count());
-    MediaSP media = resourcePool->media()[0];
+    ASSERT_EQ(4, resourcePool->media().count());
+    MediaSP media = resourcePool->media()[2];
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0000", media->id());
@@ -170,7 +170,27 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_DOUBLE_EQ(1656.0, media->height());
     EXPECT_DOUBLE_EQ(172.72, media->thickness());
 
-    media = resourcePool->media()[1];
+    ASSERT_EQ(2, media->layers().count());
+
+    MediaSP layer = media->layers()[0];
+    ASSERT_TRUE(layer);
+    EXPECT_EQ("PAP_0000_front", layer->id());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, layer->resourceStatus());
+    EXPECT_EQ(MediaType::SelfAdhesiveMedia, layer->mediaType());
+    EXPECT_DOUBLE_EQ(2520.0, layer->width());
+    EXPECT_DOUBLE_EQ(1656.0, layer->height());
+    EXPECT_DOUBLE_EQ(100.0, layer->thickness());
+
+    layer = media->layers()[1];
+    ASSERT_TRUE(layer);
+    EXPECT_EQ("PAP_0000_back", layer->id());
+    EXPECT_EQ(ResourceStatus::AvailableStatus, layer->resourceStatus());
+    EXPECT_EQ(MediaType::SelfAdhesiveMedia, layer->mediaType());
+    EXPECT_DOUBLE_EQ(2520.0, layer->width());
+    EXPECT_DOUBLE_EQ(1656.0, layer->height());
+    EXPECT_DOUBLE_EQ(72.72, layer->thickness());
+
+    media = resourcePool->media()[3];
     ASSERT_TRUE(media);
 
     EXPECT_EQ("PAP_0001", media->id());
@@ -469,6 +489,7 @@ TEST_F(JdfDocumentTest, updateFrom)
     ASSERT_EQ(1, resourcePool2->media().count());
     MediaSP media2 = resourcePool2->media().first();
     ASSERT_TRUE(media2);
+    EXPECT_EQ(media1->layers().count(), media2->layers().count());
     EXPECT_EQ(media1->id(), media2->id());
     EXPECT_EQ(media1->frontCoating(), media2->frontCoating());
     EXPECT_EQ(media1->frontCoatingDetail(), media2->frontCoatingDetail());
@@ -599,16 +620,34 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_EQ(attributes.value("BackCoatings").toString(), "");
                         EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
                         EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
                         EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
                         EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
+                    } else if (mediaId == "PAP_0000_front") {
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "SelfAdhesive");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
+                        EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 100.0);
+                    } else if (mediaId == "PAP_0000_back") {
+                        EXPECT_EQ(attributes.value("MediaType").toString(), "SelfAdhesive");
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        ASSERT_EQ(dimensionsList.count(), 2);
+                        double widthMedia = dimensionsList.at(0).toDouble();
+                        double heightMedia = dimensionsList.at(1).toDouble();
+                        EXPECT_DOUBLE_EQ(widthMedia, 2520.0000);
+                        EXPECT_DOUBLE_EQ(heightMedia, 1656.0000);
+                        EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 72.72);
                     } else if (mediaId == "PAP_0001") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -616,7 +655,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(heightMedia, 1756.0000);
                     } else if (mediaId == "PAP_0002") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -624,7 +663,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(heightMedia, 1657.0000);
                     } else if (mediaId == "PAP_0003") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -632,7 +671,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(heightMedia, 1757.0000);
                     } else if (mediaId == "PAP_0004") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Other");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ",QString::SkipEmptyParts);
+                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -695,7 +734,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_TRUE(hasResourcePool);
     EXPECT_TRUE(hasBundleItemOne);
     EXPECT_TRUE(hasBundleItemTwo);
-    EXPECT_EQ(5, mediaCount);
+    EXPECT_EQ(7, mediaCount);
     EXPECT_TRUE(hasLayout);
     EXPECT_TRUE(hasLaminatingIntent);
     EXPECT_TRUE(hasDeliveryIntent);
@@ -755,8 +794,8 @@ TEST_F(JdfDocumentTest, toLink)
     EXPECT_EQ(component->id(), componentLink->rRef());
     EXPECT_EQ(LinkUsage::OutputLink, componentLink->usage());
 
-    ASSERT_EQ(2, jdfNode->resourcePool()->media().count());
-    Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media().first();
+    ASSERT_EQ(4, jdfNode->resourcePool()->media().count());
+    Proof::Jdf::MediaSP media = jdfNode->resourcePool()->media()[2];
     ASSERT_TRUE(media);
 
     Proof::Jdf::MediaLinkSP mediaLink = media->toLink(LinkUsage::OutputLink);

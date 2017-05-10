@@ -75,7 +75,7 @@ LayoutSP Layout::create()
     return result;
 }
 
-LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader)
+LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     LayoutSP layout = create();
 
@@ -88,7 +88,7 @@ LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader)
             AbstractResource::fromJdf(xmlReader, castedComponent);
         } else if (xmlReader.isStartElement()) {
             if (xmlReader.name() == "Media") {
-                MediaSP media = Media::fromJdf(xmlReader);
+                MediaSP media = Media::fromJdf(xmlReader, jobId, sanitize);
                 if (!media) {
                     qCCritical(proofNetworkJdfDataLog) << "Layout not created. Media is invalid.";
                     return LayoutSP();
