@@ -22,7 +22,7 @@ class ResourceLinkPoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPriv
 
     void updateComponentLinks();
     void updateCuttingParamsLink();
-    void updateMediaLink();
+    void updateMediaLinks();
     void updateFoldingParamsLink();
     void updateLaminatingParamsLink();
 
@@ -31,8 +31,12 @@ class ResourceLinkPoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPriv
     static ComponentLinkQmlWrapper *componentAt(QQmlListProperty<ComponentLinkQmlWrapper> *property, int index);
     static int componentsCount(QQmlListProperty<ComponentLinkQmlWrapper> *property);
 
+    QList<MediaLinkQmlWrapper *> mediaLinks;
+    QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper> qmlMediaLinks;
+    static MediaLinkQmlWrapper *mediaLinkAt(QQmlListProperty<MediaLinkQmlWrapper> *property, int index);
+    static int mediaLinksCount(QQmlListProperty<MediaLinkQmlWrapper> *property);
+
     CuttingParamsLinkQmlWrapper *cuttingParamsLink = nullptr;
-    MediaLinkQmlWrapper *mediaLink = nullptr;
     FoldingParamsLinkQmlWrapper *foldingParamsLink = nullptr;
     LaminatingIntentLinkQmlWrapper *laminatingIntentLink = nullptr;
 };
@@ -64,10 +68,10 @@ CuttingParamsLinkQmlWrapper *ResourceLinkPoolQmlWrapper::cuttingParamsLink() con
     return d->cuttingParamsLink;
 }
 
-MediaLinkQmlWrapper *ResourceLinkPoolQmlWrapper::mediaLink() const
+QQmlListProperty<MediaLinkQmlWrapper> ResourceLinkPoolQmlWrapper::mediaLinks() const
 {
     Q_D(const ResourceLinkPoolQmlWrapper);
-    return d->mediaLink;
+    return d->qmlMediaLinks;
 }
 
 FoldingParamsLinkQmlWrapper *ResourceLinkPoolQmlWrapper::foldingParamsLink() const
@@ -95,8 +99,8 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
             d->lambdaConnectContext, [d](){d->updateComponentLinks();});
     connect(linkPool.data(), &ResourceLinkPool::cuttingParamsLinkChanged,
             d->lambdaConnectContext, [d](){d->updateCuttingParamsLink();});
-    connect(linkPool.data(), &ResourceLinkPool::mediaLinkChanged,
-            d->lambdaConnectContext, [d](){d->updateMediaLink();});
+    connect(linkPool.data(), &ResourceLinkPool::mediaLinksChanged,
+            d->lambdaConnectContext, [d](){d->updateMediaLinks();});
     connect(linkPool.data(), &ResourceLinkPool::foldingParamsLinkChanged,
             d->lambdaConnectContext, [d](){d->updateFoldingParamsLink();});
     connect(linkPool.data(), &ResourceLinkPool::laminatingIntentLinkChanged,
@@ -105,7 +109,7 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
     d->updateComponentLinks();
     d->updateCuttingParamsLink();
     d->updateLaminatingParamsLink();
-    d->updateMediaLink();
+    d->updateMediaLinks();
     d->updateFoldingParamsLink();
 }
 
@@ -122,8 +126,8 @@ void ResourceLinkPoolQmlWrapperPrivate::updateComponentLinks()
         componentLinks << component->toQmlWrapper(q);
 
     qmlComponentLinks = QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>(q, &componentLinks,
-                                            &ResourceLinkPoolQmlWrapperPrivate::componentsCount,
-                                            &ResourceLinkPoolQmlWrapperPrivate::componentAt);
+                                                                              &ResourceLinkPoolQmlWrapperPrivate::componentsCount,
+                                                                              &ResourceLinkPoolQmlWrapperPrivate::componentAt);
     emit q->componentLinksChanged(qmlComponentLinks);
 }
 
@@ -139,16 +143,22 @@ void ResourceLinkPoolQmlWrapperPrivate::updateCuttingParamsLink()
     emit q->cuttingParamsLinkChanged(cuttingParamsLink);
 }
 
-void ResourceLinkPoolQmlWrapperPrivate::updateMediaLink()
+void ResourceLinkPoolQmlWrapperPrivate::updateMediaLinks()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
     ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
-    if (mediaLink == nullptr)
-        mediaLink = linkPool->mediaLink()->toQmlWrapper(q);
-    else
-        mediaLink->setEntity(linkPool->mediaLink());
+    for (MediaLinkQmlWrapper *wrapper : qAsConst(mediaLinks))
+        wrapper->deleteLater();
 
-    emit q->mediaLinkChanged(mediaLink);
+    mediaLinks.clear();
+    const auto ndeMediaLinks = linkPool->mediaLinks();
+    for (const auto &media : ndeMediaLinks)
+        mediaLinks << media->toQmlWrapper(q);
+
+    qmlMediaLinks = QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper>(q, &mediaLinks,
+                                                                      &ResourceLinkPoolQmlWrapperPrivate::mediaLinksCount,
+                                                                      &ResourceLinkPoolQmlWrapperPrivate::mediaLinkAt);
+    emit q->mediaLinksChanged(qmlMediaLinks);
 }
 
 void ResourceLinkPoolQmlWrapperPrivate::updateFoldingParamsLink()
@@ -183,4 +193,14 @@ ComponentLinkQmlWrapper *ResourceLinkPoolQmlWrapperPrivate::componentAt(QQmlList
 int ResourceLinkPoolQmlWrapperPrivate::componentsCount(QQmlListProperty<ComponentLinkQmlWrapper> *property)
 {
     return static_cast<QList<ComponentLinkQmlWrapper *> *>(property->data)->count();
+}
+
+MediaLinkQmlWrapper *ResourceLinkPoolQmlWrapperPrivate::mediaLinkAt(QQmlListProperty<MediaLinkQmlWrapper> *property, int index)
+{
+    return static_cast<QList<MediaLinkQmlWrapper *> *>(property->data)->at(index);
+}
+
+int ResourceLinkPoolQmlWrapperPrivate::mediaLinksCount(QQmlListProperty<MediaLinkQmlWrapper> *property)
+{
+    return static_cast<QList<MediaLinkQmlWrapper *> *>(property->data)->count();
 }

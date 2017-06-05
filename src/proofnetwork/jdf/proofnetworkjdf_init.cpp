@@ -27,6 +27,10 @@
 
 #include "data/abstractresourcelink.h"
 #include "data/abstractphysicalresourcelink.h"
+#include "data/abstractaudit.h"
+#include "data/createdaudit.h"
+#include "data/modifiedaudit.h"
+#include "data/auditpool.h"
 #include "data/cuttingparamslink.h"
 #include "data/foldingparamslink.h"
 #include "data/boxpackingparamslink.h"
@@ -48,13 +52,18 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractResourceLinkQmlWrapper *>("Proof::Jdf::AbstractResourceLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceLinkQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceLinkQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::AbstractAuditQmlWrapper *>("Proof::Jdf::AbstractAuditQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::ResourcePoolQmlWrapper *>("Proof::Jdf::ResourcePoolQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::AuditPoolQmlWrapper *>("Proof::Jdf::AuditPoolQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::CreatedAuditQmlWrapper *>("Proof::Jdf::CreatedAuditQmlWrapper *");
+    qRegisterMetaType<Proof::Jdf::ModifiedAuditQmlWrapper *>("Proof::Jdf::ModifiedAuditQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::CuttingParamsQmlWrapper *>("Proof::Jdf::CuttingParamsQmlWrapper *");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>>("QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper>>("QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>>("QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>>("QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::MediaQmlWrapper>>("QQmlListProperty<Proof::Jdf::MediaQmlWrapper>");
+    qRegisterMetaType<QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper>>("QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper>");
     qRegisterMetaType<QQmlListProperty<Proof::Jdf::LayoutQmlWrapper>>("QQmlListProperty<Proof::Jdf::LayoutQmlWrapper>");
     qRegisterMetaType<Proof::Jdf::MediaQmlWrapper *>("Proof::Jdf::MediaQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::LayoutQmlWrapper *>("Proof::Jdf::LayoutQmlWrapper *");
@@ -85,6 +94,12 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::JmfDocumentWP>("Proof::Jdf::JmfDocumentWP");
     qRegisterMetaType<Proof::Jdf::ResourcePoolSP>("Proof::Jdf::ResourcePoolSP");
     qRegisterMetaType<Proof::Jdf::ResourcePoolWP>("Proof::Jdf::ResourcePoolWP");
+    qRegisterMetaType<Proof::Jdf::AuditPoolSP>("Proof::Jdf::AuditPoolSP");
+    qRegisterMetaType<Proof::Jdf::AuditPoolWP>("Proof::Jdf::AuditPoolWP");
+    qRegisterMetaType<Proof::Jdf::CreatedAuditSP>("Proof::Jdf::CreatedAuditSP");
+    qRegisterMetaType<Proof::Jdf::CreatedAuditWP>("Proof::Jdf::CreatedAuditWP");
+    qRegisterMetaType<Proof::Jdf::ModifiedAuditSP>("Proof::Jdf::ModifiedAuditSP");
+    qRegisterMetaType<Proof::Jdf::ModifiedAuditWP>("Proof::Jdf::ModifiedAuditWP");
     qRegisterMetaType<Proof::Jdf::CuttingParamsSP>("Proof::Jdf::CuttingParamsSP");
     qRegisterMetaType<Proof::Jdf::CuttingParamsWP>("Proof::Jdf::CuttingParamsWP");
     qRegisterMetaType<Proof::Jdf::FoldingParamsSP>("Proof::Jdf::FoldingParamsSP");

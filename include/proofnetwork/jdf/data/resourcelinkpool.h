@@ -20,7 +20,7 @@ class PROOF_NETWORK_JDF_EXPORT ResourceLinkPool : public NetworkDataEntity // cl
 public:
     QList<ComponentLinkSP> componentLinks() const;
     CuttingParamsLinkSP cuttingParamsLink() const;
-    MediaLinkSP mediaLink() const;
+    QList<MediaLinkSP> mediaLinks() const;
     LaminatingIntentLinkSP laminatingIntentLink() const;
     DeliveryIntentLinkSP deliveryIntentLink() const;
     FoldingParamsLinkSP foldingParamsLink() const;
@@ -29,7 +29,8 @@ public:
     void setComponentLinks(const QList<ComponentLinkSP> &componentLinks);
     void addComponentLink(const ComponentLinkSP &componentLink);
     void setCuttingParamsLink(const CuttingParamsLinkSP &cuttingParams);
-    void setMediaLink(const MediaLinkSP &mediaLink);
+    void setMediaLinks(const QList<MediaLinkSP> &mediaLinks);
+    void addMediaLink(const MediaLinkSP &mediaLink);
     void setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent);
     void setDeliveryIntentLink(const DeliveryIntentLinkSP &deliveryIntent);
     void setFoldingParamsLink(const FoldingParamsLinkSP &foldingParamsLink);
@@ -45,7 +46,7 @@ public:
 signals:
     void componentLinksChanged();
     void cuttingParamsLinkChanged(const Proof::Jdf::CuttingParamsLinkSP &arg);
-    void mediaLinkChanged(const Proof::Jdf::MediaLinkSP &arg);
+    void mediaLinksChanged();
     void laminatingIntentLinkChanged(const Proof::Jdf::LaminatingIntentLinkSP &arg);
     void deliveryIntentLinkChanged(const Proof::Jdf::DeliveryIntentLinkSP &arg);
     void foldingParamsLinkChanged(const Proof::Jdf::FoldingParamsLinkSP &arg);

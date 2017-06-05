@@ -63,8 +63,9 @@ TEST_F(ResourceLinkPoolTest, fromJdf)
     EXPECT_EQ(LinkUsage::InputLink, linkPool1->cuttingParamsLink()->usage());
     EXPECT_EQ("CPM_0000", linkPool1->cuttingParamsLink()->rRef());
 
-    EXPECT_EQ(LinkUsage::InputLink, linkPool1->mediaLink()->usage());
-    EXPECT_EQ("PAP_0000", linkPool1->mediaLink()->rRef());
+    ASSERT_EQ(1, linkPool1->mediaLinks().count());
+    EXPECT_EQ(LinkUsage::InputLink, linkPool1->mediaLinks().first()->usage());
+    EXPECT_EQ("PAP_0000", linkPool1->mediaLinks().first()->rRef());
 
     ASSERT_EQ(3, linkPool1->componentLinks().count());
     EXPECT_EQ(LinkUsage::InputLink, linkPool1->componentLinks().at(0)->usage());
@@ -115,7 +116,7 @@ TEST_F(ResourceLinkPoolTest, updateFrom)
     qDeleteAll(qmlspies);
     qmlspies.clear();
 
-    EXPECT_EQ(linkPool1->mediaLink(), linkPool2->mediaLink());
+    EXPECT_EQ(linkPool1->mediaLinks().count(), linkPool2->mediaLinks().count());
     EXPECT_EQ(linkPool1->componentLinks().count(), linkPool2->componentLinks().count());
 }
 

@@ -2,6 +2,7 @@
 #define JDFJDFNODE_P_H
 
 #include "proofnetwork/networkdataentity_p.h"
+#include "proofnetwork/jdf/data/auditpool.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 
@@ -22,6 +23,7 @@ public:
     QString id;
     QString jobId;
     QString jobPartId;
+    AuditPoolSP auditPool = AuditPool::create();
     ResourcePoolSP resourcePool = ResourcePool::create();
     ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::create();
     QList<JdfNodeSP> jdfNodes;

@@ -2,7 +2,8 @@
 <JDF xmlns="http://www.CIP4.org/JDFSchema_1_1" DescriptiveName="" ID="JDF_0000" JobPartID="ID0001" JobID="mixed-flatwork (groups)" Status="Waiting" Type="Product" Version="1.2">
     <Comment AgentName="Metrix" AgentVersion="2013.0 (1050)" TimeStamp="2014-08-26T08:35:28-07:00"/>
     <AuditPool>
-        <Created AgentName="Metrix" AgentVersion="2013.0 (1050)" ID="AUD_0000" TimeStamp="2014-08-26T08:35:28-07:00"/>
+        <Created TemplateID="K-BC-63" TemplateVersion="1317311496.73" AgentName="Metrix" AgentVersion="2013.0 (1050)" ID="AUD_0000" TimeStamp="2014-08-26T08:35:28-07:00"/>
+        <Modified AgentName="Metrix2" AgentVersion="2015.0 (1050)" ID="AUD_0002" TimeStamp="2015-08-26T08:35:28-07:00"/>
     </AuditPool>
     <JDF DescriptiveName="Layout 1" ID="LAYOUT_0001" Status="Waiting" Type="Cutting" JobID="mixed-flatwork (groups)">
         <ResourcePool>

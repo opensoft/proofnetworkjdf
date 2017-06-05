@@ -17,6 +17,10 @@ class AbstractPhysicalResource;
 using AbstractPhysicalResourceSP = QSharedPointer<AbstractPhysicalResource>;
 using AbstractPhysicalResourceWP = QWeakPointer<AbstractPhysicalResource>;
 
+class AbstractAudit;
+using AbstractAuditSP = QSharedPointer<AbstractAudit>;
+using AbstractAuditWP = QWeakPointer<AbstractAudit>;
+
 class JdfNode;
 using JdfNodeSP = QSharedPointer<JdfNode>;
 using JdfNodeWP = QWeakPointer<JdfNode>;
@@ -28,6 +32,18 @@ using JdfDocumentWP = QWeakPointer<JdfDocument>;
 class JmfDocument;
 using JmfDocumentSP = QSharedPointer<JmfDocument>;
 using JmfDocumentWP = QWeakPointer<JmfDocument>;
+
+class AuditPool;
+using AuditPoolSP = QSharedPointer<AuditPool>;
+using AuditPoolWP = QWeakPointer<AuditPool>;
+
+class CreatedAudit;
+using CreatedAuditSP = QSharedPointer<CreatedAudit>;
+using CreatedAuditWP = QWeakPointer<CreatedAudit>;
+
+class ModifiedAudit;
+using ModifiedAuditSP = QSharedPointer<ModifiedAudit>;
+using ModifiedAuditWP = QWeakPointer<ModifiedAudit>;
 
 class ResourcePool;
 using ResourcePoolSP = QSharedPointer<ResourcePool>;

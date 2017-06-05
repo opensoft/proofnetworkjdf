@@ -2,6 +2,8 @@
 
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 #include "proofnetwork/jdf/data/jdfdocument.h"
+#include "proofnetwork/jdf/data/auditpool.h"
+#include "proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h"
 
@@ -12,6 +14,7 @@ class JdfNodeQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(JdfNodeQmlWrapper)
 
+    void updateAuditPool();
     void updateResourcePool();
 
     void updateJdfNodes();
@@ -19,6 +22,7 @@ class JdfNodeQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     static JdfNodeQmlWrapper *jdfNodeAt(QQmlListProperty<JdfNodeQmlWrapper> *property, int index);
     static int jdfNodesCount(QQmlListProperty<JdfNodeQmlWrapper> *property);
 
+    AuditPoolQmlWrapper *auditPool = nullptr;
     ResourcePoolQmlWrapper *resourcePool = nullptr;
     QList<JdfNodeQmlWrapper *> jdfNodes;
     QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper> qmlJdfNodes;
@@ -45,6 +49,12 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobId)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobPartId)
 
+AuditPoolQmlWrapper *JdfNodeQmlWrapper::auditPool() const
+{
+    Q_D(const JdfNodeQmlWrapper);
+    return d->auditPool;
+}
+
 ResourcePoolQmlWrapper *JdfNodeQmlWrapper::resourcePool() const
 {
     Q_D(const JdfNodeQmlWrapper);
@@ -66,6 +76,7 @@ void JdfNodeQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntit
     connect(jdfDoc.data(), &JdfNode::idChanged, this, &JdfNodeQmlWrapper::idChanged);
     connect(jdfDoc.data(), &JdfNode::jobIdChanged, this, &JdfNodeQmlWrapper::jobIdChanged);
     connect(jdfDoc.data(), &JdfNode::jobPartIdChanged, this, &JdfNodeQmlWrapper::jobPartIdChanged);
+    connect(jdfDoc.data(), &JdfNode::auditPoolChanged, d->lambdaConnectContext, [d]{d->updateAuditPool();});
     connect(jdfDoc.data(), &JdfNode::resourcePoolChanged, d->lambdaConnectContext, [d]{d->updateResourcePool();});
     connect(jdfDoc.data(), &JdfNode::jdfNodesChanged, d->lambdaConnectContext, [d]{d->updateJdfNodes();});
 
@@ -80,6 +91,17 @@ void JdfNodeQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntit
         if (jdfDoc->jobPartId() != oldJdfDoc->jobPartId())
             emit jobPartIdChanged(jdfDoc->jobPartId());
     }
+}
+
+void JdfNodeQmlWrapperPrivate::updateAuditPool()
+{
+    Q_Q(JdfNodeQmlWrapper);
+    JdfNodeSP jdfDoc = entity<JdfNode>();
+    if (auditPool == nullptr)
+        auditPool = jdfDoc->auditPool()->toQmlWrapper(q);
+    else
+        auditPool->setEntity(jdfDoc->auditPool());
+    emit q->auditPoolChanged(auditPool);
 }
 
 void JdfNodeQmlWrapperPrivate::updateResourcePool()

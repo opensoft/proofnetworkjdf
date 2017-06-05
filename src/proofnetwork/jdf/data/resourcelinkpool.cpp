@@ -17,14 +17,14 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
 
     ResourceLinkPoolPrivate()
     {
-        registerChildren(componentLinks, cuttingParamsLink, mediaLink, laminatingIntentLink, deliveryIntentLink, foldingParamsLink, boxPackingParamsLink);
+        registerChildren(componentLinks, cuttingParamsLink, mediaLinks, laminatingIntentLink, deliveryIntentLink, foldingParamsLink, boxPackingParamsLink);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
     QList<ComponentLinkSP> componentLinks;
     CuttingParamsLinkSP cuttingParamsLink = CuttingParamsLink::create();
-    MediaLinkSP mediaLink = MediaLink::create();
+    QList<MediaLinkSP> mediaLinks;
     LaminatingIntentLinkSP laminatingIntentLink = LaminatingIntentLink::create();
     DeliveryIntentLinkSP deliveryIntentLink = DeliveryIntentLink::create();
     FoldingParamsLinkSP foldingParamsLink = FoldingParamsLink::create();
@@ -48,10 +48,10 @@ CuttingParamsLinkSP ResourceLinkPool::cuttingParamsLink() const
     return d->cuttingParamsLink;
 }
 
-MediaLinkSP ResourceLinkPool::mediaLink() const
+QList<MediaLinkSP> ResourceLinkPool::mediaLinks() const
 {
     Q_D(const ResourceLinkPool);
-    return d->mediaLink;
+    return d->mediaLinks;
 }
 
 LaminatingIntentLinkSP ResourceLinkPool::laminatingIntentLink() const
@@ -107,14 +107,19 @@ void ResourceLinkPool::setCuttingParamsLink(const CuttingParamsLinkSP &cuttingPa
     }
 }
 
-void ResourceLinkPool::setMediaLink(const MediaLinkSP &mediaLink)
+void ResourceLinkPool::setMediaLinks(const QList<MediaLinkSP> &mediaLinks)
+{
+    Q_D(ResourceLinkPool);
+    d->mediaLinks = mediaLinks;
+    emit mediaLinksChanged();
+}
+
+void ResourceLinkPool::addMediaLink(const MediaLinkSP &mediaLink)
 {
     Q_ASSERT(mediaLink);
     Q_D(ResourceLinkPool);
-    if (d->mediaLink != mediaLink) {
-        d->mediaLink = mediaLink;
-        emit mediaLinkChanged(d->mediaLink);
-    }
+    d->mediaLinks << mediaLink;
+    emit mediaLinksChanged();
 }
 
 void ResourceLinkPool::setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent)
@@ -178,6 +183,7 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
     ResourceLinkPoolSP linkPool = create();
 
     QList<ComponentLinkSP> components;
+    QList<MediaLinkSP> mediaLinksList;
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "ResourceLinkPool" && xmlReader.isStartElement() && !linkPool->isFetched()) {
             linkPool->setFetched(true);
@@ -188,7 +194,7 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
                     qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. MediaLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
-                linkPool->setMediaLink(media);
+                mediaLinksList << media;
             } else if (xmlReader.name() == "LaminatingIntentLink") {
                 LaminatingIntentLinkSP laminatingIntent = LaminatingIntentLink::fromJdf(xmlReader);
                 if (!laminatingIntent) {
@@ -238,6 +244,7 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
         xmlReader.readNext();
     }
     linkPool->setComponentLinks(components);
+    linkPool->setMediaLinks(mediaLinksList);
 
     return linkPool;
 }
@@ -252,8 +259,10 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
         if (component)
             component->toJdf(jdfWriter);
     }
-    if (d->mediaLink->isDirty())
-        d->mediaLink->toJdf(jdfWriter);
+    for (const auto &media : qAsConst(d->mediaLinks)) {
+        if (media)
+            media->toJdf(jdfWriter);
+    }
     if (d->laminatingIntentLink->isDirty())
         d->laminatingIntentLink->toJdf(jdfWriter);
     if (d->deliveryIntentLink->isDirty())
@@ -281,7 +290,7 @@ void ResourceLinkPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other
     q->setCuttingParamsLink(castedOther->cuttingParamsLink());
     q->setLaminatingIntentLink(castedOther->laminatingIntentLink());
     q->setDeliveryIntentLink(castedOther->deliveryIntentLink());
-    q->setMediaLink(castedOther->mediaLink());
+    q->setMediaLinks(castedOther->mediaLinks());
     q->setFoldingParamsLink(castedOther->foldingParamsLink());
     q->setBoxPackingParamsLink(castedOther->boxPackingParamsLink());
 

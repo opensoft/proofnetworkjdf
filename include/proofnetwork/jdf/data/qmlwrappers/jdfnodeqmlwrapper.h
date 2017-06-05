@@ -10,6 +10,7 @@
 namespace Proof {
 namespace Jdf {
 
+class AuditPoolQmlWrapper;
 class ResourcePoolQmlWrapper;
 
 class JdfNodeQmlWrapperPrivate;
@@ -19,6 +20,7 @@ class PROOF_NETWORK_JDF_EXPORT JdfNodeQmlWrapper : public NetworkDataEntityQmlWr
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
     Q_PROPERTY(QString jobId READ jobId NOTIFY jobIdChanged)
     Q_PROPERTY(QString jobPartId READ jobPartId NOTIFY jobPartIdChanged)
+    Q_PROPERTY(Proof::Jdf::AuditPoolQmlWrapper *auditPool READ auditPool NOTIFY auditPoolChanged)
     Q_PROPERTY(Proof::Jdf::ResourcePoolQmlWrapper *resourcePool READ resourcePool NOTIFY resourcePoolChanged)
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper> jdfNodes READ jdfNodes NOTIFY jdfNodesChanged)
     Q_DECLARE_PRIVATE(JdfNodeQmlWrapper)
@@ -30,6 +32,7 @@ public:
     QString id() const;
     QString jobId() const;
     QString jobPartId() const;
+    AuditPoolQmlWrapper *auditPool() const;
     ResourcePoolQmlWrapper *resourcePool() const;
     QQmlListProperty<JdfNodeQmlWrapper> jdfNodes() const;
 
@@ -37,6 +40,7 @@ signals:
     void idChanged(const QString &id);
     void jobIdChanged(const QString &jobId);
     void jobPartIdChanged(const QString &jobPartId);
+    void auditPoolChanged(Proof::Jdf::AuditPoolQmlWrapper *auditPool);
     void resourcePoolChanged(Proof::Jdf::ResourcePoolQmlWrapper *resourcePool);
     void jdfNodesChanged(QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper> &jdfNodes);
 

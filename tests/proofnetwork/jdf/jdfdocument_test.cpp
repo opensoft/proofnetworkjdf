@@ -2,6 +2,9 @@
 #include "gtest/test_global.h"
 
 #include "proofnetwork/jdf/data/jdfdocument.h"
+#include "proofnetwork/jdf/data/auditpool.h"
+#include "proofnetwork/jdf/data/createdaudit.h"
+#include "proofnetwork/jdf/data/modifiedaudit.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/data/component.h"
@@ -83,6 +86,25 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("JDF_0000", jdfDocUT->id());
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
     EXPECT_EQ("ID0001", jdfDocUT->jobPartId());
+
+    AuditPoolSP auditPool = jdfDocUT->auditPool();
+    ASSERT_TRUE(auditPool);
+
+    CreatedAuditSP created = auditPool->created();
+    ASSERT_TRUE(created);
+    EXPECT_EQ("AUD_0000", created->id());
+    EXPECT_EQ("K-BC-63", created->templateId());
+    EXPECT_EQ("1317311496.73", created->templateVersion());
+    EXPECT_EQ("Metrix", created->agentName());
+    EXPECT_EQ("2013.0 (1050)", created->agentVersion());
+    EXPECT_EQ(QDateTime::fromString(QString("2014-08-26T08:35:28-07:00"), Qt::ISODate), created->timeStamp());
+
+    ModifiedAuditSP modified= auditPool->modified();
+    ASSERT_TRUE(modified);
+    EXPECT_EQ("AUD_0002", modified->id());
+    EXPECT_EQ("Metrix2", modified->agentName());
+    EXPECT_EQ("2015.0 (1050)", modified->agentVersion());
+    EXPECT_EQ(QDateTime::fromString(QString("2015-08-26T08:35:28-07:00"), Qt::ISODate), modified->timeStamp());
 
     ASSERT_EQ(2, jdfDocUT->jdfNodes().count());
 

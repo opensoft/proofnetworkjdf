@@ -24,6 +24,12 @@ QString JdfNode::jobPartId() const
     return d->jobPartId;
 }
 
+AuditPoolSP JdfNode::auditPool() const
+{
+    Q_D(const JdfNode);
+    return d->auditPool;
+}
+
 ResourcePoolSP JdfNode::resourcePool() const
 {
     Q_D(const JdfNode);
@@ -72,6 +78,16 @@ void JdfNode::setJobPartId(const QString &arg)
     if (d->jobPartId != arg) {
         d->jobPartId = arg;
         emit jobPartIdChanged(d->jobPartId);
+    }
+}
+
+void JdfNode::setAuditPool(const AuditPoolSP &arg)
+{
+    Q_ASSERT(arg);
+    Q_D(JdfNode);
+    if (d->auditPool != arg) {
+        d->auditPool = arg;
+        emit auditPoolChanged(d->auditPool);
     }
 }
 
@@ -251,6 +267,13 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                     }
                     document->d_func()->jdfNodes << jdfNode;
                 }
+            } else if (xmlReader.name() == "AuditPool") {
+                auto auditPool = AuditPool::fromJdf(xmlReader);
+                if (!auditPool) {
+                    qCCritical(proofNetworkJdfDataLog) << "JDF not created. AuditPool is invalid.";
+                    return JdfNodeSP();
+                }
+                document->setAuditPool(auditPool);
             } else if (xmlReader.name() == "ResourcePool") {
                 auto resourcePool = ResourcePool::fromJdf(xmlReader, document->jobId(), sanitize);
                 if (!resourcePool) {
@@ -293,6 +316,8 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
 
         jdfWriter.writeAttribute(QStringLiteral("Status"), QStringLiteral("Waiting"));
         jdfWriter.writeAttribute(QStringLiteral("Version"), QStringLiteral("1.4"));
+        if (isValidAndDirty(d->auditPool))
+            d->auditPool->toJdf(jdfWriter);
         if (isValidAndDirty(d->resourcePool))
             d->resourcePool->toJdf(jdfWriter);
         if (isValidAndDirty(d->resourceLinkPool))
@@ -315,7 +340,7 @@ JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent)
 
 Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
 {
-    registerChildren(resourcePool, resourceLinkPool, jdfNodes);
+    registerChildren(auditPool, resourcePool, resourceLinkPool, jdfNodes);
 }
 
 void JdfNodePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
@@ -326,6 +351,7 @@ void JdfNodePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     q->setJobId(castedOther->jobId());
     q->setJobPartId(castedOther->jobPartId());
     q->setType(castedOther->type());
+    q->setAuditPool(castedOther->auditPool());
     q->setResourcePool(castedOther->resourcePool());
     q->setResourceLinkPool(castedOther->resourceLinkPool());
     q->setJdfNodes(castedOther->jdfNodes());

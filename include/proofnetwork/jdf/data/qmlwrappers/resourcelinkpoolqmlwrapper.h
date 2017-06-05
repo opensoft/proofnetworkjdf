@@ -22,7 +22,7 @@ class ResourceLinkPoolQmlWrapper : public NetworkDataEntityQmlWrapper
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> componentLinks READ componentLinks NOTIFY componentLinksChanged)
     Q_PROPERTY(Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink READ cuttingParamsLink NOTIFY cuttingParamsLinkChanged)
-    Q_PROPERTY(Proof::Jdf::MediaLinkQmlWrapper *mediaLink READ mediaLink NOTIFY mediaLinkChanged)
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper> mediaLinks READ mediaLinks NOTIFY mediaLinksChanged)
     Q_PROPERTY(Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink READ foldingParamsLink NOTIFY foldingParamsLinkChanged)
     Q_PROPERTY(Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink READ laminatingIntentLink NOTIFY laminatingIntentLinkChanged)
 
@@ -35,14 +35,14 @@ public:
 
     QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> componentLinks() const;
     Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink() const;
-    Proof::Jdf::MediaLinkQmlWrapper *mediaLink() const;
+    QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper> mediaLinks() const;
     Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink() const;
     Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink() const;
 
 signals:
     void componentLinksChanged(const QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> &componentLinks);
     void cuttingParamsLinkChanged(Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink);
-    void mediaLinkChanged(Proof::Jdf::MediaLinkQmlWrapper *mediaLink);
+    void mediaLinksChanged(const QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper> &mediaLinks);
     void foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink);
     void laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink);
 
