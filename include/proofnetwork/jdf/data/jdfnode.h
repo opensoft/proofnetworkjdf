@@ -33,7 +33,7 @@ public:
     void setAuditPool(const AuditPoolSP &arg);
     void setResourcePool(const ResourcePoolSP &arg);
     void setResourceLinkPool(const ResourceLinkPoolSP &arg);
-    void setJdfNodes(const QList<JdfNodeSP> &jdfNodes);
+    void setJdfNodes(const QList<JdfNodeSP> &arg);
     void setType(const QString &arg);
 
     JdfNodeSP findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const;

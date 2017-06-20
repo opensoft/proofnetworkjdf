@@ -22,10 +22,26 @@ class PROOF_NETWORK_JDF_EXPORT DropIntent : public NetworkDataEntity // clazy:ex
     Q_DECLARE_PRIVATE(DropIntent)
 public:
 
+    TimeSpan earliest() const;
+    DurationSpan earliestDuration() const;
     TimeSpan required() const;
+    DurationSpan requiredDuration() const;
+    NameSpan returnMethod() const;
+    StringSpan serviceLevel() const;
+    EnumerationSpan surplusHandling() const;
+    EnumerationSpan transfer() const;
+
     QList<DropItemIntentSP> dropItemIntents() const;
 
+    void setEarliest(const TimeSpan &arg);
+    void setEarliestDuration(const DurationSpan &arg);
     void setRequired(const TimeSpan &arg);
+    void setRequiredDuration(const DurationSpan &arg);
+    void setReturnMethod(const NameSpan &arg);
+    void setServiceLevel(const StringSpan &arg);
+    void setSurplusHandling(const EnumerationSpan &arg);
+    void setTransfer(const EnumerationSpan &arg);
+
     void setDropItemIntents(const QList<DropItemIntentSP> &arg);
     void addDropItemIntent(const DropItemIntentSP &arg);
 
@@ -37,7 +53,14 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
-    void requiredChanged(const TimeSpan &required);
+    void earliestChanged(const TimeSpan &arg);
+    void earliestDurationChanged(const DurationSpan &arg);
+    void requiredChanged(const TimeSpan &arg);
+    void requiredDurationChanged(const DurationSpan &arg);
+    void returnMethodChanged(const NameSpan &arg);
+    void serviceLevelChanged(const StringSpan &arg);
+    void surplusHandlingChanged(const EnumerationSpan &arg);
+    void transferChanged(const EnumerationSpan &arg);
     void dropItemIntentsChanged();
 
 protected:

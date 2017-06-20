@@ -21,10 +21,34 @@ class PROOF_NETWORK_JDF_EXPORT DeliveryIntent : public AbstractResource // clazy
     Q_DECLARE_PRIVATE(DeliveryIntent)
 public:
 
+    EnumerationSpan deliveryCharge() const;
+    TimeSpan earliest() const;
+    DurationSpan earliestDuration() const;
+    NameSpan method() const;
+    NumberSpan overage() const;
     TimeSpan required() const;
+    DurationSpan requiredDuration() const;
+    NameSpan returnMethod() const;
+    StringSpan serviceLevel() const;
+    EnumerationSpan surplusHandling() const;
+    EnumerationSpan transfer() const;
+    NumberSpan underage() const;
+
     QList<DropIntentSP> dropIntents() const;
 
+    void setDeliveryCharge(const EnumerationSpan &arg);
+    void setEarliest(const TimeSpan &arg);
+    void setEarliestDuration(const DurationSpan &arg);
+    void setMethod(const NameSpan &arg);
+    void setOverage(const NumberSpan &arg);
     void setRequired(const TimeSpan &arg);
+    void setRequiredDuration(const DurationSpan &arg);
+    void setReturnMethod(const NameSpan &arg);
+    void setServiceLevel(const StringSpan &arg);
+    void setSurplusHandling(const EnumerationSpan &arg);
+    void setTransfer(const EnumerationSpan &arg);
+    void setUnderage(const NumberSpan &arg);
+
     void setDropIntents(const QList<DropIntentSP> &arg);
     void addDropIntent(const DropIntentSP &arg);
 
@@ -37,7 +61,18 @@ public:
     DeliveryIntentLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
-    void requiredChanged(const TimeSpan &required);
+    void deliveryChargeChanged(const EnumerationSpan &deliveryCharge);
+    void earliestChanged(const TimeSpan &arg);
+    void earliestDurationChanged(const DurationSpan &arg);
+    void methodChanged(const NameSpan &method);
+    void overageChanged(const NumberSpan &overage);
+    void requiredChanged(const TimeSpan &arg);
+    void requiredDurationChanged(const DurationSpan &arg);
+    void returnMethodChanged(const NameSpan &arg);
+    void serviceLevelChanged(const StringSpan &arg);
+    void surplusHandlingChanged(const EnumerationSpan &arg);
+    void transferChanged(const EnumerationSpan &arg);
+    void underageChanged(const NumberSpan &arg);
     void dropIntentsChanged();
 
 protected:

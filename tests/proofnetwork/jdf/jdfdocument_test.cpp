@@ -265,11 +265,28 @@ TEST_F(JdfDocumentTest, fromJdf)
     DeliveryIntentSP deliveryIntent = resourcePool->deliveryIntent();
     ASSERT_TRUE(deliveryIntent);
     EXPECT_EQ("DI_0000", deliveryIntent->id());
+    EXPECT_EQ("-1 ~ -6 3.14 ~ 5.13 7 5 9 ~ 128 6 ~ 7", deliveryIntent->underage().offerRange().toString());
 
     ASSERT_TRUE(deliveryIntent->dropIntents().count());
     DropIntentSP dropIntent = deliveryIntent->dropIntents().first();
     ASSERT_TRUE(dropIntent);
-    EXPECT_EQ(QDateTime::fromString(QString("2014-08-26T08:35:28-07:00"), Qt::ISODate), dropIntent->required().actual());
+    EXPECT_EQ(QDateTime::fromString(QString("2015-08-26T15:35:28Z"), Qt::ISODate), dropIntent->earliest().actual());
+    EXPECT_EQ(QString("2015-08-26T15:35:28Z"), dropIntent->earliest().offerRange().toString());
+    EXPECT_EQ(QDateTime::fromString(QString("2016-08-26T15:35:28Z"), Qt::ISODate), dropIntent->earliest().preferred());
+    EXPECT_EQ(QString("2016-08-26T15:35:28Z ~ 2016-09-26T15:35:28Z"), dropIntent->earliest().range().toString());
+
+    EXPECT_EQ(QDateTime::fromString(QString("2017-08-26T08:35:28Z"), Qt::ISODate), dropIntent->earliestDuration().actual());
+    EXPECT_EQ(QDateTime::fromString(QString("2014-08-26T08:35:28-07:00"), Qt::ISODate), dropIntent->required().actual());  
+    EXPECT_EQ(QDateTime::fromString(QString("2018-08-26T08:35:28Z"), Qt::ISODate), dropIntent->requiredDuration().actual());
+    EXPECT_EQ(QString("NameTest"), dropIntent->returnMethod().actual());
+
+    EXPECT_EQ(QString("TestString_2"), dropIntent->serviceLevel().actual());
+    EXPECT_EQ(QString("TestString_1 TestString_2"), dropIntent->serviceLevel().offerRange().toString());
+
+    EXPECT_EQ(QString("NameTest_1"), dropIntent->surplusHandling().actual());
+
+    EXPECT_EQ(QString("NameTest_2"), dropIntent->transfer().actual());
+    EXPECT_EQ(QString("NameTest_1 NameTest_2"), dropIntent->transfer().offerRange().toString());
 
     DropItemIntentSP dropItemIntent = dropIntent->dropItemIntents().first();
     ASSERT_TRUE(dropItemIntent);
@@ -549,6 +566,9 @@ TEST_F(JdfDocumentTest, documentToJdf)
 {
     QString jdf = jdfDocUT->toJdf();
     QXmlStreamReader reader(jdf);
+    QFile file("E:/111/test.jdf");
+    file.open(QIODevice::WriteOnly);
+    file.write(jdf.toLocal8Bit());
 
     EXPECT_FALSE(reader.atEnd());
 
@@ -560,6 +580,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
     bool hasLayout = false;
     bool hasLaminatingIntent = false;
     bool hasDeliveryIntent = false;
+    bool hasDropIntent = false;
     bool hasRequired = false;
     bool hasComponentOneRef = false;
     bool hasComponentTwoRef = false;
@@ -712,7 +733,9 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 } else if (hasResourcePool && reader.name() == "DeliveryIntent") {
                     hasDeliveryIntent = true;
                     EXPECT_EQ("DI_0000", attributes.value("ID").toString());
-                } else if (hasResourcePool && reader.name() == "Required") {
+                } else if (hasResourcePool && hasDeliveryIntent && reader.name() == "DropIntent") {
+                    hasDropIntent = true;
+                } else if (hasResourcePool && hasDropIntent && reader.name() == "Required") {
                     hasRequired = true;
                     EXPECT_EQ(attributes.value("Actual").toString(), "2014-08-26T15:35:28Z");
                 } else if (hasResourcePool && reader.name() == "CuttingParams") {
@@ -760,6 +783,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
     EXPECT_TRUE(hasLayout);
     EXPECT_TRUE(hasLaminatingIntent);
     EXPECT_TRUE(hasDeliveryIntent);
+    EXPECT_TRUE(hasDropIntent);
     EXPECT_TRUE(hasRequired);
     EXPECT_TRUE(hasComponentOneRef);
     EXPECT_TRUE(hasComponentTwoRef);

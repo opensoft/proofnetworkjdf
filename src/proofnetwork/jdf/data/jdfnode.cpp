@@ -4,6 +4,8 @@
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 #include "proofnetwork/jdf/data/component.h"
 
+#include <set>
+
 using namespace Proof::Jdf;
 
 QString JdfNode::id() const
@@ -111,13 +113,21 @@ void JdfNode::setResourceLinkPool(const ResourceLinkPoolSP &arg)
     }
 }
 
-void JdfNode::setJdfNodes(const QList<JdfNodeSP> &jdfNodes)
+void JdfNode::setJdfNodes(const QList<JdfNodeSP> &arg)
 {
     Q_D(JdfNode);
+    std::multiset<QString> newIds;
+    for (const auto &node : arg)
+        newIds.insert(node->id());
 
-    // TODO: check if nodes really changed
-    d->jdfNodes = jdfNodes;
-    emit jdfNodesChanged();
+    std::multiset<QString> oldIds;
+    for (const auto &node : d->jdfNodes)
+        oldIds.insert(node->id());
+
+    if (newIds != oldIds) {
+        d->jdfNodes = arg;
+        emit jdfNodesChanged();
+    }
 }
 
 void JdfNode::setType(const QString &arg)

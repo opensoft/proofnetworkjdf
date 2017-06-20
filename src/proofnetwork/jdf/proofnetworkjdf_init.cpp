@@ -84,6 +84,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::ComponentLinkQmlWrapper *>("Proof::Jdf::ComponentLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::FoldingParamsLinkQmlWrapper *>("Proof::Jdf::FoldingParamsLinkQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::BoxPackingParamsLinkQmlWrapper *>("Proof::Jdf::BoxPackingParamsLinkQmlWrapper *");
+
     qRegisterMetaType<Proof::Jdf::JdfDocument *>("Proof::Jdf::JdfDocument *");
 
     qRegisterMetaType<Proof::Jdf::JdfNodeSP>("Proof::Jdf::JdfNodeSP");
@@ -179,5 +180,6 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::DeviceInfoWP>("Proof::Jdf::DeviceInfoWP");
     qRegisterMetaType<Proof::Jdf::NotificationSP>("Proof::Jdf::NotificationSP");
     qRegisterMetaType<Proof::Jdf::NotificationWP>("Proof::Jdf::NotificationWP");
+
     //clang-format on
 }

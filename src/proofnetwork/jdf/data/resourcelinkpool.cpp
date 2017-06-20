@@ -8,6 +8,8 @@
 #include "proofnetwork/jdf/data/deliveryintentlink.h"
 #include "proofnetwork/jdf/data/medialink.h"
 
+#include <set>
+
 namespace Proof {
 namespace Jdf {
 
@@ -78,13 +80,21 @@ BoxPackingParamsLinkSP ResourceLinkPool::boxPackingParamsLink() const
     return d->boxPackingParamsLink;
 }
 
-void ResourceLinkPool::setComponentLinks(const QList<ComponentLinkSP> &componentLinks)
+void ResourceLinkPool::setComponentLinks(const QList<ComponentLinkSP> &arg)
 {
     Q_D(ResourceLinkPool);
+    std::multiset<QString> newIds;
+    for (const auto &componentLink : arg)
+        newIds.insert(componentLink->rRef());
 
-    // TODO: check, that links changed
-    d->componentLinks = componentLinks;
-    emit componentLinksChanged();
+    std::multiset<QString> oldIds;
+    for (const auto &componentLink : d->componentLinks)
+        oldIds.insert(componentLink->rRef());
+
+    if (newIds != oldIds) {
+        d->componentLinks = arg;
+        emit componentLinksChanged();
+    }
 }
 
 void ResourceLinkPool::addComponentLink(const ComponentLinkSP &componentLink)
