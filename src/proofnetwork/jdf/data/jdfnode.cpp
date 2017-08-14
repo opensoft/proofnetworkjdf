@@ -4,6 +4,8 @@
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 #include "proofnetwork/jdf/data/component.h"
 
+#include "proofcore/proofglobal.h"
+
 #include <set>
 
 using namespace Proof::Jdf;
@@ -148,9 +150,6 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeS
         return castedSelf;
 
     for (const auto &node : d->jdfNodes) {
-        if (predicate(node))
-            return node;
-
         auto result = node->findNode(predicate);
         if (result)
             return result;
@@ -229,6 +228,63 @@ LayoutSP JdfNode::findLayout(const std::function<bool (const LayoutSP &)> &predi
             return result;
     }
     return LayoutSP();
+}
+
+
+QList<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool (const JdfNodeSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    QList<JdfNodeSP> result;
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+    if (predicate(castedSelf))
+        result << castedSelf;
+
+    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllNodes(predicate));});
+    return result;
+}
+
+QList<ComponentSP> JdfNode::findAllComponents(const std::function<bool (const ComponentSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    QList<ComponentSP> result;
+    const auto allComponents = resourcePool()->components();
+    for (const auto &component : allComponents) {
+        if (predicate(component))
+            result << component;
+        const auto componentParts = component->parts();
+        for (const auto &componentOther : componentParts) {
+            if (predicate(componentOther))
+                result << componentOther;
+        }
+    }
+
+    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllComponents(predicate));});
+    return result;
+}
+
+QList<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool (const ComponentLinkSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    auto result = algorithms::filter(resourceLinkPool()->componentLinks(), predicate);
+    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllComponentLinks(predicate));});
+    return result;
+}
+
+QList<MediaSP> JdfNode::findAllMedia(const std::function<bool (const MediaSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    auto result = algorithms::filter(resourcePool()->media(), predicate);
+    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllMedia(predicate));});
+    return result;
+}
+
+QList<LayoutSP> JdfNode::findAllLayouts(const std::function<bool (const LayoutSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    auto result = algorithms::filter(resourcePool()->layouts(), predicate);
+    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllLayouts(predicate));});
+    return result;
 }
 
 JdfNodeQmlWrapper *JdfNode::toQmlWrapper(QObject *parent) const
