@@ -132,6 +132,15 @@ void JdfNode::setJdfNodes(const QList<JdfNodeSP> &arg)
     }
 }
 
+void JdfNode::addJdfNode(const JdfNodeSP &arg)
+{
+    Q_D(JdfNode);
+    if (!arg)
+        return;
+    d->jdfNodes << arg;
+    emit jdfNodesChanged();
+}
+
 void JdfNode::setType(const QString &arg)
 {
     Q_D(JdfNode);
@@ -366,7 +375,7 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
     return document;
 }
 
-void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
+void JdfNode::toJdf(QXmlStreamWriter &jdfWriter, bool rootNode)
 {
     Q_D(JdfNode);
 
@@ -381,7 +390,8 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter)
             jdfWriter.writeAttribute(QStringLiteral("Type"), d->type);
 
         jdfWriter.writeAttribute(QStringLiteral("Status"), QStringLiteral("Waiting"));
-        jdfWriter.writeAttribute(QStringLiteral("Version"), QStringLiteral("1.4"));
+        if (rootNode)
+            jdfWriter.writeAttribute(QStringLiteral("Version"), QStringLiteral("1.5"));
         if (isValidAndDirty(d->auditPool))
             d->auditPool->toJdf(jdfWriter);
         if (isValidAndDirty(d->resourcePool))

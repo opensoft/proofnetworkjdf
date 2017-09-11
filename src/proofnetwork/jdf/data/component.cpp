@@ -225,6 +225,9 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 {
     ComponentSP component = create();
     QList<CutBlockSP> cutBlocks;
+
+    bool isRef = false;
+
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (!xmlReader.name().compare(component->jdfNodeName(), Qt::CaseInsensitive) && xmlReader.isStartElement() && !component->isFetched()) {
             component->setFetched(true);
@@ -246,11 +249,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
             QXmlStreamAttributes attributes = xmlReader.attributes();
             QString componentId = attributes.value(QStringLiteral("rRef")).toString();
             component->setId(componentId);
-            if (!sanitize) {
-                auto fromCache = componentsCache().value({jobId, componentId});
-                if (fromCache)
-                    component = fromCache;
-            }
+            isRef = true;
         } else if (xmlReader.isStartElement()) {
             if (!xmlReader.name().compare(component->jdfNodeName(), Qt::CaseInsensitive)) {
                 QXmlStreamAttributes attributes = xmlReader.attributes();
@@ -311,19 +310,11 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 
     component->updateCutBlocks(cutBlocks);
 
-    //TODO: 1.0: check this, looks like it doesn't do anything useful
     if (!component->id().isEmpty()) {
-        ComponentSP componentFromCache = componentsCache().value({jobId, component->id()});
-        if (componentFromCache && !sanitize) {
+        auto componentFromCache = componentsCache().add({jobId, component->id()}, component);
+        if (component != componentFromCache && !sanitize && !isRef)
             componentFromCache->updateFrom(component);
-            component = componentFromCache;
-        } else {
-            componentFromCache = componentsCache().add({jobId, component->id()}, component);
-            if (component != componentFromCache) {
-                componentFromCache->updateFrom(component);
-                component = componentFromCache;
-            }
-        }
+        component = componentFromCache;
     }
 
     return component;

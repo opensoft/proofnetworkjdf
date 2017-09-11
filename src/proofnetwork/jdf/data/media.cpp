@@ -208,6 +208,7 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool s
     QList<MediaSP> layers;
 
     bool inLayers = false;
+    bool isRef = false;
 
     auto mediaParser = [&xmlReader](MediaSP media) {
         media->setFetched(true);
@@ -256,7 +257,7 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool s
             QXmlStreamAttributes attributes = xmlReader.attributes();
             QString mediaId = attributes.value(QStringLiteral("rRef")).toString();
             media->setId(mediaId);
-            media = mediaCache().add({jobId, mediaId}, media);
+            isRef = true;
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
         } else if (xmlReader.isEndElement() && !inLayers) {
@@ -267,18 +268,11 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool s
 
     media->setLayers(layers);
 
-    MediaSP mediaFromCache = mediaCache().value({jobId, media->id()});
     if (!media->id().isEmpty()) {
-        if (mediaFromCache && !sanitize) {
+        auto mediaFromCache = mediaCache().add({jobId, media->id()}, media);
+        if (media != mediaFromCache && !sanitize && !isRef)
             mediaFromCache->updateFrom(media);
-            media = mediaFromCache;
-        } else {
-            mediaFromCache = mediaCache().add({jobId, media->id()}, media);
-            if (media != mediaFromCache) {
-                mediaFromCache->updateFrom(media);
-                media = mediaFromCache;
-            }
-        }
+        media = mediaFromCache;
     }
 
     return media;

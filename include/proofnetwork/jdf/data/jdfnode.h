@@ -34,6 +34,7 @@ public:
     void setResourcePool(const ResourcePoolSP &arg);
     void setResourceLinkPool(const ResourceLinkPoolSP &arg);
     void setJdfNodes(const QList<JdfNodeSP> &arg);
+    void addJdfNode(const JdfNodeSP &arg);
     void setType(const QString &arg);
 
     JdfNodeSP findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const;
@@ -53,7 +54,7 @@ public:
     static JdfNodeSP create();
 
     static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes = QStringList(), bool sanitize = false);
-    void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter, bool rootNode = false);
 
 signals:
     void idChanged(const QString &arg);

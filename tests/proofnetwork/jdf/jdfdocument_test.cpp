@@ -598,7 +598,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                 QString typeNode = attributes.value("Type").toString();
                 if (typeNode == "Product") {
                     hasJdfProductElement = true;
-                    EXPECT_EQ("1.4", attributes.value("Version").toString());
+                    EXPECT_EQ("1.5", attributes.value("Version").toString());
                     EXPECT_EQ("Waiting", attributes.value("Status").toString());
                     EXPECT_EQ("http://www.CIP4.org/JDFSchema_1_1", reader.namespaceUri().toString());
                     EXPECT_EQ("JDF_0000", currentNodeId);
