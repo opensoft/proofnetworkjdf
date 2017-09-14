@@ -270,7 +270,8 @@ enum class MediaType {
     SleeveMedia,
     ShrinkFoilMedia,
     TextileMedia,
-    OtherMedia
+    OtherMedia,
+    VinylMedia
 };
 
 enum class DeviceFilterDetails {

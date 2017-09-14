@@ -363,7 +363,8 @@ static const QHash<QString, MediaType> MEDIA_TYPE_STRINGIFIED = {
     {"Sleeve", MediaType::SleeveMedia},
     {"ShrinkFoil", MediaType::ShrinkFoilMedia},
     {"Textile", MediaType::TextileMedia},
-    {"Other", MediaType::OtherMedia}
+    {"Other", MediaType::OtherMedia},
+    {"Vinyl", MediaType::VinylMedia}
 };
 
 static const QHash<QString, DeviceFilterDetails> DEVICE_FILTER_DETAILS_STRINGIFIED = {

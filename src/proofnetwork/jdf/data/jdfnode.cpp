@@ -170,13 +170,13 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeS
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
     Q_ASSERT(castedSelf);
-    if (predicate(castedSelf))
-        return castedSelf;
 
-    for (const auto &node : d->jdfNodes) {
-        auto result = node->findNode(predicate);
-        if (result)
-            return result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        if (predicate(head))
+            return head;
+        queue.append(head->jdfNodes());
     }
     return JdfNodeSP();
 }
@@ -184,21 +184,21 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeS
 ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool (const ComponentSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    const auto allComponents = resourcePool()->components();
-    for (const auto &component : allComponents) {
-        if (predicate(component))
-            return component;
-        const auto componentParts = component->parts();
-        for (const auto &componentOther : componentParts) {
-            if (predicate(componentOther))
-                return componentOther;
-        }
-    }
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
 
-    for (const auto &node : d->jdfNodes) {
-        auto result = node->findComponent(predicate);
-        if (result)
-            return result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        QList<ComponentSP> componentsQueue;
+        componentsQueue.append(head->resourcePool()->components());
+        while (componentsQueue.count()) {
+            auto component = componentsQueue.takeFirst();
+            if (predicate(component))
+                return component;
+            componentsQueue.append(component->parts());
+        }
+        queue.append(head->jdfNodes());
     }
     return ComponentSP();
 }
@@ -206,33 +206,50 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool (const C
 ComponentLinkSP JdfNode::findComponentLink(const std::function<bool (const ComponentLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    const auto allComponentLinks = resourceLinkPool()->componentLinks();
-    for (const auto &componentLink : allComponentLinks) {
-        if (predicate(componentLink))
-            return componentLink;
-    }
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
 
-    for (const auto &node : d->jdfNodes) {
-        auto result = node->findComponentLink(predicate);
-        if (result)
-            return result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        auto link = algorithms::findIf(head->resourceLinkPool()->componentLinks(), predicate);
+        if (link)
+            return link;
+        queue.append(head->jdfNodes());
     }
     return ComponentLinkSP();
+}
+
+MediaLinkSP JdfNode::findMediaLink(const std::function<bool (const MediaLinkSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        auto link = algorithms::findIf(head->resourceLinkPool()->mediaLinks(), predicate);
+        if (link)
+            return link;
+        queue.append(head->jdfNodes());
+    }
+    return MediaLinkSP();
 }
 
 MediaSP JdfNode::findMedia(const std::function<bool (const MediaSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    const auto allMedia = resourcePool()->media();
-    for (const auto &media : allMedia) {
-        if (predicate(media))
-            return media;
-    }
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
 
-    for (const Proof::Jdf::JdfNodeSP &node : d->jdfNodes) {
-        auto result = node->findMedia(predicate);
-        if (result)
-            return result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        auto media = algorithms::findIf(head->resourcePool()->media(), predicate);
+        if (media)
+            return media;
+        queue.append(head->jdfNodes());
     }
     return MediaSP();
 }
@@ -240,74 +257,121 @@ MediaSP JdfNode::findMedia(const std::function<bool (const MediaSP &)> &predicat
 LayoutSP JdfNode::findLayout(const std::function<bool (const LayoutSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    const auto allLayouts = resourcePool()->layouts();
-    for (const auto &layout : allLayouts) {
-        if (predicate(layout))
-            return layout;
-    }
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
 
-    for (const Proof::Jdf::JdfNodeSP &node : d->jdfNodes) {
-        auto result = node->findLayout(predicate);
-        if (result)
-            return result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        auto layout = algorithms::findIf(head->resourcePool()->layouts(), predicate);
+        if (layout)
+            return layout;
+        queue.append(head->jdfNodes());
     }
     return LayoutSP();
 }
 
-
 QList<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool (const JdfNodeSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    QList<JdfNodeSP> result;
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
     Q_ASSERT(castedSelf);
-    if (predicate(castedSelf))
-        result << castedSelf;
 
-    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllNodes(predicate));});
+    QList<JdfNodeSP> result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        if (predicate(head))
+            result << head;
+        queue.append(head->jdfNodes());
+    }
     return result;
 }
 
 QList<ComponentSP> JdfNode::findAllComponents(const std::function<bool (const ComponentSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    QList<ComponentSP> result;
-    const auto allComponents = resourcePool()->components();
-    for (const auto &component : allComponents) {
-        if (predicate(component))
-            result << component;
-        const auto componentParts = component->parts();
-        for (const auto &componentOther : componentParts) {
-            if (predicate(componentOther))
-                result << componentOther;
-        }
-    }
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
 
-    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllComponents(predicate));});
+    QList<ComponentSP> result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        QList<ComponentSP> componentsQueue;
+        componentsQueue.append(head->resourcePool()->components());
+        while (componentsQueue.count()) {
+            auto component = componentsQueue.takeFirst();
+            if (predicate(component))
+                result << component;
+            componentsQueue.append(component->parts());
+        }
+        queue.append(head->jdfNodes());
+    }
     return result;
 }
 
 QList<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool (const ComponentLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    auto result = algorithms::filter(resourceLinkPool()->componentLinks(), predicate);
-    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllComponentLinks(predicate));});
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+
+    QList<ComponentLinkSP> result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        result.append(algorithms::filter(head->resourceLinkPool()->componentLinks(), predicate));
+        queue.append(head->jdfNodes());
+    }
+    return result;
+}
+
+QList<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool (const MediaLinkSP &)> &predicate) const
+{
+    Q_D(const JdfNode);
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+
+    QList<MediaLinkSP> result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        result.append(algorithms::filter(head->resourceLinkPool()->mediaLinks(), predicate));
+        queue.append(head->jdfNodes());
+    }
     return result;
 }
 
 QList<MediaSP> JdfNode::findAllMedia(const std::function<bool (const MediaSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    auto result = algorithms::filter(resourcePool()->media(), predicate);
-    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllMedia(predicate));});
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+
+    QList<MediaSP> result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        result.append(algorithms::filter(head->resourcePool()->media(), predicate));
+        queue.append(head->jdfNodes());
+    }
     return result;
 }
 
 QList<LayoutSP> JdfNode::findAllLayouts(const std::function<bool (const LayoutSP &)> &predicate) const
 {
     Q_D(const JdfNode);
-    auto result = algorithms::filter(resourcePool()->layouts(), predicate);
-    std::for_each(d->jdfNodes.cbegin(), d->jdfNodes.cend(), [&result, predicate](const JdfNodeSP &node){result.append(node->findAllLayouts(predicate));});
+    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    Q_ASSERT(castedSelf);
+
+    QList<LayoutSP> result;
+    QList<JdfNodeSP> queue = {castedSelf};
+    while (queue.count()) {
+        auto head = queue.takeFirst();
+        result.append(algorithms::filter(head->resourcePool()->layouts(), predicate));
+        queue.append(head->jdfNodes());
+    }
     return result;
 }
 

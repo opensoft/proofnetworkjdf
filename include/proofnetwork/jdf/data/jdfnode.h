@@ -42,12 +42,14 @@ public:
     JdfNodeSP findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const;
     ComponentSP findComponent(const std::function<bool (const Proof::Jdf::ComponentSP &)> &predicate) const;
     ComponentLinkSP findComponentLink(const std::function<bool (const Proof::Jdf::ComponentLinkSP &)> &predicate) const;
+    MediaLinkSP findMediaLink(const std::function<bool (const Proof::Jdf::MediaLinkSP &)> &predicate) const;
     MediaSP findMedia(const std::function<bool (const MediaSP &)> &predicate) const;
     LayoutSP findLayout(const std::function<bool (const LayoutSP &)> &predicate) const;
 
     QList<JdfNodeSP> findAllNodes(const std::function<bool (const JdfNodeSP &)> &predicate) const;
     QList<ComponentSP> findAllComponents(const std::function<bool (const Proof::Jdf::ComponentSP &)> &predicate) const;
     QList<ComponentLinkSP> findAllComponentLinks(const std::function<bool (const Proof::Jdf::ComponentLinkSP &)> &predicate) const;
+    QList<MediaLinkSP> findAllMediaLinks(const std::function<bool (const Proof::Jdf::MediaLinkSP &)> &predicate) const;
     QList<MediaSP> findAllMedia(const std::function<bool (const MediaSP &)> &predicate) const;
     QList<LayoutSP> findAllLayouts(const std::function<bool (const LayoutSP &)> &predicate) const;
 

@@ -889,6 +889,13 @@ TEST_F(JdfDocumentTest, findComponentLink)
     EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
 }
 
+TEST_F(JdfDocumentTest, findMediaLink)
+{
+    Proof::Jdf::MediaLinkSP link = jdfDocUT->findMediaLink([](const Proof::Jdf::MediaLinkSP &link){return link->rRef() == "PAP_0000";});
+    EXPECT_EQ("PAP_0000", link->rRef());
+    EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
+}
+
 TEST_F(JdfDocumentTest, findMedia)
 {
     Proof::Jdf::MediaSP media = jdfDocUT->findMedia([](const Proof::Jdf::MediaSP &media){return media->mediaType() == Proof::Jdf::MediaType::PaperMedia;});
@@ -958,6 +965,14 @@ TEST_F(JdfDocumentTest, findAllComponentLinks)
         outputLinksRrefs.remove(links[i]->rRef());
     }
     EXPECT_TRUE(outputLinksRrefs.empty());
+}
+
+TEST_F(JdfDocumentTest, findAllMediaLinks)
+{
+    QList<MediaLinkSP> links = jdfDocUT->findAllMediaLinks([](const MediaLinkSP &link){return link->rRef() == "PAP_0000";});
+    ASSERT_EQ(1, links.count());
+    EXPECT_EQ("PAP_0000", links[0]->rRef());
+    EXPECT_EQ(LinkUsage::InputLink, links[0]->usage());
 }
 
 TEST_F(JdfDocumentTest, findAllMedia)
