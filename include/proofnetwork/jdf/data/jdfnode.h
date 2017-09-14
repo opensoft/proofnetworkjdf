@@ -26,6 +26,7 @@ public:
     ResourceLinkPoolSP resourceLinkPool() const;
     QList<JdfNodeSP> jdfNodes() const;
     QString type() const;
+    QStringList types() const;
 
     void setId(const QString &arg);
     void setJobId(const QString &arg);
@@ -36,6 +37,7 @@ public:
     void setJdfNodes(const QList<JdfNodeSP> &arg);
     void addJdfNode(const JdfNodeSP &arg);
     void setType(const QString &arg);
+    void setTypes(const QStringList &arg);
 
     JdfNodeSP findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const;
     ComponentSP findComponent(const std::function<bool (const Proof::Jdf::ComponentSP &)> &predicate) const;
@@ -65,6 +67,7 @@ signals:
     void resourceLinkPoolChanged(const Proof::Jdf::ResourceLinkPoolSP &resourceLinkPool);
     void jdfNodesChanged();
     void typeChanged(const QString &type);
+    void typesChanged(const QStringList &types);
 
 protected:
     JdfNode();

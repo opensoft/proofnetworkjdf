@@ -86,6 +86,10 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("JDF_0000", jdfDocUT->id());
     EXPECT_EQ("mixed-flatwork (groups)", jdfDocUT->jobId());
     EXPECT_EQ("ID0001", jdfDocUT->jobPartId());
+    EXPECT_EQ("ProcessGroup", jdfDocUT->type());
+    ASSERT_EQ(2, jdfDocUT->types().count());
+    EXPECT_EQ("Printing", jdfDocUT->types()[0]);
+    EXPECT_EQ("Cutting", jdfDocUT->types()[1]);
 
     AuditPoolSP auditPool = jdfDocUT->auditPool();
     ASSERT_TRUE(auditPool);
@@ -481,6 +485,8 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_EQ(jdfDocUT->id(), jdfDocUT2->id());
     EXPECT_EQ(jdfDocUT->jobId(), jdfDocUT2->jobId());
     EXPECT_EQ(jdfDocUT->jobPartId(), jdfDocUT2->jobPartId());
+    EXPECT_EQ(jdfDocUT->type(), jdfDocUT2->type());
+    EXPECT_EQ(jdfDocUT->types(), jdfDocUT2->types());
 
     ResourcePoolSP resourcePool = jdfDocUT->resourcePool();
     ASSERT_TRUE(resourcePool);
@@ -596,7 +602,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
             if (reader.name() == "JDF") {
                 currentNodeId = attributes.value("ID").toString();
                 QString typeNode = attributes.value("Type").toString();
-                if (typeNode == "Product") {
+                if (typeNode == "ProcessGroup") {
                     hasJdfProductElement = true;
                     EXPECT_EQ("1.5", attributes.value("Version").toString());
                     EXPECT_EQ("Waiting", attributes.value("Status").toString());
@@ -604,6 +610,7 @@ TEST_F(JdfDocumentTest, documentToJdf)
                     EXPECT_EQ("JDF_0000", currentNodeId);
                     EXPECT_EQ("mixed-flatwork (groups)", attributes.value("JobID").toString());
                     EXPECT_EQ("ID0001", attributes.value("JobPartID").toString());
+                    EXPECT_EQ("Printing Cutting", attributes.value("Types").toString());
                 } else if (typeNode == "Cutting") {
                     hasJdfNodeCutting = true;
                 } else if (typeNode == "BoxPacking") {

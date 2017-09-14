@@ -58,6 +58,12 @@ QString JdfNode::type() const
     return d->type;
 }
 
+QStringList JdfNode::types() const
+{
+    Q_D(const JdfNode);
+    return d->types;
+}
+
 void JdfNode::setId(const QString &arg)
 {
     Q_D(JdfNode);
@@ -147,6 +153,15 @@ void JdfNode::setType(const QString &arg)
     if (arg != d->type) {
         d->type = arg;
         emit typeChanged(d->type);
+    }
+}
+
+void JdfNode::setTypes(const QStringList &arg)
+{
+    Q_D(JdfNode);
+    if (arg != d->types) {
+        d->types = arg;
+        emit typesChanged(d->types);
     }
 }
 
@@ -324,6 +339,17 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                     document->setJobId(attributes.value(QStringLiteral("JobID")).toString());
                     document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
                     document->setType(attributes.value(QStringLiteral("Type")).toString());
+                    QString loweredType = document->type().toLower();
+                    if (loweredType == QLatin1String("processgroup") || loweredType == QLatin1String("combined")) {
+                        QStringList rawTypes = attributes.value(QStringLiteral("Types")).toString().split(" ");
+                        QStringList types;
+                        for (auto type : rawTypes) {
+                            type = type.trimmed();
+                            if (!type.isEmpty())
+                                types << type;
+                        }
+                        document->setTypes(types);
+                    }
 
                     if (document->id().isEmpty()) {
                         for (const QString &attribute : alternativeIdAttributes) {
@@ -388,6 +414,11 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter, bool rootNode)
             jdfWriter.writeAttribute(QStringLiteral("JobPartID"), d->jobPartId);
         if (!d->type.isEmpty())
             jdfWriter.writeAttribute(QStringLiteral("Type"), d->type);
+        if (!d->types.isEmpty()
+                && (!d->type.compare(QLatin1String("processgroup"), Qt::CaseInsensitive)
+                    || !d->type.compare(QLatin1String("combined"), Qt::CaseInsensitive))) {
+            jdfWriter.writeAttribute(QStringLiteral("Types"), d->types.join(" "));
+        }
 
         jdfWriter.writeAttribute(QStringLiteral("Status"), QStringLiteral("Waiting"));
         if (rootNode)
@@ -427,6 +458,7 @@ void JdfNodePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     q->setJobId(castedOther->jobId());
     q->setJobPartId(castedOther->jobPartId());
     q->setType(castedOther->type());
+    q->setTypes(castedOther->types());
     q->setAuditPool(castedOther->auditPool());
     q->setResourcePool(castedOther->resourcePool());
     q->setResourceLinkPool(castedOther->resourceLinkPool());
