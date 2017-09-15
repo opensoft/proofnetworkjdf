@@ -57,7 +57,8 @@ public:
 
     static JdfNodeSP create();
 
-    static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes = QStringList(), bool sanitize = false);
+    static JdfNodeSP fromJdf(QXmlStreamReader &xmlReader, const QString &jobId = QStringLiteral(""),
+                             const QStringList &alternativeIdAttributes = QStringList(), bool sanitize = false);
     void toJdf(QXmlStreamWriter &jdfWriter, bool rootNode = false);
 
 signals:

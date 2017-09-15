@@ -34,10 +34,10 @@ JdfDocumentSP JdfDocument::create()
     return result;
 }
 
-JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes, bool sanitize)
+JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader, const QString &forceJobId, const QStringList &alternativeIdAttributes, bool sanitize)
 {
     JdfDocumentSP document = create();
-    JdfNodeSP node = JdfNode::fromJdf(xmlReader, alternativeIdAttributes, sanitize);
+    JdfNodeSP node = JdfNode::fromJdf(xmlReader, forceJobId, alternativeIdAttributes, sanitize);
     if (!node) {
         qCCritical(proofNetworkJdfDataLog) << "JDF Document not created. Root JDF node is invalid.";
         return JdfDocumentSP();

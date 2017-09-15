@@ -176,7 +176,7 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeS
         auto head = queue.takeFirst();
         if (predicate(head))
             return head;
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return JdfNodeSP();
 }
@@ -191,14 +191,14 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool (const C
     while (queue.count()) {
         auto head = queue.takeFirst();
         QList<ComponentSP> componentsQueue;
-        componentsQueue.append(head->resourcePool()->components());
+        componentsQueue << head->resourcePool()->components();
         while (componentsQueue.count()) {
             auto component = componentsQueue.takeFirst();
             if (predicate(component))
                 return component;
-            componentsQueue.append(component->parts());
+            componentsQueue << component->parts();
         }
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return ComponentSP();
 }
@@ -215,7 +215,7 @@ ComponentLinkSP JdfNode::findComponentLink(const std::function<bool (const Compo
         auto link = algorithms::findIf(head->resourceLinkPool()->componentLinks(), predicate);
         if (link)
             return link;
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return ComponentLinkSP();
 }
@@ -232,7 +232,7 @@ MediaLinkSP JdfNode::findMediaLink(const std::function<bool (const MediaLinkSP &
         auto link = algorithms::findIf(head->resourceLinkPool()->mediaLinks(), predicate);
         if (link)
             return link;
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return MediaLinkSP();
 }
@@ -249,7 +249,7 @@ MediaSP JdfNode::findMedia(const std::function<bool (const MediaSP &)> &predicat
         auto media = algorithms::findIf(head->resourcePool()->media(), predicate);
         if (media)
             return media;
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return MediaSP();
 }
@@ -266,7 +266,7 @@ LayoutSP JdfNode::findLayout(const std::function<bool (const LayoutSP &)> &predi
         auto layout = algorithms::findIf(head->resourcePool()->layouts(), predicate);
         if (layout)
             return layout;
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return LayoutSP();
 }
@@ -283,7 +283,7 @@ QList<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool (const JdfNodeSP
         auto head = queue.takeFirst();
         if (predicate(head))
             result << head;
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return result;
 }
@@ -299,14 +299,14 @@ QList<ComponentSP> JdfNode::findAllComponents(const std::function<bool (const Co
     while (queue.count()) {
         auto head = queue.takeFirst();
         QList<ComponentSP> componentsQueue;
-        componentsQueue.append(head->resourcePool()->components());
+        componentsQueue << head->resourcePool()->components();
         while (componentsQueue.count()) {
             auto component = componentsQueue.takeFirst();
             if (predicate(component))
                 result << component;
-            componentsQueue.append(component->parts());
+            componentsQueue << component->parts();
         }
-        queue.append(head->jdfNodes());
+        queue << head->jdfNodes();
     }
     return result;
 }
@@ -321,8 +321,8 @@ QList<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool (
     QList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
-        result.append(algorithms::filter(head->resourceLinkPool()->componentLinks(), predicate));
-        queue.append(head->jdfNodes());
+        result << algorithms::filter(head->resourceLinkPool()->componentLinks(), predicate);
+        queue << head->jdfNodes();
     }
     return result;
 }
@@ -337,8 +337,8 @@ QList<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool (const Me
     QList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
-        result.append(algorithms::filter(head->resourceLinkPool()->mediaLinks(), predicate));
-        queue.append(head->jdfNodes());
+        result << algorithms::filter(head->resourceLinkPool()->mediaLinks(), predicate);
+        queue << head->jdfNodes();
     }
     return result;
 }
@@ -353,8 +353,8 @@ QList<MediaSP> JdfNode::findAllMedia(const std::function<bool (const MediaSP &)>
     QList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
-        result.append(algorithms::filter(head->resourcePool()->media(), predicate));
-        queue.append(head->jdfNodes());
+        result << algorithms::filter(head->resourcePool()->media(), predicate);
+        queue << head->jdfNodes();
     }
     return result;
 }
@@ -369,8 +369,8 @@ QList<LayoutSP> JdfNode::findAllLayouts(const std::function<bool (const LayoutSP
     QList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
-        result.append(algorithms::filter(head->resourcePool()->layouts(), predicate));
-        queue.append(head->jdfNodes());
+        result << algorithms::filter(head->resourcePool()->layouts(), predicate);
+        queue << head->jdfNodes();
     }
     return result;
 }
@@ -390,7 +390,7 @@ JdfNodeSP JdfNode::create()
     return result;
 }
 
-JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alternativeIdAttributes, bool sanitize)
+JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, const QStringList &alternativeIdAttributes, bool sanitize)
 {
     JdfNodeSP document = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
@@ -400,7 +400,7 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                     document->setFetched(true);
                     QXmlStreamAttributes attributes = xmlReader.attributes();
                     document->setId(attributes.value(QStringLiteral("ID")).toString());
-                    document->setJobId(attributes.value(QStringLiteral("JobID")).toString());
+                    document->setJobId(jobId.isEmpty() ? attributes.value(QStringLiteral("JobID")).toString() : jobId);
                     document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
                     document->setType(attributes.value(QStringLiteral("Type")).toString());
                     QString loweredType = document->type().toLower();
@@ -425,7 +425,7 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QStringList &alter
                         }
                     }
                 } else {
-                    JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader, alternativeIdAttributes, sanitize);
+                    JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader, document->jobId(), alternativeIdAttributes, sanitize);
                     if (!jdfNode) {
                         qCCritical(proofNetworkJdfDataLog) << "JDF not created. Sub JDF node is invalid.";
                         return JdfNodeSP();
