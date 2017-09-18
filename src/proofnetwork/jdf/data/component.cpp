@@ -280,7 +280,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
                 if (partitionedComponent) {
                     ComponentSP part = Component::fromJdf(xmlReader, jobId, sanitize);
                     if (!part) {
-                        qCCritical(proofNetworkJdfDataLog) << "Component not created. Part is not valid";
+                        qCWarning(proofNetworkJdfDataLog) << "Component not created. Part is not valid";
                         return ComponentSP();
                     }
                     component->addPart(part);
@@ -290,7 +290,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
             } else if (xmlReader.name() == "Bundle") {
                 BundleSP bundle = Bundle::fromJdf(xmlReader, jobId, sanitize);
                 if (!bundle) {
-                    qCCritical(proofNetworkJdfDataLog) << "Bundle not created.";
+                    qCWarning(proofNetworkJdfDataLog) << "Bundle not created.";
                     return ComponentSP();
                 }
                 component->setBundle(bundle);
@@ -304,7 +304,7 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
     }
 
     if (component->d_func()->partIdKeys.count() && !component->d_func()->partsAreValid()) {
-        qCCritical(proofNetworkJdfDataLog) << "Component not created. Partioning is not valid";
+        qCWarning(proofNetworkJdfDataLog) << "Component not created. Partioning is not valid";
         return ComponentSP();
     }
 
@@ -393,7 +393,7 @@ bool ComponentPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) const
         partsToCheck = partIdKeys;
     if (partsToCheck.isEmpty()) {
         if (parts.count())
-            qCCritical(proofNetworkJdfDataLog) << "Component partioning is not valid. Extra parts found";
+            qCWarning(proofNetworkJdfDataLog) << "Component partioning is not valid. Extra parts found";
         return parts.isEmpty();
     }
 
@@ -401,7 +401,7 @@ bool ComponentPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) const
 
     for (const auto &part : parts) {
         if (!part->hasPartAttribute(currentPart)) {
-            qCCritical(proofNetworkJdfDataLog) << "Component partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
+            qCWarning(proofNetworkJdfDataLog) << "Component partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
             return false;
         }
         if (!part->d_func()->partsAreValid(partsToCheck))

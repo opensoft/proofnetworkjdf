@@ -16,5 +16,10 @@
         <file>data/knowndevicesresponse.jmf</file>
         <file>data/knowndevicesresponse2.jmf</file>
         <file>data/jdfwithpartitionedcomponents.jdf</file>
+        <file>data/jdfhelpers.jdf</file>
+        <file>data/malformed1.jdf</file>
+        <file>data/malformed2.jdf</file>
+        <file>data/malformed3.jdf</file>
+        <file>data/malformed_correct.jdf</file>
     </qresource>
 </RCC>

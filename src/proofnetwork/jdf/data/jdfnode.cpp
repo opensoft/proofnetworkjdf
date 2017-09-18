@@ -427,7 +427,7 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, co
                 } else {
                     JdfNodeSP jdfNode = JdfNode::fromJdf(xmlReader, document->jobId(), alternativeIdAttributes, sanitize);
                     if (!jdfNode) {
-                        qCCritical(proofNetworkJdfDataLog) << "JDF not created. Sub JDF node is invalid.";
+                        qCWarning(proofNetworkJdfDataLog) << "JDF not created. Sub JDF node is invalid.";
                         return JdfNodeSP();
                     }
                     document->d_func()->jdfNodes << jdfNode;
@@ -435,21 +435,21 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, co
             } else if (xmlReader.name() == "AuditPool") {
                 auto auditPool = AuditPool::fromJdf(xmlReader);
                 if (!auditPool) {
-                    qCCritical(proofNetworkJdfDataLog) << "JDF not created. AuditPool is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "JDF not created. AuditPool is invalid.";
                     return JdfNodeSP();
                 }
                 document->setAuditPool(auditPool);
             } else if (xmlReader.name() == "ResourcePool") {
                 auto resourcePool = ResourcePool::fromJdf(xmlReader, document->jobId(), sanitize);
                 if (!resourcePool) {
-                    qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourcePool is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "JDF not created. ResourcePool is invalid.";
                     return JdfNodeSP();
                 }
                 document->setResourcePool(resourcePool);
             } else if (xmlReader.name() == "ResourceLinkPool") {
                 auto resourceLinkPool = ResourceLinkPool::fromJdf(xmlReader);
                 if (!resourceLinkPool) {
-                    qCCritical(proofNetworkJdfDataLog) << "JDF not created. ResourceLinkPool is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "JDF not created. ResourceLinkPool is invalid.";
                     return JdfNodeSP();
                 }
                 document->setResourceLinkPool(resourceLinkPool);

@@ -39,7 +39,19 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader, const QString &f
     JdfDocumentSP document = create();
     JdfNodeSP node = JdfNode::fromJdf(xmlReader, forceJobId, alternativeIdAttributes, sanitize);
     if (!node) {
-        qCCritical(proofNetworkJdfDataLog) << "JDF Document not created. Root JDF node is invalid.";
+        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. Root JDF node is invalid.";
+        return JdfDocumentSP();
+    }
+    //We should be now at EndElement, we should read it and check what is after it
+    if (!xmlReader.isEndElement() || xmlReader.hasError()) {
+        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. XML is corrupted.";
+        return JdfDocumentSP();
+    }
+    xmlReader.readNext();
+    while (!xmlReader.atEnd() && xmlReader.isWhitespace())
+        xmlReader.readNext();
+    if (!xmlReader.atEnd() || xmlReader.hasError()) {
+        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. XML is corrupted.";
         return JdfDocumentSP();
     }
     document->updateFrom(node);

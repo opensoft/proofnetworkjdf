@@ -83,14 +83,14 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QStrin
             if (xmlReader.name() == "CuttingParams") {
                 CuttingParamsSP part = CuttingParams::fromJdf(xmlReader, jobId, sanitize);
                 if (!part) {
-                    qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created. Part is not valid";
+                    qCWarning(proofNetworkJdfDataLog) << "CuttingParams not created. Part is not valid";
                     return CuttingParamsSP();
                 }
                 cuttingParams->addPart(part);
             } else if (xmlReader.name() == "CutBlock") {
                 CutBlockSP cutBlock = CutBlock::fromJdf(xmlReader, jobId, sanitize);
                 if (!cutBlock) {
-                    qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created. Invalid CutBlock found";
+                    qCWarning(proofNetworkJdfDataLog) << "CuttingParams not created. Invalid CutBlock found";
                     return CuttingParamsSP();
                 }
                 cutBlocks.append(cutBlock);
@@ -104,7 +104,7 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QStrin
     }
 
     if (cuttingParams->d_func()->partIdKeys.count() && !cuttingParams->d_func()->partsAreValid()) {
-        qCCritical(proofNetworkJdfDataLog) << "CuttingParams not created. Partioning is not valid";
+        qCWarning(proofNetworkJdfDataLog) << "CuttingParams not created. Partioning is not valid";
         return CuttingParamsSP();
     }
 
@@ -189,7 +189,7 @@ bool CuttingParamsPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) c
         partsToCheck = partIdKeys;
     if (partsToCheck.isEmpty()) {
         if (parts.count())
-            qCCritical(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Extra parts found";
+            qCWarning(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Extra parts found";
         return parts.isEmpty();
     }
 
@@ -197,7 +197,7 @@ bool CuttingParamsPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) c
 
     for (const auto &part : parts) {
         if (!part->hasPartAttribute(currentPart)) {
-            qCCritical(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
+            qCWarning(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
             return false;
         }
         if (!part->d_func()->partsAreValid(partsToCheck))

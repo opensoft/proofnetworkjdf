@@ -81,6 +81,39 @@ protected:
     JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
+TEST_F(JdfDocumentTest, malformedJdf)
+{
+    {
+        QFile file(":/data/malformed1.jdf");
+        ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml(&file);
+        auto jdf = JdfDocument::fromJdf(xml);
+        ASSERT_FALSE(jdf);
+    }
+    {
+        QFile file(":/data/malformed2.jdf");
+        ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml(&file);
+        auto jdf = JdfDocument::fromJdf(xml);
+        ASSERT_FALSE(jdf);
+    }
+    {
+        QFile file(":/data/malformed3.jdf");
+        ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml(&file);
+        auto jdf = JdfDocument::fromJdf(xml);
+        ASSERT_FALSE(jdf);
+    }
+    {
+        //This one isn't malformed, it should be parsed correctly
+        QFile file(":/data/malformed_correct.jdf");
+        ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml(&file);
+        auto jdf = JdfDocument::fromJdf(xml);
+        ASSERT_TRUE(jdf);
+    }
+}
+
 TEST_F(JdfDocumentTest, fromJdf)
 {
     EXPECT_EQ("JDF_0000", jdfDocUT->id());

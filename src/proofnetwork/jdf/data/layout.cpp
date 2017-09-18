@@ -90,7 +90,7 @@ LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
             if (xmlReader.name() == "Media") {
                 MediaSP media = Media::fromJdf(xmlReader, jobId, sanitize);
                 if (!media) {
-                    qCCritical(proofNetworkJdfDataLog) << "Layout not created. Media is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "Layout not created. Media is invalid.";
                     return LayoutSP();
                 }
                 mediaList << media;

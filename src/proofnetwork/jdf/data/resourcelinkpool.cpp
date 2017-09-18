@@ -201,49 +201,49 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
             if (xmlReader.name() == "MediaLink") {
                 MediaLinkSP media = MediaLink::fromJdf(xmlReader);
                 if (!media) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. MediaLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. MediaLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 mediaLinksList << media;
             } else if (xmlReader.name() == "LaminatingIntentLink") {
                 LaminatingIntentLinkSP laminatingIntent = LaminatingIntentLink::fromJdf(xmlReader);
                 if (!laminatingIntent) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. LaminatingIntentLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. LaminatingIntentLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setLaminatingIntentLink(laminatingIntent);
             } else if (xmlReader.name() == "DeliveryIntentLink") {
                 DeliveryIntentLinkSP deliveryIntent = DeliveryIntentLink::fromJdf(xmlReader);
                 if (!deliveryIntent) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. DeliveryIntentLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. DeliveryIntentLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setDeliveryIntentLink(deliveryIntent);
             } else if (xmlReader.name() == "ComponentLink") {
                 ComponentLinkSP component = ComponentLink::fromJdf(xmlReader);
                 if (!component) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. ComponentLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. ComponentLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 components.append(component);
             } else if (xmlReader.name() == "CuttingParamsLink") {
                 CuttingParamsLinkSP cuttingParams = CuttingParamsLink::fromJdf(xmlReader);
                 if (!cuttingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. CuttingParamsLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. CuttingParamsLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setCuttingParamsLink(cuttingParams);
             } else if (xmlReader.name() == "FoldingParamsLink") {
                 FoldingParamsLinkSP foldingParams = FoldingParamsLink::fromJdf(xmlReader);
                 if (!foldingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. FoldingParamsLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. FoldingParamsLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setFoldingParamsLink(foldingParams);
             } else if (xmlReader.name() == "BoxPackingParamsLink") {
                 BoxPackingParamsLinkSP boxPackingParamsLink = BoxPackingParamsLink::fromJdf(xmlReader);
                 if (!boxPackingParamsLink) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourceLinkPool not created. BoxPackingParamsLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. BoxPackingParamsLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setBoxPackingParamsLink(boxPackingParamsLink);

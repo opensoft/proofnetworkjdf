@@ -145,7 +145,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
                 cutBlock->setWidth(blockSizeList.at(0).toDouble());
                 cutBlock->setHeight(blockSizeList.at(1).toDouble());
             } else {
-                qCCritical(proofNetworkJdfDataLog) << "CutBlock not created. BlockSize is not valid";
+                qCWarning(proofNetworkJdfDataLog) << "CutBlock not created. BlockSize is not valid";
                 return CutBlockSP();
             }
             cutBlock->setTransformationMatrix(attributes.value(QStringLiteral("BlockTrf")).toString());

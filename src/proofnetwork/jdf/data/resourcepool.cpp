@@ -128,56 +128,56 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
             if (xmlReader.name() == "Media") {
                 MediaSP media = Media::fromJdf(xmlReader, jobId, sanitize);
                 if (!media) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Media is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. Media is invalid.";
                     return ResourcePoolSP();
                 }
                 mediaList << media;
             } else if (xmlReader.name() == "Layout") {
                 LayoutSP layout = Layout::fromJdf(xmlReader, jobId, sanitize);
                 if (!layout) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Layout is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. Layout is invalid.";
                     return ResourcePoolSP();
                 }
                 layoutsList << layout;
             } else if (xmlReader.name() == "LaminatingIntent") {
                 LaminatingIntentSP laminatingIntent = LaminatingIntent::fromJdf(xmlReader);
                 if (!laminatingIntent) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. LaminatingIntent is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. LaminatingIntent is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setLaminatingIntent(laminatingIntent);
             } else if (xmlReader.name() == "DeliveryIntent") {
                 DeliveryIntentSP deliveryIntent = DeliveryIntent::fromJdf(xmlReader, jobId, sanitize);
                 if (!deliveryIntent) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. DeliveryIntent is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. DeliveryIntent is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setDeliveryIntent(deliveryIntent);
             } else if (xmlReader.name() == "Component") {
                 ComponentSP component = Component::fromJdf(xmlReader, jobId, sanitize);
                 if (!component) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. Component is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. Component is invalid.";
                     return ResourcePoolSP();
                 }
                 componentsList.append(component);
             } else if (xmlReader.name() == "CuttingParams") {
                 CuttingParamsSP cuttingParams = CuttingParams::fromJdf(xmlReader, jobId, sanitize);
                 if (!cuttingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. CuttingParams is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. CuttingParams is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setCuttingParams(cuttingParams);
             } else if (xmlReader.name() == "FoldingParams") {
                 FoldingParamsSP foldingParams = FoldingParams::fromJdf(xmlReader);
                 if (!foldingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. FoldingParams is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. FoldingParams is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setFoldingParams(foldingParams);
             } else if (xmlReader.name() == "BoxPackingParams") {
                 BoxPackingParamsSP boxPackingParams = BoxPackingParams::fromJdf(xmlReader);
                 if (!boxPackingParams) {
-                    qCCritical(proofNetworkJdfDataLog) << "ResourcePool not created. BoxPackingParams is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "ResourcePool not created. BoxPackingParams is invalid.";
                     return ResourcePoolSP();
                 }
                 resourcePool->setBoxPackingParams(boxPackingParams);

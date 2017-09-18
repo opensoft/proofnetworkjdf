@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JDF ID="root" xmlns="http://www.CIP4.org/JDFSchema_1_1" Version="1.5" Type="Product" JobID="test" Status="Waiting">
+   <ResourcePool>
+      <Component ComponentType="Sheet" Dimensions="1100.0000 1000.0000 0.0000" Amount="200.0000" ID="LinkedRootComponent" Status="Available" Class="Quantity"/>
+      <Media Dimension="1100.0000 1100.0000" ID="RootPaperMedia" MediaType="Paper"/>
+      <CuttingParams ID="CuttingParams1" Class="Parameter" Status="Available">
+         <CutBlock Class="Parameter" BlockName="Block_1" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 350.0 100.0" BlockType="CutBlock"/>
+         <CutBlock Class="Parameter" BlockName="Block_2" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 650.0 100.0" BlockType="CutBlock"/>
+         <CutBlock Class="Parameter" BlockName="Block_3" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 350.0 400.0" BlockType="CutBlock"/>
+         <CutBlock Class="Parameter" BlockName="Block_4" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 650.0 400.0" BlockType="CutBlock"/>
+      </CuttingParams>
+   </ResourcePool>
+   <JDF ID="cutting_node" Type="Other" Status="Waiting" />
+      <ResourceLinkPool>
+         <CuttingParamsLink rRef="CuttingParams1" Usage="Input"/>
+         <MediaLink rRef="RootPaperMedia" Usage="Input"/>
+      </ResourceLinkPool>
+   </JDF>
+</JDF>

@@ -77,14 +77,14 @@ AuditPoolSP AuditPool::fromJdf(QXmlStreamReader &xmlReader)
             if (xmlReader.name() == "Modified") {
                 ModifiedAuditSP modified = ModifiedAudit::fromJdf(xmlReader);
                 if (!modified) {
-                    qCCritical(proofNetworkJdfDataLog) << "AuditPool not created. Modified is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "AuditPool not created. Modified is invalid.";
                     return AuditPoolSP();
                 }
                 auditPool->setModified(modified);
             } else if (xmlReader.name() == "Created") {
                 CreatedAuditSP created = CreatedAudit::fromJdf(xmlReader);
                 if (!created) {
-                    qCCritical(proofNetworkJdfDataLog) << "AuditPool not created. Created is invalid.";
+                    qCWarning(proofNetworkJdfDataLog) << "AuditPool not created. Created is invalid.";
                     return AuditPoolSP();
                 }
                 auditPool->setCreated(created);

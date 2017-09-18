@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JDF ID="root" xmlns="http://www.CIP4.org/JDFSchema_1_1" Version="1.5" Type="Product" JobID="test" Status="Waiting">
+   <ResourcePool>
+      <Component ComponentType="Sheet" Dimensions="1100.0000 1000.0000 0.0000" Amount="200.0000" ID="LinkedRootComponent" Status="Available" Class="Quantity"/>
+      <Media Dimension="1100.0000 1100.0000" ID="RootPaperMedia" MediaType="Paper"/>
+      <CuttingParams ID="CuttingParams1" Class="Parameter" Status="Available">
+         <CutBlock Class="Parameter" BlockName="Block_1" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 350.0 100.0" BlockType="CutBlock"/>
+         <CutBlock Class="Parameter" BlockName="Block_2" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 650.0 100.0" BlockType="CutBlock"/>
+         <CutBlock Class="Parameter" BlockName="Block_3" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 350.0 400.0" BlockType="CutBlock"/>
+         <CutBlock Class="Parameter" BlockName="Block_4" BlockSize="250.0 250.0" BlockTrf="0.0 1.0 -1.0 0.0 650.0 400.0" BlockType="CutBlock"/>
+      </CuttingParams>
+      <FoldingParams ID="FoldingParams1" Class="Parameter" Status="Available" />
+      <BoxPackingParams ID="BoxPackingParams1" Class="Parameter" Status="Available" />
+   </ResourcePool>
+
+   <JDF ID="cutting_node3" Type="Other" Status="Waiting">
+      <ResourceLinkPool>
+         <CuttingParamsLink rRef="CuttingParams1" Usage="Input"/>
+         <MediaLink rRef="RootPaperMedia" Usage="Input"/>
+      </ResourceLinkPool>
+   </JDF>
+   <JDF ID="cutting_node2" Type="Cutting" Status="Waiting">
+      <ResourceLinkPool>
+         <MediaLink rRef="RootPaperMedia" Usage="Input"/>
+         <ComponentLink rRef="LinkedRootComponent" Usage="Output"/>
+      </ResourceLinkPool>
+   </JDF>
+   <JDF ID="cutting_and_folding_node1" Type="ProcessGroup" Types="Folding Cutting" Status="Waiting">
+      <ResourceLinkPool>
+         <CuttingParamsLink rRef="CuttingParams1" Usage="Input"/>
+         <FoldingParamsLink rRef="FoldingParams1" Usage="Input"/>
+         <ComponentLink rRef="LinkedRootComponent" Usage="Input"/>
+      </ResourceLinkPool>
+   </JDF>
+
+   <JDF ID="folding_node3" Type="Other" Status="Waiting">
+      <ResourceLinkPool>
+         <FoldingParamsLink rRef="FoldingParams1" Usage="Input"/>
+      </ResourceLinkPool>
+   </JDF>
+   <JDF ID="folding_node2" Type="Folding" Status="Waiting" />
+   <JDF ID="folding_and_boxpacking_node1" Type="Combined" Types="Folding BoxPacking" Status="Waiting">
+      <ResourceLinkPool>
+         <BoxPackingParamsLink rRef="BoxPackingParams1" Usage="Input"/>
+         <FoldingParamsLink rRef="FoldingParams1" Usage="Input"/>
+      </ResourceLinkPool>
+   </JDF>
+
+   <JDF ID="boxpacking_node3" Type="Other" Status="Waiting">
+      <ResourceLinkPool>
+         <BoxPackingParamsLink rRef="BoxPackingParams1" Usage="Input"/>
+      </ResourceLinkPool>
+   </JDF>
+   <JDF ID="boxpacking_node2" Type="BoxPacking" Status="Waiting" />
+</JDF>
