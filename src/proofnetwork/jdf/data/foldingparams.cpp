@@ -54,7 +54,7 @@ void FoldingParams::setFoldCatalog(const QString &foldCatalog)
     Q_D(FoldingParams);
 
     if (!verifyFoldCatalog(foldCatalog)) {
-        qCWarning(proofNetworkJdfDataLog) << "Wrong format of FoldCatalog: " << foldCatalog;
+        qCDebug(proofNetworkJdfDataLog) << "Wrong format of FoldCatalog: " << foldCatalog;
         d->foldCatalog = QString();
         return;
     }
