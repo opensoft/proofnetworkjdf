@@ -100,7 +100,7 @@ private:
     QString dataToString(const QString &start, const QString &stop) const
     {
         if (start.isEmpty() || stop.isEmpty())
-            return QStringLiteral();
+            return QLatin1String();
         if (start == stop)
             return QStringLiteral("%1").arg(start);
         return QStringLiteral("%1 ~ %2").arg(start, stop);
