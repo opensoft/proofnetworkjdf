@@ -43,20 +43,26 @@ protected:
         linkPool2 = ResourceLinkPool::fromJdf(xml2);
         ASSERT_TRUE(linkPool2);
 
-        qmlWrapper = linkPool1->toQmlWrapper();
-        ASSERT_TRUE(qmlWrapper != nullptr);
+        qmlWrapperUT = linkPool1->toQmlWrapper();
+        ASSERT_TRUE(qmlWrapperUT != nullptr);
     }
 
     void TearDown() override
     {
-        delete qmlWrapper;
+        delete qmlWrapperUT;
     }
 
 protected:
     ResourceLinkPoolSP linkPool1;
     ResourceLinkPoolSP linkPool2;
-    ResourceLinkPoolQmlWrapper *qmlWrapper;
+    ResourceLinkPoolQmlWrapper *qmlWrapperUT;
 };
+
+TEST_F(ResourceLinkPoolTest, qmlWrapperProperties)
+{
+    QStringList invalidProperties = findWrongChangedSignalsInQmlWrapper(qmlWrapperUT);
+    EXPECT_EQ(0, invalidProperties.count()) << invalidProperties.join("\n").toLatin1().constData();
+}
 
 TEST_F(ResourceLinkPoolTest, fromJdf)
 {
@@ -88,7 +94,7 @@ TEST_F(ResourceLinkPoolTest, fromJdf)
 TEST_F(ResourceLinkPoolTest, updateFrom)
 {
     QList<QSignalSpy *> spies = spiesForObject(linkPool1.data());
-    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapper);
+    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
     linkPool1->updateFrom(linkPool2);
 

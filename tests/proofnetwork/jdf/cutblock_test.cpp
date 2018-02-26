@@ -50,6 +50,12 @@ protected:
     CutBlockQmlWrapper *qmlWrapperUT;
 };
 
+TEST_F(CutBlockTest, qmlWrapperProperties)
+{
+    QStringList invalidProperties = findWrongChangedSignalsInQmlWrapper(qmlWrapperUT);
+    EXPECT_EQ(0, invalidProperties.count()) << invalidProperties.join("\n").toLatin1().constData();
+}
+
 TEST_F(CutBlockTest, fromJdf)
 {
     EXPECT_EQ("A-1", cutBlockUT->blockName());

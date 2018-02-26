@@ -37,20 +37,26 @@ protected:
         foldingParams2 = FoldingParams::fromJdf(xml2);
         ASSERT_TRUE(foldingParams2 != nullptr);
 
-        qmlWrapper = foldingParams1->toQmlWrapper();
-        ASSERT_TRUE(qmlWrapper != nullptr);
+        qmlWrapperUT = foldingParams1->toQmlWrapper();
+        ASSERT_TRUE(qmlWrapperUT != nullptr);
     }
 
     void TearDown() override
     {
-        delete qmlWrapper;
+        delete qmlWrapperUT;
     }
 
 protected:
     FoldingParamsSP foldingParams1;
     FoldingParamsSP foldingParams2;
-    FoldingParamsQmlWrapper *qmlWrapper;
+    FoldingParamsQmlWrapper *qmlWrapperUT;
 };
+
+TEST_F(FoldingParamsTest, qmlWrapperProperties)
+{
+    QStringList invalidProperties = findWrongChangedSignalsInQmlWrapper(qmlWrapperUT);
+    EXPECT_EQ(0, invalidProperties.count()) << invalidProperties.join("\n").toLatin1().constData();
+}
 
 TEST_F(FoldingParamsTest, fromJdf)
 {
@@ -61,7 +67,7 @@ TEST_F(FoldingParamsTest, fromJdf)
 TEST_F(FoldingParamsTest, updateFrom)
 {
     QList<QSignalSpy *> spies = spiesForObject(foldingParams1.data());
-    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapper);
+    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
     foldingParams1->updateFrom(foldingParams2);
 

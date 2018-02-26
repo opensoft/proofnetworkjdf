@@ -81,6 +81,12 @@ protected:
     JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
+TEST_F(JdfDocumentTest, qmlWrapperProperties)
+{
+    QStringList invalidProperties = findWrongChangedSignalsInQmlWrapper(qmlWrapperUT);
+    EXPECT_EQ(0, invalidProperties.count()) << invalidProperties.join("\n").toLatin1().constData();
+}
+
 TEST_F(JdfDocumentTest, malformedJdf)
 {
     {
