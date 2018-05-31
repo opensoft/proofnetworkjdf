@@ -1,12 +1,13 @@
 #include "resourcelinkpool.h"
-#include "proofnetwork/networkdataentity_p.h"
+
+#include "proofnetwork/jdf/data/boxpackingparamslink.h"
 #include "proofnetwork/jdf/data/componentlink.h"
 #include "proofnetwork/jdf/data/cuttingparamslink.h"
-#include "proofnetwork/jdf/data/foldingparamslink.h"
-#include "proofnetwork/jdf/data/boxpackingparamslink.h"
-#include "proofnetwork/jdf/data/laminatingintentlink.h"
 #include "proofnetwork/jdf/data/deliveryintentlink.h"
+#include "proofnetwork/jdf/data/foldingparamslink.h"
+#include "proofnetwork/jdf/data/laminatingintentlink.h"
 #include "proofnetwork/jdf/data/medialink.h"
+#include "proofnetwork/networkdataentity_p.h"
 
 #include <set>
 
@@ -19,7 +20,8 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
 
     ResourceLinkPoolPrivate()
     {
-        registerChildren(componentLinks, cuttingParamsLink, mediaLinks, laminatingIntentLink, deliveryIntentLink, foldingParamsLink, boxPackingParamsLink);
+        registerChildren(componentLinks, cuttingParamsLink, mediaLinks, laminatingIntentLink, deliveryIntentLink,
+                         foldingParamsLink, boxPackingParamsLink);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
@@ -33,8 +35,8 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
     BoxPackingParamsLinkSP boxPackingParamsLink = BoxPackingParamsLink::create();
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof::Jdf;
 
@@ -178,7 +180,6 @@ ResourceLinkPoolQmlWrapper *ResourceLinkPool::toQmlWrapper(QObject *parent) cons
     ResourceLinkPoolSP castedSelf = qSharedPointerCast<ResourceLinkPool>(d->weakSelf);
     Q_ASSERT(castedSelf);
     return new ResourceLinkPoolQmlWrapper(castedSelf, parent);
-
 }
 
 ResourceLinkPoolSP ResourceLinkPool::create()
@@ -208,7 +209,8 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
             } else if (xmlReader.name() == "LaminatingIntentLink") {
                 LaminatingIntentLinkSP laminatingIntent = LaminatingIntentLink::fromJdf(xmlReader);
                 if (!laminatingIntent) {
-                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. LaminatingIntentLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog)
+                        << "ResourceLinkPool not created. LaminatingIntentLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setLaminatingIntentLink(laminatingIntent);
@@ -243,7 +245,8 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
             } else if (xmlReader.name() == "BoxPackingParamsLink") {
                 BoxPackingParamsLinkSP boxPackingParamsLink = BoxPackingParamsLink::fromJdf(xmlReader);
                 if (!boxPackingParamsLink) {
-                    qCWarning(proofNetworkJdfDataLog) << "ResourceLinkPool not created. BoxPackingParamsLink is invalid.";
+                    qCWarning(proofNetworkJdfDataLog)
+                        << "ResourceLinkPool not created. BoxPackingParamsLink is invalid.";
                     return ResourceLinkPoolSP();
                 }
                 linkPool->setBoxPackingParamsLink(boxPackingParamsLink);
@@ -287,10 +290,8 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-ResourceLinkPool::ResourceLinkPool() :
-    NetworkDataEntity(*new ResourceLinkPoolPrivate)
-{
-}
+ResourceLinkPool::ResourceLinkPool() : NetworkDataEntity(*new ResourceLinkPoolPrivate)
+{}
 
 void ResourceLinkPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
@@ -305,5 +306,4 @@ void ResourceLinkPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other
     q->setBoxPackingParamsLink(castedOther->boxPackingParamsLink());
 
     NetworkDataEntityPrivate::updateFrom(other);
-
 }

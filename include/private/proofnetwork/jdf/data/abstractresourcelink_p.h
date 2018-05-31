@@ -2,6 +2,7 @@
 #define ABSTRACTRESOURCELINK_P_H
 
 #include "abstractresourcelink.h"
+
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -18,7 +19,7 @@ public:
     QString rRef;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTRESOURCELINK_P_H

@@ -2,8 +2,10 @@
 
 #include "createdaudit.h"
 #include "modifiedaudit.h"
-#include "proofnetwork/networkdataentity_p.h"
+
 #include "proofcore/objectscache.h"
+
+#include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -12,10 +14,7 @@ class AuditPoolPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(AuditPool)
 
-    AuditPoolPrivate()
-    {
-        registerChildren(created, modified);
-    }
+    AuditPoolPrivate() { registerChildren(created, modified); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -28,16 +27,14 @@ ObjectsCache<QString, AuditPool> &auditPoolCache()
     return WeakObjectsCache<QString, AuditPool>::instance();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof;
 using namespace Proof::Jdf;
 
-AuditPool::AuditPool()
-    : NetworkDataEntity(*new AuditPoolPrivate)
-{
-}
+AuditPool::AuditPool() : NetworkDataEntity(*new AuditPoolPrivate)
+{}
 
 CreatedAuditSP AuditPool::created() const
 {

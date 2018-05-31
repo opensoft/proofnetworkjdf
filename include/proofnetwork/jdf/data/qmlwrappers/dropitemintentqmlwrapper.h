@@ -1,12 +1,11 @@
 #ifndef DROPITEMINTENTQMLWRAPPER_H
 #define DROPITEMINTENTQMLWRAPPER_H
 
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
-
 #include "proofnetwork/jdf/data/qmlwrappers/componentqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -31,10 +30,9 @@ signals:
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // DROPITEMINTENTQMLWRAPPER_H

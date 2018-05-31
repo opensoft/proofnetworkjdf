@@ -1,24 +1,22 @@
 // clazy:skip
 
-#include "gtest/test_global.h"
-
 #include "proofnetwork/jdf/data/cutblock.h"
 
-#include <QXmlStreamReader>
-#include <QSignalSpy>
-#include <QFile>
 #include <QDebug>
+#include <QFile>
+#include <QSignalSpy>
+#include <QXmlStreamReader>
+
+#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
 using testing::Test;
 
-class CutBlockTest: public Test
+class CutBlockTest : public Test
 {
 public:
-    CutBlockTest()
-    {
-    }
+    CutBlockTest() {}
 
 protected:
     void SetUp() override
@@ -39,10 +37,7 @@ protected:
         ASSERT_TRUE(qmlWrapperUT);
     }
 
-    void TearDown() override
-    {
-        delete qmlWrapperUT;
-    }
+    void TearDown() override { delete qmlWrapperUT; }
 
 protected:
     CutBlockSP cutBlockUT;
@@ -75,10 +70,10 @@ TEST_F(CutBlockTest, updateFrom)
 
     cutBlockUT->updateFrom(cutBlockUT2);
 
-    for (QSignalSpy *spy: qmlspies)
+    for (QSignalSpy *spy : qmlspies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
-    for (QSignalSpy *spy: spies)
+    for (QSignalSpy *spy : spies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
     qDeleteAll(spies);

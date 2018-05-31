@@ -12,14 +12,13 @@ class FoldingParamsQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
 };
 
 FoldingParamsQmlWrapper::FoldingParamsQmlWrapper(const FoldingParamsSP &foldingParams, QObject *parent)
-    : AbstractResourceQmlWrapper(foldingParams, *new  FoldingParamsQmlWrapperPrivate, parent)
+    : AbstractResourceQmlWrapper(foldingParams, *new FoldingParamsQmlWrapperPrivate, parent)
 {
     setupEntity();
 }
 
 FoldingParamsQmlWrapper::~FoldingParamsQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(FoldingParams)
 
@@ -31,17 +30,14 @@ void FoldingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity
     FoldingParamsSP foldingParams = d->entity<FoldingParams>();
     Q_ASSERT(foldingParams);
 
-    connect(foldingParams.data(), &FoldingParams::foldCatalogChanged,
-            this, &FoldingParamsQmlWrapper::foldCatalogChanged);
+    connect(foldingParams.data(), &FoldingParams::foldCatalogChanged, this, &FoldingParamsQmlWrapper::foldCatalogChanged);
 
     FoldingParamsSP oldFoldingParams = qSharedPointerCast<FoldingParams>(old);
     if (oldFoldingParams) {
         if (foldingParams->foldCatalog() != oldFoldingParams->foldCatalog())
             emit foldCatalogChanged(foldingParams->foldCatalog());
     }
-
 }
 
-}
-}
-
+} // namespace Jdf
+} // namespace Proof

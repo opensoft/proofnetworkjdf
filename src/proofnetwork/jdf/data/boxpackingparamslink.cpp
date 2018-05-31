@@ -16,7 +16,6 @@ BoxPackingParamsLinkQmlWrapper *BoxPackingParamsLink::toQmlWrapper(QObject *pare
     BoxPackingParamsLinkSP castedSelf = qSharedPointerCast<BoxPackingParamsLink>(d->weakSelf);
     Q_ASSERT(castedSelf);
     return new BoxPackingParamsLinkQmlWrapper(castedSelf, parent);
-
 }
 
 BoxPackingParamsLinkSP BoxPackingParamsLink::create()
@@ -42,8 +41,7 @@ void BoxPackingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
 
 BoxPackingParamsLink::BoxPackingParamsLink(QObject *parent)
     : AbstractResourceLink(*new BoxPackingParamsLinkPrivate, parent)
-{
-}
+{}
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

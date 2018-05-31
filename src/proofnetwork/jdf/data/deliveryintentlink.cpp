@@ -39,10 +39,8 @@ void DeliveryIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-DeliveryIntentLink::DeliveryIntentLink(QObject *parent)
-    : AbstractResourceLink(*new DeliveryIntentLinkPrivate, parent)
-{
-}
+DeliveryIntentLink::DeliveryIntentLink(QObject *parent) : AbstractResourceLink(*new DeliveryIntentLinkPrivate, parent)
+{}
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

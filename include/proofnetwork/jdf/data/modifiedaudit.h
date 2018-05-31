@@ -3,8 +3,8 @@
 
 #include "proofnetwork/jdf/data/abstractaudit.h"
 #include "proofnetwork/jdf/data/qmlwrappers/modifiedauditqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -26,10 +26,9 @@ public:
 
 protected:
     explicit ModifiedAudit();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_MODIFIEDAUDIT_H

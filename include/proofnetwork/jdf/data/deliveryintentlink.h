@@ -1,11 +1,11 @@
 #ifndef DELIVERYINTENTLINK_H
 #define DELIVERYINTENTLINK_H
 
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/deliveryintent.h"
 #include "proofnetwork/jdf/data/qmlwrappers/deliveryintentlinkqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,7 +27,7 @@ protected:
     explicit DeliveryIntentLink(QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // DELIVERYINTENTLINK_H

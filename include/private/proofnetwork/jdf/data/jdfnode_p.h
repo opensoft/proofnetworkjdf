@@ -1,10 +1,10 @@
 #ifndef JDFJDFNODE_P_H
 #define JDFJDFNODE_P_H
 
-#include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/data/auditpool.h"
-#include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
+#include "proofnetwork/networkdataentity_p.h"
 
 #include <QList>
 
@@ -31,7 +31,7 @@ public:
     QStringList types;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFJDFNODE_P_H

@@ -1,13 +1,13 @@
 #ifndef PROOF_JDF_ABSTRACTAUDIT_H
 #define PROOF_JDF_ABSTRACTAUDIT_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
-#include <QXmlStreamReader>
 #include <QDateTime>
+#include <QXmlStreamReader>
 
 namespace Proof {
 namespace Jdf {
@@ -18,7 +18,6 @@ class PROOF_NETWORK_JDF_EXPORT AbstractAudit : public NetworkDataEntity // clazy
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractAudit)
 public:
-
     QString id() const;
     QString agentName() const;
     QString agentVersion() const;
@@ -43,7 +42,7 @@ protected:
     AbstractAudit(AbstractAuditPrivate &dd, QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ABSTRACTAUDIT_H

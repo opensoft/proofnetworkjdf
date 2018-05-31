@@ -2,12 +2,12 @@
 #define PROOF_JDF_SPAN_H
 
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/enumerationsdatatype.h"
+#include "proofnetwork/jdf/data/rangelistdatatype.h"
+#include "proofnetwork/jdf/data/shapedatatype.h"
+#include "proofnetwork/jdf/data/stringsdatatype.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/data/shapedatatype.h"
-#include "proofnetwork/jdf/data/rangelistdatatype.h"
-#include "proofnetwork/jdf/data/enumerationsdatatype.h"
-#include "proofnetwork/jdf/data/stringsdatatype.h"
 
 #include <QDateTime>
 #include <QPoint>
@@ -33,15 +33,9 @@ template <class T, class F, SpanDataType DataType>
 class PROOF_NETWORK_JDF_EXPORT Span
 {
 public:
-    constexpr SpanDataType dataType() const
-    {
-        return DataType;
-    }
+    constexpr SpanDataType dataType() const { return DataType; }
 
-    T actual() const
-    {
-        return m_actual;
-    }
+    T actual() const { return m_actual; }
 
     void setActual(T arg)
     {
@@ -49,10 +43,7 @@ public:
         m_isDirty = true;
     }
 
-    F offerRange() const
-    {
-        return m_offerRange;
-    }
+    F offerRange() const { return m_offerRange; }
 
     void setOfferRange(const F &offerRange)
     {
@@ -60,10 +51,7 @@ public:
         m_isDirty = true;
     }
 
-    T preferred() const
-    {
-        return m_preferred;
-    }
+    T preferred() const { return m_preferred; }
 
     void setPreferred(const T &preferred)
     {
@@ -71,10 +59,7 @@ public:
         m_isDirty = true;
     }
 
-    F range() const
-    {
-        return m_range;
-    }
+    F range() const { return m_range; }
 
     void setRange(const F &range)
     {
@@ -82,23 +67,15 @@ public:
         m_isDirty = true;
     }
 
-    bool isDirty() const
-    {
-        return m_isDirty;
-    }
+    bool isDirty() const { return m_isDirty; }
 
     bool operator==(const Span<T, F, DataType> &other) const
     {
-        return m_actual == other.actual()
-                && m_offerRange == other.offerRange()
-                && m_preferred == other.preferred()
-                && m_range == other.range();
+        return m_actual == other.actual() && m_offerRange == other.offerRange() && m_preferred == other.preferred()
+               && m_range == other.range();
     }
 
-    bool operator!=(const Span<T, F, DataType> &other) const
-    {
-        return !(*this == other);
-    }
+    bool operator!=(const Span<T, F, DataType> &other) const { return !(*this == other); }
 
     static Span<T, F, DataType> fromJdf(const QString &name, QXmlStreamReader &jdfReader)
     {
@@ -132,7 +109,6 @@ public:
     }
 
 private:
-
     void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, int data)
     {
         if (data != 0)
@@ -182,65 +158,64 @@ private:
     F m_range;
 
     bool m_isDirty = false;
-
 };
 
-template<> inline
-QDateTime DurationSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline QDateTime DurationSpan::readAttribute(const QStringRef &attribute)
 {
     return QDateTime::fromString(attribute.toString(), Qt::ISODate);
 }
 
-template<> inline
-QString EnumerationSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline QString EnumerationSpan::readAttribute(const QStringRef &attribute)
 {
     return attribute.toString();
 }
 
-template<> inline
-int IntegerSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline int IntegerSpan::readAttribute(const QStringRef &attribute)
 {
     return attribute.toInt();
 }
 
-template<> inline
-QString NameSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline QString NameSpan::readAttribute(const QStringRef &attribute)
 {
     return attribute.toString();
 }
 
-template<> inline
-double NumberSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline double NumberSpan::readAttribute(const QStringRef &attribute)
 {
     return attribute.toDouble();
 }
 
-template<> inline
-bool OptionSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline bool OptionSpan::readAttribute(const QStringRef &attribute)
 {
     return attribute.toString() == "true";
 }
 
-template<> inline
-ShapeDataType ShapeSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline ShapeDataType ShapeSpan::readAttribute(const QStringRef &attribute)
 {
     return ShapeDataType::fromString(attribute.toString());
 }
 
-template<> inline
-QString StringSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline QString StringSpan::readAttribute(const QStringRef &attribute)
 {
     return attribute.toString();
 }
 
-template<> inline
-QDateTime TimeSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline QDateTime TimeSpan::readAttribute(const QStringRef &attribute)
 {
     return QDateTime::fromString(attribute.toString(), Qt::ISODate);
 }
 
-template<> inline
-QPoint XYPairSpan::readAttribute(const QStringRef &attribute)
+template <>
+inline QPoint XYPairSpan::readAttribute(const QStringRef &attribute)
 {
     QStringList attributeList = attribute.toString().split(QStringLiteral(" "));
     if (attributeList.count() == 2)
@@ -248,7 +223,7 @@ QPoint XYPairSpan::readAttribute(const QStringRef &attribute)
     return QPoint();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_SPAN_H

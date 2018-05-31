@@ -2,10 +2,9 @@
 
 #include "dropintent.h"
 
-#include "proofnetwork/jdf/data/qmlwrappers/deliveryintentqmlwrapper.h"
-#include "proofnetwork/jdf/data/deliveryintentlink.h"
-
 #include "proofnetwork/jdf/data/abstractresource_p.h"
+#include "proofnetwork/jdf/data/deliveryintentlink.h"
+#include "proofnetwork/jdf/data/qmlwrappers/deliveryintentqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -15,10 +14,7 @@ class DeliveryIntentPrivate : public AbstractResourcePrivate
     Q_DECLARE_PUBLIC(DeliveryIntent)
 
 public:
-    DeliveryIntentPrivate() : AbstractResourcePrivate(ResourceClass::IntentClass)
-    {
-        registerChildren(dropIntents);
-    }
+    DeliveryIntentPrivate() : AbstractResourcePrivate(ResourceClass::IntentClass) { registerChildren(dropIntents); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -355,10 +351,8 @@ DeliveryIntentLinkSP DeliveryIntent::toLink(LinkUsage usage) const
     return link;
 }
 
-DeliveryIntent::DeliveryIntent()
-    : AbstractResource(*new DeliveryIntentPrivate)
-{
-}
+DeliveryIntent::DeliveryIntent() : AbstractResource(*new DeliveryIntentPrivate)
+{}
 
 void DeliveryIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
@@ -369,4 +363,3 @@ void DeliveryIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 
     AbstractResourcePrivate::updateFrom(other);
 }
-

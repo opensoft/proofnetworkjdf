@@ -1,10 +1,10 @@
 #ifndef JDFMEDIAQMLWRAPPER_H
 #define JDFMEDIAQMLWRAPPER_H
 
-#include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -53,10 +53,9 @@ signals:
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFMEDIAQMLWRAPPER_H

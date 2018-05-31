@@ -1,10 +1,10 @@
 #include "layoutqmlwrapper.h"
 
-#include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"
-
 #include "mediaqmlwrapper.h"
+
 #include "proofnetwork/jdf/data/layout.h"
 #include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -31,8 +31,7 @@ LayoutQmlWrapper::LayoutQmlWrapper(const LayoutSP &layout, QObject *parent)
 }
 
 LayoutQmlWrapper::~LayoutQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Layout)
 
@@ -49,8 +48,7 @@ void LayoutQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity
     LayoutSP layout = d->entity<Layout>();
     Q_ASSERT(layout);
 
-    connect(layout.data(), &Layout::mediaChanged,
-            d->lambdaConnectContext, [d](){d->updateMedia();});
+    connect(layout.data(), &Layout::mediaChanged, d->lambdaConnectContext, [d]() { d->updateMedia(); });
 
     d->updateMedia();
 
@@ -69,8 +67,7 @@ void LayoutQmlWrapperPrivate::updateMedia()
     for (const MediaSP &md : ndeMedia)
         media << md->toQmlWrapper(q);
 
-    qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media,
-                                                                 &LayoutQmlWrapperPrivate::mediaCount,
+    qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media, &LayoutQmlWrapperPrivate::mediaCount,
                                                                  &LayoutQmlWrapperPrivate::mediaAt);
     emit q->mediaChanged(qmlMediaList);
 }

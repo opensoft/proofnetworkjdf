@@ -7,8 +7,7 @@ using namespace Proof::Jdf;
 
 AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd, QObject *parent)
     : NetworkDataEntity(dd, parent)
-{
-}
+{}
 
 LinkUsage AbstractResourceLink::usage() const
 {
@@ -76,7 +75,8 @@ void AbstractResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
 
 QString AbstractResourceLink::jdfNodeName() const
 {
-    return QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
+    return QString(metaObject()->className())
+        .remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
 }
 
 QString AbstractResourceLink::jdfNodeRefName() const

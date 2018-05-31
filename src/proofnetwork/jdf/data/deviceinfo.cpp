@@ -81,7 +81,8 @@ DeviceInfoSP DeviceInfo::fromJmf(QXmlStreamReader &xmlReader)
         auto attributes = xmlReader.attributes();
         deviceInfo->setDeviceId(attributes.value(QStringLiteral("DeviceID")).toString());
         deviceInfo->setStatus(deviceStatusFromString(attributes.value(QStringLiteral("DeviceStatus")).toString()));
-        deviceInfo->setCondition(deviceConditionFromString(attributes.value(QStringLiteral("DeviceCondition")).toString()));
+        deviceInfo->setCondition(
+            deviceConditionFromString(attributes.value(QStringLiteral("DeviceCondition")).toString()));
     }
     xmlReader.skipCurrentElement();
     return deviceInfo;
@@ -97,11 +98,8 @@ void DeviceInfo::toJmf(QXmlStreamWriter &xmlWriter)
     xmlWriter.writeEndElement();
 }
 
-DeviceInfo::DeviceInfo()
-    : NetworkDataEntity(*new DeviceInfoPrivate)
-{
-}
+DeviceInfo::DeviceInfo() : NetworkDataEntity(*new DeviceInfoPrivate)
+{}
 
 } // namespace Jdf
 } // namespace Proof
-

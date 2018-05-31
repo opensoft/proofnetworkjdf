@@ -62,10 +62,8 @@ void ModifiedAudit::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-ModifiedAudit::ModifiedAudit()
-    : AbstractAudit(*new ModifiedAuditPrivate)
-{
-}
+ModifiedAudit::ModifiedAudit() : AbstractAudit(*new ModifiedAuditPrivate)
+{}
 
 void ModifiedAuditPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

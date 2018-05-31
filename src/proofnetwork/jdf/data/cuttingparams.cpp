@@ -1,6 +1,7 @@
 #include "cuttingparams.h"
 
 #include "cutblock.h"
+
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/cuttingparamslink.h"
 
@@ -11,11 +12,7 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(CuttingParams)
 
-    CuttingParamsPrivate()
-        : AbstractResourcePrivate(ResourceClass::ParameterClass)
-    {
-        registerChildren(cutBlocks);
-    }
+    CuttingParamsPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) { registerChildren(cutBlocks); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -30,15 +27,13 @@ ObjectsCache<QString, CuttingParams> &cuttingParamsCache()
     return WeakObjectsCache<QString, CuttingParams>::instance();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof::Jdf;
 
-CuttingParams::CuttingParams()
-    : AbstractResource(*new CuttingParamsPrivate)
-{
-}
+CuttingParams::CuttingParams() : AbstractResource(*new CuttingParamsPrivate)
+{}
 
 QList<CutBlockSP> CuttingParams::cutBlocks() const
 {
@@ -164,7 +159,6 @@ QList<CuttingParamsSP> CuttingParams::updateParts(const QList<CuttingParamsSP> &
         emit partsChanged();
     }
     return d->parts;
-
 }
 
 void CuttingParams::addPart(const CuttingParamsSP &arg)
@@ -197,7 +191,8 @@ bool CuttingParamsPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) c
 
     for (const auto &part : parts) {
         if (!part->hasPartAttribute(currentPart)) {
-            qCWarning(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
+            qCWarning(proofNetworkJdfDataLog) << "CuttingParams partioning is not valid. Part"
+                                              << resourcePartTypeToString(currentPart) << "not found";
             return false;
         }
         if (!part->d_func()->partsAreValid(partsToCheck))

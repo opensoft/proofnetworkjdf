@@ -10,10 +10,7 @@ class BundleItemPrivate : NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(BundleItem)
 
-    BundleItemPrivate() : NetworkDataEntityPrivate()
-    {
-        registerChildren(component);
-    }
+    BundleItemPrivate() : NetworkDataEntityPrivate() { registerChildren(component); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -75,7 +72,7 @@ BundleItemSP BundleItem::fromJdf(QXmlStreamReader &xmlReader, const QString &job
 {
     BundleItemSP bundleItem = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == "BundleItem" && xmlReader.isStartElement() && ! bundleItem->isFetched()) {
+        if (xmlReader.name() == "BundleItem" && xmlReader.isStartElement() && !bundleItem->isFetched()) {
             bundleItem->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             bundleItem->setAmount(attributes.value(QStringLiteral("Amount")).toInt());
@@ -103,10 +100,8 @@ void BundleItem::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-BundleItem::BundleItem()
-    : NetworkDataEntity(*new BundleItemPrivate)
-{
-}
+BundleItem::BundleItem() : NetworkDataEntity(*new BundleItemPrivate)
+{}
 
 void BundleItemPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
@@ -117,4 +112,3 @@ void BundleItemPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 
     NetworkDataEntityPrivate::updateFrom(other);
 }
-

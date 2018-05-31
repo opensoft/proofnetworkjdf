@@ -1,14 +1,14 @@
 // clazy:skip
 
-#include "gtest/test_global.h"
-
 #include "proofnetwork/jdf/data/jmfdocument.h"
 
-#include <QXmlStreamReader>
-#include <QFile>
 #include <QDateTime>
 #include <QDomDocument>
+#include <QFile>
 #include <QSignalSpy>
+#include <QXmlStreamReader>
+
+#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
@@ -17,9 +17,8 @@ using testing::Test;
 class JmfDocumentTest : public Test
 {
 public:
-    JmfDocumentTest()
-    {
-    }
+    JmfDocumentTest() {}
+
 protected:
     void SetUp() override
     {
@@ -34,9 +33,7 @@ protected:
         jmfDocumentUT2 = JmfDocument::fromJmf(xml2);
     }
 
-    void TearDown() override
-    {
-    }
+    void TearDown() override {}
 
 protected:
     JmfDocumentSP jmfDocumentUT;
@@ -70,7 +67,7 @@ TEST_F(JmfDocumentTest, updateFrom)
     QList<QSignalSpy *> spies = spiesForObject(jmfDocumentUT.data());
     jmfDocumentUT->updateFrom(jmfDocumentUT2);
 
-    for (QSignalSpy *spy: spies)
+    for (QSignalSpy *spy : spies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
     qDeleteAll(spies);

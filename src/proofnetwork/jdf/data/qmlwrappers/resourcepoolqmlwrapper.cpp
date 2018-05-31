@@ -2,16 +2,16 @@
 
 #include "componentqmlwrapper.h"
 #include "cuttingparamsqmlwrapper.h"
-#include "mediaqmlwrapper.h"
 #include "foldingparamsqmlwrapper.h"
 #include "laminatingintentqmlwrapper.h"
+#include "mediaqmlwrapper.h"
 
-#include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
-#include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
+#include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {
@@ -40,8 +40,8 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     LaminatingIntentQmlWrapper *laminatingIntent = nullptr;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof;
 using namespace Proof::Jdf;
@@ -53,8 +53,7 @@ ResourcePoolQmlWrapper::ResourcePoolQmlWrapper(const ResourcePoolSP &resourcePoo
 }
 
 ResourcePoolQmlWrapper::~ResourcePoolQmlWrapper()
-{
-}
+{}
 
 QQmlListProperty<ComponentQmlWrapper> ResourcePoolQmlWrapper::components() const
 {
@@ -95,16 +94,15 @@ void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
     ResourcePoolSP resourcePool = d->entity<ResourcePool>();
     Q_ASSERT(resourcePool);
 
-    connect(resourcePool.data(), &ResourcePool::componentsChanged,
-            d->lambdaConnectContext, [d](){d->updateComponents();});
-    connect(resourcePool.data(), &ResourcePool::cuttingParamsChanged,
-            d->lambdaConnectContext, [d](){d->updateCutingParams();});
-    connect(resourcePool.data(), &ResourcePool::laminatingIntentChanged,
-            d->lambdaConnectContext, [d](){d->updateLaminatingIntent();});
-    connect(resourcePool.data(), &ResourcePool::mediaChanged,
-            d->lambdaConnectContext, [d](){d->updateMedia();});
-    connect(resourcePool.data(), &ResourcePool::foldingParamsChanged,
-            d->lambdaConnectContext, [d](){d->updateFoldingParams();});
+    connect(resourcePool.data(), &ResourcePool::componentsChanged, d->lambdaConnectContext,
+            [d]() { d->updateComponents(); });
+    connect(resourcePool.data(), &ResourcePool::cuttingParamsChanged, d->lambdaConnectContext,
+            [d]() { d->updateCutingParams(); });
+    connect(resourcePool.data(), &ResourcePool::laminatingIntentChanged, d->lambdaConnectContext,
+            [d]() { d->updateLaminatingIntent(); });
+    connect(resourcePool.data(), &ResourcePool::mediaChanged, d->lambdaConnectContext, [d]() { d->updateMedia(); });
+    connect(resourcePool.data(), &ResourcePool::foldingParamsChanged, d->lambdaConnectContext,
+            [d]() { d->updateFoldingParams(); });
 
     d->updateComponents();
     d->updateCutingParams();
@@ -154,8 +152,7 @@ void ResourcePoolQmlWrapperPrivate::updateMedia()
     for (const MediaSP &md : ndeMedia)
         media << md->toQmlWrapper(q);
 
-    qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media,
-                                                                 &ResourcePoolQmlWrapperPrivate::mediaCount,
+    qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media, &ResourcePoolQmlWrapperPrivate::mediaCount,
                                                                  &ResourcePoolQmlWrapperPrivate::mediaAt);
     emit q->mediaChanged(qmlMediaList);
 }

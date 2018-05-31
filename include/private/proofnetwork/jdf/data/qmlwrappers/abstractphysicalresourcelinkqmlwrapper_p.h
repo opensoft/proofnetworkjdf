@@ -11,8 +11,7 @@ class AbstractPhysicalResourceLinkQmlWrapperPrivate : public AbstractResourceLin
     Q_DECLARE_PUBLIC(AbstractPhysicalResourceLinkQmlWrapper)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTPHYSICALRESOURCELINKQMLWRAPPER_P_H
-

@@ -1,7 +1,7 @@
 #include "componentqmlwrapper.h"
 
-#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/bundle.h"
+#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/bundleqmlwrapper.h"
 
@@ -30,8 +30,7 @@ ComponentQmlWrapper::ComponentQmlWrapper(const ComponentSP &component, QObject *
 }
 
 ComponentQmlWrapper::~ComponentQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Component)
 
@@ -74,9 +73,8 @@ void ComponentQmlWrapperPrivate::updateParts()
     for (const ComponentSP &part : ndeParts)
         parts << part->toQmlWrapper(q);
 
-    qmlPartsList = QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>(q, &parts,
-                                                                        &ComponentQmlWrapperPrivate::partsCount,
-                                                                        &ComponentQmlWrapperPrivate::partAt);
+    qmlPartsList = QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>(q, &parts, &ComponentQmlWrapperPrivate::partsCount,
+                                                                     &ComponentQmlWrapperPrivate::partAt);
     emit q->partsChanged(qmlPartsList);
 }
 
@@ -96,16 +94,12 @@ void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
     ComponentSP component = d->entity<Component>();
     Q_ASSERT(component);
 
-    connect(component.data(), &Component::componentTypeChanged,
-            this, &ComponentQmlWrapper::componentTypeChanged);
-    connect(component.data(), &Component::productTypeChanged,
-            this, &ComponentQmlWrapper::productTypeChanged);
-    connect(component.data(), &Component::productTypeDetailsChanged,
-            this, &ComponentQmlWrapper::productTypeDetailsChanged);
-    connect(component.data(), &Component::bundleChanged,
-            d->lambdaConnectContext, [d](){d->updateBundle();});
-    connect(component.data(), &Component::partsChanged,
-            d->lambdaConnectContext, [d](){d->updateParts();});
+    connect(component.data(), &Component::componentTypeChanged, this, &ComponentQmlWrapper::componentTypeChanged);
+    connect(component.data(), &Component::productTypeChanged, this, &ComponentQmlWrapper::productTypeChanged);
+    connect(component.data(), &Component::productTypeDetailsChanged, this,
+            &ComponentQmlWrapper::productTypeDetailsChanged);
+    connect(component.data(), &Component::bundleChanged, d->lambdaConnectContext, [d]() { d->updateBundle(); });
+    connect(component.data(), &Component::partsChanged, d->lambdaConnectContext, [d]() { d->updateParts(); });
 
     ComponentSP oldComponent = qSharedPointerCast<Component>(old);
     if (oldComponent) {
@@ -120,5 +114,5 @@ void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
     d->updateBundle();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

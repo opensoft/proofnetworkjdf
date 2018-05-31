@@ -1,8 +1,8 @@
 #include "media.h"
 
-#include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
-#include "proofnetwork/jdf/data/medialink.h"
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
+#include "proofnetwork/jdf/data/medialink.h"
+#include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -215,13 +215,16 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool s
         QXmlStreamAttributes attributes = xmlReader.attributes();
         media->setId(attributes.value(QStringLiteral("ID")).toString());
         media->setFrontCoating(coatingFromString(attributes.value(QStringLiteral("FrontCoatings")).toString()));
-        media->setFrontCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("FrontCoatingDetail")).toString()));
+        media->setFrontCoatingDetail(
+            coatingDetailFromString(attributes.value(QStringLiteral("FrontCoatingDetail")).toString()));
         media->setBackCoating(coatingFromString(attributes.value(QStringLiteral("BackCoatings")).toString()));
-        media->setBackCoatingDetail(coatingDetailFromString(attributes.value(QStringLiteral("BackCoatingDetail")).toString()));
+        media->setBackCoatingDetail(
+            coatingDetailFromString(attributes.value(QStringLiteral("BackCoatingDetail")).toString()));
         media->setMediaUnit(mediaUnitFromString(attributes.value(QStringLiteral("MediaUnit")).toString()));
         media->setMediaType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
         media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
-        QStringList dimensions = attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
+        QStringList dimensions =
+            attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
         if (dimensions.size() >= 2) {
             media->setWidth(dimensions[0].toDouble());
             media->setHeight(dimensions[1].toDouble());
@@ -233,8 +236,7 @@ MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool s
 
     //TODO: make comparisons in jdf parser more generic
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (!xmlReader.name().compare(QLatin1String("MediaLayers"), Qt::CaseInsensitive)
-                && media->isFetched()) {
+        if (!xmlReader.name().compare(QLatin1String("MediaLayers"), Qt::CaseInsensitive) && media->isFetched()) {
             inLayers = xmlReader.isStartElement();
         } else if (!xmlReader.name().compare(media->jdfNodeName(), Qt::CaseInsensitive) && xmlReader.isStartElement()
                    && media->isFetched() && inLayers) {
@@ -283,7 +285,8 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     Q_D(Media);
     jdfWriter.writeStartElement(QStringLiteral("Media"));
     if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height))
-        jdfWriter.writeAttribute(QStringLiteral("Dimension"), QStringLiteral("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Dimension"),
+                                 QStringLiteral("%1 %2").arg(d->width, 0, 'f', 4).arg(d->height, 0, 'f', 4));
     if (d->frontCoating != CoatingType::NoCoating)
         jdfWriter.writeAttribute(QStringLiteral("FrontCoatings"), coatingToString(d->frontCoating));
     if (d->frontCoatingDetail != CoatingDetail::NoCoatingDetail)
@@ -295,7 +298,7 @@ void Media::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeAttribute(QStringLiteral("MediaUnit"), mediaUnitToString(d->mediaUnit));
     jdfWriter.writeAttribute(QStringLiteral("MediaType"), mediaTypeToString(d->mediaType));
     if (d->thickness > 0)
-        jdfWriter.writeAttribute(QStringLiteral("Thickness"), QString::number(d->thickness,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Thickness"), QString::number(d->thickness, 'f', 4));
 
     AbstractPhysicalResource::toJdf(jdfWriter);
 
@@ -317,10 +320,8 @@ MediaLinkSP Media::toLink(LinkUsage usage) const
     return link;
 }
 
-Media::Media()
-    : AbstractPhysicalResource(*new MediaPrivate)
-{
-}
+Media::Media() : AbstractPhysicalResource(*new MediaPrivate)
+{}
 
 void MediaPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

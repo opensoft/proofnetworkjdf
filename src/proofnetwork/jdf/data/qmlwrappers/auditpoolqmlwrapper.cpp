@@ -16,12 +16,12 @@ class AuditPoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     void updateCreated();
     void updateModified();
 
-    CreatedAuditQmlWrapper *created= nullptr;
+    CreatedAuditQmlWrapper *created = nullptr;
     ModifiedAuditQmlWrapper *modified = nullptr;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof;
 using namespace Proof::Jdf;
@@ -33,8 +33,7 @@ AuditPoolQmlWrapper::AuditPoolQmlWrapper(const AuditPoolSP &auditPool, QObject *
 }
 
 AuditPoolQmlWrapper::~AuditPoolQmlWrapper()
-{
-}
+{}
 
 CreatedAuditQmlWrapper *AuditPoolQmlWrapper::created() const
 {
@@ -57,10 +56,8 @@ void AuditPoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
     AuditPoolSP auditPool = d->entity<AuditPool>();
     Q_ASSERT(auditPool);
 
-    connect(auditPool.data(), &AuditPool::createdChanged,
-            d->lambdaConnectContext, [d](){d->updateCreated();});
-    connect(auditPool.data(), &AuditPool::modifiedChanged,
-            d->lambdaConnectContext, [d](){d->updateModified();});
+    connect(auditPool.data(), &AuditPool::createdChanged, d->lambdaConnectContext, [d]() { d->updateCreated(); });
+    connect(auditPool.data(), &AuditPool::modifiedChanged, d->lambdaConnectContext, [d]() { d->updateModified(); });
 
     d->updateCreated();
     d->updateModified();

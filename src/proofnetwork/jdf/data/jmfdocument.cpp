@@ -1,7 +1,7 @@
 #include "jmfdocument.h"
 
-#include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/data/message.h"
+#include "proofnetwork/networkdataentity_p.h"
 
 #include <QXmlStreamWriter>
 
@@ -14,11 +14,7 @@ class JmfDocumentPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(JmfDocument)
 
-    JmfDocumentPrivate()
-        : NetworkDataEntityPrivate()
-    {
-        registerChildren(messages);
-    }
+    JmfDocumentPrivate() : NetworkDataEntityPrivate() { registerChildren(messages); }
 
     void updateFrom(const NetworkDataEntitySP &other) override;
 
@@ -74,7 +70,7 @@ void JmfDocument::setMessages(const QList<MessageSP> &arg)
 {
     Q_D(JmfDocument);
     bool notEqual = d->messages.size() != arg.size()
-            || !std::is_permutation(d->messages.cbegin(), d->messages.cend(), arg.cbegin());
+                    || !std::is_permutation(d->messages.cbegin(), d->messages.cend(), arg.cbegin());
     if (notEqual) {
         d->messages = arg;
         emit messagesChanged(d->messages);
@@ -112,7 +108,8 @@ JmfDocumentSP JmfDocument::fromJmf(QXmlStreamReader &xmlReader)
                 QXmlStreamAttributes attributes = xmlReader.attributes();
                 document->setSenderId(attributes.value(QStringLiteral("SenderID")).toString());
                 document->d_func()->version = attributes.value(QStringLiteral("Version")).toString();
-                document->setTimeStamp(QDateTime::fromString(attributes.value(QStringLiteral("TimeStamp")).toString(), Qt::ISODate));
+                document->setTimeStamp(
+                    QDateTime::fromString(attributes.value(QStringLiteral("TimeStamp")).toString(), Qt::ISODate));
 
                 while (xmlReader.readNextStartElement()) {
                     auto message = Message::fromJmf(xmlReader);
@@ -151,10 +148,8 @@ QString JmfDocument::toJmf()
     return jmf;
 }
 
-JmfDocument::JmfDocument()
-    : NetworkDataEntity(*new JmfDocumentPrivate)
-{
-}
+JmfDocument::JmfDocument() : NetworkDataEntity(*new JmfDocumentPrivate)
+{}
 
 void JmfDocumentPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -168,4 +163,3 @@ void JmfDocumentPrivate::updateFrom(const NetworkDataEntitySP &other)
 
 } // namespace Jdf
 } // namespace Proof
-

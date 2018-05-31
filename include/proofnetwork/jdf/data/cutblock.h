@@ -1,12 +1,13 @@
 #ifndef JDFCUTBLOCK_H
 #define JDFCUTBLOCK_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/data/qmlwrappers/cutblockqmlwrapper.h"
-#include "proofnetwork/jdf/apihelper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofcore/objectscache.h"
+
+#include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cutblockqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 
@@ -59,12 +60,11 @@ signals:
 
 protected:
     explicit CutBlock(const QString &blockName = QString());
-
 };
 
 PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache();
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFCUTBLOCK_H

@@ -10,11 +10,7 @@ class LayoutPrivate : public AbstractResourcePrivate
 {
     Q_DECLARE_PUBLIC(Layout)
 
-    LayoutPrivate()
-        : AbstractResourcePrivate(ResourceClass::ParameterClass)
-    {
-        registerChildren(media);
-    }
+    LayoutPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) { registerChildren(media); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -27,11 +23,8 @@ class LayoutPrivate : public AbstractResourcePrivate
 using namespace Proof;
 using namespace Proof::Jdf;
 
-Layout::Layout()
-    : AbstractResource(*new LayoutPrivate)
-{
-
-}
+Layout::Layout() : AbstractResource(*new LayoutPrivate)
+{}
 
 QList<MediaSP> Layout::media() const
 {

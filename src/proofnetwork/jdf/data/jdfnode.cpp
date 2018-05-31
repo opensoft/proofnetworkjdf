@@ -1,10 +1,10 @@
 #include "jdfdocument.h"
 
+#include "proofcore/proofglobal.h"
+
+#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/jdfnode_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
-#include "proofnetwork/jdf/data/component.h"
-
-#include "proofcore/proofglobal.h"
 
 #include <set>
 
@@ -165,7 +165,7 @@ void JdfNode::setTypes(const QStringList &arg)
     }
 }
 
-JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeSP &)> &predicate) const
+JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool(const JdfNodeSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -181,7 +181,7 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool (const JdfNodeS
     return JdfNodeSP();
 }
 
-ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool (const ComponentSP &)> &predicate) const
+ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool(const ComponentSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -203,7 +203,7 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool (const C
     return ComponentSP();
 }
 
-ComponentLinkSP JdfNode::findComponentLink(const std::function<bool (const ComponentLinkSP &)> &predicate) const
+ComponentLinkSP JdfNode::findComponentLink(const std::function<bool(const ComponentLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -220,7 +220,7 @@ ComponentLinkSP JdfNode::findComponentLink(const std::function<bool (const Compo
     return ComponentLinkSP();
 }
 
-MediaLinkSP JdfNode::findMediaLink(const std::function<bool (const MediaLinkSP &)> &predicate) const
+MediaLinkSP JdfNode::findMediaLink(const std::function<bool(const MediaLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -237,7 +237,7 @@ MediaLinkSP JdfNode::findMediaLink(const std::function<bool (const MediaLinkSP &
     return MediaLinkSP();
 }
 
-MediaSP JdfNode::findMedia(const std::function<bool (const MediaSP &)> &predicate) const
+MediaSP JdfNode::findMedia(const std::function<bool(const MediaSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -254,7 +254,7 @@ MediaSP JdfNode::findMedia(const std::function<bool (const MediaSP &)> &predicat
     return MediaSP();
 }
 
-LayoutSP JdfNode::findLayout(const std::function<bool (const LayoutSP &)> &predicate) const
+LayoutSP JdfNode::findLayout(const std::function<bool(const LayoutSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -271,7 +271,7 @@ LayoutSP JdfNode::findLayout(const std::function<bool (const LayoutSP &)> &predi
     return LayoutSP();
 }
 
-QList<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool (const JdfNodeSP &)> &predicate) const
+QList<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool(const JdfNodeSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -288,7 +288,7 @@ QList<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool (const JdfNodeSP
     return result;
 }
 
-QList<ComponentSP> JdfNode::findAllComponents(const std::function<bool (const ComponentSP &)> &predicate) const
+QList<ComponentSP> JdfNode::findAllComponents(const std::function<bool(const ComponentSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -311,7 +311,7 @@ QList<ComponentSP> JdfNode::findAllComponents(const std::function<bool (const Co
     return result;
 }
 
-QList<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool (const ComponentLinkSP &)> &predicate) const
+QList<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool(const ComponentLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -327,7 +327,7 @@ QList<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool (
     return result;
 }
 
-QList<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool (const MediaLinkSP &)> &predicate) const
+QList<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool(const MediaLinkSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -343,7 +343,7 @@ QList<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool (const Me
     return result;
 }
 
-QList<MediaSP> JdfNode::findAllMedia(const std::function<bool (const MediaSP &)> &predicate) const
+QList<MediaSP> JdfNode::findAllMedia(const std::function<bool(const MediaSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -359,7 +359,7 @@ QList<MediaSP> JdfNode::findAllMedia(const std::function<bool (const MediaSP &)>
     return result;
 }
 
-QList<LayoutSP> JdfNode::findAllLayouts(const std::function<bool (const LayoutSP &)> &predicate) const
+QList<LayoutSP> JdfNode::findAllLayouts(const std::function<bool(const LayoutSP &)> &predicate) const
 {
     Q_D(const JdfNode);
     JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
@@ -390,7 +390,8 @@ JdfNodeSP JdfNode::create()
     return result;
 }
 
-JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, const QStringList &alternativeIdAttributes, bool sanitize)
+JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId,
+                           const QStringList &alternativeIdAttributes, bool sanitize)
 {
     JdfNodeSP document = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
@@ -479,8 +480,8 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter, bool rootNode)
         if (!d->type.isEmpty())
             jdfWriter.writeAttribute(QStringLiteral("Type"), d->type);
         if (!d->types.isEmpty()
-                && (!d->type.compare(QLatin1String("processgroup"), Qt::CaseInsensitive)
-                    || !d->type.compare(QLatin1String("combined"), Qt::CaseInsensitive))) {
+            && (!d->type.compare(QLatin1String("processgroup"), Qt::CaseInsensitive)
+                || !d->type.compare(QLatin1String("combined"), Qt::CaseInsensitive))) {
             jdfWriter.writeAttribute(QStringLiteral("Types"), d->types.join(" "));
         }
 
@@ -493,21 +494,17 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter, bool rootNode)
             d->resourcePool->toJdf(jdfWriter);
         if (isValidAndDirty(d->resourceLinkPool))
             d->resourceLinkPool->toJdf(jdfWriter);
-        for (const JdfNodeSP &jdf: qAsConst(d->jdfNodes))
+        for (const JdfNodeSP &jdf : qAsConst(d->jdfNodes))
             jdf->toJdf(jdfWriter);
     }
     jdfWriter.writeEndElement();
 }
 
-JdfNode::JdfNode()
-    : NetworkDataEntity(*new JdfNodePrivate)
-{
-}
+JdfNode::JdfNode() : NetworkDataEntity(*new JdfNodePrivate)
+{}
 
-JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent)
-    : NetworkDataEntity(dd, parent)
-{
-}
+JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+{}
 
 Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
 {

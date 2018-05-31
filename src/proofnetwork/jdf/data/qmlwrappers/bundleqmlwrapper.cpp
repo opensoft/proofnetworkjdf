@@ -2,8 +2,8 @@
 
 #include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/bundleitem.h"
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/bundleitemqmlwrapper.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,8 +27,7 @@ BundleQmlWrapper::BundleQmlWrapper(const BundleSP &bundle, QObject *parent)
 }
 
 BundleQmlWrapper::~BundleQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Bundle)
 
@@ -68,8 +67,7 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 
     connect(bundle.data(), &Bundle::bundleTypeChanged, this, &BundleQmlWrapper::bundleTypeChanged);
     connect(bundle.data(), &Bundle::totalAmountChanged, this, &BundleQmlWrapper::totalAmountChanged);
-    connect(bundle.data(), &Bundle::bundleItemsChanged,
-            d->lambdaConnectContext, [d](){d->updateBundleItems();});
+    connect(bundle.data(), &Bundle::bundleItemsChanged, d->lambdaConnectContext, [d]() { d->updateBundleItems(); });
 
     BundleSP oldBundle = qSharedPointerCast<Bundle>(old);
     if (oldBundle) {
@@ -92,6 +90,5 @@ int BundleQmlWrapperPrivate::bundleItemsCount(QQmlListProperty<BundleItemQmlWrap
     return static_cast<QList<BundleItemQmlWrapper *> *>(property->data)->count();
 }
 
-}
-}
-
+} // namespace Jdf
+} // namespace Proof

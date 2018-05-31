@@ -18,8 +18,7 @@ MediaQmlWrapper::MediaQmlWrapper(const MediaSP &media, QObject *parent)
 }
 
 MediaQmlWrapper::~MediaQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(Media)
 
@@ -74,5 +73,5 @@ void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
     AbstractPhysicalResourceQmlWrapper::setupEntity(old);
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

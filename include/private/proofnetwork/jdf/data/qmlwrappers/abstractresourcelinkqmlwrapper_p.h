@@ -11,7 +11,7 @@ class AbstractResourceLinkQmlWrapperPrivate : public NetworkDataEntityQmlWrapper
     Q_DECLARE_PUBLIC(AbstractResourceLinkQmlWrapper)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTRESOURCELINKQMLWRAPPER_P

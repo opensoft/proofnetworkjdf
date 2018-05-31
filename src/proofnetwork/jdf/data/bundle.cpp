@@ -10,11 +10,7 @@ class BundlePrivate : NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Bundle)
 
-
-    BundlePrivate() : NetworkDataEntityPrivate()
-    {
-        registerChildren(bundleItems);
-    }
+    BundlePrivate() : NetworkDataEntityPrivate() { registerChildren(bundleItems); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -99,7 +95,7 @@ BundleSP Bundle::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
 {
     BundleSP bundle = create();
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
-        if (xmlReader.name() == "Bundle" && xmlReader.isStartElement() && ! bundle->isFetched()) {
+        if (xmlReader.name() == "Bundle" && xmlReader.isStartElement() && !bundle->isFetched()) {
             bundle->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
             bundle->setBundleType(bundleTypeFromString(attributes.value(QStringLiteral("BundleType")).toString()));
@@ -135,10 +131,8 @@ void Bundle::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-Bundle::Bundle()
-    : NetworkDataEntity(*new BundlePrivate)
-{
-}
+Bundle::Bundle() : NetworkDataEntity(*new BundlePrivate)
+{}
 
 void BundlePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {
@@ -150,4 +144,3 @@ void BundlePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 
     NetworkDataEntityPrivate::updateFrom(other);
 }
-

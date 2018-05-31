@@ -1,15 +1,15 @@
 #ifndef JDFDELIVERYINTENT_H
 #define JDFDELIVERYINTENT_H
 
-#include "proofnetwork/jdf/data/abstractresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/deliveryintentqmlwrapper.h"
 #include "proofnetwork/jdf/data/span.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
-#include <QXmlStreamReader>
 #include <QDateTime>
+#include <QXmlStreamReader>
 
 namespace Proof {
 namespace Jdf {
@@ -20,7 +20,6 @@ class PROOF_NETWORK_JDF_EXPORT DeliveryIntent : public AbstractResource // clazy
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryIntent)
 public:
-
     EnumerationSpan deliveryCharge() const;
     TimeSpan earliest() const;
     DurationSpan earliestDuration() const;
@@ -77,10 +76,9 @@ signals:
 
 protected:
     explicit DeliveryIntent();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFDELIVERYINTENT_H

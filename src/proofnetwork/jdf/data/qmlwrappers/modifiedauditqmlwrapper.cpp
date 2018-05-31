@@ -18,15 +18,12 @@ ModifiedAuditQmlWrapper::ModifiedAuditQmlWrapper(const ModifiedAuditSP &modified
 }
 
 ModifiedAuditQmlWrapper::~ModifiedAuditQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(ModifiedAudit)
 
-void ModifiedAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &/*old*/)
-{
-}
+void ModifiedAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> & /*old*/)
+{}
 
-}
-}
-
+} // namespace Jdf
+} // namespace Proof

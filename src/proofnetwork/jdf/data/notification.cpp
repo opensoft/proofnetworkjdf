@@ -87,10 +87,8 @@ NotificationSP Notification::fromJdf(QXmlStreamReader &xmlReader)
     return result;
 }
 
-Notification::Notification()
-    : NetworkDataEntity(*new NotificationPrivate)
-{
-}
+Notification::Notification() : NetworkDataEntity(*new NotificationPrivate)
+{}
 
 void NotificationPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -102,4 +100,3 @@ void NotificationPrivate::updateFrom(const NetworkDataEntitySP &other)
 
 } // namespace Jdf
 } // namespace Proof
-

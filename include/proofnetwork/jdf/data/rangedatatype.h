@@ -21,38 +21,22 @@ class RangeDataType
 {
 public:
     RangeDataType() {}
-    RangeDataType(T start, T stop)
-        : m_start(start), m_stop(stop) {}
+    RangeDataType(T start, T stop) : m_start(start), m_stop(stop) {}
 
-    T start() const
-    {
-        return m_start;
-    }
+    T start() const { return m_start; }
 
-    T stop() const
-    {
-        return m_stop;
-    }
+    T stop() const { return m_stop; }
 
-    void setStart(const T &start)
-    {
-        m_start = start;
-    }
+    void setStart(const T &start) { m_start = start; }
 
-    void setStop(const T &stop)
-    {
-        m_stop = stop;
-    }
+    void setStop(const T &stop) { m_stop = stop; }
 
     bool operator==(const RangeDataType<T> &other) const
     {
         return this->start() == other.start() && this->stop() == other.stop();
     }
 
-    bool operator!=(const RangeDataType<T> &other) const
-    {
-        return !(*this == other);
-    }
+    bool operator!=(const RangeDataType<T> &other) const { return !(*this == other); }
 
     static RangeDataType<T> fromString(const QString &attribute)
     {
@@ -79,10 +63,7 @@ public:
         return rangeDataType;
     }
 
-    QString toString() const
-    {
-        return dataToString(m_start, m_stop);
-    }
+    QString toString() const { return dataToString(m_start, m_stop); }
 
 private:
     T dataFromString(const QString &string);
@@ -120,31 +101,31 @@ private:
     T m_stop;
 };
 
-template<> inline
-QDateTime DateTimeRange::dataFromString(const QString &string)
+template <>
+inline QDateTime DateTimeRange::dataFromString(const QString &string)
 {
     return QDateTime::fromString(string, Qt::ISODate);
 }
 
-template<> inline
-int IntegerRange::dataFromString(const QString &string)
+template <>
+inline int IntegerRange::dataFromString(const QString &string)
 {
     return string.toInt();
 }
 
-template<> inline
-double DoubleRange::dataFromString(const QString &string)
+template <>
+inline double DoubleRange::dataFromString(const QString &string)
 {
     return string.toDouble();
 }
 
-template<> inline
-ShapeDataType ShapeRange::dataFromString(const QString &string)
+template <>
+inline ShapeDataType ShapeRange::dataFromString(const QString &string)
 {
     return ShapeDataType::fromString(string);
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_RANGEDATATYPE_H

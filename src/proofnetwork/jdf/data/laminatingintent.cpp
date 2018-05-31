@@ -1,9 +1,8 @@
 #include "laminatingintent.h"
 
-#include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
-#include "proofnetwork/jdf/data/laminatingintentlink.h"
-
 #include "proofnetwork/jdf/data/abstractresource_p.h"
+#include "proofnetwork/jdf/data/laminatingintentlink.h"
+#include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -62,7 +61,8 @@ LaminatingIntentSP LaminatingIntent::fromJdf(QXmlStreamReader &xmlReader)
         if (xmlReader.name() == "LaminatingIntent" && xmlReader.isStartElement() && !laminatingIntent->isFetched()) {
             laminatingIntent->setFetched(true);
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            laminatingIntent->setSurface(laminatingSurfaceFromString(attributes.value(QStringLiteral("Surface")).toString()));
+            laminatingIntent->setSurface(
+                laminatingSurfaceFromString(attributes.value(QStringLiteral("Surface")).toString()));
             AbstractResourceSP castedLaminatingIntent = qSharedPointerCast<AbstractResource>(laminatingIntent);
             AbstractResource::fromJdf(xmlReader, castedLaminatingIntent);
 
@@ -94,10 +94,8 @@ LaminatingIntentLinkSP LaminatingIntent::toLink(LinkUsage usage) const
     return link;
 }
 
-LaminatingIntent::LaminatingIntent()
-    : AbstractResource(*new LaminatingIntentPrivate)
-{
-}
+LaminatingIntent::LaminatingIntent() : AbstractResource(*new LaminatingIntentPrivate)
+{}
 
 void LaminatingIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

@@ -1,8 +1,8 @@
 #include "knowndevicesresponse.h"
 
-#include "proofnetwork/jdf/data/response_p.h"
 #include "proofnetwork/jdf/data/deviceinfo.h"
 #include "proofnetwork/jdf/data/notification.h"
+#include "proofnetwork/jdf/data/response_p.h"
 
 #include <algorithm>
 
@@ -14,10 +14,7 @@ class KnownDevicesResponsePrivate : public ResponsePrivate
     Q_DECLARE_PUBLIC(KnownDevicesResponse)
 
 protected:
-    KnownDevicesResponsePrivate()
-    {
-        registerChildren(deviceInfos);
-    }
+    KnownDevicesResponsePrivate() { registerChildren(deviceInfos); }
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     void specificMessageFromJmf(QXmlStreamReader &xmlReader) override;
@@ -38,7 +35,7 @@ void KnownDevicesResponse::setDeviceInfos(const QList<DeviceInfoSP> &arg)
 {
     Q_D(KnownDevicesResponse);
     bool notEqual = d->deviceInfos.size() != arg.size()
-            || !std::is_permutation(d->deviceInfos.cbegin(), d->deviceInfos.cend(), arg.cbegin());
+                    || !std::is_permutation(d->deviceInfos.cbegin(), d->deviceInfos.cend(), arg.cbegin());
     if (notEqual) {
         d->deviceInfos = arg;
         emit deviceInfosChanged(d->deviceInfos);
@@ -59,10 +56,8 @@ KnownDevicesResponseSP KnownDevicesResponse::create()
     return result;
 }
 
-KnownDevicesResponse::KnownDevicesResponse()
-    : Response(*new KnownDevicesResponsePrivate)
-{
-}
+KnownDevicesResponse::KnownDevicesResponse() : Response(*new KnownDevicesResponsePrivate)
+{}
 
 void KnownDevicesResponsePrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -109,4 +104,3 @@ void KnownDevicesResponsePrivate::specificMessageToJmf(QXmlStreamWriter &xmlWrit
 
 } // namespace Jdf
 } // namespace Proof
-

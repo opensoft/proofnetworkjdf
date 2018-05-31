@@ -1,29 +1,27 @@
 // clazy:skip
 
-#include "gtest/test_global.h"
-
-#include "proofnetwork/jdf/data/resourcelinkpool.h"
-#include "proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.h"
-#include "proofnetwork/jdf/data/cuttingparamslink.h"
 #include "proofnetwork/jdf/data/componentlink.h"
+#include "proofnetwork/jdf/data/cuttingparamslink.h"
 #include "proofnetwork/jdf/data/medialink.h"
+#include "proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.h"
+#include "proofnetwork/jdf/data/resourcelinkpool.h"
 
-#include <QXmlStreamReader>
-#include <QSignalSpy>
-#include <QFile>
 #include <QDebug>
+#include <QFile>
+#include <QSignalSpy>
+#include <QXmlStreamReader>
+
+#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
 using testing::Test;
 using testing::TestWithParam;
 
-class ResourceLinkPoolTest: public Test
+class ResourceLinkPoolTest : public Test
 {
 public:
-    ResourceLinkPoolTest()
-    {
-    }
+    ResourceLinkPoolTest() {}
 
 protected:
     void SetUp() override
@@ -47,10 +45,7 @@ protected:
         ASSERT_TRUE(qmlWrapperUT != nullptr);
     }
 
-    void TearDown() override
-    {
-        delete qmlWrapperUT;
-    }
+    void TearDown() override { delete qmlWrapperUT; }
 
 protected:
     ResourceLinkPoolSP linkPool1;

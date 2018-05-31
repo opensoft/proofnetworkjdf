@@ -1,7 +1,7 @@
 #include "devicefilter.h"
 
-#include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -63,10 +63,8 @@ DeviceFilterSP DeviceFilter::fromJmf(QXmlStreamReader &xmlReader)
     return result;
 }
 
-DeviceFilter::DeviceFilter()
-    : NetworkDataEntity(*new DeviceFilterPrivate)
-{
-}
+DeviceFilter::DeviceFilter() : NetworkDataEntity(*new DeviceFilterPrivate)
+{}
 
 void DeviceFilterPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -78,4 +76,3 @@ void DeviceFilterPrivate::updateFrom(const NetworkDataEntitySP &other)
 
 } // namespace Jdf
 } // namespace Proof
-

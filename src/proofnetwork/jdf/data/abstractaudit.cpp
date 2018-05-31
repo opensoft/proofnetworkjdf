@@ -70,7 +70,8 @@ bool AbstractAudit::fromJdf(const QXmlStreamReader &xmlReader, AbstractAuditSP &
     abstractAudit->setId(attributes.value(QStringLiteral("ID")).toString());
     abstractAudit->setAgentName(attributes.value(QStringLiteral("AgentName")).toString());
     abstractAudit->setAgentVersion(attributes.value(QStringLiteral("AgentVersion")).toString());
-    abstractAudit->setTimeStamp(QDateTime::fromString(attributes.value(QStringLiteral("TimeStamp")).toString(), Qt::ISODate));
+    abstractAudit->setTimeStamp(
+        QDateTime::fromString(attributes.value(QStringLiteral("TimeStamp")).toString(), Qt::ISODate));
 
     return true;
 }
@@ -88,10 +89,8 @@ void AbstractAudit::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute(QStringLiteral("TimeStamp"), d->timeStamp.toUTC().toString(Qt::ISODate));
 }
 
-AbstractAudit::AbstractAudit(AbstractAuditPrivate &dd, QObject *parent)
-    : NetworkDataEntity(dd, parent)
-{
-}
+AbstractAudit::AbstractAudit(AbstractAuditPrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+{}
 
 void AbstractAuditPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

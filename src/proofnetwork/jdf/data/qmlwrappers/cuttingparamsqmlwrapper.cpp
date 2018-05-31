@@ -2,9 +2,8 @@
 
 #include "cutblockqmlwrapper.h"
 
-#include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/cutblock.h"
-
+#include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"
 
 namespace Proof {
@@ -28,8 +27,8 @@ class CuttingParamsQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
     QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper> qmlPartsList;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof;
 using namespace Proof::Jdf;
@@ -41,8 +40,7 @@ CuttingParamsQmlWrapper::CuttingParamsQmlWrapper(const CuttingParamsSP &cuttingP
 }
 
 CuttingParamsQmlWrapper::~CuttingParamsQmlWrapper()
-{
-}
+{}
 
 QQmlListProperty<CutBlockQmlWrapper> CuttingParamsQmlWrapper::cutBlocks()
 {
@@ -71,12 +69,13 @@ void CuttingParamsQmlWrapperPrivate::updateParts()
         parts << part->toQmlWrapper(q);
 
     qmlPartsList = QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper>(q, &parts,
-                                                                        &CuttingParamsQmlWrapperPrivate::partsCount,
-                                                                        &CuttingParamsQmlWrapperPrivate::partAt);
+                                                                         &CuttingParamsQmlWrapperPrivate::partsCount,
+                                                                         &CuttingParamsQmlWrapperPrivate::partAt);
     emit q->partsChanged(qmlPartsList);
 }
 
-CuttingParamsQmlWrapper *CuttingParamsQmlWrapperPrivate::partAt(QQmlListProperty<CuttingParamsQmlWrapper> *property, int index)
+CuttingParamsQmlWrapper *CuttingParamsQmlWrapperPrivate::partAt(QQmlListProperty<CuttingParamsQmlWrapper> *property,
+                                                                int index)
 {
     return static_cast<QList<CuttingParamsQmlWrapper *> *>(property->data)->at(index);
 }
@@ -120,10 +119,9 @@ void CuttingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity
     CuttingParamsSP cuttingParams = d->entity<CuttingParams>();
     Q_ASSERT(cuttingParams);
 
-    connect(cuttingParams.data(), &CuttingParams::cutBlocksChanged,
-            d->lambdaConnectContext, [d](){d->updateCutBlocks();});
-    connect(cuttingParams.data(), &CuttingParams::partsChanged,
-            d->lambdaConnectContext, [d](){d->updateParts();});
+    connect(cuttingParams.data(), &CuttingParams::cutBlocksChanged, d->lambdaConnectContext,
+            [d]() { d->updateCutBlocks(); });
+    connect(cuttingParams.data(), &CuttingParams::partsChanged, d->lambdaConnectContext, [d]() { d->updateParts(); });
 
     d->updateCutBlocks();
     d->updateParts();

@@ -1,4 +1,10 @@
 #include "resourcelinkpoolqmlwrapper.h"
+
+#include "proofnetwork/jdf/data/componentlink.h"
+#include "proofnetwork/jdf/data/cuttingparamslink.h"
+#include "proofnetwork/jdf/data/foldingparamslink.h"
+#include "proofnetwork/jdf/data/laminatingintentlink.h"
+#include "proofnetwork/jdf/data/medialink.h"
 #include "proofnetwork/jdf/data/qmlwrappers/componentlinkqmlwrapper.h"
 #include "proofnetwork/jdf/data/qmlwrappers/cuttingparamslinkqmlwrapper.h"
 #include "proofnetwork/jdf/data/qmlwrappers/foldingparamslinkqmlwrapper.h"
@@ -6,12 +12,6 @@
 #include "proofnetwork/jdf/data/qmlwrappers/medialinkqmlwrapper.h"
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
-
-#include "proofnetwork/jdf/data/componentlink.h"
-#include "proofnetwork/jdf/data/cuttingparamslink.h"
-#include "proofnetwork/jdf/data/foldingparamslink.h"
-#include "proofnetwork/jdf/data/laminatingintentlink.h"
-#include "proofnetwork/jdf/data/medialink.h"
 
 namespace Proof {
 namespace Jdf {
@@ -41,20 +41,19 @@ class ResourceLinkPoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPriv
     LaminatingIntentLinkQmlWrapper *laminatingIntentLink = nullptr;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof::Jdf;
 
 ResourceLinkPoolQmlWrapper::ResourceLinkPoolQmlWrapper(const ResourceLinkPoolSP &pool, QObject *parent)
-        : NetworkDataEntityQmlWrapper(pool, *new ResourceLinkPoolQmlWrapperPrivate, parent)
+    : NetworkDataEntityQmlWrapper(pool, *new ResourceLinkPoolQmlWrapperPrivate, parent)
 {
     setupEntity();
 }
 
 ResourceLinkPoolQmlWrapper::~ResourceLinkPoolQmlWrapper()
-{
-}
+{}
 
 QQmlListProperty<ComponentLinkQmlWrapper> ResourceLinkPoolQmlWrapper::componentLinks() const
 {
@@ -95,16 +94,16 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
     ResourceLinkPoolSP linkPool = d->entity<ResourceLinkPool>();
     Q_ASSERT(linkPool);
 
-    connect(linkPool.data(), &ResourceLinkPool::componentLinksChanged,
-            d->lambdaConnectContext, [d](){d->updateComponentLinks();});
-    connect(linkPool.data(), &ResourceLinkPool::cuttingParamsLinkChanged,
-            d->lambdaConnectContext, [d](){d->updateCuttingParamsLink();});
-    connect(linkPool.data(), &ResourceLinkPool::mediaLinksChanged,
-            d->lambdaConnectContext, [d](){d->updateMediaLinks();});
-    connect(linkPool.data(), &ResourceLinkPool::foldingParamsLinkChanged,
-            d->lambdaConnectContext, [d](){d->updateFoldingParamsLink();});
-    connect(linkPool.data(), &ResourceLinkPool::laminatingIntentLinkChanged,
-            d->lambdaConnectContext, [d](){d->updateLaminatingParamsLink();});
+    connect(linkPool.data(), &ResourceLinkPool::componentLinksChanged, d->lambdaConnectContext,
+            [d]() { d->updateComponentLinks(); });
+    connect(linkPool.data(), &ResourceLinkPool::cuttingParamsLinkChanged, d->lambdaConnectContext,
+            [d]() { d->updateCuttingParamsLink(); });
+    connect(linkPool.data(), &ResourceLinkPool::mediaLinksChanged, d->lambdaConnectContext,
+            [d]() { d->updateMediaLinks(); });
+    connect(linkPool.data(), &ResourceLinkPool::foldingParamsLinkChanged, d->lambdaConnectContext,
+            [d]() { d->updateFoldingParamsLink(); });
+    connect(linkPool.data(), &ResourceLinkPool::laminatingIntentLinkChanged, d->lambdaConnectContext,
+            [d]() { d->updateLaminatingParamsLink(); });
 
     d->updateComponentLinks();
     d->updateCuttingParamsLink();
@@ -125,9 +124,10 @@ void ResourceLinkPoolQmlWrapperPrivate::updateComponentLinks()
     for (const ComponentLinkSP &component : ndeComponentLinks)
         componentLinks << component->toQmlWrapper(q);
 
-    qmlComponentLinks = QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>(q, &componentLinks,
-                                                                              &ResourceLinkPoolQmlWrapperPrivate::componentsCount,
-                                                                              &ResourceLinkPoolQmlWrapperPrivate::componentAt);
+    qmlComponentLinks =
+        QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper>(q, &componentLinks,
+                                                              &ResourceLinkPoolQmlWrapperPrivate::componentsCount,
+                                                              &ResourceLinkPoolQmlWrapperPrivate::componentAt);
     emit q->componentLinksChanged(qmlComponentLinks);
 }
 
@@ -185,7 +185,8 @@ void ResourceLinkPoolQmlWrapperPrivate::updateLaminatingParamsLink()
     emit q->laminatingIntentLinkChanged(laminatingIntentLink);
 }
 
-ComponentLinkQmlWrapper *ResourceLinkPoolQmlWrapperPrivate::componentAt(QQmlListProperty<ComponentLinkQmlWrapper> *property, int index)
+ComponentLinkQmlWrapper *
+ResourceLinkPoolQmlWrapperPrivate::componentAt(QQmlListProperty<ComponentLinkQmlWrapper> *property, int index)
 {
     return static_cast<QList<ComponentLinkQmlWrapper *> *>(property->data)->at(index);
 }
@@ -195,7 +196,8 @@ int ResourceLinkPoolQmlWrapperPrivate::componentsCount(QQmlListProperty<Componen
     return static_cast<QList<ComponentLinkQmlWrapper *> *>(property->data)->count();
 }
 
-MediaLinkQmlWrapper *ResourceLinkPoolQmlWrapperPrivate::mediaLinkAt(QQmlListProperty<MediaLinkQmlWrapper> *property, int index)
+MediaLinkQmlWrapper *ResourceLinkPoolQmlWrapperPrivate::mediaLinkAt(QQmlListProperty<MediaLinkQmlWrapper> *property,
+                                                                    int index)
 {
     return static_cast<QList<MediaLinkQmlWrapper *> *>(property->data)->at(index);
 }

@@ -1,11 +1,11 @@
 #ifndef MEDIALINK_H
 #define MEDIALINK_H
 
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractphysicalresourcelink.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/qmlwrappers/medialinkqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,7 +27,7 @@ protected:
     explicit MediaLink(QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // MEDIALINK_H

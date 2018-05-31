@@ -1,11 +1,12 @@
 #ifndef PROOF_JDF_BOXPACKINGPARAMS_H
 #define PROOF_JDF_BOXPACKINGPARAMS_H
 
-#include "proofnetwork/jdf/data/abstractresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/boxpackingparamsqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+
 #include <QXmlStreamReader>
 
 namespace Proof {
@@ -27,10 +28,9 @@ public:
 
 protected:
     explicit BoxPackingParams();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_BOXPACKINGPARAMS_H

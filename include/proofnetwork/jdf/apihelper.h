@@ -2,15 +2,17 @@
 #define JDFAPIHELPER_H
 
 #include "proofcore/proofobject.h"
+
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
 
 #include <QHash>
 
 namespace Proof {
 namespace Jdf {
-PROOF_NETWORK_JDF_EXPORT Q_NAMESPACE
+PROOF_NETWORK_JDF_EXPORT Q_NAMESPACE;
 
-enum class ResourceStatus {
+enum class ResourceStatus
+{
     NoStatus,
     IncompleteStatus, // Indicates that the Resource does not exist, and the metadata is not yet valid.
     RejectedStatus, // Indicates that the Resource has been rejected by an Approval Process. The metadata is valid. New in JDF 1.2
@@ -24,7 +26,8 @@ enum class ResourceStatus {
     AvailableStatus // Indicates that the whole Resource is available for usage.
 };
 
-enum class ResourceClass {
+enum class ResourceClass
+{
     NoClass,
     ConsumableClass,
     HandlingClass,
@@ -35,7 +38,8 @@ enum class ResourceClass {
     QuantityClass
 };
 
-enum class CoatingType {
+enum class CoatingType
+{
     NoCoating, // No coating.
     Coated, // A coating of a system-specified type. New in JDF 1.2
     GlossyCoating,
@@ -49,21 +53,24 @@ enum class CoatingType {
     SemiglossCoating
 };
 
-enum class CoatingDetail {
+enum class CoatingDetail
+{
     NoCoatingDetail, // No coating detail specified.
     CastCoating,
     ProfitFullCoating,
     ProfitSpotCoating
 };
 
-enum class LaminatingSurface {
+enum class LaminatingSurface
+{
     FrontLaminated,
     BackLaminated,
     BothLaminated,
     NoneLaminated
 };
 
-enum class BundleType {
+enum class BundleType
+{
     BoundSetBundle, // Stack of components that are bound together.
     BoxBundle,
     CartonBundle,
@@ -78,7 +85,8 @@ enum class BundleType {
     WrappedBundle
 };
 
-enum class ResourceOrientation {
+enum class ResourceOrientation
+{
     Rotate0Orientation, // 0 degrees
     Rotate90Orientation, // 90
     Rotate180Orientation, // 180
@@ -90,7 +98,8 @@ enum class ResourceOrientation {
     Flip270Orientation // 270
 };
 
-enum class ComponentType {
+enum class ComponentType
+{
     NotTypedComponent, //No ComponentType attribute set for this component
     BlockComponent, // Folded or stacked product, (e.g., book block).
     OtherComponent, // The Component describes a sample that has not been produced in this Job.
@@ -102,7 +111,8 @@ enum class ComponentType {
     ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
 };
 
-enum class ProductType {
+enum class ProductType
+{
     NoProduct,
     BackCoverProduct,
     BlankBoxProduct, // Cut, Unfolded box, input for folder-gluer
@@ -130,7 +140,8 @@ enum class ProductType {
     StackProduct //Stacked Component.
 };
 
-enum class ResourcePartType {
+enum class ResourcePartType
+{
     BinderySignatureNamePart,
     BinderySignaturePaginationIndexPart,
     BlockNamePart,
@@ -201,12 +212,14 @@ enum class ResourcePartType {
     WebSetupPart
 };
 
-enum class LinkUsage {
+enum class LinkUsage
+{
     InputLink,
     OutputLink
 };
 
-enum class ProcessUsage {
+enum class ProcessUsage
+{
     UseAsDefault,
     UseAsAccepted, //Used for Resource in an Output Resource of Approvall
     UseAsApplication, //Used for Component in an Input Resource of BoxFolding
@@ -239,20 +252,23 @@ enum class ProcessUsage {
     UseAsWaste //Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
 };
 
-enum class BlockType {
+enum class BlockType
+{
     CutBlock, //Block to be cut.
     SaveBlock, //Protected block, cut only via outer contour.
     TempBlock, //Auxiliary block that is not taken into account during cutting.
     MarkBlock //Contains no elements, only marks.
 };
 
-enum class MediaUnit {
+enum class MediaUnit
+{
     ContinuousMediaUnit, // Continuously connected Sheets which can be fan folded
     RollMediaUnit,
     SheetMediaUnit // Individual cut Sheets.
 };
 
-enum class MediaType {
+enum class MediaType
+{
     CorrugatedBoardMedia,
     DiscMedia,
     EndBoardMedia,
@@ -274,7 +290,8 @@ enum class MediaType {
     VinylMedia
 };
 
-enum class DeviceFilterDetails {
+enum class DeviceFilterDetails
+{
     // Provide only DeviceID and DeviceStatus.
     NoneDeviceFilterDetails,
     // Provide all available Device information except for Device Ele­ments.
@@ -296,7 +313,8 @@ enum class DeviceFilterDetails {
     FullDeviceFilterDetails
 };
 
-enum class DeviceStatus {
+enum class DeviceStatus
+{
     UnknownDeviceStatus, // No Device is known or the Device cannot provide a DeviceStatus.
     IdleDeviceStatus, // No Job is being processed and the Device is accepting new Jobs.
     DownDeviceStatus, // No Job is being processed and the Device currently cannot execute a Job.
@@ -311,14 +329,16 @@ enum class DeviceStatus {
     // as long as execution has not been aborted.
 };
 
-enum class DeviceCondition {
+enum class DeviceCondition
+{
     OkDeviceCondition, // The Device is in working condition.
     NeedsAttentionDeviceCondition, // The Device is still in working condition but requires attention.
     FailureDeviceCondition, // The Device is not in working condition.
-    OffLineDeviceCondition  // The Device is off line and its condition is unknown.
+    OffLineDeviceCondition // The Device is off line and its condition is unknown.
 };
 
-enum class NotificationClass {
+enum class NotificationClass
+{
     // Indicates that a pure event due to certain operation-related activity has occurred,
     // (e.g., Machine events, operator activities, etc.).
     // This Class is used for the transfer of conventional event Messages.
@@ -341,7 +361,8 @@ enum class NotificationClass {
     FatalNotificationClass
 };
 
-enum class SpanDataType {
+enum class SpanDataType
+{
     DurationSpan,
     EnumerationSpan,
     IntegerSpan,
@@ -389,7 +410,8 @@ PROOF_NETWORK_JDF_EXPORT QString bundleTypeToString(BundleType bundleType);
 PROOF_NETWORK_JDF_EXPORT BundleType bundleTypeFromString(const QString &bundleType, bool *ok = nullptr);
 
 PROOF_NETWORK_JDF_EXPORT QString resourceOrientationToString(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation,
+                                                                           bool *ok = nullptr);
 PROOF_NETWORK_JDF_EXPORT int resourceRotateToInt(ResourceOrientation resourceOrientation);
 PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok = nullptr);
 PROOF_NETWORK_JDF_EXPORT int resourceFlipToInt(ResourceOrientation resourceOrientation);
@@ -454,7 +476,7 @@ PROOF_NETWORK_JDF_EXPORT uint qHash(DeviceCondition arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(NotificationClass arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(SpanDataType arg, uint seed = 0);
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_APIHELPER_H

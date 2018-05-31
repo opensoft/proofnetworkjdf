@@ -1,4 +1,5 @@
 #include "foldingparams.h"
+
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/foldingparamslink.h"
 
@@ -120,10 +121,8 @@ FoldingParamsLinkSP FoldingParams::toLink(LinkUsage usage) const
     return link;
 }
 
-FoldingParams::FoldingParams()
-    : AbstractResource(*new FoldingParamsPrivate)
-{
-}
+FoldingParams::FoldingParams() : AbstractResource(*new FoldingParamsPrivate)
+{}
 
 void FoldingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

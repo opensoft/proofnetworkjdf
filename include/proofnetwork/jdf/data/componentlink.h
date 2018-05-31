@@ -1,11 +1,11 @@
 #ifndef COMPONENTLINK_H
 #define COMPONENTLINK_H
 
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractphysicalresourcelink.h"
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/qmlwrappers/componentlinkqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,6 +27,6 @@ protected:
     explicit ComponentLink(QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 #endif // COMPONENTLINK_H

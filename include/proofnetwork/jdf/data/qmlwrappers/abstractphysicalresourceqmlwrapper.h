@@ -1,10 +1,10 @@
 #ifndef PROOF_JDF_ABSTRACTPHYSICALRESOURCEQMLWRAPPER_H
 #define PROOF_JDF_ABSTRACTPHYSICALRESOURCEQMLWRAPPER_H
 
-#include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -20,7 +20,7 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceQmlWrapper : public Abstr
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceQmlWrapper)
 public:
     explicit AbstractPhysicalResourceQmlWrapper(const QSharedPointer<AbstractPhysicalResource> &abstractPhysicalResource,
-                                        AbstractPhysicalResourceQmlWrapperPrivate &dd, QObject *parent = nullptr);
+                                                AbstractPhysicalResourceQmlWrapperPrivate &dd, QObject *parent = nullptr);
     ~AbstractPhysicalResourceQmlWrapper();
 
     double amount() const;
@@ -34,7 +34,7 @@ protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ABSTRACTPHYSICALRESOURCEQMLWRAPPER_H

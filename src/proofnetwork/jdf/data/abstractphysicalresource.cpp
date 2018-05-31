@@ -34,7 +34,8 @@ void AbstractPhysicalResource::setResourceWeight(double arg)
     }
 }
 
-bool AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource)
+bool AbstractPhysicalResource::fromJdf(const QXmlStreamReader &xmlReader,
+                                       AbstractPhysicalResourceSP &abstractPhysicalResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     abstractPhysicalResource->setAmount(attributes.value(QStringLiteral("Amount")).toDouble());
@@ -48,18 +49,16 @@ void AbstractPhysicalResource::toJdf(QXmlStreamWriter &jdfWriter)
 {
     Q_D(AbstractPhysicalResource);
     if (!qFuzzyIsNull(d->amount))
-        jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount, 'f', 4));
     if (!qFuzzyIsNull(d->resourceWeight))
-        jdfWriter.writeAttribute(QStringLiteral("ResourceWeight"), QString::number(d->resourceWeight,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("ResourceWeight"), QString::number(d->resourceWeight, 'f', 4));
 
     AbstractResource::toJdf(jdfWriter);
 }
 
 AbstractPhysicalResource::AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd, QObject *parent)
     : AbstractResource(dd, parent)
-{
-
-}
+{}
 
 void AbstractPhysicalResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

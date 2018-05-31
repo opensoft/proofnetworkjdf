@@ -87,7 +87,8 @@ void AbstractResource::setPartAttribute(ResourcePartType attribute, const QStrin
 bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResourceSP &abstractResource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
-    QStringList partIdKeysStringified = attributes.value(QStringLiteral("PartIDKeys")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
+    QStringList partIdKeysStringified =
+        attributes.value(QStringLiteral("PartIDKeys")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
     QList<ResourcePartType> partIdKeys;
     for (const QString &partName : partIdKeysStringified) {
         bool ok = false;
@@ -141,7 +142,8 @@ QString AbstractResource::jdfNodeName() const
 {
     Q_D(const AbstractResource);
     if (d->jdfNodeName.isEmpty())
-        d->jdfNodeName = QString(metaObject()->className()).remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
+        d->jdfNodeName = QString(metaObject()->className())
+                             .remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
     return d->jdfNodeName;
 }
 
@@ -153,10 +155,8 @@ QString AbstractResource::jdfNodeRefName() const
     return d->jdfNodeRefName;
 }
 
-AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent)
-    : NetworkDataEntity(dd, parent)
-{
-}
+AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+{}
 
 void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const
 {

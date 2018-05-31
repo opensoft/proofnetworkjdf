@@ -4,7 +4,7 @@
 #include "proofnetwork/jdf/data/message_p.h"
 #include "proofnetwork/jdf/data/notification.h"
 
-namespace Proof{
+namespace Proof {
 namespace Jdf {
 
 class ResponsePrivate : public MessagePrivate
@@ -14,10 +14,7 @@ class ResponsePrivate : public MessagePrivate
     NotificationSP notification;
 
 protected:
-    ResponsePrivate()
-    {
-        registerChildren(notification);
-    }
+    ResponsePrivate() { registerChildren(notification); }
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     void specificMessageFromJmf(QXmlStreamReader &xmlReader) override;
@@ -25,8 +22,7 @@ protected:
     void specificMessageToJmf(QXmlStreamWriter &xmlWriter) const override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_RESPONSE_P_H
-

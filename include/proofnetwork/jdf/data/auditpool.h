@@ -1,10 +1,10 @@
 #ifndef PROOF_JDF_AUDITPOOL_H
 #define PROOF_JDF_AUDITPOOL_H
 
-#include "proofnetwork/networkdataentity.h"
 #include "proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 
@@ -36,11 +36,9 @@ signals:
 
 protected:
     explicit AuditPool();
-
 };
 
-}
-}
-
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_AUDITPOOL_H

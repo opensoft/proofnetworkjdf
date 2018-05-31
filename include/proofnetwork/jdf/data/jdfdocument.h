@@ -25,7 +25,7 @@ protected:
     explicit JdfDocument();
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFDOCUMENT_H

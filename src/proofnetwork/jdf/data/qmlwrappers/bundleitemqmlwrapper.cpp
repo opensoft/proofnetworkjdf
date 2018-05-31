@@ -18,8 +18,7 @@ BundleItemQmlWrapper::BundleItemQmlWrapper(const BundleItemSP &bundleItem, QObje
 }
 
 BundleItemQmlWrapper::~BundleItemQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(BundleItem)
 
@@ -40,5 +39,5 @@ void BundleItemQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &
     }
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

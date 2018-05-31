@@ -1,42 +1,40 @@
 // clazy:skip
-#include "gtest/test_global.h"
-
-#include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/auditpool.h"
-#include "proofnetwork/jdf/data/createdaudit.h"
-#include "proofnetwork/jdf/data/modifiedaudit.h"
-#include "proofnetwork/jdf/data/resourcepool.h"
-#include "proofnetwork/jdf/data/resourcelinkpool.h"
-#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/bundleitem.h"
-#include "proofnetwork/jdf/data/cuttingparams.h"
+#include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/componentlink.h"
+#include "proofnetwork/jdf/data/createdaudit.h"
 #include "proofnetwork/jdf/data/cutblock.h"
-#include "proofnetwork/jdf/data/media.h"
-#include "proofnetwork/jdf/data/layout.h"
-#include "proofnetwork/jdf/data/laminatingintent.h"
+#include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/deliveryintent.h"
 #include "proofnetwork/jdf/data/dropintent.h"
 #include "proofnetwork/jdf/data/dropitemintent.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
-#include "proofnetwork/jdf/data/medialink.h"
+#include "proofnetwork/jdf/data/jdfdocument.h"
+#include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/jdf/data/laminatingintentlink.h"
-#include "proofnetwork/jdf/data/componentlink.h"
+#include "proofnetwork/jdf/data/layout.h"
+#include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/medialink.h"
+#include "proofnetwork/jdf/data/modifiedaudit.h"
+#include "proofnetwork/jdf/data/resourcelinkpool.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
 
-#include <QXmlStreamReader>
-#include <QSignalSpy>
 #include <QFile>
+#include <QSignalSpy>
+#include <QXmlStreamReader>
+
+#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
 using testing::Test;
 
-class JdfDocumentTest: public Test
+class JdfDocumentTest : public Test
 {
 public:
-    JdfDocumentTest()
-    {
-    }
+    JdfDocumentTest() {}
 
 protected:
     void SetUp() override
@@ -68,10 +66,7 @@ protected:
         qmlWrapperUT = jdfDocUT->toQmlWrapper();
     }
 
-    void TearDown() override
-    {
-        delete qmlWrapperUT;
-    }
+    void TearDown() override { delete qmlWrapperUT; }
 
 protected:
     JdfDocumentSP jdfDocUT;
@@ -142,7 +137,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("2013.0 (1050)", created->agentVersion());
     EXPECT_EQ(QDateTime::fromString(QString("2014-08-26T08:35:28-07:00"), Qt::ISODate), created->timeStamp());
 
-    ModifiedAuditSP modified= auditPool->modified();
+    ModifiedAuditSP modified = auditPool->modified();
     ASSERT_TRUE(modified);
     EXPECT_EQ("AUD_0002", modified->id());
     EXPECT_EQ("Metrix2", modified->agentName());
@@ -318,9 +313,11 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ(QDateTime::fromString(QString("2016-08-26T15:35:28Z"), Qt::ISODate), dropIntent->earliest().preferred());
     EXPECT_EQ(QString("2016-08-26T15:35:28Z ~ 2016-09-26T15:35:28Z"), dropIntent->earliest().range().toString());
 
-    EXPECT_EQ(QDateTime::fromString(QString("2017-08-26T08:35:28Z"), Qt::ISODate), dropIntent->earliestDuration().actual());
+    EXPECT_EQ(QDateTime::fromString(QString("2017-08-26T08:35:28Z"), Qt::ISODate),
+              dropIntent->earliestDuration().actual());
     EXPECT_EQ(QDateTime::fromString(QString("2014-08-26T08:35:28-07:00"), Qt::ISODate), dropIntent->required().actual());
-    EXPECT_EQ(QDateTime::fromString(QString("2018-08-26T08:35:28Z"), Qt::ISODate), dropIntent->requiredDuration().actual());
+    EXPECT_EQ(QDateTime::fromString(QString("2018-08-26T08:35:28Z"), Qt::ISODate),
+              dropIntent->requiredDuration().actual());
     EXPECT_EQ(QString("NameTest"), dropIntent->returnMethod().actual());
 
     EXPECT_EQ(QString("TestString_2"), dropIntent->serviceLevel().actual());
@@ -510,10 +507,10 @@ TEST_F(JdfDocumentTest, updateFrom)
 
     jdfDocUT->updateFrom(jdfDocUT2);
 
-    for (QSignalSpy *spy: qmlspies)
+    for (QSignalSpy *spy : qmlspies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
-    for (QSignalSpy *spy: spies)
+    for (QSignalSpy *spy : spies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
     qDeleteAll(spies);
@@ -594,7 +591,7 @@ TEST_F(JdfDocumentTest, updateFrom)
 
     DeliveryIntentSP deliveryIntent1 = resourcePool->deliveryIntent();
     ASSERT_TRUE(deliveryIntent1);
-    DeliveryIntentSP  deliveryIntent2 = resourcePool2->deliveryIntent();
+    DeliveryIntentSP deliveryIntent2 = resourcePool2->deliveryIntent();
     ASSERT_TRUE(deliveryIntent2);
     EXPECT_EQ(deliveryIntent1->required(), deliveryIntent2->required());
     ASSERT_TRUE(deliveryIntent1->dropIntents().count());
@@ -664,7 +661,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                     if (!attributes.value("ID").toString().isEmpty())
                         currentComponentId = attributes.value("ID").toString();
                     if (attributes.value("ComponentType").toString() == "Sheet") {
-                        QStringList dimensionsList = attributes.value("Dimensions").toString().split(" ",QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimensions").toString().split(" ", QString::SkipEmptyParts);
 
                         ASSERT_EQ(dimensionsList.count(), 3);
                         double width = dimensionsList.at(0).toDouble();
@@ -706,7 +704,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_EQ(attributes.value("BackCoatings").toString(), "");
                         EXPECT_EQ(attributes.value("MediaUnit").toString(), "Sheet");
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -715,7 +714,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 172.7200);
                     } else if (mediaId == "PAP_0000_front") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "SelfAdhesive");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -724,7 +724,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 100.0);
                     } else if (mediaId == "PAP_0000_back") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "SelfAdhesive");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -733,7 +734,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(attributes.value("Thickness").toDouble(), 72.72);
                     } else if (mediaId == "PAP_0001") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -741,7 +743,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(heightMedia, 1756.0000);
                     } else if (mediaId == "PAP_0002") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Paper");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -749,7 +752,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(heightMedia, 1657.0000);
                     } else if (mediaId == "PAP_0003") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Plate");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -757,7 +761,8 @@ TEST_F(JdfDocumentTest, documentToJdf)
                         EXPECT_DOUBLE_EQ(heightMedia, 1757.0000);
                     } else if (mediaId == "PAP_0004") {
                         EXPECT_EQ(attributes.value("MediaType").toString(), "Other");
-                        QStringList dimensionsList = attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
+                        QStringList dimensionsList =
+                            attributes.value("Dimension").toString().split(" ", QString::SkipEmptyParts);
                         ASSERT_EQ(dimensionsList.count(), 2);
                         double widthMedia = dimensionsList.at(0).toDouble();
                         double heightMedia = dimensionsList.at(1).toDouble();
@@ -796,8 +801,10 @@ TEST_F(JdfDocumentTest, documentToJdf)
             } else if (currentNodeId == "BoxPacking_B") {
                 if (reader.name() == "Component" && attributes.value("ID").toString() == "Box1ID") {
                     hasComponentBox = true;
-                    EXPECT_EQ(componentTypeFromString(attributes.value("ComponentType").toString()), ComponentType::SheetComponent);
-                    EXPECT_EQ(productTypeFromString(attributes.value("ProductType").toString()), ProductType::FlatBoxProduct);
+                    EXPECT_EQ(componentTypeFromString(attributes.value("ComponentType").toString()),
+                              ComponentType::SheetComponent);
+                    EXPECT_EQ(productTypeFromString(attributes.value("ProductType").toString()),
+                              ProductType::FlatBoxProduct);
                     EXPECT_EQ(attributes.value("ProductTypeDetails").toString(), "Envelope");
                 } else if (reader.name() == "BoxPackingParams") {
                     hasBoxPackingParams = true;
@@ -899,13 +906,13 @@ TEST_F(JdfDocumentTest, toLink)
     ASSERT_TRUE(laminatingIntentLink);
     EXPECT_EQ(laminatingIntent->id(), laminatingIntentLink->rRef());
     EXPECT_EQ(LinkUsage::OutputLink, laminatingIntentLink->usage());
-
 }
 
 //TODO: cover these methods better
 TEST_F(JdfDocumentTest, findNode)
 {
-    Proof::Jdf::JdfNodeSP node = jdfDocUT->findNode([](const Proof::Jdf::JdfNodeSP &node){return node->type() == "Cutting";});
+    Proof::Jdf::JdfNodeSP node = jdfDocUT->findNode(
+        [](const Proof::Jdf::JdfNodeSP &node) { return node->type() == "Cutting"; });
     ASSERT_TRUE(node);
     EXPECT_EQ("LAYOUT_0001", node->id());
     EXPECT_EQ("Cutting", node->type());
@@ -913,45 +920,51 @@ TEST_F(JdfDocumentTest, findNode)
 
 TEST_F(JdfDocumentTest, findComponent)
 {
-    Proof::Jdf::ComponentSP component = jdfDocUT->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "COMP_0000";});
+    Proof::Jdf::ComponentSP component = jdfDocUT->findComponent(
+        [](const Proof::Jdf::ComponentSP &component) { return component->id() == "COMP_0000"; });
     ASSERT_TRUE(component);
     EXPECT_EQ("COMP_0000", component->id());
-    component = jdfDocUT2->findComponent([](const Proof::Jdf::ComponentSP &component){return component->id() == "061106-00002_1_Comp00001";});
+    component = jdfDocUT2->findComponent(
+        [](const Proof::Jdf::ComponentSP &component) { return component->id() == "061106-00002_1_Comp00001"; });
     ASSERT_TRUE(component);
     EXPECT_EQ("061106-00002_1_Comp00001", component->id());
 }
 
 TEST_F(JdfDocumentTest, findComponentLink)
 {
-    Proof::Jdf::ComponentLinkSP link = jdfDocUT->findComponentLink([](const Proof::Jdf::ComponentLinkSP &link){return link->rRef() == "COMP_0000";});
+    Proof::Jdf::ComponentLinkSP link = jdfDocUT->findComponentLink(
+        [](const Proof::Jdf::ComponentLinkSP &link) { return link->rRef() == "COMP_0000"; });
     EXPECT_EQ("COMP_0000", link->rRef());
     EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
 }
 
 TEST_F(JdfDocumentTest, findMediaLink)
 {
-    Proof::Jdf::MediaLinkSP link = jdfDocUT->findMediaLink([](const Proof::Jdf::MediaLinkSP &link){return link->rRef() == "PAP_0000";});
+    Proof::Jdf::MediaLinkSP link = jdfDocUT->findMediaLink(
+        [](const Proof::Jdf::MediaLinkSP &link) { return link->rRef() == "PAP_0000"; });
     EXPECT_EQ("PAP_0000", link->rRef());
     EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
 }
 
 TEST_F(JdfDocumentTest, findMedia)
 {
-    Proof::Jdf::MediaSP media = jdfDocUT->findMedia([](const Proof::Jdf::MediaSP &media){return media->mediaType() == Proof::Jdf::MediaType::PaperMedia;});
+    Proof::Jdf::MediaSP media = jdfDocUT->findMedia(
+        [](const Proof::Jdf::MediaSP &media) { return media->mediaType() == Proof::Jdf::MediaType::PaperMedia; });
     EXPECT_EQ("PAP_0000", media->id());
     EXPECT_EQ(Proof::Jdf::MediaType::PaperMedia, media->mediaType());
 }
 
 TEST_F(JdfDocumentTest, findLayout)
 {
-    Proof::Jdf::LayoutSP layout = jdfDocUT->findLayout([](const Proof::Jdf::LayoutSP &layout){return layout->id() == "Layout1";});
+    Proof::Jdf::LayoutSP layout = jdfDocUT->findLayout(
+        [](const Proof::Jdf::LayoutSP &layout) { return layout->id() == "Layout1"; });
     EXPECT_EQ("Layout1", layout->id());
     EXPECT_EQ(3, layout->media().count());
 }
 
 TEST_F(JdfDocumentTest, findAllNodes)
 {
-    QList<JdfNodeSP> nodes = jdfDocUT->findAllNodes([](const JdfNodeSP &node){return node->type() == "Cutting";});
+    QList<JdfNodeSP> nodes = jdfDocUT->findAllNodes([](const JdfNodeSP &node) { return node->type() == "Cutting"; });
     ASSERT_EQ(1, nodes.count());
     EXPECT_EQ("LAYOUT_0001", nodes[0]->id());
     EXPECT_EQ("Cutting", nodes[0]->type());
@@ -959,18 +972,22 @@ TEST_F(JdfDocumentTest, findAllNodes)
 
 TEST_F(JdfDocumentTest, findAllComponents)
 {
-    JdfNodeSP cuttingNode = jdfDocUT->findNode([](const JdfNodeSP &node){return node->type() == "Cutting";});
+    JdfNodeSP cuttingNode = jdfDocUT->findNode([](const JdfNodeSP &node) { return node->type() == "Cutting"; });
     ASSERT_TRUE(cuttingNode);
 
-    QList<ComponentSP> components = jdfDocUT->findAllComponents([](const ComponentSP &component){return component->id() == "COMP_0000";});
+    QList<ComponentSP> components = jdfDocUT->findAllComponents(
+        [](const ComponentSP &component) { return component->id() == "COMP_0000"; });
     ASSERT_EQ(1, components.count());
     EXPECT_EQ("COMP_0000", components[0]->id());
 
-    components = cuttingNode->findAllComponents([](const ComponentSP &component){return component->id() == "COMP_0000";});
+    components = cuttingNode->findAllComponents(
+        [](const ComponentSP &component) { return component->id() == "COMP_0000"; });
     ASSERT_EQ(1, components.count());
     EXPECT_EQ("COMP_0000", components[0]->id());
 
-    components = jdfDocUT->findAllComponents([](const ComponentSP &component){return component->componentType() == ComponentType::PartialProductComponent;});
+    components = jdfDocUT->findAllComponents([](const ComponentSP &component) {
+        return component->componentType() == ComponentType::PartialProductComponent;
+    });
     ASSERT_EQ(3, components.count());
     QSet<QString> partialProductComponentsIds = {"A_OUT", "B_OUT", "B_OUT_BOXED"};
     for (int i = 0; i < components.count(); ++i) {
@@ -979,7 +996,8 @@ TEST_F(JdfDocumentTest, findAllComponents)
     }
     EXPECT_TRUE(partialProductComponentsIds.empty());
 
-    components = jdfDocUT->findAllComponents([](const ComponentSP &component){return component->componentType() == ComponentType::SheetComponent;});
+    components = jdfDocUT->findAllComponents(
+        [](const ComponentSP &component) { return component->componentType() == ComponentType::SheetComponent; });
     ASSERT_EQ(2, components.count());
     QSet<QString> sheetComponentsIds = {"Box1ID", "COMP_0000"};
     for (int i = 0; i < components.count(); ++i) {
@@ -991,12 +1009,14 @@ TEST_F(JdfDocumentTest, findAllComponents)
 
 TEST_F(JdfDocumentTest, findAllComponentLinks)
 {
-    QList<ComponentLinkSP> links = jdfDocUT->findAllComponentLinks([](const ComponentLinkSP &link){return link->rRef() == "COMP_0000";});
+    QList<ComponentLinkSP> links = jdfDocUT->findAllComponentLinks(
+        [](const ComponentLinkSP &link) { return link->rRef() == "COMP_0000"; });
     ASSERT_EQ(1, links.count());
     EXPECT_EQ("COMP_0000", links[0]->rRef());
     EXPECT_EQ(LinkUsage::InputLink, links[0]->usage());
 
-    links = jdfDocUT->findAllComponentLinks([](const ComponentLinkSP &link){return link->usage() == LinkUsage::OutputLink;});
+    links = jdfDocUT->findAllComponentLinks(
+        [](const ComponentLinkSP &link) { return link->usage() == LinkUsage::OutputLink; });
     ASSERT_EQ(3, links.count());
     QSet<QString> outputLinksRrefs = {"A_OUT", "B_OUT", "B_OUT_BOXED"};
     for (int i = 0; i < links.count(); ++i) {
@@ -1008,7 +1028,8 @@ TEST_F(JdfDocumentTest, findAllComponentLinks)
 
 TEST_F(JdfDocumentTest, findAllMediaLinks)
 {
-    QList<MediaLinkSP> links = jdfDocUT->findAllMediaLinks([](const MediaLinkSP &link){return link->rRef() == "PAP_0000";});
+    QList<MediaLinkSP> links = jdfDocUT->findAllMediaLinks(
+        [](const MediaLinkSP &link) { return link->rRef() == "PAP_0000"; });
     ASSERT_EQ(1, links.count());
     EXPECT_EQ("PAP_0000", links[0]->rRef());
     EXPECT_EQ(LinkUsage::InputLink, links[0]->usage());
@@ -1016,12 +1037,14 @@ TEST_F(JdfDocumentTest, findAllMediaLinks)
 
 TEST_F(JdfDocumentTest, findAllMedia)
 {
-    QList<MediaSP> media = jdfDocUT->findAllMedia([](const MediaSP &media){return media->mediaType() == MediaType::PaperMedia;});
+    QList<MediaSP> media = jdfDocUT->findAllMedia(
+        [](const MediaSP &media) { return media->mediaType() == MediaType::PaperMedia; });
     ASSERT_EQ(1, media.count());
     EXPECT_EQ("PAP_0000", media[0]->id());
     EXPECT_EQ(MediaType::PaperMedia, media[0]->mediaType());
 
-    media = jdfDocUT->findAllMedia([](const MediaSP &media){return media->mediaType() == MediaType::SelfAdhesiveMedia;});
+    media = jdfDocUT->findAllMedia(
+        [](const MediaSP &media) { return media->mediaType() == MediaType::SelfAdhesiveMedia; });
     ASSERT_EQ(2, media.count());
     QSet<QString> selfAdhesiveMediaIds = {"PAP_0000_front", "PAP_0000_back"};
     for (int i = 0; i < media.count(); ++i) {
@@ -1033,7 +1056,7 @@ TEST_F(JdfDocumentTest, findAllMedia)
 
 TEST_F(JdfDocumentTest, findAllLayouts)
 {
-    QList<LayoutSP> layouts = jdfDocUT->findAllLayouts([](const LayoutSP &layout){return layout->id() == "Layout1";});
+    QList<LayoutSP> layouts = jdfDocUT->findAllLayouts([](const LayoutSP &layout) { return layout->id() == "Layout1"; });
     ASSERT_EQ(1, layouts.count());
     EXPECT_EQ("Layout1", layouts[0]->id());
     EXPECT_EQ(3, layouts[0]->media().count());

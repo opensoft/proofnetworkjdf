@@ -13,10 +13,9 @@ class DeliveryIntentLinkQmlWrapperPrivate : public AbstractResourceLinkQmlWrappe
 
 DeliveryIntentLinkQmlWrapper::DeliveryIntentLinkQmlWrapper(const DeliveryIntentLinkSP &delivery, QObject *parent)
     : AbstractResourceLinkQmlWrapper(delivery, *new DeliveryIntentLinkQmlWrapperPrivate, parent)
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(DeliveryIntentLink)
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

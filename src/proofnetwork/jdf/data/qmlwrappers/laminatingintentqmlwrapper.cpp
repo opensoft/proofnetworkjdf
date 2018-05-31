@@ -18,8 +18,7 @@ LaminatingIntentQmlWrapper::LaminatingIntentQmlWrapper(const LaminatingIntentSP 
 }
 
 LaminatingIntentQmlWrapper::~LaminatingIntentQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(LaminatingIntent)
 
@@ -31,7 +30,8 @@ void LaminatingIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEnt
     LaminatingIntentSP laminatingIntent = d->entity<LaminatingIntent>();
     Q_ASSERT(laminatingIntent);
 
-    connect(laminatingIntent.data(), &LaminatingIntent::surfaceChanged, this, &LaminatingIntentQmlWrapper::surfaceChanged);
+    connect(laminatingIntent.data(), &LaminatingIntent::surfaceChanged, this,
+            &LaminatingIntentQmlWrapper::surfaceChanged);
 
     LaminatingIntentSP oldLaminatingIntent = qSharedPointerCast<LaminatingIntent>(old);
     if (oldLaminatingIntent) {
@@ -40,5 +40,5 @@ void LaminatingIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEnt
     }
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

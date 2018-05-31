@@ -10,10 +10,8 @@ class ComponentLinkPrivate : public AbstractPhysicalResourceLinkPrivate
     Q_DECLARE_PUBLIC(ComponentLink)
 };
 
-ComponentLink::ComponentLink(QObject *parent)
-    : AbstractPhysicalResourceLink(*new ComponentLinkPrivate, parent)
-{
-}
+ComponentLink::ComponentLink(QObject *parent) : AbstractPhysicalResourceLink(*new ComponentLinkPrivate, parent)
+{}
 
 ComponentLinkSP ComponentLink::create()
 {
@@ -28,7 +26,6 @@ ComponentLinkQmlWrapper *ComponentLink::toQmlWrapper(QObject *parent) const
     ComponentLinkSP castedSelf = qSharedPointerCast<ComponentLink>(d->weakSelf);
     Q_ASSERT(castedSelf);
     return new ComponentLinkQmlWrapper(castedSelf, parent);
-
 }
 
 ComponentLinkSP ComponentLink::fromJdf(const QXmlStreamReader &xmlReader)
@@ -45,5 +42,5 @@ void ComponentLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

@@ -2,8 +2,8 @@
 #define DELIVERYINTENTLINKQMLWRAPPER_H
 
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -18,7 +18,7 @@ public:
     PROOF_NDE_WRAPPER_TOOLS(DeliveryIntentLink)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // DELIVERYINTENTLINKQMLWRAPPER_H

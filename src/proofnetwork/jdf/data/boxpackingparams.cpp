@@ -1,4 +1,5 @@
 #include "boxpackingparams.h"
+
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/boxpackingparamslink.h"
 
@@ -70,10 +71,8 @@ BoxPackingParamsLinkSP BoxPackingParams::toLink(LinkUsage usage) const
     return link;
 }
 
-BoxPackingParams::BoxPackingParams()
-    : AbstractResource(*new BoxPackingParamsPrivate)
-{
-}
+BoxPackingParams::BoxPackingParams() : AbstractResource(*new BoxPackingParamsPrivate)
+{}
 
 void BoxPackingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

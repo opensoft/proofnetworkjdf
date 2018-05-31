@@ -3,39 +3,27 @@
 
 #include <QString>
 
-class ShapeDataType {
-
+class ShapeDataType
+{
 public:
-    ShapeDataType(float width, float height, float depth) :
-        m_width(width), m_height(height), m_depth(depth) {}
+    ShapeDataType(float width, float height, float depth) : m_width(width), m_height(height), m_depth(depth) {}
 
-    float width() const
-    {
-        return m_width;
-    }
+    float width() const { return m_width; }
 
-    float height() const
-    {
-        return m_height;
-    }
+    float height() const { return m_height; }
 
-    float depth() const
-    {
-        return m_depth;
-    }
+    float depth() const { return m_depth; }
 
     static ShapeDataType fromString(const QString &string)
     {
         QStringList shapeDataTypeList = string.split(QStringLiteral(" "));
         if (shapeDataTypeList.count() == 3)
-            return { shapeDataTypeList.at(0).toFloat(), shapeDataTypeList.at(1).toFloat(), shapeDataTypeList.at(2).toFloat() };
+            return {shapeDataTypeList.at(0).toFloat(), shapeDataTypeList.at(1).toFloat(),
+                    shapeDataTypeList.at(2).toFloat()};
         return ShapeDataType(0.0, 0.0, 0.0);
     }
 
-    QString toString() const
-    {
-        return QStringLiteral("%1 %2 %3").arg(m_width, m_height, m_depth);
-    }
+    QString toString() const { return QStringLiteral("%1 %2 %3").arg(m_width, m_height, m_depth); }
 
 private:
     float m_width = 0.0;

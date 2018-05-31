@@ -1,14 +1,15 @@
 #include "resourcepool.h"
 
-#include "component.h"
-#include "cuttingparams.h"
-#include "media.h"
-#include "layout.h"
-#include "laminatingintent.h"
-#include "deliveryintent.h"
-#include "cutblock.h"
-#include "foldingparams.h"
 #include "boxpackingparams.h"
+#include "component.h"
+#include "cutblock.h"
+#include "cuttingparams.h"
+#include "deliveryintent.h"
+#include "foldingparams.h"
+#include "laminatingintent.h"
+#include "layout.h"
+#include "media.h"
+
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -20,7 +21,8 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 
     ResourcePoolPrivate()
     {
-        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams, boxPackingParams);
+        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams,
+                         boxPackingParams);
     }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
@@ -40,15 +42,13 @@ ObjectsCache<QString, ResourcePool> &cuttingProcessCache()
     return WeakObjectsCache<QString, ResourcePool>::instance();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof::Jdf;
 
-ResourcePool::ResourcePool()
-    : NetworkDataEntity(*new ResourcePoolPrivate)
-{
-}
+ResourcePool::ResourcePool() : NetworkDataEntity(*new ResourcePoolPrivate)
+{}
 
 QList<ComponentSP> ResourcePool::components() const
 {

@@ -1,26 +1,24 @@
 // clazy:skip
 
-#include "gtest/test_global.h"
-
 #include "proofnetwork/jdf/data/foldingparams.h"
 
-#include <QXmlStreamReader>
-#include <QSignalSpy>
-#include <QFile>
 #include <QDebug>
+#include <QFile>
+#include <QSignalSpy>
+#include <QXmlStreamReader>
+
+#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
+using std::tuple;
 using testing::Test;
 using testing::TestWithParam;
-using std::tuple;
 
-class FoldingParamsTest: public Test
+class FoldingParamsTest : public Test
 {
 public:
-    FoldingParamsTest()
-    {
-    }
+    FoldingParamsTest() {}
 
 protected:
     void SetUp() override
@@ -41,10 +39,7 @@ protected:
         ASSERT_TRUE(qmlWrapperUT != nullptr);
     }
 
-    void TearDown() override
-    {
-        delete qmlWrapperUT;
-    }
+    void TearDown() override { delete qmlWrapperUT; }
 
 protected:
     FoldingParamsSP foldingParams1;
@@ -71,10 +66,10 @@ TEST_F(FoldingParamsTest, updateFrom)
 
     foldingParams1->updateFrom(foldingParams2);
 
-    for (QSignalSpy *spy: qmlspies)
+    for (QSignalSpy *spy : qmlspies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
-    for (QSignalSpy *spy: spies)
+    for (QSignalSpy *spy : spies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
     qDeleteAll(spies);
@@ -109,9 +104,8 @@ TEST_F(FoldingParamsTest, foldingParamsToJdf)
 class FoldingParamsFoldCatalogTest : public TestWithParam<tuple<QString, QString>>
 {
 public:
-    FoldingParamsFoldCatalogTest()
-    {
-    }
+    FoldingParamsFoldCatalogTest() {}
+
 protected:
     void SetUp() override
     {
@@ -121,6 +115,7 @@ protected:
         foldingParams = FoldingParams::fromJdf(xml);
         ASSERT_TRUE(foldingParams != nullptr);
     }
+
 protected:
     FoldingParamsSP foldingParams;
 };
@@ -135,18 +130,12 @@ TEST_P(FoldingParamsFoldCatalogTest, foldCatalogTest)
     EXPECT_EQ(expected, real);
 }
 
-INSTANTIATE_TEST_CASE_P(FoldingParamsFoldCatalogTestParameters,
-                        FoldingParamsFoldCatalogTest,
-                        testing::Values(tuple<QString, QString>("", ""),
-                                        tuple<QString, QString>("", "aasdf"),
-                                        tuple<QString, QString>("", "12-4"),
-                                        tuple<QString, QString>("", "F0-0"),
-                                        tuple<QString, QString>("", "F00-00"),
-                                        tuple<QString, QString>("", "F101-101"),
-                                        tuple<QString, QString>("", "F3-1"),
-                                        tuple<QString, QString>("", "FA-B"),
+INSTANTIATE_TEST_CASE_P(FoldingParamsFoldCatalogTestParameters, FoldingParamsFoldCatalogTest,
+                        testing::Values(tuple<QString, QString>("", ""), tuple<QString, QString>("", "aasdf"),
+                                        tuple<QString, QString>("", "12-4"), tuple<QString, QString>("", "F0-0"),
+                                        tuple<QString, QString>("", "F00-00"), tuple<QString, QString>("", "F101-101"),
+                                        tuple<QString, QString>("", "F3-1"), tuple<QString, QString>("", "FA-B"),
                                         tuple<QString, QString>("F64-X", "F64-X"),
                                         tuple<QString, QString>("F16-14", "F16-14"),
                                         tuple<QString, QString>("F6-8", "F6-8"),
-                                        tuple<QString, QString>("F64-2", "F64-2"))
-                        );
+                                        tuple<QString, QString>("F64-2", "F64-2")));

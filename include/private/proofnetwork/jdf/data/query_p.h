@@ -16,8 +16,7 @@ protected:
     void specificMessageToJmf(QXmlStreamWriter &xmlWriter) const override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_QUERY_P_H
-

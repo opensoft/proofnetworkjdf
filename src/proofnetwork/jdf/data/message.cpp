@@ -62,10 +62,8 @@ void Message::toJmf(QXmlStreamWriter &xmlWriter)
     xmlWriter.writeEndElement();
 }
 
-Message::Message(MessagePrivate &dd, QObject *parent)
-    : NetworkDataEntity(dd, parent)
-{
-}
+Message::Message(MessagePrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+{}
 
 void MessagePrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -83,4 +81,3 @@ QHash<MessagePrivate::CreatorKey, MessagePrivate::CreatorType> &MessagePrivate::
 
 } // namespace Jdf
 } // namespace Proof
-

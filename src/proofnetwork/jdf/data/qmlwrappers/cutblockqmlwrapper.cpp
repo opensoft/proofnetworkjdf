@@ -10,8 +10,8 @@ class CutBlockQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     Q_DECLARE_PUBLIC(CutBlockQmlWrapper)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof;
 using namespace Proof::Jdf;
@@ -23,8 +23,7 @@ CutBlockQmlWrapper::CutBlockQmlWrapper(const CutBlockSP &cutBlock, QObject *pare
 }
 
 CutBlockQmlWrapper::~CutBlockQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(CutBlock)
 
@@ -40,16 +39,12 @@ void CutBlockQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &ol
     CutBlockSP cutBlock = d->entity<CutBlock>();
     Q_ASSERT(cutBlock);
 
-    connect(cutBlock.data(), &CutBlock::blockNameChanged,
-            this, &CutBlockQmlWrapper::blockNameChanged);
-    connect(cutBlock.data(), &CutBlock::widthChanged,
-            this, &CutBlockQmlWrapper::widthChanged);
-    connect(cutBlock.data(), &CutBlock::heightChanged,
-            this, &CutBlockQmlWrapper::heightChanged);
-    connect(cutBlock.data(), &CutBlock::transformationMatrixChanged,
-            this, &CutBlockQmlWrapper::transformationMatrixChanged);
-    connect(cutBlock.data(), &CutBlock::blockTypeChanged,
-            this, &CutBlockQmlWrapper::blockTypeChanged);
+    connect(cutBlock.data(), &CutBlock::blockNameChanged, this, &CutBlockQmlWrapper::blockNameChanged);
+    connect(cutBlock.data(), &CutBlock::widthChanged, this, &CutBlockQmlWrapper::widthChanged);
+    connect(cutBlock.data(), &CutBlock::heightChanged, this, &CutBlockQmlWrapper::heightChanged);
+    connect(cutBlock.data(), &CutBlock::transformationMatrixChanged, this,
+            &CutBlockQmlWrapper::transformationMatrixChanged);
+    connect(cutBlock.data(), &CutBlock::blockTypeChanged, this, &CutBlockQmlWrapper::blockTypeChanged);
 
     CutBlockSP oldCutBlock = qSharedPointerCast<CutBlock>(old);
     if (oldCutBlock) {

@@ -2,8 +2,8 @@
 #define COMPONENTLINKQMLWRAPPER_H
 
 #include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -18,6 +18,6 @@ public:
     PROOF_NDE_WRAPPER_TOOLS(ComponentLink)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 #endif // COMPONENTLINKQMLWRAPPER_H

@@ -18,8 +18,7 @@ CreatedAuditQmlWrapper::CreatedAuditQmlWrapper(const CreatedAuditSP &createdAudi
 }
 
 CreatedAuditQmlWrapper::~CreatedAuditQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(CreatedAudit)
 
@@ -33,7 +32,8 @@ void CreatedAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
     Q_ASSERT(createdAudit);
 
     connect(createdAudit.data(), &CreatedAudit::templateIdChanged, this, &CreatedAuditQmlWrapper::templateIdChanged);
-    connect(createdAudit.data(), &CreatedAudit::templateVersionChanged, this, &CreatedAuditQmlWrapper::templateVersionChanged);
+    connect(createdAudit.data(), &CreatedAudit::templateVersionChanged, this,
+            &CreatedAuditQmlWrapper::templateVersionChanged);
 
     CreatedAuditSP oldCreatedAudit = qSharedPointerCast<CreatedAudit>(old);
     if (oldCreatedAudit) {
@@ -44,5 +44,5 @@ void CreatedAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
     }
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

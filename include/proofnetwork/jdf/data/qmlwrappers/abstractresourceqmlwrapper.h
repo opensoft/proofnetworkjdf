@@ -1,10 +1,10 @@
 #ifndef PROOF_JDF_ABSTRACTRESOURCEQMLWRAPPER_H
 #define PROOF_JDF_ABSTRACTRESOURCEQMLWRAPPER_H
 
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -40,7 +40,7 @@ protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ABSTRACTRESOURCEQMLWRAPPER_H

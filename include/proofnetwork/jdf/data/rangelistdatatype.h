@@ -16,9 +16,7 @@ using XYPairRangeList = RangeListDataType<QPoint>;
 template <class T>
 class RangeListDataType : QList<T>
 {
-
 public:
-
     bool operator==(const RangeListDataType<T> &other) const
     {
         if (this->count() != other.count())
@@ -31,10 +29,7 @@ public:
         return true;
     }
 
-    bool operator!=(const RangeListDataType<T> &other) const
-    {
-        return !(*this == other);
-    }
+    bool operator!=(const RangeListDataType<T> &other) const { return !(*this == other); }
 
     static RangeListDataType<T> fromString(const QString &attribute)
     {
@@ -63,7 +58,7 @@ public:
     }
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_RANGELISTDATATYPE_H

@@ -16,7 +16,6 @@ LaminatingIntentLinkQmlWrapper *LaminatingIntentLink::toQmlWrapper(QObject *pare
     LaminatingIntentLinkSP castedSelf = qSharedPointerCast<LaminatingIntentLink>(d->weakSelf);
     Q_ASSERT(castedSelf);
     return new LaminatingIntentLinkQmlWrapper(castedSelf, parent);
-
 }
 
 LaminatingIntentLinkSP LaminatingIntentLink::create()
@@ -42,8 +41,7 @@ void LaminatingIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
 
 LaminatingIntentLink::LaminatingIntentLink(QObject *parent)
     : AbstractResourceLink(*new LaminatingIntentLinkPrivate, parent)
-{
-}
+{}
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

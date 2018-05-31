@@ -1,11 +1,11 @@
- #ifndef CUTTINGPARAMSLINK_H
+#ifndef CUTTINGPARAMSLINK_H
 #define CUTTINGPARAMSLINK_H
 
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/qmlwrappers/cuttingparamslinkqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,6 +27,6 @@ protected:
     explicit CuttingParamsLink(QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 #endif // CUTTINGPARAMSLINK_H

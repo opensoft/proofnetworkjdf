@@ -1,11 +1,11 @@
 #ifndef BOXPACKINGPARAMSLINK_H
 #define BOXPACKINGPARAMSLINK_H
 
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/boxpackingparams.h"
 #include "proofnetwork/jdf/data/qmlwrappers/boxpackingparamslinkqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,7 +27,7 @@ protected:
     explicit BoxPackingParamsLink(QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // BOXPACKINGPARAMSLINK_H

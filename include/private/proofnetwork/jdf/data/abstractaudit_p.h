@@ -1,8 +1,8 @@
 #ifndef PROOF_JDF_ABSTRACTAUDIT_P_H
 #define PROOF_JDF_ABSTRACTAUDIT_P_H
 
-#include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -21,7 +21,7 @@ public:
     QDateTime timeStamp;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTAUDIT_P_H

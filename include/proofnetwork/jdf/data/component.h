@@ -1,12 +1,13 @@
 #ifndef PROOF_JDF_COMPONENT_H
 #define PROOF_JDF_COMPONENT_H
 
-#include "proofnetwork/jdf/data/abstractphysicalresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/apihelper.h"
 #include "proofcore/objectscache.h"
+
+#include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/abstractphysicalresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/componentqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -63,12 +64,11 @@ signals:
 
 protected:
     explicit Component(const QString &id);
-
 };
 
 PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfComponentDataKey, Component> &componentsCache();
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_COMPONENT_H

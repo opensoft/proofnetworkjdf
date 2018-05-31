@@ -15,11 +15,7 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
-    explicit CutBlockPrivate(const QString &blockName)
-        : blockName(blockName)
-    {
-        setDirty(!blockName.isEmpty());
-    }
+    explicit CutBlockPrivate(const QString &blockName) : blockName(blockName) { setDirty(!blockName.isEmpty()); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -37,7 +33,6 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     double rotation = 0.0;
     QString transformationMatrix;
     BlockType blockType = BlockType::CutBlock;
-
 };
 
 ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache()
@@ -45,15 +40,13 @@ ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache()
     return WeakObjectsCache<JdfCutBlockDataKey, CutBlock>::instance();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof::Jdf;
 
-CutBlock::CutBlock(const QString &blockName)
-    : NetworkDataEntity(*new CutBlockPrivate(blockName))
-{
-}
+CutBlock::CutBlock(const QString &blockName) : NetworkDataEntity(*new CutBlockPrivate(blockName))
+{}
 
 QString CutBlock::blockName() const
 {
@@ -140,7 +133,9 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
             }
             cutBlock->setFetched(true);
 
-            QStringList blockSizeList = attributes.value(QStringLiteral("BlockSize")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
+            QStringList blockSizeList = attributes.value(QStringLiteral("BlockSize"))
+                                            .toString()
+                                            .split(QStringLiteral(" "), QString::SkipEmptyParts);
             if (blockSizeList.count() >= 2) {
                 cutBlock->setWidth(blockSizeList.at(0).toDouble());
                 cutBlock->setHeight(blockSizeList.at(1).toDouble());
@@ -167,7 +162,8 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
 
     jdfWriter.writeStartElement(QStringLiteral("CutBlock"));
     jdfWriter.writeAttribute(QStringLiteral("BlockName"), d->blockName);
-    jdfWriter.writeAttribute(QStringLiteral("BlockSize"), QString::number(d->width,'f', 4) + " " + QString::number(d->height,'f', 4));
+    jdfWriter.writeAttribute(QStringLiteral("BlockSize"),
+                             QString::number(d->width, 'f', 4) + " " + QString::number(d->height, 'f', 4));
     jdfWriter.writeAttribute(QStringLiteral("BlockTrf"), d->transformationMatrix);
     jdfWriter.writeAttribute(QStringLiteral("BlockType"), blockTypeToString(d->blockType));
     jdfWriter.writeEndElement();
@@ -239,10 +235,7 @@ void CutBlock::setTransformationMatrix(const QString &arg)
 void CutBlock::setTransformationMatrix(double x, double y, double rotation)
 {
     Q_D(CutBlock);
-    QString transformationMatrix = QStringLiteral("%1 %2 %3")
-            .arg(d->createRotationMatrixString(rotation))
-            .arg(x)
-            .arg(y);
+    QString transformationMatrix = QStringLiteral("%1 %2 %3").arg(d->createRotationMatrixString(rotation)).arg(x).arg(y);
 
     setTransformationMatrix(transformationMatrix);
 }
@@ -303,10 +296,10 @@ QString CutBlockPrivate::createRotationMatrixString(double angle)
     double radian = (angle * PI) / 180;
 
     return QStringLiteral("%1 %2 %3 %4")
-            .arg(qRound(std::cos(radian)))
-            .arg(qRound(-std::sin(radian)))
-            .arg(qRound(std::sin(radian)))
-            .arg(qRound(std::cos(radian)));
+        .arg(qRound(std::cos(radian)))
+        .arg(qRound(-std::sin(radian)))
+        .arg(qRound(std::sin(radian)))
+        .arg(qRound(std::cos(radian)));
 }
 
 double CutBlockPrivate::rotationFromTransformationMatrix(const QString &transformationMatrix)

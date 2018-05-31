@@ -10,10 +10,8 @@ class CuttingParamsLinkPrivate : public AbstractResourceLinkPrivate
     Q_DECLARE_PUBLIC(CuttingParamsLink)
 };
 
-CuttingParamsLink::CuttingParamsLink(QObject *parent)
-    : AbstractResourceLink(*new CuttingParamsLinkPrivate, parent)
-{
-}
+CuttingParamsLink::CuttingParamsLink(QObject *parent) : AbstractResourceLink(*new CuttingParamsLinkPrivate, parent)
+{}
 
 CuttingParamsLinkQmlWrapper *CuttingParamsLink::toQmlWrapper(QObject *parent) const
 {
@@ -21,7 +19,6 @@ CuttingParamsLinkQmlWrapper *CuttingParamsLink::toQmlWrapper(QObject *parent) co
     CuttingParamsLinkSP castedSelf = qSharedPointerCast<CuttingParamsLink>(d->weakSelf);
     Q_ASSERT(castedSelf);
     return new CuttingParamsLinkQmlWrapper(castedSelf, parent);
-
 }
 
 CuttingParamsLinkSP CuttingParamsLink::create()
@@ -45,5 +42,5 @@ void CuttingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

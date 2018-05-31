@@ -1,10 +1,10 @@
 #ifndef ABSTRACTAUDITQMLWRAPPER_H
 #define ABSTRACTAUDITQMLWRAPPER_H
 
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
 
 #include <QDateTime>
 
@@ -41,7 +41,7 @@ protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTAUDITQMLWRAPPER_H

@@ -2,8 +2,8 @@
 #define PROOF_JDF_ABSTRACTPHYSICALRESOURCE_H
 
 #include "proofnetwork/jdf/data/abstractresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -16,7 +16,6 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResource : public AbstractResourc
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResource)
 public:
-
     double amount() const;
     double resourceWeight() const;
 
@@ -33,10 +32,9 @@ signals:
 protected:
     explicit AbstractPhysicalResource() = delete;
     AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd, QObject *parent = nullptr);
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ABSTRACTPHYSICALRESOURCE_H

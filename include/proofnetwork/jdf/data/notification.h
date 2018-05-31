@@ -1,10 +1,10 @@
 #ifndef PROOF_JDF_NOTIFICATION_H
 #define PROOF_JDF_NOTIFICATION_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 

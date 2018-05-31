@@ -1,7 +1,7 @@
 #include "dropintentqmlwrapper.h"
 
-#include "proofnetwork/jdf/data/dropitemintent.h"
 #include "proofnetwork/jdf/data/dropintent.h"
+#include "proofnetwork/jdf/data/dropitemintent.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {
@@ -26,8 +26,7 @@ DropIntentQmlWrapper::DropIntentQmlWrapper(const DropIntentSP &dropIntent, QObje
 }
 
 DropIntentQmlWrapper::~DropIntentQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_TOOLS_IMPL(DropIntent)
 
@@ -37,14 +36,14 @@ QQmlListProperty<DropItemIntentQmlWrapper> DropIntentQmlWrapper::dropItemIntents
     return d->qmlDropItemIntentsList;
 }
 
-void DropIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &/*old*/)
+void DropIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> & /*old*/)
 {
     Q_D(DropIntentQmlWrapper);
     DropIntentSP dropIntent = d->entity<DropIntent>();
     Q_ASSERT(dropIntent);
 
-    connect(dropIntent.data(), &DropIntent::dropItemIntentsChanged,
-            d->lambdaConnectContext, [d](){d->updateDropItemIntents();});
+    connect(dropIntent.data(), &DropIntent::dropItemIntentsChanged, d->lambdaConnectContext,
+            [d]() { d->updateDropItemIntents(); });
 
     d->updateDropItemIntents();
 }
@@ -61,13 +60,15 @@ void DropIntentQmlWrapperPrivate::updateDropItemIntents()
     for (const DropItemIntentSP &dropItemIntent : ndeIntents)
         dropItemIntents << dropItemIntent->toQmlWrapper(q);
 
-    qmlDropItemIntentsList = QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper>(q, &dropItemIntents,
-                                                                                    &DropIntentQmlWrapperPrivate::dropItemIntentsCount,
-                                                                                    &DropIntentQmlWrapperPrivate::dropItemIntentAt);
+    qmlDropItemIntentsList =
+        QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper>(q, &dropItemIntents,
+                                                               &DropIntentQmlWrapperPrivate::dropItemIntentsCount,
+                                                               &DropIntentQmlWrapperPrivate::dropItemIntentAt);
     emit q->dropItemIntentsChanged(qmlDropItemIntentsList);
 }
 
-DropItemIntentQmlWrapper *DropIntentQmlWrapperPrivate::dropItemIntentAt(QQmlListProperty<DropItemIntentQmlWrapper> *property, int index)
+DropItemIntentQmlWrapper *
+DropIntentQmlWrapperPrivate::dropItemIntentAt(QQmlListProperty<DropItemIntentQmlWrapper> *property, int index)
 {
     return static_cast<QList<DropItemIntentQmlWrapper *> *>(property->data)->at(index);
 }
@@ -77,6 +78,5 @@ int DropIntentQmlWrapperPrivate::dropItemIntentsCount(QQmlListProperty<DropItemI
     return static_cast<QList<DropItemIntentQmlWrapper *> *>(property->data)->count();
 }
 
-}
-}
-
+} // namespace Jdf
+} // namespace Proof

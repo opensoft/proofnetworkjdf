@@ -14,8 +14,7 @@ AbstractAuditQmlWrapper::AbstractAuditQmlWrapper(const AbstractAuditSP &abstract
 }
 
 AbstractAuditQmlWrapper::~AbstractAuditQmlWrapper()
-{
-}
+{}
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractAudit, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractAudit, QString, agentName)
@@ -28,14 +27,11 @@ void AbstractAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity
     AbstractAuditSP abstractAudit = d->entity<AbstractAudit>();
     Q_ASSERT(abstractAudit);
 
-    connect(abstractAudit.data(), &AbstractAudit::idChanged,
-            this, &AbstractAuditQmlWrapper::idChanged);
-    connect(abstractAudit.data(), &AbstractAudit::agentNameChanged,
-            this, &AbstractAuditQmlWrapper::agentNameChanged);
-    connect(abstractAudit.data(), &AbstractAudit::agentVersionChanged,
-            this, &AbstractAuditQmlWrapper::agentVersionChanged);
-    connect(abstractAudit.data(), &AbstractAudit::timeStampChanged,
-            this, &AbstractAuditQmlWrapper::timeStampChanged);
+    connect(abstractAudit.data(), &AbstractAudit::idChanged, this, &AbstractAuditQmlWrapper::idChanged);
+    connect(abstractAudit.data(), &AbstractAudit::agentNameChanged, this, &AbstractAuditQmlWrapper::agentNameChanged);
+    connect(abstractAudit.data(), &AbstractAudit::agentVersionChanged, this,
+            &AbstractAuditQmlWrapper::agentVersionChanged);
+    connect(abstractAudit.data(), &AbstractAudit::timeStampChanged, this, &AbstractAuditQmlWrapper::timeStampChanged);
 
     AbstractAuditSP oldAbstractAudit = qSharedPointerCast<AbstractAudit>(old);
     if (oldAbstractAudit) {

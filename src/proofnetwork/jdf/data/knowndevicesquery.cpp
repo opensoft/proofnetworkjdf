@@ -1,7 +1,7 @@
 #include "knowndevicesquery.h"
 
-#include "query_p.h"
 #include "devicefilter.h"
+#include "query_p.h"
 
 namespace Proof {
 namespace Jdf {
@@ -11,10 +11,7 @@ class KnownDevicesQueryPrivate : public QueryPrivate
     Q_DECLARE_PUBLIC(KnownDevicesQuery)
 
 protected:
-    KnownDevicesQueryPrivate()
-    {
-        registerChildren(deviceFilter);
-    }
+    KnownDevicesQueryPrivate() { registerChildren(deviceFilter); }
 
     void updateFrom(const NetworkDataEntitySP &other) override;
     void specificMessageFromJmf(QXmlStreamReader &xmlReader) override;
@@ -47,10 +44,8 @@ KnownDevicesQuerySP KnownDevicesQuery::create()
     return result;
 }
 
-KnownDevicesQuery::KnownDevicesQuery()
-    : Query(*new KnownDevicesQueryPrivate)
-{
-}
+KnownDevicesQuery::KnownDevicesQuery() : Query(*new KnownDevicesQueryPrivate)
+{}
 
 void KnownDevicesQueryPrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -90,4 +85,3 @@ void KnownDevicesQueryPrivate::specificMessageToJmf(QXmlStreamWriter &xmlWriter)
 
 } // namespace Jdf
 } // namespace Proof
-

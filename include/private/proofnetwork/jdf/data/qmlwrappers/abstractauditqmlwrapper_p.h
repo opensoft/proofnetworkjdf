@@ -10,7 +10,7 @@ class AbstractAuditQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     Q_DECLARE_PUBLIC(AbstractAuditQmlWrapper)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ABSTRACTAUDITQMLWRAPPER_P_H

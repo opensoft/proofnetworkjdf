@@ -104,10 +104,8 @@ void CreatedAudit::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-CreatedAudit::CreatedAudit()
-    : AbstractAudit(*new CreatedAuditPrivate)
-{
-}
+CreatedAudit::CreatedAudit() : AbstractAudit(*new CreatedAuditPrivate)
+{}
 
 void CreatedAuditPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

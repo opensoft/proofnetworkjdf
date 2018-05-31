@@ -1,16 +1,16 @@
 // clazy:skip
 
-#include "gtest/test_global.h"
-
+#include "proofnetwork/jdf/data/deviceinfo.h"
 #include "proofnetwork/jdf/data/jmfdocument.h"
 #include "proofnetwork/jdf/data/knowndevicesresponse.h"
-#include "proofnetwork/jdf/data/deviceinfo.h"
 
-#include <QXmlStreamReader>
-#include <QFile>
 #include <QDateTime>
 #include <QDomDocument>
+#include <QFile>
 #include <QSignalSpy>
+#include <QXmlStreamReader>
+
+#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
@@ -19,9 +19,8 @@ using testing::Test;
 class KnownDevicesResponseTest : public Test
 {
 public:
-    KnownDevicesResponseTest()
-    {
-    }
+    KnownDevicesResponseTest() {}
+
 protected:
     void SetUp() override
     {
@@ -36,9 +35,7 @@ protected:
         jmfDocumentUT2 = JmfDocument::fromJmf(xml2);
     }
 
-    void TearDown() override
-    {
-    }
+    void TearDown() override {}
 
 protected:
     JmfDocumentSP jmfDocumentUT;
@@ -101,7 +98,7 @@ TEST_F(KnownDevicesResponseTest, updateFrom)
 
     knownDevices->updateFrom(knownDevices2);
 
-    for (QSignalSpy *spy: spies)
+    for (QSignalSpy *spy : spies)
         EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
     qDeleteAll(spies);

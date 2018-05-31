@@ -2,8 +2,8 @@
 
 #include "deliveryintent.h"
 
-#include "proofnetwork/jdf/data/qmlwrappers/dropintentqmlwrapper.h"
 #include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/qmlwrappers/dropintentqmlwrapper.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {
@@ -13,10 +13,7 @@ class DropItemIntentPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(DropItemIntent)
 
-    DropItemIntentPrivate() : NetworkDataEntityPrivate()
-    {
-        registerChildren(component);
-    }
+    DropItemIntentPrivate() : NetworkDataEntityPrivate() { registerChildren(component); }
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
@@ -89,10 +86,8 @@ void DropItemIntent::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-DropItemIntent::DropItemIntent()
-    : NetworkDataEntity(*new DropItemIntentPrivate)
-{
-}
+DropItemIntent::DropItemIntent() : NetworkDataEntity(*new DropItemIntentPrivate)
+{}
 
 void DropItemIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
 {

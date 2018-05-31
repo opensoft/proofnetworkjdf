@@ -1,11 +1,12 @@
 #ifndef PROOF_JDF_RESOURCEPOOL_H
 #define PROOF_JDF_RESOURCEPOOL_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofcore/objectscache.h"
+
+#include "proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 
@@ -58,10 +59,9 @@ signals:
 
 protected:
     explicit ResourcePool();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_RESOURCEPOOL_H

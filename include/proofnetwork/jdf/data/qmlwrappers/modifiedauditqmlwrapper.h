@@ -1,10 +1,10 @@
 #ifndef PROOF_JDF_MODIFIEDAUDITQMLWRAPPER_H
 #define PROOF_JDF_MODIFIEDAUDITQMLWRAPPER_H
 
-#include "proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -23,10 +23,9 @@ public:
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_MODIFIEDAUDITQMLWRAPPER_H

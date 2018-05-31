@@ -173,7 +173,7 @@ class Notification;
 using NotificationSP = QSharedPointer<Notification>;
 using NotificationWP = QWeakPointer<Notification>;
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOFNETWORKJDF_TYPES_H

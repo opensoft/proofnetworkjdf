@@ -1,53 +1,52 @@
-#include "data/abstractresource.h"
+#include "data/abstractaudit.h"
 #include "data/abstractphysicalresource.h"
+#include "data/abstractphysicalresourcelink.h"
+#include "data/abstractresource.h"
+#include "data/abstractresourcelink.h"
+#include "data/auditpool.h"
+#include "data/boxpackingparams.h"
+#include "data/boxpackingparamslink.h"
+#include "data/bundle.h"
+#include "data/component.h"
+#include "data/componentlink.h"
+#include "data/createdaudit.h"
 #include "data/cutblock.h"
 #include "data/cuttingparams.h"
-#include "data/foldingparams.h"
-#include "data/boxpackingparams.h"
-#include "data/resourcepool.h"
-#include "data/media.h"
-#include "data/layout.h"
-#include "data/laminatingintent.h"
+#include "data/cuttingparamslink.h"
 #include "data/deliveryintent.h"
+#include "data/deliveryintentlink.h"
+#include "data/devicefilter.h"
+#include "data/deviceinfo.h"
 #include "data/dropintent.h"
 #include "data/dropitemintent.h"
-#include "data/component.h"
-#include "data/bundle.h"
+#include "data/foldingparams.h"
+#include "data/foldingparamslink.h"
 #include "data/jdfdocument.h"
 #include "data/jmfdocument.h"
+#include "data/knowndevicesquery.h"
+#include "data/knowndevicesresponse.h"
+#include "data/laminatingintent.h"
+#include "data/laminatingintentlink.h"
+#include "data/layout.h"
+#include "data/media.h"
+#include "data/medialink.h"
 #include "data/message.h"
 #include "data/message_p.h"
-#include "data/query.h"
-#include "data/response.h"
-#include "data/knowndevicesquery.h"
-#include "data/devicefilter.h"
-#include "data/knowndevicesresponse.h"
-#include "data/deviceinfo.h"
-#include "data/notification.h"
-
-#include "data/abstractresourcelink.h"
-#include "data/abstractphysicalresourcelink.h"
-#include "data/abstractaudit.h"
-#include "data/createdaudit.h"
 #include "data/modifiedaudit.h"
-#include "data/auditpool.h"
-#include "data/cuttingparamslink.h"
-#include "data/foldingparamslink.h"
-#include "data/boxpackingparamslink.h"
-#include "data/medialink.h"
-#include "data/laminatingintentlink.h"
-#include "data/deliveryintentlink.h"
-#include "data/componentlink.h"
+#include "data/notification.h"
+#include "data/query.h"
 #include "data/resourcelinkpool.h"
-
+#include "data/resourcepool.h"
+#include "data/response.h"
 #include "proofnetworkjdf_global.h"
+
 #include "proofcore/proofglobal.h"
 
 Q_LOGGING_CATEGORY(proofNetworkJdfDataLog, "proof.network.jdf.data")
 
 PROOF_LIBRARY_INITIALIZER(libraryInit)
 {
-    //clang-format off
+    // clang-format off
     qRegisterMetaType<Proof::Jdf::AbstractResourceQmlWrapper *>("Proof::Jdf::AbstractResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractPhysicalResourceQmlWrapper *>("Proof::Jdf::AbstractPhysicalResourceQmlWrapper *");
     qRegisterMetaType<Proof::Jdf::AbstractResourceLinkQmlWrapper *>("Proof::Jdf::AbstractResourceLinkQmlWrapper *");
@@ -181,5 +180,5 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::NotificationSP>("Proof::Jdf::NotificationSP");
     qRegisterMetaType<Proof::Jdf::NotificationWP>("Proof::Jdf::NotificationWP");
 
-    //clang-format on
+    // clang-format on
 }

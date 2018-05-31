@@ -1,12 +1,13 @@
 #ifndef JDFMEDIA_H
 #define JDFMEDIA_H
 
-#include "proofnetwork/jdf/data/abstractphysicalresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofnetwork/jdf/apihelper.h"
 #include "proofcore/objectscache.h"
+
+#include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/abstractphysicalresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -65,12 +66,11 @@ signals:
 
 protected:
     explicit Media();
-
 };
 
 PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfMediaDataKey, Media> &mediaCache();
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFMEDIA_H

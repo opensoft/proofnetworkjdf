@@ -1,15 +1,14 @@
 #ifndef JDFDROPITEMINTENT_H
 #define JDFDROPITEMINTENT_H
 
-#include "proofnetwork/jdf/data/abstractresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
-
+#include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/dropitemintentqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
-#include <QXmlStreamReader>
 #include <QDateTime>
+#include <QXmlStreamReader>
 
 namespace Proof {
 namespace Jdf {
@@ -20,7 +19,6 @@ class PROOF_NETWORK_JDF_EXPORT DropItemIntent : public NetworkDataEntity // claz
     Q_OBJECT
     Q_DECLARE_PRIVATE(DropItemIntent)
 public:
-
     ComponentSP component() const;
 
     void setComponent(const ComponentSP &arg);
@@ -37,10 +35,9 @@ signals:
 
 protected:
     explicit DropItemIntent();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFDROPITEMINTENT_H

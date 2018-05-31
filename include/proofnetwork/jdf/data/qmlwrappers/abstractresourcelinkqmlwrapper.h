@@ -1,10 +1,10 @@
 #ifndef ABSTRACTRESOURCELINKQMLWRAPPER_H
 #define ABSTRACTRESOURCELINKQMLWRAPPER_H
 
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {
@@ -19,8 +19,7 @@ class AbstractResourceLinkQmlWrapper : public NetworkDataEntityQmlWrapper
     Q_DECLARE_PRIVATE(AbstractResourceLinkQmlWrapper)
 public:
     explicit AbstractResourceLinkQmlWrapper(const QSharedPointer<AbstractResourceLink> &link,
-                                            AbstractResourceLinkQmlWrapperPrivate &dd,
-                                            QObject *parent = nullptr);
+                                            AbstractResourceLinkQmlWrapperPrivate &dd, QObject *parent = nullptr);
     ~AbstractResourceLinkQmlWrapper();
     Proof::Jdf::LinkUsage usage() const;
     Proof::Jdf::ProcessUsage processUsage() const;
@@ -35,7 +34,7 @@ protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTRESOURCELINKQMLWRAPPER_H

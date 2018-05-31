@@ -20,10 +20,8 @@ void Response::setNotification(const NotificationSP &arg)
     }
 }
 
-Response::Response(ResponsePrivate &dd, QObject *parent)
-    : Message(dd, parent)
-{
-}
+Response::Response(ResponsePrivate &dd, QObject *parent) : Message(dd, parent)
+{}
 
 void ResponsePrivate::updateFrom(const NetworkDataEntitySP &other)
 {
@@ -55,4 +53,3 @@ void ResponsePrivate::specificMessageToJmf(QXmlStreamWriter &xmlWriter) const
 
 } // namespace Jdf
 } // namespace Proof
-

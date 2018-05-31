@@ -8,7 +8,6 @@ namespace Jdf {
 
 class Strings : public QStringList
 {
-
 public:
     Strings(const QStringList &list = QStringList()) : QStringList(list) {}
 
@@ -17,13 +16,10 @@ public:
         return attribute.split(QStringLiteral(" "), QString::SplitBehavior::SkipEmptyParts);
     }
 
-    QString toString() const
-    {
-        return join(" ");
-    }
+    QString toString() const { return join(" "); }
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_STRINGSDATATYPE_H

@@ -1,9 +1,9 @@
 #ifndef PROOF_JDF_JMFDOCUMENT_H
 #define PROOF_JDF_JMFDOCUMENT_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 

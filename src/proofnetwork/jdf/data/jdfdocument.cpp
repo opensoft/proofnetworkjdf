@@ -1,4 +1,5 @@
 #include "jdfdocument.h"
+
 #include "proofnetwork/jdf/data/jdfnode_p.h"
 
 namespace Proof {
@@ -9,15 +10,13 @@ class JdfDocumentPrivate : public JdfNodePrivate
     Q_DECLARE_PUBLIC(JdfDocument)
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 using namespace Proof::Jdf;
 
-JdfDocument::JdfDocument()
-    : JdfNode(*new JdfDocumentPrivate)
-{
-}
+JdfDocument::JdfDocument() : JdfNode(*new JdfDocumentPrivate)
+{}
 
 JdfDocumentQmlWrapper *JdfDocument::toQmlWrapper(QObject *parent) const
 {
@@ -34,7 +33,8 @@ JdfDocumentSP JdfDocument::create()
     return result;
 }
 
-JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader, const QString &forceJobId, const QStringList &alternativeIdAttributes, bool sanitize)
+JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader, const QString &forceJobId,
+                                   const QStringList &alternativeIdAttributes, bool sanitize)
 {
     JdfDocumentSP document = create();
     JdfNodeSP node = JdfNode::fromJdf(xmlReader, forceJobId, alternativeIdAttributes, sanitize);
@@ -70,4 +70,3 @@ QString JdfDocument::toJdf()
     jdfWriter.writeEndDocument();
     return jdf;
 }
-

@@ -1,13 +1,13 @@
 #ifndef RESOURCELINKPOOL_H
 #define RESOURCELINKPOOL_H
 
-#include "proofnetwork/networkdataentity.h"
 #include "proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
-#include <QXmlStreamReader>
 #include <QList>
+#include <QXmlStreamReader>
 
 namespace Proof {
 namespace Jdf {
@@ -56,6 +56,6 @@ protected:
     explicit ResourceLinkPool();
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 #endif // RESOURCELINKPOOL_H

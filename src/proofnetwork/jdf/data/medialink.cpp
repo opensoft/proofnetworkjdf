@@ -1,4 +1,5 @@
 #include "medialink.h"
+
 #include "proofnetwork/jdf/data/abstractphysicalresourcelink_p.h"
 
 namespace Proof {
@@ -15,7 +16,6 @@ MediaLinkQmlWrapper *MediaLink::toQmlWrapper(QObject *parent) const
     MediaLinkSP castedSelf = qSharedPointerCast<MediaLink>(d->weakSelf);
     Q_ASSERT(castedSelf);
     return new MediaLinkQmlWrapper(castedSelf, parent);
-
 }
 
 MediaLinkSP MediaLink::create()
@@ -39,10 +39,8 @@ void MediaLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-MediaLink::MediaLink(QObject *parent) :
-    AbstractPhysicalResourceLink(*new MediaLinkPrivate, parent)
-{
-}
+MediaLink::MediaLink(QObject *parent) : AbstractPhysicalResourceLink(*new MediaLinkPrivate, parent)
+{}
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

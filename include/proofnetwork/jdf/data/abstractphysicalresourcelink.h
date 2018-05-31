@@ -1,10 +1,10 @@
 #ifndef ABSTRACTPHYSICALRESOURCELINK_H
 #define ABSTRACTPHYSICALRESOURCELINK_H
 
-#include "proofnetwork/jdf/data/abstractresourcelink.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/abstractresourcelink.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -28,12 +28,13 @@ public:
 signals:
     void orientationChanged(Proof::Jdf::ResourceOrientation orientation);
     void amountChanged(double arg);
+
 protected:
     explicit AbstractPhysicalResourceLink() = delete;
     AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd, QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // ABSTRACTPHYSICALRESOURCELINK_H

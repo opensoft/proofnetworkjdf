@@ -5,10 +5,8 @@
 namespace Proof {
 namespace Jdf {
 
-Query::Query(QueryPrivate &dd, QObject *parent)
-    : Message(dd, parent)
-{
-}
+Query::Query(QueryPrivate &dd, QObject *parent) : Message(dd, parent)
+{}
 
 void QueryPrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)
 {
@@ -21,9 +19,7 @@ QString QueryPrivate::tagName() const
 }
 
 void QueryPrivate::specificMessageToJmf(QXmlStreamWriter &) const
-{
-}
+{}
 
 } // namespace Jdf
 } // namespace Proof
-

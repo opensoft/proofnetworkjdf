@@ -1,11 +1,12 @@
 #ifndef PROOF_JDF_CUTTINGPARAMS_H
 #define PROOF_JDF_CUTTINGPARAMS_H
 
+#include "proofcore/objectscache.h"
+
 #include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/cuttingparamsqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
-#include "proofcore/objectscache.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -39,10 +40,9 @@ signals:
 
 protected:
     explicit CuttingParams();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_CUTTINGPARAMS_H

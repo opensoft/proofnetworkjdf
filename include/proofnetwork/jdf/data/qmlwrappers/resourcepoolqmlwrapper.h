@@ -1,9 +1,9 @@
 #ifndef PROOF_JDF_RESOURCEPOOLQMLWRAPPER_H
 #define PROOF_JDF_RESOURCEPOOLQMLWRAPPER_H
 
-#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper.h"
 
 #include <QtQml/QQmlListProperty>
 
@@ -51,7 +51,7 @@ protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_RESOURCEPOOLQMLWRAPPER_H

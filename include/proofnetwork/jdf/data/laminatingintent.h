@@ -1,11 +1,11 @@
 #ifndef JDFLAMINATINGINTENT_H
 #define JDFLAMINATINGINTENT_H
 
-#include "proofnetwork/jdf/data/abstractresource.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/data/abstractresource.h"
 #include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 #include <QXmlStreamReader>
 
@@ -18,7 +18,6 @@ class PROOF_NETWORK_JDF_EXPORT LaminatingIntent : public AbstractResource // cla
     Q_OBJECT
     Q_DECLARE_PRIVATE(LaminatingIntent)
 public:
-
     LaminatingSurface surface() const;
 
     void setSurface(LaminatingSurface surface);
@@ -36,10 +35,9 @@ signals:
 
 protected:
     explicit LaminatingIntent();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // JDFLAMINATINGINTENT_H

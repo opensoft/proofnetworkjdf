@@ -1,11 +1,11 @@
 #ifndef PROOF_JDF_BUNDLE_H
 #define PROOF_JDF_BUNDLE_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
 #include "proofnetwork/jdf/data/qmlwrappers/bundleqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 
@@ -41,10 +41,9 @@ signals:
 
 protected:
     explicit Bundle();
-
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_BUNDLE_H

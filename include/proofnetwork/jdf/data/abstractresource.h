@@ -1,10 +1,10 @@
 #ifndef PROOF_JDF_ABSTRACTRESOURCE_H
 #define PROOF_JDF_ABSTRACTRESOURCE_H
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/apihelper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity.h"
 
 #include <QXmlStreamReader>
 
@@ -17,7 +17,6 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResource : public NetworkDataEntity // cl
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractResource)
 public:
-
     QString id() const;
     ResourceStatus resourceStatus() const;
     ResourceClass resourceClass() const;
@@ -54,7 +53,7 @@ protected:
     void setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const;
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ABSTRACTRESOURCE_H

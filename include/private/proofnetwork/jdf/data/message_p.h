@@ -1,8 +1,8 @@
 #ifndef PROOF_JDF_MESSAGE_P_H
 #define PROOF_JDF_MESSAGE_P_H
 
-#include "proofnetwork/networkdataentity_p.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
+#include "proofnetwork/networkdataentity_p.h"
 
 #include <QHash>
 #include <QXmlStreamReader>
@@ -16,7 +16,8 @@ class MessagePrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Message)
 
-    template<class T> friend void registerJmfMessage(const QString &tagName, const QString &type);
+    template <class T>
+    friend void registerJmfMessage(const QString &tagName, const QString &type);
     friend MessageSP instantiateJmfMessage(const QString &tagName, const QString &typeName);
 
 protected:
@@ -30,18 +31,17 @@ private:
     QString id;
 
     using CreatorKey = QPair<QString, QString>;
-    using CreatorType = std::function<MessageSP ()>;
+    using CreatorType = std::function<MessageSP()>;
     static QHash<CreatorKey, CreatorType> &messageCreators();
 };
 
-template<class T>
+template <class T>
 void registerJmfMessage(const QString &tagName, const QString &type)
 {
     MessagePrivate::messageCreators().insert(qMakePair(tagName, type), &T::create);
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_MESSAGE_P_H
-

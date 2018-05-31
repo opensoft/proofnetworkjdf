@@ -1,9 +1,9 @@
 #include "dropitemintentqmlwrapper.h"
 
+#include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/dropitemintent.h"
 #include "proofnetwork/jdf/data/span.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
-#include "proofnetwork/jdf/data/component.h"
 
 namespace Proof {
 namespace Jdf {
@@ -24,8 +24,7 @@ DropItemIntentQmlWrapper::DropItemIntentQmlWrapper(const DropItemIntentSP &dropI
 }
 
 DropItemIntentQmlWrapper::~DropItemIntentQmlWrapper()
-{
-}
+{}
 
 ComponentQmlWrapper *DropItemIntentQmlWrapper::component() const
 {
@@ -42,8 +41,8 @@ void DropItemIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
     DropItemIntentSP dropItemIntent = d->entity<DropItemIntent>();
     Q_ASSERT(dropItemIntent);
 
-    connect(dropItemIntent.data(), &DropItemIntent::componentChanged,
-            d->lambdaConnectContext, [d](){d->updateComponent();});
+    connect(dropItemIntent.data(), &DropItemIntent::componentChanged, d->lambdaConnectContext,
+            [d]() { d->updateComponent(); });
 
     d->updateComponent();
 }
@@ -59,6 +58,5 @@ void DropItemIntentQmlWrapperPrivate::updateComponent()
     emit q->componentChanged(component);
 }
 
-}
-}
-
+} // namespace Jdf
+} // namespace Proof

@@ -8,7 +8,6 @@ namespace Jdf {
 
 class Enumerations : public QStringList
 {
-
 public:
     Enumerations(const QStringList &list = QStringList()) : QStringList(list) {}
 
@@ -25,13 +24,10 @@ public:
         return newEnumList;
     }
 
-    QString toString() const
-    {
-        return join(" ");
-    }
+    QString toString() const { return join(" "); }
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 
 #endif // PROOF_JDF_ENUMERATIONSDATATYPE_H

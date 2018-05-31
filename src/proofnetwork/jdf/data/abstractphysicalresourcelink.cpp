@@ -1,4 +1,5 @@
 #include "abstractphysicalresourcelink.h"
+
 #include "proofnetwork/jdf/data/abstractphysicalresourcelink_p.h"
 
 namespace Proof {
@@ -6,8 +7,7 @@ namespace Jdf {
 
 AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd, QObject *parent)
     : AbstractResourceLink(dd, parent)
-{
-}
+{}
 
 ResourceOrientation AbstractPhysicalResourceLink::orientation() const
 {
@@ -39,7 +39,8 @@ void AbstractPhysicalResourceLink::setAmount(double arg)
     }
 }
 
-bool AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader, const AbstractPhysicalResourceLinkSP &resource)
+bool AbstractPhysicalResourceLink::fromJdf(const QXmlStreamReader &xmlReader,
+                                           const AbstractPhysicalResourceLinkSP &resource)
 {
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QString value = attributes.value(QStringLiteral("Orientation")).toString();
@@ -55,7 +56,7 @@ void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
     if (d->orientation != ResourceOrientation::Rotate0Orientation)
         jdfWriter.writeAttribute(QStringLiteral("Orientation"), resourceOrientationToString(d->orientation));
     if (d->amount != 0)
-        jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount,'f', 4));
+        jdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount, 'f', 4));
     AbstractResourceLink::toJdf(jdfWriter);
 }
 
@@ -69,5 +70,5 @@ void AbstractPhysicalResourceLinkPrivate::updateFrom(const NetworkDataEntitySP &
     AbstractResourceLinkPrivate::updateFrom(other);
 }
 
-}
-}
+} // namespace Jdf
+} // namespace Proof

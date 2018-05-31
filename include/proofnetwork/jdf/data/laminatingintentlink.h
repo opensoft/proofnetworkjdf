@@ -1,11 +1,11 @@
 #ifndef LAMINATINGINTENTLINK_H
 #define LAMINATINGINTENTLINK_H
 
-#include "proofnetwork/jdf/proofnetworkjdf_types.h"
-#include "proofnetwork/jdf/proofnetworkjdf_global.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/jdf/data/qmlwrappers/laminatingintentlinkqmlwrapper.h"
+#include "proofnetwork/jdf/proofnetworkjdf_global.h"
+#include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
 namespace Proof {
 namespace Jdf {
@@ -27,6 +27,6 @@ protected:
     explicit LaminatingIntentLink(QObject *parent = nullptr);
 };
 
-}
-}
+} // namespace Jdf
+} // namespace Proof
 #endif // LAMINATINGINTENTLINK_H
