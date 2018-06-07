@@ -1,9 +1,5 @@
 include(proofnetwork.prf)
 
-win32 {
-    LIBS *= -lProofNetworkJdf$${PROOF_VERSION_MAJOR}
-} else {
-    LIBS *= -lProofNetworkJdf
-}
+LIBS *= -lProofNetworkJdf
 
 android:ANDROID_EXTRA_LIBS *= $$(PROOF_PATH)/lib/libProofNetworkJdf.so
