@@ -29,7 +29,7 @@ public:
     EnumerationSpan surplusHandling() const;
     EnumerationSpan transfer() const;
 
-    QList<DropItemIntentSP> dropItemIntents() const;
+    QVector<DropItemIntentSP> dropItemIntents() const;
 
     void setEarliest(const TimeSpan &arg);
     void setEarliestDuration(const DurationSpan &arg);
@@ -40,7 +40,7 @@ public:
     void setSurplusHandling(const EnumerationSpan &arg);
     void setTransfer(const EnumerationSpan &arg);
 
-    void setDropItemIntents(const QList<DropItemIntentSP> &arg);
+    void setDropItemIntents(const QVector<DropItemIntentSP> &arg);
     void addDropItemIntent(const DropItemIntentSP &arg);
 
     DropIntentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

@@ -27,10 +27,10 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    QList<ComponentSP> components;
+    QVector<ComponentSP> components;
     CuttingParamsSP cuttingParams = CuttingParams::create();
-    QList<MediaSP> media;
-    QList<LayoutSP> layouts;
+    QVector<MediaSP> media;
+    QVector<LayoutSP> layouts;
     LaminatingIntentSP laminatingIntent = LaminatingIntent::create();
     DeliveryIntentSP deliveryIntent = DeliveryIntent::create();
     FoldingParamsSP foldingParams = FoldingParams::create();
@@ -50,7 +50,7 @@ using namespace Proof::Jdf;
 ResourcePool::ResourcePool() : NetworkDataEntity(*new ResourcePoolPrivate)
 {}
 
-QList<ComponentSP> ResourcePool::components() const
+QVector<ComponentSP> ResourcePool::components() const
 {
     Q_D(const ResourcePool);
     return d->components;
@@ -62,7 +62,7 @@ CuttingParamsSP ResourcePool::cuttingParams() const
     return d->cuttingParams;
 }
 
-QList<MediaSP> ResourcePool::media() const
+QVector<MediaSP> ResourcePool::media() const
 {
     Q_D(const ResourcePool);
     return d->media;
@@ -92,7 +92,7 @@ BoxPackingParamsSP ResourcePool::boxPackingParams() const
     return d->boxPackingParams;
 }
 
-QList<LayoutSP> ResourcePool::layouts() const
+QVector<LayoutSP> ResourcePool::layouts() const
 {
     Q_D(const ResourcePool);
     return d->layouts;
@@ -117,9 +117,9 @@ ResourcePoolSP ResourcePool::fromJdf(QXmlStreamReader &xmlReader, const QString 
 {
     ResourcePoolSP resourcePool = create();
 
-    QList<ComponentSP> componentsList;
-    QList<MediaSP> mediaList;
-    QList<LayoutSP> layoutsList;
+    QVector<ComponentSP> componentsList;
+    QVector<MediaSP> mediaList;
+    QVector<LayoutSP> layoutsList;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "ResourcePool" && xmlReader.isStartElement() && !resourcePool->isFetched()) {
@@ -236,7 +236,7 @@ void ResourcePool::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-void ResourcePool::setComponents(const QList<ComponentSP> &arg)
+void ResourcePool::setComponents(const QVector<ComponentSP> &arg)
 {
     Q_D(ResourcePool);
     bool emitNeeded = arg.count() != d->components.count();
@@ -267,7 +267,7 @@ void ResourcePool::setCuttingParams(const CuttingParamsSP &arg)
     }
 }
 
-void ResourcePool::setMedia(const QList<MediaSP> &arg)
+void ResourcePool::setMedia(const QVector<MediaSP> &arg)
 {
     Q_D(ResourcePool);
     bool emitNeeded = arg.count() != d->media.count();
@@ -336,7 +336,7 @@ void ResourcePool::setBoxPackingParams(const BoxPackingParamsSP &boxPackingParam
     }
 }
 
-void ResourcePool::setLayouts(const QList<LayoutSP> &arg)
+void ResourcePool::setLayouts(const QVector<LayoutSP> &arg)
 {
     Q_D(ResourcePool);
     bool emitNeeded = arg.count() != d->layouts.count();

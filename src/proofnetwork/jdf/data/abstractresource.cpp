@@ -23,7 +23,7 @@ ResourceClass AbstractResource::resourceClass() const
     return d->resourceClass;
 }
 
-QList<ResourcePartType> AbstractResource::partIdKeys() const
+QVector<ResourcePartType> AbstractResource::partIdKeys() const
 {
     Q_D(const AbstractResource);
     return d->partIdKeys;
@@ -56,7 +56,7 @@ void AbstractResource::setResourceClass(ResourceClass arg)
     }
 }
 
-void AbstractResource::setPartIdKeys(const QList<ResourcePartType> &arg)
+void AbstractResource::setPartIdKeys(const QVector<ResourcePartType> &arg)
 {
     Q_D(AbstractResource);
     if (d->partIdKeys != arg) {
@@ -89,7 +89,7 @@ bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResour
     QXmlStreamAttributes attributes = xmlReader.attributes();
     QStringList partIdKeysStringified =
         attributes.value(QStringLiteral("PartIDKeys")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
-    QList<ResourcePartType> partIdKeys;
+    QVector<ResourcePartType> partIdKeys;
     for (const QString &partName : partIdKeysStringified) {
         bool ok = false;
         ResourcePartType part = resourcePartTypeFromString(partName, &ok);

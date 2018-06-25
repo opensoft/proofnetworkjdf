@@ -64,7 +64,7 @@ TEST_F(JmfDocumentTest, toJmf)
 
 TEST_F(JmfDocumentTest, updateFrom)
 {
-    QList<QSignalSpy *> spies = spiesForObject(jmfDocumentUT.data());
+    QVector<QSignalSpy *> spies = spiesForObject(jmfDocumentUT.data());
     jmfDocumentUT->updateFrom(jmfDocumentUT2);
 
     for (QSignalSpy *spy : spies)

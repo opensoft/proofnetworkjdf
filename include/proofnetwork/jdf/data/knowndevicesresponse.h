@@ -15,15 +15,15 @@ class PROOF_NETWORK_JDF_EXPORT KnownDevicesResponse : public Response // clazy:e
     Q_DECLARE_PRIVATE(KnownDevicesResponse)
 
 public:
-    QList<DeviceInfoSP> deviceInfos() const;
+    QVector<DeviceInfoSP> deviceInfos() const;
 
-    void setDeviceInfos(const QList<DeviceInfoSP> &arg);
+    void setDeviceInfos(const QVector<DeviceInfoSP> &arg);
     void addDeviceInfo(const DeviceInfoSP &arg);
 
     static KnownDevicesResponseSP create();
 
 signals:
-    void deviceInfosChanged(const QList<Proof::Jdf::DeviceInfoSP> &arg);
+    void deviceInfosChanged(const QVector<Proof::Jdf::DeviceInfoSP> &arg);
 
 protected:
     KnownDevicesResponse();

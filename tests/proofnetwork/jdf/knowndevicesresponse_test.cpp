@@ -94,7 +94,7 @@ TEST_F(KnownDevicesResponseTest, updateFrom)
     auto knownDevices2 = qSharedPointerObjectCast<KnownDevicesResponse>(jmfDocumentUT2->messages().at(0));
     ASSERT_FALSE(knownDevices2.isNull());
 
-    QList<QSignalSpy *> spies = spiesForObject(knownDevices.data());
+    QVector<QSignalSpy *> spies = spiesForObject(knownDevices.data());
 
     knownDevices->updateFrom(knownDevices2);
 

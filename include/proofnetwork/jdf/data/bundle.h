@@ -20,11 +20,11 @@ class PROOF_NETWORK_JDF_EXPORT Bundle : public NetworkDataEntity // clazy:exclud
 public:
     BundleType bundleType() const;
     int totalAmount() const;
-    QList<BundleItemSP> bundleItems() const;
+    QVector<BundleItemSP> bundleItems() const;
 
     void setBundleType(BundleType arg);
     void setTotalAmount(int arg);
-    void setBundleItems(const QList<BundleItemSP> &arg);
+    void setBundleItems(const QVector<BundleItemSP> &arg);
     void addBundleItem(const BundleItemSP &arg);
 
     BundleQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

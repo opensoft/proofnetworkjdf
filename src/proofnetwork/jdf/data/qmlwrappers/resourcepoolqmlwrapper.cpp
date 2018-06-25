@@ -25,12 +25,12 @@ class ResourcePoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
     void updateFoldingParams();
     void updateLaminatingIntent();
 
-    QList<ComponentQmlWrapper *> components;
+    QVector<ComponentQmlWrapper *> components;
     QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> qmlComponentsList;
     static ComponentQmlWrapper *componentAt(QQmlListProperty<ComponentQmlWrapper> *property, int index);
     static int componentsCount(QQmlListProperty<ComponentQmlWrapper> *property);
 
-    QList<MediaQmlWrapper *> media;
+    QVector<MediaQmlWrapper *> media;
     QQmlListProperty<Proof::Jdf::MediaQmlWrapper> qmlMediaList;
     static MediaQmlWrapper *mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index);
     static int mediaCount(QQmlListProperty<MediaQmlWrapper> *property);
@@ -181,20 +181,20 @@ void ResourcePoolQmlWrapperPrivate::updateLaminatingIntent()
 
 ComponentQmlWrapper *ResourcePoolQmlWrapperPrivate::componentAt(QQmlListProperty<ComponentQmlWrapper> *property, int index)
 {
-    return static_cast<QList<ComponentQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<ComponentQmlWrapper *> *>(property->data)->at(index);
 }
 
 int ResourcePoolQmlWrapperPrivate::componentsCount(QQmlListProperty<ComponentQmlWrapper> *property)
 {
-    return static_cast<QList<ComponentQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<ComponentQmlWrapper *> *>(property->data)->count();
 }
 
 MediaQmlWrapper *ResourcePoolQmlWrapperPrivate::mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index)
 {
-    return static_cast<QList<MediaQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<MediaQmlWrapper *> *>(property->data)->at(index);
 }
 
 int ResourcePoolQmlWrapperPrivate::mediaCount(QQmlListProperty<MediaQmlWrapper> *property)
 {
-    return static_cast<QList<MediaQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<MediaQmlWrapper *> *>(property->data)->count();
 }

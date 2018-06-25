@@ -29,8 +29,8 @@ public:
     double height() const;
     double length() const;
     BundleSP bundle() const;
-    QList<CutBlockSP> cutBlocks() const;
-    QList<ComponentSP> parts() const;
+    QVector<CutBlockSP> cutBlocks() const;
+    QVector<ComponentSP> parts() const;
 
     void setComponentType(ComponentType arg);
     void setProductType(ProductType arg);
@@ -39,8 +39,8 @@ public:
     void setHeight(double arg);
     void setLength(double arg);
     void setBundle(const BundleSP &arg);
-    QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
-    QList<ComponentSP> updateParts(const QList<ComponentSP> &arg);
+    QVector<CutBlockSP> updateCutBlocks(const QVector<CutBlockSP> &arg);
+    QVector<ComponentSP> updateParts(const QVector<ComponentSP> &arg);
     void addPart(const ComponentSP &arg);
 
     ComponentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

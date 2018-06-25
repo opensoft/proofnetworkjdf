@@ -18,12 +18,12 @@
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 
-#include <QList>
+#include <QVector>
 
 namespace Proof {
 namespace Jdf {
 
-inline QList<JdfNodeSP> findNodes(const JdfDocumentSP &job, const QString &type = QString(""))
+inline QVector<JdfNodeSP> findNodes(const JdfDocumentSP &job, const QString &type = QString(""))
 {
     if (type.isEmpty()) {
         return job->findAllNodes([](const auto &) { return true; });
@@ -41,26 +41,26 @@ inline QList<JdfNodeSP> findNodes(const JdfDocumentSP &job, const QString &type 
     }
 }
 
-inline QList<JdfNodeSP> findCuttingNodes(const JdfDocumentSP &job)
+inline QVector<JdfNodeSP> findCuttingNodes(const JdfDocumentSP &job)
 {
     return findNodes(job, QStringLiteral("cutting"));
 }
 
-inline QList<JdfNodeSP> findFoldingNodes(const JdfDocumentSP &job)
+inline QVector<JdfNodeSP> findFoldingNodes(const JdfDocumentSP &job)
 {
     return findNodes(job, QStringLiteral("folding"));
 }
 
-inline QList<JdfNodeSP> findBoxPackingNodes(const JdfDocumentSP &job)
+inline QVector<JdfNodeSP> findBoxPackingNodes(const JdfDocumentSP &job)
 {
     return findNodes(job, QStringLiteral("boxpacking"));
 }
 
 template <typename Resource>
-inline QList<JdfNodeSP> nodesWithLink(const QList<JdfNodeSP> &nodes, LinkUsage usage = LinkUsage::InputLink);
+inline QVector<JdfNodeSP> nodesWithLink(const QVector<JdfNodeSP> &nodes, LinkUsage usage = LinkUsage::InputLink);
 
 template <>
-inline QList<JdfNodeSP> nodesWithLink<CuttingParams>(const QList<JdfNodeSP> &nodes, LinkUsage usage)
+inline QVector<JdfNodeSP> nodesWithLink<CuttingParams>(const QVector<JdfNodeSP> &nodes, LinkUsage usage)
 {
     return algorithms::filter(nodes, [usage](const JdfNodeSP &node) -> bool {
         return node->resourceLinkPool()->cuttingParamsLink()->isDirty()
@@ -69,7 +69,7 @@ inline QList<JdfNodeSP> nodesWithLink<CuttingParams>(const QList<JdfNodeSP> &nod
 }
 
 template <>
-inline QList<JdfNodeSP> nodesWithLink<FoldingParams>(const QList<JdfNodeSP> &nodes, LinkUsage usage)
+inline QVector<JdfNodeSP> nodesWithLink<FoldingParams>(const QVector<JdfNodeSP> &nodes, LinkUsage usage)
 {
     return algorithms::filter(nodes, [usage](const JdfNodeSP &node) -> bool {
         return node->resourceLinkPool()->foldingParamsLink()->isDirty()
@@ -78,7 +78,7 @@ inline QList<JdfNodeSP> nodesWithLink<FoldingParams>(const QList<JdfNodeSP> &nod
 }
 
 template <>
-inline QList<JdfNodeSP> nodesWithLink<BoxPackingParams>(const QList<JdfNodeSP> &nodes, LinkUsage usage)
+inline QVector<JdfNodeSP> nodesWithLink<BoxPackingParams>(const QVector<JdfNodeSP> &nodes, LinkUsage usage)
 {
     return algorithms::filter(nodes, [usage](const JdfNodeSP &node) -> bool {
         return node->resourceLinkPool()->boxPackingParamsLink()->isDirty()
@@ -87,7 +87,7 @@ inline QList<JdfNodeSP> nodesWithLink<BoxPackingParams>(const QList<JdfNodeSP> &
 }
 
 template <>
-inline QList<JdfNodeSP> nodesWithLink<Component>(const QList<JdfNodeSP> &nodes, LinkUsage usage)
+inline QVector<JdfNodeSP> nodesWithLink<Component>(const QVector<JdfNodeSP> &nodes, LinkUsage usage)
 {
     return algorithms::filter(nodes, [usage](const JdfNodeSP &node) -> bool {
         return algorithms::findIf(node->resourceLinkPool()->componentLinks(),
@@ -96,7 +96,7 @@ inline QList<JdfNodeSP> nodesWithLink<Component>(const QList<JdfNodeSP> &nodes, 
 }
 
 template <>
-inline QList<JdfNodeSP> nodesWithLink<Media>(const QList<JdfNodeSP> &nodes, LinkUsage usage)
+inline QVector<JdfNodeSP> nodesWithLink<Media>(const QVector<JdfNodeSP> &nodes, LinkUsage usage)
 {
     return algorithms::filter(nodes, [usage](const JdfNodeSP &node) -> bool {
         return algorithms::findIf(node->resourceLinkPool()->mediaLinks(),
@@ -104,11 +104,11 @@ inline QList<JdfNodeSP> nodesWithLink<Media>(const QList<JdfNodeSP> &nodes, Link
     });
 }
 
-inline QList<JdfNodeSP> probablyCuttingNodes(const JdfDocumentSP &job)
+inline QVector<JdfNodeSP> probablyCuttingNodes(const JdfDocumentSP &job)
 {
-    QList<JdfNodeSP> result;
+    QVector<JdfNodeSP> result;
     QSet<JdfNodeSP> addedNodes;
-    auto adder = [&result, &addedNodes](const QList<JdfNodeSP> &nodes) {
+    auto adder = [&result, &addedNodes](const QVector<JdfNodeSP> &nodes) {
         for (const auto &node : nodes) {
             if (addedNodes.contains(node))
                 continue;
@@ -123,11 +123,11 @@ inline QList<JdfNodeSP> probablyCuttingNodes(const JdfDocumentSP &job)
     return result;
 }
 
-inline QList<JdfNodeSP> probablyFoldingNodes(const JdfDocumentSP &job)
+inline QVector<JdfNodeSP> probablyFoldingNodes(const JdfDocumentSP &job)
 {
-    QList<JdfNodeSP> result;
+    QVector<JdfNodeSP> result;
     QSet<JdfNodeSP> addedNodes;
-    auto adder = [&result, &addedNodes](const QList<JdfNodeSP> &nodes) {
+    auto adder = [&result, &addedNodes](const QVector<JdfNodeSP> &nodes) {
         for (const auto &node : nodes) {
             if (addedNodes.contains(node))
                 continue;
@@ -142,11 +142,11 @@ inline QList<JdfNodeSP> probablyFoldingNodes(const JdfDocumentSP &job)
     return result;
 }
 
-inline QList<JdfNodeSP> probablyBoxPackingNodes(const JdfDocumentSP &job)
+inline QVector<JdfNodeSP> probablyBoxPackingNodes(const JdfDocumentSP &job)
 {
-    QList<JdfNodeSP> result;
+    QVector<JdfNodeSP> result;
     QSet<JdfNodeSP> addedNodes;
-    auto adder = [&result, &addedNodes](const QList<JdfNodeSP> &nodes) {
+    auto adder = [&result, &addedNodes](const QVector<JdfNodeSP> &nodes) {
         for (const auto &node : nodes) {
             if (addedNodes.contains(node))
                 continue;

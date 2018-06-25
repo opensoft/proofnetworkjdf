@@ -65,8 +65,8 @@ TEST_F(CutBlockTest, fromJdf)
 
 TEST_F(CutBlockTest, updateFrom)
 {
-    QList<QSignalSpy *> spies = spiesForObject(cutBlockUT.data());
-    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
+    QVector<QSignalSpy *> spies = spiesForObject(cutBlockUT.data());
+    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
     cutBlockUT->updateFrom(cutBlockUT2);
 

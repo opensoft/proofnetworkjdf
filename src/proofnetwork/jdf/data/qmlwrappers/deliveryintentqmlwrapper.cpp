@@ -13,7 +13,7 @@ class DeliveryIntentQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
 
     void updateDropIntents();
 
-    QList<DropIntentQmlWrapper *> dropIntents;
+    QVector<DropIntentQmlWrapper *> dropIntents;
     QQmlListProperty<Proof::Jdf::DropIntentQmlWrapper> qmlDropIntentsList;
     static DropIntentQmlWrapper *dropIntentAt(QQmlListProperty<DropIntentQmlWrapper> *property, int index);
     static int dropIntentsCount(QQmlListProperty<DropIntentQmlWrapper> *property);
@@ -76,10 +76,10 @@ void DeliveryIntentQmlWrapperPrivate::updateDropIntents()
 DropIntentQmlWrapper *DeliveryIntentQmlWrapperPrivate::dropIntentAt(QQmlListProperty<DropIntentQmlWrapper> *property,
                                                                     int index)
 {
-    return static_cast<QList<DropIntentQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<DropIntentQmlWrapper *> *>(property->data)->at(index);
 }
 
 int DeliveryIntentQmlWrapperPrivate::dropIntentsCount(QQmlListProperty<DropIntentQmlWrapper> *property)
 {
-    return static_cast<QList<DropIntentQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<DropIntentQmlWrapper *> *>(property->data)->count();
 }

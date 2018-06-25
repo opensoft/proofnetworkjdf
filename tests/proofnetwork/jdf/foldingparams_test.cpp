@@ -61,8 +61,8 @@ TEST_F(FoldingParamsTest, fromJdf)
 
 TEST_F(FoldingParamsTest, updateFrom)
 {
-    QList<QSignalSpy *> spies = spiesForObject(foldingParams1.data());
-    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
+    QVector<QSignalSpy *> spies = spiesForObject(foldingParams1.data());
+    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
     foldingParams1->updateFrom(foldingParams2);
 

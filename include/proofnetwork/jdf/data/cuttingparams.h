@@ -19,11 +19,11 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource // clazy:
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParams)
 public:
-    QList<CutBlockSP> cutBlocks() const;
-    QList<CuttingParamsSP> parts() const;
+    QVector<CutBlockSP> cutBlocks() const;
+    QVector<CuttingParamsSP> parts() const;
 
-    QList<CutBlockSP> updateCutBlocks(const QList<CutBlockSP> &arg);
-    QList<CuttingParamsSP> updateParts(const QList<CuttingParamsSP> &arg);
+    QVector<CutBlockSP> updateCutBlocks(const QVector<CutBlockSP> &arg);
+    QVector<CuttingParamsSP> updateParts(const QVector<CuttingParamsSP> &arg);
     void addPart(const CuttingParamsSP &arg);
 
     CuttingParamsQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

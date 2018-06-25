@@ -16,10 +16,10 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    bool partsAreValid(QList<ResourcePartType> partsToCheck = QList<ResourcePartType>()) const;
+    bool partsAreValid(QVector<ResourcePartType> partsToCheck = QVector<ResourcePartType>()) const;
 
-    QList<CutBlockSP> cutBlocks;
-    QList<CuttingParamsSP> parts;
+    QVector<CutBlockSP> cutBlocks;
+    QVector<CuttingParamsSP> parts;
 };
 
 ObjectsCache<QString, CuttingParams> &cuttingParamsCache()
@@ -35,13 +35,13 @@ using namespace Proof::Jdf;
 CuttingParams::CuttingParams() : AbstractResource(*new CuttingParamsPrivate)
 {}
 
-QList<CutBlockSP> CuttingParams::cutBlocks() const
+QVector<CutBlockSP> CuttingParams::cutBlocks() const
 {
     Q_D(const CuttingParams);
     return d->cutBlocks;
 }
 
-QList<CuttingParamsSP> CuttingParams::parts() const
+QVector<CuttingParamsSP> CuttingParams::parts() const
 {
     Q_D(const CuttingParams);
     return d->parts;
@@ -66,7 +66,7 @@ CuttingParamsSP CuttingParams::fromJdf(QXmlStreamReader &xmlReader, const QStrin
 {
     CuttingParamsSP cuttingParams = create();
 
-    QList<CutBlockSP> cutBlocks;
+    QVector<CutBlockSP> cutBlocks;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "CuttingParams" && xmlReader.isStartElement() && !cuttingParams->isFetched()) {
@@ -135,7 +135,7 @@ CuttingParamsLinkSP CuttingParams::toLink(LinkUsage usage) const
     return link;
 }
 
-QList<CutBlockSP> CuttingParams::updateCutBlocks(const QList<CutBlockSP> &arg)
+QVector<CutBlockSP> CuttingParams::updateCutBlocks(const QVector<CutBlockSP> &arg)
 {
     Q_D(CuttingParams);
     bool emitNeeded = arg.count() != d->cutBlocks.count();
@@ -148,7 +148,7 @@ QList<CutBlockSP> CuttingParams::updateCutBlocks(const QList<CutBlockSP> &arg)
     return d->cutBlocks;
 }
 
-QList<CuttingParamsSP> CuttingParams::updateParts(const QList<CuttingParamsSP> &arg)
+QVector<CuttingParamsSP> CuttingParams::updateParts(const QVector<CuttingParamsSP> &arg)
 {
     Q_D(CuttingParams);
     bool emitNeeded = arg.count() != d->parts.count();
@@ -177,7 +177,7 @@ void CuttingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     AbstractResourcePrivate::updateFrom(other);
 }
 
-bool CuttingParamsPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) const
+bool CuttingParamsPrivate::partsAreValid(QVector<ResourcePartType> partsToCheck) const
 {
     if (partsToCheck.isEmpty() && !partIdKeys.isEmpty())
         partsToCheck = partIdKeys;

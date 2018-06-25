@@ -20,10 +20,10 @@ class CuttingParamsQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
     static CuttingParamsQmlWrapper *partAt(QQmlListProperty<CuttingParamsQmlWrapper> *property, int index);
     static int partsCount(QQmlListProperty<CuttingParamsQmlWrapper> *property);
 
-    QList<CutBlockQmlWrapper *> cutBlocks;
+    QVector<CutBlockQmlWrapper *> cutBlocks;
     QQmlListProperty<Proof::Jdf::CutBlockQmlWrapper> qmlCutBlocksList;
 
-    QList<CuttingParamsQmlWrapper *> parts;
+    QVector<CuttingParamsQmlWrapper *> parts;
     QQmlListProperty<Proof::Jdf::CuttingParamsQmlWrapper> qmlPartsList;
 };
 
@@ -77,12 +77,12 @@ void CuttingParamsQmlWrapperPrivate::updateParts()
 CuttingParamsQmlWrapper *CuttingParamsQmlWrapperPrivate::partAt(QQmlListProperty<CuttingParamsQmlWrapper> *property,
                                                                 int index)
 {
-    return static_cast<QList<CuttingParamsQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<CuttingParamsQmlWrapper *> *>(property->data)->at(index);
 }
 
 int CuttingParamsQmlWrapperPrivate::partsCount(QQmlListProperty<CuttingParamsQmlWrapper> *property)
 {
-    return static_cast<QList<CuttingParamsQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<CuttingParamsQmlWrapper *> *>(property->data)->count();
 }
 
 void CuttingParamsQmlWrapperPrivate::updateCutBlocks()
@@ -105,12 +105,12 @@ void CuttingParamsQmlWrapperPrivate::updateCutBlocks()
 
 CutBlockQmlWrapper *CuttingParamsQmlWrapperPrivate::cutBlockAt(QQmlListProperty<CutBlockQmlWrapper> *property, int index)
 {
-    return static_cast<QList<CutBlockQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<CutBlockQmlWrapper *> *>(property->data)->at(index);
 }
 
 int CuttingParamsQmlWrapperPrivate::cutBlocksCount(QQmlListProperty<CutBlockQmlWrapper> *property)
 {
-    return static_cast<QList<CutBlockQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<CutBlockQmlWrapper *> *>(property->data)->count();
 }
 
 void CuttingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)

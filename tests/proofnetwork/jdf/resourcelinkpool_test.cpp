@@ -88,8 +88,8 @@ TEST_F(ResourceLinkPoolTest, fromJdf)
 
 TEST_F(ResourceLinkPoolTest, updateFrom)
 {
-    QList<QSignalSpy *> spies = spiesForObject(linkPool1.data());
-    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
+    QVector<QSignalSpy *> spies = spiesForObject(linkPool1.data());
+    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
     linkPool1->updateFrom(linkPool2);
 

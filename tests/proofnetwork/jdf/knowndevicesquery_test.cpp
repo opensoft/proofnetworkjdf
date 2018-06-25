@@ -63,7 +63,7 @@ TEST_F(KnownDevicesQueryTest, updateFrom)
     ASSERT_EQ(1, jmfDocumentUT2->messages().size());
     KnownDevicesQuerySP knownDevices2 = qSharedPointerObjectCast<KnownDevicesQuery>(jmfDocumentUT2->messages().at(0));
     ASSERT_FALSE(knownDevices2.isNull());
-    QList<QSignalSpy *> spies = spiesForObject(knownDevices.data());
+    QVector<QSignalSpy *> spies = spiesForObject(knownDevices.data());
 
     knownDevices->updateFrom(knownDevices2);
 

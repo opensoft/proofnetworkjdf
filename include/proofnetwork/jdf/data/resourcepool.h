@@ -19,25 +19,25 @@ class PROOF_NETWORK_JDF_EXPORT ResourcePool : public NetworkDataEntity // clazy:
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourcePool)
 public:
-    QList<ComponentSP> components() const;
+    QVector<ComponentSP> components() const;
     CuttingParamsSP cuttingParams() const;
-    QList<MediaSP> media() const;
+    QVector<MediaSP> media() const;
     LaminatingIntentSP laminatingIntent() const;
     DeliveryIntentSP deliveryIntent() const;
     FoldingParamsSP foldingParams() const;
     BoxPackingParamsSP boxPackingParams() const;
-    QList<LayoutSP> layouts() const;
+    QVector<LayoutSP> layouts() const;
 
-    void setComponents(const QList<ComponentSP> &arg);
+    void setComponents(const QVector<ComponentSP> &arg);
     void addComponent(const ComponentSP &arg);
     void setCuttingParams(const CuttingParamsSP &arg);
-    void setMedia(const QList<MediaSP> &arg);
+    void setMedia(const QVector<MediaSP> &arg);
     void addMedia(const MediaSP &arg);
     void setLaminatingIntent(const LaminatingIntentSP &laminatingIntent);
     void setDeliveryIntent(const DeliveryIntentSP &arg);
     void setFoldingParams(const FoldingParamsSP &foldingParams);
     void setBoxPackingParams(const BoxPackingParamsSP &boxPackingParams);
-    void setLayouts(const QList<LayoutSP> &arg);
+    void setLayouts(const QVector<LayoutSP> &arg);
     void addLayout(const LayoutSP &arg);
 
     ResourcePoolQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

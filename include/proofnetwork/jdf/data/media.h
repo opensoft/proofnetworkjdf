@@ -22,7 +22,7 @@ class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource // clazy:
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)
 public:
-    QList<MediaSP> layers() const;
+    QVector<MediaSP> layers() const;
     double thickness() const;
     CoatingType frontCoating() const;
     CoatingDetail frontCoatingDetail() const;
@@ -33,7 +33,7 @@ public:
     double height() const;
     double width() const;
 
-    void setLayers(const QList<MediaSP> &layers);
+    void setLayers(const QVector<MediaSP> &layers);
     void setThickness(double microns);
     void setFrontCoating(CoatingType coating);
     void setFrontCoatingDetail(CoatingDetail coatingDetail);
@@ -53,7 +53,7 @@ public:
     MediaLinkSP toLink(LinkUsage usage = LinkUsage::InputLink) const;
 
 signals:
-    void layersChanged(const QList<Proof::Jdf::MediaSP> &arg);
+    void layersChanged(const QVector<Proof::Jdf::MediaSP> &arg);
     void thicknessChanged(double arg);
     void heightChanged(double arg);
     void widthChanged(double arg);

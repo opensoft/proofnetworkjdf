@@ -161,7 +161,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
 
     qRegisterMetaType<Proof::Jdf::MessageSP>("Proof::Jdf::MessageSP");
     qRegisterMetaType<Proof::Jdf::MessageWP>("Proof::Jdf::MessageWP");
-    qRegisterMetaType<QList<Proof::Jdf::MessageSP>>("QList<Proof::Jdf::MessageSP>");
+    qRegisterMetaType<QVector<Proof::Jdf::MessageSP>>("QVector<Proof::Jdf::MessageSP>");
     qRegisterMetaType<Proof::Jdf::QuerySP>("Proof::Jdf::QuerySP");
     qRegisterMetaType<Proof::Jdf::QueryWP>("Proof::Jdf::QueryWP");
     qRegisterMetaType<Proof::Jdf::ResponseSP>("Proof::Jdf::ResponseSP");
@@ -175,7 +175,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::Jdf::KnownDevicesResponseWP>("Proof::Jdf::KnownDevicesResponseWP");
     Proof::Jdf::registerJmfMessage<Proof::Jdf::KnownDevicesResponse>(QStringLiteral("Response"), QStringLiteral("KnownDevices"));
     qRegisterMetaType<Proof::Jdf::DeviceInfoSP>("Proof::Jdf::DeviceInfoSP");
-    qRegisterMetaType<QList<Proof::Jdf::DeviceInfoSP>>("QList<Proof::Jdf::DeviceInfoSP>");
+    qRegisterMetaType<QVector<Proof::Jdf::DeviceInfoSP>>("QVector<Proof::Jdf::DeviceInfoSP>");
     qRegisterMetaType<Proof::Jdf::DeviceInfoWP>("Proof::Jdf::DeviceInfoWP");
     qRegisterMetaType<Proof::Jdf::NotificationSP>("Proof::Jdf::NotificationSP");
     qRegisterMetaType<Proof::Jdf::NotificationWP>("Proof::Jdf::NotificationWP");

@@ -18,9 +18,9 @@ class PROOF_NETWORK_JDF_EXPORT Layout : public AbstractResource // clazy:exclude
     Q_OBJECT
     Q_DECLARE_PRIVATE(Layout)
 public:
-    QList<MediaSP> media() const;
+    QVector<MediaSP> media() const;
 
-    void setMedia(const QList<MediaSP> &arg);
+    void setMedia(const QVector<MediaSP> &arg);
     void addMedia(const MediaSP &arg);
 
     LayoutQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

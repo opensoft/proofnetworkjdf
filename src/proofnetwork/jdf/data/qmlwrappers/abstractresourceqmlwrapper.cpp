@@ -19,7 +19,7 @@ AbstractResourceQmlWrapper::~AbstractResourceQmlWrapper()
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, QString, id)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, Proof::Jdf::ResourceStatus, resourceStatus)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, Proof::Jdf::ResourceClass, resourceClass)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, QList<ResourcePartType>, partIdKeys)
+PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, QVector<ResourcePartType>, partIdKeys)
 
 void AbstractResourceQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {

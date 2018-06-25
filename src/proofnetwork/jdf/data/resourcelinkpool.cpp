@@ -26,9 +26,9 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    QList<ComponentLinkSP> componentLinks;
+    QVector<ComponentLinkSP> componentLinks;
     CuttingParamsLinkSP cuttingParamsLink = CuttingParamsLink::create();
-    QList<MediaLinkSP> mediaLinks;
+    QVector<MediaLinkSP> mediaLinks;
     LaminatingIntentLinkSP laminatingIntentLink = LaminatingIntentLink::create();
     DeliveryIntentLinkSP deliveryIntentLink = DeliveryIntentLink::create();
     FoldingParamsLinkSP foldingParamsLink = FoldingParamsLink::create();
@@ -40,7 +40,7 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
 
 using namespace Proof::Jdf;
 
-QList<ComponentLinkSP> ResourceLinkPool::componentLinks() const
+QVector<ComponentLinkSP> ResourceLinkPool::componentLinks() const
 {
     Q_D(const ResourceLinkPool);
     return d->componentLinks;
@@ -52,7 +52,7 @@ CuttingParamsLinkSP ResourceLinkPool::cuttingParamsLink() const
     return d->cuttingParamsLink;
 }
 
-QList<MediaLinkSP> ResourceLinkPool::mediaLinks() const
+QVector<MediaLinkSP> ResourceLinkPool::mediaLinks() const
 {
     Q_D(const ResourceLinkPool);
     return d->mediaLinks;
@@ -82,7 +82,7 @@ BoxPackingParamsLinkSP ResourceLinkPool::boxPackingParamsLink() const
     return d->boxPackingParamsLink;
 }
 
-void ResourceLinkPool::setComponentLinks(const QList<ComponentLinkSP> &arg)
+void ResourceLinkPool::setComponentLinks(const QVector<ComponentLinkSP> &arg)
 {
     Q_D(ResourceLinkPool);
     std::multiset<QString> newIds;
@@ -119,7 +119,7 @@ void ResourceLinkPool::setCuttingParamsLink(const CuttingParamsLinkSP &cuttingPa
     }
 }
 
-void ResourceLinkPool::setMediaLinks(const QList<MediaLinkSP> &mediaLinks)
+void ResourceLinkPool::setMediaLinks(const QVector<MediaLinkSP> &mediaLinks)
 {
     Q_D(ResourceLinkPool);
     d->mediaLinks = mediaLinks;
@@ -193,8 +193,8 @@ ResourceLinkPoolSP ResourceLinkPool::fromJdf(QXmlStreamReader &xmlReader)
 {
     ResourceLinkPoolSP linkPool = create();
 
-    QList<ComponentLinkSP> components;
-    QList<MediaLinkSP> mediaLinksList;
+    QVector<ComponentLinkSP> components;
+    QVector<MediaLinkSP> mediaLinksList;
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "ResourceLinkPool" && xmlReader.isStartElement() && !linkPool->isFetched()) {
             linkPool->setFetched(true);

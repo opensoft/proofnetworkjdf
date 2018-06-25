@@ -502,8 +502,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfFolding)
 
 TEST_F(JdfDocumentTest, updateFrom)
 {
-    QList<QSignalSpy *> spies = spiesForObject(jdfDocUT.data());
-    QList<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
+    QVector<QSignalSpy *> spies = spiesForObject(jdfDocUT.data());
+    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
 
     jdfDocUT->updateFrom(jdfDocUT2);
 
@@ -964,7 +964,7 @@ TEST_F(JdfDocumentTest, findLayout)
 
 TEST_F(JdfDocumentTest, findAllNodes)
 {
-    QList<JdfNodeSP> nodes = jdfDocUT->findAllNodes([](const JdfNodeSP &node) { return node->type() == "Cutting"; });
+    QVector<JdfNodeSP> nodes = jdfDocUT->findAllNodes([](const JdfNodeSP &node) { return node->type() == "Cutting"; });
     ASSERT_EQ(1, nodes.count());
     EXPECT_EQ("LAYOUT_0001", nodes[0]->id());
     EXPECT_EQ("Cutting", nodes[0]->type());
@@ -975,7 +975,7 @@ TEST_F(JdfDocumentTest, findAllComponents)
     JdfNodeSP cuttingNode = jdfDocUT->findNode([](const JdfNodeSP &node) { return node->type() == "Cutting"; });
     ASSERT_TRUE(cuttingNode);
 
-    QList<ComponentSP> components = jdfDocUT->findAllComponents(
+    QVector<ComponentSP> components = jdfDocUT->findAllComponents(
         [](const ComponentSP &component) { return component->id() == "COMP_0000"; });
     ASSERT_EQ(1, components.count());
     EXPECT_EQ("COMP_0000", components[0]->id());
@@ -1009,7 +1009,7 @@ TEST_F(JdfDocumentTest, findAllComponents)
 
 TEST_F(JdfDocumentTest, findAllComponentLinks)
 {
-    QList<ComponentLinkSP> links = jdfDocUT->findAllComponentLinks(
+    QVector<ComponentLinkSP> links = jdfDocUT->findAllComponentLinks(
         [](const ComponentLinkSP &link) { return link->rRef() == "COMP_0000"; });
     ASSERT_EQ(1, links.count());
     EXPECT_EQ("COMP_0000", links[0]->rRef());
@@ -1028,7 +1028,7 @@ TEST_F(JdfDocumentTest, findAllComponentLinks)
 
 TEST_F(JdfDocumentTest, findAllMediaLinks)
 {
-    QList<MediaLinkSP> links = jdfDocUT->findAllMediaLinks(
+    QVector<MediaLinkSP> links = jdfDocUT->findAllMediaLinks(
         [](const MediaLinkSP &link) { return link->rRef() == "PAP_0000"; });
     ASSERT_EQ(1, links.count());
     EXPECT_EQ("PAP_0000", links[0]->rRef());
@@ -1037,7 +1037,7 @@ TEST_F(JdfDocumentTest, findAllMediaLinks)
 
 TEST_F(JdfDocumentTest, findAllMedia)
 {
-    QList<MediaSP> media = jdfDocUT->findAllMedia(
+    QVector<MediaSP> media = jdfDocUT->findAllMedia(
         [](const MediaSP &media) { return media->mediaType() == MediaType::PaperMedia; });
     ASSERT_EQ(1, media.count());
     EXPECT_EQ("PAP_0000", media[0]->id());
@@ -1056,7 +1056,7 @@ TEST_F(JdfDocumentTest, findAllMedia)
 
 TEST_F(JdfDocumentTest, findAllLayouts)
 {
-    QList<LayoutSP> layouts = jdfDocUT->findAllLayouts([](const LayoutSP &layout) { return layout->id() == "Layout1"; });
+    QVector<LayoutSP> layouts = jdfDocUT->findAllLayouts([](const LayoutSP &layout) { return layout->id() == "Layout1"; });
     ASSERT_EQ(1, layouts.count());
     EXPECT_EQ("Layout1", layouts[0]->id());
     EXPECT_EQ(3, layouts[0]->media().count());

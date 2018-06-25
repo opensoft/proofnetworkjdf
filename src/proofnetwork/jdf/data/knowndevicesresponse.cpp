@@ -22,16 +22,16 @@ protected:
     void specificMessageToJmf(QXmlStreamWriter &xmlWriter) const override;
 
 private:
-    QList<DeviceInfoSP> deviceInfos;
+    QVector<DeviceInfoSP> deviceInfos;
 };
 
-QList<DeviceInfoSP> KnownDevicesResponse::deviceInfos() const
+QVector<DeviceInfoSP> KnownDevicesResponse::deviceInfos() const
 {
     Q_D(const KnownDevicesResponse);
     return d->deviceInfos;
 }
 
-void KnownDevicesResponse::setDeviceInfos(const QList<DeviceInfoSP> &arg)
+void KnownDevicesResponse::setDeviceInfos(const QVector<DeviceInfoSP> &arg)
 {
     Q_D(KnownDevicesResponse);
     bool notEqual = d->deviceInfos.size() != arg.size()

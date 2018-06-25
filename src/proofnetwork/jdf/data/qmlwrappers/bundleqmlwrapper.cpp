@@ -14,7 +14,7 @@ class BundleQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 
     void updateBundleItems();
 
-    QList<BundleItemQmlWrapper *> bundleItems;
+    QVector<BundleItemQmlWrapper *> bundleItems;
     QQmlListProperty<Proof::Jdf::BundleItemQmlWrapper> qmlBundleItemsList;
     static BundleItemQmlWrapper *bundleItemAt(QQmlListProperty<BundleItemQmlWrapper> *property, int index);
     static int bundleItemsCount(QQmlListProperty<BundleItemQmlWrapper> *property);
@@ -82,12 +82,12 @@ void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 
 BundleItemQmlWrapper *BundleQmlWrapperPrivate::bundleItemAt(QQmlListProperty<BundleItemQmlWrapper> *property, int index)
 {
-    return static_cast<QList<BundleItemQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<BundleItemQmlWrapper *> *>(property->data)->at(index);
 }
 
 int BundleQmlWrapperPrivate::bundleItemsCount(QQmlListProperty<BundleItemQmlWrapper> *property)
 {
-    return static_cast<QList<BundleItemQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<BundleItemQmlWrapper *> *>(property->data)->count();
 }
 
 } // namespace Jdf

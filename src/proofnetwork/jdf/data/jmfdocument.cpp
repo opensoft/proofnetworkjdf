@@ -21,7 +21,7 @@ class JmfDocumentPrivate : public NetworkDataEntityPrivate
     QString senderId = QStringLiteral("Proof generator");
     QString version = QStringLiteral("1.4");
     QDateTime timeStamp;
-    QList<MessageSP> messages;
+    QVector<MessageSP> messages;
 };
 
 QString JmfDocument::senderId() const
@@ -36,7 +36,7 @@ QDateTime JmfDocument::timeStamp() const
     return d->timeStamp;
 }
 
-QList<MessageSP> JmfDocument::messages() const
+QVector<MessageSP> JmfDocument::messages() const
 {
     Q_D(const JmfDocument);
     return d->messages;
@@ -66,7 +66,7 @@ void JmfDocument::setTimeStamp(const QDateTime &arg)
     }
 }
 
-void JmfDocument::setMessages(const QList<MessageSP> &arg)
+void JmfDocument::setMessages(const QVector<MessageSP> &arg)
 {
     Q_D(JmfDocument);
     bool notEqual = d->messages.size() != arg.size()

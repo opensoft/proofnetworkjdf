@@ -13,7 +13,7 @@ class LayoutQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
     Q_DECLARE_PUBLIC(LayoutQmlWrapper)
     void updateMedia();
 
-    QList<MediaQmlWrapper *> media;
+    QVector<MediaQmlWrapper *> media;
     QQmlListProperty<Proof::Jdf::MediaQmlWrapper> qmlMediaList;
     static MediaQmlWrapper *mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index);
     static int mediaCount(QQmlListProperty<MediaQmlWrapper> *property);
@@ -74,10 +74,10 @@ void LayoutQmlWrapperPrivate::updateMedia()
 
 MediaQmlWrapper *LayoutQmlWrapperPrivate::mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index)
 {
-    return static_cast<QList<MediaQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<MediaQmlWrapper *> *>(property->data)->at(index);
 }
 
 int LayoutQmlWrapperPrivate::mediaCount(QQmlListProperty<MediaQmlWrapper> *property)
 {
-    return static_cast<QList<MediaQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<MediaQmlWrapper *> *>(property->data)->count();
 }

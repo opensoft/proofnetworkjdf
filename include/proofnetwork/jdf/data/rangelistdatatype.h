@@ -14,7 +14,7 @@ using ShapeRangeList = RangeListDataType<ShapeRange>;
 using XYPairRangeList = RangeListDataType<QPoint>;
 
 template <class T>
-class RangeListDataType : QList<T>
+class RangeListDataType : QVector<T>
 {
 public:
     bool operator==(const RangeListDataType<T> &other) const

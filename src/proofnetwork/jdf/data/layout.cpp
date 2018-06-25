@@ -14,7 +14,7 @@ class LayoutPrivate : public AbstractResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    QList<MediaSP> media;
+    QVector<MediaSP> media;
 };
 
 } // namespace Jdf
@@ -26,13 +26,13 @@ using namespace Proof::Jdf;
 Layout::Layout() : AbstractResource(*new LayoutPrivate)
 {}
 
-QList<MediaSP> Layout::media() const
+QVector<MediaSP> Layout::media() const
 {
     Q_D(const Layout);
     return d->media;
 }
 
-void Layout::setMedia(const QList<MediaSP> &arg)
+void Layout::setMedia(const QVector<MediaSP> &arg)
 {
     Q_D(Layout);
     bool emitNeeded = arg.count() != d->media.count();
@@ -72,7 +72,7 @@ LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
 {
     LayoutSP layout = create();
 
-    QList<MediaSP> mediaList;
+    QVector<MediaSP> mediaList;
 
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "Layout" && xmlReader.isStartElement() && !layout->isFetched()) {

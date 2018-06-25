@@ -26,12 +26,12 @@ class ResourceLinkPoolQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPriv
     void updateFoldingParamsLink();
     void updateLaminatingParamsLink();
 
-    QList<ComponentLinkQmlWrapper *> componentLinks;
+    QVector<ComponentLinkQmlWrapper *> componentLinks;
     QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> qmlComponentLinks;
     static ComponentLinkQmlWrapper *componentAt(QQmlListProperty<ComponentLinkQmlWrapper> *property, int index);
     static int componentsCount(QQmlListProperty<ComponentLinkQmlWrapper> *property);
 
-    QList<MediaLinkQmlWrapper *> mediaLinks;
+    QVector<MediaLinkQmlWrapper *> mediaLinks;
     QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper> qmlMediaLinks;
     static MediaLinkQmlWrapper *mediaLinkAt(QQmlListProperty<MediaLinkQmlWrapper> *property, int index);
     static int mediaLinksCount(QQmlListProperty<MediaLinkQmlWrapper> *property);
@@ -188,21 +188,21 @@ void ResourceLinkPoolQmlWrapperPrivate::updateLaminatingParamsLink()
 ComponentLinkQmlWrapper *
 ResourceLinkPoolQmlWrapperPrivate::componentAt(QQmlListProperty<ComponentLinkQmlWrapper> *property, int index)
 {
-    return static_cast<QList<ComponentLinkQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<ComponentLinkQmlWrapper *> *>(property->data)->at(index);
 }
 
 int ResourceLinkPoolQmlWrapperPrivate::componentsCount(QQmlListProperty<ComponentLinkQmlWrapper> *property)
 {
-    return static_cast<QList<ComponentLinkQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<ComponentLinkQmlWrapper *> *>(property->data)->count();
 }
 
 MediaLinkQmlWrapper *ResourceLinkPoolQmlWrapperPrivate::mediaLinkAt(QQmlListProperty<MediaLinkQmlWrapper> *property,
                                                                     int index)
 {
-    return static_cast<QList<MediaLinkQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<MediaLinkQmlWrapper *> *>(property->data)->at(index);
 }
 
 int ResourceLinkPoolQmlWrapperPrivate::mediaLinksCount(QQmlListProperty<MediaLinkQmlWrapper> *property)
 {
-    return static_cast<QList<MediaLinkQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<MediaLinkQmlWrapper *> *>(property->data)->count();
 }

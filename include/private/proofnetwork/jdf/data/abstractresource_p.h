@@ -24,7 +24,7 @@ public:
     ResourceStatus resourceStatus = ResourceStatus::NoStatus;
     ResourceClass resourceClass = ResourceClass::NoClass;
 
-    QList<ResourcePartType> partIdKeys;
+    QVector<ResourcePartType> partIdKeys;
     QHash<ResourcePartType, QString> partAttributes;
 };
 

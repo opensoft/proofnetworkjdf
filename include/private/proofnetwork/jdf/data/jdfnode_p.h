@@ -6,7 +6,7 @@
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/networkdataentity_p.h"
 
-#include <QList>
+#include <QVector>
 
 namespace Proof {
 namespace Jdf {
@@ -26,7 +26,7 @@ public:
     AuditPoolSP auditPool = AuditPool::create();
     ResourcePoolSP resourcePool = ResourcePool::create();
     ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::create();
-    QList<JdfNodeSP> jdfNodes;
+    QVector<JdfNodeSP> jdfNodes;
     QString type = QLatin1String("");
     QStringList types;
 };

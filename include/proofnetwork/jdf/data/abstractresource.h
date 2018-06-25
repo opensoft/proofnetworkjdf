@@ -20,12 +20,12 @@ public:
     QString id() const;
     ResourceStatus resourceStatus() const;
     ResourceClass resourceClass() const;
-    QList<ResourcePartType> partIdKeys() const;
+    QVector<ResourcePartType> partIdKeys() const;
 
     void setId(const QString &arg);
     void setResourceStatus(ResourceStatus arg);
     void setResourceClass(ResourceClass arg);
-    void setPartIdKeys(const QList<ResourcePartType> &arg);
+    void setPartIdKeys(const QVector<ResourcePartType> &arg);
 
     QString partAttribute(ResourcePartType attribute) const;
     bool hasPartAttribute(ResourcePartType attribute) const;
@@ -44,7 +44,7 @@ signals:
     void idChanged(const QString &arg);
     void statusChanged(Proof::Jdf::ResourceStatus arg);
     void resourceClassChanged(Proof::Jdf::ResourceClass arg);
-    void partIdKeysChanged(const QList<Proof::Jdf::ResourcePartType> &arg);
+    void partIdKeysChanged(const QVector<Proof::Jdf::ResourcePartType> &arg);
     void partAttributeChanged(ResourcePartType attribute, const QString &value);
 
 protected:

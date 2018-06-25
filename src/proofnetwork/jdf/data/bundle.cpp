@@ -16,7 +16,7 @@ class BundlePrivate : NetworkDataEntityPrivate
 
     BundleType bundleType = BundleType::BoxBundle;
     int totalAmount = 0;
-    QList<BundleItemSP> bundleItems;
+    QVector<BundleItemSP> bundleItems;
 };
 
 } // namespace Jdf
@@ -36,7 +36,7 @@ int Bundle::totalAmount() const
     return d->totalAmount;
 }
 
-QList<BundleItemSP> Bundle::bundleItems() const
+QVector<BundleItemSP> Bundle::bundleItems() const
 {
     Q_D(const Bundle);
     return d->bundleItems;
@@ -60,7 +60,7 @@ void Bundle::setTotalAmount(int arg)
     }
 }
 
-void Bundle::setBundleItems(const QList<BundleItemSP> &arg)
+void Bundle::setBundleItems(const QVector<BundleItemSP> &arg)
 {
     Q_D(Bundle);
     d->bundleItems = arg;

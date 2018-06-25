@@ -24,7 +24,7 @@ class JdfNodeQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 
     AuditPoolQmlWrapper *auditPool = nullptr;
     ResourcePoolQmlWrapper *resourcePool = nullptr;
-    QList<JdfNodeQmlWrapper *> jdfNodes;
+    QVector<JdfNodeQmlWrapper *> jdfNodes;
     QQmlListProperty<Proof::Jdf::JdfNodeQmlWrapper> qmlJdfNodes;
 };
 
@@ -133,10 +133,10 @@ void JdfNodeQmlWrapperPrivate::updateJdfNodes()
 
 JdfNodeQmlWrapper *JdfNodeQmlWrapperPrivate::jdfNodeAt(QQmlListProperty<JdfNodeQmlWrapper> *property, int index)
 {
-    return static_cast<QList<JdfNodeQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<JdfNodeQmlWrapper *> *>(property->data)->at(index);
 }
 
 int JdfNodeQmlWrapperPrivate::jdfNodesCount(QQmlListProperty<JdfNodeQmlWrapper> *property)
 {
-    return static_cast<QList<JdfNodeQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<JdfNodeQmlWrapper *> *>(property->data)->count();
 }

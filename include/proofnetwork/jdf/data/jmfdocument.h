@@ -18,12 +18,12 @@ class PROOF_NETWORK_JDF_EXPORT JmfDocument : public NetworkDataEntity // clazy:e
 public:
     QString senderId() const;
     QDateTime timeStamp() const;
-    QList<MessageSP> messages() const;
+    QVector<MessageSP> messages() const;
     QString version() const;
 
     void setSenderId(const QString &arg);
     void setTimeStamp(const QDateTime &arg);
-    void setMessages(const QList<MessageSP> &arg);
+    void setMessages(const QVector<MessageSP> &arg);
     void addMessage(const MessageSP &arg);
 
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
@@ -36,7 +36,7 @@ public:
 signals:
     void senderIdChanged(const QString &arg);
     void timeStampChanged(const QDateTime &arg);
-    void messagesChanged(const QList<Proof::Jdf::MessageSP> &arg);
+    void messagesChanged(const QVector<Proof::Jdf::MessageSP> &arg);
 
 protected:
     explicit JmfDocument();

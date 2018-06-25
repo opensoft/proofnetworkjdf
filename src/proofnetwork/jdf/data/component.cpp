@@ -19,7 +19,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    bool partsAreValid(QList<ResourcePartType> partsToCheck = QList<ResourcePartType>()) const;
+    bool partsAreValid(QVector<ResourcePartType> partsToCheck = QVector<ResourcePartType>()) const;
 
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     ComponentType componentType = ComponentType::NotTypedComponent;
@@ -30,8 +30,8 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
     double height = 0.0;
     double length = 0.0;
     BundleSP bundle = Bundle::create();
-    QList<CutBlockSP> cutBlocks;
-    QList<ComponentSP> parts;
+    QVector<CutBlockSP> cutBlocks;
+    QVector<ComponentSP> parts;
 };
 
 ObjectsCache<JdfComponentDataKey, Component> &componentsCache()
@@ -86,13 +86,13 @@ BundleSP Component::bundle() const
     return d->bundle;
 }
 
-QList<CutBlockSP> Component::cutBlocks() const
+QVector<CutBlockSP> Component::cutBlocks() const
 {
     Q_D(const Component);
     return d->cutBlocks;
 }
 
-QList<ComponentSP> Component::parts() const
+QVector<ComponentSP> Component::parts() const
 {
     Q_D(const Component);
     return d->parts;
@@ -162,7 +162,7 @@ void Component::setBundle(const BundleSP &arg)
     }
 }
 
-QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
+QVector<CutBlockSP> Component::updateCutBlocks(const QVector<CutBlockSP> &arg)
 {
     Q_D(Component);
     bool emitNeeded = arg.count() != d->cutBlocks.count();
@@ -173,11 +173,11 @@ QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
         emit cutBlocksChanged();
     }
     if (d->cutBlocks.count() > 0 && !partIdKeys().contains(ResourcePartType::BlockNamePart)) {
-        QList<ResourcePartType> partIdKeysOther = partIdKeys();
+        QVector<ResourcePartType> partIdKeysOther = partIdKeys();
         partIdKeysOther.append(ResourcePartType::BlockNamePart);
         setPartIdKeys(partIdKeysOther);
     } else if (d->cutBlocks.count() == 0 && partIdKeys().contains(ResourcePartType::BlockNamePart)) {
-        QList<ResourcePartType> partIdKeysOther = partIdKeys();
+        QVector<ResourcePartType> partIdKeysOther = partIdKeys();
         partIdKeysOther.removeAll(ResourcePartType::BlockNamePart);
         setPartIdKeys(partIdKeysOther);
     }
@@ -185,7 +185,7 @@ QList<CutBlockSP> Component::updateCutBlocks(const QList<CutBlockSP> &arg)
     return d->cutBlocks;
 }
 
-QList<ComponentSP> Component::updateParts(const QList<ComponentSP> &arg)
+QVector<ComponentSP> Component::updateParts(const QVector<ComponentSP> &arg)
 {
     Q_D(Component);
     bool emitNeeded = arg.count() != d->parts.count();
@@ -223,7 +223,7 @@ ComponentSP Component::create(const QString &id)
 ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     ComponentSP component = create();
-    QList<CutBlockSP> cutBlocks;
+    QVector<CutBlockSP> cutBlocks;
 
     bool isRef = false;
 
@@ -392,7 +392,7 @@ void ComponentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
     AbstractPhysicalResourcePrivate::updateFrom(other);
 }
 
-bool ComponentPrivate::partsAreValid(QList<ResourcePartType> partsToCheck) const
+bool ComponentPrivate::partsAreValid(QVector<ResourcePartType> partsToCheck) const
 {
     if (partsToCheck.isEmpty() && !partIdKeys.isEmpty())
         partsToCheck = partIdKeys;

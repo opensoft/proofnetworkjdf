@@ -26,7 +26,7 @@ class DropIntentPrivate : public NetworkDataEntityPrivate
     EnumerationSpan surplusHandling;
     EnumerationSpan transfer;
 
-    QList<DropItemIntentSP> dropItemIntents;
+    QVector<DropItemIntentSP> dropItemIntents;
 };
 
 } // namespace Jdf
@@ -82,7 +82,7 @@ EnumerationSpan DropIntent::transfer() const
     return d->transfer;
 }
 
-QList<DropItemIntentSP> DropIntent::dropItemIntents() const
+QVector<DropItemIntentSP> DropIntent::dropItemIntents() const
 {
     Q_D(const DropIntent);
     return d->dropItemIntents;
@@ -160,7 +160,7 @@ void DropIntent::setTransfer(const EnumerationSpan &arg)
     }
 }
 
-void DropIntent::setDropItemIntents(const QList<DropItemIntentSP> &arg)
+void DropIntent::setDropItemIntents(const QVector<DropItemIntentSP> &arg)
 {
     Q_D(DropIntent);
     d->dropItemIntents = arg;

@@ -19,7 +19,7 @@ class ComponentQmlWrapperPrivate : public AbstractPhysicalResourceQmlWrapperPriv
     static int partsCount(QQmlListProperty<ComponentQmlWrapper> *property);
 
     BundleQmlWrapper *bundle = nullptr;
-    QList<ComponentQmlWrapper *> parts;
+    QVector<ComponentQmlWrapper *> parts;
     QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> qmlPartsList;
 };
 
@@ -80,12 +80,12 @@ void ComponentQmlWrapperPrivate::updateParts()
 
 ComponentQmlWrapper *ComponentQmlWrapperPrivate::partAt(QQmlListProperty<ComponentQmlWrapper> *property, int index)
 {
-    return static_cast<QList<ComponentQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<ComponentQmlWrapper *> *>(property->data)->at(index);
 }
 
 int ComponentQmlWrapperPrivate::partsCount(QQmlListProperty<ComponentQmlWrapper> *property)
 {
-    return static_cast<QList<ComponentQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<ComponentQmlWrapper *> *>(property->data)->count();
 }
 
 void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)

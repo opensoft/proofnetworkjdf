@@ -6,7 +6,7 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/networkdataentity.h"
 
-#include <QList>
+#include <QVector>
 #include <QXmlStreamReader>
 
 namespace Proof {
@@ -18,18 +18,18 @@ class PROOF_NETWORK_JDF_EXPORT ResourceLinkPool : public NetworkDataEntity // cl
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourceLinkPool)
 public:
-    QList<ComponentLinkSP> componentLinks() const;
+    QVector<ComponentLinkSP> componentLinks() const;
     CuttingParamsLinkSP cuttingParamsLink() const;
-    QList<MediaLinkSP> mediaLinks() const;
+    QVector<MediaLinkSP> mediaLinks() const;
     LaminatingIntentLinkSP laminatingIntentLink() const;
     DeliveryIntentLinkSP deliveryIntentLink() const;
     FoldingParamsLinkSP foldingParamsLink() const;
     BoxPackingParamsLinkSP boxPackingParamsLink() const;
 
-    void setComponentLinks(const QList<ComponentLinkSP> &componentLinks);
+    void setComponentLinks(const QVector<ComponentLinkSP> &componentLinks);
     void addComponentLink(const ComponentLinkSP &componentLink);
     void setCuttingParamsLink(const CuttingParamsLinkSP &cuttingParams);
-    void setMediaLinks(const QList<MediaLinkSP> &mediaLinks);
+    void setMediaLinks(const QVector<MediaLinkSP> &mediaLinks);
     void addMediaLink(const MediaLinkSP &mediaLink);
     void setLaminatingIntentLink(const LaminatingIntentLinkSP &laminatingIntent);
     void setDeliveryIntentLink(const DeliveryIntentLinkSP &deliveryIntent);

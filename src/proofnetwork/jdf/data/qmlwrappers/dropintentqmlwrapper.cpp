@@ -13,7 +13,7 @@ class DropIntentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 
     void updateDropItemIntents();
 
-    QList<DropItemIntentQmlWrapper *> dropItemIntents;
+    QVector<DropItemIntentQmlWrapper *> dropItemIntents;
     QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper> qmlDropItemIntentsList;
     static DropItemIntentQmlWrapper *dropItemIntentAt(QQmlListProperty<DropItemIntentQmlWrapper> *property, int index);
     static int dropItemIntentsCount(QQmlListProperty<DropItemIntentQmlWrapper> *property);
@@ -70,12 +70,12 @@ void DropIntentQmlWrapperPrivate::updateDropItemIntents()
 DropItemIntentQmlWrapper *
 DropIntentQmlWrapperPrivate::dropItemIntentAt(QQmlListProperty<DropItemIntentQmlWrapper> *property, int index)
 {
-    return static_cast<QList<DropItemIntentQmlWrapper *> *>(property->data)->at(index);
+    return static_cast<QVector<DropItemIntentQmlWrapper *> *>(property->data)->at(index);
 }
 
 int DropIntentQmlWrapperPrivate::dropItemIntentsCount(QQmlListProperty<DropItemIntentQmlWrapper> *property)
 {
-    return static_cast<QList<DropItemIntentQmlWrapper *> *>(property->data)->count();
+    return static_cast<QVector<DropItemIntentQmlWrapper *> *>(property->data)->count();
 }
 
 } // namespace Jdf

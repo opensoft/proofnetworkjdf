@@ -33,7 +33,7 @@ public:
     EnumerationSpan transfer() const;
     NumberSpan underage() const;
 
-    QList<DropIntentSP> dropIntents() const;
+    QVector<DropIntentSP> dropIntents() const;
 
     void setDeliveryCharge(const EnumerationSpan &arg);
     void setEarliest(const TimeSpan &arg);
@@ -48,7 +48,7 @@ public:
     void setTransfer(const EnumerationSpan &arg);
     void setUnderage(const NumberSpan &arg);
 
-    void setDropIntents(const QList<DropIntentSP> &arg);
+    void setDropIntents(const QVector<DropIntentSP> &arg);
     void addDropIntent(const DropIntentSP &arg);
 
     DeliveryIntentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;

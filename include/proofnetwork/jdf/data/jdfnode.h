@@ -6,7 +6,7 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/networkdataentity.h"
 
-#include <QList>
+#include <QVector>
 #include <QXmlStreamReader>
 
 namespace Proof {
@@ -24,7 +24,7 @@ public:
     AuditPoolSP auditPool() const;
     ResourcePoolSP resourcePool() const;
     ResourceLinkPoolSP resourceLinkPool() const;
-    QList<JdfNodeSP> jdfNodes() const;
+    QVector<JdfNodeSP> jdfNodes() const;
     QString type() const;
     QStringList types() const;
 
@@ -34,7 +34,7 @@ public:
     void setAuditPool(const AuditPoolSP &arg);
     void setResourcePool(const ResourcePoolSP &arg);
     void setResourceLinkPool(const ResourceLinkPoolSP &arg);
-    void setJdfNodes(const QList<JdfNodeSP> &arg);
+    void setJdfNodes(const QVector<JdfNodeSP> &arg);
     void addJdfNode(const JdfNodeSP &arg);
     void setType(const QString &arg);
     void setTypes(const QStringList &arg);
@@ -46,13 +46,13 @@ public:
     MediaSP findMedia(const std::function<bool(const MediaSP &)> &predicate) const;
     LayoutSP findLayout(const std::function<bool(const LayoutSP &)> &predicate) const;
 
-    QList<JdfNodeSP> findAllNodes(const std::function<bool(const JdfNodeSP &)> &predicate) const;
-    QList<ComponentSP> findAllComponents(const std::function<bool(const Proof::Jdf::ComponentSP &)> &predicate) const;
-    QList<ComponentLinkSP>
+    QVector<JdfNodeSP> findAllNodes(const std::function<bool(const JdfNodeSP &)> &predicate) const;
+    QVector<ComponentSP> findAllComponents(const std::function<bool(const Proof::Jdf::ComponentSP &)> &predicate) const;
+    QVector<ComponentLinkSP>
     findAllComponentLinks(const std::function<bool(const Proof::Jdf::ComponentLinkSP &)> &predicate) const;
-    QList<MediaLinkSP> findAllMediaLinks(const std::function<bool(const Proof::Jdf::MediaLinkSP &)> &predicate) const;
-    QList<MediaSP> findAllMedia(const std::function<bool(const MediaSP &)> &predicate) const;
-    QList<LayoutSP> findAllLayouts(const std::function<bool(const LayoutSP &)> &predicate) const;
+    QVector<MediaLinkSP> findAllMediaLinks(const std::function<bool(const Proof::Jdf::MediaLinkSP &)> &predicate) const;
+    QVector<MediaSP> findAllMedia(const std::function<bool(const MediaSP &)> &predicate) const;
+    QVector<LayoutSP> findAllLayouts(const std::function<bool(const LayoutSP &)> &predicate) const;
 
     JdfNodeQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 

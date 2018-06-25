@@ -15,7 +15,7 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
 
     void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 
-    QList<MediaSP> layers;
+    QVector<MediaSP> layers;
     double thickness = 0.0;
     double height = 0.0;
     double width = 0.0;
@@ -37,7 +37,7 @@ ObjectsCache<JdfMediaDataKey, Media> &mediaCache()
 
 using namespace Proof::Jdf;
 
-QList<MediaSP> Media::layers() const
+QVector<MediaSP> Media::layers() const
 {
     Q_D(const Media);
     return d->layers;
@@ -97,7 +97,7 @@ double Media::width() const
     return d->width;
 }
 
-void Media::setLayers(const QList<MediaSP> &layers)
+void Media::setLayers(const QVector<MediaSP> &layers)
 {
     Q_D(Media);
     if (d->layers != layers) {
@@ -205,7 +205,7 @@ MediaSP Media::create()
 MediaSP Media::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool sanitize)
 {
     MediaSP media = create();
-    QList<MediaSP> layers;
+    QVector<MediaSP> layers;
 
     bool inLayers = false;
     bool isRef = false;

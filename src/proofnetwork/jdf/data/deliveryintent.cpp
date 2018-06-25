@@ -31,7 +31,7 @@ public:
     EnumerationSpan transfer;
     NumberSpan underage;
 
-    QList<DropIntentSP> dropIntents;
+    QVector<DropIntentSP> dropIntents;
 };
 
 } // namespace Jdf
@@ -111,7 +111,7 @@ NumberSpan DeliveryIntent::underage() const
     return d->underage;
 }
 
-QList<DropIntentSP> DeliveryIntent::dropIntents() const
+QVector<DropIntentSP> DeliveryIntent::dropIntents() const
 {
     Q_D(const DeliveryIntent);
     return d->dropIntents;
@@ -225,7 +225,7 @@ void DeliveryIntent::setUnderage(const NumberSpan &arg)
     }
 }
 
-void DeliveryIntent::setDropIntents(const QList<DropIntentSP> &arg)
+void DeliveryIntent::setDropIntents(const QVector<DropIntentSP> &arg)
 {
     Q_D(DeliveryIntent);
     d->dropIntents = arg;
