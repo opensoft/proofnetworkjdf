@@ -19,14 +19,6 @@ class ResourcePoolPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(ResourcePool)
 
-    ResourcePoolPrivate()
-    {
-        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams,
-                         boxPackingParams);
-    }
-
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QVector<ComponentSP> components;
     CuttingParamsSP cuttingParams = CuttingParams::create();
     QVector<MediaSP> media;
@@ -48,7 +40,11 @@ ObjectsCache<QString, ResourcePool> &cuttingProcessCache()
 using namespace Proof::Jdf;
 
 ResourcePool::ResourcePool() : NetworkDataEntity(*new ResourcePoolPrivate)
-{}
+{
+    Q_D(const ResourcePool);
+    registerChildren(d->components, d->cuttingParams, d->media, d->layouts, d->laminatingIntent, d->deliveryIntent,
+                     d->foldingParams, d->boxPackingParams);
+}
 
 QVector<ComponentSP> ResourcePool::components() const
 {
@@ -100,8 +96,7 @@ QVector<LayoutSP> ResourcePool::layouts() const
 
 ResourcePoolQmlWrapper *ResourcePool::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const ResourcePool);
-    ResourcePoolSP castedSelf = qSharedPointerCast<ResourcePool>(d->weakSelf);
+    ResourcePoolSP castedSelf = castedSelfPtr<ResourcePool>();
     Q_ASSERT(castedSelf);
     return new ResourcePoolQmlWrapper(castedSelf, parent);
 }
@@ -357,18 +352,17 @@ void ResourcePool::addLayout(const LayoutSP &arg)
     emit layoutsChanged();
 }
 
-void ResourcePoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void ResourcePool::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(ResourcePool);
     ResourcePoolSP castedOther = qSharedPointerCast<ResourcePool>(other);
-    q->setComponents(castedOther->components());
-    q->setCuttingParams(castedOther->cuttingParams());
-    q->setMedia(castedOther->media());
-    q->setLaminatingIntent(castedOther->laminatingIntent());
-    q->setDeliveryIntent(castedOther->deliveryIntent());
-    q->setFoldingParams(castedOther->foldingParams());
-    q->setBoxPackingParams(castedOther->boxPackingParams());
-    q->setLayouts(castedOther->layouts());
+    setComponents(castedOther->components());
+    setCuttingParams(castedOther->cuttingParams());
+    setMedia(castedOther->media());
+    setLaminatingIntent(castedOther->laminatingIntent());
+    setDeliveryIntent(castedOther->deliveryIntent());
+    setFoldingParams(castedOther->foldingParams());
+    setBoxPackingParams(castedOther->boxPackingParams());
+    setLayouts(castedOther->layouts());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

@@ -16,8 +16,6 @@ class DeliveryIntentPrivate : public AbstractResourcePrivate
 public:
     DeliveryIntentPrivate() : AbstractResourcePrivate(ResourceClass::IntentClass) { registerChildren(dropIntents); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     EnumerationSpan deliveryCharge;
     TimeSpan earliest;
     DurationSpan earliestDuration;
@@ -243,8 +241,7 @@ void DeliveryIntent::addDropIntent(const DropIntentSP &arg)
 
 DeliveryIntentQmlWrapper *DeliveryIntent::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const DeliveryIntent);
-    DeliveryIntentSP castedSelf = qSharedPointerCast<DeliveryIntent>(d->weakSelf);
+    DeliveryIntentSP castedSelf = castedSelfPtr<DeliveryIntent>();
     Q_ASSERT(castedSelf);
     return new DeliveryIntentQmlWrapper(castedSelf, parent);
 }
@@ -354,12 +351,11 @@ DeliveryIntentLinkSP DeliveryIntent::toLink(LinkUsage usage) const
 DeliveryIntent::DeliveryIntent() : AbstractResource(*new DeliveryIntentPrivate)
 {}
 
-void DeliveryIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void DeliveryIntent::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(DeliveryIntent);
     DeliveryIntentSP castedOther = qSharedPointerCast<DeliveryIntent>(other);
-    q->setRequired(castedOther->required());
-    q->setDropIntents(castedOther->dropIntents());
+    setRequired(castedOther->required());
+    setDropIntents(castedOther->dropIntents());
 
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }

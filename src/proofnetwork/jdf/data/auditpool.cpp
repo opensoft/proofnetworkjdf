@@ -16,8 +16,6 @@ class AuditPoolPrivate : public NetworkDataEntityPrivate
 
     AuditPoolPrivate() { registerChildren(created, modified); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     CreatedAuditSP created = CreatedAudit::create();
     ModifiedAuditSP modified = ModifiedAudit::create();
 };
@@ -50,8 +48,7 @@ ModifiedAuditSP AuditPool::modified() const
 
 AuditPoolQmlWrapper *AuditPool::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const AuditPool);
-    AuditPoolSP castedSelf = qSharedPointerCast<AuditPool>(d->weakSelf);
+    AuditPoolSP castedSelf = castedSelfPtr<AuditPool>();
     Q_ASSERT(castedSelf);
     return new AuditPoolQmlWrapper(castedSelf, parent);
 }
@@ -135,11 +132,10 @@ void AuditPool::setModified(const ModifiedAuditSP &modified)
     }
 }
 
-void AuditPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void AuditPool::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(AuditPool);
     AuditPoolSP castedOther = qSharedPointerCast<AuditPool>(other);
-    q->setCreated(castedOther->created());
-    q->setModified(castedOther->modified());
-    NetworkDataEntityPrivate::updateFrom(other);
+    setCreated(castedOther->created());
+    setModified(castedOther->modified());
+    NetworkDataEntity::updateSelf(other);
 }

@@ -26,6 +26,7 @@ public:
 
 protected:
     explicit ModifiedAudit();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

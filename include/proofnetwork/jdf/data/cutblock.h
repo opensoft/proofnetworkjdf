@@ -60,6 +60,7 @@ signals:
 
 protected:
     explicit CutBlock(const QString &blockName = QString());
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfCutBlockDataKey, CutBlock> &cutBlockCache();

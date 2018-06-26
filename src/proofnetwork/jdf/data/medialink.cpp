@@ -12,8 +12,7 @@ class MediaLinkPrivate : public AbstractPhysicalResourceLinkPrivate
 
 MediaLinkQmlWrapper *MediaLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const MediaLink);
-    MediaLinkSP castedSelf = qSharedPointerCast<MediaLink>(d->weakSelf);
+    MediaLinkSP castedSelf = castedSelfPtr<MediaLink>();
     Q_ASSERT(castedSelf);
     return new MediaLinkQmlWrapper(castedSelf, parent);
 }
@@ -39,7 +38,7 @@ void MediaLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-MediaLink::MediaLink(QObject *parent) : AbstractPhysicalResourceLink(*new MediaLinkPrivate, parent)
+MediaLink::MediaLink() : AbstractPhysicalResourceLink(*new MediaLinkPrivate)
 {}
 
 } // namespace Jdf

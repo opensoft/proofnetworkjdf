@@ -5,8 +5,7 @@
 
 using namespace Proof::Jdf;
 
-AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd, QObject *parent)
-    : NetworkDataEntity(dd, parent)
+AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd) : NetworkDataEntity(dd)
 {}
 
 LinkUsage AbstractResourceLink::usage() const
@@ -84,13 +83,12 @@ QString AbstractResourceLink::jdfNodeRefName() const
     return QStringLiteral("%1Ref").arg(jdfNodeName());
 }
 
-void AbstractResourceLinkPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void AbstractResourceLink::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(AbstractResourceLink);
     AbstractResourceLinkSP castedOther = qSharedPointerCast<AbstractResourceLink>(other);
-    q->setUsage(castedOther->usage());
-    q->setProcessUsage(castedOther->processUsage());
-    q->setRRef(castedOther->rRef());
+    setUsage(castedOther->usage());
+    setProcessUsage(castedOther->processUsage());
+    setRRef(castedOther->rRef());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

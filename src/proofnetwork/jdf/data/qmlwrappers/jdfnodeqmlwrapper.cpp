@@ -75,9 +75,9 @@ void JdfNodeQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntit
     connect(jdfDoc.data(), &JdfNode::idChanged, this, &JdfNodeQmlWrapper::idChanged);
     connect(jdfDoc.data(), &JdfNode::jobIdChanged, this, &JdfNodeQmlWrapper::jobIdChanged);
     connect(jdfDoc.data(), &JdfNode::jobPartIdChanged, this, &JdfNodeQmlWrapper::jobPartIdChanged);
-    connect(jdfDoc.data(), &JdfNode::auditPoolChanged, d->lambdaConnectContext, [d] { d->updateAuditPool(); });
-    connect(jdfDoc.data(), &JdfNode::resourcePoolChanged, d->lambdaConnectContext, [d] { d->updateResourcePool(); });
-    connect(jdfDoc.data(), &JdfNode::jdfNodesChanged, d->lambdaConnectContext, [d] { d->updateJdfNodes(); });
+    connect(jdfDoc.data(), &JdfNode::auditPoolChanged, entityConnectContext(), [d] { d->updateAuditPool(); });
+    connect(jdfDoc.data(), &JdfNode::resourcePoolChanged, entityConnectContext(), [d] { d->updateResourcePool(); });
+    connect(jdfDoc.data(), &JdfNode::jdfNodesChanged, entityConnectContext(), [d] { d->updateJdfNodes(); });
 
     d->updateResourcePool();
 
@@ -95,7 +95,7 @@ void JdfNodeQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntit
 void JdfNodeQmlWrapperPrivate::updateAuditPool()
 {
     Q_Q(JdfNodeQmlWrapper);
-    JdfNodeSP jdfDoc = entity<JdfNode>();
+    JdfNodeSP jdfDoc = q->entity<JdfNode>();
     if (auditPool == nullptr)
         auditPool = jdfDoc->auditPool()->toQmlWrapper(q);
     else
@@ -106,7 +106,7 @@ void JdfNodeQmlWrapperPrivate::updateAuditPool()
 void JdfNodeQmlWrapperPrivate::updateResourcePool()
 {
     Q_Q(JdfNodeQmlWrapper);
-    JdfNodeSP jdfDoc = entity<JdfNode>();
+    JdfNodeSP jdfDoc = q->entity<JdfNode>();
     if (resourcePool == nullptr)
         resourcePool = jdfDoc->resourcePool()->toQmlWrapper(q);
     else
@@ -117,7 +117,7 @@ void JdfNodeQmlWrapperPrivate::updateResourcePool()
 void JdfNodeQmlWrapperPrivate::updateJdfNodes()
 {
     Q_Q(JdfNodeQmlWrapper);
-    JdfNodeSP jdfNode = entity<JdfNode>();
+    JdfNodeSP jdfNode = q->entity<JdfNode>();
     for (JdfNodeQmlWrapper *wrapper : qAsConst(jdfNodes))
         wrapper->deleteLater();
 

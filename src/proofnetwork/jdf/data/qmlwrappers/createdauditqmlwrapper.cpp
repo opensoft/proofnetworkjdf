@@ -27,8 +27,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CreatedAudit, QString, templateVersion)
 
 void CreatedAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(CreatedAuditQmlWrapper);
-    CreatedAuditSP createdAudit = d->entity<CreatedAudit>();
+    CreatedAuditSP createdAudit = entity<CreatedAudit>();
     Q_ASSERT(createdAudit);
 
     connect(createdAudit.data(), &CreatedAudit::templateIdChanged, this, &CreatedAuditQmlWrapper::templateIdChanged);

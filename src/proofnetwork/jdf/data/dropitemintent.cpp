@@ -15,8 +15,6 @@ class DropItemIntentPrivate : public NetworkDataEntityPrivate
 
     DropItemIntentPrivate() : NetworkDataEntityPrivate() { registerChildren(component); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     ComponentSP component = Component::create();
 };
 
@@ -42,8 +40,7 @@ void DropItemIntent::setComponent(const ComponentSP &arg)
 
 DropItemIntentQmlWrapper *DropItemIntent::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const DropItemIntent);
-    DropItemIntentSP castedSelf = qSharedPointerCast<DropItemIntent>(d->weakSelf);
+    DropItemIntentSP castedSelf = castedSelfPtr<DropItemIntent>();
     Q_ASSERT(castedSelf);
     return new DropItemIntentQmlWrapper(castedSelf, parent);
 }
@@ -89,11 +86,10 @@ void DropItemIntent::toJdf(QXmlStreamWriter &jdfWriter)
 DropItemIntent::DropItemIntent() : NetworkDataEntity(*new DropItemIntentPrivate)
 {}
 
-void DropItemIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void DropItemIntent::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(DropItemIntent);
     DropItemIntentSP castedOther = qSharedPointerCast<DropItemIntent>(other);
-    q->setComponent(castedOther->component());
+    setComponent(castedOther->component());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

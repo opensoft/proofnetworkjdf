@@ -15,8 +15,6 @@ class AbstractPhysicalResourceLinkPrivate : public AbstractResourceLinkPrivate
 public:
     AbstractPhysicalResourceLinkPrivate() : AbstractResourceLinkPrivate() {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     double amount = 0;
 };

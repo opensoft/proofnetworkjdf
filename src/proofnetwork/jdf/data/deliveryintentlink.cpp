@@ -12,8 +12,7 @@ class DeliveryIntentLinkPrivate : public AbstractResourceLinkPrivate
 
 DeliveryIntentLinkQmlWrapper *DeliveryIntentLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const DeliveryIntentLink);
-    DeliveryIntentLinkSP castedSelf = qSharedPointerCast<DeliveryIntentLink>(d->weakSelf);
+    DeliveryIntentLinkSP castedSelf = castedSelfPtr<DeliveryIntentLink>();
     Q_ASSERT(castedSelf);
     return new DeliveryIntentLinkQmlWrapper(castedSelf, parent);
 }
@@ -39,7 +38,7 @@ void DeliveryIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-DeliveryIntentLink::DeliveryIntentLink(QObject *parent) : AbstractResourceLink(*new DeliveryIntentLinkPrivate, parent)
+DeliveryIntentLink::DeliveryIntentLink() : AbstractResourceLink(*new DeliveryIntentLinkPrivate)
 {}
 
 } // namespace Jdf

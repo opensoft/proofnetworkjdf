@@ -24,7 +24,7 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
-    explicit MediaLink(QObject *parent = nullptr);
+    MediaLink();
 };
 
 } // namespace Jdf

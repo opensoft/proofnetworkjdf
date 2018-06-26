@@ -15,8 +15,6 @@ class DropIntentPrivate : public NetworkDataEntityPrivate
 
     DropIntentPrivate() : NetworkDataEntityPrivate() { registerChildren(dropItemIntents); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     TimeSpan earliest;
     DurationSpan earliestDuration;
     TimeSpan required;
@@ -178,8 +176,7 @@ void DropIntent::addDropItemIntent(const DropItemIntentSP &arg)
 
 DropIntentQmlWrapper *DropIntent::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const DropIntent);
-    DropIntentSP castedSelf = qSharedPointerCast<DropIntent>(d->weakSelf);
+    DropIntentSP castedSelf = castedSelfPtr<DropIntent>();
     Q_ASSERT(castedSelf);
     return new DropIntentQmlWrapper(castedSelf, parent);
 }
@@ -261,19 +258,18 @@ void DropIntent::toJdf(QXmlStreamWriter &jdfWriter)
 DropIntent::DropIntent() : NetworkDataEntity(*new DropIntentPrivate)
 {}
 
-void DropIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void DropIntent::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(DropIntent);
     DropIntentSP castedOther = qSharedPointerCast<DropIntent>(other);
-    q->setEarliest(castedOther->earliest());
-    q->setEarliestDuration(castedOther->earliestDuration());
-    q->setRequired(castedOther->required());
-    q->setRequiredDuration(castedOther->requiredDuration());
-    q->setReturnMethod(castedOther->returnMethod());
-    q->setServiceLevel(castedOther->serviceLevel());
-    q->setSurplusHandling(castedOther->surplusHandling());
-    q->setTransfer(castedOther->transfer());
-    q->setDropItemIntents(castedOther->dropItemIntents());
+    setEarliest(castedOther->earliest());
+    setEarliestDuration(castedOther->earliestDuration());
+    setRequired(castedOther->required());
+    setRequiredDuration(castedOther->requiredDuration());
+    setReturnMethod(castedOther->returnMethod());
+    setServiceLevel(castedOther->serviceLevel());
+    setSurplusHandling(castedOther->surplusHandling());
+    setTransfer(castedOther->transfer());
+    setDropItemIntents(castedOther->dropItemIntents());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

@@ -12,8 +12,6 @@ class AbstractResourceLinkPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(AbstractResourceLink)
 public:
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     LinkUsage usage = LinkUsage::InputLink;
     ProcessUsage processUsage = ProcessUsage::UseAsDefault;
     QString rRef;

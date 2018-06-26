@@ -33,6 +33,7 @@ signals:
 
 protected:
     DeviceFilter();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

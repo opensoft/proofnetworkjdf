@@ -36,6 +36,7 @@ signals:
 
 protected:
     explicit Notification();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

@@ -89,17 +89,16 @@ void AbstractAudit::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute(QStringLiteral("TimeStamp"), d->timeStamp.toUTC().toString(Qt::ISODate));
 }
 
-AbstractAudit::AbstractAudit(AbstractAuditPrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+AbstractAudit::AbstractAudit(AbstractAuditPrivate &dd) : NetworkDataEntity(dd)
 {}
 
-void AbstractAuditPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void AbstractAudit::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(AbstractAudit);
     AbstractAuditSP castedOther = qSharedPointerCast<AbstractAudit>(other);
-    q->setId(castedOther->id());
-    q->setAgentName(castedOther->agentName());
-    q->setAgentVersion(castedOther->agentVersion());
-    q->setTimeStamp(castedOther->timeStamp());
+    setId(castedOther->id());
+    setAgentName(castedOther->agentName());
+    setAgentVersion(castedOther->agentVersion());
+    setTimeStamp(castedOther->timeStamp());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

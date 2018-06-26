@@ -11,8 +11,6 @@ class CreatedAuditPrivate : AbstractAuditPrivate
 
     CreatedAuditPrivate() : AbstractAuditPrivate() {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QString templateId;
     QString templateVersion;
 };
@@ -55,8 +53,7 @@ void CreatedAudit::setTemplateVersion(const QString &templateVersion)
 
 CreatedAuditQmlWrapper *CreatedAudit::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const CreatedAudit);
-    CreatedAuditSP castedSelf = qSharedPointerCast<CreatedAudit>(d->weakSelf);
+    CreatedAuditSP castedSelf = castedSelfPtr<CreatedAudit>();
     Q_ASSERT(castedSelf);
     return new CreatedAuditQmlWrapper(castedSelf, parent);
 }
@@ -107,12 +104,11 @@ void CreatedAudit::toJdf(QXmlStreamWriter &jdfWriter)
 CreatedAudit::CreatedAudit() : AbstractAudit(*new CreatedAuditPrivate)
 {}
 
-void CreatedAuditPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void CreatedAudit::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(CreatedAudit);
     CreatedAuditSP castedOther = qSharedPointerCast<CreatedAudit>(other);
-    q->setTemplateId(castedOther->templateId());
-    q->setTemplateVersion(castedOther->templateVersion());
+    setTemplateId(castedOther->templateId());
+    setTemplateVersion(castedOther->templateVersion());
 
-    AbstractAuditPrivate::updateFrom(other);
+    AbstractAudit::updateSelf(other);
 }

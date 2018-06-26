@@ -167,8 +167,7 @@ void JdfNode::setTypes(const QStringList &arg)
 
 JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool(const JdfNodeSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
@@ -183,8 +182,7 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool(const JdfNodeSP
 
 ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool(const ComponentSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
@@ -205,8 +203,7 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool(const Co
 
 ComponentLinkSP JdfNode::findComponentLink(const std::function<bool(const ComponentLinkSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
@@ -222,8 +219,7 @@ ComponentLinkSP JdfNode::findComponentLink(const std::function<bool(const Compon
 
 MediaLinkSP JdfNode::findMediaLink(const std::function<bool(const MediaLinkSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
@@ -239,8 +235,7 @@ MediaLinkSP JdfNode::findMediaLink(const std::function<bool(const MediaLinkSP &)
 
 MediaSP JdfNode::findMedia(const std::function<bool(const MediaSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
@@ -256,8 +251,7 @@ MediaSP JdfNode::findMedia(const std::function<bool(const MediaSP &)> &predicate
 
 LayoutSP JdfNode::findLayout(const std::function<bool(const LayoutSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
@@ -273,8 +267,7 @@ LayoutSP JdfNode::findLayout(const std::function<bool(const LayoutSP &)> &predic
 
 QVector<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool(const JdfNodeSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> result;
@@ -290,8 +283,7 @@ QVector<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool(const JdfNodeS
 
 QVector<ComponentSP> JdfNode::findAllComponents(const std::function<bool(const ComponentSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<ComponentSP> result;
@@ -313,8 +305,7 @@ QVector<ComponentSP> JdfNode::findAllComponents(const std::function<bool(const C
 
 QVector<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool(const ComponentLinkSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<ComponentLinkSP> result;
@@ -329,8 +320,7 @@ QVector<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool
 
 QVector<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool(const MediaLinkSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<MediaLinkSP> result;
@@ -345,8 +335,7 @@ QVector<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool(const M
 
 QVector<MediaSP> JdfNode::findAllMedia(const std::function<bool(const MediaSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<MediaSP> result;
@@ -361,8 +350,7 @@ QVector<MediaSP> JdfNode::findAllMedia(const std::function<bool(const MediaSP &)
 
 QVector<LayoutSP> JdfNode::findAllLayouts(const std::function<bool(const LayoutSP &)> &predicate) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
     QVector<LayoutSP> result;
@@ -377,8 +365,7 @@ QVector<LayoutSP> JdfNode::findAllLayouts(const std::function<bool(const LayoutS
 
 JdfNodeQmlWrapper *JdfNode::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const JdfNode);
-    JdfNodeSP castedSelf = qSharedPointerCast<JdfNode>(d->weakSelf);
+    JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
     return new JdfNodeQmlWrapper(castedSelf, parent);
 }
@@ -503,7 +490,7 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter, bool rootNode)
 JdfNode::JdfNode() : NetworkDataEntity(*new JdfNodePrivate)
 {}
 
-JdfNode::JdfNode(JdfNodePrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+JdfNode::JdfNode(JdfNodePrivate &dd) : NetworkDataEntity(dd)
 {}
 
 Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
@@ -511,18 +498,17 @@ Proof::Jdf::JdfNodePrivate::JdfNodePrivate()
     registerChildren(auditPool, resourcePool, resourceLinkPool, jdfNodes);
 }
 
-void JdfNodePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void JdfNode::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(JdfNode);
     JdfNodeSP castedOther = qSharedPointerCast<JdfNode>(other);
-    q->setId(castedOther->id());
-    q->setJobId(castedOther->jobId());
-    q->setJobPartId(castedOther->jobPartId());
-    q->setType(castedOther->type());
-    q->setTypes(castedOther->types());
-    q->setAuditPool(castedOther->auditPool());
-    q->setResourcePool(castedOther->resourcePool());
-    q->setResourceLinkPool(castedOther->resourceLinkPool());
-    q->setJdfNodes(castedOther->jdfNodes());
-    NetworkDataEntityPrivate::updateFrom(other);
+    setId(castedOther->id());
+    setJobId(castedOther->jobId());
+    setJobPartId(castedOther->jobPartId());
+    setType(castedOther->type());
+    setTypes(castedOther->types());
+    setAuditPool(castedOther->auditPool());
+    setResourcePool(castedOther->resourcePool());
+    setResourceLinkPool(castedOther->resourceLinkPool());
+    setJdfNodes(castedOther->jdfNodes());
+    NetworkDataEntity::updateSelf(other);
 }

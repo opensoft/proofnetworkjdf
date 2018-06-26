@@ -5,8 +5,8 @@
 namespace Proof {
 namespace Jdf {
 
-AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd, QObject *parent)
-    : AbstractResourceLink(dd, parent)
+AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd)
+    : AbstractResourceLink(dd)
 {}
 
 ResourceOrientation AbstractPhysicalResourceLink::orientation() const
@@ -60,14 +60,13 @@ void AbstractPhysicalResourceLink::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractResourceLink::toJdf(jdfWriter);
 }
 
-void AbstractPhysicalResourceLinkPrivate::updateFrom(const NetworkDataEntitySP &other)
+void AbstractPhysicalResourceLink::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(AbstractPhysicalResourceLink);
     AbstractPhysicalResourceLinkSP castedOther = qSharedPointerCast<AbstractPhysicalResourceLink>(other);
-    q->setOrientation(castedOther->orientation());
-    q->setAmount(castedOther->amount());
+    setOrientation(castedOther->orientation());
+    setAmount(castedOther->amount());
 
-    AbstractResourceLinkPrivate::updateFrom(other);
+    AbstractResourceLink::updateSelf(other);
 }
 
 } // namespace Jdf

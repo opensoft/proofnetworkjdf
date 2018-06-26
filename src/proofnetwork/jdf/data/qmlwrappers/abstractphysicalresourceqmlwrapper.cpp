@@ -22,8 +22,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResource, double, resourceWeig
 
 void AbstractPhysicalResourceQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(AbstractPhysicalResourceQmlWrapper);
-    AbstractPhysicalResourceSP abstractPhysicalResource = d->entity<AbstractPhysicalResource>();
+    AbstractPhysicalResourceSP abstractPhysicalResource = entity<AbstractPhysicalResource>();
     Q_ASSERT(abstractPhysicalResource);
 
     connect(abstractPhysicalResource.data(), &AbstractPhysicalResource::amountChanged, this,

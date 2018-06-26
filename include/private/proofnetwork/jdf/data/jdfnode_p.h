@@ -18,8 +18,6 @@ class JdfNodePrivate : public NetworkDataEntityPrivate
 public:
     JdfNodePrivate();
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QString id;
     QString jobId;
     QString jobPartId;

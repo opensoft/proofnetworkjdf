@@ -45,10 +45,10 @@ QQmlListProperty<DropIntentQmlWrapper> DeliveryIntentQmlWrapper::dropIntents() c
 void DeliveryIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> & /*old*/)
 {
     Q_D(DeliveryIntentQmlWrapper);
-    DeliveryIntentSP deliveryIntent = d->entity<DeliveryIntent>();
+    DeliveryIntentSP deliveryIntent = entity<DeliveryIntent>();
     Q_ASSERT(deliveryIntent);
 
-    connect(deliveryIntent.data(), &DeliveryIntent::dropIntentsChanged, d->lambdaConnectContext,
+    connect(deliveryIntent.data(), &DeliveryIntent::dropIntentsChanged, entityConnectContext(),
             [d]() { d->updateDropIntents(); });
 
     d->updateDropIntents();
@@ -57,7 +57,7 @@ void DeliveryIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
 void DeliveryIntentQmlWrapperPrivate::updateDropIntents()
 {
     Q_Q(DeliveryIntentQmlWrapper);
-    DeliveryIntentSP resourcePool = entity<DeliveryIntent>();
+    DeliveryIntentSP resourcePool = q->entity<DeliveryIntent>();
     for (DropIntentQmlWrapper *wrapper : qAsConst(dropIntents))
         wrapper->deleteLater();
 

@@ -10,8 +10,6 @@ class DeviceFilterPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(DeviceFilter)
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     DeviceFilterDetails details = DeviceFilterDetails::NoneDeviceFilterDetails;
 };
 
@@ -66,12 +64,11 @@ DeviceFilterSP DeviceFilter::fromJmf(QXmlStreamReader &xmlReader)
 DeviceFilter::DeviceFilter() : NetworkDataEntity(*new DeviceFilterPrivate)
 {}
 
-void DeviceFilterPrivate::updateFrom(const NetworkDataEntitySP &other)
+void DeviceFilter::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(DeviceFilter);
     DeviceFilterSP castedOther = qSharedPointerCast<DeviceFilter>(other);
-    q->setDetails(castedOther->details());
-    NetworkDataEntityPrivate::updateFrom(other);
+    setDetails(castedOther->details());
+    NetworkDataEntity::updateSelf(other);
 }
 
 } // namespace Jdf

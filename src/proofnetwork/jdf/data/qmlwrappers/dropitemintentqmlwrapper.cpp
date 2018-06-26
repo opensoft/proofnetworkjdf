@@ -38,10 +38,10 @@ void DropItemIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
 {
     Q_D(DropItemIntentQmlWrapper);
     Q_UNUSED(old)
-    DropItemIntentSP dropItemIntent = d->entity<DropItemIntent>();
+    DropItemIntentSP dropItemIntent = entity<DropItemIntent>();
     Q_ASSERT(dropItemIntent);
 
-    connect(dropItemIntent.data(), &DropItemIntent::componentChanged, d->lambdaConnectContext,
+    connect(dropItemIntent.data(), &DropItemIntent::componentChanged, entityConnectContext(),
             [d]() { d->updateComponent(); });
 
     d->updateComponent();
@@ -50,7 +50,7 @@ void DropItemIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntit
 void DropItemIntentQmlWrapperPrivate::updateComponent()
 {
     Q_Q(DropItemIntentQmlWrapper);
-    DropItemIntentSP dropItemIntent = entity<DropItemIntent>();
+    DropItemIntentSP dropItemIntent = q->entity<DropItemIntent>();
     if (component == nullptr)
         component = dropItemIntent->component()->toQmlWrapper(q);
     else

@@ -45,10 +45,10 @@ void LayoutQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity
 {
     Q_D(LayoutQmlWrapper);
     Q_UNUSED(old)
-    LayoutSP layout = d->entity<Layout>();
+    LayoutSP layout = entity<Layout>();
     Q_ASSERT(layout);
 
-    connect(layout.data(), &Layout::mediaChanged, d->lambdaConnectContext, [d]() { d->updateMedia(); });
+    connect(layout.data(), &Layout::mediaChanged, entityConnectContext(), [d]() { d->updateMedia(); });
 
     d->updateMedia();
 
@@ -58,7 +58,7 @@ void LayoutQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity
 void LayoutQmlWrapperPrivate::updateMedia()
 {
     Q_Q(LayoutQmlWrapper);
-    LayoutSP layout = entity<Layout>();
+    LayoutSP layout = q->entity<Layout>();
     for (MediaQmlWrapper *wrapper : qAsConst(media))
         wrapper->deleteLater();
 

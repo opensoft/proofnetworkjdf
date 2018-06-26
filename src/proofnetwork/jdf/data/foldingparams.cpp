@@ -14,8 +14,6 @@ class FoldingParamsPrivate : AbstractResourcePrivate
 
     FoldingParamsPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QString foldCatalog = QString();
 };
 
@@ -67,8 +65,7 @@ void FoldingParams::setFoldCatalog(const QString &foldCatalog)
 
 FoldingParamsQmlWrapper *FoldingParams::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const FoldingParams);
-    FoldingParamsSP castedSelf = qSharedPointerCast<FoldingParams>(d->weakSelf);
+    FoldingParamsSP castedSelf = castedSelfPtr<FoldingParams>();
     Q_ASSERT(castedSelf);
     return new FoldingParamsQmlWrapper(castedSelf, parent);
 }
@@ -124,11 +121,10 @@ FoldingParamsLinkSP FoldingParams::toLink(LinkUsage usage) const
 FoldingParams::FoldingParams() : AbstractResource(*new FoldingParamsPrivate)
 {}
 
-void FoldingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void FoldingParams::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(FoldingParams);
     FoldingParamsSP castedOther = qSharedPointerCast<FoldingParams>(other);
-    q->setFoldCatalog(castedOther->foldCatalog());
+    setFoldCatalog(castedOther->foldCatalog());
 
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }

@@ -934,6 +934,7 @@ TEST_F(JdfDocumentTest, findComponentLink)
 {
     Proof::Jdf::ComponentLinkSP link = jdfDocUT->findComponentLink(
         [](const Proof::Jdf::ComponentLinkSP &link) { return link->rRef() == "COMP_0000"; });
+    ASSERT_TRUE(link);
     EXPECT_EQ("COMP_0000", link->rRef());
     EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
 }
@@ -942,6 +943,7 @@ TEST_F(JdfDocumentTest, findMediaLink)
 {
     Proof::Jdf::MediaLinkSP link = jdfDocUT->findMediaLink(
         [](const Proof::Jdf::MediaLinkSP &link) { return link->rRef() == "PAP_0000"; });
+    ASSERT_TRUE(link);
     EXPECT_EQ("PAP_0000", link->rRef());
     EXPECT_EQ(Proof::Jdf::LinkUsage::InputLink, link->usage());
 }
@@ -950,6 +952,7 @@ TEST_F(JdfDocumentTest, findMedia)
 {
     Proof::Jdf::MediaSP media = jdfDocUT->findMedia(
         [](const Proof::Jdf::MediaSP &media) { return media->mediaType() == Proof::Jdf::MediaType::PaperMedia; });
+    ASSERT_TRUE(media);
     EXPECT_EQ("PAP_0000", media->id());
     EXPECT_EQ(Proof::Jdf::MediaType::PaperMedia, media->mediaType());
 }
@@ -958,6 +961,7 @@ TEST_F(JdfDocumentTest, findLayout)
 {
     Proof::Jdf::LayoutSP layout = jdfDocUT->findLayout(
         [](const Proof::Jdf::LayoutSP &layout) { return layout->id() == "Layout1"; });
+    ASSERT_TRUE(layout);
     EXPECT_EQ("Layout1", layout->id());
     EXPECT_EQ(3, layout->media().count());
 }

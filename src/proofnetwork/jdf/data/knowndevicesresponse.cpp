@@ -16,7 +16,6 @@ class KnownDevicesResponsePrivate : public ResponsePrivate
 protected:
     KnownDevicesResponsePrivate() { registerChildren(deviceInfos); }
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     void specificMessageFromJmf(QXmlStreamReader &xmlReader) override;
     QString typeName() const override;
     void specificMessageToJmf(QXmlStreamWriter &xmlWriter) const override;
@@ -59,13 +58,12 @@ KnownDevicesResponseSP KnownDevicesResponse::create()
 KnownDevicesResponse::KnownDevicesResponse() : Response(*new KnownDevicesResponsePrivate)
 {}
 
-void KnownDevicesResponsePrivate::updateFrom(const NetworkDataEntitySP &other)
+void KnownDevicesResponse::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(KnownDevicesResponse);
     KnownDevicesResponseSP castedOther = qSharedPointerCast<KnownDevicesResponse>(other);
-    q->setDeviceInfos(castedOther->deviceInfos());
-    q->setNotification(castedOther->notification());
-    ResponsePrivate::updateFrom(other);
+    setDeviceInfos(castedOther->deviceInfos());
+    setNotification(castedOther->notification());
+    Response::updateSelf(other);
 }
 
 void KnownDevicesResponsePrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)

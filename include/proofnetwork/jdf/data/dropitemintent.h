@@ -35,6 +35,7 @@ signals:
 
 protected:
     explicit DropItemIntent();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

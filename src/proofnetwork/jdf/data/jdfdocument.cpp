@@ -20,8 +20,7 @@ JdfDocument::JdfDocument() : JdfNode(*new JdfDocumentPrivate)
 
 JdfDocumentQmlWrapper *JdfDocument::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const JdfDocument);
-    JdfDocumentSP castedSelf = qSharedPointerCast<JdfDocument>(d->weakSelf);
+    JdfDocumentSP castedSelf = castedSelfPtr<JdfDocument>();
     Q_ASSERT(castedSelf);
     return new JdfDocumentQmlWrapper(castedSelf, parent);
 }

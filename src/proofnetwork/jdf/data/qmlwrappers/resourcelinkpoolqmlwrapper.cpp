@@ -91,18 +91,18 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
 {
     Q_D(ResourceLinkPoolQmlWrapper);
     Q_UNUSED(old)
-    ResourceLinkPoolSP linkPool = d->entity<ResourceLinkPool>();
+    ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
     Q_ASSERT(linkPool);
 
-    connect(linkPool.data(), &ResourceLinkPool::componentLinksChanged, d->lambdaConnectContext,
+    connect(linkPool.data(), &ResourceLinkPool::componentLinksChanged, entityConnectContext(),
             [d]() { d->updateComponentLinks(); });
-    connect(linkPool.data(), &ResourceLinkPool::cuttingParamsLinkChanged, d->lambdaConnectContext,
+    connect(linkPool.data(), &ResourceLinkPool::cuttingParamsLinkChanged, entityConnectContext(),
             [d]() { d->updateCuttingParamsLink(); });
-    connect(linkPool.data(), &ResourceLinkPool::mediaLinksChanged, d->lambdaConnectContext,
+    connect(linkPool.data(), &ResourceLinkPool::mediaLinksChanged, entityConnectContext(),
             [d]() { d->updateMediaLinks(); });
-    connect(linkPool.data(), &ResourceLinkPool::foldingParamsLinkChanged, d->lambdaConnectContext,
+    connect(linkPool.data(), &ResourceLinkPool::foldingParamsLinkChanged, entityConnectContext(),
             [d]() { d->updateFoldingParamsLink(); });
-    connect(linkPool.data(), &ResourceLinkPool::laminatingIntentLinkChanged, d->lambdaConnectContext,
+    connect(linkPool.data(), &ResourceLinkPool::laminatingIntentLinkChanged, entityConnectContext(),
             [d]() { d->updateLaminatingParamsLink(); });
 
     d->updateComponentLinks();
@@ -115,7 +115,7 @@ void ResourceLinkPoolQmlWrapper::setupEntity(const QSharedPointer<Proof::Network
 void ResourceLinkPoolQmlWrapperPrivate::updateComponentLinks()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
-    ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
+    ResourceLinkPoolSP linkPool = q->entity<ResourceLinkPool>();
     for (ComponentLinkQmlWrapper *wrapper : qAsConst(componentLinks))
         wrapper->deleteLater();
 
@@ -134,7 +134,7 @@ void ResourceLinkPoolQmlWrapperPrivate::updateComponentLinks()
 void ResourceLinkPoolQmlWrapperPrivate::updateCuttingParamsLink()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
-    ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
+    ResourceLinkPoolSP linkPool = q->entity<ResourceLinkPool>();
     if (cuttingParamsLink == nullptr)
         cuttingParamsLink = linkPool->cuttingParamsLink()->toQmlWrapper(q);
     else
@@ -146,7 +146,7 @@ void ResourceLinkPoolQmlWrapperPrivate::updateCuttingParamsLink()
 void ResourceLinkPoolQmlWrapperPrivate::updateMediaLinks()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
-    ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
+    ResourceLinkPoolSP linkPool = q->entity<ResourceLinkPool>();
     for (MediaLinkQmlWrapper *wrapper : qAsConst(mediaLinks))
         wrapper->deleteLater();
 
@@ -164,7 +164,7 @@ void ResourceLinkPoolQmlWrapperPrivate::updateMediaLinks()
 void ResourceLinkPoolQmlWrapperPrivate::updateFoldingParamsLink()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
-    ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
+    ResourceLinkPoolSP linkPool = q->entity<ResourceLinkPool>();
     if (foldingParamsLink == nullptr)
         foldingParamsLink = linkPool->foldingParamsLink()->toQmlWrapper(q);
     else
@@ -176,7 +176,7 @@ void ResourceLinkPoolQmlWrapperPrivate::updateFoldingParamsLink()
 void ResourceLinkPoolQmlWrapperPrivate::updateLaminatingParamsLink()
 {
     Q_Q(ResourceLinkPoolQmlWrapper);
-    ResourceLinkPoolSP linkPool = entity<ResourceLinkPool>();
+    ResourceLinkPoolSP linkPool = q->entity<ResourceLinkPool>();
     if (laminatingIntentLink == nullptr)
         laminatingIntentLink = linkPool->laminatingIntentLink()->toQmlWrapper(q);
     else

@@ -26,8 +26,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(LaminatingIntent, Proof::Jdf::LaminatingSurfac
 
 void LaminatingIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(LaminatingIntentQmlWrapper);
-    LaminatingIntentSP laminatingIntent = d->entity<LaminatingIntent>();
+    LaminatingIntentSP laminatingIntent = entity<LaminatingIntent>();
     Q_ASSERT(laminatingIntent);
 
     connect(laminatingIntent.data(), &LaminatingIntent::surfaceChanged, this,

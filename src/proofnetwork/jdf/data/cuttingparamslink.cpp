@@ -10,13 +10,12 @@ class CuttingParamsLinkPrivate : public AbstractResourceLinkPrivate
     Q_DECLARE_PUBLIC(CuttingParamsLink)
 };
 
-CuttingParamsLink::CuttingParamsLink(QObject *parent) : AbstractResourceLink(*new CuttingParamsLinkPrivate, parent)
+CuttingParamsLink::CuttingParamsLink() : AbstractResourceLink(*new CuttingParamsLinkPrivate)
 {}
 
 CuttingParamsLinkQmlWrapper *CuttingParamsLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const CuttingParamsLink);
-    CuttingParamsLinkSP castedSelf = qSharedPointerCast<CuttingParamsLink>(d->weakSelf);
+    CuttingParamsLinkSP castedSelf = castedSelfPtr<CuttingParamsLink>();
     Q_ASSERT(castedSelf);
     return new CuttingParamsLinkQmlWrapper(castedSelf, parent);
 }

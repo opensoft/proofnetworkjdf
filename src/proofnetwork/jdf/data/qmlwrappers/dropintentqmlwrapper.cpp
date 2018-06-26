@@ -39,10 +39,10 @@ QQmlListProperty<DropItemIntentQmlWrapper> DropIntentQmlWrapper::dropItemIntents
 void DropIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> & /*old*/)
 {
     Q_D(DropIntentQmlWrapper);
-    DropIntentSP dropIntent = d->entity<DropIntent>();
+    DropIntentSP dropIntent = entity<DropIntent>();
     Q_ASSERT(dropIntent);
 
-    connect(dropIntent.data(), &DropIntent::dropItemIntentsChanged, d->lambdaConnectContext,
+    connect(dropIntent.data(), &DropIntent::dropItemIntentsChanged, entityConnectContext(),
             [d]() { d->updateDropItemIntents(); });
 
     d->updateDropItemIntents();
@@ -51,7 +51,7 @@ void DropIntentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &
 void DropIntentQmlWrapperPrivate::updateDropItemIntents()
 {
     Q_Q(DropIntentQmlWrapper);
-    DropIntentSP dropIntent = entity<DropIntent>();
+    DropIntentSP dropIntent = q->entity<DropIntent>();
     for (DropItemIntentQmlWrapper *wrapper : qAsConst(dropItemIntents))
         wrapper->deleteLater();
 

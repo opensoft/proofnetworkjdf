@@ -13,8 +13,6 @@ class LaminatingIntentPrivate : AbstractResourcePrivate
 
     LaminatingIntentPrivate() : AbstractResourcePrivate(ResourceClass::IntentClass) {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     LaminatingSurface surface = LaminatingSurface::NoneLaminated;
 };
 
@@ -40,8 +38,7 @@ void LaminatingIntent::setSurface(LaminatingSurface surface)
 
 LaminatingIntentQmlWrapper *LaminatingIntent::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const LaminatingIntent);
-    LaminatingIntentSP castedSelf = qSharedPointerCast<LaminatingIntent>(d->weakSelf);
+    LaminatingIntentSP castedSelf = castedSelfPtr<LaminatingIntent>();
     Q_ASSERT(castedSelf);
     return new LaminatingIntentQmlWrapper(castedSelf, parent);
 }
@@ -97,11 +94,10 @@ LaminatingIntentLinkSP LaminatingIntent::toLink(LinkUsage usage) const
 LaminatingIntent::LaminatingIntent() : AbstractResource(*new LaminatingIntentPrivate)
 {}
 
-void LaminatingIntentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void LaminatingIntent::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(LaminatingIntent);
     LaminatingIntentSP castedOther = qSharedPointerCast<LaminatingIntent>(other);
-    q->setSurface(castedOther->surface());
+    setSurface(castedOther->surface());
 
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }

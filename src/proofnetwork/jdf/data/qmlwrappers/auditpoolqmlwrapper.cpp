@@ -53,11 +53,11 @@ void AuditPoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
 {
     Q_D(AuditPoolQmlWrapper);
     Q_UNUSED(old)
-    AuditPoolSP auditPool = d->entity<AuditPool>();
+    AuditPoolSP auditPool = entity<AuditPool>();
     Q_ASSERT(auditPool);
 
-    connect(auditPool.data(), &AuditPool::createdChanged, d->lambdaConnectContext, [d]() { d->updateCreated(); });
-    connect(auditPool.data(), &AuditPool::modifiedChanged, d->lambdaConnectContext, [d]() { d->updateModified(); });
+    connect(auditPool.data(), &AuditPool::createdChanged, entityConnectContext(), [d]() { d->updateCreated(); });
+    connect(auditPool.data(), &AuditPool::modifiedChanged, entityConnectContext(), [d]() { d->updateModified(); });
 
     d->updateCreated();
     d->updateModified();
@@ -66,7 +66,7 @@ void AuditPoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
 void AuditPoolQmlWrapperPrivate::updateCreated()
 {
     Q_Q(AuditPoolQmlWrapper);
-    AuditPoolSP auditPool = entity<AuditPool>();
+    AuditPoolSP auditPool = q->entity<AuditPool>();
     if (created == nullptr)
         created = auditPool->created()->toQmlWrapper(q);
     else
@@ -77,7 +77,7 @@ void AuditPoolQmlWrapperPrivate::updateCreated()
 void AuditPoolQmlWrapperPrivate::updateModified()
 {
     Q_Q(AuditPoolQmlWrapper);
-    AuditPoolSP auditPool = entity<AuditPool>();
+    AuditPoolSP auditPool = q->entity<AuditPool>();
     if (modified == nullptr)
         modified = auditPool->modified()->toQmlWrapper(q);
     else

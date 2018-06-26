@@ -12,8 +12,6 @@ class BundleItemPrivate : NetworkDataEntityPrivate
 
     BundleItemPrivate() : NetworkDataEntityPrivate() { registerChildren(component); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     int amount = 1;
     ComponentSP component = Component::create();
 };
@@ -55,8 +53,7 @@ void BundleItem::setComponent(const ComponentSP &arg)
 
 BundleItemQmlWrapper *BundleItem::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const BundleItem);
-    BundleItemSP castedSelf = qSharedPointerCast<BundleItem>(d->weakSelf);
+    BundleItemSP castedSelf = castedSelfPtr<BundleItem>();
     Q_ASSERT(castedSelf);
     return new BundleItemQmlWrapper(castedSelf, parent);
 }
@@ -103,12 +100,11 @@ void BundleItem::toJdf(QXmlStreamWriter &jdfWriter)
 BundleItem::BundleItem() : NetworkDataEntity(*new BundleItemPrivate)
 {}
 
-void BundleItemPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void BundleItem::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(BundleItem);
     BundleItemSP castedOther = qSharedPointerCast<BundleItem>(other);
-    q->setAmount(castedOther->amount());
-    q->setComponent(castedOther->component());
+    setAmount(castedOther->amount());
+    setComponent(castedOther->component());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

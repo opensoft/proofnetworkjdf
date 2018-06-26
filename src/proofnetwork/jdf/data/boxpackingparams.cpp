@@ -11,8 +11,6 @@ class BoxPackingParamsPrivate : AbstractResourcePrivate
     Q_DECLARE_PUBLIC(BoxPackingParams)
 
     BoxPackingParamsPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) {}
-
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf
@@ -23,8 +21,7 @@ using namespace Proof::Jdf;
 
 BoxPackingParamsQmlWrapper *BoxPackingParams::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const BoxPackingParams);
-    BoxPackingParamsSP castedSelf = qSharedPointerCast<BoxPackingParams>(d->weakSelf);
+    BoxPackingParamsSP castedSelf = castedSelfPtr<BoxPackingParams>();
     Q_ASSERT(castedSelf);
     return new BoxPackingParamsQmlWrapper(castedSelf, parent);
 }
@@ -74,7 +71,7 @@ BoxPackingParamsLinkSP BoxPackingParams::toLink(LinkUsage usage) const
 BoxPackingParams::BoxPackingParams() : AbstractResource(*new BoxPackingParamsPrivate)
 {}
 
-void BoxPackingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void BoxPackingParams::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }

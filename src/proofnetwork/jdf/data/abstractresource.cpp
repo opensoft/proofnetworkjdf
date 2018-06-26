@@ -155,7 +155,7 @@ QString AbstractResource::jdfNodeRefName() const
     return d->jdfNodeRefName;
 }
 
-AbstractResource::AbstractResource(AbstractResourcePrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+AbstractResource::AbstractResource(AbstractResourcePrivate &dd) : NetworkDataEntity(dd)
 {}
 
 void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const
@@ -164,14 +164,13 @@ void AbstractResource::setupLink(const AbstractResourceLinkSP &abstractLink, Lin
     abstractLink->setUsage(usage);
 }
 
-void AbstractResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void AbstractResource::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(AbstractResource);
     AbstractResourceSP castedOther = qSharedPointerCast<AbstractResource>(other);
-    q->setId(castedOther->id());
-    q->setResourceStatus(castedOther->resourceStatus());
-    q->setResourceClass(castedOther->resourceClass());
-    q->setPartIdKeys(castedOther->partIdKeys());
+    setId(castedOther->id());
+    setResourceStatus(castedOther->resourceStatus());
+    setResourceClass(castedOther->resourceClass());
+    setPartIdKeys(castedOther->partIdKeys());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

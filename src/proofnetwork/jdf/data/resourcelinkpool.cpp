@@ -24,8 +24,6 @@ class ResourceLinkPoolPrivate : public NetworkDataEntityPrivate
                          foldingParamsLink, boxPackingParamsLink);
     }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QVector<ComponentLinkSP> componentLinks;
     CuttingParamsLinkSP cuttingParamsLink = CuttingParamsLink::create();
     QVector<MediaLinkSP> mediaLinks;
@@ -176,8 +174,7 @@ void ResourceLinkPool::setBoxPackingParamsLink(const BoxPackingParamsLinkSP &box
 
 ResourceLinkPoolQmlWrapper *ResourceLinkPool::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const ResourceLinkPool);
-    ResourceLinkPoolSP castedSelf = qSharedPointerCast<ResourceLinkPool>(d->weakSelf);
+    ResourceLinkPoolSP castedSelf = castedSelfPtr<ResourceLinkPool>();
     Q_ASSERT(castedSelf);
     return new ResourceLinkPoolQmlWrapper(castedSelf, parent);
 }
@@ -293,17 +290,16 @@ void ResourceLinkPool::toJdf(QXmlStreamWriter &jdfWriter)
 ResourceLinkPool::ResourceLinkPool() : NetworkDataEntity(*new ResourceLinkPoolPrivate)
 {}
 
-void ResourceLinkPoolPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void ResourceLinkPool::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(ResourceLinkPool);
     ResourceLinkPoolSP castedOther = qSharedPointerCast<ResourceLinkPool>(other);
-    q->setComponentLinks(castedOther->componentLinks());
-    q->setCuttingParamsLink(castedOther->cuttingParamsLink());
-    q->setLaminatingIntentLink(castedOther->laminatingIntentLink());
-    q->setDeliveryIntentLink(castedOther->deliveryIntentLink());
-    q->setMediaLinks(castedOther->mediaLinks());
-    q->setFoldingParamsLink(castedOther->foldingParamsLink());
-    q->setBoxPackingParamsLink(castedOther->boxPackingParamsLink());
+    setComponentLinks(castedOther->componentLinks());
+    setCuttingParamsLink(castedOther->cuttingParamsLink());
+    setLaminatingIntentLink(castedOther->laminatingIntentLink());
+    setDeliveryIntentLink(castedOther->deliveryIntentLink());
+    setMediaLinks(castedOther->mediaLinks());
+    setFoldingParamsLink(castedOther->foldingParamsLink());
+    setBoxPackingParamsLink(castedOther->boxPackingParamsLink());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }

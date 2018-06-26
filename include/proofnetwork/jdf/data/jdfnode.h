@@ -75,7 +75,8 @@ signals:
 
 protected:
     JdfNode();
-    JdfNode(JdfNodePrivate &dd, QObject *parent = nullptr);
+    JdfNode(JdfNodePrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

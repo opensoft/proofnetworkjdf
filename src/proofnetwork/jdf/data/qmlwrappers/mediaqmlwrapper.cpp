@@ -34,8 +34,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Media, Proof::Jdf::MediaType, mediaType)
 
 void MediaQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(MediaQmlWrapper);
-    MediaSP media = d->entity<Media>();
+    MediaSP media = entity<Media>();
     Q_ASSERT(media);
 
     connect(media.data(), &Media::thicknessChanged, this, &MediaQmlWrapper::thicknessChanged);

@@ -26,8 +26,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(FoldingParams, QString, foldCatalog)
 
 void FoldingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(FoldingParamsQmlWrapper);
-    FoldingParamsSP foldingParams = d->entity<FoldingParams>();
+    FoldingParamsSP foldingParams = entity<FoldingParams>();
     Q_ASSERT(foldingParams);
 
     connect(foldingParams.data(), &FoldingParams::foldCatalogChanged, this, &FoldingParamsQmlWrapper::foldCatalogChanged);

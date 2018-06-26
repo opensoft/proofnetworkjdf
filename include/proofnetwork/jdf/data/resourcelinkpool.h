@@ -54,6 +54,7 @@ signals:
 
 protected:
     explicit ResourceLinkPool();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

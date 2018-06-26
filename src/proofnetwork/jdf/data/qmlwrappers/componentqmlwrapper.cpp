@@ -53,7 +53,7 @@ QQmlListProperty<ComponentQmlWrapper> ComponentQmlWrapper::parts()
 void ComponentQmlWrapperPrivate::updateBundle()
 {
     Q_Q(ComponentQmlWrapper);
-    ComponentSP component = entity<Component>();
+    ComponentSP component = q->entity<Component>();
     if (!bundle)
         bundle = component->bundle()->toQmlWrapper(q);
     else
@@ -64,7 +64,7 @@ void ComponentQmlWrapperPrivate::updateBundle()
 void ComponentQmlWrapperPrivate::updateParts()
 {
     Q_Q(ComponentQmlWrapper);
-    ComponentSP component = entity<Component>();
+    ComponentSP component = q->entity<Component>();
     for (ComponentQmlWrapper *wrapper : qAsConst(parts))
         wrapper->deleteLater();
 
@@ -91,15 +91,15 @@ int ComponentQmlWrapperPrivate::partsCount(QQmlListProperty<ComponentQmlWrapper>
 void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
     Q_D(ComponentQmlWrapper);
-    ComponentSP component = d->entity<Component>();
+    ComponentSP component = entity<Component>();
     Q_ASSERT(component);
 
     connect(component.data(), &Component::componentTypeChanged, this, &ComponentQmlWrapper::componentTypeChanged);
     connect(component.data(), &Component::productTypeChanged, this, &ComponentQmlWrapper::productTypeChanged);
     connect(component.data(), &Component::productTypeDetailsChanged, this,
             &ComponentQmlWrapper::productTypeDetailsChanged);
-    connect(component.data(), &Component::bundleChanged, d->lambdaConnectContext, [d]() { d->updateBundle(); });
-    connect(component.data(), &Component::partsChanged, d->lambdaConnectContext, [d]() { d->updateParts(); });
+    connect(component.data(), &Component::bundleChanged, entityConnectContext(), [d]() { d->updateBundle(); });
+    connect(component.data(), &Component::partsChanged, entityConnectContext(), [d]() { d->updateParts(); });
 
     ComponentSP oldComponent = qSharedPointerCast<Component>(old);
     if (oldComponent) {

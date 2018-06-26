@@ -17,8 +17,6 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
 
     explicit CutBlockPrivate(const QString &blockName) : blockName(blockName) { setDirty(!blockName.isEmpty()); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     void setX(double arg);
     void setY(double arg);
     void setRotation(double arg);
@@ -98,8 +96,7 @@ BlockType CutBlock::blockType() const
 
 CutBlockQmlWrapper *CutBlock::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const CutBlock);
-    CutBlockSP castedSelf = qSharedPointerCast<CutBlock>(d->weakSelf);
+    CutBlockSP castedSelf = castedSelfPtr<CutBlock>();
     Q_ASSERT(castedSelf);
     return new CutBlockQmlWrapper(castedSelf, parent);
 }
@@ -249,17 +246,16 @@ void CutBlock::setBlockType(BlockType arg)
     }
 }
 
-void CutBlockPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void CutBlock::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(CutBlock);
     CutBlockSP castedOther = qSharedPointerCast<CutBlock>(other);
-    q->setBlockName(castedOther->blockName());
-    q->setWidth(castedOther->width());
-    q->setHeight(castedOther->height());
-    q->setTransformationMatrix(castedOther->transformationMatrix());
-    q->setBlockType(castedOther->blockType());
+    setBlockName(castedOther->blockName());
+    setWidth(castedOther->width());
+    setHeight(castedOther->height());
+    setTransformationMatrix(castedOther->transformationMatrix());
+    setBlockType(castedOther->blockType());
 
-    NetworkDataEntityPrivate::updateFrom(other);
+    NetworkDataEntity::updateSelf(other);
 }
 
 void CutBlockPrivate::setX(double arg)

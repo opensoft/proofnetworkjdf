@@ -13,7 +13,6 @@ class KnownDevicesQueryPrivate : public QueryPrivate
 protected:
     KnownDevicesQueryPrivate() { registerChildren(deviceFilter); }
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     void specificMessageFromJmf(QXmlStreamReader &xmlReader) override;
     QString typeName() const override;
     void specificMessageToJmf(QXmlStreamWriter &xmlWriter) const override;
@@ -47,12 +46,11 @@ KnownDevicesQuerySP KnownDevicesQuery::create()
 KnownDevicesQuery::KnownDevicesQuery() : Query(*new KnownDevicesQueryPrivate)
 {}
 
-void KnownDevicesQueryPrivate::updateFrom(const NetworkDataEntitySP &other)
+void KnownDevicesQuery::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(KnownDevicesQuery);
     KnownDevicesQuerySP castedOther = qSharedPointerCast<KnownDevicesQuery>(other);
-    q->setDeviceFilter(castedOther->deviceFilter());
-    QueryPrivate::updateFrom(other);
+    setDeviceFilter(castedOther->deviceFilter());
+    Query::updateSelf(other);
 }
 
 void KnownDevicesQueryPrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)

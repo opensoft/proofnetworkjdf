@@ -29,7 +29,8 @@ signals:
     void idChanged(const QString &arg);
 
 protected:
-    explicit Message(MessagePrivate &dd, QObject *parent = nullptr);
+    explicit Message(MessagePrivate &dd);
+    void updateSelf(const NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

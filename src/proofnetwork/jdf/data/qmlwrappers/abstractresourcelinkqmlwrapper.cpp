@@ -21,8 +21,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResourceLink, Proof::Jdf::ProcessUsage
 
 void AbstractResourceLinkQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
 {
-    Q_D(AbstractResourceLinkQmlWrapper);
-    AbstractResourceLinkSP abstractResourceLink = d->entity<AbstractResourceLink>();
+    AbstractResourceLinkSP abstractResourceLink = entity<AbstractResourceLink>();
     Q_ASSERT(abstractResourceLink);
 
     connect(abstractResourceLink.data(), &AbstractResourceLink::rRefChanged, this,

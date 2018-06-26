@@ -15,8 +15,6 @@ public:
     AbstractResourcePrivate() : NetworkDataEntityPrivate() {}
     AbstractResourcePrivate(ResourceClass resourceClass) : NetworkDataEntityPrivate(), resourceClass(resourceClass) {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QString id;
     mutable QString jdfNodeName;
     mutable QString jdfNodeRefName;

@@ -27,6 +27,7 @@ signals:
 
 protected:
     KnownDevicesResponse();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

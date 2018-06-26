@@ -64,6 +64,7 @@ signals:
 
 protected:
     explicit Component(const QString &id);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfComponentDataKey, Component> &componentsCache();

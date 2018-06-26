@@ -12,8 +12,7 @@ class LaminatingIntentLinkPrivate : public AbstractResourceLinkPrivate
 
 LaminatingIntentLinkQmlWrapper *LaminatingIntentLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const LaminatingIntentLink);
-    LaminatingIntentLinkSP castedSelf = qSharedPointerCast<LaminatingIntentLink>(d->weakSelf);
+    LaminatingIntentLinkSP castedSelf = castedSelfPtr<LaminatingIntentLink>();
     Q_ASSERT(castedSelf);
     return new LaminatingIntentLinkQmlWrapper(castedSelf, parent);
 }
@@ -39,8 +38,7 @@ void LaminatingIntentLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-LaminatingIntentLink::LaminatingIntentLink(QObject *parent)
-    : AbstractResourceLink(*new LaminatingIntentLinkPrivate, parent)
+LaminatingIntentLink::LaminatingIntentLink() : AbstractResourceLink(*new LaminatingIntentLinkPrivate)
 {}
 
 } // namespace Jdf

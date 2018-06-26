@@ -40,6 +40,7 @@ signals:
 
 protected:
     explicit CuttingParams();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

@@ -31,7 +31,8 @@ signals:
 
 protected:
     explicit AbstractPhysicalResourceLink() = delete;
-    AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd, QObject *parent = nullptr);
+    AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

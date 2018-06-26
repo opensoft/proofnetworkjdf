@@ -23,7 +23,8 @@ signals:
     void notificationChanged(Proof::Jdf::NotificationSP arg);
 
 protected:
-    explicit Response(ResponsePrivate &dd, QObject *parent = nullptr);
+    explicit Response(ResponsePrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

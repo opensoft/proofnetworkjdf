@@ -56,16 +56,14 @@ void AbstractPhysicalResource::toJdf(QXmlStreamWriter &jdfWriter)
     AbstractResource::toJdf(jdfWriter);
 }
 
-AbstractPhysicalResource::AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd, QObject *parent)
-    : AbstractResource(dd, parent)
+AbstractPhysicalResource::AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd) : AbstractResource(dd)
 {}
 
-void AbstractPhysicalResourcePrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void AbstractPhysicalResource::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(AbstractPhysicalResource);
     AbstractPhysicalResourceSP castedOther = qSharedPointerCast<AbstractPhysicalResource>(other);
-    q->setAmount(castedOther->amount());
-    q->setResourceWeight(castedOther->resourceWeight());
+    setAmount(castedOther->amount());
+    setResourceWeight(castedOther->resourceWeight());
 
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }

@@ -59,7 +59,7 @@ QQmlListProperty<CuttingParamsQmlWrapper> CuttingParamsQmlWrapper::parts()
 void CuttingParamsQmlWrapperPrivate::updateParts()
 {
     Q_Q(CuttingParamsQmlWrapper);
-    CuttingParamsSP cuttingParams = entity<CuttingParams>();
+    CuttingParamsSP cuttingParams = q->entity<CuttingParams>();
     for (CuttingParamsQmlWrapper *wrapper : qAsConst(parts))
         wrapper->deleteLater();
 
@@ -88,7 +88,7 @@ int CuttingParamsQmlWrapperPrivate::partsCount(QQmlListProperty<CuttingParamsQml
 void CuttingParamsQmlWrapperPrivate::updateCutBlocks()
 {
     Q_Q(CuttingParamsQmlWrapper);
-    CuttingParamsSP cuttingParam = entity<CuttingParams>();
+    CuttingParamsSP cuttingParam = q->entity<CuttingParams>();
     for (CutBlockQmlWrapper *wrapper : qAsConst(cutBlocks))
         wrapper->deleteLater();
 
@@ -116,12 +116,12 @@ int CuttingParamsQmlWrapperPrivate::cutBlocksCount(QQmlListProperty<CutBlockQmlW
 void CuttingParamsQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
     Q_D(CuttingParamsQmlWrapper);
-    CuttingParamsSP cuttingParams = d->entity<CuttingParams>();
+    CuttingParamsSP cuttingParams = entity<CuttingParams>();
     Q_ASSERT(cuttingParams);
 
-    connect(cuttingParams.data(), &CuttingParams::cutBlocksChanged, d->lambdaConnectContext,
+    connect(cuttingParams.data(), &CuttingParams::cutBlocksChanged, entityConnectContext(),
             [d]() { d->updateCutBlocks(); });
-    connect(cuttingParams.data(), &CuttingParams::partsChanged, d->lambdaConnectContext, [d]() { d->updateParts(); });
+    connect(cuttingParams.data(), &CuttingParams::partsChanged, entityConnectContext(), [d]() { d->updateParts(); });
 
     d->updateCutBlocks();
     d->updateParts();

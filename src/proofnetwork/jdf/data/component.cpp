@@ -17,8 +17,6 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
         registerChildren(bundle, cutBlocks);
     }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     bool partsAreValid(QVector<ResourcePartType> partsToCheck = QVector<ResourcePartType>()) const;
 
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
@@ -207,8 +205,7 @@ void Component::addPart(const ComponentSP &arg)
 
 ComponentQmlWrapper *Component::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const Component);
-    ComponentSP castedSelf = qSharedPointerCast<Component>(d->weakSelf);
+    ComponentSP castedSelf = castedSelfPtr<Component>();
     Q_ASSERT(castedSelf);
     return new ComponentQmlWrapper(castedSelf, parent);
 }
@@ -375,21 +372,20 @@ Component::Component(const QString &id) : AbstractPhysicalResource(*new Componen
         setId(id);
 }
 
-void ComponentPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void Component::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(Component);
     ComponentSP castedOther = qSharedPointerCast<Component>(other);
-    q->setComponentType(castedOther->componentType());
-    q->setProductType(castedOther->productType());
-    q->setProductTypeDetails(castedOther->productTypeDetails());
-    q->setWidth(castedOther->width());
-    q->setHeight(castedOther->height());
-    q->setLength(castedOther->length());
-    q->setBundle(castedOther->bundle());
-    q->setPartIdKeys(castedOther->partIdKeys());
-    q->updateCutBlocks(castedOther->cutBlocks());
+    setComponentType(castedOther->componentType());
+    setProductType(castedOther->productType());
+    setProductTypeDetails(castedOther->productTypeDetails());
+    setWidth(castedOther->width());
+    setHeight(castedOther->height());
+    setLength(castedOther->length());
+    setBundle(castedOther->bundle());
+    setPartIdKeys(castedOther->partIdKeys());
+    updateCutBlocks(castedOther->cutBlocks());
 
-    AbstractPhysicalResourcePrivate::updateFrom(other);
+    AbstractPhysicalResource::updateSelf(other);
 }
 
 bool ComponentPrivate::partsAreValid(QVector<ResourcePartType> partsToCheck) const

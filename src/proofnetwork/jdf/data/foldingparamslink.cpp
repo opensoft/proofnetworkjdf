@@ -12,8 +12,7 @@ class FoldingParamsLinkPrivate : public AbstractResourceLinkPrivate
 
 FoldingParamsLinkQmlWrapper *FoldingParamsLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const FoldingParamsLink);
-    FoldingParamsLinkSP castedSelf = qSharedPointerCast<FoldingParamsLink>(d->weakSelf);
+    FoldingParamsLinkSP castedSelf = castedSelfPtr<FoldingParamsLink>();
     Q_ASSERT(castedSelf);
     return new FoldingParamsLinkQmlWrapper(castedSelf, parent);
 }
@@ -39,7 +38,7 @@ void FoldingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-FoldingParamsLink::FoldingParamsLink(QObject *parent) : AbstractResourceLink(*new FoldingParamsLinkPrivate, parent)
+FoldingParamsLink::FoldingParamsLink() : AbstractResourceLink(*new FoldingParamsLinkPrivate)
 {}
 
 } // namespace Jdf

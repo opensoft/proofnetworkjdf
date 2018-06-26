@@ -10,8 +10,6 @@ class ModifiedAuditPrivate : AbstractAuditPrivate
     Q_DECLARE_PUBLIC(ModifiedAudit)
 
     ModifiedAuditPrivate() : AbstractAuditPrivate() {}
-
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf
@@ -22,8 +20,7 @@ using namespace Proof::Jdf;
 
 ModifiedAuditQmlWrapper *ModifiedAudit::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const ModifiedAudit);
-    ModifiedAuditSP castedSelf = qSharedPointerCast<ModifiedAudit>(d->weakSelf);
+    ModifiedAuditSP castedSelf = castedSelfPtr<ModifiedAudit>();
     Q_ASSERT(castedSelf);
     return new ModifiedAuditQmlWrapper(castedSelf, parent);
 }
@@ -65,7 +62,7 @@ void ModifiedAudit::toJdf(QXmlStreamWriter &jdfWriter)
 ModifiedAudit::ModifiedAudit() : AbstractAudit(*new ModifiedAuditPrivate)
 {}
 
-void ModifiedAuditPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void ModifiedAudit::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    AbstractAuditPrivate::updateFrom(other);
+    AbstractAudit::updateSelf(other);
 }

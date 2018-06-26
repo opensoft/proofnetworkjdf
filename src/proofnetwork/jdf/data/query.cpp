@@ -5,7 +5,7 @@
 namespace Proof {
 namespace Jdf {
 
-Query::Query(QueryPrivate &dd, QObject *parent) : Message(dd, parent)
+Query::Query(QueryPrivate &dd) : Message(dd)
 {}
 
 void QueryPrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)

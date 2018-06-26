@@ -12,8 +12,6 @@ class LayoutPrivate : public AbstractResourcePrivate
 
     LayoutPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) { registerChildren(media); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QVector<MediaSP> media;
 };
 
@@ -55,8 +53,7 @@ void Layout::addMedia(const MediaSP &arg)
 
 LayoutQmlWrapper *Layout::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const Layout);
-    LayoutSP castedSelf = qSharedPointerCast<Layout>(d->weakSelf);
+    LayoutSP castedSelf = castedSelfPtr<Layout>();
     Q_ASSERT(castedSelf);
     return new LayoutQmlWrapper(castedSelf, parent);
 }
@@ -115,11 +112,10 @@ void Layout::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-void LayoutPrivate::updateFrom(const NetworkDataEntitySP &other)
+void Layout::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(Layout);
     LayoutSP castedOther = qSharedPointerCast<Layout>(other);
-    q->setMedia(castedOther->media());
+    setMedia(castedOther->media());
 
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }

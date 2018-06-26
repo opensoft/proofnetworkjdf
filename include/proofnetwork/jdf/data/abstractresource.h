@@ -49,8 +49,9 @@ signals:
 
 protected:
     explicit AbstractResource() = delete;
-    AbstractResource(AbstractResourcePrivate &dd, QObject *parent = nullptr);
+    AbstractResource(AbstractResourcePrivate &dd);
     void setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const;
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

@@ -18,8 +18,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink, double, amount)
 
 void AbstractPhysicalResourceLinkQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
 {
-    Q_D(AbstractPhysicalResourceLinkQmlWrapper);
-    AbstractPhysicalResourceLinkSP link = d->entity<AbstractPhysicalResourceLink>();
+    AbstractPhysicalResourceLinkSP link = entity<AbstractPhysicalResourceLink>();
     Q_ASSERT(link);
 
     connect(link.data(), &AbstractPhysicalResourceLink::orientationChanged, this,

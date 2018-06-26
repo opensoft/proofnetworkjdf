@@ -16,7 +16,6 @@ class ResponsePrivate : public MessagePrivate
 protected:
     ResponsePrivate() { registerChildren(notification); }
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
     void specificMessageFromJmf(QXmlStreamReader &xmlReader) override;
     QString tagName() const override;
     void specificMessageToJmf(QXmlStreamWriter &xmlWriter) const override;

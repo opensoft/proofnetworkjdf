@@ -26,8 +26,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(BundleItem, int, amount)
 
 void BundleItemQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(BundleItemQmlWrapper);
-    BundleItemSP bundleItem = d->entity<BundleItem>();
+    BundleItemSP bundleItem = entity<BundleItem>();
     Q_ASSERT(bundleItem);
 
     connect(bundleItem.data(), &BundleItem::amountChanged, this, &BundleItemQmlWrapper::amountChanged);

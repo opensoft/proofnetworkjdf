@@ -91,17 +91,17 @@ void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
 {
     Q_D(ResourcePoolQmlWrapper);
     Q_UNUSED(old)
-    ResourcePoolSP resourcePool = d->entity<ResourcePool>();
+    ResourcePoolSP resourcePool = entity<ResourcePool>();
     Q_ASSERT(resourcePool);
 
-    connect(resourcePool.data(), &ResourcePool::componentsChanged, d->lambdaConnectContext,
+    connect(resourcePool.data(), &ResourcePool::componentsChanged, entityConnectContext(),
             [d]() { d->updateComponents(); });
-    connect(resourcePool.data(), &ResourcePool::cuttingParamsChanged, d->lambdaConnectContext,
+    connect(resourcePool.data(), &ResourcePool::cuttingParamsChanged, entityConnectContext(),
             [d]() { d->updateCutingParams(); });
-    connect(resourcePool.data(), &ResourcePool::laminatingIntentChanged, d->lambdaConnectContext,
+    connect(resourcePool.data(), &ResourcePool::laminatingIntentChanged, entityConnectContext(),
             [d]() { d->updateLaminatingIntent(); });
-    connect(resourcePool.data(), &ResourcePool::mediaChanged, d->lambdaConnectContext, [d]() { d->updateMedia(); });
-    connect(resourcePool.data(), &ResourcePool::foldingParamsChanged, d->lambdaConnectContext,
+    connect(resourcePool.data(), &ResourcePool::mediaChanged, entityConnectContext(), [d]() { d->updateMedia(); });
+    connect(resourcePool.data(), &ResourcePool::foldingParamsChanged, entityConnectContext(),
             [d]() { d->updateFoldingParams(); });
 
     d->updateComponents();
@@ -113,7 +113,7 @@ void ResourcePoolQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity>
 void ResourcePoolQmlWrapperPrivate::updateComponents()
 {
     Q_Q(ResourcePoolQmlWrapper);
-    ResourcePoolSP resourcePool = entity<ResourcePool>();
+    ResourcePoolSP resourcePool = q->entity<ResourcePool>();
     for (ComponentQmlWrapper *wrapper : qAsConst(components))
         wrapper->deleteLater();
 
@@ -131,7 +131,7 @@ void ResourcePoolQmlWrapperPrivate::updateComponents()
 void ResourcePoolQmlWrapperPrivate::updateCutingParams()
 {
     Q_Q(ResourcePoolQmlWrapper);
-    ResourcePoolSP cutProcess = entity<ResourcePool>();
+    ResourcePoolSP cutProcess = q->entity<ResourcePool>();
     if (cuttingParams == nullptr)
         cuttingParams = cutProcess->cuttingParams()->toQmlWrapper(q);
     else
@@ -143,7 +143,7 @@ void ResourcePoolQmlWrapperPrivate::updateCutingParams()
 void ResourcePoolQmlWrapperPrivate::updateMedia()
 {
     Q_Q(ResourcePoolQmlWrapper);
-    ResourcePoolSP resourcePool = entity<ResourcePool>();
+    ResourcePoolSP resourcePool = q->entity<ResourcePool>();
     for (MediaQmlWrapper *wrapper : qAsConst(media))
         wrapper->deleteLater();
 
@@ -160,7 +160,7 @@ void ResourcePoolQmlWrapperPrivate::updateMedia()
 void ResourcePoolQmlWrapperPrivate::updateFoldingParams()
 {
     Q_Q(ResourcePoolQmlWrapper);
-    ResourcePoolSP resourcePool = entity<ResourcePool>();
+    ResourcePoolSP resourcePool = q->entity<ResourcePool>();
     if (foldingParams == nullptr)
         foldingParams = resourcePool->foldingParams()->toQmlWrapper(q);
     else
@@ -171,7 +171,7 @@ void ResourcePoolQmlWrapperPrivate::updateFoldingParams()
 void ResourcePoolQmlWrapperPrivate::updateLaminatingIntent()
 {
     Q_Q(ResourcePoolQmlWrapper);
-    ResourcePoolSP resourcePool = entity<ResourcePool>();
+    ResourcePoolSP resourcePool = q->entity<ResourcePool>();
     if (laminatingIntent == nullptr)
         laminatingIntent = resourcePool->laminatingIntent()->toQmlWrapper(q);
     else

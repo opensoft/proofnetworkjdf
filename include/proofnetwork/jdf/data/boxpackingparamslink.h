@@ -24,7 +24,7 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
-    explicit BoxPackingParamsLink(QObject *parent = nullptr);
+    BoxPackingParamsLink();
 };
 
 } // namespace Jdf

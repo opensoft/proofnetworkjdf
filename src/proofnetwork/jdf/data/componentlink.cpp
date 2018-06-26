@@ -10,7 +10,7 @@ class ComponentLinkPrivate : public AbstractPhysicalResourceLinkPrivate
     Q_DECLARE_PUBLIC(ComponentLink)
 };
 
-ComponentLink::ComponentLink(QObject *parent) : AbstractPhysicalResourceLink(*new ComponentLinkPrivate, parent)
+ComponentLink::ComponentLink() : AbstractPhysicalResourceLink(*new ComponentLinkPrivate)
 {}
 
 ComponentLinkSP ComponentLink::create()
@@ -22,8 +22,7 @@ ComponentLinkSP ComponentLink::create()
 
 ComponentLinkQmlWrapper *ComponentLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const ComponentLink);
-    ComponentLinkSP castedSelf = qSharedPointerCast<ComponentLink>(d->weakSelf);
+    ComponentLinkSP castedSelf = castedSelfPtr<ComponentLink>();
     Q_ASSERT(castedSelf);
     return new ComponentLinkQmlWrapper(castedSelf, parent);
 }

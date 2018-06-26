@@ -23,8 +23,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractAudit, QDateTime, timeStamp)
 
 void AbstractAuditQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(AbstractAuditQmlWrapper);
-    AbstractAuditSP abstractAudit = d->entity<AbstractAudit>();
+    AbstractAuditSP abstractAudit = entity<AbstractAudit>();
     Q_ASSERT(abstractAudit);
 
     connect(abstractAudit.data(), &AbstractAudit::idChanged, this, &AbstractAuditQmlWrapper::idChanged);

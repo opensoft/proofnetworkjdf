@@ -48,7 +48,7 @@ void BundleQmlWrapperPrivate::updateBundleItems()
 
     bundleItems.clear();
 
-    BundleSP bundle = entity<Bundle>();
+    BundleSP bundle = q->entity<Bundle>();
     const auto allNdeItems = bundle->bundleItems();
     for (const auto &bundleItem : allNdeItems)
         bundleItems << bundleItem->toQmlWrapper(q);
@@ -62,12 +62,12 @@ void BundleQmlWrapperPrivate::updateBundleItems()
 void BundleQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
     Q_D(BundleQmlWrapper);
-    BundleSP bundle = d->entity<Bundle>();
+    BundleSP bundle = entity<Bundle>();
     Q_ASSERT(bundle);
 
     connect(bundle.data(), &Bundle::bundleTypeChanged, this, &BundleQmlWrapper::bundleTypeChanged);
     connect(bundle.data(), &Bundle::totalAmountChanged, this, &BundleQmlWrapper::totalAmountChanged);
-    connect(bundle.data(), &Bundle::bundleItemsChanged, d->lambdaConnectContext, [d]() { d->updateBundleItems(); });
+    connect(bundle.data(), &Bundle::bundleItemsChanged, entityConnectContext(), [d]() { d->updateBundleItems(); });
 
     BundleSP oldBundle = qSharedPointerCast<Bundle>(old);
     if (oldBundle) {

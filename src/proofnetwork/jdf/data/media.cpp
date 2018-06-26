@@ -13,8 +13,6 @@ class MediaPrivate : AbstractPhysicalResourcePrivate
 
     MediaPrivate() : AbstractPhysicalResourcePrivate(ResourceClass::ConsumableClass) {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QVector<MediaSP> layers;
     double thickness = 0.0;
     double height = 0.0;
@@ -189,8 +187,7 @@ void Media::setWidth(double arg)
 
 MediaQmlWrapper *Media::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const Media);
-    MediaSP castedSelf = qSharedPointerCast<Media>(d->weakSelf);
+    MediaSP castedSelf = castedSelfPtr<Media>();
     Q_ASSERT(castedSelf);
     return new MediaQmlWrapper(castedSelf, parent);
 }
@@ -323,20 +320,19 @@ MediaLinkSP Media::toLink(LinkUsage usage) const
 Media::Media() : AbstractPhysicalResource(*new MediaPrivate)
 {}
 
-void MediaPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void Media::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(Media);
     MediaSP castedOther = qSharedPointerCast<Media>(other);
-    q->setLayers(castedOther->layers());
-    q->setThickness(castedOther->thickness());
-    q->setFrontCoating(castedOther->frontCoating());
-    q->setFrontCoatingDetail(castedOther->frontCoatingDetail());
-    q->setBackCoating(castedOther->backCoating());
-    q->setBackCoatingDetail(castedOther->backCoatingDetail());
-    q->setMediaUnit(castedOther->mediaUnit());
-    q->setMediaType(castedOther->mediaType());
-    q->setHeight(castedOther->height());
-    q->setWidth(castedOther->width());
+    setLayers(castedOther->layers());
+    setThickness(castedOther->thickness());
+    setFrontCoating(castedOther->frontCoating());
+    setFrontCoatingDetail(castedOther->frontCoatingDetail());
+    setBackCoating(castedOther->backCoating());
+    setBackCoatingDetail(castedOther->backCoatingDetail());
+    setMediaUnit(castedOther->mediaUnit());
+    setMediaType(castedOther->mediaType());
+    setHeight(castedOther->height());
+    setWidth(castedOther->width());
 
-    AbstractPhysicalResourcePrivate::updateFrom(other);
+    AbstractPhysicalResource::updateSelf(other);
 }

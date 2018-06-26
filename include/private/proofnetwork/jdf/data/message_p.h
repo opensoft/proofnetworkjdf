@@ -21,7 +21,6 @@ class MessagePrivate : public NetworkDataEntityPrivate
     friend MessageSP instantiateJmfMessage(const QString &tagName, const QString &typeName);
 
 protected:
-    void updateFrom(const NetworkDataEntitySP &other) override;
     virtual void specificMessageFromJmf(QXmlStreamReader &xmlReader) = 0;
     virtual QString tagName() const = 0;
     virtual QString typeName() const = 0;

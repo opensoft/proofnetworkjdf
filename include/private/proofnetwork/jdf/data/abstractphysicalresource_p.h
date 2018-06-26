@@ -15,8 +15,6 @@ public:
     AbstractPhysicalResourcePrivate() : AbstractResourcePrivate() {}
     explicit AbstractPhysicalResourcePrivate(ResourceClass resourceClass) : AbstractResourcePrivate(resourceClass) {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     double amount = 0.0;
     double resourceWeight = 0.0;
 };

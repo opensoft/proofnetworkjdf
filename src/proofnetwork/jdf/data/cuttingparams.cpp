@@ -14,8 +14,6 @@ class CuttingParamsPrivate : public AbstractResourcePrivate
 
     CuttingParamsPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) { registerChildren(cutBlocks); }
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     bool partsAreValid(QVector<ResourcePartType> partsToCheck = QVector<ResourcePartType>()) const;
 
     QVector<CutBlockSP> cutBlocks;
@@ -49,8 +47,7 @@ QVector<CuttingParamsSP> CuttingParams::parts() const
 
 CuttingParamsQmlWrapper *CuttingParams::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const CuttingParams);
-    CuttingParamsSP castedSelf = qSharedPointerCast<CuttingParams>(d->weakSelf);
+    CuttingParamsSP castedSelf = castedSelfPtr<CuttingParams>();
     Q_ASSERT(castedSelf);
     return new CuttingParamsQmlWrapper(castedSelf, parent);
 }
@@ -168,13 +165,12 @@ void CuttingParams::addPart(const CuttingParamsSP &arg)
     emit partsChanged();
 }
 
-void CuttingParamsPrivate::updateFrom(const Proof::NetworkDataEntitySP &other)
+void CuttingParams::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    Q_Q(CuttingParams);
     CuttingParamsSP castedOther = qSharedPointerCast<CuttingParams>(other);
-    q->updateCutBlocks(castedOther->cutBlocks());
+    updateCutBlocks(castedOther->cutBlocks());
 
-    AbstractResourcePrivate::updateFrom(other);
+    AbstractResource::updateSelf(other);
 }
 
 bool CuttingParamsPrivate::partsAreValid(QVector<ResourcePartType> partsToCheck) const

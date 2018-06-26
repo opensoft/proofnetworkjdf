@@ -15,7 +15,7 @@ class PROOF_NETWORK_JDF_EXPORT Query : public Message // clazy:exclude=ctor-miss
     Q_DECLARE_PRIVATE(Query)
 
 protected:
-    explicit Query(QueryPrivate &dd, QObject *parent = nullptr);
+    explicit Query(QueryPrivate &dd);
 };
 
 } // namespace Jdf

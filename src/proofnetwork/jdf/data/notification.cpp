@@ -9,8 +9,6 @@ class NotificationPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Notification)
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     NotificationClass notificationClass;
     QString comment;
 };
@@ -90,12 +88,11 @@ NotificationSP Notification::fromJdf(QXmlStreamReader &xmlReader)
 Notification::Notification() : NetworkDataEntity(*new NotificationPrivate)
 {}
 
-void NotificationPrivate::updateFrom(const NetworkDataEntitySP &other)
+void Notification::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(Notification);
     NotificationSP castedOther = qSharedPointerCast<Notification>(other);
-    q->setNotificationClass(castedOther->notificationClass());
-    NetworkDataEntityPrivate::updateFrom(other);
+    setNotificationClass(castedOther->notificationClass());
+    NetworkDataEntity::updateSelf(other);
 }
 
 } // namespace Jdf

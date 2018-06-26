@@ -23,8 +23,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractResource, QVector<ResourcePartType>, p
 
 void AbstractResourceQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(AbstractResourceQmlWrapper);
-    AbstractResourceSP abstractResource = d->entity<AbstractResource>();
+    AbstractResourceSP abstractResource = entity<AbstractResource>();
     Q_ASSERT(abstractResource);
 
     connect(abstractResource.data(), &AbstractResource::idChanged, this, &AbstractResourceQmlWrapper::idChanged);

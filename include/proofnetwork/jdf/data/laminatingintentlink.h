@@ -24,7 +24,7 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
-    explicit LaminatingIntentLink(QObject *parent = nullptr);
+    LaminatingIntentLink();
 };
 
 } // namespace Jdf

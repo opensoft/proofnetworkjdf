@@ -35,8 +35,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, Proof::Jdf::BlockType, blockType)
 
 void CutBlockQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
 {
-    Q_D(CutBlockQmlWrapper);
-    CutBlockSP cutBlock = d->entity<CutBlock>();
+    CutBlockSP cutBlock = entity<CutBlock>();
     Q_ASSERT(cutBlock);
 
     connect(cutBlock.data(), &CutBlock::blockNameChanged, this, &CutBlockQmlWrapper::blockNameChanged);

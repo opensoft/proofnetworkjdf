@@ -40,6 +40,7 @@ signals:
 
 protected:
     explicit JmfDocument();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

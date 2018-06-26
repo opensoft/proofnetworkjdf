@@ -62,15 +62,14 @@ void Message::toJmf(QXmlStreamWriter &xmlWriter)
     xmlWriter.writeEndElement();
 }
 
-Message::Message(MessagePrivate &dd, QObject *parent) : NetworkDataEntity(dd, parent)
+Message::Message(MessagePrivate &dd) : NetworkDataEntity(dd)
 {}
 
-void MessagePrivate::updateFrom(const NetworkDataEntitySP &other)
+void Message::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(Message);
     MessageSP castedOther = qSharedPointerCast<Message>(other);
-    q->setId(castedOther->id());
-    NetworkDataEntityPrivate::updateFrom(other);
+    setId(castedOther->id());
+    NetworkDataEntity::updateSelf(other);
 }
 
 QHash<MessagePrivate::CreatorKey, MessagePrivate::CreatorType> &MessagePrivate::messageCreators()

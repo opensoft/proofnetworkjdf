@@ -36,6 +36,7 @@ signals:
 
 protected:
     explicit AuditPool();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

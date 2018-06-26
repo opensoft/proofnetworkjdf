@@ -16,8 +16,6 @@ class JmfDocumentPrivate : public NetworkDataEntityPrivate
 
     JmfDocumentPrivate() : NetworkDataEntityPrivate() { registerChildren(messages); }
 
-    void updateFrom(const NetworkDataEntitySP &other) override;
-
     QString senderId = QStringLiteral("Proof generator");
     QString version = QStringLiteral("1.4");
     QDateTime timeStamp;
@@ -151,14 +149,13 @@ QString JmfDocument::toJmf()
 JmfDocument::JmfDocument() : NetworkDataEntity(*new JmfDocumentPrivate)
 {}
 
-void JmfDocumentPrivate::updateFrom(const NetworkDataEntitySP &other)
+void JmfDocument::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(JmfDocument);
     JmfDocumentSP castedOther = qSharedPointerCast<JmfDocument>(other);
-    q->setSenderId(castedOther->senderId());
-    q->setTimeStamp(castedOther->timeStamp());
-    q->setMessages(castedOther->messages());
-    NetworkDataEntityPrivate::updateFrom(other);
+    setSenderId(castedOther->senderId());
+    setTimeStamp(castedOther->timeStamp());
+    setMessages(castedOther->messages());
+    NetworkDataEntity::updateSelf(other);
 }
 
 } // namespace Jdf

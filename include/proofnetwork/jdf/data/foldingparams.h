@@ -34,6 +34,7 @@ signals:
 
 protected:
     explicit FoldingParams();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

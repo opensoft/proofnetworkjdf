@@ -12,8 +12,7 @@ class BoxPackingParamsLinkPrivate : public AbstractResourceLinkPrivate
 
 BoxPackingParamsLinkQmlWrapper *BoxPackingParamsLink::toQmlWrapper(QObject *parent) const
 {
-    Q_D(const BoxPackingParamsLink);
-    BoxPackingParamsLinkSP castedSelf = qSharedPointerCast<BoxPackingParamsLink>(d->weakSelf);
+    BoxPackingParamsLinkSP castedSelf = castedSelfPtr<BoxPackingParamsLink>();
     Q_ASSERT(castedSelf);
     return new BoxPackingParamsLinkQmlWrapper(castedSelf, parent);
 }
@@ -39,8 +38,7 @@ void BoxPackingParamsLink::toJdf(QXmlStreamWriter &jdfWriter)
     jdfWriter.writeEndElement();
 }
 
-BoxPackingParamsLink::BoxPackingParamsLink(QObject *parent)
-    : AbstractResourceLink(*new BoxPackingParamsLinkPrivate, parent)
+BoxPackingParamsLink::BoxPackingParamsLink() : AbstractResourceLink(*new BoxPackingParamsLinkPrivate)
 {}
 
 } // namespace Jdf

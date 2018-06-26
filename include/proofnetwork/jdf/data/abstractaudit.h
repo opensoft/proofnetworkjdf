@@ -39,7 +39,8 @@ signals:
 
 protected:
     explicit AbstractAudit() = delete;
-    AbstractAudit(AbstractAuditPrivate &dd, QObject *parent = nullptr);
+    AbstractAudit(AbstractAuditPrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

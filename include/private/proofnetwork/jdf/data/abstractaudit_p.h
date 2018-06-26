@@ -13,8 +13,6 @@ class AbstractAuditPrivate : public NetworkDataEntityPrivate
 public:
     AbstractAuditPrivate() : NetworkDataEntityPrivate() {}
 
-    void updateFrom(const Proof::NetworkDataEntitySP &other) override;
-
     QString id;
     QString agentName;
     QString agentVersion;

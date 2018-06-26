@@ -66,6 +66,7 @@ signals:
 
 protected:
     explicit Media();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 PROOF_NETWORK_JDF_EXPORT ObjectsCache<JdfMediaDataKey, Media> &mediaCache();

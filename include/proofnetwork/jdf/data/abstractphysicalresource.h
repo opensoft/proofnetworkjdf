@@ -23,7 +23,7 @@ public:
     void setResourceWeight(double arg);
 
     static bool fromJdf(const QXmlStreamReader &xmlReader, AbstractPhysicalResourceSP &abstractPhysicalResource);
-    virtual void toJdf(QXmlStreamWriter &jdfWriter);
+    void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 signals:
     void amountChanged(double arg);
@@ -31,7 +31,8 @@ signals:
 
 protected:
     explicit AbstractPhysicalResource() = delete;
-    AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd, QObject *parent = nullptr);
+    AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

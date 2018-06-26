@@ -28,6 +28,7 @@ public:
 
 protected:
     explicit BoxPackingParams();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf

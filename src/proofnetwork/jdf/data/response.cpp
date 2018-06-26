@@ -20,15 +20,14 @@ void Response::setNotification(const NotificationSP &arg)
     }
 }
 
-Response::Response(ResponsePrivate &dd, QObject *parent) : Message(dd, parent)
+Response::Response(ResponsePrivate &dd) : Message(dd)
 {}
 
-void ResponsePrivate::updateFrom(const NetworkDataEntitySP &other)
+void Response::updateSelf(const NetworkDataEntitySP &other)
 {
-    Q_Q(Response);
     ResponseSP castedOther = qSharedPointerCast<Response>(other);
-    q->setNotification(castedOther->notification());
-    MessagePrivate::updateFrom(other);
+    setNotification(castedOther->notification());
+    Message::updateSelf(other);
 }
 
 void ResponsePrivate::specificMessageFromJmf(QXmlStreamReader &xmlReader)

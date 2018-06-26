@@ -76,6 +76,7 @@ signals:
 
 protected:
     explicit DeliveryIntent();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace Jdf
