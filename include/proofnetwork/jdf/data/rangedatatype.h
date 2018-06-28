@@ -81,7 +81,7 @@ private:
     QString dataToString(const QString &start, const QString &stop) const
     {
         if (start.isEmpty() || stop.isEmpty())
-            return QLatin1String();
+            return QString();
         if (start == stop)
             return QStringLiteral("%1").arg(start);
         return QStringLiteral("%1 ~ %2").arg(start, stop);

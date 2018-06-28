@@ -23,7 +23,7 @@
 namespace Proof {
 namespace Jdf {
 
-inline QVector<JdfNodeSP> findNodes(const JdfDocumentSP &job, const QString &type = QString(""))
+inline QVector<JdfNodeSP> findNodes(const JdfDocumentSP &job, const QString &type = QString())
 {
     if (type.isEmpty()) {
         return job->findAllNodes([](const auto &) { return true; });

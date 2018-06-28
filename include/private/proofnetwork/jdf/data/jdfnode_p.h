@@ -25,7 +25,7 @@ public:
     ResourcePoolSP resourcePool = ResourcePool::create();
     ResourceLinkPoolSP resourceLinkPool = ResourceLinkPool::create();
     QVector<JdfNodeSP> jdfNodes;
-    QString type = QLatin1String("");
+    QString type;
     QStringList types;
 };
 

@@ -17,7 +17,7 @@ public:
 
     static JdfDocumentSP create();
 
-    static JdfDocumentSP fromJdf(QXmlStreamReader &xmlReader, const QString &forceJobId = QStringLiteral(""),
+    static JdfDocumentSP fromJdf(QXmlStreamReader &xmlReader, const QString &forceJobId = QString(),
                                  const QStringList &alternativeIdAttributes = QStringList(), bool sanitize = false);
     QString toJdf();
 
