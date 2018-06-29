@@ -18,8 +18,9 @@ class DropIntentQmlWrapperPrivate;
 class PROOF_NETWORK_JDF_EXPORT DropIntentQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper> dropItemIntents READ dropItemIntents NOTIFY
-                   dropItemIntentsChanged)
+    // clang-format off
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::DropItemIntentQmlWrapper> dropItemIntents READ dropItemIntents NOTIFY dropItemIntentsChanged)
+    // clang-format on
     Q_DECLARE_PRIVATE(DropIntentQmlWrapper)
 public:
     explicit DropIntentQmlWrapper(const DropIntentSP &dropIntent, QObject *parent = nullptr);

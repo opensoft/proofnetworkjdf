@@ -88,7 +88,7 @@ void ResourceLinkPool::setComponentLinks(const QVector<ComponentLinkSP> &arg)
         newIds.insert(componentLink->rRef());
 
     std::multiset<QString> oldIds;
-    for (const auto &componentLink : d->componentLinks)
+    for (const auto &componentLink : qAsConst(d->componentLinks))
         oldIds.insert(componentLink->rRef());
 
     if (newIds != oldIds) {

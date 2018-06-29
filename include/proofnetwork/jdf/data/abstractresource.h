@@ -45,7 +45,7 @@ signals:
     void statusChanged(Proof::Jdf::ResourceStatus arg);
     void resourceClassChanged(Proof::Jdf::ResourceClass arg);
     void partIdKeysChanged(const QVector<Proof::Jdf::ResourcePartType> &arg);
-    void partAttributeChanged(ResourcePartType attribute, const QString &value);
+    void partAttributeChanged(Proof::Jdf::ResourcePartType attribute, const QString &value);
 
 protected:
     explicit AbstractResource() = delete;

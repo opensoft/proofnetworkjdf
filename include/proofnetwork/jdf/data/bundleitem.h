@@ -33,7 +33,7 @@ public:
 
 signals:
     void amountChanged(int arg);
-    void componentChanged(const ComponentSP &component);
+    void componentChanged(const Proof::Jdf::ComponentSP &component);
 
 protected:
     explicit BundleItem();

@@ -12,6 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class AbstractResourceLinkPrivate;
+
 class PROOF_NETWORK_JDF_EXPORT AbstractResourceLink
     : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
 {
@@ -33,8 +34,8 @@ public:
     QString jdfNodeRefName() const;
 
 signals:
-    void usageChanged(LinkUsage arg);
-    void processUsageChanged(ProcessUsage arg);
+    void usageChanged(Proof::Jdf::LinkUsage arg);
+    void processUsageChanged(Proof::Jdf::ProcessUsage arg);
     void rRefChanged(const QString &arg);
 
 protected:

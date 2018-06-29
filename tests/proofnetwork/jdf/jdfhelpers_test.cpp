@@ -1,3 +1,5 @@
+// clazy:skip
+
 #include "proofnetwork/jdf/jdfhelper.h"
 
 #include <QFile>

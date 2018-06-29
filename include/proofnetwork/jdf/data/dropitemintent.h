@@ -31,7 +31,7 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
-    void componentChanged(const ComponentSP &component);
+    void componentChanged(const Proof::Jdf::ComponentSP &component);
 
 protected:
     explicit DropItemIntent();

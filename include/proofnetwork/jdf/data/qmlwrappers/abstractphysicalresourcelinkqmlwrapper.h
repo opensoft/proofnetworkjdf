@@ -24,7 +24,7 @@ public:
     double amount() const;
 
 signals:
-    void orientationChanged(ResourceOrientation orientation);
+    void orientationChanged(Proof::Jdf::ResourceOrientation orientation);
     void amountChanged(double amount);
 
 protected:

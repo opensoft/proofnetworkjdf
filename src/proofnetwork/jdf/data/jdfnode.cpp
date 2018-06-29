@@ -129,7 +129,7 @@ void JdfNode::setJdfNodes(const QVector<JdfNodeSP> &arg)
         newIds.insert(node->id());
 
     std::multiset<QString> oldIds;
-    for (const auto &node : d->jdfNodes)
+    for (const auto &node : qAsConst(d->jdfNodes))
         oldIds.insert(node->id());
 
     if (newIds != oldIds) {
@@ -186,9 +186,10 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool(const Co
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
+    QVector<ComponentSP> componentsQueue;
     while (queue.count()) {
+        componentsQueue.resize(0);
         auto head = queue.takeFirst();
-        QVector<ComponentSP> componentsQueue;
         componentsQueue << head->resourcePool()->components();
         while (componentsQueue.count()) {
             auto component = componentsQueue.takeFirst();
@@ -288,9 +289,10 @@ QVector<ComponentSP> JdfNode::findAllComponents(const std::function<bool(const C
 
     QVector<ComponentSP> result;
     QVector<JdfNodeSP> queue = {castedSelf};
+    QVector<ComponentSP> componentsQueue;
     while (queue.count()) {
+        componentsQueue.resize(0);
         auto head = queue.takeFirst();
-        QVector<ComponentSP> componentsQueue;
         componentsQueue << head->resourcePool()->components();
         while (componentsQueue.count()) {
             auto component = componentsQueue.takeFirst();

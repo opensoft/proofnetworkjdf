@@ -20,15 +20,13 @@ class ResourceLinkPoolQmlWrapperPrivate;
 class ResourceLinkPoolQmlWrapper : public NetworkDataEntityQmlWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> componentLinks READ componentLinks NOTIFY
-                   componentLinksChanged)
-    Q_PROPERTY(Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink READ cuttingParamsLink NOTIFY
-                   cuttingParamsLinkChanged)
+    // clang-format off
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::ComponentLinkQmlWrapper> componentLinks READ componentLinks NOTIFY componentLinksChanged)
+    Q_PROPERTY(Proof::Jdf::CuttingParamsLinkQmlWrapper *cuttingParamsLink READ cuttingParamsLink NOTIFY cuttingParamsLinkChanged)
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::MediaLinkQmlWrapper> mediaLinks READ mediaLinks NOTIFY mediaLinksChanged)
-    Q_PROPERTY(Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink READ foldingParamsLink NOTIFY
-                   foldingParamsLinkChanged)
-    Q_PROPERTY(Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink READ laminatingIntentLink NOTIFY
-                   laminatingIntentLinkChanged)
+    Q_PROPERTY(Proof::Jdf::FoldingParamsLinkQmlWrapper *foldingParamsLink READ foldingParamsLink NOTIFY foldingParamsLinkChanged)
+    Q_PROPERTY(Proof::Jdf::LaminatingIntentLinkQmlWrapper *laminatingIntentLink READ laminatingIntentLink NOTIFY laminatingIntentLinkChanged)
+    // clang-format on
 
     Q_DECLARE_PRIVATE(ResourceLinkPoolQmlWrapper)
 

@@ -51,14 +51,14 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter);
 
 signals:
-    void earliestChanged(const TimeSpan &arg);
-    void earliestDurationChanged(const DurationSpan &arg);
-    void requiredChanged(const TimeSpan &arg);
-    void requiredDurationChanged(const DurationSpan &arg);
-    void returnMethodChanged(const NameSpan &arg);
-    void serviceLevelChanged(const StringSpan &arg);
-    void surplusHandlingChanged(const EnumerationSpan &arg);
-    void transferChanged(const EnumerationSpan &arg);
+    void earliestChanged(const Proof::Jdf::TimeSpan &arg);
+    void earliestDurationChanged(const Proof::Jdf::DurationSpan &arg);
+    void requiredChanged(const Proof::Jdf::TimeSpan &arg);
+    void requiredDurationChanged(const Proof::Jdf::DurationSpan &arg);
+    void returnMethodChanged(const Proof::Jdf::NameSpan &arg);
+    void serviceLevelChanged(const Proof::Jdf::StringSpan &arg);
+    void surplusHandlingChanged(const Proof::Jdf::EnumerationSpan &arg);
+    void transferChanged(const Proof::Jdf::EnumerationSpan &arg);
     void dropItemIntentsChanged();
 
 protected:

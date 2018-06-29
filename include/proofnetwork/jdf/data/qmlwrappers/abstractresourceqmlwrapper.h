@@ -34,7 +34,7 @@ signals:
     void idChanged(const QString &id);
     void resourceStatusChanged(Proof::Jdf::ResourceStatus resourceStatus);
     void resourceClassChanged(Proof::Jdf::ResourceClass resourceClass);
-    void partIdKeysChanged(const QVector<ResourcePartType> &partIdKeys);
+    void partIdKeysChanged(const QVector<Proof::Jdf::ResourcePartType> &partIdKeys);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;
