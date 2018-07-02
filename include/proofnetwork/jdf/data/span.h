@@ -123,10 +123,10 @@ private:
 
     void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, bool data)
     {
-        jdfWriter.writeAttribute(name, data ? "true" : "false");
+        jdfWriter.writeAttribute(name, data ? QStringLiteral("true") : QStringLiteral("false"));
     }
 
-    void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, const ShapeDataType &data)
+    void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, ShapeDataType data)
     {
         if (!qFuzzyIsNull(data.height()) && !qFuzzyIsNull(data.width()) && !qFuzzyIsNull(data.depth()))
             jdfWriter.writeAttribute(name, data.toString());
@@ -144,7 +144,7 @@ private:
             jdfWriter.writeAttribute(name, data.toUTC().toString(Qt::ISODate));
     }
 
-    void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, const QPoint &data)
+    void writeAttribute(QXmlStreamWriter &jdfWriter, const QString &name, QPoint data)
     {
         if (data.isNull())
             jdfWriter.writeAttribute(name, QStringLiteral("%1 %2").arg(data.x(), data.y()));
@@ -193,7 +193,7 @@ inline double NumberSpan::readAttribute(const QStringRef &attribute)
 template <>
 inline bool OptionSpan::readAttribute(const QStringRef &attribute)
 {
-    return attribute.toString() == "true";
+    return attribute.toString() == QLatin1String("true");
 }
 
 template <>

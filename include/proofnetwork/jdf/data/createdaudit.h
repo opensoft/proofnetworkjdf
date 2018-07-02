@@ -12,7 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class CreatedAuditPrivate;
-class PROOF_NETWORK_JDF_EXPORT CreatedAudit : public AbstractAudit // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT CreatedAudit : public AbstractAudit
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CreatedAudit)

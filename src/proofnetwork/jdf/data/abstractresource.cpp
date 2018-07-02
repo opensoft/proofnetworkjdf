@@ -121,9 +121,9 @@ void AbstractResource::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute(QStringLiteral("Status"), resourceStatusToString(d->resourceStatus));
     if (d->resourceClass != ResourceClass::NoClass)
         jdfWriter.writeAttribute(QStringLiteral("Class"), resourceClassToString(d->resourceClass));
-    QStringList partIdKeysStringified;
-    for (auto part : qAsConst(d->partIdKeys))
-        partIdKeysStringified += resourcePartTypeToString(part);
+    const auto partIdKeysStringified = algorithms::map(d->partIdKeys,
+                                                       [](auto part) { return resourcePartTypeToString(part); },
+                                                       QStringList());
     if (partIdKeysStringified.count())
         jdfWriter.writeAttribute(QStringLiteral("PartIDKeys"), partIdKeysStringified.join(QStringLiteral(" ")));
     for (auto it = d->partAttributes.cbegin(); it != d->partAttributes.cend(); ++it)

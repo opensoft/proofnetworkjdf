@@ -14,7 +14,7 @@ namespace Proof {
 namespace Jdf {
 
 class CuttingParamsPrivate;
-class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParams)

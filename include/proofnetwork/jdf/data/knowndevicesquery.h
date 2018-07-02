@@ -9,7 +9,7 @@ namespace Proof {
 namespace Jdf {
 
 class KnownDevicesQueryPrivate;
-class PROOF_NETWORK_JDF_EXPORT KnownDevicesQuery : public Query // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT KnownDevicesQuery : public Query
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(KnownDevicesQuery)

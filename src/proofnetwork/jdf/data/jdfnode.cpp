@@ -395,7 +395,8 @@ JdfNodeSP JdfNode::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId,
                     document->setType(attributes.value(QStringLiteral("Type")).toString());
                     QString loweredType = document->type().toLower();
                     if (loweredType == QLatin1String("processgroup") || loweredType == QLatin1String("combined")) {
-                        QStringList rawTypes = attributes.value(QStringLiteral("Types")).toString().split(" ");
+                        QStringList rawTypes =
+                            attributes.value(QStringLiteral("Types")).toString().split(QStringLiteral(" "));
                         QStringList types;
                         for (auto type : rawTypes) {
                             type = type.trimmed();
@@ -471,7 +472,7 @@ void JdfNode::toJdf(QXmlStreamWriter &jdfWriter, bool rootNode)
         if (!d->types.isEmpty()
             && (!d->type.compare(QLatin1String("processgroup"), Qt::CaseInsensitive)
                 || !d->type.compare(QLatin1String("combined"), Qt::CaseInsensitive))) {
-            jdfWriter.writeAttribute(QStringLiteral("Types"), d->types.join(" "));
+            jdfWriter.writeAttribute(QStringLiteral("Types"), d->types.join(QStringLiteral(" ")));
         }
 
         jdfWriter.writeAttribute(QStringLiteral("Status"), QStringLiteral("Waiting"));

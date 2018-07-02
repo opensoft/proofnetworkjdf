@@ -12,7 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class DeviceFilterPrivate;
-class PROOF_NETWORK_JDF_EXPORT DeviceFilter : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT DeviceFilter : public NetworkDataEntity
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeviceFilter)

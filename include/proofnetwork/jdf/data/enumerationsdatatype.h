@@ -15,6 +15,7 @@ public:
     {
         QStringList newEnumList;
         QStringList enumList = attribute.split(QStringLiteral(" "), QString::SplitBehavior::SkipEmptyParts);
+        newEnumList.reserve(enumList.count());
         for (const auto &data : enumList) {
             QString trimmedData(data.trimmed());
             if (!trimmedData.isEmpty())
@@ -24,7 +25,7 @@ public:
         return newEnumList;
     }
 
-    QString toString() const { return join(" "); }
+    QString toString() const { return join(QStringLiteral(" ")); }
 };
 
 } // namespace Jdf

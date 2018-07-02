@@ -16,7 +16,7 @@ public:
         return attribute.split(QStringLiteral(" "), QString::SplitBehavior::SkipEmptyParts);
     }
 
-    QString toString() const { return join(" "); }
+    QString toString() const { return join(QStringLiteral(" ")); }
 };
 
 } // namespace Jdf

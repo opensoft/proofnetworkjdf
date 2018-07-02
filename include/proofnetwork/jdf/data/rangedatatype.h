@@ -92,7 +92,7 @@ private:
         return dataToString(QString::number(start), QString::number(stop));
     }
 
-    QString dataToString(const ShapeDataType &start, const ShapeDataType &stop) const
+    QString dataToString(ShapeDataType start, ShapeDataType stop) const
     {
         return dataToString(start.toString(), stop.toString());
     }

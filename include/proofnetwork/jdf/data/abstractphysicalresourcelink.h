@@ -12,8 +12,7 @@ namespace Proof {
 namespace Jdf {
 
 class AbstractPhysicalResourceLinkPrivate;
-class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceLink
-    : public AbstractResourceLink // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceLink : public AbstractResourceLink
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLink)

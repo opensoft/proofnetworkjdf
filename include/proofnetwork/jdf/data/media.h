@@ -17,7 +17,7 @@ namespace Jdf {
 using JdfMediaDataKey = QPair<QString, QString>;
 
 class MediaPrivate;
-class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)

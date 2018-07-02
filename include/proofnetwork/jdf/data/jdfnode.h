@@ -13,7 +13,7 @@ namespace Proof {
 namespace Jdf {
 
 class JdfNodePrivate;
-class PROOF_NETWORK_JDF_EXPORT JdfNode : public NetworkDataEntity // clazy:exclude=ctor-missing-parent-argument
+class PROOF_NETWORK_JDF_EXPORT JdfNode : public NetworkDataEntity
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(JdfNode)
