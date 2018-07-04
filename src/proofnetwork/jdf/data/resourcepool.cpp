@@ -18,6 +18,11 @@ namespace Jdf {
 class ResourcePoolPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(ResourcePool)
+    ResourcePoolPrivate()
+    {
+        registerChildren(components, cuttingParams, media, layouts, laminatingIntent, deliveryIntent, foldingParams,
+                         boxPackingParams);
+    }
 
     QVector<ComponentSP> components;
     CuttingParamsSP cuttingParams = CuttingParams::create();
@@ -40,11 +45,7 @@ ObjectsCache<QString, ResourcePool> &cuttingProcessCache()
 using namespace Proof::Jdf;
 
 ResourcePool::ResourcePool() : NetworkDataEntity(*new ResourcePoolPrivate)
-{
-    Q_D(const ResourcePool);
-    registerChildren(d->components, d->cuttingParams, d->media, d->layouts, d->laminatingIntent, d->deliveryIntent,
-                     d->foldingParams, d->boxPackingParams);
-}
+{}
 
 QVector<ComponentSP> ResourcePool::components() const
 {
