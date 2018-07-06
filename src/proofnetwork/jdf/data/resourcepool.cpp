@@ -49,49 +49,49 @@ ResourcePool::ResourcePool() : NetworkDataEntity(*new ResourcePoolPrivate)
 
 QVector<ComponentSP> ResourcePool::components() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->components;
 }
 
 CuttingParamsSP ResourcePool::cuttingParams() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->cuttingParams;
 }
 
 QVector<MediaSP> ResourcePool::media() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->media;
 }
 
 LaminatingIntentSP ResourcePool::laminatingIntent() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->laminatingIntent;
 }
 
 DeliveryIntentSP ResourcePool::deliveryIntent() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->deliveryIntent;
 }
 
 FoldingParamsSP ResourcePool::foldingParams() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->foldingParams;
 }
 
 BoxPackingParamsSP ResourcePool::boxPackingParams() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->boxPackingParams;
 }
 
 QVector<LayoutSP> ResourcePool::layouts() const
 {
-    Q_D(const ResourcePool);
+    Q_D_CONST(ResourcePool);
     return d->layouts;
 }
 

@@ -36,7 +36,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Bundle, int, totalAmount)
 
 QQmlListProperty<BundleItemQmlWrapper> BundleQmlWrapper::bundleItems() const
 {
-    Q_D(const BundleQmlWrapper);
+    Q_D_CONST(BundleQmlWrapper);
     return d->qmlBundleItemsList;
 }
 

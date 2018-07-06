@@ -36,13 +36,13 @@ AuditPool::AuditPool() : NetworkDataEntity(*new AuditPoolPrivate)
 
 CreatedAuditSP AuditPool::created() const
 {
-    Q_D(const AuditPool);
+    Q_D_CONST(AuditPool);
     return d->created;
 }
 
 ModifiedAuditSP AuditPool::modified() const
 {
-    Q_D(const AuditPool);
+    Q_D_CONST(AuditPool);
     return d->modified;
 }
 

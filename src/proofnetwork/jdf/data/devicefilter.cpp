@@ -15,7 +15,7 @@ class DeviceFilterPrivate : public NetworkDataEntityPrivate
 
 DeviceFilterDetails DeviceFilter::details() const
 {
-    Q_D(const DeviceFilter);
+    Q_D_CONST(DeviceFilter);
     return d->details;
 }
 

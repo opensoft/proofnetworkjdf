@@ -11,13 +11,13 @@ AbstractPhysicalResourceLink::AbstractPhysicalResourceLink(AbstractPhysicalResou
 
 ResourceOrientation AbstractPhysicalResourceLink::orientation() const
 {
-    Q_D(const AbstractPhysicalResourceLink);
+    Q_D_CONST(AbstractPhysicalResourceLink);
     return d->orientation;
 }
 
 double AbstractPhysicalResourceLink::amount() const
 {
-    Q_D(const AbstractPhysicalResourceLink);
+    Q_D_CONST(AbstractPhysicalResourceLink);
     return d->amount;
 }
 

@@ -6,13 +6,13 @@ using namespace Proof::Jdf;
 
 double AbstractPhysicalResource::amount() const
 {
-    Q_D(const AbstractPhysicalResource);
+    Q_D_CONST(AbstractPhysicalResource);
     return d->amount;
 }
 
 double AbstractPhysicalResource::resourceWeight() const
 {
-    Q_D(const AbstractPhysicalResource);
+    Q_D_CONST(AbstractPhysicalResource);
     return d->resourceWeight;
 }
 

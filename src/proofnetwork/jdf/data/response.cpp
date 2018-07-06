@@ -7,7 +7,7 @@ namespace Jdf {
 
 NotificationSP Response::notification() const
 {
-    Q_D(const Response);
+    Q_D_CONST(Response);
     return d->notification;
 }
 

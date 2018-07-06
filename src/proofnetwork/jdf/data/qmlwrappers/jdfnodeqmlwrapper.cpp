@@ -50,19 +50,19 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(JdfNode, QString, jobPartId)
 
 AuditPoolQmlWrapper *JdfNodeQmlWrapper::auditPool() const
 {
-    Q_D(const JdfNodeQmlWrapper);
+    Q_D_CONST(JdfNodeQmlWrapper);
     return d->auditPool;
 }
 
 ResourcePoolQmlWrapper *JdfNodeQmlWrapper::resourcePool() const
 {
-    Q_D(const JdfNodeQmlWrapper);
+    Q_D_CONST(JdfNodeQmlWrapper);
     return d->resourcePool;
 }
 
 QQmlListProperty<JdfNodeQmlWrapper> JdfNodeQmlWrapper::jdfNodes() const
 {
-    Q_D(const JdfNodeQmlWrapper);
+    Q_D_CONST(JdfNodeQmlWrapper);
     return d->qmlJdfNodes;
 }
 

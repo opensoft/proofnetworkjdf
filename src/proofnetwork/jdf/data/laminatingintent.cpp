@@ -23,7 +23,7 @@ using namespace Proof::Jdf;
 
 LaminatingSurface LaminatingIntent::surface() const
 {
-    Q_D(const LaminatingIntent);
+    Q_D_CONST(LaminatingIntent);
     return d->surface;
 }
 

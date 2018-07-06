@@ -32,7 +32,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(DropIntent)
 
 QQmlListProperty<DropItemIntentQmlWrapper> DropIntentQmlWrapper::dropItemIntents() const
 {
-    Q_D(const DropIntentQmlWrapper);
+    Q_D_CONST(DropIntentQmlWrapper);
     return d->qmlDropItemIntentsList;
 }
 

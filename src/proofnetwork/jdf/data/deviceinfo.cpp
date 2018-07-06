@@ -16,19 +16,19 @@ class DeviceInfoPrivate : public NetworkDataEntityPrivate
 
 QString DeviceInfo::deviceId() const
 {
-    Q_D(const DeviceInfo);
+    Q_D_CONST(DeviceInfo);
     return d->deviceId;
 }
 
 DeviceStatus Proof::Jdf::DeviceInfo::status() const
 {
-    Q_D(const DeviceInfo);
+    Q_D_CONST(DeviceInfo);
     return d->status;
 }
 
 DeviceCondition DeviceInfo::condition() const
 {
-    Q_D(const DeviceInfo);
+    Q_D_CONST(DeviceInfo);
     return d->condition;
 }
 

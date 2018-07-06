@@ -37,61 +37,61 @@ using namespace Proof::Jdf;
 
 QVector<MediaSP> Media::layers() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->layers;
 }
 
 double Media::thickness() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->thickness;
 }
 
 CoatingType Media::frontCoating() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->frontCoating;
 }
 
 CoatingDetail Media::frontCoatingDetail() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->frontCoatingDetail;
 }
 
 CoatingType Media::backCoating() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->backCoating;
 }
 
 CoatingDetail Media::backCoatingDetail() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->backCoatingDetail;
 }
 
 MediaUnit Media::mediaUnit() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->mediaUnit;
 }
 
 MediaType Media::mediaType() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->mediaType;
 }
 
 double Media::height() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->height;
 }
 
 double Media::width() const
 {
-    Q_D(const Media);
+    Q_D_CONST(Media);
     return d->width;
 }
 

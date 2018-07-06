@@ -26,7 +26,7 @@ private:
 
 QVector<DeviceInfoSP> KnownDevicesResponse::deviceInfos() const
 {
-    Q_D(const KnownDevicesResponse);
+    Q_D_CONST(KnownDevicesResponse);
     return d->deviceInfos;
 }
 

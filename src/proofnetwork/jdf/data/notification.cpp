@@ -15,13 +15,13 @@ class NotificationPrivate : public NetworkDataEntityPrivate
 
 NotificationClass Notification::notificationClass() const
 {
-    Q_D(const Notification);
+    Q_D_CONST(Notification);
     return d->notificationClass;
 }
 
 QString Notification::comment() const
 {
-    Q_D(const Notification);
+    Q_D_CONST(Notification);
     return d->comment;
 }
 

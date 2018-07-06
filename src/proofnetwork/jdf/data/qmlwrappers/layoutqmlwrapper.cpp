@@ -37,7 +37,7 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(Layout)
 
 QQmlListProperty<Proof::Jdf::MediaQmlWrapper> LayoutQmlWrapper::media() const
 {
-    Q_D(const LayoutQmlWrapper);
+    Q_D_CONST(LayoutQmlWrapper);
     return d->qmlMediaList;
 }
 

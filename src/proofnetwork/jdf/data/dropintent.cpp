@@ -34,55 +34,55 @@ using namespace Proof::Jdf;
 
 TimeSpan DropIntent::earliest() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->earliest;
 }
 
 DurationSpan DropIntent::earliestDuration() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->earliestDuration;
 }
 
 TimeSpan DropIntent::required() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->required;
 }
 
 DurationSpan DropIntent::requiredDuration() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->requiredDuration;
 }
 
 NameSpan DropIntent::returnMethod() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->returnMethod;
 }
 
 StringSpan DropIntent::serviceLevel() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->serviceLevel;
 }
 
 EnumerationSpan DropIntent::surplusHandling() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->surplusHandling;
 }
 
 EnumerationSpan DropIntent::transfer() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->transfer;
 }
 
 QVector<DropItemIntentSP> DropIntent::dropItemIntents() const
 {
-    Q_D(const DropIntent);
+    Q_D_CONST(DropIntent);
     return d->dropItemIntents;
 }
 

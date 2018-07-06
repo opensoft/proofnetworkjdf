@@ -10,19 +10,19 @@ AbstractResourceLink::AbstractResourceLink(AbstractResourceLinkPrivate &dd) : Ne
 
 LinkUsage AbstractResourceLink::usage() const
 {
-    Q_D(const AbstractResourceLink);
+    Q_D_CONST(AbstractResourceLink);
     return d->usage;
 }
 
 ProcessUsage AbstractResourceLink::processUsage() const
 {
-    Q_D(const AbstractResourceLink);
+    Q_D_CONST(AbstractResourceLink);
     return d->processUsage;
 }
 
 QString AbstractResourceLink::rRef() const
 {
-    Q_D(const AbstractResourceLink);
+    Q_D_CONST(AbstractResourceLink);
     return d->rRef;
 }
 

@@ -25,7 +25,7 @@ using namespace Proof::Jdf;
 
 ComponentSP DropItemIntent::component() const
 {
-    Q_D(const DropItemIntent);
+    Q_D_CONST(DropItemIntent);
     return d->component;
 }
 

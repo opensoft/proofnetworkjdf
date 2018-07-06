@@ -37,13 +37,13 @@ AuditPoolQmlWrapper::~AuditPoolQmlWrapper()
 
 CreatedAuditQmlWrapper *AuditPoolQmlWrapper::created() const
 {
-    Q_D(const AuditPoolQmlWrapper);
+    Q_D_CONST(AuditPoolQmlWrapper);
     return d->created;
 }
 
 ModifiedAuditQmlWrapper *AuditPoolQmlWrapper::modified() const
 {
-    Q_D(const AuditPoolQmlWrapper);
+    Q_D_CONST(AuditPoolQmlWrapper);
     return d->modified;
 }
 

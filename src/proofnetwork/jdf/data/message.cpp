@@ -16,7 +16,7 @@ MessageSP instantiateJmfMessage(const QString &tagName, const QString &type)
 
 QString Message::id() const
 {
-    Q_D(const Message);
+    Q_D_CONST(Message);
     return d->id;
 }
 

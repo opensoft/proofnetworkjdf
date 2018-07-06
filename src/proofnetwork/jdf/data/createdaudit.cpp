@@ -23,13 +23,13 @@ using namespace Proof::Jdf;
 
 QString CreatedAudit::templateId() const
 {
-    Q_D(const CreatedAudit);
+    Q_D_CONST(CreatedAudit);
     return d->templateId;
 }
 
 QString CreatedAudit::templateVersion() const
 {
-    Q_D(const CreatedAudit);
+    Q_D_CONST(CreatedAudit);
     return d->templateVersion;
 }
 

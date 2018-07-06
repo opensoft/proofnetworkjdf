@@ -7,25 +7,25 @@ using namespace Proof::Jdf;
 
 QString AbstractResource::id() const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     return d->id;
 }
 
 ResourceStatus AbstractResource::resourceStatus() const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     return d->resourceStatus;
 }
 
 ResourceClass AbstractResource::resourceClass() const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     return d->resourceClass;
 }
 
 QVector<ResourcePartType> AbstractResource::partIdKeys() const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     return d->partIdKeys;
 }
 
@@ -67,13 +67,13 @@ void AbstractResource::setPartIdKeys(const QVector<ResourcePartType> &arg)
 
 QString AbstractResource::partAttribute(ResourcePartType attribute) const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     return d->partAttributes.value(attribute, QString());
 }
 
 bool AbstractResource::hasPartAttribute(ResourcePartType attribute) const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     return d->partAttributes.contains(attribute);
 }
 
@@ -140,7 +140,7 @@ void AbstractResource::refToJdf(QXmlStreamWriter &jdfWriter)
 
 QString AbstractResource::jdfNodeName() const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     if (d->jdfNodeName.isEmpty())
         d->jdfNodeName = QString(metaObject()->className())
                              .remove(0, QString(metaObject()->className()).lastIndexOf(QLatin1String(":")) + 1);
@@ -149,7 +149,7 @@ QString AbstractResource::jdfNodeName() const
 
 QString AbstractResource::jdfNodeRefName() const
 {
-    Q_D(const AbstractResource);
+    Q_D_CONST(AbstractResource);
     if (d->jdfNodeRefName.isEmpty())
         d->jdfNodeRefName = QStringLiteral("%1Ref").arg(jdfNodeName());
     return d->jdfNodeRefName;

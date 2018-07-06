@@ -23,7 +23,7 @@ private:
 
 DeviceFilterSP KnownDevicesQuery::deviceFilter() const
 {
-    Q_D(const KnownDevicesQuery);
+    Q_D_CONST(KnownDevicesQuery);
     return d->deviceFilter;
 }
 

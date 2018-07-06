@@ -35,13 +35,13 @@ CuttingParams::CuttingParams() : AbstractResource(*new CuttingParamsPrivate)
 
 QVector<CutBlockSP> CuttingParams::cutBlocks() const
 {
-    Q_D(const CuttingParams);
+    Q_D_CONST(CuttingParams);
     return d->cutBlocks;
 }
 
 QVector<CuttingParamsSP> CuttingParams::parts() const
 {
-    Q_D(const CuttingParams);
+    Q_D_CONST(CuttingParams);
     return d->parts;
 }
 

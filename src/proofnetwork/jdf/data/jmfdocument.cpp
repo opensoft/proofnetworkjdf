@@ -24,25 +24,25 @@ class JmfDocumentPrivate : public NetworkDataEntityPrivate
 
 QString JmfDocument::senderId() const
 {
-    Q_D(const JmfDocument);
+    Q_D_CONST(JmfDocument);
     return d->senderId;
 }
 
 QDateTime JmfDocument::timeStamp() const
 {
-    Q_D(const JmfDocument);
+    Q_D_CONST(JmfDocument);
     return d->timeStamp;
 }
 
 QVector<MessageSP> JmfDocument::messages() const
 {
-    Q_D(const JmfDocument);
+    Q_D_CONST(JmfDocument);
     return d->messages;
 }
 
 QString JmfDocument::version() const
 {
-    Q_D(const JmfDocument);
+    Q_D_CONST(JmfDocument);
     return d->version;
 }
 

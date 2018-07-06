@@ -24,19 +24,19 @@ using namespace Proof::Jdf;
 
 BundleType Bundle::bundleType() const
 {
-    Q_D(const Bundle);
+    Q_D_CONST(Bundle);
     return d->bundleType;
 }
 
 int Bundle::totalAmount() const
 {
-    Q_D(const Bundle);
+    Q_D_CONST(Bundle);
     return d->totalAmount;
 }
 
 QVector<BundleItemSP> Bundle::bundleItems() const
 {
-    Q_D(const Bundle);
+    Q_D_CONST(Bundle);
     return d->bundleItems;
 }
 

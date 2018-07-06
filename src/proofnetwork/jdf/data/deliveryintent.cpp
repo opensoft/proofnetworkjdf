@@ -39,79 +39,79 @@ using namespace Proof::Jdf;
 
 EnumerationSpan DeliveryIntent::deliveryCharge() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->deliveryCharge;
 }
 
 TimeSpan DeliveryIntent::earliest() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->earliest;
 }
 
 DurationSpan DeliveryIntent::earliestDuration() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->earliestDuration;
 }
 
 NameSpan DeliveryIntent::method() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->method;
 }
 
 NumberSpan DeliveryIntent::overage() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->overage;
 }
 
 TimeSpan DeliveryIntent::required() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->required;
 }
 
 DurationSpan DeliveryIntent::requiredDuration() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->requiredDuration;
 }
 
 NameSpan DeliveryIntent::returnMethod() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->returnMethod;
 }
 
 StringSpan DeliveryIntent::serviceLevel() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->serviceLevel;
 }
 
 EnumerationSpan DeliveryIntent::surplusHandling() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->surplusHandling;
 }
 
 EnumerationSpan DeliveryIntent::transfer() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->transfer;
 }
 
 NumberSpan DeliveryIntent::underage() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->underage;
 }
 
 QVector<DropIntentSP> DeliveryIntent::dropIntents() const
 {
-    Q_D(const DeliveryIntent);
+    Q_D_CONST(DeliveryIntent);
     return d->dropIntents;
 }
 

@@ -23,13 +23,13 @@ using namespace Proof::Jdf;
 
 int BundleItem::amount() const
 {
-    Q_D(const BundleItem);
+    Q_D_CONST(BundleItem);
     return d->amount;
 }
 
 ComponentSP BundleItem::component() const
 {
-    Q_D(const BundleItem);
+    Q_D_CONST(BundleItem);
     return d->component;
 }
 

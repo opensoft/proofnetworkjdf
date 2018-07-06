@@ -57,31 +57,31 @@ ResourcePoolQmlWrapper::~ResourcePoolQmlWrapper()
 
 QQmlListProperty<ComponentQmlWrapper> ResourcePoolQmlWrapper::components() const
 {
-    Q_D(const ResourcePoolQmlWrapper);
+    Q_D_CONST(ResourcePoolQmlWrapper);
     return d->qmlComponentsList;
 }
 
 CuttingParamsQmlWrapper *ResourcePoolQmlWrapper::cuttingParams() const
 {
-    Q_D(const ResourcePoolQmlWrapper);
+    Q_D_CONST(ResourcePoolQmlWrapper);
     return d->cuttingParams;
 }
 
 QQmlListProperty<MediaQmlWrapper> ResourcePoolQmlWrapper::media() const
 {
-    Q_D(const ResourcePoolQmlWrapper);
+    Q_D_CONST(ResourcePoolQmlWrapper);
     return d->qmlMediaList;
 }
 
 FoldingParamsQmlWrapper *ResourcePoolQmlWrapper::foldingParams() const
 {
-    Q_D(const ResourcePoolQmlWrapper);
+    Q_D_CONST(ResourcePoolQmlWrapper);
     return d->foldingParams;
 }
 
 LaminatingIntentQmlWrapper *ResourcePoolQmlWrapper::laminatingIntent() const
 {
-    Q_D(const ResourcePoolQmlWrapper);
+    Q_D_CONST(ResourcePoolQmlWrapper);
     return d->laminatingIntent;
 }
 

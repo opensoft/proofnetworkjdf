@@ -26,7 +26,7 @@ Layout::Layout() : AbstractResource(*new LayoutPrivate)
 
 QVector<MediaSP> Layout::media() const
 {
-    Q_D(const Layout);
+    Q_D_CONST(Layout);
     return d->media;
 }
 

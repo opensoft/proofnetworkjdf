@@ -28,7 +28,7 @@ DropItemIntentQmlWrapper::~DropItemIntentQmlWrapper()
 
 ComponentQmlWrapper *DropItemIntentQmlWrapper::component() const
 {
-    Q_D(const DropItemIntentQmlWrapper);
+    Q_D_CONST(DropItemIntentQmlWrapper);
     return d->component;
 }
 

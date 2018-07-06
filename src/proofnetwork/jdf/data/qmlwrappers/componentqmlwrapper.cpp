@@ -40,7 +40,7 @@ PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(Component, QString, productTypeDetails)
 
 BundleQmlWrapper *ComponentQmlWrapper::bundle() const
 {
-    Q_D(const ComponentQmlWrapper);
+    Q_D_CONST(ComponentQmlWrapper);
     return d->bundle;
 }
 

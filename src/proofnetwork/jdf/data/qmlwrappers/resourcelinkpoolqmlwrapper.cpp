@@ -57,31 +57,31 @@ ResourceLinkPoolQmlWrapper::~ResourceLinkPoolQmlWrapper()
 
 QQmlListProperty<ComponentLinkQmlWrapper> ResourceLinkPoolQmlWrapper::componentLinks() const
 {
-    Q_D(const ResourceLinkPoolQmlWrapper);
+    Q_D_CONST(ResourceLinkPoolQmlWrapper);
     return d->qmlComponentLinks;
 }
 
 CuttingParamsLinkQmlWrapper *ResourceLinkPoolQmlWrapper::cuttingParamsLink() const
 {
-    Q_D(const ResourceLinkPoolQmlWrapper);
+    Q_D_CONST(ResourceLinkPoolQmlWrapper);
     return d->cuttingParamsLink;
 }
 
 QQmlListProperty<MediaLinkQmlWrapper> ResourceLinkPoolQmlWrapper::mediaLinks() const
 {
-    Q_D(const ResourceLinkPoolQmlWrapper);
+    Q_D_CONST(ResourceLinkPoolQmlWrapper);
     return d->qmlMediaLinks;
 }
 
 FoldingParamsLinkQmlWrapper *ResourceLinkPoolQmlWrapper::foldingParamsLink() const
 {
-    Q_D(const ResourceLinkPoolQmlWrapper);
+    Q_D_CONST(ResourceLinkPoolQmlWrapper);
     return d->foldingParamsLink;
 }
 
 LaminatingIntentLinkQmlWrapper *ResourceLinkPoolQmlWrapper::laminatingIntentLink() const
 {
-    Q_D(const ResourceLinkPoolQmlWrapper);
+    Q_D_CONST(ResourceLinkPoolQmlWrapper);
     return d->laminatingIntentLink;
 }
 

@@ -6,25 +6,25 @@ using namespace Proof::Jdf;
 
 QString AbstractAudit::id() const
 {
-    Q_D(const AbstractAudit);
+    Q_D_CONST(AbstractAudit);
     return d->id;
 }
 
 QString AbstractAudit::agentName() const
 {
-    Q_D(const AbstractAudit);
+    Q_D_CONST(AbstractAudit);
     return d->agentName;
 }
 
 QString AbstractAudit::agentVersion() const
 {
-    Q_D(const AbstractAudit);
+    Q_D_CONST(AbstractAudit);
     return d->agentVersion;
 }
 
 QDateTime AbstractAudit::timeStamp() const
 {
-    Q_D(const AbstractAudit);
+    Q_D_CONST(AbstractAudit);
     return d->timeStamp;
 }
 

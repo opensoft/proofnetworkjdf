@@ -12,55 +12,55 @@ using namespace Proof::Jdf;
 
 QString JdfNode::id() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->id;
 }
 
 QString JdfNode::jobId() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->jobId;
 }
 
 QString JdfNode::jobPartId() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->jobPartId;
 }
 
 AuditPoolSP JdfNode::auditPool() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->auditPool;
 }
 
 ResourcePoolSP JdfNode::resourcePool() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->resourcePool;
 }
 
 ResourceLinkPoolSP JdfNode::resourceLinkPool() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->resourceLinkPool;
 }
 
 QVector<JdfNodeSP> JdfNode::jdfNodes() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->jdfNodes;
 }
 
 QString JdfNode::type() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->type;
 }
 
 QStringList JdfNode::types() const
 {
-    Q_D(const JdfNode);
+    Q_D_CONST(JdfNode);
     return d->types;
 }
 

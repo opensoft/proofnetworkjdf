@@ -24,7 +24,7 @@ using namespace Proof::Jdf;
 
 QString FoldingParams::foldCatalog() const
 {
-    Q_D(const FoldingParams);
+    Q_D_CONST(FoldingParams);
     return d->foldCatalog;
 }
 

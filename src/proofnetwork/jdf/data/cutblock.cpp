@@ -48,49 +48,49 @@ CutBlock::CutBlock(const QString &blockName) : NetworkDataEntity(*new CutBlockPr
 
 QString CutBlock::blockName() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->blockName;
 }
 
 double CutBlock::width() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->width;
 }
 
 double CutBlock::height() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->height;
 }
 
 double CutBlock::x() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->x;
 }
 
 double CutBlock::y() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->y;
 }
 
 double CutBlock::rotation() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->rotation;
 }
 
 QString CutBlock::transformationMatrix() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->transformationMatrix;
 }
 
 BlockType CutBlock::blockType() const
 {
-    Q_D(const CutBlock);
+    Q_D_CONST(CutBlock);
     return d->blockType;
 }
 

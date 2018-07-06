@@ -44,55 +44,55 @@ using namespace Proof::Jdf;
 
 ComponentType Component::componentType() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->componentType;
 }
 
 ProductType Component::productType() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->productType;
 }
 
 QString Component::productTypeDetails() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->productTypeDetails;
 }
 
 double Component::width() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->width;
 }
 
 double Component::height() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->height;
 }
 
 double Component::length() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->length;
 }
 
 BundleSP Component::bundle() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->bundle;
 }
 
 QVector<CutBlockSP> Component::cutBlocks() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->cutBlocks;
 }
 
 QVector<ComponentSP> Component::parts() const
 {
-    Q_D(const Component);
+    Q_D_CONST(Component);
     return d->parts;
 }
 

@@ -40,43 +40,43 @@ using namespace Proof::Jdf;
 
 QVector<ComponentLinkSP> ResourceLinkPool::componentLinks() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->componentLinks;
 }
 
 CuttingParamsLinkSP ResourceLinkPool::cuttingParamsLink() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->cuttingParamsLink;
 }
 
 QVector<MediaLinkSP> ResourceLinkPool::mediaLinks() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->mediaLinks;
 }
 
 LaminatingIntentLinkSP ResourceLinkPool::laminatingIntentLink() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->laminatingIntentLink;
 }
 
 DeliveryIntentLinkSP ResourceLinkPool::deliveryIntentLink() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->deliveryIntentLink;
 }
 
 FoldingParamsLinkSP ResourceLinkPool::foldingParamsLink() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->foldingParamsLink;
 }
 
 BoxPackingParamsLinkSP ResourceLinkPool::boxPackingParamsLink() const
 {
-    Q_D(const ResourceLinkPool);
+    Q_D_CONST(ResourceLinkPool);
     return d->boxPackingParamsLink;
 }
 
