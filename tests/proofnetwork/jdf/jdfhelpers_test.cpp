@@ -3,7 +3,6 @@
 #include "proofnetwork/jdf/jdfhelper.h"
 
 #include <QFile>
-#include <QSignalSpy>
 #include <QXmlStreamReader>
 
 #include "gtest/test_global.h"
