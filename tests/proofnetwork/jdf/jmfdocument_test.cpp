@@ -2,13 +2,13 @@
 
 #include "proofnetwork/jdf/data/jmfdocument.h"
 
+#include "gtest/test_global.h"
+
 #include <QDateTime>
 #include <QDomDocument>
 #include <QFile>
 #include <QSignalSpy>
 #include <QXmlStreamReader>
-
-#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;

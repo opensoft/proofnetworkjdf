@@ -1,7 +1,7 @@
 #ifndef PROOF_JDF_JDFHELPER_H
 #define PROOF_JDF_JDFHELPER_H
 
-#include "proofcore/proofalgorithms.h"
+#include "proofseed/proofalgorithms.h"
 
 #include "proofnetwork/jdf/apihelper.h"
 #include "proofnetwork/jdf/data/boxpackingparams.h"

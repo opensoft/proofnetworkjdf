@@ -2,12 +2,12 @@
 
 #include "proofnetwork/jdf/data/cutblock.h"
 
+#include "gtest/test_global.h"
+
 #include <QDebug>
 #include <QFile>
 #include <QSignalSpy>
 #include <QXmlStreamReader>
-
-#include "gtest/test_global.h"
 
 using namespace Proof;
 using namespace Proof::Jdf;
