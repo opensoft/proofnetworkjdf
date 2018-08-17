@@ -93,24 +93,11 @@ TEST_F(ResourceLinkPoolTest, updateFrom)
 
     linkPool1->updateFrom(linkPool2);
 
-    for (QSignalSpy *spy: qmlspies) {
-        if (spy->signal() != "foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkQmlWrapper*)"
-            && spy->signal() != "laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkQmlWrapper*)" ) {
-            EXPECT_EQ(1, spy->count()) << spy->signal().constData();
-         } else {
-            EXPECT_EQ(0, spy->count()) << spy->signal().constData();
-         }
-    }
+    for (QSignalSpy *spy : qmlspies)
+        EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
-    for (QSignalSpy *spy: spies) {
-        if (spy->signal() != "foldingParamsLinkChanged(Proof::Jdf::FoldingParamsLinkSP)"
-            && spy->signal() != "laminatingIntentLinkChanged(Proof::Jdf::LaminatingIntentLinkSP)" ) {
-            EXPECT_EQ(1, spy->count()) << spy->signal().constData();
-         } else {
-            EXPECT_EQ(0, spy->count()) << spy->signal().constData();
-         }
-
-    }
+    for (QSignalSpy *spy : spies)
+        EXPECT_EQ(1, spy->count()) << spy->signal().constData();
 
     qDeleteAll(spies);
     spies.clear();
