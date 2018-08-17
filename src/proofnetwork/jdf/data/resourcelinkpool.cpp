@@ -1,4 +1,4 @@
-#include "resourcelinkpool.h"
+#include "proofnetwork/jdf/data/resourcelinkpool.h"
 
 #include "proofnetwork/jdf/data/boxpackingparamslink.h"
 #include "proofnetwork/jdf/data/componentlink.h"

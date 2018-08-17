@@ -1,4 +1,4 @@
-#include "deviceinfo.h"
+#include "proofnetwork/jdf/data/deviceinfo.h"
 
 #include "proofnetwork/networkdataentity_p.h"
 

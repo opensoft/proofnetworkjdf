@@ -1,4 +1,4 @@
-#include "resourcelinkpoolqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/componentlink.h"
 #include "proofnetwork/jdf/data/cuttingparamslink.h"

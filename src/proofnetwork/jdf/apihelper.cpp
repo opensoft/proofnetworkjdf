@@ -1,4 +1,4 @@
-#include "apihelper.h"
+#include "proofnetwork/jdf/apihelper.h"
 
 #include <QHash>
 

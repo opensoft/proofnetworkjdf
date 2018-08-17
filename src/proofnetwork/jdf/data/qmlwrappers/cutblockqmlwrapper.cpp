@@ -1,4 +1,4 @@
-#include "cutblockqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cutblockqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"

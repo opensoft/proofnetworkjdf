@@ -1,6 +1,6 @@
-#include "message.h"
+#include "proofnetwork/jdf/data/message.h"
 
-#include "message_p.h"
+#include "proofnetwork/jdf/data/message_p.h"
 
 namespace Proof {
 namespace Jdf {

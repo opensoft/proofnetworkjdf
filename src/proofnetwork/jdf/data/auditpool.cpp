@@ -1,10 +1,9 @@
-#include "auditpool.h"
-
-#include "createdaudit.h"
-#include "modifiedaudit.h"
+#include "proofnetwork/jdf/data/auditpool.h"
 
 #include "proofcore/objectscache.h"
 
+#include "proofnetwork/jdf/data/createdaudit.h"
+#include "proofnetwork/jdf/data/modifiedaudit.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {

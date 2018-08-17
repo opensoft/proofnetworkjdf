@@ -1,4 +1,4 @@
-#include "bundleqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/bundleqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/bundle.h"
 #include "proofnetwork/jdf/data/bundleitem.h"

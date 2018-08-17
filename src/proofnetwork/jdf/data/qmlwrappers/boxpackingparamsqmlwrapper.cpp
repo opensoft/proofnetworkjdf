@@ -1,4 +1,4 @@
-#include "boxpackingparamsqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/boxpackingparamsqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/boxpackingparams.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"

@@ -1,4 +1,4 @@
-#include "abstractauditqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/abstractaudit.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper_p.h"

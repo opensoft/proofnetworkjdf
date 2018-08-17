@@ -1,4 +1,4 @@
-#include "devicefilter.h"
+#include "proofnetwork/jdf/data/devicefilter.h"
 
 #include "proofnetwork/jdf/apihelper.h"
 #include "proofnetwork/networkdataentity_p.h"

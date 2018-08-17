@@ -1,4 +1,4 @@
-#include "cutblock.h"
+#include "proofnetwork/jdf/data/cutblock.h"
 
 #include "proofnetwork/networkdataentity_p.h"
 

@@ -1,4 +1,4 @@
-#include "component.h"
+#include "proofnetwork/jdf/data/component.h"
 
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 #include "proofnetwork/jdf/data/bundle.h"

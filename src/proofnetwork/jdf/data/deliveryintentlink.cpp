@@ -1,4 +1,4 @@
-#include "deliveryintentlink.h"
+#include "proofnetwork/jdf/data/deliveryintentlink.h"
 
 #include "proofnetwork/jdf/data/abstractresourcelink_p.h"
 

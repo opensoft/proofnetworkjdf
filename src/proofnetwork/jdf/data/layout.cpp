@@ -1,4 +1,4 @@
-#include "layout.h"
+#include "proofnetwork/jdf/data/layout.h"
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/media.h"

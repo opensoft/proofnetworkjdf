@@ -1,4 +1,4 @@
-#include "cuttingparamslinkqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cuttingparamslinkqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/cuttingparamslink.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper_p.h"

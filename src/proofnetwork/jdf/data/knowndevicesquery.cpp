@@ -1,7 +1,7 @@
-#include "knowndevicesquery.h"
+#include "proofnetwork/jdf/data/knowndevicesquery.h"
 
-#include "devicefilter.h"
-#include "query_p.h"
+#include "proofnetwork/jdf/data/devicefilter.h"
+#include "proofnetwork/jdf/data/query_p.h"
 
 namespace Proof {
 namespace Jdf {

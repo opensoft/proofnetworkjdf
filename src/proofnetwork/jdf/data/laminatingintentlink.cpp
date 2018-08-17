@@ -1,4 +1,4 @@
-#include "laminatingintentlink.h"
+#include "proofnetwork/jdf/data/laminatingintentlink.h"
 
 #include "proofnetwork/jdf/data/abstractresourcelink_p.h"
 

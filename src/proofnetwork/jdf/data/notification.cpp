@@ -1,4 +1,4 @@
-#include "notification.h"
+#include "proofnetwork/jdf/data/notification.h"
 
 #include "proofnetwork/networkdataentity_p.h"
 

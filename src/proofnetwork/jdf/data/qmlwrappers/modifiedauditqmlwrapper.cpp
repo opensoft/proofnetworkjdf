@@ -1,4 +1,4 @@
-#include "modifiedauditqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/modifiedauditqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/modifiedaudit.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper_p.h"

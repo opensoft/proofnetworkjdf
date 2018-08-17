@@ -1,15 +1,14 @@
-#include "resourcepool.h"
+#include "proofnetwork/jdf/data/resourcepool.h"
 
-#include "boxpackingparams.h"
-#include "component.h"
-#include "cutblock.h"
-#include "cuttingparams.h"
-#include "deliveryintent.h"
-#include "foldingparams.h"
-#include "laminatingintent.h"
-#include "layout.h"
-#include "media.h"
-
+#include "proofnetwork/jdf/data/boxpackingparams.h"
+#include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/cutblock.h"
+#include "proofnetwork/jdf/data/cuttingparams.h"
+#include "proofnetwork/jdf/data/deliveryintent.h"
+#include "proofnetwork/jdf/data/foldingparams.h"
+#include "proofnetwork/jdf/data/laminatingintent.h"
+#include "proofnetwork/jdf/data/layout.h"
+#include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {

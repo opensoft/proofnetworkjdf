@@ -1,4 +1,4 @@
-#include "deliveryintentlinkqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/deliveryintentlinkqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/deliveryintentlink.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper_p.h"

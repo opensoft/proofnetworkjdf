@@ -1,4 +1,4 @@
-#include "medialinkqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/medialinkqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/medialink.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper_p.h"

@@ -1,4 +1,4 @@
-#include "jmfdocument.h"
+#include "proofnetwork/jdf/data/jmfdocument.h"
 
 #include "proofnetwork/jdf/data/message.h"
 #include "proofnetwork/networkdataentity_p.h"

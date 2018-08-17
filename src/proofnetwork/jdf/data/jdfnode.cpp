@@ -1,8 +1,9 @@
-#include "jdfdocument.h"
+#include "proofnetwork/jdf/data/jdfnode.h"
 
 #include "proofcore/proofglobal.h"
 
 #include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/jdfnode_p.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 

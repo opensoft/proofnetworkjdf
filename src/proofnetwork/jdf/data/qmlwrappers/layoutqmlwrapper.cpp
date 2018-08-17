@@ -1,10 +1,9 @@
-#include "layoutqmlwrapper.h"
-
-#include "mediaqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/layoutqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/layout.h"
 #include "proofnetwork/jdf/data/media.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"
+#include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {

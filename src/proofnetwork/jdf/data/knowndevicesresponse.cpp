@@ -1,4 +1,4 @@
-#include "knowndevicesresponse.h"
+#include "proofnetwork/jdf/data/knowndevicesresponse.h"
 
 #include "proofnetwork/jdf/data/deviceinfo.h"
 #include "proofnetwork/jdf/data/notification.h"

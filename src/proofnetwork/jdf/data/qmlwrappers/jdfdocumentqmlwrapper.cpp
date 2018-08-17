@@ -1,4 +1,4 @@
-#include "jdfdocumentqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/jdfnode.h"

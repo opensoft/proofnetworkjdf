@@ -1,4 +1,4 @@
-#include "foldingparamsqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/foldingparamsqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/foldingparams.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"

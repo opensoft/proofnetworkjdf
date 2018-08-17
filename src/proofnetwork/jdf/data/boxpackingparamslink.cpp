@@ -1,4 +1,4 @@
-#include "boxpackingparamslink.h"
+#include "proofnetwork/jdf/data/boxpackingparamslink.h"
 
 #include "proofnetwork/jdf/data/abstractresourcelink_p.h"
 

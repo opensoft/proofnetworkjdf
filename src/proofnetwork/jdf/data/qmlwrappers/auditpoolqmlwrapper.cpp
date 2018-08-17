@@ -1,11 +1,10 @@
-#include "auditpoolqmlwrapper.h"
-
-#include "createdauditqmlwrapper.h"
-#include "modifiedauditqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/auditpool.h"
 #include "proofnetwork/jdf/data/createdaudit.h"
 #include "proofnetwork/jdf/data/modifiedaudit.h"
+#include "proofnetwork/jdf/data/qmlwrappers/createdauditqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/modifiedauditqmlwrapper.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 
 namespace Proof {

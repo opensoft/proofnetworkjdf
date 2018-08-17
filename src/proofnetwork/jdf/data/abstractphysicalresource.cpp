@@ -1,4 +1,4 @@
-#include "abstractphysicalresource.h"
+#include "proofnetwork/jdf/data/abstractphysicalresource.h"
 
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 

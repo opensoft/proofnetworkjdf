@@ -1,6 +1,6 @@
-#include "query.h"
+#include "proofnetwork/jdf/data/query.h"
 
-#include "query_p.h"
+#include "proofnetwork/jdf/data/query_p.h"
 
 namespace Proof {
 namespace Jdf {

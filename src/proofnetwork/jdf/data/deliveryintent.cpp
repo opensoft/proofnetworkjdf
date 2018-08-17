@@ -1,9 +1,8 @@
-#include "deliveryintent.h"
-
-#include "dropintent.h"
+#include "proofnetwork/jdf/data/deliveryintent.h"
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/deliveryintentlink.h"
+#include "proofnetwork/jdf/data/dropintent.h"
 #include "proofnetwork/jdf/data/qmlwrappers/deliveryintentqmlwrapper.h"
 
 namespace Proof {

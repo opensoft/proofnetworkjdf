@@ -1,8 +1,7 @@
-#include "cuttingparams.h"
-
-#include "cutblock.h"
+#include "proofnetwork/jdf/data/cuttingparams.h"
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
+#include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/cuttingparamslink.h"
 
 namespace Proof {

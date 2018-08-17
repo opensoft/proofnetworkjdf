@@ -1,6 +1,6 @@
-#include "response.h"
+#include "proofnetwork/jdf/data/response.h"
 
-#include "response_p.h"
+#include "proofnetwork/jdf/data/response_p.h"
 
 namespace Proof {
 namespace Jdf {

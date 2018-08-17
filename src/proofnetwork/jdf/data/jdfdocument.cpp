@@ -1,4 +1,4 @@
-#include "jdfdocument.h"
+#include "proofnetwork/jdf/data/jdfdocument.h"
 
 #include "proofnetwork/jdf/data/jdfnode_p.h"
 

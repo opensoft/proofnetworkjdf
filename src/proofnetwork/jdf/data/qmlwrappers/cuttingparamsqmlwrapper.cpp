@@ -1,10 +1,9 @@
-#include "cuttingparamsqmlwrapper.h"
-
-#include "cutblockqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cuttingparamsqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/cutblock.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cutblockqmlwrapper.h"
 
 namespace Proof {
 namespace Jdf {

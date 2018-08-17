@@ -1,4 +1,4 @@
-#include "abstractphysicalresourcelinkqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/abstractphysicalresourcelink.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper_p.h"

@@ -1,4 +1,4 @@
-#include "abstractresourcelinkqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper_p.h"

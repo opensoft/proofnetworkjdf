@@ -1,4 +1,4 @@
-#include "componentlink.h"
+#include "proofnetwork/jdf/data/componentlink.h"
 
 #include "proofnetwork/jdf/data/abstractphysicalresourcelink_p.h"
 

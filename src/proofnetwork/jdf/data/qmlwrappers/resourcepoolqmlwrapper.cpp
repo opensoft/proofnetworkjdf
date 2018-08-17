@@ -1,16 +1,15 @@
-#include "resourcepoolqmlwrapper.h"
-
-#include "componentqmlwrapper.h"
-#include "cuttingparamsqmlwrapper.h"
-#include "foldingparamsqmlwrapper.h"
-#include "laminatingintentqmlwrapper.h"
-#include "mediaqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/cuttingparams.h"
 #include "proofnetwork/jdf/data/foldingparams.h"
 #include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/jdf/data/media.h"
+#include "proofnetwork/jdf/data/qmlwrappers/componentqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/cuttingparamsqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/foldingparamsqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
 #include "proofnetwork/qmlwrappers/networkdataentityqmlwrapper_p.h"
 

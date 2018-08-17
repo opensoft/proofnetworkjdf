@@ -1,4 +1,4 @@
-#include "bundleitem.h"
+#include "proofnetwork/jdf/data/bundleitem.h"
 
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/networkdataentity_p.h"

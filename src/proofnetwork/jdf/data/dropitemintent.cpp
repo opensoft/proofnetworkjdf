@@ -1,8 +1,7 @@
-#include "dropitemintent.h"
-
-#include "deliveryintent.h"
+#include "proofnetwork/jdf/data/dropitemintent.h"
 
 #include "proofnetwork/jdf/data/component.h"
+#include "proofnetwork/jdf/data/deliveryintent.h"
 #include "proofnetwork/jdf/data/qmlwrappers/dropintentqmlwrapper.h"
 #include "proofnetwork/networkdataentity_p.h"
 

@@ -1,4 +1,4 @@
-#include "laminatingintentqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/laminatingintent.h"
 #include "proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h"

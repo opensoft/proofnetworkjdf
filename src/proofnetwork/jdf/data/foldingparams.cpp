@@ -1,4 +1,4 @@
-#include "foldingparams.h"
+#include "proofnetwork/jdf/data/foldingparams.h"
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/foldingparamslink.h"

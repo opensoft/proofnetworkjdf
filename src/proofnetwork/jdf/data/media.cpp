@@ -1,4 +1,4 @@
-#include "media.h"
+#include "proofnetwork/jdf/data/media.h"
 
 #include "proofnetwork/jdf/data/abstractphysicalresource_p.h"
 #include "proofnetwork/jdf/data/medialink.h"

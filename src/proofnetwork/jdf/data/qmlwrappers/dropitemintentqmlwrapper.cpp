@@ -1,4 +1,4 @@
-#include "dropitemintentqmlwrapper.h"
+#include "proofnetwork/jdf/data/qmlwrappers/dropitemintentqmlwrapper.h"
 
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/dropitemintent.h"

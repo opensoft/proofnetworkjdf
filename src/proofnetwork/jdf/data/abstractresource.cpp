@@ -1,4 +1,4 @@
-#include "abstractresource.h"
+#include "proofnetwork/jdf/data/abstractresource.h"
 
 #include "proofnetwork/jdf/data/abstractresource_p.h"
 #include "proofnetwork/jdf/data/abstractresourcelink.h"

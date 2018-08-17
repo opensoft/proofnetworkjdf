@@ -1,8 +1,7 @@
 #ifndef ABSTRACTRESOURCELINK_P_H
 #define ABSTRACTRESOURCELINK_P_H
 
-#include "abstractresourcelink.h"
-
+#include "proofnetwork/jdf/data/abstractresourcelink.h"
 #include "proofnetwork/networkdataentity_p.h"
 
 namespace Proof {

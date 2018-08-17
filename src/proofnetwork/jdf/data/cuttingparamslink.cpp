@@ -1,4 +1,4 @@
-#include "cuttingparamslink.h"
+#include "proofnetwork/jdf/data/cuttingparamslink.h"
 
 #include "proofnetwork/jdf/data/abstractresourcelink_p.h"
 
