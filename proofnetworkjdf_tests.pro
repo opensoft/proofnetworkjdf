@@ -1,5 +1,7 @@
 TARGET=network-jdf_tests
-include (../tests/tests.pri)
+PROOF_PRI_PATH = $$PWD/../proofboot
+!exists($$PROOF_PRI_PATH/proof.pri):PROOF_PRI_PATH = $$(PROOF_PATH)
+include($$PROOF_PRI_PATH/proof_tests.pri)
 
 QT += network xml
 CONFIG += proofnetwork proofnetworkjdf

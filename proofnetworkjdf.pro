@@ -1,7 +1,8 @@
 TEMPLATE = lib
 TARGET = ProofNetworkJdf
-include(../proofboot/proof.pri)
-DESTDIR = $$BUILDPATH/lib
+PROOF_PRI_PATH = $$PWD/../proofboot
+!exists($$PROOF_PRI_PATH/proof.pri):PROOF_PRI_PATH = $$(PROOF_PATH)
+include($$PROOF_PRI_PATH/proof.pri)
 
 DEFINES += PROOF_NETWORK_JDF_LIB
 
@@ -183,4 +184,4 @@ SOURCES += \
     src/proofnetwork/jdf/data/qmlwrappers/modifiedauditqmlwrapper.cpp \
     src/proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.cpp
 
-include(../proofboot/proof_translation.pri)
+include($$PROOF_PRI_PATH/proof_translation.pri)
