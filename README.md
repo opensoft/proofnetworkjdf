@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/opensoft/proofnetworkjdf.svg?token=rjKq7aueGr7hgysP2ESt&branch=develop)](https://travis-ci.com/opensoft/proofnetworkjdf)
+[![Build Status](https://travis-ci.com/opensoft/proofnetworkjdf.svg?branch=develop)](https://travis-ci.com/opensoft/proofnetworkjdf)
 
 Proof JDF Support
 =================
-JDf support module
+JDF support module. Contains different NetworkDataEntities that can be combined in JdfDocument to produce jdf data or parse it from QByteArray.
