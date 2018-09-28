@@ -1,0 +1,19 @@
+{
+    "name": "proofnetworkjdf",
+    "has_tests": true,
+    "has_plugins": false,
+    "has_tools": false,
+    "bootstrap": {
+        "process_3rdparty": false,
+        "process_qml": false,
+        "custom_steps": []
+    },
+    "depends": ["proofbase"],
+    "affects": ["proofscissorhands"],
+    "libraries": [
+        {
+            "name": "ProofNetworkJdf",
+            "headers_subdir": "proofnetwork/jdf"
+        }
+    ]
+}
