@@ -256,7 +256,10 @@ void CutBlock::setTransformationMatrix(const QString &arg)
 void CutBlock::setTransformationMatrix(double x, double y, double rotation)
 {
     Q_D(CutBlock);
-    QString transformationMatrix = QStringLiteral("%1 %2 %3").arg(d->createRotationMatrixString(rotation)).arg(x).arg(y);
+    QString transformationMatrix = QStringLiteral("%1 %2 %3")
+                                       .arg(d->createRotationMatrixString(rotation))
+                                       .arg(x, 0, 'f', 4, QLatin1Char(' '))
+                                       .arg(y, 0, 'f', 4, QLatin1Char(' '));
 
     setTransformationMatrix(transformationMatrix);
 }
