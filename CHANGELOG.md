@@ -3,7 +3,7 @@ Proof Changelog
 
 ## Not Released
 #### Features
- * --
+ * CutBlock BlockTrf attribute x and y are always with 4 digits after decimal point now
 
 #### Bug Fixing
  * --
