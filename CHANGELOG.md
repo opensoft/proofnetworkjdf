@@ -1,7 +1,14 @@
-Proof Changelog
-===============
+ProofNetworkJdf Changelog
+=========================
 
 ## Not Released
+#### Features
+ * --
+
+#### Bug Fixing
+ * --
+
+## 0.18.10.4
 #### Features
  * CutBlock BlockTrf attribute x and y are always with 4 digits after decimal point now
 
