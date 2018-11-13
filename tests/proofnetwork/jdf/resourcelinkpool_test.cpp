@@ -6,7 +6,7 @@
 #include "proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.h"
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 
-#include "gtest/test_global.h"
+#include "gtest/proof/test_global.h"
 
 #include <QDebug>
 #include <QFile>

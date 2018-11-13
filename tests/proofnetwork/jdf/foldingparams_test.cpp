@@ -2,7 +2,7 @@
 
 #include "proofnetwork/jdf/data/foldingparams.h"
 
-#include "gtest/test_global.h"
+#include "gtest/proof/test_global.h"
 
 #include <QDebug>
 #include <QFile>

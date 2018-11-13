@@ -1,0 +1,205 @@
+cmake_minimum_required(VERSION 3.10.3)
+if(NOT DEFINED PROOF_FULL_BUILD)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_INSTALL_PREFIX}/lib/cmake/modules")
+    include(ProofInternal)
+    proof_init()
+endif()
+
+project(ProofNetworkJdf VERSION ${PROOF_VERSION} LANGUAGES CXX)
+
+find_package(Qt5Core CONFIG REQUIRED)
+if(NOT DEFINED PROOF_FULL_BUILD)
+    find_package(ProofNetwork CONFIG REQUIRED)
+    find_package(proof-gtest CONFIG REQUIRED)
+    enable_testing()
+endif()
+
+proof_add_target_sources(NetworkJdf
+    src/proofnetwork/jdf/proofnetworkjdf_init.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/cutblockqmlwrapper.cpp
+    src/proofnetwork/jdf/data/cutblock.cpp
+    src/proofnetwork/jdf/data/media.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.cpp
+    src/proofnetwork/jdf/apihelper.cpp
+    src/proofnetwork/jdf/data/jdfnode.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.cpp
+    src/proofnetwork/jdf/data/bundle.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/bundleqmlwrapper.cpp
+    src/proofnetwork/jdf/data/abstractresource.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/cuttingparamsqmlwrapper.cpp
+    src/proofnetwork/jdf/data/cuttingparams.cpp
+    src/proofnetwork/jdf/data/component.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/componentqmlwrapper.cpp
+    src/proofnetwork/jdf/data/abstractphysicalresource.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper.cpp
+    src/proofnetwork/jdf/data/resourcepool.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.cpp
+    src/proofnetwork/jdf/data/laminatingintent.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.cpp
+    src/proofnetwork/jdf/data/foldingparams.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/foldingparamsqmlwrapper.cpp
+    src/proofnetwork/jdf/data/jdfdocument.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.cpp
+    src/proofnetwork/jdf/data/abstractresourcelink.cpp
+    src/proofnetwork/jdf/data/resourcelinkpool.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/cuttingparamslinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/componentlinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/foldingparamslinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/laminatingintentlinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/medialinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/medialink.cpp
+    src/proofnetwork/jdf/data/componentlink.cpp
+    src/proofnetwork/jdf/data/cuttingparamslink.cpp
+    src/proofnetwork/jdf/data/foldingparamslink.cpp
+    src/proofnetwork/jdf/data/laminatingintentlink.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.cpp
+    src/proofnetwork/jdf/data/abstractphysicalresourcelink.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/bundleitem.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/bundleitemqmlwrapper.cpp
+    src/proofnetwork/jdf/data/jmfdocument.cpp
+    src/proofnetwork/jdf/data/message.cpp
+    src/proofnetwork/jdf/data/query.cpp
+    src/proofnetwork/jdf/data/devicefilter.cpp
+    src/proofnetwork/jdf/data/response.cpp
+    src/proofnetwork/jdf/data/knowndevicesquery.cpp
+    src/proofnetwork/jdf/data/knowndevicesresponse.cpp
+    src/proofnetwork/jdf/data/deviceinfo.cpp
+    src/proofnetwork/jdf/data/notification.cpp
+    src/proofnetwork/jdf/data/deliveryintent.cpp
+    src/proofnetwork/jdf/data/deliveryintentlink.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/deliveryintentlinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/deliveryintentqmlwrapper.cpp
+    src/proofnetwork/jdf/data/dropintent.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/dropintentqmlwrapper.cpp
+    src/proofnetwork/jdf/data/dropitemintent.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/dropitemintentqmlwrapper.cpp
+    src/proofnetwork/jdf/data/layout.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/layoutqmlwrapper.cpp
+    src/proofnetwork/jdf/data/boxpackingparams.cpp
+    src/proofnetwork/jdf/data/boxpackingparamslink.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/boxpackingparamsqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/boxpackingparamslinkqmlwrapper.cpp
+    src/proofnetwork/jdf/data/auditpool.cpp
+    src/proofnetwork/jdf/data/abstractaudit.cpp
+    src/proofnetwork/jdf/data/createdaudit.cpp
+    src/proofnetwork/jdf/data/modifiedaudit.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/createdauditqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/modifiedauditqmlwrapper.cpp
+    src/proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.cpp
+)
+
+proof_add_target_headers(NetworkJdf
+    include/proofnetwork/jdf/proofnetworkjdf_global.h
+    include/proofnetwork/jdf/proofnetworkjdf_types.h
+    include/proofnetwork/jdf/data/qmlwrappers/cutblockqmlwrapper.h
+    include/proofnetwork/jdf/data/cutblock.h
+    include/proofnetwork/jdf/data/media.h
+    include/proofnetwork/jdf/data/qmlwrappers/mediaqmlwrapper.h
+    include/proofnetwork/jdf/apihelper.h
+    include/proofnetwork/jdf/data/jdfnode.h
+    include/proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h
+    include/proofnetwork/jdf/data/bundle.h
+    include/proofnetwork/jdf/data/qmlwrappers/bundleqmlwrapper.h
+    include/proofnetwork/jdf/data/cuttingparams.h
+    include/proofnetwork/jdf/data/abstractresource.h
+    include/proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/cuttingparamsqmlwrapper.h
+    include/proofnetwork/jdf/data/component.h
+    include/proofnetwork/jdf/data/qmlwrappers/componentqmlwrapper.h
+    include/proofnetwork/jdf/data/abstractphysicalresource.h
+    include/proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper.h
+    include/proofnetwork/jdf/data/resourcepool.h
+    include/proofnetwork/jdf/data/qmlwrappers/resourcepoolqmlwrapper.h
+    include/proofnetwork/jdf/data/laminatingintent.h
+    include/proofnetwork/jdf/data/qmlwrappers/laminatingintentqmlwrapper.h
+    include/proofnetwork/jdf/data/foldingparams.h
+    include/proofnetwork/jdf/data/qmlwrappers/foldingparamsqmlwrapper.h
+    include/proofnetwork/jdf/data/jdfdocument.h
+    include/proofnetwork/jdf/data/qmlwrappers/jdfdocumentqmlwrapper.h
+    include/proofnetwork/jdf/data/abstractresourcelink.h
+    include/proofnetwork/jdf/data/medialink.h
+    include/proofnetwork/jdf/data/componentlink.h
+    include/proofnetwork/jdf/data/cuttingparamslink.h
+    include/proofnetwork/jdf/data/laminatingintentlink.h
+    include/proofnetwork/jdf/data/foldingparamslink.h
+    include/proofnetwork/jdf/data/resourcelinkpool.h
+    include/proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/cuttingparamslinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/componentlinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/foldingparamslinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/laminatingintentlinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/medialinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/resourcelinkpoolqmlwrapper.h
+    include/proofnetwork/jdf/data/abstractphysicalresourcelink.h
+    include/proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper.h
+    include/proofnetwork/jdf/data/bundleitem.h
+    include/proofnetwork/jdf/data/qmlwrappers/bundleitemqmlwrapper.h
+    include/proofnetwork/jdf/data/jmfdocument.h
+    include/proofnetwork/jdf/data/message.h
+    include/proofnetwork/jdf/data/query.h
+    include/proofnetwork/jdf/data/devicefilter.h
+    include/proofnetwork/jdf/data/response.h
+    include/proofnetwork/jdf/data/knowndevicesquery.h
+    include/proofnetwork/jdf/data/knowndevicesresponse.h
+    include/proofnetwork/jdf/data/deviceinfo.h
+    include/proofnetwork/jdf/data/notification.h
+    include/proofnetwork/jdf/data/deliveryintent.h
+    include/proofnetwork/jdf/data/deliveryintentlink.h
+    include/proofnetwork/jdf/data/qmlwrappers/deliveryintentlinkqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/deliveryintentqmlwrapper.h
+    include/proofnetwork/jdf/data/dropintent.h
+    include/proofnetwork/jdf/data/qmlwrappers/dropintentqmlwrapper.h
+    include/proofnetwork/jdf/data/dropitemintent.h
+    include/proofnetwork/jdf/data/qmlwrappers/dropitemintentqmlwrapper.h
+    include/proofnetwork/jdf/data/span.h
+    include/proofnetwork/jdf/data/layout.h
+    include/proofnetwork/jdf/data/qmlwrappers/layoutqmlwrapper.h
+    include/proofnetwork/jdf/data/boxpackingparams.h
+    include/proofnetwork/jdf/data/boxpackingparamslink.h
+    include/proofnetwork/jdf/data/qmlwrappers/boxpackingparamsqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/boxpackingparamslinkqmlwrapper.h
+    include/proofnetwork/jdf/data/auditpool.h
+    include/proofnetwork/jdf/data/abstractaudit.h
+    include/proofnetwork/jdf/data/createdaudit.h
+    include/proofnetwork/jdf/data/modifiedaudit.h
+    include/proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/createdauditqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/modifiedauditqmlwrapper.h
+    include/proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.h
+    include/proofnetwork/jdf/data/shapedatatype.h
+    include/proofnetwork/jdf/data/rangedatatype.h
+    include/proofnetwork/jdf/data/rangelistdatatype.h
+    include/proofnetwork/jdf/data/enumerationsdatatype.h
+    include/proofnetwork/jdf/data/stringsdatatype.h
+    include/proofnetwork/jdf/jdfhelper.h
+)
+
+proof_add_target_private_headers(NetworkJdf
+    include/private/proofnetwork/jdf/data/abstractresource_p.h
+    include/private/proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h
+    include/private/proofnetwork/jdf/data/abstractphysicalresource_p.h
+    include/private/proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourceqmlwrapper_p.h
+    include/private/proofnetwork/jdf/data/qmlwrappers/abstractresourcelinkqmlwrapper_p.h
+    include/private/proofnetwork/jdf/data/abstractresourcelink_p.h
+    include/private/proofnetwork/jdf/data/abstractphysicalresourcelink_p.h
+    include/private/proofnetwork/jdf/data/qmlwrappers/abstractphysicalresourcelinkqmlwrapper_p.h
+    include/private/proofnetwork/jdf/data/jdfnode_p.h
+    include/private/proofnetwork/jdf/data/message_p.h
+    include/private/proofnetwork/jdf/data/query_p.h
+    include/private/proofnetwork/jdf/data/response_p.h
+    include/private/proofnetwork/jdf/data/abstractaudit_p.h
+    include/private/proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper_p.h
+)
+
+proof_force_moc(NetworkJdf include/proofnetwork/jdf/apihelper.h)
+
+proof_add_module(NetworkJdf
+    QT_LIBS Core Network Xml
+    PROOF_LIBS Network
+)
+
+add_subdirectory(tests/proofnetwork/jdf)

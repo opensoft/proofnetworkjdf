@@ -2,7 +2,7 @@
 
 #include "proofnetwork/jdf/jdfhelper.h"
 
-#include "gtest/test_global.h"
+#include "gtest/proof/test_global.h"
 
 #include <QFile>
 #include <QXmlStreamReader>

@@ -21,7 +21,7 @@
 #include "proofnetwork/jdf/data/resourcelinkpool.h"
 #include "proofnetwork/jdf/data/resourcepool.h"
 
-#include "gtest/test_global.h"
+#include "gtest/proof/test_global.h"
 
 #include <QFile>
 #include <QSignalSpy>

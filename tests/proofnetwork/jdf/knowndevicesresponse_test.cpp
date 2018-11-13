@@ -4,7 +4,7 @@
 #include "proofnetwork/jdf/data/jmfdocument.h"
 #include "proofnetwork/jdf/data/knowndevicesresponse.h"
 
-#include "gtest/test_global.h"
+#include "gtest/proof/test_global.h"
 
 #include <QDateTime>
 #include <QDomDocument>

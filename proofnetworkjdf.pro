@@ -4,7 +4,7 @@ PROOF_PRI_PATH = $$PWD/../proofboot
 !exists($$PROOF_PRI_PATH/proof.pri):PROOF_PRI_PATH = $$(PROOF_PATH)
 include($$PROOF_PRI_PATH/proof.pri)
 
-DEFINES += PROOF_NETWORK_JDF_LIB
+DEFINES += Proof_NetworkJdf_EXPORTS
 
 CONFIG += proofcore proofnetwork
 
