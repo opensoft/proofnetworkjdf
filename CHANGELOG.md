@@ -3,7 +3,8 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
- * --
+ * Component::length renamed to Component::depth
+ * Short version of Component Dimensions attribute (with 2 parts) is now supported
 
 #### Bug Fixing
  * --
