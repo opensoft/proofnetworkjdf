@@ -160,7 +160,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("COMP_0000", component->id());
     EXPECT_DOUBLE_EQ(2520.0, component->width());
     EXPECT_DOUBLE_EQ(1656.0, component->height());
-    EXPECT_DOUBLE_EQ(0.4896, component->length());
+    EXPECT_DOUBLE_EQ(0.4896, component->depth());
     EXPECT_EQ(1000u, component->amount());
 
     ComponentSP component2 = resourcePool->components().at(1);
@@ -169,7 +169,7 @@ TEST_F(JdfDocumentTest, fromJdf)
     EXPECT_EQ("PartialProduct", componentTypeToString(component2->componentType()));
     EXPECT_DOUBLE_EQ(432.0, component2->width());
     EXPECT_DOUBLE_EQ(288.0, component2->height());
-    EXPECT_DOUBLE_EQ(0.4896, component2->length());
+    EXPECT_DOUBLE_EQ(0.4896, component2->depth());
 
     EXPECT_EQ(15, component2->cutBlocks().count());
 
@@ -404,7 +404,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     EXPECT_EQ("COMP_0000", component->id());
     EXPECT_DOUBLE_EQ(2520.0, component->width());
     EXPECT_DOUBLE_EQ(1656.0, component->height());
-    EXPECT_DOUBLE_EQ(0.4896, component->length());
+    EXPECT_DOUBLE_EQ(0.4896, component->depth());
     EXPECT_EQ(1000u, component->amount());
 
     ComponentSP component2 = resourcePool->components().at(1);
@@ -538,7 +538,7 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_EQ(component->id(), component2->id());
     EXPECT_DOUBLE_EQ(component->width(), component2->width());
     EXPECT_DOUBLE_EQ(component->height(), component2->height());
-    EXPECT_DOUBLE_EQ(component->length(), component2->length());
+    EXPECT_DOUBLE_EQ(component->depth(), component2->depth());
     EXPECT_EQ(component->amount(), component2->amount());
     EXPECT_EQ(component->cutBlocks().count(), component2->cutBlocks().count());
 

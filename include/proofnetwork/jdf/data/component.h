@@ -51,7 +51,7 @@ public:
     QString productTypeDetails() const;
     double width() const;
     double height() const;
-    double length() const;
+    double depth() const;
     BundleSP bundle() const;
     QVector<CutBlockSP> cutBlocks() const;
     QVector<ComponentSP> parts() const;
@@ -61,7 +61,7 @@ public:
     void setProductTypeDetails(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
-    void setLength(double arg);
+    void setDepth(double arg);
     void setBundle(const BundleSP &arg);
     QVector<CutBlockSP> updateCutBlocks(const QVector<CutBlockSP> &arg);
     QVector<ComponentSP> updateParts(const QVector<ComponentSP> &arg);
@@ -81,7 +81,7 @@ signals:
     void productTypeDetailsChanged(const QString &arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
-    void lengthChanged(double arg);
+    void depthChanged(double arg);
     void bundleChanged(const Proof::Jdf::BundleSP &bundle);
     void cutBlocksChanged();
     void partsChanged();

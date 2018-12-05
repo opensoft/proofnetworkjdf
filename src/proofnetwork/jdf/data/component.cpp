@@ -50,7 +50,7 @@ class ComponentPrivate : AbstractPhysicalResourcePrivate
 
     double width = 0.0;
     double height = 0.0;
-    double length = 0.0;
+    double depth = 0.0;
     BundleSP bundle = Bundle::create();
     QVector<CutBlockSP> cutBlocks;
     QVector<ComponentSP> parts;
@@ -96,10 +96,10 @@ double Component::height() const
     return d->height;
 }
 
-double Component::length() const
+double Component::depth() const
 {
     Q_D_CONST(Component);
-    return d->length;
+    return d->depth;
 }
 
 BundleSP Component::bundle() const
@@ -165,12 +165,12 @@ void Component::setHeight(double arg)
     }
 }
 
-void Component::setLength(double arg)
+void Component::setDepth(double arg)
 {
     Q_D(Component);
-    if (!qFuzzyCompare(d->length, arg)) {
-        d->length = arg;
-        emit lengthChanged(d->length);
+    if (!qFuzzyCompare(d->depth, arg)) {
+        d->depth = arg;
+        emit depthChanged(d->depth);
     }
 }
 
@@ -264,11 +264,12 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
             QStringList dimensionsList = attributes.value(QStringLiteral("Dimensions"))
                                              .toString()
                                              .split(QStringLiteral(" "), QString::SkipEmptyParts);
-            if (dimensionsList.count() >= 3) {
+            if (dimensionsList.count() >= 2) {
                 component->setWidth(dimensionsList.at(0).toDouble());
                 component->setHeight(dimensionsList.at(1).toDouble());
-                component->setLength(dimensionsList.at(2).toDouble());
             }
+            if (dimensionsList.count() >= 3)
+                component->setDepth(dimensionsList.at(2).toDouble());
         } else if (!xmlReader.name().compare(component->jdfNodeRefName(), Qt::CaseInsensitive)
                    && xmlReader.isStartElement() && !component->isFetched()) {
             QXmlStreamAttributes attributes = xmlReader.attributes();
@@ -357,11 +358,11 @@ void Component::toJdf(QXmlStreamWriter &jdfWriter)
         jdfWriter.writeAttribute(QStringLiteral("ProductType"), productTypeToString(d->productType));
     if (!d->productTypeDetails.isEmpty())
         jdfWriter.writeAttribute(QStringLiteral("ProductTypeDetails"), d->productTypeDetails);
-    if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height) || !qFuzzyIsNull(d->length)) {
+    if (!qFuzzyIsNull(d->width) || !qFuzzyIsNull(d->height) || !qFuzzyIsNull(d->depth)) {
         jdfWriter.writeAttribute(QStringLiteral("Dimensions"), QStringLiteral("%1 %2 %3")
                                                                    .arg(d->width, 0, 'f', 4)
                                                                    .arg(d->height, 0, 'f', 4)
-                                                                   .arg(d->length, 0, 'f', 4));
+                                                                   .arg(d->depth, 0, 'f', 4));
     }
 
     AbstractPhysicalResource::toJdf(jdfWriter);
@@ -404,7 +405,7 @@ void Component::updateSelf(const Proof::NetworkDataEntitySP &other)
     setProductTypeDetails(castedOther->productTypeDetails());
     setWidth(castedOther->width());
     setHeight(castedOther->height());
-    setLength(castedOther->length());
+    setDepth(castedOther->depth());
     setBundle(castedOther->bundle());
     setPartIdKeys(castedOther->partIdKeys());
     updateCutBlocks(castedOther->cutBlocks());
