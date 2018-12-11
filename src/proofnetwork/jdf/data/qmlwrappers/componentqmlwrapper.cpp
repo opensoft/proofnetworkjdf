@@ -68,9 +68,9 @@ BundleQmlWrapper *ComponentQmlWrapper::bundle() const
     return d->bundle;
 }
 
-QQmlListProperty<ComponentQmlWrapper> ComponentQmlWrapper::parts()
+QQmlListProperty<ComponentQmlWrapper> ComponentQmlWrapper::parts() const
 {
-    Q_D(ComponentQmlWrapper);
+    Q_D_CONST(ComponentQmlWrapper);
     return d->qmlPartsList;
 }
 
@@ -89,14 +89,8 @@ void ComponentQmlWrapperPrivate::updateParts()
 {
     Q_Q(ComponentQmlWrapper);
     ComponentSP component = q->entity<Component>();
-    for (ComponentQmlWrapper *wrapper : qAsConst(parts))
-        wrapper->deleteLater();
-
-    parts.clear();
-    const auto ndeParts = component->parts();
-    for (const ComponentSP &part : ndeParts)
-        parts << part->toQmlWrapper(q);
-
+    algorithms::forEach(parts, [](const auto &x) { x->deleteLater(); });
+    parts = algorithms::map(component->parts(), [q](const auto &x) { return x->toQmlWrapper(q); });
     qmlPartsList = QQmlListProperty<Proof::Jdf::ComponentQmlWrapper>(q, &parts, &ComponentQmlWrapperPrivate::partsCount,
                                                                      &ComponentQmlWrapperPrivate::partAt);
     emit q->partsChanged(qmlPartsList);
@@ -136,6 +130,9 @@ void ComponentQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &o
     }
 
     d->updateBundle();
+    d->updateParts();
+
+    AbstractPhysicalResourceQmlWrapper::setupEntity(old);
 }
 
 } // namespace Jdf

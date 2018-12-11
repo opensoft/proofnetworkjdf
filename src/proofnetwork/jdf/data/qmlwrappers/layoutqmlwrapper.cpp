@@ -35,11 +35,17 @@ class LayoutQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
 {
     Q_DECLARE_PUBLIC(LayoutQmlWrapper)
     void updateMedia();
+    void updateParts();
+
+    static MediaQmlWrapper *mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index);
+    static int mediaCount(QQmlListProperty<MediaQmlWrapper> *property);
+    static LayoutQmlWrapper *partAt(QQmlListProperty<LayoutQmlWrapper> *property, int index);
+    static int partsCount(QQmlListProperty<LayoutQmlWrapper> *property);
 
     QVector<MediaQmlWrapper *> media;
     QQmlListProperty<Proof::Jdf::MediaQmlWrapper> qmlMediaList;
-    static MediaQmlWrapper *mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index);
-    static int mediaCount(QQmlListProperty<MediaQmlWrapper> *property);
+    QVector<LayoutQmlWrapper *> parts;
+    QQmlListProperty<Proof::Jdf::LayoutQmlWrapper> qmlPartsList;
 };
 
 } // namespace Jdf
@@ -64,6 +70,12 @@ QQmlListProperty<Proof::Jdf::MediaQmlWrapper> LayoutQmlWrapper::media() const
     return d->qmlMediaList;
 }
 
+QQmlListProperty<Proof::Jdf::LayoutQmlWrapper> LayoutQmlWrapper::parts() const
+{
+    Q_D_CONST(LayoutQmlWrapper);
+    return d->qmlPartsList;
+}
+
 void LayoutQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity> &old)
 {
     Q_D(LayoutQmlWrapper);
@@ -72,8 +84,10 @@ void LayoutQmlWrapper::setupEntity(const QSharedPointer<Proof::NetworkDataEntity
     Q_ASSERT(layout);
 
     connect(layout.data(), &Layout::mediaChanged, entityConnectContext(), [d]() { d->updateMedia(); });
+    connect(layout.data(), &Layout::partsChanged, entityConnectContext(), [d]() { d->updateParts(); });
 
     d->updateMedia();
+    d->updateParts();
 
     AbstractResourceQmlWrapper::setupEntity(old);
 }
@@ -82,17 +96,22 @@ void LayoutQmlWrapperPrivate::updateMedia()
 {
     Q_Q(LayoutQmlWrapper);
     LayoutSP layout = q->entity<Layout>();
-    for (MediaQmlWrapper *wrapper : qAsConst(media))
-        wrapper->deleteLater();
-
-    media.clear();
-    const auto ndeMedia = layout->media();
-    for (const MediaSP &md : ndeMedia)
-        media << md->toQmlWrapper(q);
-
+    algorithms::forEach(media, [](const auto &x) { x->deleteLater(); });
+    media = algorithms::map(layout->media(), [q](const auto &x) { return x->toQmlWrapper(q); });
     qmlMediaList = QQmlListProperty<Proof::Jdf::MediaQmlWrapper>(q, &media, &LayoutQmlWrapperPrivate::mediaCount,
                                                                  &LayoutQmlWrapperPrivate::mediaAt);
     emit q->mediaChanged(qmlMediaList);
+}
+
+void LayoutQmlWrapperPrivate::updateParts()
+{
+    Q_Q(LayoutQmlWrapper);
+    LayoutSP layout = q->entity<Layout>();
+    algorithms::forEach(parts, [](const auto &x) { x->deleteLater(); });
+    parts = algorithms::map(layout->parts(), [q](const auto &x) { return x->toQmlWrapper(q); });
+    qmlPartsList = QQmlListProperty<Proof::Jdf::LayoutQmlWrapper>(q, &parts, &LayoutQmlWrapperPrivate::partsCount,
+                                                                  &LayoutQmlWrapperPrivate::partAt);
+    emit q->partsChanged(qmlPartsList);
 }
 
 MediaQmlWrapper *LayoutQmlWrapperPrivate::mediaAt(QQmlListProperty<MediaQmlWrapper> *property, int index)
@@ -103,4 +122,14 @@ MediaQmlWrapper *LayoutQmlWrapperPrivate::mediaAt(QQmlListProperty<MediaQmlWrapp
 int LayoutQmlWrapperPrivate::mediaCount(QQmlListProperty<MediaQmlWrapper> *property)
 {
     return static_cast<QVector<MediaQmlWrapper *> *>(property->data)->count();
+}
+
+LayoutQmlWrapper *LayoutQmlWrapperPrivate::partAt(QQmlListProperty<LayoutQmlWrapper> *property, int index)
+{
+    return static_cast<QVector<LayoutQmlWrapper *> *>(property->data)->at(index);
+}
+
+int LayoutQmlWrapperPrivate::partsCount(QQmlListProperty<LayoutQmlWrapper> *property)
+{
+    return static_cast<QVector<LayoutQmlWrapper *> *>(property->data)->count();
 }
