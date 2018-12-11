@@ -36,7 +36,10 @@ class LayoutPrivate : public AbstractResourcePrivate
 
     LayoutPrivate() : AbstractResourcePrivate(ResourceClass::ParameterClass) { registerChildren(media); }
 
+    bool partsAreValid(QVector<ResourcePartType> partsToCheck = QVector<ResourcePartType>()) const;
+
     QVector<MediaSP> media;
+    QVector<LayoutSP> parts;
 };
 
 } // namespace Jdf
@@ -52,6 +55,12 @@ QVector<MediaSP> Layout::media() const
 {
     Q_D_CONST(Layout);
     return d->media;
+}
+
+QVector<LayoutSP> Layout::parts() const
+{
+    Q_D_CONST(Layout);
+    return d->parts;
 }
 
 void Layout::setMedia(const QVector<MediaSP> &arg)
@@ -101,7 +110,14 @@ LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
             AbstractResourceSP castedComponent = qSharedPointerCast<AbstractResource>(layout);
             AbstractResource::fromJdf(xmlReader, castedComponent);
         } else if (xmlReader.isStartElement()) {
-            if (xmlReader.name() == "Media") {
+            if (xmlReader.name() == "Layout") {
+                LayoutSP part = Layout::fromJdf(xmlReader, jobId, sanitize);
+                if (!part) {
+                    qCWarning(proofNetworkJdfDataLog) << "Layout not created. Part is not valid";
+                    return LayoutSP();
+                }
+                layout->addPart(part);
+            } else if (xmlReader.name() == "Media") {
                 MediaSP media = Media::fromJdf(xmlReader, jobId, sanitize);
                 if (!media) {
                     qCWarning(proofNetworkJdfDataLog) << "Layout not created. Media is invalid.";
@@ -115,6 +131,11 @@ LayoutSP Layout::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, bool
             break;
         }
         xmlReader.readNext();
+    }
+
+    if (layout->d_func()->partIdKeys.count() && !layout->d_func()->partsAreValid()) {
+        qCWarning(proofNetworkJdfDataLog) << "Layout not created. Partioning is not valid";
+        return LayoutSP();
     }
 
     layout->setMedia(mediaList);
@@ -133,7 +154,32 @@ void Layout::toJdf(QXmlStreamWriter &jdfWriter)
             media->toJdf(jdfWriter);
     }
 
+    for (const auto &part : qAsConst(d->parts)) {
+        if (part->isDirty())
+            part->toJdf(jdfWriter);
+    }
+
     jdfWriter.writeEndElement();
+}
+
+QVector<LayoutSP> Layout::updateParts(const QVector<LayoutSP> &arg)
+{
+    Q_D(Layout);
+    bool emitNeeded = arg.count() != d->parts.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->id() != d->parts[i]->id();
+    if (emitNeeded) {
+        d->parts = arg;
+        emit partsChanged();
+    }
+    return d->parts;
+}
+
+void Layout::addPart(const LayoutSP &arg)
+{
+    Q_D(Layout);
+    d->parts << arg;
+    emit partsChanged();
 }
 
 void Layout::updateSelf(const NetworkDataEntitySP &other)
@@ -142,4 +188,28 @@ void Layout::updateSelf(const NetworkDataEntitySP &other)
     setMedia(castedOther->media());
 
     AbstractResource::updateSelf(other);
+}
+
+bool LayoutPrivate::partsAreValid(QVector<ResourcePartType> partsToCheck) const
+{
+    if (partsToCheck.isEmpty() && !partIdKeys.isEmpty())
+        partsToCheck = partIdKeys;
+    if (partsToCheck.isEmpty()) {
+        if (parts.count())
+            qCWarning(proofNetworkJdfDataLog) << "Layout partioning is not valid. Extra parts found";
+        return parts.isEmpty();
+    }
+
+    auto currentPart = partsToCheck.takeFirst();
+
+    for (const auto &part : parts) {
+        if (!part->hasPartAttribute(currentPart)) {
+            qCWarning(proofNetworkJdfDataLog)
+                << "Layout partioning is not valid. Part" << resourcePartTypeToString(currentPart) << "not found";
+            return false;
+        }
+        if (!part->d_func()->partsAreValid(partsToCheck))
+            return false;
+    }
+    return true;
 }

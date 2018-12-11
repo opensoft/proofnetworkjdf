@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<JDF xmlns="http://www.CIP4.org/JDFSchema_1_1" ID="JDF_0000" Status="Waiting" Type="Product" Version="1.5">
+    <ResourcePool>
+        <Layout PartIDKeys="SignatureName SheetName" ID="Layout_1">
+            <Layout SignatureName="2" ID="Layout_2">
+                <Media ID="Media_1" MediaType="Paper" MediaUnit="Sheet" Status="Available" Thickness="172.7200"/>
+                <Layout SheetName="Sheet-1"  ID="Layout_3"/>
+            </Layout>
+        </Layout>
+    </ResourcePool>
+    <ResourceLinkPool/>
+</JDF>

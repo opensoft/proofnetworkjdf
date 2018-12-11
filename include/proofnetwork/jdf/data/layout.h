@@ -43,9 +43,12 @@ class PROOF_NETWORK_JDF_EXPORT Layout : public AbstractResource
     Q_DECLARE_PRIVATE(Layout)
 public:
     QVector<MediaSP> media() const;
+    QVector<LayoutSP> parts() const;
 
     void setMedia(const QVector<MediaSP> &arg);
     void addMedia(const MediaSP &arg);
+    QVector<LayoutSP> updateParts(const QVector<LayoutSP> &arg);
+    void addPart(const LayoutSP &arg);
 
     LayoutQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -56,6 +59,7 @@ public:
 
 signals:
     void mediaChanged();
+    void partsChanged();
 
 protected:
     explicit Layout();
