@@ -32,6 +32,8 @@
 #include "proofnetwork/jdf/data/layout.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 
+#include <QLinkedList>
+
 #include <set>
 
 using namespace Proof::Jdf;
@@ -196,12 +198,12 @@ JdfNodeSP Proof::Jdf::JdfNode::findNode(const std::function<bool(const JdfNodeSP
     JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         if (predicate(head))
             return head;
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return JdfNodeSP();
 }
@@ -211,19 +213,20 @@ ComponentSP Proof::Jdf::JdfNode::findComponent(const std::function<bool(const Co
     JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
-    QVector<JdfNodeSP> queue = {castedSelf};
-    QVector<ComponentSP> componentsQueue;
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<ComponentSP> componentsQueue;
     while (queue.count()) {
-        componentsQueue.resize(0);
+        componentsQueue.clear();
         auto head = queue.takeFirst();
-        componentsQueue << head->resourcePool()->components();
+        algorithms::forEach(head->resourcePool()->components(),
+                            [&componentsQueue](const auto &n) { componentsQueue << n; });
         while (componentsQueue.count()) {
             auto component = componentsQueue.takeFirst();
             if (predicate(component))
                 return component;
-            componentsQueue << component->parts();
+            algorithms::forEach(component->parts(), [&componentsQueue](const auto &n) { componentsQueue << n; });
         }
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return ComponentSP();
 }
@@ -233,13 +236,13 @@ ComponentLinkSP JdfNode::findComponentLink(const std::function<bool(const Compon
     JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         auto link = algorithms::findIf(head->resourceLinkPool()->componentLinks(), predicate);
         if (link)
             return link;
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return ComponentLinkSP();
 }
@@ -249,13 +252,13 @@ MediaLinkSP JdfNode::findMediaLink(const std::function<bool(const MediaLinkSP &)
     JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         auto link = algorithms::findIf(head->resourceLinkPool()->mediaLinks(), predicate);
         if (link)
             return link;
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return MediaLinkSP();
 }
@@ -265,13 +268,13 @@ MediaSP JdfNode::findMedia(const std::function<bool(const MediaSP &)> &predicate
     JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         auto media = algorithms::findIf(head->resourcePool()->media(), predicate);
         if (media)
             return media;
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return MediaSP();
 }
@@ -281,19 +284,19 @@ LayoutSP JdfNode::findLayout(const std::function<bool(const LayoutSP &)> &predic
     JdfNodeSP castedSelf = castedSelfPtr<JdfNode>();
     Q_ASSERT(castedSelf);
 
-    QVector<JdfNodeSP> queue = {castedSelf};
-    QVector<LayoutSP> layoutsQueue;
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<LayoutSP> layoutsQueue;
     while (queue.count()) {
-        layoutsQueue.resize(0);
+        layoutsQueue.clear();
         auto head = queue.takeFirst();
-        layoutsQueue << head->resourcePool()->layouts();
+        algorithms::forEach(head->resourcePool()->layouts(), [&layoutsQueue](const auto &n) { layoutsQueue << n; });
         while (layoutsQueue.count()) {
             auto layout = layoutsQueue.takeFirst();
             if (predicate(layout))
                 return layout;
-            layoutsQueue << layout->parts();
+            algorithms::forEach(layout->parts(), [&layoutsQueue](const auto &n) { layoutsQueue << n; });
         }
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return LayoutSP();
 }
@@ -304,12 +307,12 @@ QVector<JdfNodeSP> JdfNode::findAllNodes(const std::function<bool(const JdfNodeS
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> result;
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         if (predicate(head))
             result << head;
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return result;
 }
@@ -320,19 +323,20 @@ QVector<ComponentSP> JdfNode::findAllComponents(const std::function<bool(const C
     Q_ASSERT(castedSelf);
 
     QVector<ComponentSP> result;
-    QVector<JdfNodeSP> queue = {castedSelf};
-    QVector<ComponentSP> componentsQueue;
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<ComponentSP> componentsQueue;
     while (queue.count()) {
-        componentsQueue.resize(0);
+        componentsQueue.clear();
         auto head = queue.takeFirst();
-        componentsQueue << head->resourcePool()->components();
+        algorithms::forEach(head->resourcePool()->components(),
+                            [&componentsQueue](const auto &n) { componentsQueue << n; });
         while (componentsQueue.count()) {
             auto component = componentsQueue.takeFirst();
             if (predicate(component))
                 result << component;
-            componentsQueue << component->parts();
+            algorithms::forEach(component->parts(), [&componentsQueue](const auto &n) { componentsQueue << n; });
         }
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return result;
 }
@@ -343,11 +347,11 @@ QVector<ComponentLinkSP> JdfNode::findAllComponentLinks(const std::function<bool
     Q_ASSERT(castedSelf);
 
     QVector<ComponentLinkSP> result;
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         result << algorithms::filter(head->resourceLinkPool()->componentLinks(), predicate);
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return result;
 }
@@ -358,11 +362,11 @@ QVector<MediaLinkSP> JdfNode::findAllMediaLinks(const std::function<bool(const M
     Q_ASSERT(castedSelf);
 
     QVector<MediaLinkSP> result;
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         result << algorithms::filter(head->resourceLinkPool()->mediaLinks(), predicate);
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return result;
 }
@@ -373,11 +377,11 @@ QVector<MediaSP> JdfNode::findAllMedia(const std::function<bool(const MediaSP &)
     Q_ASSERT(castedSelf);
 
     QVector<MediaSP> result;
-    QVector<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
     while (queue.count()) {
         auto head = queue.takeFirst();
         result << algorithms::filter(head->resourcePool()->media(), predicate);
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return result;
 }
@@ -388,19 +392,19 @@ QVector<LayoutSP> JdfNode::findAllLayouts(const std::function<bool(const LayoutS
     Q_ASSERT(castedSelf);
 
     QVector<LayoutSP> result;
-    QVector<JdfNodeSP> queue = {castedSelf};
-    QVector<LayoutSP> layoutsQueue;
+    QLinkedList<JdfNodeSP> queue = {castedSelf};
+    QLinkedList<LayoutSP> layoutsQueue;
     while (queue.count()) {
-        layoutsQueue.resize(0);
+        layoutsQueue.clear();
         auto head = queue.takeFirst();
-        layoutsQueue << head->resourcePool()->layouts();
+        algorithms::forEach(head->resourcePool()->layouts(), [&layoutsQueue](const auto &n) { layoutsQueue << n; });
         while (layoutsQueue.count()) {
             auto layout = layoutsQueue.takeFirst();
             if (predicate(layout))
                 result << layout;
-            layoutsQueue << layout->parts();
+            algorithms::forEach(layout->parts(), [&layoutsQueue](const auto &n) { layoutsQueue << n; });
         }
-        queue << head->jdfNodes();
+        algorithms::forEach(head->jdfNodes(), [&queue](const auto &n) { queue << n; });
     }
     return result;
 }
