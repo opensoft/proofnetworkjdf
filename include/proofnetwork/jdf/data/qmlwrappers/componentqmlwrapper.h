@@ -58,7 +58,7 @@ public:
     Proof::Jdf::ProductType productType() const;
     QString productTypeDetails() const;
     Proof::Jdf::BundleQmlWrapper *bundle() const;
-    QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> parts();
+    QQmlListProperty<Proof::Jdf::ComponentQmlWrapper> parts() const;
 
 signals:
     void componentTypeChanged(Proof::Jdf::ComponentType componentType);

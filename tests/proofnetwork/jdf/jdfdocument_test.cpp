@@ -54,14 +54,20 @@ protected:
         QFile file3(":/data/jdfnested.jdf");
         ASSERT_TRUE(file3.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml3(&file3);
-        jdfDocUT3 = JdfDocument::fromJdf(xml3);
-        ASSERT_TRUE(jdfDocUT3);
+        jdfNested = JdfDocument::fromJdf(xml3);
+        ASSERT_TRUE(jdfNested);
 
         QFile file4(":/data/jdfwithpartitionedcomponents.jdf");
         ASSERT_TRUE(file4.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml4(&file4);
-        jdfDocUT4 = JdfDocument::fromJdf(xml4);
-        ASSERT_TRUE(jdfDocUT4);
+        jdfWithPartitionedComponents = JdfDocument::fromJdf(xml4);
+        ASSERT_TRUE(jdfWithPartitionedComponents);
+
+        QFile file5(":/data/jdfwithpartitionedlayouts.jdf");
+        ASSERT_TRUE(file5.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml5(&file5);
+        jdfWithPartitionedLayouts = JdfDocument::fromJdf(xml5);
+        ASSERT_TRUE(jdfWithPartitionedLayouts);
 
         qmlWrapperUT = jdfDocUT->toQmlWrapper();
     }
@@ -71,8 +77,9 @@ protected:
 protected:
     JdfDocumentSP jdfDocUT;
     JdfDocumentSP jdfDocUT2;
-    JdfDocumentSP jdfDocUT3;
-    JdfDocumentSP jdfDocUT4;
+    JdfDocumentSP jdfNested;
+    JdfDocumentSP jdfWithPartitionedComponents;
+    JdfDocumentSP jdfWithPartitionedLayouts;
     JdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
@@ -360,12 +367,12 @@ TEST_F(JdfDocumentTest, fromJdf)
 
 TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 {
-    EXPECT_EQ("JDF_0000", jdfDocUT3->id());
-    EXPECT_EQ("mixed-flatwork (groups)_2", jdfDocUT3->jobId());
-    EXPECT_EQ("ID0001", jdfDocUT3->jobPartId());
+    EXPECT_EQ("JDF_0000", jdfNested->id());
+    EXPECT_EQ("mixed-flatwork (groups)_2", jdfNested->jobId());
+    EXPECT_EQ("ID0001", jdfNested->jobPartId());
 
-    ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
-    JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
+    ASSERT_EQ(1, jdfNested->jdfNodes().count());
+    JdfNodeSP jdfNode = jdfNested->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
     EXPECT_EQ("ID_Product_0001", jdfNode->id());
@@ -428,8 +435,8 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
 
 TEST_F(JdfDocumentTest, fromNestedJdfCutting)
 {
-    ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
-    JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
+    ASSERT_EQ(1, jdfNested->jdfNodes().count());
+    JdfNodeSP jdfNode = jdfNested->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
     ASSERT_EQ(2, jdfNode->jdfNodes().count());
@@ -466,7 +473,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
 
 TEST_F(JdfDocumentTest, fromJdfWithPartitionedComponents)
 {
-    JdfNodeSP jdfNode = jdfDocUT4->jdfNodes().first();
+    JdfNodeSP jdfNode = jdfWithPartitionedComponents->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
     EXPECT_EQ("LAYOUT_0001", jdfNode->id());
     ResourcePoolSP resourcePool = jdfNode->resourcePool();
@@ -483,10 +490,31 @@ TEST_F(JdfDocumentTest, fromJdfWithPartitionedComponents)
     EXPECT_DOUBLE_EQ(1440, component->parts().first()->parts().first()->height());
 }
 
+TEST_F(JdfDocumentTest, fromJdfWithPartitionedLayouts)
+{
+    ResourcePoolSP resourcePool = jdfWithPartitionedLayouts->resourcePool();
+    ASSERT_TRUE(resourcePool);
+    ASSERT_EQ(1, resourcePool->layouts().count());
+    LayoutSP layout = resourcePool->layouts().first();
+    ASSERT_TRUE(layout);
+
+    EXPECT_EQ("Layout_1", layout->id());
+    EXPECT_EQ(0, layout->media().count());
+
+    ASSERT_EQ(1, layout->parts().count());
+    EXPECT_EQ("Layout_2", layout->parts().first()->id());
+    ASSERT_EQ(1, layout->parts().first()->media().count());
+    EXPECT_EQ("Media_1", layout->parts().first()->media().first()->id());
+
+    ASSERT_EQ(1, layout->parts().first()->parts().count());
+    EXPECT_EQ("Layout_3", layout->parts().first()->parts().first()->id());
+    EXPECT_EQ(0, layout->parts().first()->parts().first()->media().count());
+}
+
 TEST_F(JdfDocumentTest, fromNestedJdfFolding)
 {
-    ASSERT_EQ(1, jdfDocUT3->jdfNodes().count());
-    JdfNodeSP jdfNode = jdfDocUT3->jdfNodes().first();
+    ASSERT_EQ(1, jdfNested->jdfNodes().count());
+    JdfNodeSP jdfNode = jdfNested->jdfNodes().first();
     ASSERT_TRUE(jdfNode);
 
     ASSERT_EQ(2, jdfNode->jdfNodes().count());

@@ -40,6 +40,7 @@ class PROOF_NETWORK_JDF_EXPORT LayoutQmlWrapper : public AbstractResourceQmlWrap
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<Proof::Jdf::MediaQmlWrapper> media READ media NOTIFY mediaChanged)
+    Q_PROPERTY(QQmlListProperty<Proof::Jdf::LayoutQmlWrapper> parts READ parts NOTIFY partsChanged)
 
     Q_DECLARE_PRIVATE(LayoutQmlWrapper)
 public:
@@ -48,9 +49,11 @@ public:
     PROOF_NDE_WRAPPER_TOOLS(Layout)
 
     QQmlListProperty<Proof::Jdf::MediaQmlWrapper> media() const;
+    QQmlListProperty<Proof::Jdf::LayoutQmlWrapper> parts() const;
 
 signals:
     void mediaChanged(const QQmlListProperty<Proof::Jdf::MediaQmlWrapper> &media);
+    void partsChanged(const QQmlListProperty<Proof::Jdf::LayoutQmlWrapper> &parts);
 
 protected:
     void setupEntity(const QSharedPointer<NetworkDataEntity> &old = QSharedPointer<NetworkDataEntity>()) override;

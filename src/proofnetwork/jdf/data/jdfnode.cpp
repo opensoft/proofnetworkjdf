@@ -29,6 +29,7 @@
 #include "proofnetwork/jdf/data/component.h"
 #include "proofnetwork/jdf/data/jdfdocument.h"
 #include "proofnetwork/jdf/data/jdfnode_p.h"
+#include "proofnetwork/jdf/data/layout.h"
 #include "proofnetwork/jdf/data/qmlwrappers/jdfnodeqmlwrapper.h"
 
 #include <set>
@@ -281,11 +282,17 @@ LayoutSP JdfNode::findLayout(const std::function<bool(const LayoutSP &)> &predic
     Q_ASSERT(castedSelf);
 
     QVector<JdfNodeSP> queue = {castedSelf};
+    QVector<LayoutSP> layoutsQueue;
     while (queue.count()) {
+        layoutsQueue.resize(0);
         auto head = queue.takeFirst();
-        auto layout = algorithms::findIf(head->resourcePool()->layouts(), predicate);
-        if (layout)
-            return layout;
+        layoutsQueue << head->resourcePool()->layouts();
+        while (layoutsQueue.count()) {
+            auto layout = layoutsQueue.takeFirst();
+            if (predicate(layout))
+                return layout;
+            layoutsQueue << layout->parts();
+        }
         queue << head->jdfNodes();
     }
     return LayoutSP();
@@ -382,9 +389,17 @@ QVector<LayoutSP> JdfNode::findAllLayouts(const std::function<bool(const LayoutS
 
     QVector<LayoutSP> result;
     QVector<JdfNodeSP> queue = {castedSelf};
+    QVector<LayoutSP> layoutsQueue;
     while (queue.count()) {
+        layoutsQueue.resize(0);
         auto head = queue.takeFirst();
-        result << algorithms::filter(head->resourcePool()->layouts(), predicate);
+        layoutsQueue << head->resourcePool()->layouts();
+        while (layoutsQueue.count()) {
+            auto layout = layoutsQueue.takeFirst();
+            if (predicate(layout))
+                result << layout;
+            layoutsQueue << layout->parts();
+        }
         queue << head->jdfNodes();
     }
     return result;
