@@ -6,6 +6,7 @@ ProofNetworkJdf Changelog
  * Component::length renamed to Component::depth
  * Short version of Component Dimensions attribute (with 2 parts) is now supported
  * Partitioned Layouts are now supported
+ * Basic support for shearing with flipping in cut blocks added (only x; -1; -1; x and x; 1; 1; x are supported for now)
 
 #### Bug Fixing
  * --
