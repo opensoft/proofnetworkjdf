@@ -174,6 +174,7 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
         xmlReader.readNext();
     }
 
+    cutBlock->normalizeTransformation();
     return cutBlock;
 }
 
@@ -256,12 +257,10 @@ void CutBlock::setTransformationMatrix(const QString &arg)
 void CutBlock::setTransformationMatrix(double x, double y, double rotation)
 {
     Q_D(CutBlock);
-    QString transformationMatrix = QStringLiteral("%1 %2 %3")
-                                       .arg(d->createRotationMatrixString(rotation))
-                                       .arg(x, 0, 'f', 4, QLatin1Char(' '))
-                                       .arg(y, 0, 'f', 4, QLatin1Char(' '));
-
-    setTransformationMatrix(transformationMatrix);
+    setTransformationMatrix(QStringLiteral("%1 %2 %3")
+                                .arg(d->createRotationMatrixString(rotation))
+                                .arg(x, 0, 'f', 4, QLatin1Char(' '))
+                                .arg(y, 0, 'f', 4, QLatin1Char(' ')));
 }
 
 void CutBlock::setBlockType(BlockType arg)
@@ -270,6 +269,37 @@ void CutBlock::setBlockType(BlockType arg)
     if (d->blockType != arg) {
         d->blockType = arg;
         emit blockTypeChanged(d->blockType);
+    }
+}
+
+void CutBlock::normalizeTransformation()
+{
+    Q_D_CONST(CutBlock);
+    QStringList transformationMatrixList = d->transformationMatrix.split(QStringLiteral(" "), QString::SkipEmptyParts);
+    if (transformationMatrixList.count() < 4)
+        return;
+    double matrix[4] = {transformationMatrixList.at(0).toDouble(), transformationMatrixList.at(1).toDouble(),
+                        transformationMatrixList.at(2).toDouble(), transformationMatrixList.at(3).toDouble()};
+
+    // TODO: add proper support for all kind of matrices, not only for rotations and 0;-1;-1;0/0;1;1;0
+    // Useful tool for matrices visualization - https://shadanan.github.io/MatVis/
+
+    // We consider matrix _;-x;x;_ as normalized one, i.e. it describes rotation, not shearing
+    if (qFuzzyIsNull(matrix[1]) || qFuzzyCompare(matrix[1], matrix[2] * -1.0))
+        return;
+
+    if (qFuzzyCompare(matrix[1], -1)) {
+        auto newWidth = height();
+        auto hewHeight = width();
+        setWidth(newWidth);
+        setHeight(hewHeight);
+        setTransformationMatrix(x(), y(), 180.0);
+    } else if (qFuzzyCompare(matrix[1], 1)) {
+        auto newWidth = height();
+        auto hewHeight = width();
+        setWidth(newWidth);
+        setHeight(hewHeight);
+        setTransformationMatrix(x(), y(), 0.0);
     }
 }
 
@@ -330,10 +360,13 @@ double CutBlockPrivate::rotationFromTransformationMatrix(const QString &transfor
     QStringList transformationMatrixList = transformationMatrix.split(QStringLiteral(" "), QString::SkipEmptyParts);
     double cutBlockRotation = 0.0;
     if (transformationMatrixList.count() == 6) {
-        if (qFuzzyIsNull(transformationMatrixList.at(0).toDouble()))
-            cutBlockRotation = std::asin(transformationMatrixList.at(2).toDouble()) * 180 / PI;
-        else
-            cutBlockRotation = std::acos(transformationMatrixList.at(0).toDouble()) * 180 / PI;
+        double matrix[4] = {transformationMatrixList.at(0).toDouble(), transformationMatrixList.at(1).toDouble(),
+                            transformationMatrixList.at(2).toDouble(), transformationMatrixList.at(3).toDouble()};
+        if (!qFuzzyIsNull(matrix[0])) {
+            cutBlockRotation = std::acos(matrix[0]) * 180 / PI;
+        } else {
+            cutBlockRotation = std::asin(matrix[2]) * 180 / PI;
+        }
     }
     if (cutBlockRotation < 0)
         cutBlockRotation += 360;
