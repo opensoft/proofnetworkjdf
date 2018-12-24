@@ -3,6 +3,13 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
+ * --
+
+#### Bug Fixing
+ * --
+
+## 0.18.12.24
+#### Features
  * Component::length renamed to Component::depth
  * Short version of Component Dimensions attribute (with 2 parts) is now supported
  * Partitioned Layouts are now supported
