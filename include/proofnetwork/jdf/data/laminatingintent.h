@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT LaminatingIntent : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(LaminatingIntent)
 public:
+    LaminatingIntent(const LaminatingIntent &) = delete;
+    LaminatingIntent &operator=(const LaminatingIntent &) = delete;
+    LaminatingIntent(LaminatingIntent &&) = delete;
+    LaminatingIntent &operator=(LaminatingIntent &&) = delete;
+    ~LaminatingIntent() = default;
+
     LaminatingSurface surface() const;
 
     void setSurface(LaminatingSurface surface);

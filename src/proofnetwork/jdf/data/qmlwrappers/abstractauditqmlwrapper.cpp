@@ -34,7 +34,7 @@ AbstractAuditQmlWrapper::AbstractAuditQmlWrapper(const AbstractAuditSP &abstract
                                                  AbstractAuditQmlWrapperPrivate &dd, QObject *parent)
     : NetworkDataEntityQmlWrapper(abstractAudit, dd, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 AbstractAuditQmlWrapper::~AbstractAuditQmlWrapper()

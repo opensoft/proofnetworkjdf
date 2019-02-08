@@ -39,5 +39,5 @@ Q_DECLARE_LOGGING_CATEGORY(proofNetworkJdfDataLog);
 
 namespace Proof {
 constexpr long NETWORK_JDF_MODULE_CODE = 304;
-}
+} // namespace Proof
 #endif // PROOFNETWORKJDF_GLOBAL_H

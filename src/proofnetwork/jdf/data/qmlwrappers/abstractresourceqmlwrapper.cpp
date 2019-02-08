@@ -34,7 +34,7 @@ AbstractResourceQmlWrapper::AbstractResourceQmlWrapper(const QSharedPointer<Abst
                                                        AbstractResourceQmlWrapperPrivate &dd, QObject *parent)
     : NetworkDataEntityQmlWrapper(abstractResource, dd, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 AbstractResourceQmlWrapper::~AbstractResourceQmlWrapper()

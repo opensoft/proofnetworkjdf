@@ -48,6 +48,10 @@ class PROOF_NETWORK_JDF_EXPORT AbstractAuditQmlWrapper : public NetworkDataEntit
 public:
     explicit AbstractAuditQmlWrapper(const QSharedPointer<AbstractAudit> &abstractAudit,
                                      AbstractAuditQmlWrapperPrivate &dd, QObject *parent = nullptr);
+    AbstractAuditQmlWrapper(const AbstractAuditQmlWrapper &) = delete;
+    AbstractAuditQmlWrapper &operator=(const AbstractAuditQmlWrapper &) = delete;
+    AbstractAuditQmlWrapper(AbstractAuditQmlWrapper &&) = delete;
+    AbstractAuditQmlWrapper &operator=(AbstractAuditQmlWrapper &&) = delete;
     ~AbstractAuditQmlWrapper();
 
     QString id() const;

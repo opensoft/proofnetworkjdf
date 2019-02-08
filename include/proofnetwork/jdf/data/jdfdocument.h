@@ -37,6 +37,12 @@ class PROOF_NETWORK_JDF_EXPORT JdfDocument : public JdfNode
     Q_OBJECT
     Q_DECLARE_PRIVATE(JdfDocument)
 public:
+    JdfDocument(const JdfDocument &) = delete;
+    JdfDocument &operator=(const JdfDocument &) = delete;
+    JdfDocument(JdfDocument &&) = delete;
+    JdfDocument &operator=(JdfDocument &&) = delete;
+    ~JdfDocument() = default;
+
     JdfDocumentQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static JdfDocumentSP create();

@@ -46,6 +46,12 @@ class PROOF_NETWORK_JDF_EXPORT CutBlock : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(CutBlock)
 public:
+    CutBlock(const CutBlock &) = delete;
+    CutBlock &operator=(const CutBlock &) = delete;
+    CutBlock(CutBlock &&) = delete;
+    CutBlock &operator=(CutBlock &&) = delete;
+    ~CutBlock() = default;
+
     QString blockName() const;
     double width() const;
     double height() const;

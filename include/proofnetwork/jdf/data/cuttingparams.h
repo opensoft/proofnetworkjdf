@@ -43,6 +43,12 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParams : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParams)
 public:
+    CuttingParams(const CuttingParams &) = delete;
+    CuttingParams &operator=(const CuttingParams &) = delete;
+    CuttingParams(CuttingParams &&) = delete;
+    CuttingParams &operator=(CuttingParams &&) = delete;
+    ~CuttingParams() = default;
+
     QVector<CutBlockSP> cutBlocks() const;
     QVector<CuttingParamsSP> parts() const;
 

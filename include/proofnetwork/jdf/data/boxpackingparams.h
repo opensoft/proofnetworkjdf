@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT BoxPackingParams : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(BoxPackingParams)
 public:
+    BoxPackingParams(const BoxPackingParams &) = delete;
+    BoxPackingParams &operator=(const BoxPackingParams &) = delete;
+    BoxPackingParams(BoxPackingParams &&) = delete;
+    BoxPackingParams &operator=(BoxPackingParams &&) = delete;
+    ~BoxPackingParams() = default;
+
     BoxPackingParamsQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static BoxPackingParamsSP create();

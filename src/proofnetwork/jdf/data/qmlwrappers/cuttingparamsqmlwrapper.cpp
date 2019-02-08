@@ -59,7 +59,7 @@ using namespace Proof::Jdf;
 CuttingParamsQmlWrapper::CuttingParamsQmlWrapper(const CuttingParamsSP &cuttingParams, QObject *parent)
     : AbstractResourceQmlWrapper(cuttingParams, *new CuttingParamsQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 CuttingParamsQmlWrapper::~CuttingParamsQmlWrapper()

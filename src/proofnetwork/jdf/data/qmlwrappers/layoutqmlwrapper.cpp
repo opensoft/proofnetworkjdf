@@ -56,7 +56,7 @@ using namespace Proof::Jdf;
 LayoutQmlWrapper::LayoutQmlWrapper(const LayoutSP &layout, QObject *parent)
     : AbstractResourceQmlWrapper(layout, *new LayoutQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 LayoutQmlWrapper::~LayoutQmlWrapper()

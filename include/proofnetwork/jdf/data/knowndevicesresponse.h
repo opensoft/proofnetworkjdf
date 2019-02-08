@@ -39,6 +39,12 @@ class PROOF_NETWORK_JDF_EXPORT KnownDevicesResponse : public Response
     Q_DECLARE_PRIVATE(KnownDevicesResponse)
 
 public:
+    KnownDevicesResponse(const KnownDevicesResponse &) = delete;
+    KnownDevicesResponse &operator=(const KnownDevicesResponse &) = delete;
+    KnownDevicesResponse(KnownDevicesResponse &&) = delete;
+    KnownDevicesResponse &operator=(KnownDevicesResponse &&) = delete;
+    ~KnownDevicesResponse() = default;
+
     QVector<DeviceInfoSP> deviceInfos() const;
 
     void setDeviceInfos(const QVector<DeviceInfoSP> &arg);

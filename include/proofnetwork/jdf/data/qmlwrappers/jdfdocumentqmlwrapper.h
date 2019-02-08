@@ -39,6 +39,7 @@ class JdfDocumentQmlWrapper : public JdfNodeQmlWrapper
     Q_DECLARE_PRIVATE(JdfDocumentQmlWrapper)
 public:
     explicit JdfDocumentQmlWrapper(const JdfDocumentSP &jdfDoc, QObject *parent = nullptr);
+    ~JdfDocumentQmlWrapper() = default;
     PROOF_NDE_WRAPPER_TOOLS(JdfDocument)
 };
 

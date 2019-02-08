@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT DeviceInfo : public NetworkDataEntity
     Q_DECLARE_PRIVATE(DeviceInfo)
 
 public:
+    DeviceInfo(const DeviceInfo &) = delete;
+    DeviceInfo &operator=(const DeviceInfo &) = delete;
+    DeviceInfo(DeviceInfo &&) = delete;
+    DeviceInfo &operator=(DeviceInfo &&) = delete;
+    ~DeviceInfo() = default;
+
     QString deviceId() const;
     DeviceStatus status() const;
     DeviceCondition condition() const;

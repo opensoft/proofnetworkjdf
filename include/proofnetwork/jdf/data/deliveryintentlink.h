@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT DeliveryIntentLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryIntentLink)
 public:
+    DeliveryIntentLink(const DeliveryIntentLink &) = delete;
+    DeliveryIntentLink &operator=(const DeliveryIntentLink &) = delete;
+    DeliveryIntentLink(DeliveryIntentLink &&) = delete;
+    DeliveryIntentLink &operator=(DeliveryIntentLink &&) = delete;
+    ~DeliveryIntentLink() = default;
+
     DeliveryIntentLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static DeliveryIntentLinkSP create();

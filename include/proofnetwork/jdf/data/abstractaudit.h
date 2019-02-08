@@ -42,6 +42,13 @@ class PROOF_NETWORK_JDF_EXPORT AbstractAudit : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractAudit)
 public:
+    explicit AbstractAudit() = delete;
+    AbstractAudit(const AbstractAudit &) = delete;
+    AbstractAudit &operator=(const AbstractAudit &) = delete;
+    AbstractAudit(AbstractAudit &&) = delete;
+    AbstractAudit &operator=(AbstractAudit &&) = delete;
+    ~AbstractAudit() = default;
+
     QString id() const;
     QString agentName() const;
     QString agentVersion() const;
@@ -62,8 +69,7 @@ signals:
     void timeStampChanged(const QDateTime &arg);
 
 protected:
-    explicit AbstractAudit() = delete;
-    AbstractAudit(AbstractAuditPrivate &dd);
+    explicit AbstractAudit(AbstractAuditPrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

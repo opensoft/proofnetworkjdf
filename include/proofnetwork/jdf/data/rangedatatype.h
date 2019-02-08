@@ -121,8 +121,8 @@ private:
         return dataToString(start.toString(), stop.toString());
     }
 
-    T m_start;
-    T m_stop;
+    T m_start{};
+    T m_stop{};
 };
 
 template <>

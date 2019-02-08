@@ -44,6 +44,11 @@ class AbstractPhysicalResourceLinkQmlWrapper : public AbstractResourceLinkQmlWra
 public:
     AbstractPhysicalResourceLinkQmlWrapper(const QSharedPointer<AbstractPhysicalResourceLink> &link,
                                            AbstractPhysicalResourceLinkQmlWrapperPrivate &dd, QObject *parent = nullptr);
+    AbstractPhysicalResourceLinkQmlWrapper(const AbstractPhysicalResourceLinkQmlWrapper &) = delete;
+    AbstractPhysicalResourceLinkQmlWrapper &operator=(const AbstractPhysicalResourceLinkQmlWrapper &) = delete;
+    AbstractPhysicalResourceLinkQmlWrapper(AbstractPhysicalResourceLinkQmlWrapper &&) = delete;
+    AbstractPhysicalResourceLinkQmlWrapper &operator=(AbstractPhysicalResourceLinkQmlWrapper &&) = delete;
+    ~AbstractPhysicalResourceLinkQmlWrapper() = default;
     ResourceOrientation orientation() const;
     double amount() const;
 

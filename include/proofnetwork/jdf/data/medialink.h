@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT MediaLink : public AbstractPhysicalResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(MediaLink)
 public:
+    MediaLink(const MediaLink &) = delete;
+    MediaLink &operator=(const MediaLink &) = delete;
+    MediaLink(MediaLink &&) = delete;
+    MediaLink &operator=(MediaLink &&) = delete;
+    ~MediaLink() = default;
+
     MediaLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static MediaLinkSP create();

@@ -33,7 +33,7 @@ AbstractResourceLinkQmlWrapper::AbstractResourceLinkQmlWrapper(const QSharedPoin
                                                                AbstractResourceLinkQmlWrapperPrivate &dd, QObject *parent)
     : NetworkDataEntityQmlWrapper(link, dd, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 AbstractResourceLinkQmlWrapper::~AbstractResourceLinkQmlWrapper()

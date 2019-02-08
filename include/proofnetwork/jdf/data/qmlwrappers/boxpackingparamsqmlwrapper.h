@@ -39,6 +39,7 @@ class PROOF_NETWORK_JDF_EXPORT BoxPackingParamsQmlWrapper : public AbstractResou
     Q_DECLARE_PRIVATE(BoxPackingParamsQmlWrapper)
 public:
     explicit BoxPackingParamsQmlWrapper(const BoxPackingParamsSP &boxPackingParams, QObject *parent = nullptr);
+    ~BoxPackingParamsQmlWrapper() = default;
     PROOF_NDE_WRAPPER_TOOLS(BoxPackingParams)
 };
 

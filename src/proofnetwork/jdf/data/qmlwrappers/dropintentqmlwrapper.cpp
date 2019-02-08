@@ -46,7 +46,7 @@ class DropIntentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 DropIntentQmlWrapper::DropIntentQmlWrapper(const DropIntentSP &dropIntent, QObject *parent)
     : NetworkDataEntityQmlWrapper(dropIntent, *new DropIntentQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 DropIntentQmlWrapper::~DropIntentQmlWrapper()

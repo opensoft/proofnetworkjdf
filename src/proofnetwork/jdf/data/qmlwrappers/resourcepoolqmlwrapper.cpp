@@ -72,7 +72,7 @@ using namespace Proof::Jdf;
 ResourcePoolQmlWrapper::ResourcePoolQmlWrapper(const ResourcePoolSP &resourcePool, QObject *parent)
     : NetworkDataEntityQmlWrapper(resourcePool, *new ResourcePoolQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 ResourcePoolQmlWrapper::~ResourcePoolQmlWrapper()

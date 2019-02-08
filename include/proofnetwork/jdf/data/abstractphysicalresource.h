@@ -40,6 +40,13 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResource : public AbstractResourc
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResource)
 public:
+    explicit AbstractPhysicalResource() = delete;
+    AbstractPhysicalResource(const AbstractPhysicalResource &) = delete;
+    AbstractPhysicalResource &operator=(const AbstractPhysicalResource &) = delete;
+    AbstractPhysicalResource(AbstractPhysicalResource &&) = delete;
+    AbstractPhysicalResource &operator=(AbstractPhysicalResource &&) = delete;
+    ~AbstractPhysicalResource() = default;
+
     double amount() const;
     double resourceWeight() const;
 
@@ -54,8 +61,7 @@ signals:
     void resourceWeightChanged(double arg);
 
 protected:
-    explicit AbstractPhysicalResource() = delete;
-    AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd);
+    explicit AbstractPhysicalResource(AbstractPhysicalResourcePrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

@@ -39,6 +39,12 @@ class PROOF_NETWORK_JDF_EXPORT Response : public Message
     Q_DECLARE_PRIVATE(Response)
 
 public:
+    Response(const Response &) = delete;
+    Response &operator=(const Response &) = delete;
+    Response(Response &&) = delete;
+    Response &operator=(Response &&) = delete;
+    ~Response() = default;
+
     NotificationSP notification() const;
 
     void setNotification(const NotificationSP &arg);

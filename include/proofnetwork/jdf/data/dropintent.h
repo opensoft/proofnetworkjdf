@@ -44,6 +44,12 @@ class PROOF_NETWORK_JDF_EXPORT DropIntent : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(DropIntent)
 public:
+    DropIntent(const DropIntent &) = delete;
+    DropIntent &operator=(const DropIntent &) = delete;
+    DropIntent(DropIntent &&) = delete;
+    DropIntent &operator=(DropIntent &&) = delete;
+    ~DropIntent() = default;
+
     TimeSpan earliest() const;
     DurationSpan earliestDuration() const;
     TimeSpan required() const;

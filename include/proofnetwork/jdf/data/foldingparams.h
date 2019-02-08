@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT FoldingParams : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingParams)
 public:
+    FoldingParams(const FoldingParams &) = delete;
+    FoldingParams &operator=(const FoldingParams &) = delete;
+    FoldingParams(FoldingParams &&) = delete;
+    FoldingParams &operator=(FoldingParams &&) = delete;
+    ~FoldingParams() = default;
+
     QString foldCatalog() const;
     void setFoldCatalog(const QString &foldCatalog);
 

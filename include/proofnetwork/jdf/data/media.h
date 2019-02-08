@@ -46,6 +46,12 @@ class PROOF_NETWORK_JDF_EXPORT Media : public AbstractPhysicalResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)
 public:
+    Media(const Media &) = delete;
+    Media &operator=(const Media &) = delete;
+    Media(Media &&) = delete;
+    Media &operator=(Media &&) = delete;
+    ~Media() = default;
+
     QVector<MediaSP> layers() const;
     double thickness() const;
     CoatingType frontCoating() const;

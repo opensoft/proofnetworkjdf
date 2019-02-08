@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT LaminatingIntentLink : public AbstractResourceLin
     Q_OBJECT
     Q_DECLARE_PRIVATE(LaminatingIntentLink)
 public:
+    LaminatingIntentLink(const LaminatingIntentLink &) = delete;
+    LaminatingIntentLink &operator=(const LaminatingIntentLink &) = delete;
+    LaminatingIntentLink(LaminatingIntentLink &&) = delete;
+    LaminatingIntentLink &operator=(LaminatingIntentLink &&) = delete;
+    ~LaminatingIntentLink() = default;
+
     LaminatingIntentLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static LaminatingIntentLinkSP create();

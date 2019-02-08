@@ -43,6 +43,12 @@ class PROOF_NETWORK_JDF_EXPORT ResourcePool : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourcePool)
 public:
+    ResourcePool(const ResourcePool &) = delete;
+    ResourcePool &operator=(const ResourcePool &) = delete;
+    ResourcePool(ResourcePool &&) = delete;
+    ResourcePool &operator=(ResourcePool &&) = delete;
+    ~ResourcePool() = default;
+
     QVector<ComponentSP> components() const;
     CuttingParamsSP cuttingParams() const;
     QVector<MediaSP> media() const;

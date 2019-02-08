@@ -33,11 +33,11 @@ namespace Jdf {
 class Strings : public QStringList
 {
 public:
-    Strings(const QStringList &list = QStringList()) : QStringList(list) {}
+    explicit Strings(const QStringList &list = QStringList()) : QStringList(list) {}
 
     static Strings fromString(const QString &attribute)
     {
-        return attribute.split(QStringLiteral(" "), QString::SplitBehavior::SkipEmptyParts);
+        return Strings(attribute.split(QStringLiteral(" "), QString::SplitBehavior::SkipEmptyParts));
     }
 
     QString toString() const { return join(QStringLiteral(" ")); }

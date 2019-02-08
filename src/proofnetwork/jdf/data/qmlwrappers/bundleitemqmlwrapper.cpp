@@ -38,7 +38,7 @@ class BundleItemQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivate
 BundleItemQmlWrapper::BundleItemQmlWrapper(const BundleItemSP &bundleItem, QObject *parent)
     : NetworkDataEntityQmlWrapper(bundleItem, *new BundleItemQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 BundleItemQmlWrapper::~BundleItemQmlWrapper()

@@ -60,7 +60,7 @@ using namespace Proof::Jdf;
 JdfNodeQmlWrapper::JdfNodeQmlWrapper(const JdfNodeSP &jdfNode, QObject *parent)
     : NetworkDataEntityQmlWrapper(jdfNode, *new JdfNodeQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 JdfNodeQmlWrapper::~JdfNodeQmlWrapper()

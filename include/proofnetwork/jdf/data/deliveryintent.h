@@ -44,6 +44,12 @@ class PROOF_NETWORK_JDF_EXPORT DeliveryIntent : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryIntent)
 public:
+    DeliveryIntent(const DeliveryIntent &) = delete;
+    DeliveryIntent &operator=(const DeliveryIntent &) = delete;
+    DeliveryIntent(DeliveryIntent &&) = delete;
+    DeliveryIntent &operator=(DeliveryIntent &&) = delete;
+    ~DeliveryIntent() = default;
+
     EnumerationSpan deliveryCharge() const;
     TimeSpan earliest() const;
     DurationSpan earliestDuration() const;

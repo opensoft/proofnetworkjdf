@@ -45,7 +45,7 @@ class PROOF_NETWORK_JDF_EXPORT DropItemIntentQmlWrapper : public NetworkDataEnti
 public:
     explicit DropItemIntentQmlWrapper(const DropItemIntentSP &dropItemIntent, QObject *parent = nullptr);
     ~DropItemIntentQmlWrapper();
-    PROOF_NDE_WRAPPER_TOOLS(DropIntent)
+    PROOF_NDE_WRAPPER_TOOLS(DropItemIntent)
 
     ComponentQmlWrapper *component() const;
 
