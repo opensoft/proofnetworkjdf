@@ -41,10 +41,10 @@ class DropItemIntentQmlWrapperPrivate : public NetworkDataEntityQmlWrapperPrivat
     ComponentQmlWrapper *component = nullptr;
 };
 
-DropItemIntentQmlWrapper::DropItemIntentQmlWrapper(const DropItemIntentSP &dropIntent, QObject *parent)
-    : NetworkDataEntityQmlWrapper(dropIntent, *new DropItemIntentQmlWrapperPrivate, parent)
+DropItemIntentQmlWrapper::DropItemIntentQmlWrapper(const DropItemIntentSP &dropItemIntent, QObject *parent)
+    : NetworkDataEntityQmlWrapper(dropItemIntent, *new DropItemIntentQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 DropItemIntentQmlWrapper::~DropItemIntentQmlWrapper()

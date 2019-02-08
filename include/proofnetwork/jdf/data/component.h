@@ -46,6 +46,12 @@ class PROOF_NETWORK_JDF_EXPORT Component : public AbstractPhysicalResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(Component)
 public:
+    Component(const Component &) = delete;
+    Component &operator=(const Component &) = delete;
+    Component(Component &&) = delete;
+    Component &operator=(Component &&) = delete;
+    ~Component() = default;
+
     ComponentType componentType() const;
     ProductType productType() const;
     QString productTypeDetails() const;

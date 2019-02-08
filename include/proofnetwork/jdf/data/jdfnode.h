@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT JdfNode : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(JdfNode)
 public:
+    JdfNode(const JdfNode &) = delete;
+    JdfNode &operator=(const JdfNode &) = delete;
+    JdfNode(JdfNode &&) = delete;
+    JdfNode &operator=(JdfNode &&) = delete;
+    ~JdfNode() = default;
+
     QString id() const;
     QString jobId() const;
     QString jobPartId() const;
@@ -99,7 +105,7 @@ signals:
 
 protected:
     JdfNode();
-    JdfNode(JdfNodePrivate &dd);
+    explicit JdfNode(JdfNodePrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

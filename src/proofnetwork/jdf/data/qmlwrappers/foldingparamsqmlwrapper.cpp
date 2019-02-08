@@ -38,7 +38,7 @@ class FoldingParamsQmlWrapperPrivate : public AbstractResourceQmlWrapperPrivate
 FoldingParamsQmlWrapper::FoldingParamsQmlWrapper(const FoldingParamsSP &foldingParams, QObject *parent)
     : AbstractResourceQmlWrapper(foldingParams, *new FoldingParamsQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 FoldingParamsQmlWrapper::~FoldingParamsQmlWrapper()

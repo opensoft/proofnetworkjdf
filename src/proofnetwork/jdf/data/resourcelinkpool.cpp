@@ -104,11 +104,11 @@ BoxPackingParamsLinkSP ResourceLinkPool::boxPackingParamsLink() const
     return d->boxPackingParamsLink;
 }
 
-void ResourceLinkPool::setComponentLinks(const QVector<ComponentLinkSP> &arg)
+void ResourceLinkPool::setComponentLinks(const QVector<ComponentLinkSP> &componentLinks)
 {
     Q_D(ResourceLinkPool);
     std::multiset<QString> newIds;
-    for (const auto &componentLink : arg)
+    for (const auto &componentLink : componentLinks)
         newIds.insert(componentLink->rRef());
 
     std::multiset<QString> oldIds;
@@ -116,7 +116,7 @@ void ResourceLinkPool::setComponentLinks(const QVector<ComponentLinkSP> &arg)
         oldIds.insert(componentLink->rRef());
 
     if (newIds != oldIds) {
-        d->componentLinks = arg;
+        d->componentLinks = componentLinks;
         emit componentLinksChanged();
     }
 }

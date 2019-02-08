@@ -41,6 +41,12 @@ class PROOF_NETWORK_JDF_EXPORT Notification : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(Notification)
 public:
+    Notification(const Notification &) = delete;
+    Notification &operator=(const Notification &) = delete;
+    Notification(Notification &&) = delete;
+    Notification &operator=(Notification &&) = delete;
+    ~Notification() = default;
+
     NotificationClass notificationClass() const;
     QString comment() const;
 

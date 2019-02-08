@@ -34,7 +34,7 @@ AbstractPhysicalResourceLinkQmlWrapper::AbstractPhysicalResourceLinkQmlWrapper(
     QObject *parent)
     : AbstractResourceLinkQmlWrapper(link, dd, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(AbstractPhysicalResourceLink, Proof::Jdf::ResourceOrientation, orientation)

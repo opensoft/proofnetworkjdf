@@ -41,6 +41,13 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceLink : public AbstractRes
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractPhysicalResourceLink)
 public:
+    explicit AbstractPhysicalResourceLink() = delete;
+    AbstractPhysicalResourceLink(const AbstractPhysicalResourceLink &) = delete;
+    AbstractPhysicalResourceLink &operator=(const AbstractPhysicalResourceLink &) = delete;
+    AbstractPhysicalResourceLink(AbstractPhysicalResourceLink &&) = delete;
+    AbstractPhysicalResourceLink &operator=(AbstractPhysicalResourceLink &&) = delete;
+    ~AbstractPhysicalResourceLink() = default;
+
     ResourceOrientation orientation() const;
     double amount() const;
 
@@ -54,8 +61,7 @@ signals:
     void amountChanged(double arg);
 
 protected:
-    explicit AbstractPhysicalResourceLink() = delete;
-    AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd);
+    explicit AbstractPhysicalResourceLink(AbstractPhysicalResourceLinkPrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

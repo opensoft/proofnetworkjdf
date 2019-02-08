@@ -33,7 +33,7 @@ namespace Jdf {
 class Enumerations : public QStringList
 {
 public:
-    Enumerations(const QStringList &list = QStringList()) : QStringList(list) {}
+    explicit Enumerations(const QStringList &list = QStringList()) : QStringList(list) {}
 
     static Enumerations fromString(const QString &attribute)
     {
@@ -46,7 +46,7 @@ public:
                 newEnumList.append(trimmedData);
         }
 
-        return newEnumList;
+        return Enumerations(newEnumList);
     }
 
     QString toString() const { return join(QStringLiteral(" ")); }

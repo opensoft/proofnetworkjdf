@@ -41,6 +41,12 @@ class PROOF_NETWORK_JDF_EXPORT AuditPool : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditPool)
 public:
+    AuditPool(const AuditPool &) = delete;
+    AuditPool &operator=(const AuditPool &) = delete;
+    AuditPool(AuditPool &&) = delete;
+    AuditPool &operator=(AuditPool &&) = delete;
+    ~AuditPool() = default;
+
     CreatedAuditSP created() const;
     ModifiedAuditSP modified() const;
 

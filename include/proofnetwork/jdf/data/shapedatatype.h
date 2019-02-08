@@ -26,6 +26,7 @@
 #define PROOF_JDF_SHAPEDATATYPE_H
 
 #include <QString>
+#include <QStringList>
 
 class ShapeDataType
 {
@@ -47,7 +48,7 @@ public:
         return ShapeDataType(0.0, 0.0, 0.0);
     }
 
-    QString toString() const { return QStringLiteral("%1 %2 %3").arg(m_width, m_height, m_depth); }
+    QString toString() const { return QStringLiteral("%1 %2 %3").arg(m_width).arg(m_height).arg(m_depth); }
 
 private:
     float m_width = 0.0;

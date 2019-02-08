@@ -176,10 +176,10 @@ private:
 
     T readAttribute(const QStringRef &attribute);
 
-    T m_actual;
-    F m_offerRange;
-    T m_preferred;
-    F m_range;
+    T m_actual{};
+    F m_offerRange{};
+    T m_preferred{};
+    F m_range{};
 
     bool m_isDirty = false;
 };

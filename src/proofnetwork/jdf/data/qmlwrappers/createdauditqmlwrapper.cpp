@@ -38,7 +38,7 @@ class CreatedAuditQmlWrapperPrivate : public AbstractAuditQmlWrapperPrivate
 CreatedAuditQmlWrapper::CreatedAuditQmlWrapper(const CreatedAuditSP &createdAudit, QObject *parent)
     : AbstractAuditQmlWrapper(createdAudit, *new CreatedAuditQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 CreatedAuditQmlWrapper::~CreatedAuditQmlWrapper()

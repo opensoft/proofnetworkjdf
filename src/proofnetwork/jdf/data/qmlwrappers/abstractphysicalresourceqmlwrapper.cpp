@@ -35,7 +35,7 @@ AbstractPhysicalResourceQmlWrapper::AbstractPhysicalResourceQmlWrapper(
     AbstractPhysicalResourceQmlWrapperPrivate &dd, QObject *parent)
     : AbstractResourceQmlWrapper(abstractPhysicalResource, dd, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 AbstractPhysicalResourceQmlWrapper::~AbstractPhysicalResourceQmlWrapper()

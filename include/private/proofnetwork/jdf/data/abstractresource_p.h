@@ -37,7 +37,9 @@ class AbstractResourcePrivate : public NetworkDataEntityPrivate
     Q_DECLARE_PUBLIC(AbstractResource)
 public:
     AbstractResourcePrivate() : NetworkDataEntityPrivate() {}
-    AbstractResourcePrivate(ResourceClass resourceClass) : NetworkDataEntityPrivate(), resourceClass(resourceClass) {}
+    explicit AbstractResourcePrivate(ResourceClass resourceClass)
+        : NetworkDataEntityPrivate(), resourceClass(resourceClass)
+    {}
 
     QString id;
     mutable QString jdfNodeName;

@@ -50,7 +50,7 @@ class ComponentQmlWrapperPrivate : public AbstractPhysicalResourceQmlWrapperPriv
 ComponentQmlWrapper::ComponentQmlWrapper(const ComponentSP &component, QObject *parent)
     : AbstractPhysicalResourceQmlWrapper(component, *new ComponentQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 ComponentQmlWrapper::~ComponentQmlWrapper()

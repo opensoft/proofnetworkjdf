@@ -43,6 +43,12 @@ class PROOF_NETWORK_JDF_EXPORT DropItemIntent : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(DropItemIntent)
 public:
+    DropItemIntent(const DropItemIntent &) = delete;
+    DropItemIntent &operator=(const DropItemIntent &) = delete;
+    DropItemIntent(DropItemIntent &&) = delete;
+    DropItemIntent &operator=(DropItemIntent &&) = delete;
+    ~DropItemIntent() = default;
+
     ComponentSP component() const;
 
     void setComponent(const ComponentSP &arg);

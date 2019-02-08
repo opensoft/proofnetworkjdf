@@ -52,7 +52,7 @@ using namespace Proof::Jdf;
 AuditPoolQmlWrapper::AuditPoolQmlWrapper(const AuditPoolSP &auditPool, QObject *parent)
     : NetworkDataEntityQmlWrapper(auditPool, *new AuditPoolQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 AuditPoolQmlWrapper::~AuditPoolQmlWrapper()

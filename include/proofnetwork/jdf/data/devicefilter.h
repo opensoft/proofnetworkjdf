@@ -41,6 +41,12 @@ class PROOF_NETWORK_JDF_EXPORT DeviceFilter : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeviceFilter)
 public:
+    DeviceFilter(const DeviceFilter &) = delete;
+    DeviceFilter &operator=(const DeviceFilter &) = delete;
+    DeviceFilter(DeviceFilter &&) = delete;
+    DeviceFilter &operator=(DeviceFilter &&) = delete;
+    ~DeviceFilter() = default;
+
     DeviceFilterDetails details() const;
 
     void setDetails(DeviceFilterDetails arg);

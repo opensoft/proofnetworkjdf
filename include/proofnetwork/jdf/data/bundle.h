@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT Bundle : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(Bundle)
 public:
+    Bundle(const Bundle &) = delete;
+    Bundle &operator=(const Bundle &) = delete;
+    Bundle(Bundle &&) = delete;
+    Bundle &operator=(Bundle &&) = delete;
+    ~Bundle() = default;
+
     BundleType bundleType() const;
     int totalAmount() const;
     QVector<BundleItemSP> bundleItems() const;

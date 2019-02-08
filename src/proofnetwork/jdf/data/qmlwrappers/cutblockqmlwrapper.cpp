@@ -43,7 +43,7 @@ using namespace Proof::Jdf;
 CutBlockQmlWrapper::CutBlockQmlWrapper(const CutBlockSP &cutBlock, QObject *parent)
     : NetworkDataEntityQmlWrapper(cutBlock, *new CutBlockQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 CutBlockQmlWrapper::~CutBlockQmlWrapper()

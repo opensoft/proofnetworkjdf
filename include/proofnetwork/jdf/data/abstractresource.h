@@ -41,6 +41,13 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResource : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(AbstractResource)
 public:
+    explicit AbstractResource() = delete;
+    AbstractResource(const AbstractResource &) = delete;
+    AbstractResource &operator=(const AbstractResource &) = delete;
+    AbstractResource(AbstractResource &&) = delete;
+    AbstractResource &operator=(AbstractResource &&) = delete;
+    ~AbstractResource() = default;
+
     QString id() const;
     ResourceStatus resourceStatus() const;
     ResourceClass resourceClass() const;
@@ -72,8 +79,7 @@ signals:
     void partAttributeChanged(Proof::Jdf::ResourcePartType attribute, const QString &value);
 
 protected:
-    explicit AbstractResource() = delete;
-    AbstractResource(AbstractResourcePrivate &dd);
+    explicit AbstractResource(AbstractResourcePrivate &dd);
     void setupLink(const AbstractResourceLinkSP &abstractLink, LinkUsage usage) const;
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };

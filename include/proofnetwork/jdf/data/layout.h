@@ -42,6 +42,12 @@ class PROOF_NETWORK_JDF_EXPORT Layout : public AbstractResource
     Q_OBJECT
     Q_DECLARE_PRIVATE(Layout)
 public:
+    Layout(const Layout &) = delete;
+    Layout &operator=(const Layout &) = delete;
+    Layout(Layout &&) = delete;
+    Layout &operator=(Layout &&) = delete;
+    ~Layout() = default;
+
     QVector<MediaSP> media() const;
     QVector<LayoutSP> parts() const;
 

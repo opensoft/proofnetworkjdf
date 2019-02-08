@@ -41,6 +41,12 @@ class PROOF_NETWORK_JDF_EXPORT CreatedAudit : public AbstractAudit
     Q_OBJECT
     Q_DECLARE_PRIVATE(CreatedAudit)
 public:
+    CreatedAudit(const CreatedAudit &) = delete;
+    CreatedAudit &operator=(const CreatedAudit &) = delete;
+    CreatedAudit(CreatedAudit &&) = delete;
+    CreatedAudit &operator=(CreatedAudit &&) = delete;
+    ~CreatedAudit() = default;
+
     QString templateId() const;
     QString templateVersion() const;
 

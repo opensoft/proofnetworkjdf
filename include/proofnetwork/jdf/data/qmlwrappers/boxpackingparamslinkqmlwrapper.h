@@ -40,6 +40,7 @@ class BoxPackingParamsLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
 public:
     explicit BoxPackingParamsLinkQmlWrapper(const BoxPackingParamsLinkSP &boxPackingParamsLink,
                                             QObject *parent = nullptr);
+    ~BoxPackingParamsLinkQmlWrapper() = default;
     PROOF_NDE_WRAPPER_TOOLS(BoxPackingParamsLink)
 };
 

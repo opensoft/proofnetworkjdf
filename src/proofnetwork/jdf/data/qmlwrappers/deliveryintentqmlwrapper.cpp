@@ -52,7 +52,7 @@ using namespace Proof::Jdf;
 DeliveryIntentQmlWrapper::DeliveryIntentQmlWrapper(const DeliveryIntentSP &deliveryIntent, QObject *parent)
     : AbstractResourceQmlWrapper(deliveryIntent, *new DeliveryIntentQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 DeliveryIntentQmlWrapper::~DeliveryIntentQmlWrapper()

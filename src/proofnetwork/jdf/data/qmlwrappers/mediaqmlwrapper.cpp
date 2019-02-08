@@ -38,7 +38,7 @@ class MediaQmlWrapperPrivate : public AbstractPhysicalResourceQmlWrapperPrivate
 MediaQmlWrapper::MediaQmlWrapper(const MediaSP &media, QObject *parent)
     : AbstractPhysicalResourceQmlWrapper(media, *new MediaQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 MediaQmlWrapper::~MediaQmlWrapper()

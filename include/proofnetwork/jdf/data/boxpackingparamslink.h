@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT BoxPackingParamsLink : public AbstractResourceLin
     Q_OBJECT
     Q_DECLARE_PRIVATE(BoxPackingParamsLink)
 public:
+    BoxPackingParamsLink(const BoxPackingParamsLink &) = delete;
+    BoxPackingParamsLink &operator=(const BoxPackingParamsLink &) = delete;
+    BoxPackingParamsLink(BoxPackingParamsLink &&) = delete;
+    BoxPackingParamsLink &operator=(BoxPackingParamsLink &&) = delete;
+    ~BoxPackingParamsLink() = default;
+
     BoxPackingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static BoxPackingParamsLinkSP create();
@@ -48,7 +54,7 @@ public:
     void toJdf(QXmlStreamWriter &jdfWriter) override;
 
 protected:
-    BoxPackingParamsLink();
+    explicit BoxPackingParamsLink();
 };
 
 } // namespace Jdf

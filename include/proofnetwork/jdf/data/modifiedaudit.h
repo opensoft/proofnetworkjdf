@@ -41,6 +41,12 @@ class PROOF_NETWORK_JDF_EXPORT ModifiedAudit : public AbstractAudit
     Q_OBJECT
     Q_DECLARE_PRIVATE(ModifiedAudit)
 public:
+    ModifiedAudit(const ModifiedAudit &) = delete;
+    ModifiedAudit &operator=(const ModifiedAudit &) = delete;
+    ModifiedAudit(ModifiedAudit &&) = delete;
+    ModifiedAudit &operator=(ModifiedAudit &&) = delete;
+    ~ModifiedAudit() = default;
+
     ModifiedAuditQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static ModifiedAuditSP create();

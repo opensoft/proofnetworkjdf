@@ -49,20 +49,18 @@ namespace Jdf {
 
 inline QVector<JdfNodeSP> findNodes(const JdfDocumentSP &job, const QString &type = QString())
 {
-    if (type.isEmpty()) {
+    if (type.isEmpty())
         return job->findAllNodes([](const auto &) { return true; });
-    } else {
-        return job->findAllNodes([type = type.toLower()](const JdfNodeSP &node) -> bool {
-            auto loweredType = node->type().toLower();
-            if (loweredType == type)
-                return true;
-            if (loweredType == QLatin1String("processgroup") || loweredType == QLatin1String("combined"))
-                return algorithms::findIf(node->types(),
-                                          [type](const auto &t) { return !t.compare(type, Qt::CaseInsensitive); })
-                    .count();
-            return false;
-        });
-    }
+    return job->findAllNodes([type = type.toLower()](const JdfNodeSP &node) -> bool {
+        auto loweredType = node->type().toLower();
+        if (loweredType == type)
+            return true;
+        if (loweredType == QLatin1String("processgroup") || loweredType == QLatin1String("combined"))
+            return algorithms::findIf(node->types(),
+                                      [type](const auto &t) { return !t.compare(type, Qt::CaseInsensitive); })
+                .count();
+        return false;
+    });
 }
 
 inline QVector<JdfNodeSP> findCuttingNodes(const JdfDocumentSP &job)

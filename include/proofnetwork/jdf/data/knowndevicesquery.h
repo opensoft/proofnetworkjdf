@@ -39,6 +39,12 @@ class PROOF_NETWORK_JDF_EXPORT KnownDevicesQuery : public Query
     Q_DECLARE_PRIVATE(KnownDevicesQuery)
 
 public:
+    KnownDevicesQuery(const KnownDevicesQuery &) = delete;
+    KnownDevicesQuery &operator=(const KnownDevicesQuery &) = delete;
+    KnownDevicesQuery(KnownDevicesQuery &&) = delete;
+    KnownDevicesQuery &operator=(KnownDevicesQuery &&) = delete;
+    ~KnownDevicesQuery() = default;
+
     DeviceFilterSP deviceFilter() const;
 
     void setDeviceFilter(const DeviceFilterSP &arg);

@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT FoldingParamsLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingParamsLink)
 public:
+    FoldingParamsLink(const FoldingParamsLink &) = delete;
+    FoldingParamsLink &operator=(const FoldingParamsLink &) = delete;
+    FoldingParamsLink(FoldingParamsLink &&) = delete;
+    FoldingParamsLink &operator=(FoldingParamsLink &&) = delete;
+    ~FoldingParamsLink() = default;
+
     FoldingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static FoldingParamsLinkSP create();

@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT JmfDocument : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(JmfDocument)
 public:
+    JmfDocument(const JmfDocument &) = delete;
+    JmfDocument &operator=(const JmfDocument &) = delete;
+    JmfDocument(JmfDocument &&) = delete;
+    JmfDocument &operator=(JmfDocument &&) = delete;
+    ~JmfDocument() = default;
+
     QString senderId() const;
     QDateTime timeStamp() const;
     QVector<MessageSP> messages() const;

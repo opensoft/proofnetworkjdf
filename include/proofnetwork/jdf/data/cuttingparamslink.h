@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT CuttingParamsLink : public AbstractResourceLink
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParamsLink)
 public:
+    CuttingParamsLink(const CuttingParamsLink &) = delete;
+    CuttingParamsLink &operator=(const CuttingParamsLink &) = delete;
+    CuttingParamsLink(CuttingParamsLink &&) = delete;
+    CuttingParamsLink &operator=(CuttingParamsLink &&) = delete;
+    ~CuttingParamsLink() = default;
+
     CuttingParamsLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static CuttingParamsLinkSP create();

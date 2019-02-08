@@ -39,6 +39,7 @@ class FoldingParamsLinkQmlWrapper : public AbstractResourceLinkQmlWrapper
     Q_DECLARE_PRIVATE(FoldingParamsLinkQmlWrapper)
 public:
     explicit FoldingParamsLinkQmlWrapper(const FoldingParamsLinkSP &folding, QObject *parent = nullptr);
+    ~FoldingParamsLinkQmlWrapper() = default;
     PROOF_NDE_WRAPPER_TOOLS(FoldingParamsLink)
 };
 

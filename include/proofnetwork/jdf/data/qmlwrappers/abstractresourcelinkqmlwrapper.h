@@ -44,6 +44,10 @@ class AbstractResourceLinkQmlWrapper : public NetworkDataEntityQmlWrapper
 public:
     explicit AbstractResourceLinkQmlWrapper(const QSharedPointer<AbstractResourceLink> &link,
                                             AbstractResourceLinkQmlWrapperPrivate &dd, QObject *parent = nullptr);
+    AbstractResourceLinkQmlWrapper(const AbstractResourceLinkQmlWrapper &) = delete;
+    AbstractResourceLinkQmlWrapper &operator=(const AbstractResourceLinkQmlWrapper &) = delete;
+    AbstractResourceLinkQmlWrapper(AbstractResourceLinkQmlWrapper &&) = delete;
+    AbstractResourceLinkQmlWrapper &operator=(AbstractResourceLinkQmlWrapper &&) = delete;
     ~AbstractResourceLinkQmlWrapper();
     Proof::Jdf::LinkUsage usage() const;
     Proof::Jdf::ProcessUsage processUsage() const;

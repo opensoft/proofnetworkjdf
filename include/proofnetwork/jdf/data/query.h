@@ -37,6 +37,12 @@ class PROOF_NETWORK_JDF_EXPORT Query : public Message
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Query)
+public:
+    Query(const Query &) = delete;
+    Query &operator=(const Query &) = delete;
+    Query(Query &&) = delete;
+    Query &operator=(Query &&) = delete;
+    ~Query() = default;
 
 protected:
     explicit Query(QueryPrivate &dd);

@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT Message : public NetworkDataEntity
     Q_OBJECT
     Q_DECLARE_PRIVATE(Message)
 public:
+    Message(const Message &) = delete;
+    Message &operator=(const Message &) = delete;
+    Message(Message &&) = delete;
+    Message &operator=(Message &&) = delete;
+    ~Message() = default;
+
     QString id() const;
 
     void setId(const QString &arg);

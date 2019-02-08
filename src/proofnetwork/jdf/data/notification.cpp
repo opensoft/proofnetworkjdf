@@ -33,7 +33,7 @@ class NotificationPrivate : public NetworkDataEntityPrivate
 {
     Q_DECLARE_PUBLIC(Notification)
 
-    NotificationClass notificationClass;
+    NotificationClass notificationClass = NotificationClass::EventNotificationClass;
     QString comment;
 };
 

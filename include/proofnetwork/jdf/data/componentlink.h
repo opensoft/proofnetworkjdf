@@ -40,6 +40,12 @@ class PROOF_NETWORK_JDF_EXPORT ComponentLink : public AbstractPhysicalResourceLi
     Q_OBJECT
     Q_DECLARE_PRIVATE(ComponentLink)
 public:
+    ComponentLink(const ComponentLink &) = delete;
+    ComponentLink &operator=(const ComponentLink &) = delete;
+    ComponentLink(ComponentLink &&) = delete;
+    ComponentLink &operator=(ComponentLink &&) = delete;
+    ~ComponentLink() = default;
+
     ComponentLinkQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static ComponentLinkSP create();

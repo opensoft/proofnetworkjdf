@@ -39,6 +39,7 @@ class PROOF_NETWORK_JDF_EXPORT MediaLinkQmlWrapper : public AbstractPhysicalReso
     Q_DECLARE_PRIVATE(MediaLinkQmlWrapper)
 public:
     explicit MediaLinkQmlWrapper(const MediaLinkSP &media, QObject *parent = nullptr);
+    ~MediaLinkQmlWrapper() = default;
     PROOF_NDE_WRAPPER_TOOLS(MediaLink)
 };
 

@@ -38,7 +38,7 @@ class LaminatingIntentQmlWrapperPrivate : public AbstractResourceQmlWrapperPriva
 LaminatingIntentQmlWrapper::LaminatingIntentQmlWrapper(const LaminatingIntentSP &laminatingIntent, QObject *parent)
     : AbstractResourceQmlWrapper(laminatingIntent, *new LaminatingIntentQmlWrapperPrivate, parent)
 {
-    setupEntity();
+    setupEntity(); // NOLINT
 }
 
 LaminatingIntentQmlWrapper::~LaminatingIntentQmlWrapper()

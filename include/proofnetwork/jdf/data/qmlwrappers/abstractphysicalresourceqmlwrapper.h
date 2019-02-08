@@ -45,6 +45,10 @@ class PROOF_NETWORK_JDF_EXPORT AbstractPhysicalResourceQmlWrapper : public Abstr
 public:
     explicit AbstractPhysicalResourceQmlWrapper(const QSharedPointer<AbstractPhysicalResource> &abstractPhysicalResource,
                                                 AbstractPhysicalResourceQmlWrapperPrivate &dd, QObject *parent = nullptr);
+    AbstractPhysicalResourceQmlWrapper(const AbstractPhysicalResourceQmlWrapper &) = delete;
+    AbstractPhysicalResourceQmlWrapper &operator=(const AbstractPhysicalResourceQmlWrapper &) = delete;
+    AbstractPhysicalResourceQmlWrapper(AbstractPhysicalResourceQmlWrapper &&) = delete;
+    AbstractPhysicalResourceQmlWrapper &operator=(AbstractPhysicalResourceQmlWrapper &&) = delete;
     ~AbstractPhysicalResourceQmlWrapper();
 
     double amount() const;

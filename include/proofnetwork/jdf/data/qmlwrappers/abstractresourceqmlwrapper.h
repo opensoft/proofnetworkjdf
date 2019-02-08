@@ -47,6 +47,10 @@ class PROOF_NETWORK_JDF_EXPORT AbstractResourceQmlWrapper : public NetworkDataEn
 public:
     explicit AbstractResourceQmlWrapper(const QSharedPointer<AbstractResource> &abstractResource,
                                         AbstractResourceQmlWrapperPrivate &dd, QObject *parent = nullptr);
+    AbstractResourceQmlWrapper(const AbstractResourceQmlWrapper &) = delete;
+    AbstractResourceQmlWrapper &operator=(const AbstractResourceQmlWrapper &) = delete;
+    AbstractResourceQmlWrapper(AbstractResourceQmlWrapper &&) = delete;
+    AbstractResourceQmlWrapper &operator=(AbstractResourceQmlWrapper &&) = delete;
     ~AbstractResourceQmlWrapper();
 
     QString id() const;
