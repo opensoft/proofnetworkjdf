@@ -14,6 +14,11 @@
         {
             "name": "ProofNetworkJdf",
             "headers_subdir": "proofnetwork/jdf"
+        },
+        {
+            "name": "ProofNetworkXJdf",
+            "headers_subdir": "proofnetwork/xjdf"
         }
+
     ]
 }

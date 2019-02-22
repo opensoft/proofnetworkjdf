@@ -92,6 +92,11 @@ proof_add_target_sources(NetworkJdf
     src/proofnetwork/jdf/data/qmlwrappers/auditpoolqmlwrapper.cpp
 )
 
+proof_add_target_sources(NetworkXJdf
+    src/proofnetwork/xjdf/proofnetworkxjdf_init.cpp
+    src/proofnetwork/xjdf/apihelper.cpp
+)
+
 proof_add_target_headers(NetworkJdf
     include/proofnetwork/jdf/proofnetworkjdf_global.h
     include/proofnetwork/jdf/proofnetworkjdf_types.h
@@ -178,6 +183,14 @@ proof_add_target_headers(NetworkJdf
     include/proofnetwork/jdf/jdfhelper.h
 )
 
+proof_add_target_headers(NetworkXJdf
+    include/proofnetwork/xjdf/proofnetworkxjdf_global.h
+    include/proofnetwork/xjdf/proofnetworkxjdf_types.h
+    include/proofnetwork/xjdf/apihelper.h
+    include/proofnetwork/xjdf/xjdfhelper.h
+)
+
+
 proof_add_target_private_headers(NetworkJdf
     include/private/proofnetwork/jdf/data/abstractresource_p.h
     include/private/proofnetwork/jdf/data/qmlwrappers/abstractresourceqmlwrapper_p.h
@@ -195,11 +208,21 @@ proof_add_target_private_headers(NetworkJdf
     include/private/proofnetwork/jdf/data/qmlwrappers/abstractauditqmlwrapper_p.h
 )
 
+proof_add_target_private_headers(NetworkXJdf
+)
+
 proof_force_moc(NetworkJdf include/proofnetwork/jdf/apihelper.h)
+proof_force_moc(NetworkXJdf include/proofnetwork/xjdf/apihelper.h)
 
 proof_add_module(NetworkJdf
     QT_LIBS Core Network Xml
     PROOF_LIBS Network
 )
 
+proof_add_module(NetworkXJdf
+    QT_LIBS Core Network Xml
+    PROOF_LIBS Network
+)
+
 add_subdirectory(tests/proofnetwork/jdf)
+add_subdirectory(tests/proofnetwork/xjdf)
