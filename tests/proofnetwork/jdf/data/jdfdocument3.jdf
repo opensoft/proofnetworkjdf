@@ -1,0 +1,346 @@
+<?xml version="1.0"?>
+<JDF xmlns="http://www.CIP4.org/JDFSchema_1_1" ID="Root_9619719" JobID="9619719" Type="Product" Status="Waiting" Version="1.5">
+    <AuditPool>
+        <Created TemplateID="2@2x6_2@4.25x5.5_15@4x6_2@5x7_58@BC_1@MC" TemplateVersion="11.10.2016" AgentName="Sh-Job-Manager-Service" AgentVersion="0.19.2.8" TimeStamp="2019-03-19T09:53:31Z"/>
+        <Modified AgentName="Cutting-Station" AgentVersion="0.19.2.8" TimeStamp="2019-03-19T09:55:07Z"/>
+    </AuditPool>
+    <ResourcePool>
+        <Component ComponentType="Sheet" Dimensions="2880.0000 2016.0000 0.0000" Amount="100.0000" ID="Sheet_9619719" Status="Available" Class="Quantity"/>
+        <Component ID="BoxedProduct_9619719_1_2" Status="Available" Class="Quantity">
+            <Bundle BundleType="Box" TotalAmount="200">
+                <BundleItem Amount="200">
+                    <ComponentRef rRef="Product_9619719_1_2"/>
+                </BundleItem>
+            </Bundle>
+        </Component>
+        <Component ID="BoxedProduct_9619719_3_4" Status="Available" Class="Quantity">
+            <Bundle BundleType="Box" TotalAmount="200">
+                <BundleItem Amount="200">
+                    <ComponentRef rRef="Product_9619719_3_4"/>
+                </BundleItem>
+            </Bundle>
+        </Component>
+        <Component ID="BoxedProduct_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19" Status="Available" Class="Quantity">
+            <Bundle BundleType="Box" TotalAmount="1500">
+                <BundleItem Amount="1500">
+                    <ComponentRef rRef="Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+                </BundleItem>
+            </Bundle>
+        </Component>
+        <Component ID="BoxedProduct_9619719_20_21" Status="Available" Class="Quantity">
+            <Bundle BundleType="Box" TotalAmount="200">
+                <BundleItem Amount="200">
+                    <ComponentRef rRef="Product_9619719_20_21"/>
+                </BundleItem>
+            </Bundle>
+        </Component>
+        <Component ID="BoxedProduct_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79" Status="Available" Class="Quantity">
+            <Bundle BundleType="Box" TotalAmount="5800">
+                <BundleItem Amount="5800">
+                    <ComponentRef rRef="Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+                </BundleItem>
+            </Bundle>
+        </Component>
+        <Component ID="BoxedProduct_9619719_80" Status="Available" Class="Quantity">
+            <Bundle BundleType="Box" TotalAmount="100">
+                <BundleItem Amount="100">
+                    <ComponentRef rRef="Product_9619719_80"/>
+                </BundleItem>
+            </Bundle>
+        </Component>
+        <Component ComponentType="PartialProduct" ID="Product_9619719_1_2" Status="Available" Class="Quantity" PartIDKeys="BlockName">
+            <Component BlockName="CutBlock_1_0_1"/>
+            <Component BlockName="CutBlock_2_1_1"/>
+        </Component>
+        <Component ComponentType="PartialProduct" ID="Product_9619719_3_4" Status="Available" Class="Quantity" PartIDKeys="BlockName">
+            <Component BlockName="CutBlock_3_2_1"/>
+            <Component BlockName="CutBlock_4_3_1"/>
+        </Component>
+        <Component ComponentType="PartialProduct" ID="Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19" Status="Available" Class="Quantity" PartIDKeys="BlockName">
+            <Component BlockName="CutBlock_5_4_1"/>
+            <Component BlockName="CutBlock_6_5_1"/>
+            <Component BlockName="CutBlock_7_6_1"/>
+            <Component BlockName="CutBlock_8_7_1"/>
+            <Component BlockName="CutBlock_9_8_1"/>
+            <Component BlockName="CutBlock_10_9_1"/>
+            <Component BlockName="CutBlock_11_10_1"/>
+            <Component BlockName="CutBlock_12_11_1"/>
+            <Component BlockName="CutBlock_13_12_1"/>
+            <Component BlockName="CutBlock_14_13_1"/>
+            <Component BlockName="CutBlock_15_14_1"/>
+            <Component BlockName="CutBlock_16_15_1"/>
+            <Component BlockName="CutBlock_17_16_1"/>
+            <Component BlockName="CutBlock_18_17_1"/>
+            <Component BlockName="CutBlock_19_18_1"/>
+        </Component>
+        <Component ComponentType="PartialProduct" ID="Product_9619719_20_21" Status="Available" Class="Quantity" PartIDKeys="BlockName">
+            <Component BlockName="CutBlock_20_19_1"/>
+            <Component BlockName="CutBlock_21_20_1"/>
+        </Component>
+        <Component ComponentType="PartialProduct" ID="Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79" Status="Available" Class="Quantity" PartIDKeys="BlockName">
+            <Component BlockName="CutBlock_22_21_1"/>
+            <Component BlockName="CutBlock_23_22_1"/>
+            <Component BlockName="CutBlock_24_23_1"/>
+            <Component BlockName="CutBlock_25_24_1"/>
+            <Component BlockName="CutBlock_26_25_1"/>
+            <Component BlockName="CutBlock_27_26_1"/>
+            <Component BlockName="CutBlock_28_27_1"/>
+            <Component BlockName="CutBlock_29_28_1"/>
+            <Component BlockName="CutBlock_30_29_1"/>
+            <Component BlockName="CutBlock_31_30_1"/>
+            <Component BlockName="CutBlock_32_31_1"/>
+            <Component BlockName="CutBlock_33_32_1"/>
+            <Component BlockName="CutBlock_34_33_1"/>
+            <Component BlockName="CutBlock_35_34_1"/>
+            <Component BlockName="CutBlock_36_35_1"/>
+            <Component BlockName="CutBlock_37_36_1"/>
+            <Component BlockName="CutBlock_38_37_1"/>
+            <Component BlockName="CutBlock_39_38_1"/>
+            <Component BlockName="CutBlock_40_39_1"/>
+            <Component BlockName="CutBlock_41_40_1"/>
+            <Component BlockName="CutBlock_42_41_1"/>
+            <Component BlockName="CutBlock_43_42_1"/>
+            <Component BlockName="CutBlock_44_43_1"/>
+            <Component BlockName="CutBlock_45_44_1"/>
+            <Component BlockName="CutBlock_46_45_1"/>
+            <Component BlockName="CutBlock_47_46_1"/>
+            <Component BlockName="CutBlock_48_47_1"/>
+            <Component BlockName="CutBlock_49_48_1"/>
+            <Component BlockName="CutBlock_50_49_1"/>
+            <Component BlockName="CutBlock_51_50_1"/>
+            <Component BlockName="CutBlock_52_51_1"/>
+            <Component BlockName="CutBlock_53_52_1"/>
+            <Component BlockName="CutBlock_54_53_1"/>
+            <Component BlockName="CutBlock_55_54_1"/>
+            <Component BlockName="CutBlock_56_55_1"/>
+            <Component BlockName="CutBlock_57_56_1"/>
+            <Component BlockName="CutBlock_58_57_1"/>
+            <Component BlockName="CutBlock_59_58_1"/>
+            <Component BlockName="CutBlock_60_59_1"/>
+            <Component BlockName="CutBlock_61_60_1"/>
+            <Component BlockName="CutBlock_62_61_1"/>
+            <Component BlockName="CutBlock_63_62_1"/>
+            <Component BlockName="CutBlock_64_63_1"/>
+            <Component BlockName="CutBlock_65_64_1"/>
+            <Component BlockName="CutBlock_66_65_1"/>
+            <Component BlockName="CutBlock_67_66_1"/>
+            <Component BlockName="CutBlock_68_67_1"/>
+            <Component BlockName="CutBlock_69_68_1"/>
+            <Component BlockName="CutBlock_70_69_1"/>
+            <Component BlockName="CutBlock_71_70_1"/>
+            <Component BlockName="CutBlock_72_71_1"/>
+            <Component BlockName="CutBlock_73_72_1"/>
+            <Component BlockName="CutBlock_74_73_1"/>
+            <Component BlockName="CutBlock_75_74_1"/>
+            <Component BlockName="CutBlock_76_75_1"/>
+            <Component BlockName="CutBlock_77_76_1"/>
+            <Component BlockName="CutBlock_78_77_1"/>
+            <Component BlockName="CutBlock_79_78_1"/>
+        </Component>
+        <Component ComponentType="PartialProduct" ID="Product_9619719_80" Status="Available" Class="Quantity" PartIDKeys="BlockName">
+            <Component BlockName="CutBlock_80_79_1"/>
+        </Component>
+        <Media MediaUnit="Sheet" MediaType="Paper" Thickness="378.4600" ID="Media_9619719" Status="Available" Class="Consumable"/>
+        <DeliveryIntent ID="Delivery_9619719" Status="Available" Class="Intent">
+            <DropIntent>
+                <Required DataType="TimeSpan" Actual="2019-03-13T00:30:00Z"/>
+                <DropItemIntent>
+                    <ComponentRef rRef="BoxedProduct_9619719_1_2"/>
+                </DropItemIntent>
+                <DropItemIntent>
+                    <ComponentRef rRef="BoxedProduct_9619719_3_4"/>
+                </DropItemIntent>
+                <DropItemIntent>
+                    <ComponentRef rRef="BoxedProduct_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+                </DropItemIntent>
+                <DropItemIntent>
+                    <ComponentRef rRef="BoxedProduct_9619719_20_21"/>
+                </DropItemIntent>
+                <DropItemIntent>
+                    <ComponentRef rRef="BoxedProduct_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+                </DropItemIntent>
+                <DropItemIntent>
+                    <ComponentRef rRef="BoxedProduct_9619719_80"/>
+                </DropItemIntent>
+            </DropIntent>
+        </DeliveryIntent>
+    </ResourcePool>
+    <ResourceLinkPool>
+        <ComponentLink Usage="Output" rRef="Product_9619719_1_2"/>
+        <ComponentLink Usage="Output" rRef="Product_9619719_3_4"/>
+        <ComponentLink Usage="Output" rRef="Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+        <ComponentLink Usage="Output" rRef="Product_9619719_20_21"/>
+        <ComponentLink Usage="Output" rRef="Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+        <ComponentLink Usage="Output" rRef="Product_9619719_80"/>
+        <DeliveryIntentLink Usage="Input" rRef="Delivery_9619719"/>
+    </ResourceLinkPool>
+    <JDF ID="Cutting_9619719" JobID="9619719" Type="Cutting" Status="Waiting">
+        <ResourcePool>
+            <CuttingParams ID="CuttingParams_9619719" Status="Available" Class="Parameter">
+                <CutBlock BlockName="CutBlock_1_0_1" BlockSize="432.0000 144.0000" BlockTrf="1 0 0 1 41.1907 1675.41" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_2_1_1" BlockSize="432.0000 144.0000" BlockTrf="1 0 0 1 41.1907 1522.26" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_3_2_1" BlockSize="396.0000 306.0000" BlockTrf="1 0 0 1 2445.77 36.6284" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_4_3_1" BlockSize="396.0000 306.0000" BlockTrf="1 0 0 1 2445.77 351.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_5_4_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 41.1907 36.6284" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_6_5_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 41.1907 333.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_7_6_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 41.1907 630.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_8_7_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 41.1907 928.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_9_8_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 41.1907 1225.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_10_9_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 482.335 1225.12" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_11_10_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 482.335 36.6284" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_12_11_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 482.335 333.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_13_12_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 482.335 630.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_14_13_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 482.335 928.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_15_14_1" BlockSize="432.0000 288.0000" BlockTrf="1 0 0 1 482.335 1522.26" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_16_15_1" BlockSize="432.0000 288.0000" BlockTrf="0 -1 1 0 923.479 468.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_17_16_1" BlockSize="432.0000 288.0000" BlockTrf="0 -1 1 0 923.479 909.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_18_17_1" BlockSize="432.0000 288.0000" BlockTrf="0 -1 1 0 923.479 1350.92" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_19_18_1" BlockSize="432.0000 288.0000" BlockTrf="0 -1 1 0 923.479 1792.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_20_19_1" BlockSize="504.0000 360.0000" BlockTrf="0 -1 1 0 2445.77 1170.92" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_21_20_1" BlockSize="504.0000 360.0000" BlockTrf="0 -1 1 0 2445.77 1684.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_22_21_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_23_22_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_24_23_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_25_24_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_26_25_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_27_26_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_28_27_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1220.62 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_29_28_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_30_29_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_31_30_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_32_31_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_33_32_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_34_33_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_35_34_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1373.77 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_36_35_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_37_36_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_38_37_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_39_38_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_40_39_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_41_40_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_42_41_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1526.91 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_43_42_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_44_43_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_45_44_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_46_45_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_47_46_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_48_47_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_49_48_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1680.05 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_50_49_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_51_50_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_52_51_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_53_52_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_54_53_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_55_54_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_56_55_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1833.2 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_57_56_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_58_57_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_59_58_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_60_59_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_61_60_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_62_61_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_63_62_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 1986.34 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_64_63_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_65_64_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_66_65_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_67_66_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_68_67_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_69_68_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_70_69_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2139.49 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_71_70_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 288.628" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_72_71_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 549.772" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_73_72_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 810.916" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_74_73_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 1072.06" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_75_74_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 1333.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_76_75_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 1594.35" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_77_76_1" BlockSize="252.0000 144.0000" BlockTrf="0 -1 1 0 2292.63 1855.49" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_78_77_1" BlockSize="252.0000 144.0000" BlockTrf="1 0 0 1 2445.77 1693.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_79_78_1" BlockSize="252.0000 144.0000" BlockTrf="1 0 0 1 959.479 1801.2" BlockType="CutBlock"/>
+                <CutBlock BlockName="CutBlock_80_79_1" BlockSize="198.0000 69.7500" BlockTrf="0 -1 1 0 2706.92 1891.2" BlockType="CutBlock"/>
+            </CuttingParams>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Orientation="Rotate180" Usage="Input" rRef="Sheet_9619719"/>
+            <ComponentLink Usage="Output" rRef="Product_9619719_1_2"/>
+            <ComponentLink Usage="Output" rRef="Product_9619719_3_4"/>
+            <ComponentLink Usage="Output" rRef="Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+            <ComponentLink Usage="Output" rRef="Product_9619719_20_21"/>
+            <ComponentLink Usage="Output" rRef="Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+            <ComponentLink Usage="Output" rRef="Product_9619719_80"/>
+            <MediaLink Usage="Input" rRef="Media_9619719"/>
+            <CuttingParamsLink Usage="Input" rRef="CuttingParams_9619719"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_9619719_1" JobID="9619719-BoxedProduct_9619719_1_2" Type="BoxPacking" Status="Waiting">
+        <ResourcePool>
+            <Component ComponentType="Sheet" ProductType="FlatBox" ID="Box_Product_9619719_1_2" Status="Available" Class="Quantity"/>
+            <BoxPackingParams ID="BoxPackingParams_Product_9619719_1_2" Status="Available" Class="Parameter"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Usage="Input" ProcessUsage="Box" rRef="Box_Product_9619719_1_2"/>
+            <ComponentLink Usage="Input" rRef="Product_9619719_1_2"/>
+            <ComponentLink Usage="Output" rRef="BoxedProduct_9619719_1_2"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxPackingParams_Product_9619719_1_2"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_9619719_3" JobID="9619719-BoxedProduct_9619719_3_4" Type="BoxPacking" Status="Waiting">
+        <ResourcePool>
+            <Component ComponentType="Sheet" ProductType="FlatBox" ID="Box_Product_9619719_3_4" Status="Available" Class="Quantity"/>
+            <BoxPackingParams ID="BoxPackingParams_Product_9619719_3_4" Status="Available" Class="Parameter"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Usage="Input" ProcessUsage="Box" rRef="Box_Product_9619719_3_4"/>
+            <ComponentLink Usage="Input" rRef="Product_9619719_3_4"/>
+            <ComponentLink Usage="Output" rRef="BoxedProduct_9619719_3_4"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxPackingParams_Product_9619719_3_4"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_9619719_5" JobID="9619719-BoxedProduct_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19" Type="BoxPacking" Status="Waiting">
+        <ResourcePool>
+            <Component ComponentType="Sheet" ProductType="FlatBox" ID="Box_Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19" Status="Available" Class="Quantity"/>
+            <BoxPackingParams ID="BoxPackingParams_Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19" Status="Available" Class="Parameter"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Usage="Input" ProcessUsage="Box" rRef="Box_Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+            <ComponentLink Usage="Input" rRef="Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+            <ComponentLink Usage="Output" rRef="BoxedProduct_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxPackingParams_Product_9619719_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_9619719_20" JobID="9619719-BoxedProduct_9619719_20_21" Type="BoxPacking" Status="Waiting">
+        <ResourcePool>
+            <Component ComponentType="Sheet" ProductType="FlatBox" ID="Box_Product_9619719_20_21" Status="Available" Class="Quantity"/>
+            <BoxPackingParams ID="BoxPackingParams_Product_9619719_20_21" Status="Available" Class="Parameter"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Usage="Input" ProcessUsage="Box" rRef="Box_Product_9619719_20_21"/>
+            <ComponentLink Usage="Input" rRef="Product_9619719_20_21"/>
+            <ComponentLink Usage="Output" rRef="BoxedProduct_9619719_20_21"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxPackingParams_Product_9619719_20_21"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_9619719_22" JobID="9619719-BoxedProduct_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79" Type="BoxPacking" Status="Waiting">
+        <ResourcePool>
+            <Component ComponentType="Sheet" ProductType="FlatBox" ID="Box_Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79" Status="Available" Class="Quantity"/>
+            <BoxPackingParams ID="BoxPackingParams_Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79" Status="Available" Class="Parameter"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Usage="Input" ProcessUsage="Box" rRef="Box_Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+            <ComponentLink Usage="Input" rRef="Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+            <ComponentLink Usage="Output" rRef="BoxedProduct_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxPackingParams_Product_9619719_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49_50_51_52_53_54_55_56_57_58_59_60_61_62_63_64_65_66_67_68_69_70_71_72_73_74_75_76_77_78_79"/>
+        </ResourceLinkPool>
+    </JDF>
+    <JDF ID="BoxPacking_9619719_80" JobID="9619719-BoxedProduct_9619719_80" Type="BoxPacking" Status="Waiting">
+        <ResourcePool>
+            <Component ComponentType="Sheet" ProductType="FlatBox" ID="Box_Product_9619719_80" Status="Available" Class="Quantity"/>
+            <BoxPackingParams ID="BoxPackingParams_Product_9619719_80" Status="Available" Class="Parameter"/>
+        </ResourcePool>
+        <ResourceLinkPool>
+            <ComponentLink Usage="Input" ProcessUsage="Box" rRef="Box_Product_9619719_80"/>
+            <ComponentLink Usage="Input" rRef="Product_9619719_80"/>
+            <ComponentLink Usage="Output" rRef="BoxedProduct_9619719_80"/>
+            <BoxPackingParamsLink Usage="Input" rRef="BoxPackingParams_Product_9619719_80"/>
+        </ResourceLinkPool>
+    </JDF>
+</JDF>

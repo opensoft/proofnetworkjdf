@@ -340,9 +340,10 @@ ComponentSP Component::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId
 
     if (!component->id().isEmpty()) {
         auto componentFromCache = componentsCache().add({jobId, component->id()}, component);
-        if (component != componentFromCache && !sanitize && !isRef)
+        if (component != componentFromCache && !sanitize && !isRef) {
             componentFromCache->updateFrom(component);
-        component = componentFromCache;
+            component = componentFromCache;
+        }
     }
 
     return component;

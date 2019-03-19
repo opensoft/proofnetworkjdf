@@ -22,5 +22,6 @@
         <file>data/malformed3.jdf</file>
         <file>data/malformed_correct.jdf</file>
         <file>data/jdfwithpartitionedlayouts.jdf</file>
+        <file>data/jdfdocument3.jdf</file>
     </qresource>
 </RCC>
