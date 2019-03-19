@@ -45,6 +45,8 @@ protected:
         jdfDocUT = JdfDocument::fromJdf(xml);
         ASSERT_TRUE(jdfDocUT);
 
+        qmlWrapperUT = jdfDocUT->toQmlWrapper();
+
         QFile file2(":/data/jdfdocument2.jdf");
         ASSERT_TRUE(file2.open(QIODevice::ReadOnly | QIODevice::Text));
         QXmlStreamReader xml2(&file2);
@@ -69,18 +71,23 @@ protected:
         jdfWithPartitionedLayouts = JdfDocument::fromJdf(xml5);
         ASSERT_TRUE(jdfWithPartitionedLayouts);
 
-        qmlWrapperUT = jdfDocUT->toQmlWrapper();
+        QFile file6(":/data/jdfdocument3.jdf");
+        ASSERT_TRUE(file6.open(QIODevice::ReadOnly | QIODevice::Text));
+        QXmlStreamReader xml6(&file6);
+        jdfDocSanitizeUT = JdfDocument::fromJdf(xml6, "9619719", {}, true);
+        ASSERT_TRUE(jdfDocSanitizeUT);
     }
 
     void TearDown() override { delete qmlWrapperUT; }
 
 protected:
     JdfDocumentSP jdfDocUT;
+    JdfDocumentQmlWrapper *qmlWrapperUT;
     JdfDocumentSP jdfDocUT2;
     JdfDocumentSP jdfNested;
     JdfDocumentSP jdfWithPartitionedComponents;
     JdfDocumentSP jdfWithPartitionedLayouts;
-    JdfDocumentQmlWrapper *qmlWrapperUT;
+    JdfDocumentSP jdfDocSanitizeUT;
 };
 
 TEST_F(JdfDocumentTest, qmlWrapperProperties)
@@ -1092,4 +1099,30 @@ TEST_F(JdfDocumentTest, findAllLayouts)
     ASSERT_EQ(1, layouts.count());
     EXPECT_EQ("Layout1", layouts[0]->id());
     EXPECT_EQ(3, layouts[0]->media().count());
+}
+
+TEST_F(JdfDocumentTest, fromJdfSanitize)
+{
+    EXPECT_EQ("Root_9619719", jdfDocSanitizeUT->id());
+    EXPECT_EQ("9619719", jdfDocSanitizeUT->jobId());
+
+    ASSERT_EQ(7, jdfDocSanitizeUT->jdfNodes().count());
+
+    JdfNodeSP jdfCuttingNode = jdfDocSanitizeUT->jdfNodes().first();
+    ASSERT_TRUE(jdfCuttingNode);
+    EXPECT_EQ("Cutting_9619719", jdfCuttingNode->id());
+    ASSERT_TRUE(jdfCuttingNode->resourcePool());
+    ASSERT_TRUE(jdfCuttingNode->resourcePool()->cuttingParams());
+    EXPECT_EQ(80, jdfCuttingNode->resourcePool()->cuttingParams()->cutBlocks().count());
+
+    ResourcePoolSP resourcePool = jdfDocSanitizeUT->resourcePool();
+    ASSERT_TRUE(resourcePool);
+
+    ASSERT_EQ(13, resourcePool->components().count());
+
+    ComponentSP component3 = resourcePool->components().last();
+    ASSERT_TRUE(component3);
+    ASSERT_EQ(1, component3->cutBlocks().count());
+    CutBlockSP cutBlock = component3->cutBlocks().first();
+    EXPECT_EQ("CutBlock_80_79_1", cutBlock->blockName());
 }
