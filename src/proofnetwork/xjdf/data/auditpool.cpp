@@ -1,0 +1,158 @@
+/* Copyright 2018, OpenSoft Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *     * Neither the name of OpenSoft Inc. nor the names of its contributors may be used to endorse
+ * or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+#include "proofnetwork/xjdf/data/auditpool.h"
+
+#include "proofcore/objectscache.h"
+
+#include "proofnetwork/xjdf/data/auditcreated.h"
+#include "proofnetwork/xjdf/data/auditnotification.h"
+#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+
+namespace Proof {
+namespace XJdf {
+
+class AuditPoolPrivate : public XJdfAbstractNodePrivate
+{
+    Q_DECLARE_PUBLIC(AuditPool)
+
+    AuditPoolPrivate() { registerChildren(created, notifications); }
+
+    AuditCreatedSP created = AuditCreated::create();
+    QVector<AuditNotificationSP> notifications;
+};
+
+ObjectsCache<QString, AuditPool> &auditPoolCache()
+{
+    return WeakObjectsCache<QString, AuditPool>::instance();
+}
+
+} // namespace XJdf
+} // namespace Proof
+
+using namespace Proof;
+using namespace Proof::XJdf;
+
+AuditPool::AuditPool() : XJdfAbstractNode(*new AuditPoolPrivate)
+{}
+
+AuditCreatedSP AuditPool::created() const
+{
+    Q_D_CONST(AuditPool);
+    return d->created;
+}
+
+QVector<AuditNotificationSP> AuditPool::notifications() const
+{
+    Q_D_CONST(AuditPool);
+    return d->notifications;
+}
+
+AuditPoolSP AuditPool::create()
+{
+    AuditPoolSP result(new AuditPool());
+    initSelfWeakPtr(result);
+    return result;
+}
+
+AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &xjdfReader)
+{
+    AuditPoolSP auditPool = create();
+
+    QVector<AuditNotificationSP> notifications;
+    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
+        if (xjdfReader.name() == "AuditPool" && xjdfReader.isStartElement() && !auditPool->isFetched()) {
+            auditPool->setFetched(true);
+        } else if (xjdfReader.isStartElement()) {
+            if (xjdfReader.name() == "AuditNotification") {
+                auto notification = AuditNotification::fromXJdf(xjdfReader);
+                if (!notification) {
+                    qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Modified is invalid.";
+                    return AuditPoolSP();
+                }
+            } else if (xjdfReader.name() == "AuditCreated") {
+                AuditCreatedSP created = AuditCreated::fromXJdf(xjdfReader);
+                if (!created) {
+                    qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Created is invalid.";
+                    return AuditPoolSP();
+                }
+                auditPool->setCreated(created);
+            } else {
+                xjdfReader.skipCurrentElement();
+            }
+        } else if (xjdfReader.isEndElement()) {
+            break;
+        }
+        xjdfReader.readNext();
+    }
+    auditPool->setNotifications(notifications);
+
+    return auditPool;
+}
+
+void AuditPool::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+{
+    Q_D_CONST(AuditPool);
+
+    xjdfWriter.writeStartElement(QStringLiteral("AuditPool"));
+
+    if (isValidAndDirty(d->created))
+        d->created->toXJdf(xjdfWriter);
+    for (const auto &notification : d->notifications)
+        notification->toXJdf(xjdfWriter);
+
+    xjdfWriter.writeEndElement();
+}
+
+void AuditPool::setCreated(const AuditCreatedSP &created)
+{
+    Q_ASSERT(created);
+    Q_D(AuditPool);
+    if (created == nullptr) {
+        setCreated(AuditCreated::create());
+    } else if (d->created != created) {
+        d->created = created;
+        emit createdChanged(d->created);
+    }
+}
+
+void AuditPool::setNotifications(const QVector<AuditNotificationSP> &arg)
+{
+    Q_D(AuditPool);
+    bool emitNeeded = arg.count() != d->notifications.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->id() != d->notifications[i]->id();
+    if (emitNeeded) {
+        d->notifications = arg;
+        emit notificationsChanged(d->notifications);
+    }
+}
+
+void AuditPool::updateSelf(const Proof::NetworkDataEntitySP &other)
+{
+    AuditPoolSP castedOther = qSharedPointerCast<AuditPool>(other);
+    setCreated(castedOther->created());
+    setNotifications(castedOther->notifications());
+    XJdfAbstractNode::updateSelf(other);
+}

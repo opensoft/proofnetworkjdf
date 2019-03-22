@@ -22,22 +22,36 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofcore/proofglobal.h"
+#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
 
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
-#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
 
-Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
+using namespace Proof;
+using namespace Proof::XJdf;
 
-PROOF_LIBRARY_INITIALIZER(libraryInit)
+NetworkDataEntityQmlWrapper *XJdfAbstractNode::toQmlWrapper(QObject *parent) const
 {
-    // clang-format off
-   
+    Q_UNUSED(parent)
+    Q_ASSERT(false);
+    return nullptr;
+}
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
+bool XJdfAbstractNode::fillFromXJdf(QXmlStreamReader &)
+{
+    return false;
+}
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+void XJdfAbstractNode::readAttributesFromXJdf(QXmlStreamReader &)
+{}
 
-    // clang-format on
+XJdfAbstractNode::XJdfAbstractNode() : XJdfAbstractNode(*new XJdfAbstractNodePrivate)
+{}
+
+XJdfAbstractNode::XJdfAbstractNode(XJdfAbstractNodePrivate &dd) : NetworkDataEntity(dd)
+{}
+
+void XJdfAbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
+{
+    //NOTE: NOthing there for now
+    NetworkDataEntity::updateSelf(other);
 }

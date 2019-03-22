@@ -22,22 +22,51 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofcore/proofglobal.h"
+#ifndef PROOF_XJDF_AUDITPOOL_H
+#define PROOF_XJDF_AUDITPOOL_H
 
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
+#include <QXmlStreamReader>
 
-PROOF_LIBRARY_INITIALIZER(libraryInit)
+namespace Proof {
+namespace XJdf {
+
+class AuditPoolPrivate;
+class PROOF_NETWORK_XJDF_EXPORT AuditPool : public XJdfAbstractNode
 {
-    // clang-format off
-   
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(AuditPool)
+public:
+    AuditPool(const AuditPool &) = delete;
+    AuditPool &operator=(const AuditPool &) = delete;
+    AuditPool(AuditPool &&) = delete;
+    AuditPool &operator=(AuditPool &&) = delete;
+    ~AuditPool() = default;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
+    AuditCreatedSP created() const;
+    QVector<AuditNotificationSP> notifications() const;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+    void setCreated(const AuditCreatedSP &created);
+    void setNotifications(const QVector<AuditNotificationSP> &arg);
 
-    // clang-format on
-}
+    static AuditPoolSP create();
+
+    static AuditPoolSP fromXJdf(QXmlStreamReader &xjdfReader);
+    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+
+signals:
+    void createdChanged(const Proof::XJdf::AuditCreatedSP &arg);
+    void notificationsChanged(const QVector<Proof::XJdf::AuditNotificationSP> &arg);
+
+protected:
+    explicit AuditPool();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
+
+} // namespace XJdf
+} // namespace Proof
+
+#endif // PROOF_JDF_AUDITPOOL_H

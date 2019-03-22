@@ -95,6 +95,31 @@ proof_add_target_sources(NetworkJdf
 proof_add_target_sources(NetworkXJdf
     src/proofnetwork/xjdf/proofnetworkxjdf_init.cpp
     src/proofnetwork/xjdf/apihelper.cpp
+    src/proofnetwork/xjdf/data/xjdfabstractnode.cpp
+    src/proofnetwork/xjdf/data/graybox.cpp
+    src/proofnetwork/xjdf/data/xjdfdocument.cpp
+    src/proofnetwork/xjdf/data/auditpool.cpp
+    src/proofnetwork/xjdf/data/resourceset.cpp
+    src/proofnetwork/xjdf/data/productlist.cpp
+    src/proofnetwork/xjdf/data/auditcreated.cpp
+    src/proofnetwork/xjdf/data/auditnotification.cpp
+    src/proofnetwork/xjdf/data/boxpackingparams.cpp
+    src/proofnetwork/xjdf/data/cuttingparams.cpp
+    src/proofnetwork/xjdf/data/deliveryparams.cpp
+    src/proofnetwork/xjdf/data/product.cpp
+    src/proofnetwork/xjdf/data/resource.cpp
+    src/proofnetwork/xjdf/data/auditabstractitem.cpp
+
+    src/proofnetwork/xjdf/data/amountpool.cpp
+    src/proofnetwork/xjdf/data/colorintent.cpp
+    src/proofnetwork/xjdf/data/component.cpp
+    src/proofnetwork/xjdf/data/cutblock.cpp
+    src/proofnetwork/xjdf/data/foldingintent.cpp
+    src/proofnetwork/xjdf/data/intent.cpp
+    src/proofnetwork/xjdf/data/media.cpp
+    src/proofnetwork/xjdf/data/part.cpp
+    src/proofnetwork/xjdf/data/partamount.cpp
+     src/proofnetwork/xjdf/data/dropitem.cpp
 )
 
 proof_add_target_headers(NetworkJdf
@@ -188,8 +213,33 @@ proof_add_target_headers(NetworkXJdf
     include/proofnetwork/xjdf/proofnetworkxjdf_types.h
     include/proofnetwork/xjdf/apihelper.h
     include/proofnetwork/xjdf/xjdfhelper.h
-)
+    include/proofnetwork/xjdf/data/xjdfabstractnode.h
+    include/proofnetwork/xjdf/data/xjdfdocument.h
+    include/proofnetwork/xjdf/data/graybox.h
+    include/proofnetwork/xjdf/data/auditpool.h
+    include/proofnetwork/xjdf/data/resourceset.h
+    include/proofnetwork/xjdf/data/productlist.h
+    include/proofnetwork/xjdf/data/auditcreated.h
+    include/proofnetwork/xjdf/data/auditnotification.h
+    include/proofnetwork/xjdf/data/boxpackingparams.h
+    include/proofnetwork/xjdf/data/cuttingparams.h
+    include/proofnetwork/xjdf/data/deliveryparams.h
+    include/proofnetwork/xjdf/data/product.h
+    include/proofnetwork/xjdf/data/resource.h
+    include/proofnetwork/xjdf/data/auditabstractitem.h
 
+    include/proofnetwork/xjdf/data/amountpool.h
+    include/proofnetwork/xjdf/data/colorintent.h
+    include/proofnetwork/xjdf/data/component.h
+    include/proofnetwork/xjdf/data/cutblock.h
+    include/proofnetwork/xjdf/data/foldingintent.h
+    include/proofnetwork/xjdf/data/intent.h
+    include/proofnetwork/xjdf/data/media.h
+    include/proofnetwork/xjdf/data/part.h
+    include/proofnetwork/xjdf/data/partamount.h
+    include/proofnetwork/xjdf/data/dropitem.h
+
+)
 
 proof_add_target_private_headers(NetworkJdf
     include/private/proofnetwork/jdf/data/abstractresource_p.h
@@ -209,6 +259,11 @@ proof_add_target_private_headers(NetworkJdf
 )
 
 proof_add_target_private_headers(NetworkXJdf
+    include/private/proofnetwork/xjdf/data/xjdfabstractnode_p.h
+    include/private/proofnetwork/xjdf/data/graybox_p.h
+    include/private/proofnetwork/xjdf/data/resource_p.h
+    include/private/proofnetwork/xjdf/data/auditabstractitem_p.h
+    include/private/proofnetwork/xjdf/data/intent_p.h
 )
 
 proof_force_moc(NetworkJdf include/proofnetwork/jdf/apihelper.h)

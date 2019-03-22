@@ -1,5 +1,7 @@
 // clazy:skip
 
+#include "proofnetwork/xjdf/data/xjdfdocument.h"
+
 #include "gtest/proof/test_global.h"
 
 #include <QFile>
@@ -23,30 +25,16 @@ protected:
         QXmlStreamReader xml(&file);
         xjdfDocUT = XJdfDocument::fromXJdf(xml);
         ASSERT_TRUE(xjdfDocUT);
-
-        qmlWrapperUT = xjdfDocUT->toQmlWrapper();
     }
 
-    void TearDown() override { delete qmlWrapperUT; }
+    void TearDown() override {}
 
 protected:
     XJdfDocumentSP xjdfDocUT;
-    XJdfDocumentQmlWrapper *qmlWrapperUT;
 };
 
-TEST_F(XJdfDocumentTest, qmlWrapperProperties)
-{
-    QStringList invalidProperties = findWrongChangedSignalsInQmlWrapper(qmlWrapperUT);
-    EXPECT_EQ(0, invalidProperties.count()) << invalidProperties.join("\n").toLatin1().constData();
-}
-
 TEST_F(XJdfDocumentTest, malformedXJdf)
-{
-    
-}
+{}
 
 TEST_F(XJdfDocumentTest, fromXJdf)
-{
-    
-}
-
+{}

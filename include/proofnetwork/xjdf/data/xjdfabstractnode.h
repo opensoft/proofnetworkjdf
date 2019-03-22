@@ -22,22 +22,43 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofcore/proofglobal.h"
+#ifndef JDFXJDFABSTRACTNODE_H
+#define JDFXJDFABSTRACTNODE_H
 
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/networkdataentity.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
+#include <QXmlStreamReader>
 
-PROOF_LIBRARY_INITIALIZER(libraryInit)
+namespace Proof {
+namespace XJdf {
+
+class XJdfAbstractNodePrivate;
+class PROOF_NETWORK_XJDF_EXPORT XJdfAbstractNode : public NetworkDataEntity
 {
-    // clang-format off
-   
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(XJdfAbstractNode)
+public:
+    XJdfAbstractNode(const XJdfAbstractNode &) = delete;
+    XJdfAbstractNode &operator=(const XJdfAbstractNode &) = delete;
+    XJdfAbstractNode(XJdfAbstractNode &&) = delete;
+    XJdfAbstractNode &operator=(XJdfAbstractNode &&) = delete;
+    ~XJdfAbstractNode() = default;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+    virtual bool fillFromXJdf(QXmlStreamReader &xjdfReader);
+    virtual void readAttributesFromXJdf(QXmlStreamReader &xjdfReader);
+    virtual void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const = 0;
 
-    // clang-format on
-}
+protected:
+    XJdfAbstractNode();
+    explicit XJdfAbstractNode(XJdfAbstractNodePrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
+
+} // namespace XJdf
+} // namespace Proof
+
+#endif // JDFXJDFABSTRACTNODE_H

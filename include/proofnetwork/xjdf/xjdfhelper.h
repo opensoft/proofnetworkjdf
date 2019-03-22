@@ -27,14 +27,14 @@
 
 #include "proofseed/proofalgorithms.h"
 
-#include "proofnetwork/xxjdf/apihelper.h"
-#include "proofnetwork/xxjdf/data/xjdfdocument.h"
-#include "proofnetwork/xxjdf/proofnetworkxxjdf_types.h"
+#include "proofnetwork/xjdf/apihelper.h"
+#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 #include <QVector>
 
 namespace Proof {
-namespace XXJdf {
+namespace XJdf {
 
 inline QVector<XJdfNodeSP> findNodes(const XJdfDocumentSP &job, const QString &type = QString())
 {

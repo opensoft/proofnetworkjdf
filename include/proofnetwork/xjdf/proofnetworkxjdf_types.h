@@ -33,21 +33,107 @@
 namespace Proof {
 namespace XJdf {
 
-class JdfNode;
-using JdfNodeSP = QSharedPointer<JdfNode>;
-using JdfNodeWP = QWeakPointer<JdfNode>;
+class XJdfAbstractNode;
+using XJdfAbstractNodeSP = QSharedPointer<XJdfAbstractNode>;
+using XJdfAbstractNodeWP = QWeakPointer<XJdfAbstractNode>;
 
-class JdfDocument;
-using JdfDocumentSP = QSharedPointer<JdfDocument>;
-using JdfDocumentWP = QWeakPointer<JdfDocument>;
+class GrayBox;
+using GrayBoxSP = QSharedPointer<GrayBox>;
+using GrayBoxWP = QWeakPointer<GrayBox>;
 
-class JmfDocument;
-using JmfDocumentSP = QSharedPointer<JmfDocument>;
-using JmfDocumentWP = QWeakPointer<JmfDocument>;
+class XJdfDocument;
+using XJdfDocumentSP = QSharedPointer<XJdfDocument>;
+using XJdfDocumentWP = QWeakPointer<XJdfDocument>;
 
+class XJmfDocument;
+using XJmfDocumentSP = QSharedPointer<XJmfDocument>;
+using XJmfDocumentWP = QWeakPointer<XJmfDocument>;
 
+class AuditPool;
+using AuditPoolSP = QSharedPointer<AuditPool>;
+using AuditPoolWP = QWeakPointer<AuditPool>;
 
-} // namespace Jdf
+class AuditAbstractItem;
+using AuditAbstractItemSP = QSharedPointer<AuditAbstractItem>;
+using AuditAbstractItemWP = QWeakPointer<AuditAbstractItem>;
+
+class AuditCreated;
+using AuditCreatedSP = QSharedPointer<AuditCreated>;
+using AuditCreatedWP = QWeakPointer<AuditCreated>;
+
+class AuditNotification;
+using AuditNotificationSP = QSharedPointer<AuditNotification>;
+using AuditNotificationWP = QWeakPointer<AuditNotification>;
+
+class ProductList;
+using ProductListSP = QSharedPointer<ProductList>;
+using ProductListWP = QWeakPointer<ProductList>;
+
+class Product;
+using ProductSP = QSharedPointer<Product>;
+using ProductWP = QWeakPointer<Product>;
+
+class ResourceSet;
+using ResourceSetSP = QSharedPointer<ResourceSet>;
+using ResourceSetWP = QWeakPointer<ResourceSet>;
+
+class Resource;
+using ResourceSP = QSharedPointer<Resource>;
+using ResourceWP = QWeakPointer<Resource>;
+
+class Component;
+using ComponentSP = QSharedPointer<Component>;
+using ComponentWP = QWeakPointer<Component>;
+
+class BoxPackingParams;
+using BoxPackingParamsSP = QSharedPointer<BoxPackingParams>;
+using BoxPackingParamsWP = QWeakPointer<BoxPackingParams>;
+
+class CuttingParams;
+using CuttingParamsSP = QSharedPointer<CuttingParams>;
+using CuttingParamsWP = QWeakPointer<CuttingParams>;
+
+class DeliveryParams;
+using DeliveryParamsSP = QSharedPointer<DeliveryParams>;
+using DeliveryParamsWP = QWeakPointer<DeliveryParams>;
+
+class Part;
+using PartSP = QSharedPointer<Part>;
+using PartWP = QWeakPointer<Part>;
+
+class PartAmount;
+using PartAmountSP = QSharedPointer<PartAmount>;
+using PartAmountWP = QWeakPointer<PartAmount>;
+
+class AmountPool;
+using AmountPoolSP = QSharedPointer<AmountPool>;
+using AmountPoolWP = QWeakPointer<AmountPool>;
+
+class Intent;
+using IntentSP = QSharedPointer<Intent>;
+using IntentWP = QWeakPointer<Intent>;
+
+class ColorIntent;
+using ColorIntentSP = QSharedPointer<ColorIntent>;
+using ColorIntentWP = QWeakPointer<ColorIntent>;
+
+class FoldingIntent;
+using FoldingIntentSP = QSharedPointer<FoldingIntent>;
+using FoldingIntentWP = QWeakPointer<FoldingIntent>;
+
+class Media;
+using MediaSP = QSharedPointer<Media>;
+using MediaWP = QWeakPointer<Media>;
+
+class CutBlock;
+using CutBlockSP = QSharedPointer<CutBlock>;
+using CutBlockWP = QWeakPointer<CutBlock>;
+
+class DropItem;
+using DropItemSP = QSharedPointer<DropItem>;
+using DropItemWP = QWeakPointer<DropItem>;
+
+} // namespace XJdf
 } // namespace Proof
 
 #endif // PROOFNETWORKXJDF_TYPES_H

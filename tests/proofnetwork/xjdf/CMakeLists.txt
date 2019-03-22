@@ -3,8 +3,7 @@ project(ProofNetworkXJdfTest LANGUAGES CXX)
 
 proof_add_target_sources(network-xjdf_tests
     xjdfdocument_test.cpp
-    xjmfdocument_test.cpp
-    xjdfhelpers_test.cpp
+
 )
 proof_add_target_resources(network-xjdf_tests tests_resources.qrc)
 

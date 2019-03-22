@@ -22,22 +22,48 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofcore/proofglobal.h"
+#ifndef PROOF_XJDF_AMOUNTPOOL_H
+#define PROOF_XJDF_AMOUNTPOOL_H
 
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
+#include <QXmlStreamReader>
 
-PROOF_LIBRARY_INITIALIZER(libraryInit)
+namespace Proof {
+namespace XJdf {
+
+class AmountPoolPrivate;
+class PROOF_NETWORK_XJDF_EXPORT AmountPool : public XJdfAbstractNode
 {
-    // clang-format off
-   
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(AmountPool)
+public:
+    AmountPool(const AmountPool &) = delete;
+    AmountPool &operator=(const AmountPool &) = delete;
+    AmountPool(AmountPool &&) = delete;
+    AmountPool &operator=(AmountPool &&) = delete;
+    ~AmountPool() = default;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
+    QVector<PartAmountSP> parts() const;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+    void setParts(const QVector<PartAmountSP> &parts);
 
-    // clang-format on
-}
+    static AmountPoolSP create();
+
+    static AmountPoolSP fromXJdf(QXmlStreamReader &xjdfReader);
+    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+
+signals:
+    void partsChanged(const QVector<Proof::XJdf::PartAmountSP> &arg);
+
+protected:
+    explicit AmountPool();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
+
+} // namespace XJdf
+} // namespace Proof
+
+#endif // PROOF_XJDF_AMOUNTPOOL_H

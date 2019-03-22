@@ -22,22 +22,47 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofcore/proofglobal.h"
+#ifndef PROOF_XJDF_PRODUCTLIST_H
+#define PROOF_XJDF_PRODUCTLIST_H
 
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
-#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
 
-Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
+#include <QXmlStreamReader>
 
-PROOF_LIBRARY_INITIALIZER(libraryInit)
+namespace Proof {
+namespace XJdf {
+
+class ProductListPrivate;
+class PROOF_NETWORK_XJDF_EXPORT ProductList : public XJdfAbstractNode
 {
-    // clang-format off
-   
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(ProductList)
+public:
+    ProductList(const ProductList &) = delete;
+    ProductList &operator=(const ProductList &) = delete;
+    ProductList(ProductList &&) = delete;
+    ProductList &operator=(ProductList &&) = delete;
+    ~ProductList() = default;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
+    QVector<ProductSP> products() const;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+    void setProducts(const QVector<ProductSP> &products);
+    void addProduct(const ProductSP &arg);
 
-    // clang-format on
-}
+    static ProductListSP create();
+
+    static ProductListSP fromXJdf(QXmlStreamReader &xjdfReader);
+    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+
+signals:
+    void productsChanged(const QVector<Proof::XJdf::ProductSP> &arg);
+
+protected:
+    explicit ProductList();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
+
+} // namespace XJdf
+} // namespace Proof
+
+#endif // PROOF_XJDF_PRODUCTLIST_H

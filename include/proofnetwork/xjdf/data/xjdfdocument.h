@@ -22,22 +22,57 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofcore/proofglobal.h"
+#ifndef XJDFDOCUMENT_H
+#define XJDFDOCUMENT_H
 
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
-#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "graybox.h"
 
-Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
+namespace Proof {
+namespace XJdf {
 
-PROOF_LIBRARY_INITIALIZER(libraryInit)
+class XJdfDocumentPrivate;
+class PROOF_NETWORK_XJDF_EXPORT XJdfDocument : public GrayBox
 {
-    // clang-format off
-   
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(XJdfDocument)
+public:
+    XJdfDocument(const XJdfDocument &) = delete;
+    XJdfDocument &operator=(const XJdfDocument &) = delete;
+    XJdfDocument(XJdfDocument &&) = delete;
+    XJdfDocument &operator=(XJdfDocument &&) = delete;
+    ~XJdfDocument() = default;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
+    QString jobId() const;
+    QString jobPartId() const;
+    AuditPoolSP auditPool() const;
+    ProductListSP productList() const;
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+    void setJobId(const QString &arg);
+    void setJobPartId(const QString &arg);
+    void setAuditPool(const AuditPoolSP &arg);
+    void setProductList(const ProductListSP &arg);
 
-    // clang-format on
-}
+    static XJdfDocumentSP create();
+
+    static XJdfDocumentSP fromXJdf(QXmlStreamReader &xjdfReader);
+    static XJdfDocumentSP fromFile(const QString &filePath);
+
+    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+
+    bool toFile(const QString fileName) const;
+
+signals:
+    void jobIdChanged(const QString &arg);
+    void jobPartIdChanged(const QString &arg);
+    void auditPoolChanged(const AuditPoolSP &arg);
+    void productListChanged(const ProductListSP &arg);
+
+protected:
+    explicit XJdfDocument();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
+
+} // namespace XJdf
+} // namespace Proof
+
+#endif // XJDFDOCUMENT_H

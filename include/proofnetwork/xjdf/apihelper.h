@@ -35,78 +35,47 @@ namespace Proof {
 namespace XJdf {
 PROOF_NETWORK_XJDF_EXPORT Q_NAMESPACE;
 
-enum class ResourceStatus
+enum class ProcessType
 {
-    NoStatus,
-    IncompleteStatus, // Indicates that the Resource does not exist, and the metadata is not yet valid.
-    RejectedStatus, // Indicates that the Resource has been rejected by an Approval Process. The metadata is valid. New in JDF 1.2
-    UnavailableStatus, // Indicates that the Resource is not ready to be used or that the Resource in the real world
-    //represented by the Physical Resource in JDF is not available for processing. The metadata is valid.
-    InUseStatus, // Indicates that the Resource exists, but is in use by another Process. Also used for active pipes
-    DraftStatus, // Indicates that the Resource exists in a state that is suffi­cient for setting up the next Process but not for production.
-    CompleteStatus, // Indicates that the Resource is completely specified and the parameters are valid for usage.
-    //A Physical Resource with Status = "Complete" is not yet available for produc­tion,
-    //although it is sufficiently specified for a Process that refer­ences it through a ResourceRef from a Parameter Resource to commence execution.
-    AvailableStatus // Indicates that the whole Resource is available for usage.
+    NoProcessType,
+    Cutting,
+    BoxPacking
 };
 
-enum class ResourceClass
+enum class ProductType
 {
-    NoClass,
-    ConsumableClass,
-    HandlingClass,
-    ImplementationClass,
-    IntentClass,
-    ParameterClass,
-    PlaceHolderClass,
-    QuantityClass
+    NoProductType,
+    BackCover,
+    BlankBox, // Cut, Unfolded box, input for folder-gluer
+    BlankSheet, // A sheet with connected blanks after a die cutting
+    BlankWeb, // A web with connected blanks after a die cutting.
+    Body, //Generic content inside of a cover.
+    Book,
+    BookBlock,
+    BookCase,
+    Box, // Convenience packaging that is not envisioned to be protection for shipping.
+    Brochure,
+    BusinessCard,
+    Carton, // Protection packaging for shipping.
+    Cover,
+    EndSheet, // Endsheet for hard cover books.
+    FlatBox, // A folded and glued blank (not opened). Output from a box folder-gluer.
+    FlatWork, // Non-bound, non-folded Products or Products that only have packaging folds.
+    FrontCover,
+    Insert,
+    Jacket, //Hard cover case jacket.
+    Label,
+    Newspaper, //A newspaper-product
+    Pallet, //Loaded pallet of Boxes, Cartons or Component Resources
+    Poster,
+    Stack //Stacked Component.
 };
 
-enum class CoatingType
+enum class UsageType
 {
-    NoCoating, // No coating.
-    Coated, // A coating of a system-specified type. New in JDF 1.2
-    GlossyCoating,
-    HighGlossCoating,
-    InkJetCoating, // A coating intended for use with inkjet technology.
-    // Deprecation note: use PrintingTechnology = "InkJet". New in JDF 1.2. Deprecated in JDF 1.4
-    MatteCoating,
-    PolymerCoating, // Coating for a photo polymer process. New in JDF 1.3
-    SilverCoating, // Coating for a silver halide process. New in JDF 1.3
-    SatinCoating,
-    SemiglossCoating
-};
-
-enum class CoatingDetail
-{
-    NoCoatingDetail, // No coating detail specified.
-    CastCoating,
-    ProfitFullCoating,
-    ProfitSpotCoating
-};
-
-enum class LaminatingSurface
-{
-    FrontLaminated,
-    BackLaminated,
-    BothLaminated,
-    NoneLaminated
-};
-
-enum class BundleType
-{
-    BoundSetBundle, // Stack of components that are bound together.
-    BoxBundle,
-    CartonBundle,
-    CollectedStackBundle, // Components collected on a saddle, result of Collecting Process
-    CompensatedStackBundle, // Loose stack of compensated components
-    PalletBundle,
-    RollBundle, // Rolled components on a print Roll.
-    SheetBundle, // Multiple individual items printed onto one Sheet.
-    StackBundle, // Loose stack of equally stacked components.
-    StrappedStackBundle, // Strapped stack of equally stacked components.
-    StrappedCompensatedStackBundle, // Strapped stack of compensated components.
-    WrappedBundle
+    NoUsageType,
+    Input,
+    Output
 };
 
 enum class ResourceOrientation
@@ -122,383 +91,209 @@ enum class ResourceOrientation
     Flip270Orientation // 270
 };
 
-enum class ComponentType
-{
-    NotTypedComponent, //No ComponentType attribute set for this component
-    BlockComponent, // Folded or stacked product, (e.g., book block).
-    OtherComponent, // The Component describes a sample that has not been produced in this Job.
-    RibbonComponent, // The Component is a ribbon on a Web Press.
-    SheetComponent, // Single layer (Sheet) of paper.
-    WebComponent, // The Component is a Web on a Web Press.
-    FinalProductComponent, // The Component is the final product that was ordered by the customer.
-    PartialProductComponent, // The Component is an intermediate product that will be input to a following Process.
-    ProofComponent // The Component is a proof., e.g., a press proof or output from a digital press.
-};
-
-enum class ProductType
-{
-    NoProduct,
-    BackCoverProduct,
-    BlankBoxProduct, // Cut, Unfolded box, input for folder-gluer
-    BlankSheetProduct, // A sheet with connected blanks after a die cutting
-    BlankWebProduct, // A web with connected blanks after a die cutting.
-    BodyProduct, //Generic content inside of a cover.
-    BookProduct,
-    BookBlockProduct,
-    BookCaseProduct,
-    BoxProduct, // Convenience packaging that is not envisioned to be protection for shipping.
-    BrochureProduct,
-    BusinessCardProduct,
-    CartonProduct, // Protection packaging for shipping.
-    CoverProduct,
-    EndSheetProduct, // Endsheet for hard cover books.
-    FlatBoxProduct, // A folded and glued blank (not opened). Output from a box folder-gluer.
-    FlatWorkProduct, // Non-bound, non-folded Products or Products that only have packaging folds.
-    FrontCoverProduct,
-    InsertProduct,
-    JacketProduct, //Hard cover case jacket.
-    LabelProduct,
-    NewspaperProduct, //A newspaper-product
-    PalletProduct, //Loaded pallet of Boxes, Cartons or Component Resources
-    PosterProduct,
-    StackProduct //Stacked Component.
-};
-
-enum class ResourcePartType
-{
-    BinderySignatureNamePart,
-    BinderySignaturePaginationIndexPart,
-    BlockNamePart,
-    BundleItemIndexPart,
-    CellIndexPart,
-    ConditionPart,
-    DeliveryUnit0Part,
-    DeliveryUnit1Part,
-    DeliveryUnit2Part,
-    DeliveryUnit3Part,
-    DeliveryUnit4Part,
-    DeliveryUnit5Part,
-    DeliveryUnit6Part,
-    DeliveryUnit7Part,
-    DeliveryUnit8Part,
-    DeliveryUnit9Part,
-    DocCopiesPart,
-    DocIndexPart,
-    DocRunIndexPart,
-    DocSheetIndexPart,
-    DocTagsPart,
-    EditionPart,
-    EditionVersionPart,
-    FountainNumberPart,
-    ItemNamesPart,
-    LayerIdsPart,
-    LocationPart,
-    Metadata0Part,
-    Metadata1Part,
-    Metadata2Part,
-    Metadata3Part,
-    Metadata4Part,
-    Metadata5Part,
-    Metadata6Part,
-    Metadata7Part,
-    Metadata8Part,
-    Metadata9Part,
-    OptionPart,
-    PageNumberPart,
-    PageTagsPart,
-    PartVersionPart,
-    PlateLayoutPart,
-    PreflightRulePart,
-    PreviewTypePart,
-    RibbonNamePart,
-    RunPart,
-    RunIndexPart,
-    RunPagePart,
-    RunPageRangePart,
-    RunSetPart,
-    RunTagsPart,
-    SectionIndexPart,
-    SeparationPart,
-    SetDocIndexPart,
-    SetIndexPart,
-    SetRunIndexPart,
-    SetSheetIndexPart,
-    SetTagsPart,
-    SheetIndexPart,
-    SheetNamePart,
-    SidePart,
-    SignatureNamePart,
-    StationNamePart,
-    SubRunPart,
-    TileIdPart,
-    WebNamePart,
-    WebProductPart,
-    WebSetupPart
-};
-
-enum class LinkUsage
-{
-    InputLink,
-    OutputLink
-};
-
-enum class ProcessUsage
-{
-    UseAsDefault,
-    UseAsAccepted, //Used for Resource in an Output Resource of Approvall
-    UseAsApplication, //Used for Component in an Input Resource of BoxFolding
-    UseAsBackEndSheet, //Used for Component in an Input Resource of EndSheetGluing
-    UseAsBook, //Used for Component in an Input Resource of Jacketing
-    UseAsBookBlock, //Used for Component in an Input Resource of ChannelBinding, EndSheetGluing and RingBinding
-    UseAsBox, //Used for Component in an Input Resource of BoxPacking
-    UseAsCase, //Used for Component in an Input Resource of CasingIn
-    UseAsChild, //Used for Component in an Input Resource of Inserting
-    UseAsCover, //Used for Component in an Input Resource of ChannelBinding and CoverApplication
-    UseAsCoverBoard, //Used for Media in an Input Resource of CaseMaking
-    UseAsCoverMaterial, //Used for Component and Media in an Input Resource of CaseMaking
-    UseAsCylinder, //Used for ExposedMedia in an Input Resource of ConventionalPrinting
-    UseAsDocument, //Used for RunList in an Input Resource of Imposition, LayoutPreparation and Stripping and used for RunList in an Output Resource of Stripping
-    UseAsFrontEndSheet, //Used for Component in an Input Resource of EndSheetGluing
-    UseAsGood, //Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
-    UseAsInput, //Used for Component in an Input Resource of ConventionalPrinting and DigitalPrinting
-    UseAsJacket, //Used for Component in an Input Resource of Jacketing
-    UseAsLabel, //Used for Component in an Input Resource of Labeling
-    UseAsMarks, //Used for RunList in an Input Resource of Imposition, LayoutPreparation and Tiling, and used for RunList in an Output Resource of LayoutPreparation and Stripping
-    UseAsMother, //Used for Component in an Input Resource of Inserting
-    UseAsPlate, //Used for ExposedMedia in an Input Resource of ConventionalPrinting
-    UseAsProof, //Used for Component in an Input Resource of ConventionalPrinting and DigitalPrinting, and used for ExposedMedia in an Input Resource of ConventionalPrinting
-    UseAsRejected, //Used for Resource in an Output Resource of Approval
-    UseAsRingBinder, //Used for Component in an Input Resource of RingBinding
-    UseAsSpineBoard, //Used for Media in an Input Resource of CaseMaking
-    UseAsSurface, //Used for RunList in an Input Resource of Tiling
-    UseAsTie, //Used for Media in an Input Resource of BoxPacking
-    UseAsUnderlay, //Used for Media in an Input Resource of BoxPacking
-    UseAsWaste //Used for Component in an Output Resource of ConventionalPrinting and DigitalPrinting
-};
-
-enum class BlockType
-{
-    CutBlock, //Block to be cut.
-    SaveBlock, //Protected block, cut only via outer contour.
-    TempBlock, //Auxiliary block that is not taken into account during cutting.
-    MarkBlock //Contains no elements, only marks.
-};
-
-enum class MediaUnit
-{
-    ContinuousMediaUnit, // Continuously connected Sheets which can be fan folded
-    RollMediaUnit,
-    SheetMediaUnit // Individual cut Sheets.
-};
-
-enum class MediaType
-{
-    CorrugatedBoardMedia,
-    DiscMedia,
-    EndBoardMedia,
-    EmbossingFoilMedia,
-    FilmMedia,
-    FoilMedia,
-    GravureCylinderMedia,
-    ImagingCylinderMedia,
-    LaminatingFoilMedia,
-    MountingTapeMedia,
-    PaperMedia,
-    PlateMedia,
-    ScreenMedia,
-    SelfAdhesiveMedia,
-    SleeveMedia,
-    ShrinkFoilMedia,
-    TextileMedia,
-    OtherMedia,
-    VinylMedia
-};
-
-enum class DeviceFilterDetails
-{
-    // Provide only DeviceID and DeviceStatus.
-    NoneDeviceFilterDetails,
-    // Provide all available Device information except for Device Ele­ments.
-    BriefDeviceFilterDetails,
-    // ModuleStatus Elements are to be provided without module specific status details
-    // and without module specific employee information.
-    ModulesDeviceFilterDetails,
-    // Provide maximum available Device information excluding Device capability descriptions.
-    // Includes Device Elements which repre­sent details of the Device.
-    DetailsDeviceFilterDetails,
-    // Provide maximum available Device information includ­ing limited Device capability descriptions.
-    // Includes Device Elements which represent details of the Device
-    // and Device/DeviceCap/FeaturePool Subelements which represent named features of the Device.
-    NamedFeatureDeviceFilterDetails,
-    // Provide Device/DeviceCap Subelements which represent details of the capabilities of the Device.
-    CapabilityDeviceFilterDetails,
-    // Provide maximum available Device information including Device capability descriptions.
-    // Includes Device Elements which represent details of the Device.
-    FullDeviceFilterDetails
-};
-
-enum class DeviceStatus
-{
-    UnknownDeviceStatus, // No Device is known or the Device cannot provide a DeviceStatus.
-    IdleDeviceStatus, // No Job is being processed and the Device is accepting new Jobs.
-    DownDeviceStatus, // No Job is being processed and the Device currently cannot execute a Job.
-    // The Device might be broken, switched off, etc.
-    SetupDeviceStatus, // The Device is currently being set up.
-    // This state is allowed to occur also during the execution of a Job.
-    RunningDeviceStatus, // The Device is currently executing a Job.
-    CleanupDeviceStatus, // The Device is currently being cleaned.
-    // This state is allowed to occur also during the execution of a Job.
-    StoppedDeviceStatus // The Device has been stopped, probably temporarily.
-    // This status indicates some kind of break, including a pause, maintenance or a breakdown,
-    // as long as execution has not been aborted.
-};
-
-enum class DeviceCondition
-{
-    OkDeviceCondition, // The Device is in working condition.
-    NeedsAttentionDeviceCondition, // The Device is still in working condition but requires attention.
-    FailureDeviceCondition, // The Device is not in working condition.
-    OffLineDeviceCondition // The Device is off line and its condition is unknown.
-};
-
-enum class NotificationClass
+enum class Severity
 {
     // Indicates that a pure event due to certain operation-related activity has occurred,
     // (e.g., Machine events, operator activities, etc.).
     // This Class is used for the transfer of conventional event Messages.
     // In case of Class = "Event", further event informa­tion is to be provided by the Type Attribute
     // and NotificationDetails Element.
-    EventNotificationClass,
+    Event,
     // Any information about a Process which cannot be expressed by the other Classes (e.g., the beginning of execu­tion).
     // No user interaction is needed.
-    InformationNotificationClass,
+    Information,
     // Indicates that a minor error has occurred, and an auto­matic fix was applied. Execution continues.
     // The Node’s Status is unchanged. This appears in situations such as A4-Letter sub­stitutions when toner is low or when unknown extensions are encountered in a REQUIRED Resource
-    WarningNotificationClass,
+    Warning,
     // Indicates that an error has occurred that requires user inter­action.
     // Execution cannot continue until the problem has been fixed. The Node’s Status is Stopped.
     // This value appears in situations such as when Resources are missing, when major incompatibilities are detected,
     // or when the toner is empty.
-    ErrorNotificationClass,
+    Error,
     // Indicates that a fatal error led to abortion of the Process. The Node’s Status is Aborted.
     // This value is seen with most protocol errors or when major Device malfunction has occurred.
-    FatalNotificationClass
+    Fatal
 };
 
-enum class SpanDataType
+enum class BoxType
 {
-    DurationSpan,
-    EnumerationSpan,
-    IntegerSpan,
-    NameSpan,
-    NumberSpan,
-    OptionSpan,
-    ShapeSpan,
-    StringSpan,
-    TimeSpan,
-    XYPairSpan
+    NoBoxType,
+    Box,
+    Carton,
+    Envelope,
+    Tube
 };
 
-Q_ENUM_NS(ResourceStatus)
-Q_ENUM_NS(ResourceClass)
-Q_ENUM_NS(CoatingType)
-Q_ENUM_NS(CoatingDetail)
-Q_ENUM_NS(BundleType)
-Q_ENUM_NS(ComponentType)
+enum class FoldType
+{
+    NoFoldType,
+    F2_1,
+    F4_1,
+    F4_2,
+    F6_1,
+    F6_2,
+    F6_3,
+    F6_4,
+    F6_5,
+    F6_6,
+    F6_7,
+    F6_8,
+    F8_1,
+    F8_2,
+    F8_3,
+    F8_4,
+    F8_5,
+    F8_6,
+    F8_7,
+    F10_1,
+    F10_2,
+    F10_3,
+    F12_1,
+    F12_2,
+    F12_3,
+    F12_4,
+    F12_5,
+    F12_6,
+    F12_7,
+    F12_8,
+    F12_9,
+    F12_10,
+    F12_11,
+    F12_12,
+    F12_13,
+    F12_14,
+    F14_1,
+    F16_1,
+    F16_2,
+    F16_3,
+    F16_4,
+    F16_5,
+    F16_6,
+    F16_7,
+    F16_8,
+    F16_9,
+    F16_10,
+    F16_11,
+    F16_12,
+    F16_13,
+    F16_14,
+    F18_1,
+    F18_2,
+    F18_3,
+    F18_4,
+    F18_5,
+    F18_6,
+    F18_7,
+    F18_8,
+    F18_9,
+    F20_1,
+    F20_2,
+    F24_1,
+    F24_2,
+    F24_3,
+    F24_4,
+    F24_5,
+    F24_6,
+    F24_7,
+    F24_8,
+    F24_9,
+    F24_10,
+    F24_11,
+    F28_1,
+    F32_1,
+    F32_2,
+    F32_3,
+    F32_4,
+    F32_5,
+    F32_6,
+    F32_7,
+    F32_8,
+    F32_9,
+    F36_1,
+    F36_2,
+    F40_1,
+    F48_1,
+    F48_2,
+    F64_1,
+    F64_2
+};
+
+enum class Side
+{
+    Front,
+    Back
+};
+
+enum class CoatingType
+{
+    NoCoatingType,
+    Aqueous,
+    Gloss,
+    Ink,
+    InkJet,
+    Latex,
+    Matte,
+    Primer,
+    Relief,
+    RubResistant,
+    Satin,
+    Silicone,
+    Toner,
+    UV,
+    Varnish,
+    WaterResistant
+};
+
+Q_ENUM_NS(ProcessType)
 Q_ENUM_NS(ProductType)
+Q_ENUM_NS(UsageType)
 Q_ENUM_NS(ResourceOrientation)
-Q_ENUM_NS(ResourcePartType)
-Q_ENUM_NS(LinkUsage)
-Q_ENUM_NS(ProcessUsage)
-Q_ENUM_NS(BlockType)
-Q_ENUM_NS(LaminatingSurface)
-Q_ENUM_NS(MediaUnit)
-Q_ENUM_NS(MediaType)
+Q_ENUM_NS(Severity)
+Q_ENUM_NS(BoxType)
+Q_ENUM_NS(FoldType)
+Q_ENUM_NS(Side)
+Q_ENUM_NS(CoatingType)
 
-PROOF_NETWORK_XJDF_EXPORT QString resourceStatusToString(ResourceStatus status);
-PROOF_NETWORK_XJDF_EXPORT ResourceStatus resourceStatusFromString(const QString &status, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString processTypeToString(ProcessType processType);
+PROOF_NETWORK_XJDF_EXPORT ProcessType processTypeFromString(const QString &processType, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString resourceClassToString(ResourceClass resourceClass);
-PROOF_NETWORK_XJDF_EXPORT ResourceClass resourceClassFromString(const QString &resourceClass, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString productTypeToString(ProductType productType);
+PROOF_NETWORK_XJDF_EXPORT ProductType productTypeFromString(const QString &productType, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString coatingToString(CoatingType coating);
-PROOF_NETWORK_XJDF_EXPORT CoatingType coatingFromString(const QString &coating, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString coatingDetailToString(CoatingDetail coatingDetail);
-PROOF_NETWORK_XJDF_EXPORT CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString laminatingSurfaceToString(LaminatingSurface surface);
-PROOF_NETWORK_XJDF_EXPORT LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString bundleTypeToString(BundleType bundleType);
-PROOF_NETWORK_XJDF_EXPORT BundleType bundleTypeFromString(const QString &bundleType, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString usageTypeToString(UsageType usage);
+PROOF_NETWORK_XJDF_EXPORT UsageType usageTypeFromString(const QString &usage, bool *ok = nullptr);
 
 PROOF_NETWORK_XJDF_EXPORT QString resourceOrientationToString(ResourceOrientation resourceOrientation);
 PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation,
-                                                                           bool *ok = nullptr);
+                                                                            bool *ok = nullptr);
 PROOF_NETWORK_XJDF_EXPORT int resourceRotateToInt(ResourceOrientation resourceOrientation);
 PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok = nullptr);
 PROOF_NETWORK_XJDF_EXPORT int resourceFlipToInt(ResourceOrientation resourceOrientation);
 PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString componentTypeToString(ComponentType componentType);
-PROOF_NETWORK_XJDF_EXPORT ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString severityToString(Severity severity);
+PROOF_NETWORK_XJDF_EXPORT Severity severityFromString(const QString &severity, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString productTypeToString(ProductType productType);
-PROOF_NETWORK_XJDF_EXPORT ProductType productTypeFromString(const QString &productType, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString boxTypeToString(BoxType type);
+PROOF_NETWORK_XJDF_EXPORT BoxType boxTypeFromString(const QString &type, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString resourcePartTypeToString(ResourcePartType resourcePartType);
-PROOF_NETWORK_XJDF_EXPORT ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString foldTypeToString(FoldType type);
+PROOF_NETWORK_XJDF_EXPORT FoldType foldTypeFromString(const QString &type, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString linkUsageToString(LinkUsage usage);
-PROOF_NETWORK_XJDF_EXPORT LinkUsage linkUsageFromString(const QString &usage, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString sideTypeToString(Side side);
+PROOF_NETWORK_XJDF_EXPORT Side sideTypeFromString(const QString &side, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString processUsageToString(ProcessUsage processusage);
-PROOF_NETWORK_XJDF_EXPORT ProcessUsage processUsageFromString(const QString &processUsage, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT QString coatingTypeToString(CoatingType type);
+PROOF_NETWORK_XJDF_EXPORT CoatingType coatingTypeFromString(const QString &type, bool *ok = nullptr);
 
-PROOF_NETWORK_XJDF_EXPORT QString blockTypeToString(BlockType blockType);
-PROOF_NETWORK_XJDF_EXPORT BlockType blockTypeFromString(const QString &blockType, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString mediaUnitToString(MediaUnit mediaUnit);
-PROOF_NETWORK_XJDF_EXPORT MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString mediaTypeToString(MediaType mediaType);
-PROOF_NETWORK_XJDF_EXPORT MediaType mediaTypeFromString(const QString &mediaType, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString deviceFilterDetailsToString(DeviceFilterDetails details);
-PROOF_NETWORK_XJDF_EXPORT DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString deviceStatusToString(DeviceStatus status);
-PROOF_NETWORK_XJDF_EXPORT DeviceStatus deviceStatusFromString(const QString &status, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString deviceConditionToString(DeviceCondition condition);
-PROOF_NETWORK_XJDF_EXPORT DeviceCondition deviceConditionFromString(const QString &condition, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString notificationClassToString(NotificationClass notification);
-PROOF_NETWORK_XJDF_EXPORT NotificationClass notificationClassFromString(const QString &notification, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT QString spanDataTypeToString(SpanDataType dataType);
-PROOF_NETWORK_XJDF_EXPORT SpanDataType spanDataTypeFromString(const QString &dataType, bool *ok = nullptr);
-
-PROOF_NETWORK_XJDF_EXPORT uint qHash(ResourceStatus arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(ResourceClass arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(CoatingType arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(LaminatingSurface arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(BundleType arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(ResourceOrientation arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(ComponentType arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(ProcessType arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(ProductType arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(ResourcePartType arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(LinkUsage arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(ProcessUsage arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(BlockType arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(MediaUnit arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(MediaType arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(DeviceFilterDetails arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(DeviceStatus arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(DeviceCondition arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(NotificationClass arg, uint seed = 0);
-PROOF_NETWORK_XJDF_EXPORT uint qHash(SpanDataType arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(UsageType arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(Severity arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(BoxType arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(FoldType arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(Side arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(CoatingType arg, uint seed = 0);
 
 } // namespace XJdf
 } // namespace Proof
