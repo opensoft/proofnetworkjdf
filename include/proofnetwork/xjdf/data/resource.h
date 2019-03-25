@@ -36,6 +36,14 @@ public:
     void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
     static ResourceSP fromXJdf(QXmlStreamReader &xjdfReader);
 
+    template <class T>
+    inline static void registerResourceCreator(const QString &name)
+    {
+        addResourceCreator(name, [](QXmlStreamReader &xjdfReader) -> ResourceSP {
+            return qSharedPointerCast<Resource>(T::fromXJdf(xjdfReader));
+        });
+    }
+
 signals:
     void idChanged(const QString &arg);
     void orientationChanged(ResourceOrientation arg);
@@ -43,11 +51,11 @@ signals:
     void amountPoolChanged(const AmountPoolSP &arg);
 
 protected:
-    Resource();
-    explicit Resource(ResourcePrivate &dd);
+    Resource(const QString &id = QString());
+    explicit Resource(ResourcePrivate &dd, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-
     static void addResourceCreator(const QString &name, std::function<ResourceSP(QXmlStreamReader &)> &&creator);
+
     static std::function<ResourceSP(QXmlStreamReader &)> &resourceCreator(const QString &name);
 };
 

@@ -90,9 +90,9 @@ void Media::setThickness(double arg)
     }
 }
 
-MediaSP Media::create()
+MediaSP Media::create(const QString &id)
 {
-    MediaSP result(new Media());
+    MediaSP result(new Media(id));
     initSelfWeakPtr(result);
     return result;
 }
@@ -110,7 +110,7 @@ MediaSP Media::fromXJdf(QXmlStreamReader &xjdfReader)
             if (dimension.count() < 2)
                 return MediaSP();
             media->setWidth(dimension[0].toDouble());
-            media->setWidth(dimension[1].toDouble());
+            media->setHeight(dimension[1].toDouble());
         }
         if (attributes.hasAttribute(QStringLiteral("Thickness")))
             media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
@@ -129,7 +129,7 @@ void Media::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
     Resource::toXJdf(xjdfWriter, true);
 }
 
-Media::Media() : Resource(*new MediaPrivate)
+Media::Media(const QString &id) : Resource(*new MediaPrivate, id)
 {}
 
 void Media::updateSelf(const NetworkDataEntitySP &other)

@@ -101,11 +101,7 @@ void CuttingParams::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
 }
 
 CuttingParams::CuttingParams() : Resource(*new CuttingParamsPrivate)
-{
-    Resource::addResourceCreator(QStringLiteral("CuttingParams"), [](QXmlStreamReader &xjdfReader) -> ResourceSP {
-        return qSharedPointerCast<Resource>(fromXJdf(xjdfReader));
-    });
-}
+{}
 
 void CuttingParams::updateSelf(const NetworkDataEntitySP &other)
 {

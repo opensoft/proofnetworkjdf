@@ -89,6 +89,7 @@ DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &xjdfReader)
     DeliveryParamsSP params;
     if (xjdfReader.isStartElement() && xjdfReader.name() == "DeliveryParams") {
         params = create();
+        params->setRequired(QDateTime::fromString(xjdfReader.attributes().value("Required").toString(), Qt::ISODate));
         QVector<DropItemSP> items;
         while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
             if (xjdfReader.isStartElement() && xjdfReader.name() == "DropItem") {
@@ -116,11 +117,7 @@ void DeliveryParams::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
 }
 
 DeliveryParams::DeliveryParams() : Resource(*new DeliveryParamsPrivate)
-{
-    Resource::addResourceCreator(QStringLiteral("DeliveryParams"), [](QXmlStreamReader &xjdfReader) -> ResourceSP {
-        return qSharedPointerCast<Resource>(fromXJdf(xjdfReader));
-    });
-}
+{}
 
 void DeliveryParams::updateSelf(const NetworkDataEntitySP &other)
 {

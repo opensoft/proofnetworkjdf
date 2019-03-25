@@ -2,10 +2,10 @@
 <XJDF xmlns="http://www.CIP4.org/JDFSchema_2_0" xmlns:profit="https://www.opensoftdev.com/profit" JobID="PRESSSHEET_ID" Types="Cutting BoxPacking">
   <AuditPool>
     <AuditCreated>
-      <Header profit:TemplateID="3BC-1PC" profit:TemplateVersion="0.42" AgentName="Sh-Job-Manager-Service" AgentVersion="0.18.10.9" TimeStamp="2018-01-29T16:00:20+00:00" />
+      <Header profit:TemplateID="3BC-1PC" profit:TemplateVersion="0.42" AgentName="Sh-Job-Manager-Service" AgentVersion="0.18.10.9" Time="2018-01-29T16:00:20+00:00" />
     </AuditCreated>
     <AuditNotification>
-      <Header AgentName="Cutting-Station" AgentVersion="0.18.9.23" TimeStamp="2018-02-05T16:00:20+00:00" />
+      <Header AgentName="Cutting-Station" AgentVersion="0.18.9.23" Time="2018-02-05T16:00:20+00:00" />
       <Notification Class="Event" />
     </AuditNotification>
   </AuditPool>
@@ -26,7 +26,7 @@
         </ColorIntent>
       </Intent>
     </Product>
-    <Product Amount="30" ID="ProductInfo_3" ExternalID="ORDER_ITEM_ID" IsRoot="true" ProductType="Postcard">
+    <Product Amount="60" ID="ProductInfo_3" ExternalID="ORDER_ITEM_ID" IsRoot="true" ProductType="Postcard">
       <Intent Name="FoldingIntent">
         <FoldingIntent FoldCatalog="F4-2" />
       </Intent>
@@ -80,12 +80,12 @@
   <ResourceSet CombinedProcessIndex="0 1" Name="Component">
     <Resource>
       <Part BlockName="Block_1" ProductPart="ProductInfo_1" />
-      <Component Dimensions="400 300 0" />
+      <Component Dimensions="400 300 10" />
     </Resource>
     <Resource>
       <Part BlockName="Block_2" ProductPart="ProductInfo_2" />
       <Part BlockName="Block_3" ProductPart="ProductInfo_2" />
-      <Component Dimensions="400 300 0" />
+      <Component Dimensions="400 300 10" />
     </Resource>
     <Resource>
       <Part BlockName="Block_4" ProductPart="ProductInfo_3" />

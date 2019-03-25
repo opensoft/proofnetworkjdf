@@ -90,11 +90,7 @@ void FoldingIntent::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
 }
 
 FoldingIntent::FoldingIntent() : Intent(*new FoldingIntentPrivate)
-{
-    Intent::addResourceCreator(QStringLiteral("FoldingIntent"), [](QXmlStreamReader &xjdfReader) -> IntentSP {
-        return qSharedPointerCast<Intent>(fromXJdf(xjdfReader));
-    });
-}
+{}
 
 void FoldingIntent::updateSelf(const NetworkDataEntitySP &other)
 {

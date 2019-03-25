@@ -29,6 +29,14 @@ public:
     void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
     static IntentSP fromXJdf(QXmlStreamReader &xjdfReader);
 
+    template <class T>
+    inline static void registerIntentCreator(const QString &name)
+    {
+        addIntentCreator(name, [](QXmlStreamReader &xjdfReader) -> IntentSP {
+            return qSharedPointerCast<Intent>(T::fromXJdf(xjdfReader));
+        });
+    }
+
 signals:
     void nameChanged(const QString &name);
 
@@ -36,9 +44,8 @@ protected:
     Intent();
     explicit Intent(IntentPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
-
-    static void addResourceCreator(const QString &name, std::function<IntentSP(QXmlStreamReader &)> &&creator);
-    static std::function<IntentSP(QXmlStreamReader &)> &resourceCreator(const QString &name);
+    static void addIntentCreator(const QString &name, std::function<IntentSP(QXmlStreamReader &)> &&creator);
+    static std::function<IntentSP(QXmlStreamReader &)> &intentCreator(const QString &name);
 };
 
 } // namespace XJdf

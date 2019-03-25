@@ -70,8 +70,9 @@ void GrayBox::addResourceSet(const ResourceSetSP &arg)
 bool GrayBox::fillFromXJdf(QXmlStreamReader &xjdfReader)
 {
     if (xjdfReader.isStartElement() && xjdfReader.name() == "ResourceSet") {
-        auto resource = ResourceSet::fromXJdf(xjdfReader);
-        addResourceSet(resource);
+        auto resourceSet = ResourceSet::fromXJdf(xjdfReader);
+        if (resourceSet)
+            addResourceSet(resourceSet);
         xjdfReader.readNext();
         return true;
     }

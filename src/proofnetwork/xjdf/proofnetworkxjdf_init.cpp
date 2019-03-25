@@ -24,8 +24,16 @@
  */
 #include "proofcore/proofglobal.h"
 
+#include "proofnetwork/xjdf/data/boxpackingparams.h"
+#include "proofnetwork/xjdf/data/colorintent.h"
+#include "proofnetwork/xjdf/data/component.h"
+#include "proofnetwork/xjdf/data/cuttingparams.h"
+#include "proofnetwork/xjdf/data/deliveryparams.h"
+#include "proofnetwork/xjdf/data/foldingintent.h"
+#include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/xjdfdocument.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
 
@@ -39,5 +47,12 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
     qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
 
-    // clang-format on
+    Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::ColorIntent>("ColorIntent");
+    Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::FoldingIntent>("FoldingIntent");
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Component>("Component");
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::CuttingParams>("CuttingParams");
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::DeliveryParams>("DeliveryParams");
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::BoxPackingParams>("BoxPackingParams");
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Media>("Media");
+//     clang-format on
 }

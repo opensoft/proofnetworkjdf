@@ -153,7 +153,6 @@ ProductSP Product::fromXJdf(QXmlStreamReader &xjdfReader)
         auto attributes = xjdfReader.attributes();
         auto id = attributes.value("ID").toString();
         product = create(id);
-        product->setFetched(true);
 
         if (attributes.hasAttribute("ExternalID"))
             product->setExternalId(attributes.value("ExternalID").toString());
@@ -167,7 +166,10 @@ ProductSP Product::fromXJdf(QXmlStreamReader &xjdfReader)
         QVector<IntentSP> intents;
         while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
             if (xjdfReader.isStartElement() && xjdfReader.name() == "Intent") {
-                intents << Intent::fromXJdf(xjdfReader);
+                auto intent = Intent::fromXJdf(xjdfReader);
+                if (!intent)
+                    return ProductSP();
+                intents << intent;
             } else if (xjdfReader.isEndElement() && xjdfReader.name() == "Product") {
                 break;
             }

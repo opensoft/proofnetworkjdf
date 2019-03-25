@@ -29,7 +29,7 @@
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QMap<QString, std::function<IntentSP(QXmlStreamReader &)>> IntentPrivate::creators;
+QMap<QString, std::function<IntentSP(QXmlStreamReader &)>> *IntentPrivate::creators = nullptr;
 
 QString Intent::name() const
 {
@@ -84,10 +84,12 @@ IntentSP Intent::fromXJdf(QXmlStreamReader &xjdfReader)
 
         xjdfReader.readNextStartElement();
         if (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            auto creator = resourceCreator(xjdfReader.name().toString());
+            auto creator = intentCreator(xjdfReader.name().toString());
             if (creator) {
                 auto intent = creator(xjdfReader);
                 intent->setName(name);
+                xjdfReader.skipCurrentElement();
+                return intent;
             }
         }
     }
@@ -108,12 +110,14 @@ void Intent::updateSelf(const NetworkDataEntitySP &other)
     XJdfAbstractNode::updateSelf(other);
 }
 
-void Intent::addResourceCreator(const QString &name, std::function<IntentSP(QXmlStreamReader &)> &&creator)
+void Intent::addIntentCreator(const QString &name, std::function<IntentSP(QXmlStreamReader &)> &&creator)
 {
-    IntentPrivate::creators[name] = creator;
+    if (!IntentPrivate::creators)
+        IntentPrivate::creators = new QMap<QString, std::function<IntentSP(QXmlStreamReader &)>>();
+    (*IntentPrivate::creators)[name] = creator;
 }
 
-std::function<IntentSP(QXmlStreamReader &)> &Intent::resourceCreator(const QString &name)
+std::function<IntentSP(QXmlStreamReader &)> &Intent::intentCreator(const QString &name)
 {
-    return IntentPrivate::creators[name];
+    return (*IntentPrivate::creators)[name];
 }

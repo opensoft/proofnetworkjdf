@@ -90,8 +90,8 @@ AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &xjdfReader)
             if (xjdfReader.name() == "Header") {
                 created->readAttributesFromXJdf(xjdfReader);
                 auto attributes = xjdfReader.attributes();
-                created->setTemplateId(attributes.value("profit", "TemplateID").toString());
-                created->setTemplateVersion(attributes.value("profit", "TemplateVersion").toString());
+                created->setTemplateId(attributes.value("profit:TemplateID").toString());
+                created->setTemplateVersion(attributes.value("profit:TemplateVersion").toString());
             }
         } else if (xjdfReader.isEndElement()) {
             if (xjdfReader.name() == "AuditCreated")
@@ -108,8 +108,8 @@ void AuditCreated::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
     Q_D_CONST(AuditCreated);
     xjdfWriter.writeStartElement("AuditCreated");
     xjdfWriter.writeStartElement("Header");
-    xjdfWriter.writeAttribute("profit", "TemplateID", d->templateId);
-    xjdfWriter.writeAttribute("profit", "TemplateVersion", d->templateVersion);
+    xjdfWriter.writeAttribute("profit:TemplateID", d->templateId);
+    xjdfWriter.writeAttribute("profit:TemplateVersion", d->templateVersion);
     AuditAbstractItem::toXJdf(xjdfWriter);
     xjdfWriter.writeEndElement();
     xjdfWriter.writeEndElement();

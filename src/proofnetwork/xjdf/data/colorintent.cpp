@@ -103,13 +103,13 @@ ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &xjdfReader)
         while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
             if (xjdfReader.isStartElement() && xjdfReader.name() == "SurfaceColor") {
                 auto attributes = xjdfReader.attributes();
-                auto side = sideTypeFromString(attributes.value("Side").toString());
+                auto side = sideTypeFromString(attributes.value("Surface").toString());
                 auto coatingsVector = algorithms::map(attributes.value("Coatings").toString().split(' '),
                                                       [](const QString &coating) {
                                                           return coatingTypeFromString(coating);
                                                       },
                                                       QVector<CoatingType>());
-                auto spot = !attributes.value("ColorUsed").toString().isEmpty();
+                auto spot = !attributes.value("ColorsUsed").toString().isEmpty();
 
                 coatings[side] = coatingsVector;
                 spots[side] = spot;
@@ -141,9 +141,9 @@ void ColorIntent::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
 
         xjdfWriter.writeAttribute("Coatings", coatings);
         if (d->spots.contains(it.key()) && d->spots[it.key()])
-            xjdfWriter.writeAttribute("ColorUsed", "Spot");
+            xjdfWriter.writeAttribute("ColorsUsed", "Spot");
 
-        xjdfWriter.writeAttribute("Side", sideTypeToString(it.key()));
+        xjdfWriter.writeAttribute("Surface", sideTypeToString(it.key()));
         xjdfWriter.writeEndElement();
     }
 
@@ -152,11 +152,7 @@ void ColorIntent::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
 }
 
 ColorIntent::ColorIntent() : Intent(*new ColorIntentPrivate)
-{
-    Intent::addResourceCreator(QStringLiteral("ColorIntent"), [](QXmlStreamReader &xjdfReader) -> IntentSP {
-        return qSharedPointerCast<Intent>(fromXJdf(xjdfReader));
-    });
-}
+{}
 
 void ColorIntent::updateSelf(const NetworkDataEntitySP &other)
 {

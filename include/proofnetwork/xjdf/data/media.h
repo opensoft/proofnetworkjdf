@@ -29,7 +29,7 @@ public:
     void setHeight(double arg);
     void setThickness(double arg);
 
-    static MediaSP create();
+    static MediaSP create(const QString &id = QString());
 
     static MediaSP fromXJdf(QXmlStreamReader &xjdfReader);
     void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
@@ -40,7 +40,7 @@ signals:
     void thicknessChanged(double arg);
 
 protected:
-    Media();
+    Media(const QString &id);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

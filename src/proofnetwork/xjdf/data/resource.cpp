@@ -31,7 +31,7 @@
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>> ResourcePrivate::creators;
+QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>> *ResourcePrivate::creators = nullptr;
 
 QString Resource::id() const
 {
@@ -136,38 +136,64 @@ void Resource::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
 
 ResourceSP Resource::fromXJdf(QXmlStreamReader &xjdfReader)
 {
+    ResourceSP resource;
+    QVector<PartSP> parts;
+    AmountPoolSP amountPool;
+    QString id;
+    ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
+
     if (xjdfReader.isStartElement() && xjdfReader.name() == "Resource") {
         auto attributes = xjdfReader.attributes();
-        QString id;
-        ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
         if (attributes.hasAttribute("ID"))
             id = attributes.value("ID").toString();
         if (attributes.hasAttribute("Orientation"))
             orientation = resourceOrientationFromString(attributes.value("Orientation").toString());
-
         xjdfReader.readNextStartElement();
-        if (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            auto creator = resourceCreator(xjdfReader.name().toString());
-            if (creator) {
-                auto resource = creator(xjdfReader);
-                resource->setId(id);
-                resource->setOrientation(orientation);
+
+        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
+            if (xjdfReader.isStartElement() && xjdfReader.name() == "AmountPool") {
+                amountPool = AmountPool::fromXJdf(xjdfReader);
+            } else if (xjdfReader.isStartElement() && xjdfReader.name() == "Part") {
+                auto part = Part::fromXJdf(xjdfReader);
+                if (part)
+                    parts << part;
+            } else if (xjdfReader.isStartElement()) {
+                auto creator = resourceCreator(xjdfReader.name().toString());
+                if (creator) {
+                    resource = creator(xjdfReader);
+                    xjdfReader.readNext();
+                    continue;
+                }
+            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "Resource") {
+                break;
             }
+            xjdfReader.readNext();
         }
     }
 
-    return ResourceSP();
+    if (resource) {
+        resource->setId(id);
+        resource->setOrientation(orientation);
+        resource->setParts(parts);
+        resource->setAmountPool(amountPool);
+    }
+
+    return resource;
 }
 
-Resource::Resource() : Resource(*new ResourcePrivate)
+Resource::Resource(const QString &id) : Resource(*new ResourcePrivate, id)
 {}
 
-Resource::Resource(ResourcePrivate &dd) : XJdfAbstractNode(dd)
-{}
+Resource::Resource(ResourcePrivate &dd, const QString &id) : XJdfAbstractNode(dd)
+{
+    setId(id);
+}
 
 void Resource::addResourceCreator(const QString &name, std::function<ResourceSP(QXmlStreamReader &)> &&creator)
 {
-    ResourcePrivate::creators[name] = creator;
+    if (!ResourcePrivate::creators)
+        ResourcePrivate::creators = new QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>>();
+    (*ResourcePrivate::creators)[name] = creator;
 }
 
 void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
@@ -181,5 +207,5 @@ void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
 }
 std::function<ResourceSP(QXmlStreamReader &)> &Resource::resourceCreator(const QString &name)
 {
-    return ResourcePrivate::creators[name];
+    return (*ResourcePrivate::creators)[name];
 }

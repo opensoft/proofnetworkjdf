@@ -69,6 +69,10 @@ public:
         return result;
     }
 
+    void setName(const QString &arg);
+    void setCombinedProcessIndexes(const QVector<qulonglong> &arg);
+    void setUsage(UsageType arg);
+
     void setResources(const QVector<ResourceSP> &arg);
     void addResource(const ResourceSP &arg);
 
@@ -78,7 +82,10 @@ public:
     void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
 
 signals:
-    void resourcesChanged();
+    void resourcesChanged(const QVector<ResourceSP> &resources);
+    void nameChanged(const QString &arg);
+    void combinedProcessIndexesChanged(const QVector<qulonglong> &arg);
+    void usageChanged(UsageType type);
 
 protected:
     explicit ResourceSet();

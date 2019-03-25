@@ -110,11 +110,7 @@ void BoxPackingParams::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
 }
 
 BoxPackingParams::BoxPackingParams() : Resource(*new BoxPackingParamsPrivate)
-{
-    Resource::addResourceCreator(QStringLiteral("BoxPackingParams"), [](QXmlStreamReader &xjdfReader) -> ResourceSP {
-        return qSharedPointerCast<Resource>(fromXJdf(xjdfReader));
-    });
-}
+{}
 
 void BoxPackingParams::updateSelf(const NetworkDataEntitySP &other)
 {

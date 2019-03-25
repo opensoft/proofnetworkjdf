@@ -39,7 +39,7 @@ class AuditPoolPrivate : public XJdfAbstractNodePrivate
 
     AuditPoolPrivate() { registerChildren(created, notifications); }
 
-    AuditCreatedSP created = AuditCreated::create();
+    AuditCreatedSP created;
     QVector<AuditNotificationSP> notifications;
 };
 
@@ -82,15 +82,14 @@ AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &xjdfReader)
 
     QVector<AuditNotificationSP> notifications;
     while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.name() == "AuditPool" && xjdfReader.isStartElement() && !auditPool->isFetched()) {
-            auditPool->setFetched(true);
-        } else if (xjdfReader.isStartElement()) {
+        if (xjdfReader.isStartElement()) {
             if (xjdfReader.name() == "AuditNotification") {
                 auto notification = AuditNotification::fromXJdf(xjdfReader);
                 if (!notification) {
                     qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Modified is invalid.";
                     return AuditPoolSP();
                 }
+                notifications << notification;
             } else if (xjdfReader.name() == "AuditCreated") {
                 AuditCreatedSP created = AuditCreated::fromXJdf(xjdfReader);
                 if (!created) {
@@ -98,15 +97,14 @@ AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &xjdfReader)
                     return AuditPoolSP();
                 }
                 auditPool->setCreated(created);
-            } else {
-                xjdfReader.skipCurrentElement();
             }
-        } else if (xjdfReader.isEndElement()) {
+        } else if (xjdfReader.isEndElement() && xjdfReader.name() == "AuditPool") {
             break;
         }
         xjdfReader.readNext();
     }
     auditPool->setNotifications(notifications);
+    auditPool->setFetched(true);
 
     return auditPool;
 }

@@ -79,7 +79,7 @@ AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &xjdfReader)
         while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
             if (xjdfReader.isStartElement() && xjdfReader.name() == "PartAmount") {
                 parts << PartAmount::fromXJdf(xjdfReader);
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "PartAmount") {
+            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "AmountPool") {
                 break;
             }
             xjdfReader.readNext();
@@ -99,7 +99,7 @@ void AmountPool::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
     xjdfWriter.writeEndElement();
 }
 
-AmountPool::AmountPool()
+AmountPool::AmountPool() : XJdfAbstractNode(*new AmountPoolPrivate)
 {}
 
 void AmountPool::updateSelf(const NetworkDataEntitySP &other)

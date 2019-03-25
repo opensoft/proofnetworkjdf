@@ -117,7 +117,25 @@ void Component::setThickness(double arg)
 ComponentSP Component::fromXJdf(QXmlStreamReader &xjdfReader)
 {
     ComponentSP component;
+    if (xjdfReader.isStartElement() && xjdfReader.name() == "Component") {
+        component = create();
+        auto attributes = xjdfReader.attributes();
+        if (attributes.hasAttribute(QStringLiteral("Dimensions"))) {
+            auto dimension = attributes.value(QStringLiteral("Dimensions")).toString().split(' ', QString::SkipEmptyParts);
+            if (dimension.count() < 3)
+                return ComponentSP();
+            component->setWidth(dimension[0].toDouble());
+            component->setHeight(dimension[1].toDouble());
+            component->setThickness(dimension[2].toDouble());
+        }
+        if (attributes.hasAttribute(QStringLiteral("MediaRef"))) {
+            auto media = Media::create(attributes.value("MediaRef").toString());
+            component->setMediaRef(media);
+        }
 
+        xjdfReader.readNext();
+        component->setFetched(true);
+    }
     return component;
 }
 
@@ -138,11 +156,7 @@ void Component::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
 }
 
 Component::Component() : Resource(*new ComponentPrivate)
-{
-    Resource::addResourceCreator(QStringLiteral("Component"), [](QXmlStreamReader &xjdfReader) -> ResourceSP {
-        return qSharedPointerCast<Resource>(fromXJdf(xjdfReader));
-    });
-}
+{}
 
 void Component::updateSelf(const NetworkDataEntitySP &other)
 {

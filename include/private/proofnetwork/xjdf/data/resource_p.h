@@ -18,7 +18,7 @@ public:
     QVector<PartSP> parts;
     AmountPoolSP amountPool;
 
-    static QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>> creators;
+    static QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>> *creators;
 };
 
 } // namespace XJdf
