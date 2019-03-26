@@ -133,7 +133,7 @@ void ColorIntent::toXJdf(QXmlStreamWriter &writer, bool) const
 
     for (auto it = d->coatings.begin(); it != d->coatings.end(); ++it) {
         writer.writeStartElement(QStringLiteral("SurfaceColor"));
-        writer.writeAttribute(QStringLiteral("Side"), sideTypeToString(it.key()));
+        writer.writeAttribute(QStringLiteral("Surface"), sideTypeToString(it.key()));
 
         auto coatings = algorithms::map(it.value(), [](const auto &coating) { return coatingTypeToString(coating); },
                                         QStringList())
@@ -143,7 +143,6 @@ void ColorIntent::toXJdf(QXmlStreamWriter &writer, bool) const
         if (d->spots.contains(it.key()) && d->spots[it.key()])
             writer.writeAttribute(QStringLiteral("ColorsUsed"), QStringLiteral("Spot"));
 
-        writer.writeAttribute(QStringLiteral("Surface"), sideTypeToString(it.key()));
         writer.writeEndElement();
     }
 

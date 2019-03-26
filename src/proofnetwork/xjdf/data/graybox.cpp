@@ -73,7 +73,6 @@ bool GrayBox::fillFromXJdf(QXmlStreamReader &reader)
         auto resourceSet = ResourceSet::fromXJdf(reader);
         if (resourceSet)
             addResourceSet(resourceSet);
-        reader.readNext();
         return true;
     }
     return false;

@@ -147,7 +147,7 @@ XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &reader)
                 document->fillFromXJdf(reader);
             }
         } else if (reader.isEndElement()) {
-            if (reader.name() == QStringLiteral("JDF"))
+            if (reader.name() == QStringLiteral("XJDF"))
                 break;
         }
         reader.readNext();
@@ -166,6 +166,8 @@ void XJdfDocument::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     writer.setAutoFormatting(true);
     writer.writeStartDocument();
+    writer.writeStartElement(QStringLiteral("XJDF"));
+
     writer.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_2_0"));
     writer.writeNamespace(QStringLiteral("https://www.opensoftdev.com/profit"), QStringLiteral("profit"));
     writer.writeAttribute(QStringLiteral("JobID"), jobId());
@@ -173,6 +175,7 @@ void XJdfDocument::toXJdf(QXmlStreamWriter &writer, bool) const
     GrayBox::toXJdf(writer);
     auditPool()->toXJdf(writer);
     productList()->toXJdf(writer);
+    writer.writeEndElement();
     writer.writeEndDocument();
 }
 

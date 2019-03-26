@@ -111,6 +111,8 @@ void DeliveryParams::toXJdf(QXmlStreamWriter &writer, bool) const
     Q_D_CONST(DeliveryParams);
     Resource::toXJdf(writer);
     writer.writeStartElement(QStringLiteral("DeliveryParams"));
+    if (d->required.isValid())
+        writer.writeAttribute(QStringLiteral("Required"), d->required.toString(Qt::ISODate));
     for (const auto &item : d->items)
         item->toXJdf(writer);
     writer.writeEndElement();

@@ -156,6 +156,15 @@ void ResourceSet::toXJdf(QXmlStreamWriter &writer, bool) const
     Q_D_CONST(ResourceSet);
 
     writer.writeStartElement(QStringLiteral("ResourceSet"));
+    if (!d->name.isEmpty())
+        writer.writeAttribute(QStringLiteral("Name"), d->name);
+    if (!d->combinedProcessIndexes.isEmpty())
+        writer.writeAttribute(QStringLiteral("CombinedProcessIndex"),
+                              algorithms::map(d->combinedProcessIndexes,
+                                              [](const auto &index) { return QString::number(index); }, QStringList())
+                                  .join(' '));
+    if (d->usage != UsageType::NoUsageType)
+        writer.writeAttribute(QStringLiteral("Usage"), usageTypeToString(d->usage));
 
     for (const ResourceSP &resource : qAsConst(d->resources)) {
         if (isValidAndDirty(resource))

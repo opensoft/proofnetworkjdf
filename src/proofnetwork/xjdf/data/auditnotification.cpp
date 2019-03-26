@@ -91,7 +91,7 @@ AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader)
 void AuditNotification::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(AuditNotification);
-    writer.writeStartElement(QStringLiteral("AuditCreated"));
+    writer.writeStartElement(QStringLiteral("AuditNotification"));
     writer.writeStartElement(QStringLiteral("Header"));
     AuditAbstractItem::toXJdf(writer);
     writer.writeEndElement();

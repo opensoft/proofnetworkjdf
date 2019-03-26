@@ -102,7 +102,7 @@ void BoxPackingParams::toXJdf(QXmlStreamWriter &writer, bool) const
     Resource::toXJdf(writer);
     writer.writeStartElement(QStringLiteral("BoxPackingParams"));
     if (!d->boxTypeDetails.isEmpty())
-        writer.writeAttribute(QStringLiteral("BoxType"), d->boxTypeDetails);
+        writer.writeAttribute(QStringLiteral("BoxTypeDetails"), d->boxTypeDetails);
 
     writer.writeAttribute(QStringLiteral("BoxType"), boxTypeToString(d->boxType));
     writer.writeEndElement();

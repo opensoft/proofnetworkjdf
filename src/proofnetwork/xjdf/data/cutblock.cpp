@@ -127,8 +127,11 @@ void CutBlock::toXJdf(QXmlStreamWriter &writer, bool) const
 
     writer.writeStartElement(QStringLiteral("CutBlock"));
     writer.writeAttribute(QStringLiteral("BlockName"), d->blockName);
-    writer.writeAttribute(QStringLiteral("Box"),
-                          QStringLiteral("%1 %2 %3 %4").arg(d->x).arg(d->y).arg(d->width).arg(d->height));
+    writer.writeAttribute(QStringLiteral("Box"), QStringLiteral("%1 %2 %3 %4")
+                                                     .arg(d->x, 0, 'f', 2)
+                                                     .arg(d->y, 0, 'f', 2)
+                                                     .arg(d->width, 0, 'f', 2)
+                                                     .arg(d->height, 0, 'f', 2));
     writer.writeEndElement();
 }
 
@@ -162,18 +165,18 @@ void CutBlock::setHeight(double arg)
 void CutBlock::setX(double arg)
 {
     Q_D(CutBlock);
-    if (!qFuzzyCompare(d->height, arg)) {
-        d->height = arg;
-        emit heightChanged(d->height);
+    if (!qFuzzyCompare(d->x, arg)) {
+        d->x = arg;
+        emit xChanged(d->x);
     }
 }
 
 void CutBlock::setY(double arg)
 {
     Q_D(CutBlock);
-    if (!qFuzzyCompare(d->height, arg)) {
-        d->height = arg;
-        emit heightChanged(d->height);
+    if (!qFuzzyCompare(d->y, arg)) {
+        d->y = arg;
+        emit yChanged(d->y);
     }
 }
 

@@ -128,11 +128,16 @@ void AuditAbstractItem::readAttributesFromXJdf(QXmlStreamReader &reader)
 void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(AuditAbstractItem);
-    writer.writeAttribute(QStringLiteral("AgentVersion"), d->agentVersion);
-    writer.writeAttribute(QStringLiteral("AgentName"), d->agentName);
-    writer.writeAttribute(QStringLiteral("ID"), d->id);
-    writer.writeAttribute(QStringLiteral("DeviceId"), d->deviceId);
-    writer.writeAttribute(QStringLiteral("Time"), d->timestamp.toString(Qt::ISODate));
+    if (!d->agentVersion.isEmpty())
+        writer.writeAttribute(QStringLiteral("AgentVersion"), d->agentVersion);
+    if (!d->agentName.isEmpty())
+        writer.writeAttribute(QStringLiteral("AgentName"), d->agentName);
+    if (!d->id.isEmpty())
+        writer.writeAttribute(QStringLiteral("ID"), d->id);
+    if (!d->deviceId.isEmpty())
+        writer.writeAttribute(QStringLiteral("DeviceId"), d->deviceId);
+    if (d->timestamp.isValid())
+        writer.writeAttribute(QStringLiteral("Time"), d->timestamp.toString(Qt::ISODate));
 }
 
 AuditAbstractItem::AuditAbstractItem() : AuditAbstractItem(*new AuditAbstractItemPrivate)

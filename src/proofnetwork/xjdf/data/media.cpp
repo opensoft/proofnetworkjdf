@@ -118,13 +118,14 @@ MediaSP Media::fromXJdf(QXmlStreamReader &reader)
     return media;
 }
 
-void Media::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
+void Media::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(Media);
     Resource::toXJdf(writer);
     writer.writeStartElement(QStringLiteral("Media"));
-    writer.writeAttribute(QStringLiteral("Dimension"), QStringLiteral("%1 %2").arg(d->width).arg(d->height));
-    writer.writeAttribute(QStringLiteral("Thickness"), QString::number(d->thickness));
+    writer.writeAttribute(QStringLiteral("Dimension"),
+                          QStringLiteral("%1 %2").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2));
+    writer.writeAttribute(QStringLiteral("Thickness"), QStringLiteral("%1").arg(d->thickness, 0, 'f', 2));
     writer.writeEndElement();
     Resource::toXJdf(writer, true);
 }

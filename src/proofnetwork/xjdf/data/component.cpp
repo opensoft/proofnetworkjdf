@@ -145,8 +145,11 @@ void Component::toXJdf(QXmlStreamWriter &writer, bool) const
     Resource::toXJdf(writer);
 
     writer.writeStartElement(QStringLiteral("Component"));
-    auto dimensions = QStringLiteral("%1 %2 %3").arg(d->width).arg(d->height).arg(d->thickness);
-    writer.writeAttribute(QStringLiteral("Dimensions"), dimensions);
+    if (!qIsNull(d->width) && !qIsNull(d->height)) {
+        auto dimensions =
+            QStringLiteral("%1 %2 %3").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2).arg(d->thickness, 0, 'f', 2);
+        writer.writeAttribute(QStringLiteral("Dimensions"), dimensions);
+    }
     auto mediaRef = d->mediaRef.toStrongRef();
     if (mediaRef)
         writer.writeAttribute(QStringLiteral("MediaRef"), mediaRef->id());
