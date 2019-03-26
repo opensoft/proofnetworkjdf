@@ -89,9 +89,10 @@ CutBlockSP CutBlock::create(const QString &blockName)
     return result;
 }
 
-CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader)
+CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     CutBlockSP cutBlock = create();
+    cutBlock->d_func()->document = document;
 
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.name() == "CutBlock" && reader.isStartElement()) {

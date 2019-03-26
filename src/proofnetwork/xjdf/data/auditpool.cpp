@@ -76,22 +76,23 @@ AuditPoolSP AuditPool::create()
     return result;
 }
 
-AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader)
+AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     AuditPoolSP auditPool = create();
+    auditPool->d_func()->document = document;
 
     QVector<AuditNotificationSP> notifications;
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("AuditNotification")) {
-                auto notification = AuditNotification::fromXJdf(reader);
+                auto notification = AuditNotification::fromXJdf(reader, document);
                 if (!notification) {
                     qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Modified is invalid.";
                     return AuditPoolSP();
                 }
                 notifications << notification;
             } else if (reader.name() == QStringLiteral("AuditCreated")) {
-                AuditCreatedSP created = AuditCreated::fromXJdf(reader);
+                AuditCreatedSP created = AuditCreated::fromXJdf(reader, document);
                 if (!created) {
                     qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Created is invalid.";
                     return AuditPoolSP();
@@ -128,7 +129,7 @@ void AuditPool::setCreated(const AuditCreatedSP &created)
     Q_ASSERT(created);
     Q_D(AuditPool);
     if (created == nullptr) {
-        setCreated(AuditCreated::create());
+        d->created.reset();
     } else if (d->created != created) {
         d->created = created;
         emit createdChanged(d->created);

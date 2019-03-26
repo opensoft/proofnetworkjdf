@@ -29,7 +29,7 @@ public:
 
     static BoxPackingParamsSP create();
 
-    static BoxPackingParamsSP fromXJdf(QXmlStreamReader &reader);
+    static BoxPackingParamsSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

@@ -25,11 +25,11 @@ public:
     ProductSP product() const;
 
     void setAmount(qulonglong arg);
-    void setProduct(const ProductSP &arg);
+    void updateProduct(const QString &arg);
 
     static DropItemSP create();
 
-    static DropItemSP fromXJdf(QXmlStreamReader &reader);
+    static DropItemSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

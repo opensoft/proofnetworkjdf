@@ -28,12 +28,12 @@ public:
     double height() const;
     double thickness() const;
 
-    void setMediaRef(const MediaSP &arg);
+    void updateMediaRef(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
     void setThickness(double arg);
 
-    static ComponentSP fromXJdf(QXmlStreamReader &reader);
+    static ComponentSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

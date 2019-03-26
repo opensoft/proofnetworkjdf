@@ -59,9 +59,10 @@ ProductListSP ProductList::create()
     return result;
 }
 
-ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader)
+ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     ProductListSP productList = create();
+    productList->d_func()->document = document;
 
     QVector<ProductSP> list;
 
@@ -70,7 +71,7 @@ ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader)
             productList->setFetched(true);
         } else if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("Product")) {
-                ProductSP product = Product::fromXJdf(reader);
+                ProductSP product = Product::fromXJdf(reader, document);
                 if (!product) {
                     qCWarning(proofNetworkXJdfDataLog) << "ProductPool not created. Component is invalid.";
                     return ProductListSP();

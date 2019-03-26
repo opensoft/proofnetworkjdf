@@ -78,7 +78,7 @@ public:
 
     static ResourceSetSP create();
 
-    static ResourceSetSP fromXJdf(QXmlStreamReader &reader);
+    static ResourceSetSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

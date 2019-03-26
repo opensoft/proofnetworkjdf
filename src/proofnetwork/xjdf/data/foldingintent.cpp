@@ -66,11 +66,13 @@ FoldingIntentSP FoldingIntent::create()
     return result;
 }
 
-FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader)
+FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     FoldingIntentSP intent;
+
     if (reader.isStartElement() && reader.name() == QStringLiteral("FoldingIntent")) {
         intent = create();
+        intent->d_func()->document = document;
         auto catalog = foldTypeFromString(reader.attributes().value(QStringLiteral("FoldCatalog")).toString());
         intent->setFoldCatalog(catalog);
         intent->setFetched(true);

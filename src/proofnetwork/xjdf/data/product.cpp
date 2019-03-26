@@ -146,13 +146,14 @@ ProductSP Product::create(const QString &id)
     return result;
 }
 
-ProductSP Product::fromXJdf(QXmlStreamReader &reader)
+ProductSP Product::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     ProductSP product;
     if (reader.isStartElement() && reader.name() == QStringLiteral("Product")) {
         auto attributes = reader.attributes();
         auto id = attributes.value(QStringLiteral("ID")).toString();
         product = create(id);
+        product->d_func()->document = document;
 
         if (attributes.hasAttribute(QStringLiteral("ExternalID")))
             product->setExternalId(attributes.value(QStringLiteral("ExternalID")).toString());
@@ -167,7 +168,7 @@ ProductSP Product::fromXJdf(QXmlStreamReader &reader)
         QVector<IntentSP> intents;
         while (!reader.atEnd() && !reader.hasError()) {
             if (reader.isStartElement() && reader.name() == QStringLiteral("Intent")) {
-                auto intent = Intent::fromXJdf(reader);
+                auto intent = Intent::fromXJdf(reader, document);
                 if (!intent)
                     return ProductSP();
                 intents << intent;

@@ -25,7 +25,7 @@ public:
 
     static AuditNotificationSP create();
 
-    static AuditNotificationSP fromXJdf(QXmlStreamReader &reader);
+    static AuditNotificationSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

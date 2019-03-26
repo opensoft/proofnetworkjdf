@@ -109,9 +109,10 @@ ResourceSetSP ResourceSet::create()
     return result;
 }
 
-ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader)
+ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     ResourceSetSP resourceSet = create();
+    resourceSet->d_func()->document = document;
 
     QVector<ResourceSP> resourceList;
 
@@ -132,7 +133,7 @@ ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader)
             }
         } else if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("Resource")) {
-                ResourceSP resource = Resource::fromXJdf(reader);
+                ResourceSP resource = Resource::fromXJdf(reader, document);
                 if (!resource) {
                     qCWarning(proofNetworkXJdfDataLog) << "ResourcSet not created. XML is invalid.";
                     return ResourceSetSP();

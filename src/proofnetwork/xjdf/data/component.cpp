@@ -26,6 +26,8 @@
 
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
+#include "proofnetwork/xjdf/data/resourceset.h"
+#include "proofnetwork/xjdf/data/xjdfdocument.h"
 
 namespace Proof {
 namespace XJdf {
@@ -35,7 +37,8 @@ class ComponentPrivate : public ResourcePrivate
 
 public:
     ComponentPrivate() = default;
-    MediaWP mediaRef;
+    QString mediaRef;
+    mutable MediaSP lazyMedia;
 
     double width = 0.0;
     double height = 0.0;
@@ -58,7 +61,26 @@ ComponentSP Component::create()
 MediaSP Component::mediaRef() const
 {
     Q_D_CONST(Component);
-    return d->mediaRef.toStrongRef();
+
+    if (d->lazyMedia)
+        return d->lazyMedia;
+
+    auto document = d->document.toStrongRef();
+    if (document) {
+        auto set = algorithms::findIf(document->resourceSets(),
+                                      [d](const auto &set) {
+                                          return algorithms::findIf(set->resources(),
+                                                                    [d](const auto &resource) {
+                                                                        return resource->id() == d->mediaRef;
+                                                                    },
+                                                                    ResourceSP());
+                                      },
+                                      ResourceSetSP());
+        if (set)
+            d->lazyMedia = algorithms::findIf(set->resourcesByType<Media>(),
+                                              [d](const auto &media) { return media->id() == d->mediaRef; }, MediaSP());
+    }
+    return d->lazyMedia;
 }
 
 double Component::width() const
@@ -79,12 +101,13 @@ double Component::thickness() const
     return d->thickness;
 }
 
-void Component::setMediaRef(const MediaSP &arg)
+void Component::updateMediaRef(const QString &arg)
 {
     Q_D(Component);
-    if (arg && arg != d->mediaRef.toStrongRef()) {
-        d->mediaRef = arg.toWeakRef();
-        emit mediaRefChanged(arg);
+    if (arg != d->mediaRef) {
+        d->lazyMedia.reset();
+        d->mediaRef = arg;
+        emit mediaRefChanged(mediaRef());
     }
 }
 
@@ -114,11 +137,13 @@ void Component::setThickness(double arg)
     }
 }
 
-ComponentSP Component::fromXJdf(QXmlStreamReader &reader)
+ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     ComponentSP component;
     if (reader.isStartElement() && reader.name() == QStringLiteral("Component")) {
         component = create();
+        component->d_func()->document = document;
+
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Dimensions"))) {
             auto dimension = attributes.value(QStringLiteral("Dimensions")).toString().split(' ', QString::SkipEmptyParts);
@@ -128,10 +153,8 @@ ComponentSP Component::fromXJdf(QXmlStreamReader &reader)
             component->setHeight(dimension[1].toDouble());
             component->setThickness(dimension[2].toDouble());
         }
-        if (attributes.hasAttribute(QStringLiteral("MediaRef"))) {
-            auto media = Media::create(attributes.value(QStringLiteral("MediaRef")).toString());
-            component->setMediaRef(media);
-        }
+        if (attributes.hasAttribute(QStringLiteral("MediaRef")))
+            component->updateMediaRef(attributes.value(QStringLiteral("MediaRef")).toString());
 
         reader.readNext();
         component->setFetched(true);
@@ -150,7 +173,7 @@ void Component::toXJdf(QXmlStreamWriter &writer, bool) const
             QStringLiteral("%1 %2 %3").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2).arg(d->thickness, 0, 'f', 2);
         writer.writeAttribute(QStringLiteral("Dimensions"), dimensions);
     }
-    auto mediaRef = d->mediaRef.toStrongRef();
+    auto mediaRef = this->mediaRef();
     if (mediaRef)
         writer.writeAttribute(QStringLiteral("MediaRef"), mediaRef->id());
 

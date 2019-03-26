@@ -25,7 +25,9 @@
 #include "proofnetwork/xjdf/data/dropitem.h"
 
 #include "proofnetwork/xjdf/data/product.h"
+#include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/xjdfdocument.h"
 
 namespace Proof {
 namespace XJdf {
@@ -36,7 +38,8 @@ class DropItemPrivate : public XJdfAbstractNodePrivate
 public:
     DropItemPrivate() = default;
 
-    ProductWP product;
+    mutable ProductSP lazyProduct;
+    QString productId;
     qulonglong amount = 0;
 };
 
@@ -55,7 +58,16 @@ qulonglong DropItem::amount() const
 ProductSP DropItem::product() const
 {
     Q_D_CONST(DropItem);
-    return d->product.toStrongRef();
+    if (d->lazyProduct)
+        return d->lazyProduct;
+    auto document = d->document.toStrongRef();
+    if (document && document->productList()) {
+        d->lazyProduct = algorithms::findIf(document->productList()->products(),
+                                            [d](const auto &product) { return product->id() == d->productId; },
+                                            ProductSP());
+        return d->lazyProduct;
+    }
+    return ProductSP();
 }
 
 void Proof::XJdf::DropItem::setAmount(qulonglong arg)
@@ -67,12 +79,13 @@ void Proof::XJdf::DropItem::setAmount(qulonglong arg)
     }
 }
 
-void DropItem::setProduct(const ProductSP &arg)
+void DropItem::updateProduct(const QString &arg)
 {
     Q_D(DropItem);
-    if (arg && arg != d->product.toStrongRef()) {
-        d->product = arg.toWeakRef();
-        emit productChanged(arg);
+    if (arg != d->productId) {
+        d->lazyProduct.reset();
+        d->productId = arg;
+        emit productChanged(product());
     }
 }
 
@@ -83,28 +96,31 @@ DropItemSP DropItem::create()
     return result;
 }
 
-DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader)
+DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
-    DropItemSP part;
+    DropItemSP item;
+
     if (reader.isStartElement() && reader.name() == QStringLiteral("DropItem")) {
-        part = create();
-        part->setFetched(true);
+        item = create();
+        item->d_func()->document = document;
+        item->setFetched(true);
         auto attributes = reader.attributes();
-        if (attributes.hasAttribute(QStringLiteral("Product")))
-            part->setProduct(Product::create(attributes.value(QStringLiteral("Product")).toString()));
+        if (attributes.hasAttribute(QStringLiteral("ItemRef")))
+            item->updateProduct(attributes.value(QStringLiteral("ItemRef")).toString());
         if (attributes.hasAttribute(QStringLiteral("Amount")))
-            part->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
+            item->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
     }
     reader.skipCurrentElement();
-    return part;
+    return item;
 }
 
 void DropItem::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(DropItem);
     writer.writeStartElement(QStringLiteral("DropItem"));
-    if (d->product.toStrongRef())
-        writer.writeAttribute(QStringLiteral("Product"), d->product.toStrongRef()->id());
+    auto product = this->product();
+    if (product)
+        writer.writeAttribute(QStringLiteral("ItemRef"), product->id());
     if (d->amount != 0)
         writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
     writer.writeEndElement();
@@ -116,7 +132,7 @@ DropItem::DropItem() : XJdfAbstractNode(*new DropItemPrivate)
 void DropItem::updateSelf(const NetworkDataEntitySP &other)
 {
     DropItemSP castedOther = qSharedPointerCast<DropItem>(other);
-    setProduct(castedOther->product());
+    updateProduct(castedOther->d_func()->productId);
     setAmount(castedOther->amount());
     XJdfAbstractNode::updateSelf(other);
 }

@@ -66,11 +66,13 @@ PartAmountSP PartAmount::create()
     return result;
 }
 
-PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader)
+PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     PartAmountSP part;
+
     if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
         part = create();
+        part->d_func()->document = document;
         part->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Amount")))

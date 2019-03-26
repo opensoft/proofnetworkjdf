@@ -84,17 +84,19 @@ DeliveryParamsSP DeliveryParams::create()
     return result;
 }
 
-DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader)
+DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     DeliveryParamsSP params;
+
     if (reader.isStartElement() && reader.name() == QStringLiteral("DeliveryParams")) {
         params = create();
+        params->d_func()->document = document;
         params->setRequired(
             QDateTime::fromString(reader.attributes().value(QStringLiteral("Required")).toString(), Qt::ISODate));
         QVector<DropItemSP> items;
         while (!reader.atEnd() && !reader.hasError()) {
             if (reader.isStartElement() && reader.name() == QStringLiteral("DropItem")) {
-                items << DropItem::fromXJdf(reader);
+                items << DropItem::fromXJdf(reader, document);
             } else if (reader.isEndElement() && reader.name() == QStringLiteral("DeliveryParams")) {
                 break;
             }

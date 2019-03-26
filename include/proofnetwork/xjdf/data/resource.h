@@ -34,13 +34,13 @@ public:
     bool fillFromXJdf(QXmlStreamReader &reader) override;
     void readAttributesFromXJdf(QXmlStreamReader &reader) override;
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
-    static ResourceSP fromXJdf(QXmlStreamReader &reader);
+    static ResourceSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
 
     template <class T>
     inline static void registerResourceCreator(const QString &name)
     {
-        addResourceCreator(name, [](QXmlStreamReader &reader) -> ResourceSP {
-            return qSharedPointerCast<Resource>(T::fromXJdf(reader));
+        addResourceCreator(name, [](QXmlStreamReader &reader, const XJdfDocumentSP &document) -> ResourceSP {
+            return qSharedPointerCast<Resource>(T::fromXJdf(reader, document));
         });
     }
 
@@ -54,9 +54,10 @@ protected:
     explicit Resource(const QString &id = QString());
     explicit Resource(ResourcePrivate &dd, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-    static void addResourceCreator(const QString &name, std::function<ResourceSP(QXmlStreamReader &)> &&creator);
+    static void addResourceCreator(const QString &name,
+                                   std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)> &&creator);
 
-    static std::function<ResourceSP(QXmlStreamReader &)> &resourceCreator(const QString &name);
+    static std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)> &resourceCreator(const QString &name);
 };
 
 } // namespace XJdf

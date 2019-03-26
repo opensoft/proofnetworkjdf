@@ -81,11 +81,13 @@ BoxPackingParamsSP BoxPackingParams::create()
     return result;
 }
 
-BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader)
+BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     BoxPackingParamsSP params;
     if (reader.isStartElement() && reader.name() == QStringLiteral("BoxPackingParams")) {
         params = create();
+        params->d_func()->document = document;
+
         auto boxType = boxTypeFromString(reader.attributes().value(QStringLiteral("BoxType")).toString());
         auto boxTypeDetails = reader.attributes().value(QStringLiteral("BoxTypeDetails")).toString();
         params->setBoxType(boxType);

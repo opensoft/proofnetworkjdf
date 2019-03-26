@@ -9,6 +9,8 @@ class XJdfAbstractNodePrivate : public NetworkDataEntityPrivate
 
 public:
     XJdfAbstractNodePrivate() = default;
+
+    XJdfDocumentWP document;
 };
 
 } // namespace XJdf

@@ -31,7 +31,7 @@ public:
 
     static MediaSP create(const QString &id = QString());
 
-    static MediaSP fromXJdf(QXmlStreamReader &reader);
+    static MediaSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

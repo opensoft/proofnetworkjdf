@@ -97,11 +97,13 @@ MediaSP Media::create(const QString &id)
     return result;
 }
 
-MediaSP Media::fromXJdf(QXmlStreamReader &reader)
+MediaSP Media::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     MediaSP media;
+
     if (reader.isStartElement() && reader.name() == QStringLiteral("Media")) {
         media = create();
+        media->d_func()->document = document;
         media->setFetched(true);
         auto attributes = reader.attributes();
         reader.skipCurrentElement();

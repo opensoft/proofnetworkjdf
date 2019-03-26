@@ -130,6 +130,7 @@ XJdfDocumentSP XJdfDocument::fromFile(const QString &filePath)
 XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &reader)
 {
     XJdfDocumentSP document = create();
+    document->d_func()->document = document;
 
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
@@ -140,9 +141,9 @@ XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &reader)
                 if (attributes.hasAttribute(QStringLiteral("JobPartID")))
                     document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
             } else if (reader.name() == QStringLiteral("ProductList")) {
-                document->setProductList(ProductList::fromXJdf(reader));
+                document->setProductList(ProductList::fromXJdf(reader, document));
             } else if (reader.name() == QStringLiteral("AuditPool")) {
-                document->setAuditPool(AuditPool::fromXJdf(reader));
+                document->setAuditPool(AuditPool::fromXJdf(reader, document));
             } else {
                 document->fillFromXJdf(reader);
             }

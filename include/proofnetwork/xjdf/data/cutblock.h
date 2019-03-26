@@ -65,7 +65,7 @@ public:
 
     static CutBlockSP create(const QString &blockName = QString());
 
-    static CutBlockSP fromXJdf(QXmlStreamReader &reader);
+    static CutBlockSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

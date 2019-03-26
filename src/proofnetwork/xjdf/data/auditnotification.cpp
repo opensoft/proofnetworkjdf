@@ -66,9 +66,10 @@ AuditNotificationSP AuditNotification::create()
     return result;
 }
 
-AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader)
+AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     AuditNotificationSP notification = create();
+    notification->d_func()->document = document;
     reader.readNextStartElement();
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {

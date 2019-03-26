@@ -70,15 +70,17 @@ AmountPoolSP AmountPool::create()
     return result;
 }
 
-AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader)
+AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     AmountPoolSP pool;
     if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
         pool = create();
+        pool->d_func()->document = document;
+
         QVector<PartAmountSP> parts;
         while (!reader.atEnd() && !reader.hasError()) {
             if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
-                parts << PartAmount::fromXJdf(reader);
+                parts << PartAmount::fromXJdf(reader, document);
             } else if (reader.isEndElement() && reader.name() == QStringLiteral("AmountPool")) {
                 break;
             }

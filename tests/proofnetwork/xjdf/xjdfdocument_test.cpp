@@ -112,7 +112,7 @@ TEST_F(XJdfDocumentTest, fromXJdf)
     EXPECT_EQ(QDateTime::fromString("2018-02-28T16:00:20+00:00", Qt::ISODate), deliveryParams->required());
     ASSERT_EQ(1, deliveryParams->items().count());
     EXPECT_EQ(30, deliveryParams->items()[0]->amount());
-    //TODO check prodref
+    EXPECT_EQ("ProductInfo_1", deliveryParams->items()[0]->product()->id());
 
     auto resourceSet2 = xjdfDocUT->resourceSets()[1];
     EXPECT_EQ("Media", resourceSet2->name());
@@ -129,7 +129,7 @@ TEST_F(XJdfDocumentTest, fromXJdf)
     EXPECT_EQ(ResourceOrientation::Rotate90Orientation, component1->orientation());
     ASSERT_EQ(1, component1->amountPool()->parts().count());
     EXPECT_EQ(30, component1->amountPool()->parts()[0]->amount());
-    //TODO Check mediaref
+    EXPECT_EQ("Media_1", component1->mediaRef()->id());
 
     auto resourceSet4 = xjdfDocUT->resourceSets()[3];
     EXPECT_EQ("CuttingParams", resourceSet4->name());
@@ -148,7 +148,8 @@ TEST_F(XJdfDocumentTest, fromXJdf)
     EXPECT_DOUBLE_EQ(300.0, component2->height());
     EXPECT_DOUBLE_EQ(10.0, component2->thickness());
     ASSERT_EQ(2, component2->parts().count());
-    //TODO check parts
+    EXPECT_EQ("Block_2", component2->parts()[0]->block()->blockName());
+    EXPECT_EQ("ProductInfo_2", component2->parts()[0]->product()->id());
 
     auto resourceSet6 = xjdfDocUT->resourceSets()[5];
     EXPECT_EQ("BoxPackingParams", resourceSet6->name());
@@ -170,6 +171,7 @@ TEST_F(XJdfDocumentTest, toXJdf)
     QByteArray xml;
     QXmlStreamWriter writer(&xml);
     xjdfDocUT->toXJdf(writer);
+    xjdfDocUT->toFile("/home/vass/to.xml");
 
     ASSERT_FALSE(xml.isEmpty());
     QXmlStreamReader reader(xml);
@@ -237,7 +239,7 @@ TEST_F(XJdfDocumentTest, toXJdf)
     EXPECT_EQ(QDateTime::fromString("2018-02-28T16:00:20+00:00", Qt::ISODate), deliveryParams->required());
     ASSERT_EQ(1, deliveryParams->items().count());
     EXPECT_EQ(30, deliveryParams->items()[0]->amount());
-    //TODO check prodref
+    EXPECT_EQ("ProductInfo_1", deliveryParams->items()[0]->product()->id());
 
     auto resourceSet2 = xjdfDocNew->resourceSets()[1];
     EXPECT_EQ("Media", resourceSet2->name());
@@ -254,7 +256,7 @@ TEST_F(XJdfDocumentTest, toXJdf)
     EXPECT_EQ(ResourceOrientation::Rotate90Orientation, component1->orientation());
     ASSERT_EQ(1, component1->amountPool()->parts().count());
     EXPECT_EQ(30, component1->amountPool()->parts()[0]->amount());
-    //TODO Check mediaref
+    EXPECT_EQ("Media_1", component1->mediaRef()->id());
 
     auto resourceSet4 = xjdfDocNew->resourceSets()[3];
     EXPECT_EQ("CuttingParams", resourceSet4->name());
@@ -273,7 +275,8 @@ TEST_F(XJdfDocumentTest, toXJdf)
     EXPECT_DOUBLE_EQ(300.0, component2->height());
     EXPECT_DOUBLE_EQ(10.0, component2->thickness());
     ASSERT_EQ(2, component2->parts().count());
-    //TODO check parts
+    EXPECT_EQ("Block_2", component2->parts()[0]->block()->blockName());
+    EXPECT_EQ("ProductInfo_2", component2->parts()[0]->product()->id());
 
     auto resourceSet6 = xjdfDocNew->resourceSets()[5];
     EXPECT_EQ("BoxPackingParams", resourceSet6->name());

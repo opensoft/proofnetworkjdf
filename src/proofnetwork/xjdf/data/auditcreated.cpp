@@ -81,9 +81,11 @@ AuditCreatedSP AuditCreated::create()
     return result;
 }
 
-AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader)
+AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     AuditCreatedSP created = create();
+    created->d_func()->document = document;
+
     reader.readNextStartElement();
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {

@@ -25,8 +25,12 @@
 #include "proofnetwork/xjdf/data/part.h"
 
 #include "proofnetwork/xjdf/data/cutblock.h"
+#include "proofnetwork/xjdf/data/cuttingparams.h"
 #include "proofnetwork/xjdf/data/product.h"
+#include "proofnetwork/xjdf/data/productlist.h"
+#include "proofnetwork/xjdf/data/resourceset.h"
 #include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/xjdfdocument.h"
 
 namespace Proof {
 namespace XJdf {
@@ -37,8 +41,11 @@ class PartPrivate : public XJdfAbstractNodePrivate
 public:
     PartPrivate() = default;
 
-    ProductWP product;
-    CutBlockWP block;
+    mutable ProductSP lazyProduct;
+    QString productId;
+
+    mutable CutBlockSP lazyBlock;
+    QString blockName;
 };
 
 } // namespace XJdf
@@ -50,30 +57,61 @@ using namespace Proof::XJdf;
 ProductSP Part::product() const
 {
     Q_D_CONST(Part);
-    return d->product.toStrongRef();
+    if (d->lazyProduct)
+        return d->lazyProduct;
+
+    auto document = d->document.toStrongRef();
+    if (document && document->productList()) {
+        d->lazyProduct = algorithms::findIf(d->document.toStrongRef()->productList()->products(),
+                                            [d](const auto &product) { return product->id() == d->productId; },
+                                            ProductSP());
+        return d->lazyProduct;
+    }
+    return ProductSP();
 }
 
 CutBlockSP Part::block() const
 {
     Q_D_CONST(Part);
-    return d->block.toStrongRef();
+    if (d->lazyBlock)
+        return d->lazyBlock;
+
+    auto document = d->document.toStrongRef();
+    if (document) {
+        const auto &sets = document->resourceSets();
+        for (const auto &set : sets) {
+            const auto &params = set->resourcesByType<CuttingParams>();
+            for (const auto &param : params) {
+                const auto &blocks = param->cutBlocks();
+                for (const auto &block : blocks) {
+                    if (block->blockName() == d->blockName) {
+                        d->lazyBlock = block;
+                        return d->lazyBlock;
+                    }
+                }
+            }
+        }
+    }
+    return CutBlockSP();
 }
 
-void Part::setProduct(const ProductSP &arg)
+void Part::updateProduct(const QString &arg)
 {
     Q_D(Part);
-    if (arg && arg != d->product.toStrongRef()) {
-        d->product = arg.toWeakRef();
-        emit productChanged(arg);
+    if (arg != d->productId) {
+        d->lazyProduct.reset();
+        d->productId = arg;
+        emit productChanged(product());
     }
 }
 
-void Part::setBlock(const CutBlockSP &arg)
+void Part::updateBlock(const QString &arg)
 {
     Q_D(Part);
-    if (arg && arg != d->block.toStrongRef()) {
-        d->block = arg.toWeakRef();
-        emit blockChanged(arg);
+    if (arg != d->blockName) {
+        d->lazyBlock.reset();
+        d->blockName = arg;
+        emit blockChanged(block());
     }
 }
 
@@ -84,30 +122,33 @@ PartSP Part::create()
     return result;
 }
 
-PartSP Part::fromXJdf(QXmlStreamReader &reader)
+PartSP Part::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     PartSP part;
+
     if (reader.isStartElement() && reader.name() == QStringLiteral("Part")) {
         part = create();
+        part->d_func()->document = document;
         part->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("ProductPart")))
-            part->setProduct(Product::create(attributes.value(QStringLiteral("ProductPart")).toString()));
+            part->updateProduct(attributes.value(QStringLiteral("ProductPart")).toString());
         if (attributes.hasAttribute(QStringLiteral("BlockName")))
-            part->setBlock(CutBlock::create(attributes.value(QStringLiteral("BlockName")).toString()));
+            part->updateBlock(attributes.value(QStringLiteral("BlockName")).toString());
     }
     reader.skipCurrentElement();
     return part;
 }
 
-void Part::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
+void Part::toXJdf(QXmlStreamWriter &writer, bool) const
 {
-    Q_D_CONST(Part);
     writer.writeStartElement(QStringLiteral("Part"));
-    if (d->product.toStrongRef())
-        writer.writeAttribute(QStringLiteral("ProductPart"), d->product.toStrongRef()->id());
-    if (d->block.toStrongRef())
-        writer.writeAttribute(QStringLiteral("BlockName"), d->block.toStrongRef()->blockName());
+    auto product = this->product();
+    if (product)
+        writer.writeAttribute(QStringLiteral("ProductPart"), product->id());
+    auto block = this->block();
+    if (block)
+        writer.writeAttribute(QStringLiteral("BlockName"), block->blockName());
     writer.writeEndElement();
 }
 
@@ -117,7 +158,7 @@ Part::Part() : XJdfAbstractNode(*new PartPrivate)
 void Part::updateSelf(const NetworkDataEntitySP &other)
 {
     PartSP castedOther = qSharedPointerCast<Part>(other);
-    setBlock(castedOther->block());
-    setProduct(castedOther->product());
+    updateBlock(castedOther->d_func()->blockName);
+    updateProduct(castedOther->d_func()->productId);
     XJdfAbstractNode::updateSelf(other);
 }

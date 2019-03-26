@@ -24,12 +24,12 @@ public:
     ProductSP product() const;
     CutBlockSP block() const;
 
-    void setProduct(const ProductSP &arg);
-    void setBlock(const CutBlockSP &arg);
+    void updateProduct(const QString &arg);
+    void updateBlock(const QString &arg);
 
     static PartSP create();
 
-    static PartSP fromXJdf(QXmlStreamReader &reader);
+    static PartSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

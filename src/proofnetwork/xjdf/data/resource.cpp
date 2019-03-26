@@ -31,7 +31,7 @@
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>> *ResourcePrivate::creators = nullptr;
+QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *ResourcePrivate::creators = nullptr;
 
 QString Resource::id() const
 {
@@ -134,7 +134,7 @@ void Resource::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
         d->amountPool->toXJdf(writer);
 }
 
-ResourceSP Resource::fromXJdf(QXmlStreamReader &reader)
+ResourceSP Resource::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
 {
     ResourceSP resource;
     QVector<PartSP> parts;
@@ -152,15 +152,15 @@ ResourceSP Resource::fromXJdf(QXmlStreamReader &reader)
 
         while (!reader.atEnd() && !reader.hasError()) {
             if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
-                amountPool = AmountPool::fromXJdf(reader);
+                amountPool = AmountPool::fromXJdf(reader, document);
             } else if (reader.isStartElement() && reader.name() == QStringLiteral("Part")) {
-                auto part = Part::fromXJdf(reader);
+                auto part = Part::fromXJdf(reader, document);
                 if (part)
                     parts << part;
             } else if (reader.isStartElement()) {
                 auto creator = resourceCreator(reader.name().toString());
                 if (creator) {
-                    resource = creator(reader);
+                    resource = creator(reader, document);
                     reader.readNext();
                     continue;
                 }
@@ -189,10 +189,12 @@ Resource::Resource(ResourcePrivate &dd, const QString &id) : XJdfAbstractNode(dd
     setId(id);
 }
 
-void Resource::addResourceCreator(const QString &name, std::function<ResourceSP(QXmlStreamReader &)> &&creator)
+void Resource::addResourceCreator(const QString &name,
+                                  std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)> &&creator)
 {
     if (!ResourcePrivate::creators)
-        ResourcePrivate::creators = new QMap<QString, std::function<ResourceSP(QXmlStreamReader &)>>();
+        ResourcePrivate::creators =
+            new QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)>>();
     (*ResourcePrivate::creators)[name] = creator;
 }
 
@@ -205,7 +207,7 @@ void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
 
     XJdfAbstractNode::updateSelf(other);
 }
-std::function<ResourceSP(QXmlStreamReader &)> &Resource::resourceCreator(const QString &name)
+std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)> &Resource::resourceCreator(const QString &name)
 {
     return (*ResourcePrivate::creators)[name];
 }

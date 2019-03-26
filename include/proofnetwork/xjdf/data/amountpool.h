@@ -52,7 +52,7 @@ public:
 
     static AmountPoolSP create();
 
-    static AmountPoolSP fromXJdf(QXmlStreamReader &reader);
+    static AmountPoolSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

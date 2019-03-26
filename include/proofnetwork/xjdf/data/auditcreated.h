@@ -28,7 +28,7 @@ public:
 
     static AuditCreatedSP create();
 
-    static AuditCreatedSP fromXJdf(QXmlStreamReader &reader);
+    static AuditCreatedSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

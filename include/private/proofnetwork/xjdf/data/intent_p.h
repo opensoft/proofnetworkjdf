@@ -15,7 +15,7 @@ public:
     IntentPrivate() = default;
     QString name;
 
-    static QMap<QString, std::function<IntentSP(QXmlStreamReader &)>> *creators;
+    static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *creators;
 };
 
 } // namespace XJdf
