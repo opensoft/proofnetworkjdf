@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT Part : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(Part)
 public:
     Part(const Part &) = delete;
-    Part &operator=(const XJdfAbstractNode &) = delete;
-    Part(XJdfAbstractNode &&) = delete;
+    Part &operator=(const Part &) = delete;
+    Part(Part &&) = delete;
     Part &operator=(Part &&) = delete;
     ~Part() = default;
 

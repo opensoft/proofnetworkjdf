@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT Product : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(Product)
 public:
     Product(const Product &) = delete;
-    Product &operator=(const XJdfAbstractNode &) = delete;
-    Product(XJdfAbstractNode &&) = delete;
+    Product &operator=(const Product &) = delete;
+    Product(Product &&) = delete;
     Product &operator=(Product &&) = delete;
     ~Product() = default;
 

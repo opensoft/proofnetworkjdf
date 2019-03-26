@@ -15,9 +15,9 @@ class PROOF_NETWORK_XJDF_EXPORT AuditNotification : public AuditAbstractItem
     Q_DECLARE_PRIVATE(AuditNotification)
 public:
     AuditNotification(const AuditNotification &) = delete;
-    AuditNotification &operator=(const AuditAbstractItem &) = delete;
-    AuditNotification(AuditAbstractItem &&) = delete;
-    AuditNotification &operator=(Resource &&) = delete;
+    AuditNotification &operator=(const AuditNotification &) = delete;
+    AuditNotification(AuditNotification &&) = delete;
+    AuditNotification &operator=(AuditNotification &&) = delete;
     ~AuditNotification() = default;
 
     Severity severityClass() const;

@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT Component : public Resource
     Q_DECLARE_PRIVATE(Component)
 public:
     Component(const Component &) = delete;
-    Component &operator=(const XJdfAbstractNode &) = delete;
-    Component(XJdfAbstractNode &&) = delete;
+    Component &operator=(const Component &) = delete;
+    Component(Component &&) = delete;
     Component &operator=(Component &&) = delete;
     ~Component() = default;
 

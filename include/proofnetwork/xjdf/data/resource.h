@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT Resource : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(Resource)
 public:
     Resource(const Resource &) = delete;
-    Resource &operator=(const XJdfAbstractNode &) = delete;
-    Resource(XJdfAbstractNode &&) = delete;
+    Resource &operator=(const Resource &) = delete;
+    Resource(Resource &&) = delete;
     Resource &operator=(Resource &&) = delete;
     ~Resource() = default;
 

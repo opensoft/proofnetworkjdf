@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT CuttingParams : public Resource
     Q_DECLARE_PRIVATE(CuttingParams)
 public:
     CuttingParams(const CuttingParams &) = delete;
-    CuttingParams &operator=(const Resource &) = delete;
-    CuttingParams(Resource &&) = delete;
+    CuttingParams &operator=(const CuttingParams &) = delete;
+    CuttingParams(CuttingParams &&) = delete;
     CuttingParams &operator=(CuttingParams &&) = delete;
     ~CuttingParams() = default;
 

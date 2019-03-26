@@ -15,8 +15,8 @@ class PROOF_NETWORK_XJDF_EXPORT ColorIntent : public Intent
     Q_DECLARE_PRIVATE(ColorIntent)
 public:
     ColorIntent(const ColorIntent &) = delete;
-    ColorIntent &operator=(const Intent &) = delete;
-    ColorIntent(Intent &&) = delete;
+    ColorIntent &operator=(const ColorIntent &) = delete;
+    ColorIntent(ColorIntent &&) = delete;
     ColorIntent &operator=(ColorIntent &&) = delete;
     ~ColorIntent() = default;
 

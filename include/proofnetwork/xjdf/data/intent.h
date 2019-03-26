@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT Intent : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(Intent)
 public:
     Intent(const Intent &) = delete;
-    Intent &operator=(const XJdfAbstractNode &) = delete;
-    Intent(XJdfAbstractNode &&) = delete;
+    Intent &operator=(const Intent &) = delete;
+    Intent(Intent &&) = delete;
     Intent &operator=(Intent &&) = delete;
     ~Intent() = default;
 

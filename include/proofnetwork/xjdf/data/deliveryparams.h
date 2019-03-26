@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT DeliveryParams : public Resource
     Q_DECLARE_PRIVATE(DeliveryParams)
 public:
     DeliveryParams(const DeliveryParams &) = delete;
-    DeliveryParams &operator=(const Resource &) = delete;
-    DeliveryParams(Resource &&) = delete;
+    DeliveryParams &operator=(const DeliveryParams &) = delete;
+    DeliveryParams(DeliveryParams &&) = delete;
     DeliveryParams &operator=(DeliveryParams &&) = delete;
     ~DeliveryParams() = default;
 

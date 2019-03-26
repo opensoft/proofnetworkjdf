@@ -16,9 +16,9 @@ class PROOF_NETWORK_XJDF_EXPORT AuditAbstractItem : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(AuditAbstractItem)
 public:
     AuditAbstractItem(const AuditAbstractItem &) = delete;
-    AuditAbstractItem &operator=(const XJdfAbstractNode &) = delete;
-    AuditAbstractItem(XJdfAbstractNode &&) = delete;
-    AuditAbstractItem &operator=(Resource &&) = delete;
+    AuditAbstractItem &operator=(const AuditAbstractItem &) = delete;
+    AuditAbstractItem(AuditAbstractItem &&) = delete;
+    AuditAbstractItem &operator=(AuditAbstractItem &&) = delete;
     ~AuditAbstractItem() = default;
 
     QString agentName() const;

@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT DropItem : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(DropItem)
 public:
     DropItem(const DropItem &) = delete;
-    DropItem &operator=(const XJdfAbstractNode &) = delete;
-    DropItem(XJdfAbstractNode &&) = delete;
+    DropItem &operator=(const DropItem &) = delete;
+    DropItem(DropItem &&) = delete;
     DropItem &operator=(DropItem &&) = delete;
     ~DropItem() = default;
 

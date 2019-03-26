@@ -15,9 +15,9 @@ class PROOF_NETWORK_XJDF_EXPORT AuditCreated : public AuditAbstractItem
     Q_DECLARE_PRIVATE(AuditCreated)
 public:
     AuditCreated(const AuditCreated &) = delete;
-    AuditCreated &operator=(const AuditAbstractItem &) = delete;
-    AuditCreated(XJdfAbstractNode &&) = delete;
-    AuditCreated &operator=(Resource &&) = delete;
+    AuditCreated &operator=(const AuditCreated &) = delete;
+    AuditCreated(AuditCreated &&) = delete;
+    AuditCreated &operator=(AuditCreated &&) = delete;
     ~AuditCreated() = default;
 
     QString templateId() const;

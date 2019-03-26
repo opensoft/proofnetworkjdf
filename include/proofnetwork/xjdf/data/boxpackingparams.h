@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT BoxPackingParams : public Resource
     Q_DECLARE_PRIVATE(BoxPackingParams)
 public:
     BoxPackingParams(const BoxPackingParams &) = delete;
-    BoxPackingParams &operator=(const Resource &) = delete;
-    BoxPackingParams(Resource &&) = delete;
+    BoxPackingParams &operator=(const BoxPackingParams &) = delete;
+    BoxPackingParams(BoxPackingParams &&) = delete;
     BoxPackingParams &operator=(BoxPackingParams &&) = delete;
     ~BoxPackingParams() = default;
 

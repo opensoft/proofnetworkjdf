@@ -15,8 +15,8 @@ class PROOF_NETWORK_XJDF_EXPORT FoldingIntent : public Intent
     Q_DECLARE_PRIVATE(FoldingIntent)
 public:
     FoldingIntent(const FoldingIntent &) = delete;
-    FoldingIntent &operator=(const Intent &) = delete;
-    FoldingIntent(Intent &&) = delete;
+    FoldingIntent &operator=(const FoldingIntent &) = delete;
+    FoldingIntent(FoldingIntent &&) = delete;
     FoldingIntent &operator=(FoldingIntent &&) = delete;
     ~FoldingIntent() = default;
 

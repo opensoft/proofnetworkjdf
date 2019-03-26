@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT GrayBox : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(GrayBox)
 public:
     GrayBox(const GrayBox &) = delete;
-    GrayBox &operator=(const XJdfAbstractNode &) = delete;
-    GrayBox(XJdfAbstractNode &&) = delete;
+    GrayBox &operator=(const GrayBox &) = delete;
+    GrayBox(GrayBox &&) = delete;
     GrayBox &operator=(GrayBox &&) = delete;
     ~GrayBox() = default;
 
