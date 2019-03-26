@@ -26,14 +26,14 @@ public:
 
     static CuttingParamsSP create();
 
-    static CuttingParamsSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static CuttingParamsSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void cutBlocksChanged(const QVector<CutBlockSP> &arg);
+    void cutBlocksChanged(const QVector<Proof::XJdf::CutBlockSP> &arg);
 
 protected:
-    CuttingParams();
+    explicit CuttingParams();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

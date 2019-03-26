@@ -54,8 +54,8 @@ public:
 
     static AuditPoolSP create();
 
-    static AuditPoolSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static AuditPoolSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void createdChanged(const Proof::XJdf::AuditCreatedSP &arg);

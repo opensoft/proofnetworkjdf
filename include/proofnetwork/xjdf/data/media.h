@@ -31,8 +31,8 @@ public:
 
     static MediaSP create(const QString &id = QString());
 
-    static MediaSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static MediaSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void widthChanged(double arg);
@@ -40,7 +40,7 @@ signals:
     void thicknessChanged(double arg);
 
 protected:
-    Media(const QString &id);
+    explicit Media(const QString &id);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

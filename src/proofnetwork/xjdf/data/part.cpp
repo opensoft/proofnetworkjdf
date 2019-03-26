@@ -84,31 +84,31 @@ PartSP Part::create()
     return result;
 }
 
-PartSP Part::fromXJdf(QXmlStreamReader &xjdfReader)
+PartSP Part::fromXJdf(QXmlStreamReader &reader)
 {
     PartSP part;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "Part") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("Part")) {
         part = create();
         part->setFetched(true);
-        auto attributes = xjdfReader.attributes();
+        auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("ProductPart")))
             part->setProduct(Product::create(attributes.value(QStringLiteral("ProductPart")).toString()));
         if (attributes.hasAttribute(QStringLiteral("BlockName")))
             part->setBlock(CutBlock::create(attributes.value(QStringLiteral("BlockName")).toString()));
     }
-    xjdfReader.skipCurrentElement();
+    reader.skipCurrentElement();
     return part;
 }
 
-void Part::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void Part::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
 {
     Q_D_CONST(Part);
-    xjdfWriter.writeStartElement(QStringLiteral("Part"));
+    writer.writeStartElement(QStringLiteral("Part"));
     if (d->product.toStrongRef())
-        xjdfWriter.writeAttribute(QStringLiteral("ProductPart"), d->product.toStrongRef()->id());
+        writer.writeAttribute(QStringLiteral("ProductPart"), d->product.toStrongRef()->id());
     if (d->block.toStrongRef())
-        xjdfWriter.writeAttribute(QStringLiteral("BlockName"), d->block.toStrongRef()->blockName());
-    xjdfWriter.writeEndElement();
+        writer.writeAttribute(QStringLiteral("BlockName"), d->block.toStrongRef()->blockName());
+    writer.writeEndElement();
 }
 
 Part::Part() : XJdfAbstractNode(*new PartPrivate)

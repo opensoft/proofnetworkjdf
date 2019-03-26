@@ -29,15 +29,15 @@ public:
 
     static DropItemSP create();
 
-    static DropItemSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static DropItemSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void amountChanged(qulonglong arg);
-    void productChanged(const ProductSP &arg);
+    void productChanged(const Proof::XJdf::ProductSP &arg);
 
 protected:
-    DropItem();
+    explicit DropItem();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

@@ -69,19 +69,21 @@ CuttingParamsSP CuttingParams::create()
     return result;
 }
 
-CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &xjdfReader)
+CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader)
 {
     CuttingParamsSP params;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "CuttingParams") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("CuttingParams")) {
         params = create();
         QVector<CutBlockSP> blocks;
-        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            if (xjdfReader.isStartElement() && xjdfReader.name() == "CutBlock") {
-                blocks << CutBlock::fromXJdf(xjdfReader);
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "CuttingParams") {
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("CutBlock")) {
+                auto block = CutBlock::fromXJdf(reader);
+                if (block)
+                    blocks << block;
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("CuttingParams")) {
                 break;
             }
-            xjdfReader.readNext();
+            reader.readNext();
         }
         params->setCutBlocks(blocks);
         params->setFetched(true);
@@ -89,15 +91,15 @@ CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &xjdfReader)
     return params;
 }
 
-void CuttingParams::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void CuttingParams::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(CuttingParams);
-    Resource::toXJdf(xjdfWriter);
-    xjdfWriter.writeStartElement(QStringLiteral("CuttingParams"));
+    Resource::toXJdf(writer);
+    writer.writeStartElement(QStringLiteral("CuttingParams"));
     for (const auto &block : d->blocks)
-        block->toXJdf(xjdfWriter);
-    xjdfWriter.writeEndElement();
-    Resource::toXJdf(xjdfWriter, true);
+        block->toXJdf(writer);
+    writer.writeEndElement();
+    Resource::toXJdf(writer, true);
 }
 
 CuttingParams::CuttingParams() : Resource(*new CuttingParamsPrivate)

@@ -110,29 +110,29 @@ bool AuditAbstractItem::fillFromXJdf(QXmlStreamReader &)
     return false;
 }
 
-void AuditAbstractItem::readAttributesFromXJdf(QXmlStreamReader &xjdfReader)
+void AuditAbstractItem::readAttributesFromXJdf(QXmlStreamReader &reader)
 {
-    auto attributes = xjdfReader.attributes();
-    if (attributes.hasAttribute("AgentVersion"))
-        setAgentVersion(attributes.value("AgentVersion").toString());
-    if (attributes.hasAttribute("AgentName"))
-        setAgentName(attributes.value("AgentName").toString());
-    if (attributes.hasAttribute("ID"))
-        setId(attributes.value("ID").toString());
-    if (attributes.hasAttribute("DeviceId"))
-        setDeviceId(attributes.value("DeviceID").toString());
-    if (attributes.hasAttribute("Time"))
-        setTimestamp(QDateTime::fromString(attributes.value("Time").toString(), Qt::ISODate));
+    auto attributes = reader.attributes();
+    if (attributes.hasAttribute(QStringLiteral("AgentVersion")))
+        setAgentVersion(attributes.value(QStringLiteral("AgentVersion")).toString());
+    if (attributes.hasAttribute(QStringLiteral("AgentName")))
+        setAgentName(attributes.value(QStringLiteral("AgentName")).toString());
+    if (attributes.hasAttribute(QStringLiteral("ID")))
+        setId(attributes.value(QStringLiteral("ID")).toString());
+    if (attributes.hasAttribute(QStringLiteral("DeviceId")))
+        setDeviceId(attributes.value(QStringLiteral("DeviceID")).toString());
+    if (attributes.hasAttribute(QStringLiteral("Time")))
+        setTimestamp(QDateTime::fromString(attributes.value(QStringLiteral("Time")).toString(), Qt::ISODate));
 }
 
-void AuditAbstractItem::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(AuditAbstractItem);
-    xjdfWriter.writeAttribute("AgentVersion", d->agentVersion);
-    xjdfWriter.writeAttribute("AgentName", d->agentName);
-    xjdfWriter.writeAttribute("ID", d->id);
-    xjdfWriter.writeAttribute("DeviceId", d->deviceId);
-    xjdfWriter.writeAttribute("Time", d->timestamp.toString(Qt::ISODate));
+    writer.writeAttribute(QStringLiteral("AgentVersion"), d->agentVersion);
+    writer.writeAttribute(QStringLiteral("AgentName"), d->agentName);
+    writer.writeAttribute(QStringLiteral("ID"), d->id);
+    writer.writeAttribute(QStringLiteral("DeviceId"), d->deviceId);
+    writer.writeAttribute(QStringLiteral("Time"), d->timestamp.toString(Qt::ISODate));
 }
 
 AuditAbstractItem::AuditAbstractItem() : AuditAbstractItem(*new AuditAbstractItemPrivate)

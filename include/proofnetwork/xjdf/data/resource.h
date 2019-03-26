@@ -31,27 +31,27 @@ public:
     void setParts(const QVector<PartSP> &arg);
     void setAmountPool(const AmountPoolSP &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
-    static ResourceSP fromXJdf(QXmlStreamReader &xjdfReader);
+    bool fillFromXJdf(QXmlStreamReader &reader) override;
+    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    static ResourceSP fromXJdf(QXmlStreamReader &reader);
 
     template <class T>
     inline static void registerResourceCreator(const QString &name)
     {
-        addResourceCreator(name, [](QXmlStreamReader &xjdfReader) -> ResourceSP {
-            return qSharedPointerCast<Resource>(T::fromXJdf(xjdfReader));
+        addResourceCreator(name, [](QXmlStreamReader &reader) -> ResourceSP {
+            return qSharedPointerCast<Resource>(T::fromXJdf(reader));
         });
     }
 
 signals:
     void idChanged(const QString &arg);
-    void orientationChanged(ResourceOrientation arg);
-    void partsChanged(const QVector<PartSP> &arg);
-    void amountPoolChanged(const AmountPoolSP &arg);
+    void orientationChanged(Proof::XJdf::ResourceOrientation arg);
+    void partsChanged(const QVector<Proof::XJdf::PartSP> &arg);
+    void amountPoolChanged(const Proof::XJdf::AmountPoolSP &arg);
 
 protected:
-    Resource(const QString &id = QString());
+    explicit Resource(const QString &id = QString());
     explicit Resource(ResourcePrivate &dd, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
     static void addResourceCreator(const QString &name, std::function<ResourceSP(QXmlStreamReader &)> &&creator);

@@ -29,11 +29,11 @@ public:
 
     static BoxPackingParamsSP create();
 
-    static BoxPackingParamsSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static BoxPackingParamsSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void boxTypeChanged(BoxType arg);
+    void boxTypeChanged(Proof::XJdf::BoxType arg);
     void boxTypeDetailsChanged(const QString &arg);
 
 protected:

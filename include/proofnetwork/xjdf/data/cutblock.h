@@ -56,24 +56,17 @@ public:
     double height() const;
     double x() const;
     double y() const;
-    double rotation() const;
-    QString transformationMatrix() const;
 
     void setBlockName(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
     void setX(double arg);
     void setY(double arg);
-    void setRotation(double arg);
-    void setTransformationMatrix(const QString &arg);
-    void setTransformationMatrix(double x, double y, double rotation);
-
-    void normalizeTransformation();
 
     static CutBlockSP create(const QString &blockName = QString());
 
-    static CutBlockSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static CutBlockSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void blockNameChanged(const QString &arg);
@@ -81,15 +74,11 @@ signals:
     void heightChanged(double arg);
     void xChanged(double arg);
     void yChanged(double arg);
-    void rotationChanged(double arg);
-    void transformationMatrixChanged(const QString &arg);
 
 protected:
     explicit CutBlock(const QString &blockName = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
-
-PROOF_NETWORK_XJDF_EXPORT ObjectsCache<XJdfCutBlockDataKey, CutBlock> &cutBlockCache();
 
 } // namespace XJdf
 } // namespace Proof

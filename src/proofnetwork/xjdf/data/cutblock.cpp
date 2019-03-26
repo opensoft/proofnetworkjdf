@@ -28,10 +28,6 @@
 
 #include <QStringList>
 
-#include <cmath>
-
-static const double PI = 3.14159265358979323846;
-
 namespace Proof {
 namespace XJdf {
 
@@ -41,25 +37,12 @@ class CutBlockPrivate : public XJdfAbstractNodePrivate
 
     explicit CutBlockPrivate(const QString &blockName) : blockName(blockName) { setDirty(!blockName.isEmpty()); }
 
-    void setX(double arg);
-    void setY(double arg);
-    void setRotation(double arg);
-    QString createRotationMatrixString(double angle);
-    double rotationFromTransformationMatrix(const QString &transformationMatrix);
-
     QString blockName;
     double width = 0.0;
     double height = 0.0;
     double x = 0.0;
     double y = 0.0;
-    double rotation = 0.0;
-    QString transformationMatrix;
 };
-
-ObjectsCache<XJdfCutBlockDataKey, CutBlock> &cutBlockCache()
-{
-    return WeakObjectsCache<XJdfCutBlockDataKey, CutBlock>::instance();
-}
 
 } // namespace XJdf
 } // namespace Proof
@@ -99,18 +82,6 @@ double CutBlock::y() const
     return d->y;
 }
 
-double CutBlock::rotation() const
-{
-    Q_D_CONST(CutBlock);
-    return d->rotation;
-}
-
-QString CutBlock::transformationMatrix() const
-{
-    Q_D_CONST(CutBlock);
-    return d->transformationMatrix;
-}
-
 CutBlockSP CutBlock::create(const QString &blockName)
 {
     CutBlockSP result(new CutBlock(blockName));
@@ -118,52 +89,46 @@ CutBlockSP CutBlock::create(const QString &blockName)
     return result;
 }
 
-CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &xjdfReader)
+CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader)
 {
     CutBlockSP cutBlock = create();
 
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.name() == "CutBlock" && xjdfReader.isStartElement()) {
-            QXmlStreamAttributes attributes = xjdfReader.attributes();
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.name() == "CutBlock" && reader.isStartElement()) {
+            QXmlStreamAttributes attributes = reader.attributes();
 
             QString blockName = attributes.value(QStringLiteral("BlockName")).toString();
             cutBlock->setBlockName(blockName);
-            //cutBlock = cutBlockCache().add({jobId, cutBlock->blockName()}, cutBlock);
             cutBlock->setFetched(true);
 
-            QStringList blockSizeList = attributes.value(QStringLiteral("BlockSize"))
-                                            .toString()
-                                            .split(QStringLiteral(" "), QString::SkipEmptyParts);
-            if (blockSizeList.count() >= 2) {
-                cutBlock->setWidth(blockSizeList.at(0).toDouble());
-                cutBlock->setHeight(blockSizeList.at(1).toDouble());
-            } else {
+            QStringList boxList =
+                attributes.value(QStringLiteral("Box")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
+            if (boxList.count() < 4) {
                 qCWarning(proofNetworkXJdfDataLog) << "CutBlock not created. BlockSize is not valid";
                 return CutBlockSP();
             }
-            cutBlock->setTransformationMatrix(attributes.value(QStringLiteral("BlockTrf")).toString());
-        } else if (xjdfReader.isStartElement()) {
-            xjdfReader.skipCurrentElement();
-        } else if (xjdfReader.isEndElement()) {
+            cutBlock->setX(boxList.at(0).toDouble());
+            cutBlock->setY(boxList.at(1).toDouble());
+            cutBlock->setWidth(boxList.at(2).toDouble());
+            cutBlock->setHeight(boxList.at(3).toDouble());
+
+        } else if (reader.isEndElement()) {
             break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
 
-    cutBlock->normalizeTransformation();
     return cutBlock;
 }
 
-void CutBlock::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void CutBlock::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(CutBlock);
 
-    xjdfWriter.writeStartElement(QStringLiteral("CutBlock"));
-    xjdfWriter.writeAttribute(QStringLiteral("BlockName"), d->blockName);
-    xjdfWriter.writeAttribute(QStringLiteral("BlockSize"),
-                              QString::number(d->width, 'f', 4) + " " + QString::number(d->height, 'f', 4));
-    xjdfWriter.writeAttribute(QStringLiteral("BlockTrf"), d->transformationMatrix);
-    xjdfWriter.writeEndElement();
+    writer.writeStartElement(QStringLiteral("CutBlock"));
+    writer.writeAttribute(QStringLiteral("BlockName"), d->blockName);
+    writer.writeAttribute(QStringLiteral("Box"), QString("%1 %2 %3 %4").arg(d->x).arg(d->y).arg(d->width).arg(d->height));
+    writer.writeEndElement();
 }
 
 void CutBlock::setBlockName(const QString &arg)
@@ -195,77 +160,19 @@ void CutBlock::setHeight(double arg)
 
 void CutBlock::setX(double arg)
 {
-    setTransformationMatrix(arg, y(), rotation());
+    Q_D(CutBlock);
+    if (!qFuzzyCompare(d->height, arg)) {
+        d->height = arg;
+        emit heightChanged(d->height);
+    }
 }
 
 void CutBlock::setY(double arg)
 {
-    setTransformationMatrix(x(), arg, rotation());
-}
-
-void CutBlock::setRotation(double arg)
-{
-    setTransformationMatrix(x(), y(), arg);
-}
-
-void CutBlock::setTransformationMatrix(const QString &arg)
-{
     Q_D(CutBlock);
-    if (d->transformationMatrix != arg) {
-        QStringList transformationMatrix = arg.split(QStringLiteral(" "), QString::SkipEmptyParts);
-        double x = 0.0;
-        double y = 0.0;
-        double rotation = d->rotationFromTransformationMatrix(arg);
-        if (transformationMatrix.count() == 6) {
-            x = transformationMatrix.at(4).toDouble();
-            y = transformationMatrix.at(5).toDouble();
-        }
-
-        d->setX(x);
-        d->setY(y);
-        d->setRotation(rotation);
-        d->transformationMatrix = arg;
-        emit transformationMatrixChanged(d->transformationMatrix);
-    }
-}
-
-void CutBlock::setTransformationMatrix(double x, double y, double rotation)
-{
-    Q_D(CutBlock);
-    setTransformationMatrix(QStringLiteral("%1 %2 %3")
-                                .arg(d->createRotationMatrixString(rotation))
-                                .arg(x, 0, 'f', 4, QLatin1Char(' '))
-                                .arg(y, 0, 'f', 4, QLatin1Char(' ')));
-}
-
-void CutBlock::normalizeTransformation()
-{
-    Q_D_CONST(CutBlock);
-    QStringList transformationMatrixList = d->transformationMatrix.split(QStringLiteral(" "), QString::SkipEmptyParts);
-    if (transformationMatrixList.count() < 4)
-        return;
-    double matrix[4] = {transformationMatrixList.at(0).toDouble(), transformationMatrixList.at(1).toDouble(),
-                        transformationMatrixList.at(2).toDouble(), transformationMatrixList.at(3).toDouble()};
-
-    // TODO: add proper support for all kind of matrices, not only for rotations and 0;-1;-1;0/0;1;1;0
-    // Useful tool for matrices visualization - https://shadanan.github.io/MatVis/
-
-    // We consider matrix _;-x;x;_ as normalized one, i.e. it describes rotation, not shearing
-    if (qFuzzyIsNull(matrix[1]) || qFuzzyCompare(matrix[1], matrix[2] * -1.0))
-        return;
-
-    if (qFuzzyCompare(matrix[1], -1)) {
-        auto newWidth = height();
-        auto hewHeight = width();
-        setWidth(newWidth);
-        setHeight(hewHeight);
-        setTransformationMatrix(x(), y(), 180.0);
-    } else if (qFuzzyCompare(matrix[1], 1)) {
-        auto newWidth = height();
-        auto hewHeight = width();
-        setWidth(newWidth);
-        setHeight(hewHeight);
-        setTransformationMatrix(x(), y(), 0.0);
+    if (!qFuzzyCompare(d->height, arg)) {
+        d->height = arg;
+        emit heightChanged(d->height);
     }
 }
 
@@ -275,65 +182,8 @@ void CutBlock::updateSelf(const Proof::NetworkDataEntitySP &other)
     setBlockName(castedOther->blockName());
     setWidth(castedOther->width());
     setHeight(castedOther->height());
-    setTransformationMatrix(castedOther->transformationMatrix());
+    setX(castedOther->x());
+    setY(castedOther->y());
 
     XJdfAbstractNode::updateSelf(other);
-}
-
-void CutBlockPrivate::setX(double arg)
-{
-    Q_Q(CutBlock);
-    if (!qFuzzyCompare(x, arg)) {
-        x = arg;
-        emit q->xChanged(x);
-    }
-}
-
-void CutBlockPrivate::setY(double arg)
-{
-    Q_Q(CutBlock);
-    if (!qFuzzyCompare(y, arg)) {
-        y = arg;
-        emit q->yChanged(y);
-    }
-}
-
-void CutBlockPrivate::setRotation(double arg)
-{
-    Q_Q(CutBlock);
-    if (!qFuzzyCompare(rotation, arg)) {
-        rotation = arg;
-        emit q->rotationChanged(rotation);
-    }
-}
-
-QString CutBlockPrivate::createRotationMatrixString(double angle)
-{
-    if (angle < 0)
-        angle += 360;
-    double radian = (angle * PI) / 180;
-
-    return QStringLiteral("%1 %2 %3 %4")
-        .arg(qRound(std::cos(radian)))
-        .arg(qRound(-std::sin(radian)))
-        .arg(qRound(std::sin(radian)))
-        .arg(qRound(std::cos(radian)));
-}
-
-double CutBlockPrivate::rotationFromTransformationMatrix(const QString &transformationMatrix)
-{
-    QStringList transformationMatrixList = transformationMatrix.split(QStringLiteral(" "), QString::SkipEmptyParts);
-    double cutBlockRotation = 0.0;
-    if (transformationMatrixList.count() == 6) {
-        double matrix[4] = {transformationMatrixList.at(0).toDouble(), transformationMatrixList.at(1).toDouble(),
-                            transformationMatrixList.at(2).toDouble(), transformationMatrixList.at(3).toDouble()};
-        if (!qFuzzyIsNull(matrix[0])) {
-            cutBlockRotation = std::acos(matrix[0]) * 180 / PI;
-        } else {
-            cutBlockRotation = std::asin(matrix[2]) * 180 / PI;
-        }
-    }
-    if (cutBlockRotation < 0)
-        cutBlockRotation += 360;
-    return cutBlockRotation;
 }

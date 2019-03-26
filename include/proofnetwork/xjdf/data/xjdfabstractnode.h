@@ -48,12 +48,12 @@ public:
 
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
-    virtual bool fillFromXJdf(QXmlStreamReader &xjdfReader);
-    virtual void readAttributesFromXJdf(QXmlStreamReader &xjdfReader);
-    virtual void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const = 0;
+    virtual bool fillFromXJdf(QXmlStreamReader &reader);
+    virtual void readAttributesFromXJdf(QXmlStreamReader &reader);
+    virtual void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const = 0;
 
 protected:
-    XJdfAbstractNode();
+    explicit XJdfAbstractNode();
     explicit XJdfAbstractNode(XJdfAbstractNodePrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };

@@ -52,19 +52,19 @@ public:
 
     static ProductSP create(const QString &id);
 
-    static ProductSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static ProductSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void idChanged(const QString &arg);
     void externalIdChanged(const QString &arg);
     void amountChanged(qulonglong arg);
     void isRootChanged(bool arg);
-    void typeChanged(ProductType arg);
-    void intentsChanged(const QVector<IntentSP> &arg);
+    void typeChanged(Proof::XJdf::ProductType arg);
+    void intentsChanged(const QVector<Proof::XJdf::IntentSP> &arg);
 
 protected:
-    Product(const QString &id);
+    explicit Product(const QString &id);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

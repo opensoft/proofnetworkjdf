@@ -28,15 +28,15 @@ public:
 
     static AuditCreatedSP create();
 
-    static AuditCreatedSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static AuditCreatedSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void templateIdChanged(const QString &arg);
     void templateVersionChanged(const QString &arg);
 
 protected:
-    AuditCreated();
+    explicit AuditCreated();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

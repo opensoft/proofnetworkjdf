@@ -33,9 +33,9 @@ class AuditNotificationPrivate : public AuditAbstractItemPrivate
 {
     Q_DECLARE_PUBLIC(AuditNotification)
 public:
-    AuditNotificationPrivate() {}
+    AuditNotificationPrivate() = default;
 
-    Severity severityClass;
+    Severity severityClass = Severity::Event;
 };
 
 } // namespace XJdf
@@ -66,38 +66,38 @@ AuditNotificationSP AuditNotification::create()
     return result;
 }
 
-AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &xjdfReader)
+AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader)
 {
     AuditNotificationSP notification = create();
-    xjdfReader.readNextStartElement();
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.isStartElement()) {
-            if (xjdfReader.name() == "Header") {
-                notification->readAttributesFromXJdf(xjdfReader);
-            } else if (xjdfReader.name() == "Notification") {
-                notification->setSeverityClass(severityFromString(xjdfReader.attributes().value("Class").toString()));
+    reader.readNextStartElement();
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.isStartElement()) {
+            if (reader.name() == QStringLiteral("Header")) {
+                notification->readAttributesFromXJdf(reader);
+            } else if (reader.name() == QStringLiteral("Notification")) {
+                notification->setSeverityClass(severityFromString(reader.attributes().value("Class").toString()));
             }
-        } else if (xjdfReader.isEndElement()) {
-            if (xjdfReader.name() == "AuditNotification")
+        } else if (reader.isEndElement()) {
+            if (reader.name() == QStringLiteral("AuditNotification"))
                 break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
     notification->setFetched(true);
     return notification;
 }
 
-void AuditNotification::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void AuditNotification::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(AuditNotification);
-    xjdfWriter.writeStartElement("AuditCreated");
-    xjdfWriter.writeStartElement("Header");
-    AuditAbstractItem::toXJdf(xjdfWriter);
-    xjdfWriter.writeEndElement();
-    xjdfWriter.writeStartElement("Notification");
-    xjdfWriter.writeAttribute("Class", severityToString(d->severityClass));
-    xjdfWriter.writeEndElement();
-    xjdfWriter.writeEndElement();
+    writer.writeStartElement(QStringLiteral("AuditCreated"));
+    writer.writeStartElement(QStringLiteral("Header"));
+    AuditAbstractItem::toXJdf(writer);
+    writer.writeEndElement();
+    writer.writeStartElement(QStringLiteral("Notification"));
+    writer.writeAttribute(QStringLiteral("Class"), severityToString(d->severityClass));
+    writer.writeEndElement();
+    writer.writeEndElement();
 }
 
 AuditNotification::AuditNotification() : AuditAbstractItem(*new AuditNotificationPrivate)

@@ -52,43 +52,43 @@ bool Intent::fillFromXJdf(QXmlStreamReader &)
     return false;
 }
 
-void Intent::readAttributesFromXJdf(QXmlStreamReader &xjdfReader)
+void Intent::readAttributesFromXJdf(QXmlStreamReader &reader)
 {
-    auto attributes = xjdfReader.attributes();
-    if (attributes.hasAttribute("Name")) {
-        auto name = attributes.value("name").toString();
+    auto attributes = reader.attributes();
+    if (attributes.hasAttribute(QStringLiteral("Name"))) {
+        auto name = attributes.value(QStringLiteral("Name")).toString();
         setName(name);
     }
 }
 
-void Intent::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void Intent::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
 {
     Q_D_CONST(Intent);
     if (writeEnd) {
-        xjdfWriter.writeEndElement();
+        writer.writeEndElement();
         return;
     }
 
-    xjdfWriter.writeStartElement("Intent");
+    writer.writeStartElement(QStringLiteral("Intent"));
     if (!d->name.isEmpty())
-        xjdfWriter.writeAttribute("Name", d->name);
+        writer.writeAttribute(QStringLiteral("Name"), d->name);
 }
 
-IntentSP Intent::fromXJdf(QXmlStreamReader &xjdfReader)
+IntentSP Intent::fromXJdf(QXmlStreamReader &reader)
 {
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "Intent") {
-        auto attributes = xjdfReader.attributes();
+    if (reader.isStartElement() && reader.name() == QStringLiteral("Intent")) {
+        auto attributes = reader.attributes();
         QString name;
-        if (attributes.hasAttribute("Name"))
-            name = attributes.value("Name").toString();
+        if (attributes.hasAttribute(QStringLiteral("Name")))
+            name = attributes.value(QStringLiteral("Name")).toString();
 
-        xjdfReader.readNextStartElement();
-        if (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            auto creator = intentCreator(xjdfReader.name().toString());
+        reader.readNextStartElement();
+        if (!reader.atEnd() && !reader.hasError()) {
+            auto creator = intentCreator(reader.name().toString());
             if (creator) {
-                auto intent = creator(xjdfReader);
+                auto intent = creator(reader);
                 intent->setName(name);
-                xjdfReader.skipCurrentElement();
+                reader.skipCurrentElement();
                 return intent;
             }
         }

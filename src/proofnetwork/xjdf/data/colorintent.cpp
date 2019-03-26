@@ -64,10 +64,10 @@ void ColorIntent::setCoatings(const QMap<Side, QVector<CoatingType>> &arg)
     emit coatingsChanged(d->coatings);
 }
 
-void ColorIntent::addCoating(Side side, CoatingType type)
+void ColorIntent::addCoating(Side side, CoatingType arg)
 {
     Q_D(ColorIntent);
-    d->coatings[side] << type;
+    d->coatings[side] << arg;
     emit coatingsChanged(d->coatings);
 }
 
@@ -93,30 +93,30 @@ ColorIntentSP ColorIntent::create()
     return result;
 }
 
-ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &xjdfReader)
+ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader)
 {
     ColorIntentSP intent;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "ColorIntent") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("ColorIntent")) {
         intent = create();
         QMap<Side, QVector<CoatingType>> coatings;
         QMap<Side, bool> spots;
-        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            if (xjdfReader.isStartElement() && xjdfReader.name() == "SurfaceColor") {
-                auto attributes = xjdfReader.attributes();
-                auto side = sideTypeFromString(attributes.value("Surface").toString());
-                auto coatingsVector = algorithms::map(attributes.value("Coatings").toString().split(' '),
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("SurfaceColor")) {
+                auto attributes = reader.attributes();
+                auto side = sideTypeFromString(attributes.value(QStringLiteral("Surface")).toString());
+                auto coatingsVector = algorithms::map(attributes.value(QStringLiteral("Coatings")).toString().split(' '),
                                                       [](const QString &coating) {
                                                           return coatingTypeFromString(coating);
                                                       },
                                                       QVector<CoatingType>());
-                auto spot = !attributes.value("ColorsUsed").toString().isEmpty();
+                auto spot = !attributes.value(QStringLiteral("ColorsUsed")).toString().isEmpty();
 
                 coatings[side] = coatingsVector;
                 spots[side] = spot;
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "ColorIntent") {
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("ColorIntent")) {
                 break;
             }
-            xjdfReader.readNext();
+            reader.readNext();
         }
         intent->setCoatings(coatings);
         intent->setSpots(spots);
@@ -125,30 +125,30 @@ ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &xjdfReader)
     return intent;
 }
 
-void ColorIntent::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void ColorIntent::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(ColorIntent);
-    Intent::toXJdf(xjdfWriter);
-    xjdfWriter.writeStartElement(QStringLiteral("ColorIntent"));
+    Intent::toXJdf(writer);
+    writer.writeStartElement(QStringLiteral("ColorIntent"));
 
     for (auto it = d->coatings.begin(); it != d->coatings.end(); ++it) {
-        xjdfWriter.writeStartElement(QStringLiteral("SurfaceColor"));
-        xjdfWriter.writeAttribute("Side", sideTypeToString(it.key()));
+        writer.writeStartElement(QStringLiteral("SurfaceColor"));
+        writer.writeAttribute(QStringLiteral("Side"), sideTypeToString(it.key()));
 
         auto coatings = algorithms::map(it.value(), [](const auto &coating) { return coatingTypeToString(coating); },
                                         QStringList())
                             .join(' ');
 
-        xjdfWriter.writeAttribute("Coatings", coatings);
+        writer.writeAttribute(QStringLiteral("Coatings"), coatings);
         if (d->spots.contains(it.key()) && d->spots[it.key()])
-            xjdfWriter.writeAttribute("ColorsUsed", "Spot");
+            writer.writeAttribute(QStringLiteral("ColorsUsed"), QStringLiteral("Spot"));
 
-        xjdfWriter.writeAttribute("Surface", sideTypeToString(it.key()));
-        xjdfWriter.writeEndElement();
+        writer.writeAttribute(QStringLiteral("Surface"), sideTypeToString(it.key()));
+        writer.writeEndElement();
     }
 
-    xjdfWriter.writeEndElement();
-    xjdfWriter.writeEndElement();
+    writer.writeEndElement();
+    writer.writeEndElement();
 }
 
 ColorIntent::ColorIntent() : Intent(*new ColorIntentPrivate)

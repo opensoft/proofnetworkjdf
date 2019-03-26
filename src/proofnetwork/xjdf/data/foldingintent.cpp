@@ -66,27 +66,27 @@ FoldingIntentSP FoldingIntent::create()
     return result;
 }
 
-FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &xjdfReader)
+FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader)
 {
     FoldingIntentSP intent;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "FoldingIntent") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("FoldingIntent")) {
         intent = create();
-        auto catalog = foldTypeFromString(xjdfReader.attributes().value("FoldCatalog").toString());
+        auto catalog = foldTypeFromString(reader.attributes().value(QStringLiteral("FoldCatalog")).toString());
         intent->setFoldCatalog(catalog);
         intent->setFetched(true);
-        xjdfReader.skipCurrentElement();
+        reader.skipCurrentElement();
     }
     return intent;
 }
 
-void FoldingIntent::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void FoldingIntent::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(FoldingIntent);
-    Intent::toXJdf(xjdfWriter);
-    xjdfWriter.writeStartElement(QStringLiteral("FoldingIntent"));
-    xjdfWriter.writeAttribute("FoldCatalog", foldTypeToString(d->foldingCatalog));
-    xjdfWriter.writeEndElement();
-    xjdfWriter.writeEndElement();
+    Intent::toXJdf(writer);
+    writer.writeStartElement(QStringLiteral("FoldingIntent"));
+    writer.writeAttribute(QStringLiteral("FoldCatalog"), foldTypeToString(d->foldingCatalog));
+    writer.writeEndElement();
+    writer.writeEndElement();
 }
 
 FoldingIntent::FoldingIntent() : Intent(*new FoldingIntentPrivate)

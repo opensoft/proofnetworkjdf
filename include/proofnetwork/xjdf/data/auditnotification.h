@@ -25,14 +25,14 @@ public:
 
     static AuditNotificationSP create();
 
-    static AuditNotificationSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static AuditNotificationSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void severityClassChanged(Severity severity);
+    void severityClassChanged(Proof::XJdf::Severity severity);
 
 protected:
-    AuditNotification();
+    explicit AuditNotification();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

@@ -36,7 +36,7 @@ class ResourceSetPrivate : public XJdfAbstractNodePrivate
 
     QString name;
     QVector<qulonglong> combinedProcessIndexes;
-    UsageType usage;
+    UsageType usage = UsageType::NoUsageType;
     QVector<ResourceSP> resources;
 };
 
@@ -109,41 +109,41 @@ ResourceSetSP ResourceSet::create()
     return result;
 }
 
-ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &xjdfReader)
+ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader)
 {
     ResourceSetSP resourceSet = create();
 
     QVector<ResourceSP> resourceList;
 
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.name() == "ResourceSet" && xjdfReader.isStartElement() && !resourceSet->isFetched()) {
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.name() == QStringLiteral("ResourceSet") && reader.isStartElement() && !resourceSet->isFetched()) {
             resourceSet->setFetched(true);
-            auto attributes = xjdfReader.attributes();
-            if (attributes.hasAttribute("Name"))
-                resourceSet->setName(attributes.value("Name").toString());
-            if (attributes.hasAttribute("Usage"))
-                resourceSet->setUsage(usageTypeFromString(attributes.value("Usage").toString()));
-            if (attributes.hasAttribute("CombinedProcessIndex")) {
-                auto indexesString = attributes.value("CombinedProcessIndex").toString();
+            auto attributes = reader.attributes();
+            if (attributes.hasAttribute(QStringLiteral("Name")))
+                resourceSet->setName(attributes.value(QStringLiteral("Name")).toString());
+            if (attributes.hasAttribute(QStringLiteral("Usage")))
+                resourceSet->setUsage(usageTypeFromString(attributes.value(QStringLiteral("Usage")).toString()));
+            if (attributes.hasAttribute(QStringLiteral("CombinedProcessIndex"))) {
+                auto indexesString = attributes.value(QStringLiteral("CombinedProcessIndex")).toString();
                 auto indexes = algorithms::map(indexesString.split(' '),
                                                [](const auto &index) { return index.toULongLong(); },
                                                QVector<qulonglong>());
                 resourceSet->setCombinedProcessIndexes(indexes);
             }
-        } else if (xjdfReader.isStartElement()) {
-            if (xjdfReader.name() == "Resource") {
-                ResourceSP resource = Resource::fromXJdf(xjdfReader);
+        } else if (reader.isStartElement()) {
+            if (reader.name() == QStringLiteral("Resource")) {
+                ResourceSP resource = Resource::fromXJdf(reader);
                 if (!resource) {
                     qCWarning(proofNetworkXJdfDataLog) << "ResourcSet not created. XML is invalid.";
                     return ResourceSetSP();
                 }
                 resourceList.append(resource);
             }
-        } else if (xjdfReader.isEndElement()) {
-            if (xjdfReader.name() == "ResourceSet")
+        } else if (reader.isEndElement()) {
+            if (reader.name() == QStringLiteral("ResourceSet"))
                 break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
 
     resourceSet->setResources(resourceList);
@@ -151,18 +151,18 @@ ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &xjdfReader)
     return resourceSet;
 }
 
-void ResourceSet::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void ResourceSet::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(ResourceSet);
 
-    xjdfWriter.writeStartElement(QStringLiteral("ResourceSet"));
+    writer.writeStartElement(QStringLiteral("ResourceSet"));
 
     for (const ResourceSP &resource : qAsConst(d->resources)) {
         if (isValidAndDirty(resource))
-            resource->toXJdf(xjdfWriter);
+            resource->toXJdf(writer);
     }
 
-    xjdfWriter.writeEndElement();
+    writer.writeEndElement();
 }
 
 void ResourceSet::setResources(const QVector<ResourceSP> &arg)

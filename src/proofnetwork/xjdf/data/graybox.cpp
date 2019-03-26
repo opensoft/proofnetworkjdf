@@ -67,32 +67,32 @@ void GrayBox::addResourceSet(const ResourceSetSP &arg)
     emit resourceSetsChanged(d->resourceSets);
 }
 
-bool GrayBox::fillFromXJdf(QXmlStreamReader &xjdfReader)
+bool GrayBox::fillFromXJdf(QXmlStreamReader &reader)
 {
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "ResourceSet") {
-        auto resourceSet = ResourceSet::fromXJdf(xjdfReader);
+    if (reader.isStartElement() && reader.name() == QStringLiteral("ResourceSet")) {
+        auto resourceSet = ResourceSet::fromXJdf(reader);
         if (resourceSet)
             addResourceSet(resourceSet);
-        xjdfReader.readNext();
+        reader.readNext();
         return true;
     }
     return false;
 }
 
-void GrayBox::readAttributesFromXJdf(QXmlStreamReader &xjdfReader)
+void GrayBox::readAttributesFromXJdf(QXmlStreamReader &reader)
 {
-    auto types = xjdfReader.attributes().value("Types").toString().split(' ');
+    auto types = reader.attributes().value(QStringLiteral("Types")).toString().split(' ');
     setTypes(algorithms::map(types, [](const auto &type) { return processTypeFromString(type); }, QVector<ProcessType>()));
 }
 
-void GrayBox::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void GrayBox::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(GrayBox);
     QStringList types = algorithms::map(d->types, [](ProcessType type) { return processTypeToString(type); },
                                         QStringList());
-    xjdfWriter.writeAttribute("Types", types.join(" "));
+    writer.writeAttribute(QStringLiteral("Types"), types.join(" "));
     for (const auto &set : d->resourceSets)
-        set->toXJdf(xjdfWriter);
+        set->toXJdf(writer);
 }
 
 GrayBox::GrayBox() : GrayBox(*new GrayBoxPrivate)

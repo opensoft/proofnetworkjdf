@@ -70,19 +70,19 @@ AmountPoolSP AmountPool::create()
     return result;
 }
 
-AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &xjdfReader)
+AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader)
 {
     AmountPoolSP pool;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "AmountPool") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
         pool = create();
         QVector<PartAmountSP> parts;
-        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            if (xjdfReader.isStartElement() && xjdfReader.name() == "PartAmount") {
-                parts << PartAmount::fromXJdf(xjdfReader);
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "AmountPool") {
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
+                parts << PartAmount::fromXJdf(reader);
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("AmountPool")) {
                 break;
             }
-            xjdfReader.readNext();
+            reader.readNext();
         }
         pool->setParts(parts);
         pool->setFetched(true);
@@ -90,13 +90,13 @@ AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &xjdfReader)
     return pool;
 }
 
-void AmountPool::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void AmountPool::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(AmountPool);
-    xjdfWriter.writeStartElement(QStringLiteral("AmountPool"));
+    writer.writeStartElement(QStringLiteral("AmountPool"));
     for (const auto &part : d->parts)
-        part->toXJdf(xjdfWriter);
-    xjdfWriter.writeEndElement();
+        part->toXJdf(writer);
+    writer.writeEndElement();
 }
 
 AmountPool::AmountPool() : XJdfAbstractNode(*new AmountPoolPrivate)

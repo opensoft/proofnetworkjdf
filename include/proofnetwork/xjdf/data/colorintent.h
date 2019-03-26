@@ -24,22 +24,22 @@ public:
     QMap<Side, bool> spots() const;
 
     void setCoatings(const QMap<Side, QVector<CoatingType>> &arg);
-    void addCoating(Side side, CoatingType type);
+    void addCoating(Side side, CoatingType arg);
 
     void setSpots(const QMap<Side, bool> &arg);
     void addSpot(Side side, bool arg);
 
     static ColorIntentSP create();
 
-    static ColorIntentSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static ColorIntentSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void coatingsChanged(const QMap<Side, QVector<CoatingType>> &arg);
-    void spotsChanged(const QMap<Side, bool> &arg);
+    void coatingsChanged(const QMap<Proof::XJdf::Side, QVector<Proof::XJdf::CoatingType>> &arg);
+    void spotsChanged(const QMap<Proof::XJdf::Side, bool> &arg);
 
 protected:
-    ColorIntent();
+    explicit ColorIntent();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

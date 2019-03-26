@@ -97,14 +97,14 @@ MediaSP Media::create(const QString &id)
     return result;
 }
 
-MediaSP Media::fromXJdf(QXmlStreamReader &xjdfReader)
+MediaSP Media::fromXJdf(QXmlStreamReader &reader)
 {
     MediaSP media;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "Media") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("Media")) {
         media = create();
         media->setFetched(true);
-        auto attributes = xjdfReader.attributes();
-        xjdfReader.skipCurrentElement();
+        auto attributes = reader.attributes();
+        reader.skipCurrentElement();
         if (attributes.hasAttribute(QStringLiteral("Dimension"))) {
             auto dimension = attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
             if (dimension.count() < 2)
@@ -118,15 +118,15 @@ MediaSP Media::fromXJdf(QXmlStreamReader &xjdfReader)
     return media;
 }
 
-void Media::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void Media::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
 {
     Q_D_CONST(Media);
-    Resource::toXJdf(xjdfWriter);
-    xjdfWriter.writeStartElement(QStringLiteral("Media"));
-    xjdfWriter.writeAttribute("Dimension", QString("%1 %2").arg(d->width).arg(d->height));
-    xjdfWriter.writeAttribute("Thickness", QString::number(d->thickness));
-    xjdfWriter.writeEndElement();
-    Resource::toXJdf(xjdfWriter, true);
+    Resource::toXJdf(writer);
+    writer.writeStartElement(QStringLiteral("Media"));
+    writer.writeAttribute(QStringLiteral("Dimension"), QString("%1 %2").arg(d->width).arg(d->height));
+    writer.writeAttribute(QStringLiteral("Thickness"), QString::number(d->thickness));
+    writer.writeEndElement();
+    Resource::toXJdf(writer, true);
 }
 
 Media::Media(const QString &id) : Resource(*new MediaPrivate, id)

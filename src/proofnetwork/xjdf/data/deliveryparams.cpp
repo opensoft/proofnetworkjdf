@@ -84,20 +84,21 @@ DeliveryParamsSP DeliveryParams::create()
     return result;
 }
 
-DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &xjdfReader)
+DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader)
 {
     DeliveryParamsSP params;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "DeliveryParams") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("DeliveryParams")) {
         params = create();
-        params->setRequired(QDateTime::fromString(xjdfReader.attributes().value("Required").toString(), Qt::ISODate));
+        params->setRequired(
+            QDateTime::fromString(reader.attributes().value(QStringLiteral("Required")).toString(), Qt::ISODate));
         QVector<DropItemSP> items;
-        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            if (xjdfReader.isStartElement() && xjdfReader.name() == "DropItem") {
-                items << DropItem::fromXJdf(xjdfReader);
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "DeliveryParams") {
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("DropItem")) {
+                items << DropItem::fromXJdf(reader);
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("DeliveryParams")) {
                 break;
             }
-            xjdfReader.readNext();
+            reader.readNext();
         }
         params->setItems(items);
         params->setFetched(true);
@@ -105,15 +106,15 @@ DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &xjdfReader)
     return params;
 }
 
-void DeliveryParams::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void DeliveryParams::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(DeliveryParams);
-    Resource::toXJdf(xjdfWriter);
-    xjdfWriter.writeStartElement(QStringLiteral("DeliveryParams"));
+    Resource::toXJdf(writer);
+    writer.writeStartElement(QStringLiteral("DeliveryParams"));
     for (const auto &item : d->items)
-        item->toXJdf(xjdfWriter);
-    xjdfWriter.writeEndElement();
-    Resource::toXJdf(xjdfWriter, true);
+        item->toXJdf(writer);
+    writer.writeEndElement();
+    Resource::toXJdf(writer, true);
 }
 
 DeliveryParams::DeliveryParams() : Resource(*new DeliveryParamsPrivate)

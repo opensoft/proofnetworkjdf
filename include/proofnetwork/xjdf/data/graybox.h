@@ -27,16 +27,16 @@ public:
     void setResourceSets(const QVector<ResourceSetSP> &arg);
     void addResourceSet(const ResourceSetSP &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    bool fillFromXJdf(QXmlStreamReader &reader) override;
+    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void typesChanged(const QVector<ProcessType> &arg);
-    void resourceSetsChanged(const QVector<ResourceSetSP> &arg);
+    void typesChanged(const QVector<Proof::XJdf::ProcessType> &arg);
+    void resourceSetsChanged(const QVector<Proof::XJdf::ResourceSetSP> &arg);
 
 protected:
-    GrayBox();
+    explicit GrayBox();
     explicit GrayBox(GrayBoxPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
 };

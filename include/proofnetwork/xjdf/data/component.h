@@ -33,17 +33,17 @@ public:
     void setHeight(double arg);
     void setThickness(double arg);
 
-    static ComponentSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static ComponentSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void mediaRefChanged(const MediaSP &arg);
+    void mediaRefChanged(const Proof::XJdf::MediaSP &arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
     void thicknessChanged(double arg);
 
 protected:
-    Component();
+    explicit Component();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

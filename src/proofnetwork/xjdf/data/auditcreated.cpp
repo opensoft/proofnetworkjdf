@@ -33,7 +33,7 @@ class AuditCreatedPrivate : public AuditAbstractItemPrivate
 {
     Q_DECLARE_PUBLIC(AuditCreated)
 public:
-    AuditCreatedPrivate() {}
+    AuditCreatedPrivate() = default;
     QString templateId;
     QString templateVersion;
 };
@@ -81,38 +81,38 @@ AuditCreatedSP AuditCreated::create()
     return result;
 }
 
-AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &xjdfReader)
+AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader)
 {
     AuditCreatedSP created = create();
-    xjdfReader.readNextStartElement();
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.isStartElement()) {
-            if (xjdfReader.name() == "Header") {
-                created->readAttributesFromXJdf(xjdfReader);
-                auto attributes = xjdfReader.attributes();
-                created->setTemplateId(attributes.value("profit:TemplateID").toString());
-                created->setTemplateVersion(attributes.value("profit:TemplateVersion").toString());
+    reader.readNextStartElement();
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.isStartElement()) {
+            if (reader.name() == QStringLiteral("Header")) {
+                created->readAttributesFromXJdf(reader);
+                auto attributes = reader.attributes();
+                created->setTemplateId(attributes.value(QStringLiteral("profit:TemplateID")).toString());
+                created->setTemplateVersion(attributes.value(QStringLiteral("profit:TemplateVersion")).toString());
             }
-        } else if (xjdfReader.isEndElement()) {
-            if (xjdfReader.name() == "AuditCreated")
+        } else if (reader.isEndElement()) {
+            if (reader.name() == QStringLiteral("AuditCreated"))
                 break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
     created->setFetched(true);
     return created;
 }
 
-void AuditCreated::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void AuditCreated::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
 {
     Q_D_CONST(AuditCreated);
-    xjdfWriter.writeStartElement("AuditCreated");
-    xjdfWriter.writeStartElement("Header");
-    xjdfWriter.writeAttribute("profit:TemplateID", d->templateId);
-    xjdfWriter.writeAttribute("profit:TemplateVersion", d->templateVersion);
-    AuditAbstractItem::toXJdf(xjdfWriter);
-    xjdfWriter.writeEndElement();
-    xjdfWriter.writeEndElement();
+    writer.writeStartElement(QStringLiteral("AuditCreated"));
+    writer.writeStartElement(QStringLiteral("Header"));
+    writer.writeAttribute(QStringLiteral("profit:TemplateID"), d->templateId);
+    writer.writeAttribute(QStringLiteral("profit:TemplateVersion"), d->templateVersion);
+    AuditAbstractItem::toXJdf(writer);
+    writer.writeEndElement();
+    writer.writeEndElement();
 }
 
 AuditCreated::AuditCreated() : AuditAbstractItem(*new AuditCreatedPrivate)

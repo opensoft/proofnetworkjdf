@@ -25,13 +25,13 @@ public:
 
     static FoldingIntentSP create();
 
-    static FoldingIntentSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static FoldingIntentSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 signals:
-    void foldCatalogChanged(FoldType type);
+    void foldCatalogChanged(Proof::XJdf::FoldType type);
 
 protected:
-    FoldingIntent();
+    explicit FoldingIntent();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

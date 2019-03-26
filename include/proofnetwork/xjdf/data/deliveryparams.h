@@ -29,15 +29,15 @@ public:
 
     static DeliveryParamsSP create();
 
-    static DeliveryParamsSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void requiredChanged(const QDateTime &arg) const;
-    void itemsChanged(const QVector<DropItemSP> &arg) const;
+    void requiredChanged(const QDateTime &arg);
+    void itemsChanged(const QVector<Proof::XJdf::DropItemSP> &arg);
 
 protected:
-    DeliveryParams();
+    explicit DeliveryParams();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

@@ -66,26 +66,26 @@ PartAmountSP PartAmount::create()
     return result;
 }
 
-PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &xjdfReader)
+PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader)
 {
     PartAmountSP part;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "PartAmount") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
         part = create();
         part->setFetched(true);
-        auto attributes = xjdfReader.attributes();
+        auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Amount")))
             part->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
     }
-    xjdfReader.skipCurrentElement();
+    reader.skipCurrentElement();
     return part;
 }
 
-void PartAmount::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void PartAmount::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(PartAmount);
-    xjdfWriter.writeStartElement(QStringLiteral("PartAmount"));
-    xjdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
-    xjdfWriter.writeEndElement();
+    writer.writeStartElement(QStringLiteral("PartAmount"));
+    writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
+    writer.writeEndElement();
 }
 
 PartAmount::PartAmount() : XJdfAbstractNode(*new PartAmountPrivate)

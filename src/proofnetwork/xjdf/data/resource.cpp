@@ -102,9 +102,9 @@ bool Resource::fillFromXJdf(QXmlStreamReader &)
     return false;
 }
 
-void Resource::readAttributesFromXJdf(QXmlStreamReader &xjdfReader)
+void Resource::readAttributesFromXJdf(QXmlStreamReader &reader)
 {
-    auto attributes = xjdfReader.attributes();
+    auto attributes = reader.attributes();
     if (attributes.hasAttribute("ID")) {
         auto id = attributes.value("ID").toString();
         setId(id);
@@ -115,26 +115,26 @@ void Resource::readAttributesFromXJdf(QXmlStreamReader &xjdfReader)
     }
 }
 
-void Resource::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void Resource::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
 {
     Q_D_CONST(Resource);
     if (writeEnd) {
-        xjdfWriter.writeEndElement();
+        writer.writeEndElement();
         return;
     }
 
-    xjdfWriter.writeStartElement("Resource");
+    writer.writeStartElement(QStringLiteral("Resource"));
     if (!d->id.isEmpty())
-        xjdfWriter.writeAttribute("ID", d->id);
+        writer.writeAttribute(QStringLiteral("ID"), d->id);
     if (d->orientation != ResourceOrientation::Rotate0Orientation)
-        xjdfWriter.writeAttribute("Orientation", resourceOrientationToString(d->orientation));
+        writer.writeAttribute(QStringLiteral("Orientation"), resourceOrientationToString(d->orientation));
     for (const auto &part : d->parts)
-        part->toXJdf(xjdfWriter);
+        part->toXJdf(writer);
     if (d->amountPool)
-        d->amountPool->toXJdf(xjdfWriter);
+        d->amountPool->toXJdf(writer);
 }
 
-ResourceSP Resource::fromXJdf(QXmlStreamReader &xjdfReader)
+ResourceSP Resource::fromXJdf(QXmlStreamReader &reader)
 {
     ResourceSP resource;
     QVector<PartSP> parts;
@@ -142,32 +142,32 @@ ResourceSP Resource::fromXJdf(QXmlStreamReader &xjdfReader)
     QString id;
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
 
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "Resource") {
-        auto attributes = xjdfReader.attributes();
-        if (attributes.hasAttribute("ID"))
-            id = attributes.value("ID").toString();
-        if (attributes.hasAttribute("Orientation"))
-            orientation = resourceOrientationFromString(attributes.value("Orientation").toString());
-        xjdfReader.readNextStartElement();
+    if (reader.isStartElement() && reader.name() == QStringLiteral("Resource")) {
+        auto attributes = reader.attributes();
+        if (attributes.hasAttribute(QStringLiteral("ID")))
+            id = attributes.value(QStringLiteral("ID")).toString();
+        if (attributes.hasAttribute(QStringLiteral("Orientation")))
+            orientation = resourceOrientationFromString(attributes.value(QStringLiteral("Orientation")).toString());
+        reader.readNextStartElement();
 
-        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            if (xjdfReader.isStartElement() && xjdfReader.name() == "AmountPool") {
-                amountPool = AmountPool::fromXJdf(xjdfReader);
-            } else if (xjdfReader.isStartElement() && xjdfReader.name() == "Part") {
-                auto part = Part::fromXJdf(xjdfReader);
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
+                amountPool = AmountPool::fromXJdf(reader);
+            } else if (reader.isStartElement() && reader.name() == QStringLiteral("Part")) {
+                auto part = Part::fromXJdf(reader);
                 if (part)
                     parts << part;
-            } else if (xjdfReader.isStartElement()) {
-                auto creator = resourceCreator(xjdfReader.name().toString());
+            } else if (reader.isStartElement()) {
+                auto creator = resourceCreator(reader.name().toString());
                 if (creator) {
-                    resource = creator(xjdfReader);
-                    xjdfReader.readNext();
+                    resource = creator(reader);
+                    reader.readNext();
                     continue;
                 }
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "Resource") {
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("Resource")) {
                 break;
             }
-            xjdfReader.readNext();
+            reader.readNext();
         }
     }
 

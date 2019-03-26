@@ -24,16 +24,16 @@ public:
     QString name() const;
     void setName(const QString &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
-    static IntentSP fromXJdf(QXmlStreamReader &xjdfReader);
+    bool fillFromXJdf(QXmlStreamReader &reader) override;
+    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    static IntentSP fromXJdf(QXmlStreamReader &reader);
 
     template <class T>
     inline static void registerIntentCreator(const QString &name)
     {
-        addIntentCreator(name, [](QXmlStreamReader &xjdfReader) -> IntentSP {
-            return qSharedPointerCast<Intent>(T::fromXJdf(xjdfReader));
+        addIntentCreator(name, [](QXmlStreamReader &reader) -> IntentSP {
+            return qSharedPointerCast<Intent>(T::fromXJdf(reader));
         });
     }
 
@@ -41,7 +41,7 @@ signals:
     void nameChanged(const QString &name);
 
 protected:
-    Intent();
+    explicit Intent();
     explicit Intent(IntentPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
     static void addIntentCreator(const QString &name, std::function<IntentSP(QXmlStreamReader &)> &&creator);

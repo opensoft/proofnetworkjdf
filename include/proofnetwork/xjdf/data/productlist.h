@@ -46,13 +46,13 @@ public:
 
     QVector<ProductSP> products() const;
 
-    void setProducts(const QVector<ProductSP> &products);
+    void setProducts(const QVector<ProductSP> &arg);
     void addProduct(const ProductSP &arg);
 
     static ProductListSP create();
 
-    static ProductListSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static ProductListSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void productsChanged(const QVector<Proof::XJdf::ProductSP> &arg);

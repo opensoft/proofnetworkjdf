@@ -78,14 +78,14 @@ public:
 
     static ResourceSetSP create();
 
-    static ResourceSetSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static ResourceSetSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
-    void resourcesChanged(const QVector<ResourceSP> &resources);
+    void resourcesChanged(const QVector<Proof::XJdf::ResourceSP> &arg);
     void nameChanged(const QString &arg);
     void combinedProcessIndexesChanged(const QVector<qulonglong> &arg);
-    void usageChanged(UsageType type);
+    void usageChanged(Proof::XJdf::UsageType arg);
 
 protected:
     explicit ResourceSet();

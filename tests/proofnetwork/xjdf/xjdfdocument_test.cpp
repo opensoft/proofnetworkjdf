@@ -138,6 +138,9 @@ TEST_F(XJdfDocumentTest, fromXJdf)
     EXPECT_EQ("CuttingParams", resourceSet4->name());
     ASSERT_EQ(1, resourceSet4->resourcesByType<CuttingParams>().count());
     auto cuttingParams = resourceSet4->resourcesByType<CuttingParams>()[0];
+    ASSERT_EQ(4, cuttingParams->cutBlocks().count());
+    auto cutBlock = cuttingParams->cutBlocks()[0];
+    EXPECT_EQ("Block_1", cutBlock->blockName());
 
     auto resourceSet5 = xjdfDocUT->resourceSets()[4];
     EXPECT_EQ("Component", resourceSet5->name());

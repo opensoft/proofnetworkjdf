@@ -48,12 +48,12 @@ public:
 
     QVector<PartAmountSP> parts() const;
 
-    void setParts(const QVector<PartAmountSP> &parts);
+    void setParts(const QVector<PartAmountSP> &arg);
 
     static AmountPoolSP create();
 
-    static AmountPoolSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static AmountPoolSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void partsChanged(const QVector<Proof::XJdf::PartAmountSP> &arg);

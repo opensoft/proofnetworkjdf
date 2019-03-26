@@ -54,18 +54,18 @@ public:
 
     static XJdfDocumentSP create();
 
-    static XJdfDocumentSP fromXJdf(QXmlStreamReader &xjdfReader);
+    static XJdfDocumentSP fromXJdf(QXmlStreamReader &reader);
     static XJdfDocumentSP fromFile(const QString &filePath);
 
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
-    bool toFile(const QString fileName) const;
+    bool toFile(const QString &fileName) const;
 
 signals:
     void jobIdChanged(const QString &arg);
     void jobPartIdChanged(const QString &arg);
-    void auditPoolChanged(const AuditPoolSP &arg);
-    void productListChanged(const ProductListSP &arg);
+    void auditPoolChanged(const Proof::XJdf::AuditPoolSP &arg);
+    void productListChanged(const Proof::XJdf::ProductListSP &arg);
 
 protected:
     explicit XJdfDocument();

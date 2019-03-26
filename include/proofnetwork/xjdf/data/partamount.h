@@ -26,14 +26,14 @@ public:
 
     static PartAmountSP create();
 
-    static PartAmountSP fromXJdf(QXmlStreamReader &xjdfReader);
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    static PartAmountSP fromXJdf(QXmlStreamReader &reader);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void amountChanged(qulonglong arg);
 
 protected:
-    PartAmount();
+    explicit PartAmount();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

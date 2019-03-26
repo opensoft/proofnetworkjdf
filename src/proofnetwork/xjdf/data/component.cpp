@@ -114,12 +114,12 @@ void Component::setThickness(double arg)
     }
 }
 
-ComponentSP Component::fromXJdf(QXmlStreamReader &xjdfReader)
+ComponentSP Component::fromXJdf(QXmlStreamReader &reader)
 {
     ComponentSP component;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "Component") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("Component")) {
         component = create();
-        auto attributes = xjdfReader.attributes();
+        auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Dimensions"))) {
             auto dimension = attributes.value(QStringLiteral("Dimensions")).toString().split(' ', QString::SkipEmptyParts);
             if (dimension.count() < 3)
@@ -129,30 +129,30 @@ ComponentSP Component::fromXJdf(QXmlStreamReader &xjdfReader)
             component->setThickness(dimension[2].toDouble());
         }
         if (attributes.hasAttribute(QStringLiteral("MediaRef"))) {
-            auto media = Media::create(attributes.value("MediaRef").toString());
+            auto media = Media::create(attributes.value(QStringLiteral("MediaRef")).toString());
             component->setMediaRef(media);
         }
 
-        xjdfReader.readNext();
+        reader.readNext();
         component->setFetched(true);
     }
     return component;
 }
 
-void Component::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void Component::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(Component);
-    Resource::toXJdf(xjdfWriter);
+    Resource::toXJdf(writer);
 
-    xjdfWriter.writeStartElement(QStringLiteral("Component"));
+    writer.writeStartElement(QStringLiteral("Component"));
     auto dimensions = QString("%1 %2 %3").arg(d->width).arg(d->height).arg(d->thickness);
-    xjdfWriter.writeAttribute("Dimensions", dimensions);
+    writer.writeAttribute(QStringLiteral("Dimensions"), dimensions);
     auto mediaRef = d->mediaRef.toStrongRef();
     if (mediaRef)
-        xjdfWriter.writeAttribute("MediaRef", mediaRef->id());
+        writer.writeAttribute(QStringLiteral("MediaRef"), mediaRef->id());
 
-    xjdfWriter.writeEndElement();
-    Resource::toXJdf(xjdfWriter, true);
+    writer.writeEndElement();
+    Resource::toXJdf(writer, true);
 }
 
 Component::Component() : Resource(*new ComponentPrivate)

@@ -33,9 +33,9 @@ public:
     void setId(const QString &arg);
     void setDeviceId(const QString &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &xjdfReader) override;
-    void toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd = false) const override;
+    bool fillFromXJdf(QXmlStreamReader &reader) override;
+    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:
     void agentNameChanged(const QString &arg);
@@ -45,7 +45,7 @@ signals:
     void deviceIdChanged(const QString &arg);
 
 protected:
-    AuditAbstractItem();
+    explicit AuditAbstractItem();
     explicit AuditAbstractItem(AuditAbstractItemPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
 };

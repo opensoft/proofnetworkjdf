@@ -123,37 +123,36 @@ XJdfDocumentSP XJdfDocument::fromFile(const QString &filePath)
     if (!file.open(QFile::ReadOnly))
         return XJdfDocumentSP();
 
-    QXmlStreamReader xjdfReader(&file);
-    return fromXJdf(xjdfReader);
+    QXmlStreamReader reader(&file);
+    return fromXJdf(reader);
 }
 
-XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &xjdfReader)
+XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &reader)
 {
     XJdfDocumentSP document = create();
 
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.isStartElement()) {
-            if (xjdfReader.name() == "XJDF") {
-                document->readAttributesFromXJdf(xjdfReader);
-                auto attributes = xjdfReader.attributes();
-                document->setJobId(attributes.value("JobID").toString());
-                if (attributes.hasAttribute("JobPartID"))
-                    document->setJobPartId(attributes.value("JobPartID").toString());
-            } else if (xjdfReader.name() == "ProductList") {
-                document->setProductList(ProductList::fromXJdf(xjdfReader));
-            } else if (xjdfReader.name() == "AuditPool") {
-                document->setAuditPool(AuditPool::fromXJdf(xjdfReader));
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.isStartElement()) {
+            if (reader.name() == QStringLiteral("XJDF")) {
+                document->readAttributesFromXJdf(reader);
+                auto attributes = reader.attributes();
+                document->setJobId(attributes.value(QStringLiteral("JobID")).toString());
+                if (attributes.hasAttribute(QStringLiteral("JobPartID")))
+                    document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
+            } else if (reader.name() == QStringLiteral("ProductList")) {
+                document->setProductList(ProductList::fromXJdf(reader));
+            } else if (reader.name() == QStringLiteral("AuditPool")) {
+                document->setAuditPool(AuditPool::fromXJdf(reader));
             } else {
-                document->fillFromXJdf(xjdfReader);
+                document->fillFromXJdf(reader);
             }
-        } else if (xjdfReader.isEndElement()) {
-            if (xjdfReader.name() == "JDF")
+        } else if (reader.isEndElement()) {
+            if (reader.name() == QStringLiteral("JDF"))
                 break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
     document->setFetched(true);
-    return document;
 
     if (document->jobId().isEmpty() || !document->auditPool() || !document->productList()) {
         qCWarning(proofNetworkXJdfDataLog) << "XJDF Document not created. XML is corrupted.";
@@ -163,28 +162,28 @@ XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &xjdfReader)
     return document;
 }
 
-void XJdfDocument::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void XJdfDocument::toXJdf(QXmlStreamWriter &writer, bool) const
 {
-    xjdfWriter.setAutoFormatting(true);
-    xjdfWriter.writeStartDocument();
-    xjdfWriter.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_2_0"));
-    xjdfWriter.writeNamespace(QStringLiteral("https://www.opensoftdev.com/profit"), QStringLiteral("profit"));
-    xjdfWriter.writeAttribute("JobID", jobId());
-    xjdfWriter.writeAttribute("JobPartID", jobPartId());
-    GrayBox::toXJdf(xjdfWriter);
-    auditPool()->toXJdf(xjdfWriter);
-    productList()->toXJdf(xjdfWriter);
-    xjdfWriter.writeEndDocument();
+    writer.setAutoFormatting(true);
+    writer.writeStartDocument();
+    writer.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_2_0"));
+    writer.writeNamespace(QStringLiteral("https://www.opensoftdev.com/profit"), QStringLiteral("profit"));
+    writer.writeAttribute(QStringLiteral("JobID"), jobId());
+    writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());
+    GrayBox::toXJdf(writer);
+    auditPool()->toXJdf(writer);
+    productList()->toXJdf(writer);
+    writer.writeEndDocument();
 }
 
-bool XJdfDocument::toFile(const QString fileName) const
+bool XJdfDocument::toFile(const QString &fileName) const
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly))
         return false;
     QString jdf;
-    QXmlStreamWriter xxjdfWriter(&jdf);
-    toXJdf(xxjdfWriter);
+    QXmlStreamWriter xwriter(&jdf);
+    toXJdf(xwriter);
     file.write(jdf.toUtf8());
     return true;
 }
@@ -200,6 +199,5 @@ void XJdfDocument::updateSelf(const Proof::NetworkDataEntitySP &other)
     setAuditPool(castedOther->auditPool());
     setProductList(castedOther->productList());
 
-    NetworkDataEntity::updateSelf(other);
     GrayBox::updateSelf(other);
 }

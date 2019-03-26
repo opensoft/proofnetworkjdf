@@ -59,28 +59,28 @@ ProductListSP ProductList::create()
     return result;
 }
 
-ProductListSP ProductList::fromXJdf(QXmlStreamReader &xjdfReader)
+ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader)
 {
     ProductListSP productList = create();
 
     QVector<ProductSP> list;
 
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.name() == "ProductList" && xjdfReader.isStartElement() && !productList->isFetched()) {
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.name() == QStringLiteral("ProductList") && reader.isStartElement() && !productList->isFetched()) {
             productList->setFetched(true);
-        } else if (xjdfReader.isStartElement()) {
-            if (xjdfReader.name() == "Product") {
-                ProductSP product = Product::fromXJdf(xjdfReader);
+        } else if (reader.isStartElement()) {
+            if (reader.name() == QStringLiteral("Product")) {
+                ProductSP product = Product::fromXJdf(reader);
                 if (!product) {
                     qCWarning(proofNetworkXJdfDataLog) << "ProductPool not created. Component is invalid.";
                     return ProductListSP();
                 }
                 list.append(product);
             }
-        } else if (xjdfReader.isEndElement()) {
+        } else if (reader.isEndElement()) {
             break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
 
     productList->setProducts(list);
@@ -88,18 +88,18 @@ ProductListSP ProductList::fromXJdf(QXmlStreamReader &xjdfReader)
     return productList;
 }
 
-void ProductList::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void ProductList::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(ProductList);
 
-    xjdfWriter.writeStartElement(QStringLiteral("ProductList"));
+    writer.writeStartElement(QStringLiteral("ProductList"));
 
     for (const ProductSP &product : qAsConst(d->products)) {
         if (isValidAndDirty(product))
-            product->toXJdf(xjdfWriter);
+            product->toXJdf(writer);
     }
 
-    xjdfWriter.writeEndElement();
+    writer.writeEndElement();
 }
 
 void ProductList::setProducts(const QVector<ProductSP> &arg)

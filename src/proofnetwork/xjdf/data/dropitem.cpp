@@ -83,31 +83,31 @@ DropItemSP DropItem::create()
     return result;
 }
 
-DropItemSP DropItem::fromXJdf(QXmlStreamReader &xjdfReader)
+DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader)
 {
     DropItemSP part;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "DropItem") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("DropItem")) {
         part = create();
         part->setFetched(true);
-        auto attributes = xjdfReader.attributes();
+        auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Product")))
             part->setProduct(Product::create(attributes.value(QStringLiteral("Product")).toString()));
         if (attributes.hasAttribute(QStringLiteral("Amount")))
             part->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
     }
-    xjdfReader.skipCurrentElement();
+    reader.skipCurrentElement();
     return part;
 }
 
-void DropItem::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void DropItem::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(DropItem);
-    xjdfWriter.writeStartElement(QStringLiteral("DropItem"));
+    writer.writeStartElement(QStringLiteral("DropItem"));
     if (d->product.toStrongRef())
-        xjdfWriter.writeAttribute(QStringLiteral("Product"), d->product.toStrongRef()->id());
+        writer.writeAttribute(QStringLiteral("Product"), d->product.toStrongRef()->id());
     if (d->amount != 0)
-        xjdfWriter.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
-    xjdfWriter.writeEndElement();
+        writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
+    writer.writeEndElement();
 }
 
 DropItem::DropItem() : XJdfAbstractNode(*new DropItemPrivate)

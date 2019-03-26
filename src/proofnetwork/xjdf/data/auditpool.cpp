@@ -76,32 +76,32 @@ AuditPoolSP AuditPool::create()
     return result;
 }
 
-AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &xjdfReader)
+AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader)
 {
     AuditPoolSP auditPool = create();
 
     QVector<AuditNotificationSP> notifications;
-    while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-        if (xjdfReader.isStartElement()) {
-            if (xjdfReader.name() == "AuditNotification") {
-                auto notification = AuditNotification::fromXJdf(xjdfReader);
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.isStartElement()) {
+            if (reader.name() == QStringLiteral("AuditNotification")) {
+                auto notification = AuditNotification::fromXJdf(reader);
                 if (!notification) {
                     qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Modified is invalid.";
                     return AuditPoolSP();
                 }
                 notifications << notification;
-            } else if (xjdfReader.name() == "AuditCreated") {
-                AuditCreatedSP created = AuditCreated::fromXJdf(xjdfReader);
+            } else if (reader.name() == QStringLiteral("AuditCreated")) {
+                AuditCreatedSP created = AuditCreated::fromXJdf(reader);
                 if (!created) {
                     qCWarning(proofNetworkXJdfDataLog) << "AuditPool not created. Created is invalid.";
                     return AuditPoolSP();
                 }
                 auditPool->setCreated(created);
             }
-        } else if (xjdfReader.isEndElement() && xjdfReader.name() == "AuditPool") {
+        } else if (reader.isEndElement() && reader.name() == QStringLiteral("AuditPool")) {
             break;
         }
-        xjdfReader.readNext();
+        reader.readNext();
     }
     auditPool->setNotifications(notifications);
     auditPool->setFetched(true);
@@ -109,18 +109,18 @@ AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &xjdfReader)
     return auditPool;
 }
 
-void AuditPool::toXJdf(QXmlStreamWriter &xjdfWriter, bool writeEnd) const
+void AuditPool::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(AuditPool);
 
-    xjdfWriter.writeStartElement(QStringLiteral("AuditPool"));
+    writer.writeStartElement(QStringLiteral("AuditPool"));
 
     if (isValidAndDirty(d->created))
-        d->created->toXJdf(xjdfWriter);
+        d->created->toXJdf(writer);
     for (const auto &notification : d->notifications)
-        notification->toXJdf(xjdfWriter);
+        notification->toXJdf(writer);
 
-    xjdfWriter.writeEndElement();
+    writer.writeEndElement();
 }
 
 void AuditPool::setCreated(const AuditCreatedSP &created)

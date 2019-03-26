@@ -146,34 +146,35 @@ ProductSP Product::create(const QString &id)
     return result;
 }
 
-ProductSP Product::fromXJdf(QXmlStreamReader &xjdfReader)
+ProductSP Product::fromXJdf(QXmlStreamReader &reader)
 {
     ProductSP product;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "Product") {
-        auto attributes = xjdfReader.attributes();
-        auto id = attributes.value("ID").toString();
+    if (reader.isStartElement() && reader.name() == QStringLiteral("Product")) {
+        auto attributes = reader.attributes();
+        auto id = attributes.value(QStringLiteral("ID")).toString();
         product = create(id);
 
-        if (attributes.hasAttribute("ExternalID"))
-            product->setExternalId(attributes.value("ExternalID").toString());
-        if (attributes.hasAttribute("Amount"))
-            product->setAmount(attributes.value("Amount").toULongLong());
-        if (attributes.hasAttribute("IsRoot"))
-            product->setRoot(!attributes.value("IsRoot").toString().compare("true", Qt::CaseInsensitive));
-        if (attributes.hasAttribute("ProductType"))
-            product->setType(productTypeFromString(attributes.value("ProductType").toString()));
+        if (attributes.hasAttribute(QStringLiteral("ExternalID")))
+            product->setExternalId(attributes.value(QStringLiteral("ExternalID")).toString());
+        if (attributes.hasAttribute(QStringLiteral("Amount")))
+            product->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
+        if (attributes.hasAttribute(QStringLiteral("IsRoot")))
+            product->setRoot(
+                !attributes.value(QStringLiteral("IsRoot")).toString().compare(QStringLiteral("true"), Qt::CaseInsensitive));
+        if (attributes.hasAttribute(QStringLiteral("ProductType")))
+            product->setType(productTypeFromString(attributes.value(QStringLiteral("ProductType")).toString()));
 
         QVector<IntentSP> intents;
-        while (!xjdfReader.atEnd() && !xjdfReader.hasError()) {
-            if (xjdfReader.isStartElement() && xjdfReader.name() == "Intent") {
-                auto intent = Intent::fromXJdf(xjdfReader);
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("Intent")) {
+                auto intent = Intent::fromXJdf(reader);
                 if (!intent)
                     return ProductSP();
                 intents << intent;
-            } else if (xjdfReader.isEndElement() && xjdfReader.name() == "Product") {
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("Product")) {
                 break;
             }
-            xjdfReader.readNext();
+            reader.readNext();
         }
 
         product->setFetched(true);
@@ -182,23 +183,23 @@ ProductSP Product::fromXJdf(QXmlStreamReader &xjdfReader)
     return product;
 }
 
-void Product::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void Product::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(Product);
-    xjdfWriter.writeStartElement(QStringLiteral("Product"));
-    xjdfWriter.writeAttribute("ID", d->id);
+    writer.writeStartElement(QStringLiteral("Product"));
+    writer.writeAttribute(QStringLiteral("ID"), d->id);
     if (!d->externalId.isEmpty())
-        xjdfWriter.writeAttribute("ExternalID", d->externalId);
+        writer.writeAttribute(QStringLiteral("ExternalID"), d->externalId);
     if (d->amount)
-        xjdfWriter.writeAttribute("Amount", QString::number(d->amount));
+        writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
     if (d->isRoot)
-        xjdfWriter.writeAttribute("IsRoot", "true");
+        writer.writeAttribute(QStringLiteral("IsRoot"), QStringLiteral("true"));
     if (d->type != ProductType::NoProductType)
-        xjdfWriter.writeAttribute("ProductType", productTypeToString(d->type));
+        writer.writeAttribute(QStringLiteral("ProductType"), productTypeToString(d->type));
 
     for (const auto &intent : d->intents)
-        intent->toXJdf(xjdfWriter);
-    xjdfWriter.writeEndElement();
+        intent->toXJdf(writer);
+    writer.writeEndElement();
 }
 
 Product::Product(const QString &id) : XJdfAbstractNode(*new ProductPrivate)

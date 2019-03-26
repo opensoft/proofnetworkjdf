@@ -81,32 +81,32 @@ BoxPackingParamsSP BoxPackingParams::create()
     return result;
 }
 
-BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &xjdfReader)
+BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader)
 {
     BoxPackingParamsSP params;
-    if (xjdfReader.isStartElement() && xjdfReader.name() == "BoxPackingParams") {
+    if (reader.isStartElement() && reader.name() == QStringLiteral("BoxPackingParams")) {
         params = create();
-        auto boxType = boxTypeFromString(xjdfReader.attributes().value("BoxType").toString());
-        auto boxTypeDetails = xjdfReader.attributes().value("BoxTypeDetails").toString();
+        auto boxType = boxTypeFromString(reader.attributes().value(QStringLiteral("BoxType")).toString());
+        auto boxTypeDetails = reader.attributes().value(QStringLiteral("BoxTypeDetails")).toString();
         params->setBoxType(boxType);
         params->setBoxTypeDetails(boxTypeDetails);
         params->setFetched(true);
-        xjdfReader.readNext();
+        reader.readNext();
     }
     return params;
 }
 
-void BoxPackingParams::toXJdf(QXmlStreamWriter &xjdfWriter, bool) const
+void BoxPackingParams::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     Q_D_CONST(BoxPackingParams);
-    Resource::toXJdf(xjdfWriter);
-    xjdfWriter.writeStartElement(QStringLiteral("BoxPackingParams"));
+    Resource::toXJdf(writer);
+    writer.writeStartElement(QStringLiteral("BoxPackingParams"));
     if (!d->boxTypeDetails.isEmpty())
-        xjdfWriter.writeAttribute("BoxType", d->boxTypeDetails);
+        writer.writeAttribute(QStringLiteral("BoxType"), d->boxTypeDetails);
 
-    xjdfWriter.writeAttribute("BoxType", boxTypeToString(d->boxType));
-    xjdfWriter.writeEndElement();
-    Resource::toXJdf(xjdfWriter, true);
+    writer.writeAttribute(QStringLiteral("BoxType"), boxTypeToString(d->boxType));
+    writer.writeEndElement();
+    Resource::toXJdf(writer, true);
 }
 
 BoxPackingParams::BoxPackingParams() : Resource(*new BoxPackingParamsPrivate)
