@@ -90,7 +90,7 @@ void GrayBox::toXJdf(QXmlStreamWriter &writer, bool) const
     Q_D_CONST(GrayBox);
     QStringList types = algorithms::map(d->types, [](ProcessType type) { return processTypeToString(type); },
                                         QStringList());
-    writer.writeAttribute(QStringLiteral("Types"), types.join(" "));
+    writer.writeAttribute(QStringLiteral("Types"), types.join(' '));
     for (const auto &set : d->resourceSets)
         set->toXJdf(writer);
 }

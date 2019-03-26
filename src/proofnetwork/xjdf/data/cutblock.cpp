@@ -127,7 +127,8 @@ void CutBlock::toXJdf(QXmlStreamWriter &writer, bool) const
 
     writer.writeStartElement(QStringLiteral("CutBlock"));
     writer.writeAttribute(QStringLiteral("BlockName"), d->blockName);
-    writer.writeAttribute(QStringLiteral("Box"), QString("%1 %2 %3 %4").arg(d->x).arg(d->y).arg(d->width).arg(d->height));
+    writer.writeAttribute(QStringLiteral("Box"),
+                          QStringLiteral("%1 %2 %3 %4").arg(d->x).arg(d->y).arg(d->width).arg(d->height));
     writer.writeEndElement();
 }
 

@@ -47,12 +47,12 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
     qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
 
-    Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::ColorIntent>("ColorIntent");
-    Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::FoldingIntent>("FoldingIntent");
-    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Component>("Component");
-    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::CuttingParams>("CuttingParams");
-    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::DeliveryParams>("DeliveryParams");
-    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::BoxPackingParams>("BoxPackingParams");
-    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Media>("Media");
+    Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::ColorIntent>(QStringLiteral("ColorIntent"));
+    Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::FoldingIntent>(QStringLiteral("FoldingIntent"));
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Component>(QStringLiteral("Component"));
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::CuttingParams>(QStringLiteral("CuttingParams"));
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::DeliveryParams>(QStringLiteral("DeliveryParams"));
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::BoxPackingParams>(QStringLiteral("BoxPackingParams"));
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Media>(QStringLiteral("Media"));
 //     clang-format on
 }

@@ -105,12 +105,12 @@ bool Resource::fillFromXJdf(QXmlStreamReader &)
 void Resource::readAttributesFromXJdf(QXmlStreamReader &reader)
 {
     auto attributes = reader.attributes();
-    if (attributes.hasAttribute("ID")) {
-        auto id = attributes.value("ID").toString();
+    if (attributes.hasAttribute(QStringLiteral("ID"))) {
+        auto id = attributes.value(QStringLiteral("ID")).toString();
         setId(id);
     }
-    if (attributes.hasAttribute("Orientation")) {
-        auto orientation = attributes.value("Orientation").toString();
+    if (attributes.hasAttribute(QStringLiteral("Orientation"))) {
+        auto orientation = attributes.value(QStringLiteral("Orientation")).toString();
         setOrientation(resourceOrientationFromString(orientation));
     }
 }

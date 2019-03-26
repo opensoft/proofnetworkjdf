@@ -123,7 +123,7 @@ void Media::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
     Q_D_CONST(Media);
     Resource::toXJdf(writer);
     writer.writeStartElement(QStringLiteral("Media"));
-    writer.writeAttribute(QStringLiteral("Dimension"), QString("%1 %2").arg(d->width).arg(d->height));
+    writer.writeAttribute(QStringLiteral("Dimension"), QStringLiteral("%1 %2").arg(d->width).arg(d->height));
     writer.writeAttribute(QStringLiteral("Thickness"), QString::number(d->thickness));
     writer.writeEndElement();
     Resource::toXJdf(writer, true);

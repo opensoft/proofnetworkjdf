@@ -75,7 +75,8 @@ AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader)
             if (reader.name() == QStringLiteral("Header")) {
                 notification->readAttributesFromXJdf(reader);
             } else if (reader.name() == QStringLiteral("Notification")) {
-                notification->setSeverityClass(severityFromString(reader.attributes().value("Class").toString()));
+                notification->setSeverityClass(
+                    severityFromString(reader.attributes().value(QStringLiteral("Class")).toString()));
             }
         } else if (reader.isEndElement()) {
             if (reader.name() == QStringLiteral("AuditNotification"))
