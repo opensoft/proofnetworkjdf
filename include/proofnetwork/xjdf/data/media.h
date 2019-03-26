@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT Media : public Resource
     Q_DECLARE_PRIVATE(Media)
 public:
     Media(const Media &) = delete;
-    Media &operator=(const Intent &) = delete;
-    Media(Intent &&) = delete;
+    Media &operator=(const Media &) = delete;
+    Media(Media &&) = delete;
     Media &operator=(Media &&) = delete;
     ~Media() = default;
 

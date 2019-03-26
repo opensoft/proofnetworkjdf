@@ -48,8 +48,16 @@ protected:
     XJdfDocumentSP xjdfDocUT;
 };
 
-TEST_F(XJdfDocumentTest, malformedXJdf)
-{}
+TEST_F(XJdfDocumentTest, toXJdf)
+{
+    QByteArray xml;
+    QXmlStreamWriter writer(&xml);
+    xjdfDocUT->toXJdf(writer);
+
+    ASSERT_FALSE(xml.isEmpty());
+    QXmlStreamReader reader(xml);
+    auto xjdfDocNew = XJdfDocument::fromXJdf(reader);
+}
 
 TEST_F(XJdfDocumentTest, fromXJdf)
 {

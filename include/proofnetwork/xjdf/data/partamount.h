@@ -16,8 +16,8 @@ class PROOF_NETWORK_XJDF_EXPORT PartAmount : public XJdfAbstractNode
     Q_DECLARE_PRIVATE(PartAmount)
 public:
     PartAmount(const PartAmount &) = delete;
-    PartAmount &operator=(const XJdfAbstractNode &) = delete;
-    PartAmount(XJdfAbstractNode &&) = delete;
+    PartAmount &operator=(const PartAmount &) = delete;
+    PartAmount(PartAmount &&) = delete;
     PartAmount &operator=(PartAmount &&) = delete;
     ~PartAmount() = default;
 
