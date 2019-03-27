@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XJDF xmlns="http://www.CIP4.org/JDFSchema_2_0" xmlns:profit="https://www.opensoftdev.com/profit" JobID="PRESSSHEET_ID2" Types="BoxPacking Cutting">
+  <AuditPool>
+    <AuditCreated>
+      <Header profit:TemplateID="3BC-2PC" profit:TemplateVersion="0.43" AgentName="Sh-Job-Manager-Service2" AgentVersion="0.18.10.10" Time="2019-01-29T16:00:20+00:00" />
+    </AuditCreated>
+    <AuditNotification>
+      <Header AgentName="Cutting-Station2" AgentVersion="0.18.9.24" Time="2019-02-05T16:00:20+00:00" />
+      <Notification Class="Warning" />
+    </AuditNotification>
+  </AuditPool>
+  <ProductList>
+    <Product Amount="40" ID="ProductInfo2_1" ExternalID="ORDER_ITEM_ID2" IsRoot="false" ProductType="Postcard">
+      <Intent Name="ColorIntent">
+        <ColorIntent>
+          <SurfaceColor Surface="Front" Coatings="UV"  />
+          <SurfaceColor Surface="Back" Coatings="UV" ColorsUsed="Spot" />
+        </ColorIntent>
+      </Intent>
+    </Product>
+    <Product Amount="60" ID="ProductInfo2_2" ExternalID="ORDER_ITEM_ID2" IsRoot="false" ProductType="Postcard">
+      <Intent Name="ColorIntent">
+        <ColorIntent>
+          <SurfaceColor Surface="Front" Coatings="UV" />
+          <SurfaceColor Surface="Back" Coatings="UV" />
+        </ColorIntent>
+      </Intent>
+    </Product>
+    <Product Amount="70" ID="ProductInfo2_3" ExternalID="ORDER_ITEM_ID2" IsRoot="false" ProductType="BusinessCard">
+      <Intent Name="FoldingIntent">
+        <FoldingIntent FoldCatalog="F4-1" />
+      </Intent>
+      <Intent Name="ColorIntent">
+        <ColorIntent>
+          <SurfaceColor Surface="Back" Coatings="UV" />
+        </ColorIntent>
+      </Intent>
+    </Product>
+  </ProductList>
+  <ResourceSet Name="DeliveryParams2">
+    <Resource ID="DeliveryParams2_1">
+      <DeliveryParams Required="2019-02-28T16:00:20+00:00">
+        <DropItem Amount="40" ItemRef="ProductInfo2_1"/>
+      </DeliveryParams>
+    </Resource>
+    <Resource ID="DeliveryParams2_2">
+      <DeliveryParams Required="2019-02-29T16:00:20+00:00">
+        <DropItem Amount="60" ItemRef="ProductInfo2_2"/>
+      </DeliveryParams>
+    </Resource>
+    <Resource ID="DeliveryParams2_3">
+      <DeliveryParams Required="2019-02-28T16:00:20+00:00">
+        <DropItem Amount="40" ItemRef="ProductInfo2_3"/>
+      </DeliveryParams>
+    </Resource>
+  </ResourceSet>
+  <ResourceSet Name="Media2">
+    <Resource ID="Media2_1">
+      <Media Dimension="1600.0 1100.0" Thickness="2560" />
+    </Resource>
+  </ResourceSet>
+  <ResourceSet CombinedProcessIndex="1" Name="Component2" Usage="Output">
+    <Resource Orientation="Rotate180">
+      <AmountPool>
+        <PartAmount Amount="40" />
+      </AmountPool>
+      <Component MediaRef="Media2_1" />
+    </Resource>
+  </ResourceSet>
+  <ResourceSet Name="CuttingParams2" Usage="Output">
+    <Resource>
+      <CuttingParams>
+        <CutBlock BlockName="Block2_1" Box="10 10 410 310" />
+        <CutBlock BlockName="Block2_2" Box="430 10 410 310" />
+        <CutBlock BlockName="Block2_3" Box="850 10 410 310" />
+        <CutBlock BlockName="Block2_4" Box="10 330 1210 610" />
+    </CuttingParams>
+    </Resource>
+  </ResourceSet>
+  <ResourceSet CombinedProcessIndex="1 2" Name="Component2">
+    <Resource>
+      <Part BlockName="Block2_1" ProductPart="ProductInfo2_1" />
+      <Component Dimensions="410 310 20" />
+    </Resource>
+    <Resource>
+      <Part BlockName="Block2_2" ProductPart="ProductInfo2_2" />
+      <Part BlockName="Block2_3" ProductPart="ProductInfo2_2" />
+      <Component Dimensions="410 310 20" />
+    </Resource>
+    <Resource>
+      <Part BlockName="Block2_4" ProductPart="ProductInfo2_3" />
+      <Component Dimensions="1210 610 10" />
+    </Resource>
+  </ResourceSet>
+  <ResourceSet Name="BoxPackingParams2" Usage="Output">
+    <Resource>
+      <Part ProductPart="ProductInfo2_1" />
+      <BoxPackingParams BoxType="Box" />
+    </Resource>
+    <Resource>
+      <Part ProductPart="ProductInfo2_2" />
+      <BoxPackingParams BoxType="Tube" />
+    </Resource>
+    <Resource>
+      <Part ProductPart="ProductInfo2_3" />
+      <BoxPackingParams BoxType="Box" BoxTypeDetails="Easter Bunny Box2" />
+    </Resource>
+  </ResourceSet>
+  <ResourceSet CombinedProcessIndex="2" Name="Component2" Usage="Input" />
+</XJDF>
