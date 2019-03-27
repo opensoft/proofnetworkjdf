@@ -29,21 +29,20 @@
 
 #include "proofnetwork/xjdf/data/graybox.h"
 
-    namespace Proof
+namespace Proof {
+namespace XJdf {
+class GrayBoxPrivate : public XJdfAbstractNodePrivate
 {
-    namespace XJdf {
-    class GrayBoxPrivate : public XJdfAbstractNodePrivate
-    {
-        Q_DECLARE_PUBLIC(GrayBox)
+    Q_DECLARE_PUBLIC(GrayBox)
 
-    public:
-        GrayBoxPrivate() = default;
+public:
+    GrayBoxPrivate() = default;
 
-        QVector<ProcessType> types;
-        QVector<ResourceSetSP> resourceSets;
-    };
+    QVector<ProcessType> types;
+    QVector<ResourceSetSP> resourceSets;
+};
 
-    } // namespace XJdf
+} // namespace XJdf
 } // namespace Proof
 
 #endif // XJDF_GRAYBOXPRIVATE_H

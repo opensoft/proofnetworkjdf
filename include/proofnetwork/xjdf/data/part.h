@@ -30,43 +30,42 @@
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-    namespace Proof
+namespace Proof {
+namespace XJdf {
+
+class PartPrivate;
+class PROOF_NETWORK_XJDF_EXPORT Part : public XJdfAbstractNode
 {
-    namespace XJdf {
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(Part)
+public:
+    Part(const Part &) = delete;
+    Part &operator=(const Part &) = delete;
+    Part(Part &&) = delete;
+    Part &operator=(Part &&) = delete;
+    ~Part() = default;
 
-    class PartPrivate;
-    class PROOF_NETWORK_XJDF_EXPORT Part : public XJdfAbstractNode
-    {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE(Part)
-    public:
-        Part(const Part &) = delete;
-        Part &operator=(const Part &) = delete;
-        Part(Part &&) = delete;
-        Part &operator=(Part &&) = delete;
-        ~Part() = default;
+    ProductSP product() const;
+    CutBlockSP block() const;
 
-        ProductSP product() const;
-        CutBlockSP block() const;
+    void updateProduct(const QString &arg);
+    void updateBlock(const QString &arg);
 
-        void updateProduct(const QString &arg);
-        void updateBlock(const QString &arg);
+    static PartSP create();
 
-        static PartSP create();
+    static PartSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
-        static PartSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
-        void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+signals:
+    void productChanged(const Proof::XJdf::ProductSP &arg);
+    void blockChanged(const Proof::XJdf::CutBlockSP &arg);
 
-    signals:
-        void productChanged(const Proof::XJdf::ProductSP &arg);
-        void blockChanged(const Proof::XJdf::CutBlockSP &arg);
+protected:
+    explicit Part();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
 
-    protected:
-        explicit Part();
-        void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-    };
-
-    } // namespace XJdf
+} // namespace XJdf
 } // namespace Proof
 
 #endif // XJDF_PART_H

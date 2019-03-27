@@ -29,43 +29,42 @@
 #include "proofnetwork/xjdf/data/auditabstractitem.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-    namespace Proof
+namespace Proof {
+namespace XJdf {
+
+class AuditCreatedPrivate;
+class PROOF_NETWORK_XJDF_EXPORT AuditCreated : public AuditAbstractItem
 {
-    namespace XJdf {
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(AuditCreated)
+public:
+    AuditCreated(const AuditCreated &) = delete;
+    AuditCreated &operator=(const AuditCreated &) = delete;
+    AuditCreated(AuditCreated &&) = delete;
+    AuditCreated &operator=(AuditCreated &&) = delete;
+    ~AuditCreated() = default;
 
-    class AuditCreatedPrivate;
-    class PROOF_NETWORK_XJDF_EXPORT AuditCreated : public AuditAbstractItem
-    {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE(AuditCreated)
-    public:
-        AuditCreated(const AuditCreated &) = delete;
-        AuditCreated &operator=(const AuditCreated &) = delete;
-        AuditCreated(AuditCreated &&) = delete;
-        AuditCreated &operator=(AuditCreated &&) = delete;
-        ~AuditCreated() = default;
+    QString templateId() const;
+    QString templateVersion() const;
 
-        QString templateId() const;
-        QString templateVersion() const;
+    void setTemplateId(const QString &arg);
+    void setTemplateVersion(const QString &arg);
 
-        void setTemplateId(const QString &arg);
-        void setTemplateVersion(const QString &arg);
+    static AuditCreatedSP create();
 
-        static AuditCreatedSP create();
+    static AuditCreatedSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
-        static AuditCreatedSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
-        void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+signals:
+    void templateIdChanged(const QString &arg);
+    void templateVersionChanged(const QString &arg);
 
-    signals:
-        void templateIdChanged(const QString &arg);
-        void templateVersionChanged(const QString &arg);
+protected:
+    explicit AuditCreated();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
 
-    protected:
-        explicit AuditCreated();
-        void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-    };
-
-    } // namespace XJdf
+} // namespace XJdf
 } // namespace Proof
 
 #endif // XJDF_AUDITCREATED_H

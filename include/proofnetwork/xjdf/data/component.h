@@ -30,49 +30,48 @@
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-    namespace Proof
+namespace Proof {
+namespace XJdf {
+
+class ComponentPrivate;
+class PROOF_NETWORK_XJDF_EXPORT Component : public Resource
 {
-    namespace XJdf {
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(Component)
+public:
+    Component(const Component &) = delete;
+    Component &operator=(const Component &) = delete;
+    Component(Component &&) = delete;
+    Component &operator=(Component &&) = delete;
+    ~Component() = default;
 
-    class ComponentPrivate;
-    class PROOF_NETWORK_XJDF_EXPORT Component : public Resource
-    {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE(Component)
-    public:
-        Component(const Component &) = delete;
-        Component &operator=(const Component &) = delete;
-        Component(Component &&) = delete;
-        Component &operator=(Component &&) = delete;
-        ~Component() = default;
+    static ComponentSP create();
 
-        static ComponentSP create();
+    MediaSP mediaRef() const;
+    double width() const;
+    double height() const;
+    double thickness() const;
 
-        MediaSP mediaRef() const;
-        double width() const;
-        double height() const;
-        double thickness() const;
+    void updateMediaRef(const QString &arg);
+    void setWidth(double arg);
+    void setHeight(double arg);
+    void setThickness(double arg);
 
-        void updateMediaRef(const QString &arg);
-        void setWidth(double arg);
-        void setHeight(double arg);
-        void setThickness(double arg);
+    static ComponentSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
-        static ComponentSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
-        void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+signals:
+    void mediaRefChanged(const Proof::XJdf::MediaSP &arg);
+    void widthChanged(double arg);
+    void heightChanged(double arg);
+    void thicknessChanged(double arg);
 
-    signals:
-        void mediaRefChanged(const Proof::XJdf::MediaSP &arg);
-        void widthChanged(double arg);
-        void heightChanged(double arg);
-        void thicknessChanged(double arg);
+protected:
+    explicit Component();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
 
-    protected:
-        explicit Component();
-        void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-    };
-
-    } // namespace XJdf
+} // namespace XJdf
 } // namespace Proof
 
 #endif // XJDF_COMPONENT_H

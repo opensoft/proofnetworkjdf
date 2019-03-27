@@ -30,43 +30,42 @@
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-    namespace Proof
+namespace Proof {
+namespace XJdf {
+
+class DeliveryParamsPrivate;
+class PROOF_NETWORK_XJDF_EXPORT DeliveryParams : public Resource
 {
-    namespace XJdf {
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(DeliveryParams)
+public:
+    DeliveryParams(const DeliveryParams &) = delete;
+    DeliveryParams &operator=(const DeliveryParams &) = delete;
+    DeliveryParams(DeliveryParams &&) = delete;
+    DeliveryParams &operator=(DeliveryParams &&) = delete;
+    ~DeliveryParams() = default;
 
-    class DeliveryParamsPrivate;
-    class PROOF_NETWORK_XJDF_EXPORT DeliveryParams : public Resource
-    {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE(DeliveryParams)
-    public:
-        DeliveryParams(const DeliveryParams &) = delete;
-        DeliveryParams &operator=(const DeliveryParams &) = delete;
-        DeliveryParams(DeliveryParams &&) = delete;
-        DeliveryParams &operator=(DeliveryParams &&) = delete;
-        ~DeliveryParams() = default;
+    QDateTime required() const;
+    QVector<DropItemSP> items() const;
 
-        QDateTime required() const;
-        QVector<DropItemSP> items() const;
+    void setRequired(const QDateTime &arg);
+    void setItems(const QVector<DropItemSP> &arg);
 
-        void setRequired(const QDateTime &arg);
-        void setItems(const QVector<DropItemSP> &arg);
+    static DeliveryParamsSP create();
 
-        static DeliveryParamsSP create();
+    static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
-        static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
-        void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+signals:
+    void requiredChanged(const QDateTime &arg);
+    void itemsChanged(const QVector<Proof::XJdf::DropItemSP> &arg);
 
-    signals:
-        void requiredChanged(const QDateTime &arg);
-        void itemsChanged(const QVector<Proof::XJdf::DropItemSP> &arg);
+protected:
+    explicit DeliveryParams();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
 
-    protected:
-        explicit DeliveryParams();
-        void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-    };
-
-    } // namespace XJdf
+} // namespace XJdf
 } // namespace Proof
 
 #endif // XJDF_DELIVERYPARAMS_H

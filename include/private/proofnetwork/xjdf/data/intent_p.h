@@ -29,21 +29,20 @@
 
 #include "proofnetwork/xjdf/data/graybox.h"
 
-    namespace Proof
+namespace Proof {
+namespace XJdf {
+class IntentPrivate : public XJdfAbstractNodePrivate
 {
-    namespace XJdf {
-    class IntentPrivate : public XJdfAbstractNodePrivate
-    {
-        Q_DECLARE_PUBLIC(Intent)
+    Q_DECLARE_PUBLIC(Intent)
 
-    public:
-        IntentPrivate() = default;
-        QString name;
+public:
+    IntentPrivate() = default;
+    QString name;
 
-        static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *creators;
-    };
+    static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *creators;
+};
 
-    } // namespace XJdf
+} // namespace XJdf
 } // namespace Proof
 
 #endif // XJDF_GRAYBOXPRIVATE_H
