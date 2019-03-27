@@ -200,6 +200,8 @@ void ResourceSet::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
     ResourceSetSP castedOther = qSharedPointerCast<ResourceSet>(other);
     setResources(castedOther->resources());
-
+    setName(castedOther->name());
+    setCombinedProcessIndexes(castedOther->combinedProcessIndexes());
+    setUsage(castedOther->usage());
     XJdfAbstractNode::updateSelf(other);
 }

@@ -295,23 +295,24 @@ TEST_F(XJdfDocumentTest, toXJdf)
 TEST_F(XJdfDocumentTest, updateFrom)
 {
     auto xjdfDocUT2 = XJdfDocument::fromFile(":/data/proposal2.xjdf");
+    auto xjdfDocUT3 = XJdfDocument::create();
     ASSERT_TRUE(xjdfDocUT2);
-    xjdfDocUT->updateFrom(xjdfDocUT2);
+    xjdfDocUT3->updateFrom(xjdfDocUT2);
 
-    EXPECT_EQ(xjdfDocUT2->jobId(), xjdfDocUT->jobId());
-    EXPECT_EQ(xjdfDocUT2->types()[0], xjdfDocUT->types()[0]);
-    EXPECT_EQ(xjdfDocUT2->types()[1], xjdfDocUT->types()[1]);
+    EXPECT_EQ(xjdfDocUT2->jobId(), xjdfDocUT3->jobId());
+    EXPECT_EQ(xjdfDocUT2->types()[0], xjdfDocUT3->types()[0]);
+    EXPECT_EQ(xjdfDocUT2->types()[1], xjdfDocUT3->types()[1]);
 
-    auto auditPool = xjdfDocUT->auditPool();
+    auto auditPool = xjdfDocUT2->auditPool();
+    auto auditPool2 = AuditPool::create();
+    auditPool2->updateFrom(auditPool);
     auto created = auditPool->created();
-    auto auditPool2 = xjdfDocUT2->auditPool();
     auto created2 = auditPool2->created();
     EXPECT_EQ(created2->templateId(), created->templateId());
     EXPECT_EQ(created2->templateVersion(), created->templateVersion());
     EXPECT_EQ(created2->agentName(), created->agentName());
     EXPECT_EQ(created2->agentVersion(), created->agentVersion());
     EXPECT_EQ(created2->timestamp(), created->timestamp());
-
     auto notification = auditPool->notifications()[0];
     auto notification2 = auditPool2->notifications()[0];
     EXPECT_EQ(notification2->agentName(), notification->agentName());
@@ -319,10 +320,41 @@ TEST_F(XJdfDocumentTest, updateFrom)
     EXPECT_EQ(notification2->timestamp(), notification->timestamp());
     EXPECT_EQ(notification2->severityClass(), notification->severityClass());
 
-    auto productList = xjdfDocUT->productList();
-    auto productList2 = xjdfDocUT2->productList();
+    created2 = AuditCreated::create();
+    created2->updateFrom(created);
+    EXPECT_EQ(created2->templateId(), created->templateId());
+    EXPECT_EQ(created2->templateVersion(), created->templateVersion());
+    EXPECT_EQ(created2->agentName(), created->agentName());
+    EXPECT_EQ(created2->agentVersion(), created->agentVersion());
+    EXPECT_EQ(created2->timestamp(), created->timestamp());
+
+    notification2 = AuditNotification::create();
+    notification2->updateFrom(notification);
+    EXPECT_EQ(notification2->agentName(), notification->agentName());
+    EXPECT_EQ(notification2->agentVersion(), notification->agentVersion());
+    EXPECT_EQ(notification2->timestamp(), notification->timestamp());
+    EXPECT_EQ(notification2->severityClass(), notification->severityClass());
+
+    auto productList = xjdfDocUT2->productList();
+    auto productList2 = xjdfDocUT3->productList();
+
     auto product1 = productList->products()[0];
     auto product21 = productList2->products()[0];
+
+    EXPECT_EQ(product21->id(), product1->id());
+    EXPECT_EQ(product21->externalId(), product1->externalId());
+    EXPECT_EQ(product21->isRoot(), product1->isRoot());
+    EXPECT_EQ(product21->amount(), product1->amount());
+    EXPECT_EQ(product21->type(), product1->type());
+
+    auto color = product1->intentsByType<ColorIntent>()[0];
+    auto color2 = product21->intentsByType<ColorIntent>()[0];
+    EXPECT_EQ(color2->spots()[Side::Front], color->spots()[Side::Front]);
+    EXPECT_EQ(color2->coatings()[Side::Front][0], color->coatings()[Side::Front][0]);
+    EXPECT_EQ(color2->coatings()[Side::Back][0], color->coatings()[Side::Back][0]);
+
+    product21 = Product::create("0");
+    product21->updateFrom(product1);
 
     EXPECT_EQ(product21->id(), product1->id());
     EXPECT_EQ(product21->externalId(), product1->externalId());
@@ -333,9 +365,8 @@ TEST_F(XJdfDocumentTest, updateFrom)
     auto product3 = productList->products()[2];
     auto product23 = productList2->products()[2];
 
-    auto color = product1->intentsByType<ColorIntent>()[0];
-    auto color2 = product21->intentsByType<ColorIntent>()[0];
-    ASSERT_EQ(color2->spots().count(), color->spots().count());
+    color2 = ColorIntent::create();
+    color2->updateFrom(color);
     EXPECT_EQ(color2->spots()[Side::Front], color->spots()[Side::Front]);
     EXPECT_EQ(color2->coatings()[Side::Front][0], color->coatings()[Side::Front][0]);
     EXPECT_EQ(color2->coatings()[Side::Back][0], color->coatings()[Side::Back][0]);
@@ -344,7 +375,18 @@ TEST_F(XJdfDocumentTest, updateFrom)
     auto folding2 = product23->intentsByType<FoldingIntent>()[0];
     EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
 
-    auto resourceSet1 = xjdfDocUT->resourceSets()[0];
+    product23 = Product::create("0");
+    product23->updateFrom(product3);
+
+    folding2 = product23->intentsByType<FoldingIntent>()[0];
+    EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
+
+    folding2 = FoldingIntent::create();
+    folding2->updateFrom(folding);
+
+    EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
+
+    auto resourceSet1 = xjdfDocUT3->resourceSets()[0];
     auto resourceSet21 = xjdfDocUT2->resourceSets()[0];
     EXPECT_EQ(resourceSet21->name(), resourceSet1->name());
     auto deliveryParams = resourceSet1->resourcesByType<DeliveryParams>()[0];
@@ -353,7 +395,22 @@ TEST_F(XJdfDocumentTest, updateFrom)
     EXPECT_EQ(deliveryParams2->items()[0]->amount(), deliveryParams->items()[0]->amount());
     EXPECT_EQ(deliveryParams2->items()[0]->product()->id(), deliveryParams->items()[0]->product()->id());
 
-    auto resourceSet2 = xjdfDocUT->resourceSets()[1];
+    resourceSet21 = ResourceSet::create();
+    resourceSet21->updateFrom(resourceSet1);
+
+    EXPECT_EQ(resourceSet21->name(), resourceSet1->name());
+    deliveryParams2 = resourceSet21->resourcesByType<DeliveryParams>()[0];
+    EXPECT_EQ(deliveryParams2->required(), deliveryParams->required());
+    EXPECT_EQ(deliveryParams2->items()[0]->amount(), deliveryParams->items()[0]->amount());
+    EXPECT_EQ(deliveryParams2->items()[0]->product()->id(), deliveryParams->items()[0]->product()->id());
+
+    deliveryParams2 = DeliveryParams::create();
+    deliveryParams2->updateFrom(deliveryParams);
+    EXPECT_EQ(deliveryParams2->required(), deliveryParams->required());
+    EXPECT_EQ(deliveryParams2->items()[0]->amount(), deliveryParams->items()[0]->amount());
+    EXPECT_EQ(deliveryParams2->items()[0]->product()->id(), deliveryParams->items()[0]->product()->id());
+
+    auto resourceSet2 = xjdfDocUT2->resourceSets()[1];
     auto resourceSet22 = xjdfDocUT2->resourceSets()[1];
     EXPECT_EQ(resourceSet22->name(), resourceSet2->name());
     auto media = resourceSet2->resourcesByType<Media>()[0];
@@ -362,7 +419,13 @@ TEST_F(XJdfDocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(media2->height(), media->height());
     EXPECT_DOUBLE_EQ(media2->thickness(), media->thickness());
 
-    auto resourceSet3 = xjdfDocUT->resourceSets()[2];
+    media2 = Media::create();
+    media2->updateFrom(media);
+    EXPECT_DOUBLE_EQ(media2->width(), media->width());
+    EXPECT_DOUBLE_EQ(media2->height(), media->height());
+    EXPECT_DOUBLE_EQ(media2->thickness(), media->thickness());
+
+    auto resourceSet3 = xjdfDocUT3->resourceSets()[2];
     auto resourceSet23 = xjdfDocUT2->resourceSets()[2];
     EXPECT_EQ(resourceSet23->name(), resourceSet3->name());
     auto component1 = resourceSet3->resourcesByType<Component>()[0];
@@ -371,7 +434,13 @@ TEST_F(XJdfDocumentTest, updateFrom)
     EXPECT_EQ(component21->amountPool()->parts()[0]->amount(), component1->amountPool()->parts()[0]->amount());
     EXPECT_EQ(component21->mediaRef()->id(), component1->mediaRef()->id());
 
-    auto resourceSet4 = xjdfDocUT->resourceSets()[3];
+    component21 = Component::create();
+    component21->updateFrom(component1);
+    EXPECT_EQ(component21->orientation(), component1->orientation());
+    EXPECT_EQ(component21->amountPool()->parts()[0]->amount(), component1->amountPool()->parts()[0]->amount());
+    EXPECT_EQ(component21->mediaRef()->id(), component1->mediaRef()->id());
+
+    auto resourceSet4 = xjdfDocUT3->resourceSets()[3];
     auto resourceSet24 = xjdfDocUT2->resourceSets()[3];
     EXPECT_EQ(resourceSet24->name(), resourceSet4->name());
     auto cuttingParams = resourceSet4->resourcesByType<CuttingParams>()[0];
@@ -380,7 +449,16 @@ TEST_F(XJdfDocumentTest, updateFrom)
     auto cutBlock2 = cuttingParams2->cutBlocks()[0];
     EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
 
-    auto resourceSet5 = xjdfDocUT->resourceSets()[4];
+    cuttingParams2 = CuttingParams::create();
+    cuttingParams2->updateFrom(cuttingParams);
+    cutBlock2 = cuttingParams2->cutBlocks()[0];
+    EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
+
+    cutBlock2 = CutBlock::create();
+    cutBlock2->updateFrom(cutBlock);
+    EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
+
+    auto resourceSet5 = xjdfDocUT3->resourceSets()[4];
     auto resourceSet25 = xjdfDocUT2->resourceSets()[4];
     EXPECT_EQ(resourceSet25->name(), resourceSet5->name());
     auto component2 = resourceSet5->resourcesByType<Component>()[1];
@@ -391,7 +469,15 @@ TEST_F(XJdfDocumentTest, updateFrom)
     EXPECT_EQ(component22->parts()[0]->block()->blockName(), component2->parts()[0]->block()->blockName());
     EXPECT_EQ(component22->parts()[0]->product()->id(), component2->parts()[0]->product()->id());
 
-    auto resourceSet6 = xjdfDocUT->resourceSets()[5];
+    component22 = Component::create();
+    component22->updateFrom(component2);
+    EXPECT_DOUBLE_EQ(component22->width(), component2->width());
+    EXPECT_DOUBLE_EQ(component22->height(), component2->height());
+    EXPECT_DOUBLE_EQ(component22->thickness(), component2->thickness());
+    EXPECT_EQ(component22->parts()[0]->block()->blockName(), component2->parts()[0]->block()->blockName());
+    EXPECT_EQ(component22->parts()[0]->product()->id(), component2->parts()[0]->product()->id());
+
+    auto resourceSet6 = xjdfDocUT3->resourceSets()[5];
     auto resourceSet26 = xjdfDocUT2->resourceSets()[5];
     EXPECT_EQ(resourceSet26->name(), resourceSet6->name());
     auto boxPackingParams = resourceSet6->resourcesByType<BoxPackingParams>()[2];
@@ -399,9 +485,19 @@ TEST_F(XJdfDocumentTest, updateFrom)
     EXPECT_EQ(boxPackingParams2->boxType(), boxPackingParams->boxType());
     EXPECT_EQ(boxPackingParams2->boxTypeDetails(), boxPackingParams->boxTypeDetails());
 
-    auto resourceSet7 = xjdfDocUT->resourceSets()[6];
+    boxPackingParams2 = BoxPackingParams::create();
+    boxPackingParams2->updateFrom(boxPackingParams);
+    EXPECT_EQ(boxPackingParams2->boxType(), boxPackingParams->boxType());
+    EXPECT_EQ(boxPackingParams2->boxTypeDetails(), boxPackingParams->boxTypeDetails());
+
+    auto resourceSet7 = xjdfDocUT3->resourceSets()[6];
     auto resourceSet27 = xjdfDocUT2->resourceSets()[6];
     EXPECT_EQ(resourceSet27->name(), resourceSet7->name());
+    EXPECT_EQ(resourceSet27->combinedProcessIndexes()[0], resourceSet7->combinedProcessIndexes()[0]);
+    EXPECT_EQ(resourceSet27->usage(), resourceSet7->usage());
+
+    resourceSet27 = ResourceSet::create();
+    resourceSet27->updateFrom(resourceSet7);
     EXPECT_EQ(resourceSet27->combinedProcessIndexes()[0], resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(resourceSet27->usage(), resourceSet7->usage());
 }

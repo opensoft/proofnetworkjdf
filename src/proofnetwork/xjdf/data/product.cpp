@@ -216,6 +216,7 @@ void Product::updateSelf(const NetworkDataEntitySP &other)
     setAmount(castedOther->amount());
     setRoot(castedOther->isRoot());
     setType(castedOther->type());
+    setIntents(castedOther->intents());
 
     XJdfAbstractNode::updateSelf(other);
 }

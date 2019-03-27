@@ -128,5 +128,6 @@ void DeliveryParams::updateSelf(const NetworkDataEntitySP &other)
 {
     DeliveryParamsSP castedOther = qSharedPointerCast<DeliveryParams>(other);
     setItems(castedOther->items());
+    setRequired(castedOther->required());
     Resource::updateSelf(other);
 }

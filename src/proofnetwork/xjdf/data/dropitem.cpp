@@ -65,9 +65,11 @@ ProductSP DropItem::product() const
         d->lazyProduct = algorithms::findIf(document->productList()->products(),
                                             [d](const auto &product) { return product->id() == d->productId; },
                                             ProductSP());
-        return d->lazyProduct;
+        if (d->lazyProduct)
+            return d->lazyProduct;
     }
-    return ProductSP();
+    auto dummy = Product::create(d->productId);
+    return dummy;
 }
 
 void Proof::XJdf::DropItem::setAmount(qulonglong arg)

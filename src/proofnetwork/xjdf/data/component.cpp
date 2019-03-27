@@ -76,11 +76,16 @@ MediaSP Component::mediaRef() const
                                                                     ResourceSP());
                                       },
                                       ResourceSetSP());
-        if (set)
+        if (set) {
             d->lazyMedia = algorithms::findIf(set->resourcesByType<Media>(),
                                               [d](const auto &media) { return media->id() == d->mediaRef; }, MediaSP());
+            if (d->lazyMedia)
+                return d->lazyMedia;
+        }
     }
-    return d->lazyMedia;
+
+    auto dummy = Media::create(d->mediaRef);
+    return dummy;
 }
 
 double Component::width() const
@@ -190,6 +195,6 @@ void Component::updateSelf(const NetworkDataEntitySP &other)
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setThickness(castedOther->thickness());
-
+    updateMediaRef(castedOther->d_func()->mediaRef);
     Resource::updateSelf(other);
 }

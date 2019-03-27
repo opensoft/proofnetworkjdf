@@ -115,7 +115,8 @@ void Intent::addIntentCreator(const QString &name,
 {
     if (!IntentPrivate::creators)
         IntentPrivate::creators = new QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>>();
-    (*IntentPrivate::creators)[name] = creator;
+    if (!(*IntentPrivate::creators).contains(name))
+        (*IntentPrivate::creators)[name] = creator;
 }
 
 std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)> &Intent::intentCreator(const QString &name)

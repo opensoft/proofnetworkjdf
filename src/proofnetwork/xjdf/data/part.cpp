@@ -65,9 +65,12 @@ ProductSP Part::product() const
         d->lazyProduct = algorithms::findIf(d->document.toStrongRef()->productList()->products(),
                                             [d](const auto &product) { return product->id() == d->productId; },
                                             ProductSP());
-        return d->lazyProduct;
+        if (d->lazyProduct)
+            return d->lazyProduct;
     }
-    return ProductSP();
+
+    auto dummy = Product::create(d->productId);
+    return dummy;
 }
 
 CutBlockSP Part::block() const
@@ -92,7 +95,8 @@ CutBlockSP Part::block() const
             }
         }
     }
-    return CutBlockSP();
+    auto dummy = CutBlock::create(d->blockName);
+    return dummy;
 }
 
 void Part::updateProduct(const QString &arg)

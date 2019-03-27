@@ -52,6 +52,8 @@ XJdfAbstractNode::XJdfAbstractNode(XJdfAbstractNodePrivate &dd) : NetworkDataEnt
 
 void XJdfAbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    //NOTE: NOthing there for now
+    XJdfAbstractNodeSP castedOther = qSharedPointerCast<XJdfAbstractNode>(other);
+
+    d_func()->document = castedOther->d_func()->document;
     NetworkDataEntity::updateSelf(other);
 }

@@ -195,7 +195,8 @@ void Resource::addResourceCreator(const QString &name,
     if (!ResourcePrivate::creators)
         ResourcePrivate::creators =
             new QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)>>();
-    (*ResourcePrivate::creators)[name] = creator;
+    if (!(*ResourcePrivate::creators).contains(name))
+        (*ResourcePrivate::creators)[name] = creator;
 }
 
 void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
@@ -203,6 +204,7 @@ void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
     ResourceSP castedOther = qSharedPointerCast<Resource>(other);
     setId(castedOther->id());
     setParts(castedOther->parts());
+    setOrientation(castedOther->orientation());
     setAmountPool(castedOther->amountPool());
 
     XJdfAbstractNode::updateSelf(other);
