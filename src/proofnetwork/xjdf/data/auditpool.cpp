@@ -24,8 +24,6 @@
  */
 #include "proofnetwork/xjdf/data/auditpool.h"
 
-#include "proofcore/objectscache.h"
-
 #include "proofnetwork/xjdf/data/auditcreated.h"
 #include "proofnetwork/xjdf/data/auditnotification.h"
 #include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
@@ -42,11 +40,6 @@ class AuditPoolPrivate : public XJdfAbstractNodePrivate
     AuditCreatedSP created;
     QVector<AuditNotificationSP> notifications;
 };
-
-ObjectsCache<QString, AuditPool> &auditPoolCache()
-{
-    return WeakObjectsCache<QString, AuditPool>::instance();
-}
 
 } // namespace XJdf
 } // namespace Proof
