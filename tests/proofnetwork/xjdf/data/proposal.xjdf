@@ -70,7 +70,7 @@
   <ResourceSet Name="CuttingParams" Usage="Input">
     <Resource>
       <CuttingParams>
-        <CutBlock BlockName="Block_1" Box="0 0 400 300" />
+        <CutBlock BlockName="Block_1" Box="1 1.1 400 300" />
         <CutBlock BlockName="Block_2" Box="420 0 400 300" />
         <CutBlock BlockName="Block_3" Box="840 0 400 300" />
         <CutBlock BlockName="Block_4" Box="0 320 1200 600" />

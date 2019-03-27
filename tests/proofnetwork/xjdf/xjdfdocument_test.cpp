@@ -138,6 +138,10 @@ TEST_F(XJdfDocumentTest, fromXJdf)
     ASSERT_EQ(4, cuttingParams->cutBlocks().count());
     auto cutBlock = cuttingParams->cutBlocks()[0];
     EXPECT_EQ("Block_1", cutBlock->blockName());
+    EXPECT_DOUBLE_EQ(1.0, cutBlock->x());
+    EXPECT_DOUBLE_EQ(1.1, cutBlock->y());
+    EXPECT_DOUBLE_EQ(400.0, cutBlock->width());
+    EXPECT_DOUBLE_EQ(300.0, cutBlock->height());
 
     auto resourceSet5 = xjdfDocUT->resourceSets()[4];
     EXPECT_EQ("Component", resourceSet5->name());
@@ -264,6 +268,10 @@ TEST_F(XJdfDocumentTest, toXJdf)
     ASSERT_EQ(4, cuttingParams->cutBlocks().count());
     auto cutBlock = cuttingParams->cutBlocks()[0];
     EXPECT_EQ("Block_1", cutBlock->blockName());
+    EXPECT_DOUBLE_EQ(1.0, cutBlock->x());
+    EXPECT_DOUBLE_EQ(1.1, cutBlock->y());
+    EXPECT_DOUBLE_EQ(400.0, cutBlock->width());
+    EXPECT_DOUBLE_EQ(300.0, cutBlock->height());
 
     auto resourceSet5 = xjdfDocNew->resourceSets()[4];
     EXPECT_EQ("Component", resourceSet5->name());
@@ -453,10 +461,18 @@ TEST_F(XJdfDocumentTest, updateFrom)
     cuttingParams2->updateFrom(cuttingParams);
     cutBlock2 = cuttingParams2->cutBlocks()[0];
     EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
+    EXPECT_DOUBLE_EQ(cutBlock2->x(), cutBlock->x());
+    EXPECT_DOUBLE_EQ(cutBlock2->y(), cutBlock->y());
+    EXPECT_DOUBLE_EQ(cutBlock2->width(), cutBlock->width());
+    EXPECT_DOUBLE_EQ(cutBlock2->height(), cutBlock->height());
 
     cutBlock2 = CutBlock::create();
     cutBlock2->updateFrom(cutBlock);
     EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
+    EXPECT_DOUBLE_EQ(cutBlock2->x(), cutBlock->x());
+    EXPECT_DOUBLE_EQ(cutBlock2->y(), cutBlock->y());
+    EXPECT_DOUBLE_EQ(cutBlock2->width(), cutBlock->width());
+    EXPECT_DOUBLE_EQ(cutBlock2->height(), cutBlock->height());
 
     auto resourceSet5 = xjdfDocUT3->resourceSets()[4];
     auto resourceSet25 = xjdfDocUT2->resourceSets()[4];
