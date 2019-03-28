@@ -22,43 +22,38 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef JDFXJDFABSTRACTNODE_H
-#define JDFXJDFABSTRACTNODE_H
+#include "proofnetwork/xjdf/data/abstractnode.h"
 
-#include "proofnetwork/networkdataentity.h"
-#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
-#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
-#include <QXmlStreamReader>
+using namespace Proof;
+using namespace Proof::XJdf;
 
-namespace Proof {
-namespace XJdf {
-
-class XJdfAbstractNodePrivate;
-class PROOF_NETWORK_XJDF_EXPORT XJdfAbstractNode : public NetworkDataEntity
+NetworkDataEntityQmlWrapper *AbstractNode::toQmlWrapper(QObject *parent) const
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(XJdfAbstractNode)
-public:
-    XJdfAbstractNode(const XJdfAbstractNode &) = delete;
-    XJdfAbstractNode &operator=(const XJdfAbstractNode &) = delete;
-    XJdfAbstractNode(XJdfAbstractNode &&) = delete;
-    XJdfAbstractNode &operator=(XJdfAbstractNode &&) = delete;
-    ~XJdfAbstractNode() = default;
+    Q_UNUSED(parent)
+    Q_ASSERT(false);
+    return nullptr;
+}
 
-    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
+bool AbstractNode::fillFromXJdf(QXmlStreamReader &)
+{
+    return false;
+}
 
-    virtual bool fillFromXJdf(QXmlStreamReader &reader);
-    virtual void readAttributesFromXJdf(QXmlStreamReader &reader);
-    virtual void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const = 0;
+void AbstractNode::readAttributesFromXJdf(QXmlStreamReader &)
+{}
 
-protected:
-    explicit XJdfAbstractNode();
-    explicit XJdfAbstractNode(XJdfAbstractNodePrivate &dd);
-    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
-};
+AbstractNode::AbstractNode() : AbstractNode(*new AbstractNodePrivate)
+{}
 
-} // namespace XJdf
-} // namespace Proof
+AbstractNode::AbstractNode(AbstractNodePrivate &dd) : NetworkDataEntity(dd)
+{}
 
-#endif // JDFXJDFABSTRACTNODE_H
+void AbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
+{
+    AbstractNodeSP castedOther = qSharedPointerCast<AbstractNode>(other);
+
+    d_func()->document = castedOther->d_func()->document;
+    NetworkDataEntity::updateSelf(other);
+}

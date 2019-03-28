@@ -143,7 +143,7 @@ void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer, bool) const
 AuditAbstractItem::AuditAbstractItem() : AuditAbstractItem(*new AuditAbstractItemPrivate)
 {}
 
-AuditAbstractItem::AuditAbstractItem(AuditAbstractItemPrivate &dd) : XJdfAbstractNode(dd)
+AuditAbstractItem::AuditAbstractItem(AuditAbstractItemPrivate &dd) : AbstractNode(dd)
 {}
 
 void AuditAbstractItem::updateSelf(const NetworkDataEntitySP &other)
@@ -155,5 +155,5 @@ void AuditAbstractItem::updateSelf(const NetworkDataEntitySP &other)
     setAgentVersion(castedOther->agentVersion());
     setTimestamp(castedOther->timestamp());
 
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

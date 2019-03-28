@@ -25,7 +25,7 @@
 #ifndef XJDF_PART_H
 #define XJDF_PART_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class PartPrivate;
-class PROOF_NETWORK_XJDF_EXPORT Part : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT Part : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Part)
@@ -53,7 +53,7 @@ public:
 
     static PartSP create();
 
-    static PartSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static PartSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

@@ -81,7 +81,7 @@ BoxPackingParamsSP BoxPackingParams::create()
     return result;
 }
 
-BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     BoxPackingParamsSP params;
     if (reader.isStartElement() && reader.name() == QStringLiteral("BoxPackingParams")) {

@@ -24,11 +24,11 @@
  */
 #include "proofnetwork/xjdf/data/partamount.h"
 
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 namespace Proof {
 namespace XJdf {
-class PartAmountPrivate : public XJdfAbstractNodePrivate
+class PartAmountPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(PartAmount)
 
@@ -66,7 +66,7 @@ PartAmountSP PartAmount::create()
     return result;
 }
 
-PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     PartAmountSP part;
 
@@ -90,12 +90,12 @@ void PartAmount::toXJdf(QXmlStreamWriter &writer, bool) const
     writer.writeEndElement();
 }
 
-PartAmount::PartAmount() : XJdfAbstractNode(*new PartAmountPrivate)
+PartAmount::PartAmount() : AbstractNode(*new PartAmountPrivate)
 {}
 
 void PartAmount::updateSelf(const NetworkDataEntitySP &other)
 {
     PartAmountSP castedOther = qSharedPointerCast<PartAmount>(other);
     setAmount(castedOther->amount());
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

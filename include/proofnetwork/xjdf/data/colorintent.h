@@ -55,7 +55,7 @@ public:
 
     static ColorIntentSP create();
 
-    static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

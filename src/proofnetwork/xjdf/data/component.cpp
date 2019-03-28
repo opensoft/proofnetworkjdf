@@ -27,7 +27,7 @@
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
@@ -142,7 +142,7 @@ void Component::setThickness(double arg)
     }
 }
 
-ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     ComponentSP component;
     if (reader.isStartElement() && reader.name() == QStringLiteral("Component")) {

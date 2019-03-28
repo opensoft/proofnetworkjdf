@@ -33,21 +33,17 @@
 namespace Proof {
 namespace XJdf {
 
-class XJdfAbstractNode;
-using XJdfAbstractNodeSP = QSharedPointer<XJdfAbstractNode>;
-using XJdfAbstractNodeWP = QWeakPointer<XJdfAbstractNode>;
+class AbstractNode;
+using AbstractNodeSP = QSharedPointer<AbstractNode>;
+using AbstractNodeWP = QWeakPointer<AbstractNode>;
 
 class GrayBox;
 using GrayBoxSP = QSharedPointer<GrayBox>;
 using GrayBoxWP = QWeakPointer<GrayBox>;
 
-class XJdfDocument;
-using XJdfDocumentSP = QSharedPointer<XJdfDocument>;
-using XJdfDocumentWP = QWeakPointer<XJdfDocument>;
-
-class XJmfDocument;
-using XJmfDocumentSP = QSharedPointer<XJmfDocument>;
-using XJmfDocumentWP = QWeakPointer<XJmfDocument>;
+class Document;
+using DocumentSP = QSharedPointer<Document>;
+using DocumentWP = QWeakPointer<Document>;
 
 class AuditPool;
 using AuditPoolSP = QSharedPointer<AuditPool>;

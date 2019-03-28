@@ -81,7 +81,7 @@ AuditCreatedSP AuditCreated::create()
     return result;
 }
 
-AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     AuditCreatedSP created = create();
     created->d_func()->document = document;
@@ -110,8 +110,10 @@ void AuditCreated::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
     Q_D_CONST(AuditCreated);
     writer.writeStartElement(QStringLiteral("AuditCreated"));
     writer.writeStartElement(QStringLiteral("Header"));
-    writer.writeAttribute(QStringLiteral("profit:TemplateID"), d->templateId);
-    writer.writeAttribute(QStringLiteral("profit:TemplateVersion"), d->templateVersion);
+    if (!d->templateId.isEmpty())
+        writer.writeAttribute(QStringLiteral("profit:TemplateID"), d->templateId);
+    if (!d->templateVersion.isEmpty())
+        writer.writeAttribute(QStringLiteral("profit:TemplateVersion"), d->templateVersion);
     AuditAbstractItem::toXJdf(writer);
     writer.writeEndElement();
     writer.writeEndElement();

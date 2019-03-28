@@ -22,20 +22,43 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofnetwork/networkdataentity_p.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
+#ifndef XJDF_ABSTRACTNODE_H
+#define XJDF_ABSTRACTNODE_H
+
+#include "proofnetwork/networkdataentity.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
+
+#include <QXmlStreamReader>
 
 namespace Proof {
 namespace XJdf {
-class XJdfAbstractNodePrivate : public NetworkDataEntityPrivate
+
+class AbstractNodePrivate;
+class PROOF_NETWORK_XJDF_EXPORT AbstractNode : public NetworkDataEntity
 {
-    Q_DECLARE_PUBLIC(XJdfAbstractNode)
-
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(AbstractNode)
 public:
-    XJdfAbstractNodePrivate() = default;
+    AbstractNode(const AbstractNode &) = delete;
+    AbstractNode &operator=(const AbstractNode &) = delete;
+    AbstractNode(AbstractNode &&) = delete;
+    AbstractNode &operator=(AbstractNode &&) = delete;
+    ~AbstractNode() = default;
 
-    XJdfDocumentWP document;
+    NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
+
+    virtual bool fillFromXJdf(QXmlStreamReader &reader);
+    virtual void readAttributesFromXJdf(QXmlStreamReader &reader);
+    virtual void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const = 0;
+
+protected:
+    explicit AbstractNode();
+    explicit AbstractNode(AbstractNodePrivate &dd);
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace XJdf
 } // namespace Proof
+
+#endif // XJDF_ABSTRACTNODE_H

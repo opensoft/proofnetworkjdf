@@ -25,7 +25,7 @@
 #ifndef XJDF_RESOURCE_H
 #define XJDF_RESOURCE_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class ResourcePrivate;
-class PROOF_NETWORK_XJDF_EXPORT Resource : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT Resource : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Resource)
@@ -58,12 +58,12 @@ public:
     bool fillFromXJdf(QXmlStreamReader &reader) override;
     void readAttributesFromXJdf(QXmlStreamReader &reader) override;
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
-    static ResourceSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
     inline static void registerResourceCreator(const QString &name)
     {
-        addResourceCreator(name, [](QXmlStreamReader &reader, const XJdfDocumentSP &document) -> ResourceSP {
+        addResourceCreator(name, [](QXmlStreamReader &reader, const DocumentSP &document) -> ResourceSP {
             return qSharedPointerCast<Resource>(T::fromXJdf(reader, document));
         });
     }
@@ -79,9 +79,9 @@ protected:
     explicit Resource(ResourcePrivate &dd, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
     static void addResourceCreator(const QString &name,
-                                   std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)> &&creator);
+                                   std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)> &&creator);
 
-    static std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)> &resourceCreator(const QString &name);
+    static std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)> &resourceCreator(const QString &name);
 };
 
 } // namespace XJdf

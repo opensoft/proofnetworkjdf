@@ -25,12 +25,12 @@
 #include "proofnetwork/xjdf/data/productlist.h"
 
 #include "proofnetwork/xjdf/data/product.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 namespace Proof {
 namespace XJdf {
 
-class ProductListPrivate : public XJdfAbstractNodePrivate
+class ProductListPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(ProductList)
     ProductListPrivate() { registerChildren(products); }
@@ -43,7 +43,7 @@ class ProductListPrivate : public XJdfAbstractNodePrivate
 
 using namespace Proof::XJdf;
 
-ProductList::ProductList() : XJdfAbstractNode(*new ProductListPrivate)
+ProductList::ProductList() : AbstractNode(*new ProductListPrivate)
 {}
 
 QVector<ProductSP> ProductList::products() const
@@ -59,7 +59,7 @@ ProductListSP ProductList::create()
     return result;
 }
 
-ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     ProductListSP productList = create();
     productList->d_func()->document = document;
@@ -129,5 +129,5 @@ void ProductList::updateSelf(const Proof::NetworkDataEntitySP &other)
     ProductListSP castedOther = qSharedPointerCast<ProductList>(other);
     setProducts(castedOther->products());
 
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

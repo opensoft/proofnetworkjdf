@@ -22,7 +22,7 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 #include "proofnetwork/xjdf/data/graybox_p.h"
 #include <proofnetwork/xjdf/data/auditpool.h>
@@ -34,9 +34,9 @@
 namespace Proof {
 namespace XJdf {
 
-class XJdfDocumentPrivate : public GrayBoxPrivate
+class DocumentPrivate : public GrayBoxPrivate
 {
-    Q_DECLARE_PUBLIC(XJdfDocument)
+    Q_DECLARE_PUBLIC(Document)
 
     QString jobId;
     QString jobPartId;
@@ -50,86 +50,86 @@ class XJdfDocumentPrivate : public GrayBoxPrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QString XJdfDocument::jobId() const
+QString Document::jobId() const
 {
-    Q_D_CONST(XJdfDocument);
+    Q_D_CONST(Document);
     return d->jobId;
 }
 
-QString XJdfDocument::jobPartId() const
+QString Document::jobPartId() const
 {
-    Q_D_CONST(XJdfDocument);
+    Q_D_CONST(Document);
     return d->jobPartId;
 }
 
-AuditPoolSP XJdfDocument::auditPool() const
+AuditPoolSP Document::auditPool() const
 {
-    Q_D_CONST(XJdfDocument);
+    Q_D_CONST(Document);
     return d->auditPool;
 }
 
-ProductListSP XJdfDocument::productList() const
+ProductListSP Document::productList() const
 {
-    Q_D_CONST(XJdfDocument);
+    Q_D_CONST(Document);
     return d->productList;
 }
 
-void XJdfDocument::setJobId(const QString &arg)
+void Document::setJobId(const QString &arg)
 {
-    Q_D(XJdfDocument);
+    Q_D(Document);
     if (arg != d->jobId) {
         d->jobId = arg;
         emit jobIdChanged(arg);
     }
 }
 
-void XJdfDocument::setJobPartId(const QString &arg)
+void Document::setJobPartId(const QString &arg)
 {
-    Q_D(XJdfDocument);
+    Q_D(Document);
     if (arg != d->jobPartId) {
         d->jobPartId = arg;
         emit jobPartIdChanged(arg);
     }
 }
 
-void XJdfDocument::setAuditPool(const AuditPoolSP &arg)
+void Document::setAuditPool(const AuditPoolSP &arg)
 {
-    Q_D(XJdfDocument);
+    Q_D(Document);
     if (arg != d->auditPool) {
         d->auditPool = arg;
         emit auditPoolChanged(arg);
     }
 }
 
-void XJdfDocument::setProductList(const ProductListSP &arg)
+void Document::setProductList(const ProductListSP &arg)
 {
-    Q_D(XJdfDocument);
+    Q_D(Document);
     if (arg != d->productList) {
         d->productList = arg;
         emit productListChanged(arg);
     }
 }
 
-XJdfDocumentSP XJdfDocument::create()
+DocumentSP Document::create()
 {
-    XJdfDocumentSP result(new XJdfDocument());
+    DocumentSP result(new Document());
     initSelfWeakPtr(result);
     return result;
 }
 
-XJdfDocumentSP XJdfDocument::fromFile(const QString &filePath)
+DocumentSP Document::fromFile(const QString &filePath)
 {
     QFile file(filePath);
     if (!file.open(QFile::ReadOnly))
-        return XJdfDocumentSP();
+        return DocumentSP();
 
     QXmlStreamReader reader(&file);
     return fromXJdf(reader);
 }
 
-XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &reader)
+DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
 {
-    XJdfDocumentSP document = create();
+    DocumentSP document = create();
     document->d_func()->document = document;
 
     while (!reader.atEnd() && !reader.hasError()) {
@@ -157,13 +157,13 @@ XJdfDocumentSP XJdfDocument::fromXJdf(QXmlStreamReader &reader)
 
     if (document->jobId().isEmpty() || !document->auditPool() || !document->productList()) {
         qCWarning(proofNetworkXJdfDataLog) << "XJDF Document not created. XML is corrupted.";
-        return XJdfDocumentSP();
+        return DocumentSP();
     }
 
     return document;
 }
 
-void XJdfDocument::toXJdf(QXmlStreamWriter &writer, bool) const
+void Document::toXJdf(QXmlStreamWriter &writer, bool) const
 {
     writer.setAutoFormatting(true);
     writer.writeStartDocument();
@@ -180,7 +180,7 @@ void XJdfDocument::toXJdf(QXmlStreamWriter &writer, bool) const
     writer.writeEndDocument();
 }
 
-bool XJdfDocument::toFile(const QString &fileName) const
+bool Document::toFile(const QString &fileName) const
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly))
@@ -192,12 +192,12 @@ bool XJdfDocument::toFile(const QString &fileName) const
     return true;
 }
 
-XJdfDocument::XJdfDocument() : GrayBox(*new XJdfDocumentPrivate)
+Document::Document() : GrayBox(*new DocumentPrivate)
 {}
 
-void XJdfDocument::updateSelf(const Proof::NetworkDataEntitySP &other)
+void Document::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
-    XJdfDocumentSP castedOther = qSharedPointerCast<XJdfDocument>(other);
+    DocumentSP castedOther = qSharedPointerCast<Document>(other);
     setJobId(castedOther->jobId());
     setJobPartId(castedOther->jobPartId());
     setAuditPool(castedOther->auditPool());

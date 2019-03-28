@@ -28,7 +28,7 @@
 #include "proofseed/proofalgorithms.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 #include <QVector>

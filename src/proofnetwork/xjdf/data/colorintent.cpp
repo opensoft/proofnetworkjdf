@@ -93,7 +93,7 @@ ColorIntentSP ColorIntent::create()
     return result;
 }
 
-ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     ColorIntentSP intent;
     if (reader.isStartElement() && reader.name() == QStringLiteral("ColorIntent")) {

@@ -25,7 +25,7 @@
 #ifndef XJDF_DROPITEM_H
 #define XJDF_DROPITEM_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class DropItemPrivate;
-class PROOF_NETWORK_XJDF_EXPORT DropItem : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT DropItem : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DropItem)
@@ -53,7 +53,7 @@ public:
 
     static DropItemSP create();
 
-    static DropItemSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static DropItemSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

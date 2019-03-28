@@ -25,7 +25,7 @@
 #ifndef XJDF_PARTAMOUNT_H
 #define XJDF_PARTAMOUNT_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class PartAmountPrivate;
-class PROOF_NETWORK_XJDF_EXPORT PartAmount : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT PartAmount : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(PartAmount)
@@ -50,7 +50,7 @@ public:
 
     static PartAmountSP create();
 
-    static PartAmountSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static PartAmountSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

@@ -97,7 +97,7 @@ MediaSP Media::create(const QString &id)
     return result;
 }
 
-MediaSP Media::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     MediaSP media;
 

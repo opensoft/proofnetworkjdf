@@ -25,11 +25,11 @@
 #include "proofnetwork/xjdf/data/amountpool.h"
 
 #include "proofnetwork/xjdf/data/partamount.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 namespace Proof {
 namespace XJdf {
-class AmountPoolPrivate : public XJdfAbstractNodePrivate
+class AmountPoolPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(AmountPool)
 
@@ -70,7 +70,7 @@ AmountPoolSP AmountPool::create()
     return result;
 }
 
-AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     AmountPoolSP pool;
     if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
@@ -101,7 +101,7 @@ void AmountPool::toXJdf(QXmlStreamWriter &writer, bool) const
     writer.writeEndElement();
 }
 
-AmountPool::AmountPool() : XJdfAbstractNode(*new AmountPoolPrivate)
+AmountPool::AmountPool() : AbstractNode(*new AmountPoolPrivate)
 {}
 
 void AmountPool::updateSelf(const NetworkDataEntitySP &other)
@@ -109,5 +109,5 @@ void AmountPool::updateSelf(const NetworkDataEntitySP &other)
     AmountPoolSP castedOther = qSharedPointerCast<AmountPool>(other);
     setParts(castedOther->parts());
 
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

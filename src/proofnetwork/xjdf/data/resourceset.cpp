@@ -29,7 +29,7 @@
 namespace Proof {
 namespace XJdf {
 
-class ResourceSetPrivate : public XJdfAbstractNodePrivate
+class ResourceSetPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(ResourceSet)
     ResourceSetPrivate() { registerChildren(resources); }
@@ -45,7 +45,7 @@ class ResourceSetPrivate : public XJdfAbstractNodePrivate
 
 using namespace Proof::XJdf;
 
-ResourceSet::ResourceSet() : XJdfAbstractNode(*new ResourceSetPrivate)
+ResourceSet::ResourceSet() : AbstractNode(*new ResourceSetPrivate)
 {}
 
 QString ResourceSet::name() const
@@ -109,7 +109,7 @@ ResourceSetSP ResourceSet::create()
     return result;
 }
 
-ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     ResourceSetSP resourceSet = create();
     resourceSet->d_func()->document = document;
@@ -203,5 +203,5 @@ void ResourceSet::updateSelf(const Proof::NetworkDataEntitySP &other)
     setName(castedOther->name());
     setCombinedProcessIndexes(castedOther->combinedProcessIndexes());
     setUsage(castedOther->usage());
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

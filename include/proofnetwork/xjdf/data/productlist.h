@@ -25,7 +25,7 @@
 #ifndef PROOF_XJDF_PRODUCTLIST_H
 #define PROOF_XJDF_PRODUCTLIST_H
 
-#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
+#include "proofnetwork/xjdf/data/abstractnode.h"
 
 #include <QXmlStreamReader>
 
@@ -33,7 +33,7 @@ namespace Proof {
 namespace XJdf {
 
 class ProductListPrivate;
-class PROOF_NETWORK_XJDF_EXPORT ProductList : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT ProductList : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ProductList)
@@ -51,7 +51,7 @@ public:
 
     static ProductListSP create();
 
-    static ProductListSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static ProductListSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

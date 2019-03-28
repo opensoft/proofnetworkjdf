@@ -26,12 +26,12 @@
 
 #include "proofnetwork/xjdf/data/product.h"
 #include "proofnetwork/xjdf/data/productlist.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
-class DropItemPrivate : public XJdfAbstractNodePrivate
+class DropItemPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(DropItem)
 
@@ -98,7 +98,7 @@ DropItemSP DropItem::create()
     return result;
 }
 
-DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     DropItemSP item;
 
@@ -128,7 +128,7 @@ void DropItem::toXJdf(QXmlStreamWriter &writer, bool) const
     writer.writeEndElement();
 }
 
-DropItem::DropItem() : XJdfAbstractNode(*new DropItemPrivate)
+DropItem::DropItem() : AbstractNode(*new DropItemPrivate)
 {}
 
 void DropItem::updateSelf(const NetworkDataEntitySP &other)
@@ -136,5 +136,5 @@ void DropItem::updateSelf(const NetworkDataEntitySP &other)
     DropItemSP castedOther = qSharedPointerCast<DropItem>(other);
     updateProduct(castedOther->d_func()->productId);
     setAmount(castedOther->amount());
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

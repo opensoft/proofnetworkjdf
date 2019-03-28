@@ -22,38 +22,57 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
+#ifndef XJDFDOCUMENT_H
+#define XJDFDOCUMENT_H
 
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "graybox.h"
 
-using namespace Proof;
-using namespace Proof::XJdf;
+namespace Proof {
+namespace XJdf {
 
-NetworkDataEntityQmlWrapper *XJdfAbstractNode::toQmlWrapper(QObject *parent) const
+class DocumentPrivate;
+class PROOF_NETWORK_XJDF_EXPORT Document : public GrayBox
 {
-    Q_UNUSED(parent)
-    Q_ASSERT(false);
-    return nullptr;
-}
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(Document)
+public:
+    Document(const Document &) = delete;
+    Document &operator=(const Document &) = delete;
+    Document(Document &&) = delete;
+    Document &operator=(Document &&) = delete;
+    ~Document() = default;
 
-bool XJdfAbstractNode::fillFromXJdf(QXmlStreamReader &)
-{
-    return false;
-}
+    QString jobId() const;
+    QString jobPartId() const;
+    AuditPoolSP auditPool() const;
+    ProductListSP productList() const;
 
-void XJdfAbstractNode::readAttributesFromXJdf(QXmlStreamReader &)
-{}
+    void setJobId(const QString &arg);
+    void setJobPartId(const QString &arg);
+    void setAuditPool(const AuditPoolSP &arg);
+    void setProductList(const ProductListSP &arg);
 
-XJdfAbstractNode::XJdfAbstractNode() : XJdfAbstractNode(*new XJdfAbstractNodePrivate)
-{}
+    static DocumentSP create();
 
-XJdfAbstractNode::XJdfAbstractNode(XJdfAbstractNodePrivate &dd) : NetworkDataEntity(dd)
-{}
+    static DocumentSP fromXJdf(QXmlStreamReader &reader);
+    static DocumentSP fromFile(const QString &filePath);
 
-void XJdfAbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
-{
-    XJdfAbstractNodeSP castedOther = qSharedPointerCast<XJdfAbstractNode>(other);
+    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
-    d_func()->document = castedOther->d_func()->document;
-    NetworkDataEntity::updateSelf(other);
-}
+    bool toFile(const QString &fileName) const;
+
+signals:
+    void jobIdChanged(const QString &arg);
+    void jobPartIdChanged(const QString &arg);
+    void auditPoolChanged(const Proof::XJdf::AuditPoolSP &arg);
+    void productListChanged(const Proof::XJdf::ProductListSP &arg);
+
+protected:
+    explicit Document();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+};
+
+} // namespace XJdf
+} // namespace Proof
+
+#endif // XJDFDOCUMENT_H

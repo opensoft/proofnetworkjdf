@@ -26,12 +26,12 @@
 
 #include "proofnetwork/xjdf/data/auditcreated.h"
 #include "proofnetwork/xjdf/data/auditnotification.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 namespace Proof {
 namespace XJdf {
 
-class AuditPoolPrivate : public XJdfAbstractNodePrivate
+class AuditPoolPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(AuditPool)
 
@@ -47,7 +47,7 @@ class AuditPoolPrivate : public XJdfAbstractNodePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
-AuditPool::AuditPool() : XJdfAbstractNode(*new AuditPoolPrivate)
+AuditPool::AuditPool() : AbstractNode(*new AuditPoolPrivate)
 {}
 
 AuditCreatedSP AuditPool::created() const
@@ -69,7 +69,7 @@ AuditPoolSP AuditPool::create()
     return result;
 }
 
-AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     AuditPoolSP auditPool = create();
     auditPool->d_func()->document = document;
@@ -146,5 +146,5 @@ void AuditPool::updateSelf(const Proof::NetworkDataEntitySP &other)
     AuditPoolSP castedOther = qSharedPointerCast<AuditPool>(other);
     setCreated(castedOther->created());
     setNotifications(castedOther->notifications());
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

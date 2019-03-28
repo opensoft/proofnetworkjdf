@@ -24,14 +24,14 @@
  */
 #include "proofnetwork/xjdf/data/cutblock.h"
 
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 #include <QStringList>
 
 namespace Proof {
 namespace XJdf {
 
-class CutBlockPrivate : public XJdfAbstractNodePrivate
+class CutBlockPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(CutBlock)
 
@@ -49,7 +49,7 @@ class CutBlockPrivate : public XJdfAbstractNodePrivate
 
 using namespace Proof::XJdf;
 
-CutBlock::CutBlock(const QString &blockName) : XJdfAbstractNode(*new CutBlockPrivate(blockName))
+CutBlock::CutBlock(const QString &blockName) : AbstractNode(*new CutBlockPrivate(blockName))
 {}
 
 QString CutBlock::blockName() const
@@ -89,7 +89,7 @@ CutBlockSP CutBlock::create(const QString &blockName)
     return result;
 }
 
-CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     CutBlockSP cutBlock = create();
     cutBlock->d_func()->document = document;
@@ -190,5 +190,5 @@ void CutBlock::updateSelf(const Proof::NetworkDataEntitySP &other)
     setX(castedOther->x());
     setY(castedOther->y());
 
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

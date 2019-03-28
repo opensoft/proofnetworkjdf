@@ -29,7 +29,7 @@
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *IntentPrivate::creators = nullptr;
+QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>> *IntentPrivate::creators = nullptr;
 
 QString Intent::name() const
 {
@@ -74,7 +74,7 @@ void Intent::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
         writer.writeAttribute(QStringLiteral("Name"), d->name);
 }
 
-IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     if (reader.isStartElement() && reader.name() == QStringLiteral("Intent")) {
         auto attributes = reader.attributes();
@@ -100,26 +100,25 @@ IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &docume
 Intent::Intent() : Intent(*new IntentPrivate)
 {}
 
-Intent::Intent(IntentPrivate &dd) : XJdfAbstractNode(dd)
+Intent::Intent(IntentPrivate &dd) : AbstractNode(dd)
 {}
 
 void Intent::updateSelf(const NetworkDataEntitySP &other)
 {
     IntentSP castedOther = qSharedPointerCast<Intent>(other);
     setName(castedOther->name());
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }
 
 void Intent::addIntentCreator(const QString &name,
-                              std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)> &&creator)
+                              std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)> &&creator)
 {
     if (!IntentPrivate::creators)
-        IntentPrivate::creators = new QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>>();
-    if (!(*IntentPrivate::creators).contains(name))
-        (*IntentPrivate::creators)[name] = creator;
+        IntentPrivate::creators = new QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>>();
+    (*IntentPrivate::creators)[name] = creator;
 }
 
-std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)> &Intent::intentCreator(const QString &name)
+std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)> &Intent::intentCreator(const QString &name)
 {
     return (*IntentPrivate::creators)[name];
 }

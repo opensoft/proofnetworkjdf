@@ -25,13 +25,13 @@
 #ifndef XJDF_GRAYBOXPRIVATE_H
 #define XJDF_GRAYBOXPRIVATE_H
 
-#include "xjdfabstractnode_p.h"
+#include "abstractnode_p.h"
 
 #include "proofnetwork/xjdf/data/graybox.h"
 
 namespace Proof {
 namespace XJdf {
-class GrayBoxPrivate : public XJdfAbstractNodePrivate
+class GrayBoxPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(GrayBox)
 

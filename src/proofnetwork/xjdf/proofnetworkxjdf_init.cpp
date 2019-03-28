@@ -29,9 +29,9 @@
 #include "proofnetwork/xjdf/data/component.h"
 #include "proofnetwork/xjdf/data/cuttingparams.h"
 #include "proofnetwork/xjdf/data/deliveryparams.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/foldingintent.h"
 #include "proofnetwork/xjdf/data/media.h"
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
@@ -40,12 +40,10 @@ Q_LOGGING_CATEGORY(proofNetworkXJdfDataLog, "proof.network.xjdf.data")
 PROOF_LIBRARY_INITIALIZER(libraryInit)
 {
     // clang-format off
-   
+    qRegisterMetaType<Proof::XJdf::Document *>("Proof::XJdf::Document *");
 
-    qRegisterMetaType<Proof::XJdf::XJdfDocument *>("Proof::XJdf::XJdfDocument *");
-
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentSP>("Proof::XJdf::XJdfDocumentSP");
-    qRegisterMetaType<Proof::XJdf::XJdfDocumentWP>("Proof::XJdf::XJdfDocumentWP");
+    qRegisterMetaType<Proof::XJdf::DocumentSP>("Proof::XJdf::DocumentSP");
+    qRegisterMetaType<Proof::XJdf::DocumentWP>("Proof::XJdf::DocumentWP");
 
     Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::ColorIntent>(QStringLiteral("ColorIntent"));
     Proof::XJdf::Intent::registerIntentCreator<Proof::XJdf::FoldingIntent>(QStringLiteral("FoldingIntent"));

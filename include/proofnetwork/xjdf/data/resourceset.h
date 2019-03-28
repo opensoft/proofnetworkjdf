@@ -28,7 +28,7 @@
 #include "proofcore/objectscache.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
+#include "proofnetwork/xjdf/data/abstractnode.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
@@ -38,7 +38,7 @@ namespace Proof {
 namespace XJdf {
 
 class ResourceSetPrivate;
-class PROOF_NETWORK_XJDF_EXPORT ResourceSet : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT ResourceSet : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourceSet)
@@ -78,7 +78,7 @@ public:
 
     static ResourceSetSP create();
 
-    static ResourceSetSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static ResourceSetSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

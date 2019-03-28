@@ -29,12 +29,12 @@
 #include "proofnetwork/xjdf/data/product.h"
 #include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
-class PartPrivate : public XJdfAbstractNodePrivate
+class PartPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(Part)
 
@@ -126,7 +126,7 @@ PartSP Part::create()
     return result;
 }
 
-PartSP Part::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+PartSP Part::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     PartSP part;
 
@@ -156,7 +156,7 @@ void Part::toXJdf(QXmlStreamWriter &writer, bool) const
     writer.writeEndElement();
 }
 
-Part::Part() : XJdfAbstractNode(*new PartPrivate)
+Part::Part() : AbstractNode(*new PartPrivate)
 {}
 
 void Part::updateSelf(const NetworkDataEntitySP &other)
@@ -164,5 +164,5 @@ void Part::updateSelf(const NetworkDataEntitySP &other)
     PartSP castedOther = qSharedPointerCast<Part>(other);
     updateBlock(castedOther->d_func()->blockName);
     updateProduct(castedOther->d_func()->productId);
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

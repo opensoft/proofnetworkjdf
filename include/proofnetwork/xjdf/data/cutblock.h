@@ -28,7 +28,7 @@
 #include "proofcore/objectscache.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
+#include "proofnetwork/xjdf/data/abstractnode.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
@@ -40,7 +40,7 @@ namespace XJdf {
 using XJdfCutBlockDataKey = QPair<QString, QString>;
 
 class CutBlockPrivate;
-class PROOF_NETWORK_XJDF_EXPORT CutBlock : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT CutBlock : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CutBlock)
@@ -65,7 +65,7 @@ public:
 
     static CutBlockSP create(const QString &blockName = QString());
 
-    static CutBlockSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static CutBlockSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

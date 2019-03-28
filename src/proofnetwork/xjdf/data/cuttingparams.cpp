@@ -69,7 +69,7 @@ CuttingParamsSP CuttingParams::create()
     return result;
 }
 
-CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     CuttingParamsSP params;
 

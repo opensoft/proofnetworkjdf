@@ -22,57 +22,24 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef XJDFDOCUMENT_H
-#define XJDFDOCUMENT_H
+#ifndef XJDF_ABSTRACTNODE_P_H
+#define XJDF_ABSTRACTNODE_P_H
 
-#include "graybox.h"
+#include "proofnetwork/networkdataentity_p.h"
+#include "proofnetwork/xjdf/data/abstractnode.h"
 
 namespace Proof {
 namespace XJdf {
-
-class XJdfDocumentPrivate;
-class PROOF_NETWORK_XJDF_EXPORT XJdfDocument : public GrayBox
+class AbstractNodePrivate : public NetworkDataEntityPrivate
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(XJdfDocument)
+    Q_DECLARE_PUBLIC(AbstractNode)
+
 public:
-    XJdfDocument(const XJdfDocument &) = delete;
-    XJdfDocument &operator=(const XJdfDocument &) = delete;
-    XJdfDocument(XJdfDocument &&) = delete;
-    XJdfDocument &operator=(XJdfDocument &&) = delete;
-    ~XJdfDocument() = default;
+    AbstractNodePrivate() = default;
 
-    QString jobId() const;
-    QString jobPartId() const;
-    AuditPoolSP auditPool() const;
-    ProductListSP productList() const;
-
-    void setJobId(const QString &arg);
-    void setJobPartId(const QString &arg);
-    void setAuditPool(const AuditPoolSP &arg);
-    void setProductList(const ProductListSP &arg);
-
-    static XJdfDocumentSP create();
-
-    static XJdfDocumentSP fromXJdf(QXmlStreamReader &reader);
-    static XJdfDocumentSP fromFile(const QString &filePath);
-
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
-
-    bool toFile(const QString &fileName) const;
-
-signals:
-    void jobIdChanged(const QString &arg);
-    void jobPartIdChanged(const QString &arg);
-    void auditPoolChanged(const Proof::XJdf::AuditPoolSP &arg);
-    void productListChanged(const Proof::XJdf::ProductListSP &arg);
-
-protected:
-    explicit XJdfDocument();
-    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
+    DocumentWP document;
 };
 
 } // namespace XJdf
 } // namespace Proof
-
-#endif // XJDFDOCUMENT_H
+#endif //XJDF_ABSTRACTNODE_P_H

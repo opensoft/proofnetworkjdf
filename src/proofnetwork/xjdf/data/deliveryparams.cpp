@@ -84,7 +84,7 @@ DeliveryParamsSP DeliveryParams::create()
     return result;
 }
 
-DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     DeliveryParamsSP params;
 

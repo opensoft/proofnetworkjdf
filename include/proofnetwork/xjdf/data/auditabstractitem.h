@@ -25,7 +25,7 @@
 #ifndef XJDF_AUDITABSTRACTITEM_H
 #define XJDF_AUDITABSTRACTITEM_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class AuditAbstractItemPrivate;
-class PROOF_NETWORK_XJDF_EXPORT AuditAbstractItem : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT AuditAbstractItem : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditAbstractItem)

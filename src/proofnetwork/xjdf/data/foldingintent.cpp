@@ -66,7 +66,7 @@ FoldingIntentSP FoldingIntent::create()
     return result;
 }
 
-FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     FoldingIntentSP intent;
 

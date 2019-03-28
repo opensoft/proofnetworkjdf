@@ -25,13 +25,13 @@
 #ifndef XJDF_GRAYBOXPRIVATE_H
 #define XJDF_GRAYBOXPRIVATE_H
 
-#include "xjdfabstractnode_p.h"
+#include "abstractnode_p.h"
 
 #include "proofnetwork/xjdf/data/graybox.h"
 
 namespace Proof {
 namespace XJdf {
-class IntentPrivate : public XJdfAbstractNodePrivate
+class IntentPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(Intent)
 
@@ -39,7 +39,7 @@ public:
     IntentPrivate() = default;
     QString name;
 
-    static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *creators;
+    static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>> *creators;
 };
 
 } // namespace XJdf

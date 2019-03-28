@@ -26,13 +26,13 @@
 #define XJDF_AUDITABSTRACTITEM_P_H
 
 #include "proofnetwork/xjdf/data/auditabstractitem.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 namespace Proof {
 namespace XJdf {
 
-class AuditAbstractItemPrivate : public XJdfAbstractNodePrivate
+class AuditAbstractItemPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(AuditAbstractItem)
 

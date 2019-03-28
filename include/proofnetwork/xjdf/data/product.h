@@ -25,7 +25,7 @@
 #ifndef XJDF_PRODUCT_H
 #define XJDF_PRODUCT_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class ProductPrivate;
-class PROOF_NETWORK_XJDF_EXPORT Product : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT Product : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Product)
@@ -76,7 +76,7 @@ public:
 
     static ProductSP create(const QString &id);
 
-    static ProductSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static ProductSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

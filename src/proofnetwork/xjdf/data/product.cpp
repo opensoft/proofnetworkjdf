@@ -25,11 +25,11 @@
 #include "proofnetwork/xjdf/data/product.h"
 
 #include "proofnetwork/xjdf/data/intent.h"
-#include "proofnetwork/xjdf/data/xjdfabstractnode_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 namespace Proof {
 namespace XJdf {
-class ProductPrivate : public XJdfAbstractNodePrivate
+class ProductPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(Product)
 
@@ -146,7 +146,7 @@ ProductSP Product::create(const QString &id)
     return result;
 }
 
-ProductSP Product::fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document)
+ProductSP Product::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     ProductSP product;
     if (reader.isStartElement() && reader.name() == QStringLiteral("Product")) {
@@ -203,7 +203,7 @@ void Product::toXJdf(QXmlStreamWriter &writer, bool) const
     writer.writeEndElement();
 }
 
-Product::Product(const QString &id) : XJdfAbstractNode(*new ProductPrivate)
+Product::Product(const QString &id) : AbstractNode(*new ProductPrivate)
 {
     setId(id);
 }
@@ -218,5 +218,5 @@ void Product::updateSelf(const NetworkDataEntitySP &other)
     setType(castedOther->type());
     setIntents(castedOther->intents());
 
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

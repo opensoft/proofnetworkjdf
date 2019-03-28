@@ -25,7 +25,7 @@
 #ifndef PROOF_XJDF_AUDITPOOL_H
 #define PROOF_XJDF_AUDITPOOL_H
 
-#include "proofnetwork/xjdf/data/xjdfabstractnode.h"
+#include "proofnetwork/xjdf/data/abstractnode.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
@@ -35,7 +35,7 @@ namespace Proof {
 namespace XJdf {
 
 class AuditPoolPrivate;
-class PROOF_NETWORK_XJDF_EXPORT AuditPool : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT AuditPool : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditPool)
@@ -54,7 +54,7 @@ public:
 
     static AuditPoolSP create();
 
-    static AuditPoolSP fromXJdf(QXmlStreamReader &reader, const XJdfDocumentSP &document = XJdfDocumentSP());
+    static AuditPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
 
 signals:

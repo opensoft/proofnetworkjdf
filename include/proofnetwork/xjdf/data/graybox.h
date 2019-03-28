@@ -25,7 +25,7 @@
 #ifndef XJDF_GRAYBOX_H
 #define XJDF_GRAYBOX_H
 
-#include "xjdfabstractnode.h"
+#include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
@@ -34,7 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class GrayBoxPrivate;
-class PROOF_NETWORK_XJDF_EXPORT GrayBox : public XJdfAbstractNode
+class PROOF_NETWORK_XJDF_EXPORT GrayBox : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(GrayBox)

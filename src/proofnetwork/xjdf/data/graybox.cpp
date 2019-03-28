@@ -98,7 +98,7 @@ void GrayBox::toXJdf(QXmlStreamWriter &writer, bool) const
 GrayBox::GrayBox() : GrayBox(*new GrayBoxPrivate)
 {}
 
-GrayBox::GrayBox(GrayBoxPrivate &dd) : XJdfAbstractNode(dd)
+GrayBox::GrayBox(GrayBoxPrivate &dd) : AbstractNode(dd)
 {}
 
 void GrayBox::updateSelf(const NetworkDataEntitySP &other)
@@ -106,5 +106,5 @@ void GrayBox::updateSelf(const NetworkDataEntitySP &other)
     GrayBoxSP castedOther = qSharedPointerCast<GrayBox>(other);
     setTypes(castedOther->types());
     setResourceSets(castedOther->resourceSets());
-    XJdfAbstractNode::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

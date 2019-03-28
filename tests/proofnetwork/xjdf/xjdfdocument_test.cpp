@@ -10,6 +10,7 @@
 #include "proofnetwork/xjdf/data/cutblock.h"
 #include "proofnetwork/xjdf/data/cuttingparams.h"
 #include "proofnetwork/xjdf/data/deliveryparams.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/dropitem.h"
 #include "proofnetwork/xjdf/data/foldingintent.h"
 #include "proofnetwork/xjdf/data/media.h"
@@ -18,7 +19,6 @@
 #include "proofnetwork/xjdf/data/product.h"
 #include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
-#include "proofnetwork/xjdf/data/xjdfdocument.h"
 
 #include "gtest/proof/test_global.h"
 
@@ -30,25 +30,25 @@ using namespace Proof;
 using namespace Proof::XJdf;
 using testing::Test;
 
-class XJdfDocumentTest : public Test
+class DocumentTest : public Test
 {
 public:
-    XJdfDocumentTest() {}
+    DocumentTest() {}
 
 protected:
     void SetUp() override
     {
-        xjdfDocUT = XJdfDocument::fromFile(":/data/proposal.xjdf");
+        xjdfDocUT = Document::fromFile(":/data/proposal.xjdf");
         ASSERT_TRUE(xjdfDocUT);
     }
 
     void TearDown() override {}
 
 protected:
-    XJdfDocumentSP xjdfDocUT;
+    DocumentSP xjdfDocUT;
 };
 
-TEST_F(XJdfDocumentTest, fromXJdf)
+TEST_F(DocumentTest, fromXJdf)
 {
     EXPECT_EQ("PRESSSHEET_ID", xjdfDocUT->jobId());
     EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types()[0]);
@@ -170,7 +170,7 @@ TEST_F(XJdfDocumentTest, fromXJdf)
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
 }
 
-TEST_F(XJdfDocumentTest, toXJdf)
+TEST_F(DocumentTest, toXJdf)
 {
     QByteArray xml;
     QXmlStreamWriter writer(&xml);
@@ -178,7 +178,7 @@ TEST_F(XJdfDocumentTest, toXJdf)
 
     ASSERT_FALSE(xml.isEmpty());
     QXmlStreamReader reader(xml);
-    auto xjdfDocNew = XJdfDocument::fromXJdf(reader);
+    auto xjdfDocNew = Document::fromXJdf(reader);
 
     EXPECT_EQ("PRESSSHEET_ID", xjdfDocNew->jobId());
     EXPECT_EQ(ProcessType::Cutting, xjdfDocNew->types()[0]);
@@ -300,10 +300,10 @@ TEST_F(XJdfDocumentTest, toXJdf)
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
 }
 
-TEST_F(XJdfDocumentTest, updateFrom)
+TEST_F(DocumentTest, updateFrom)
 {
-    auto xjdfDocUT2 = XJdfDocument::fromFile(":/data/proposal2.xjdf");
-    auto xjdfDocUT3 = XJdfDocument::create();
+    auto xjdfDocUT2 = Document::fromFile(":/data/proposal2.xjdf");
+    auto xjdfDocUT3 = Document::create();
     ASSERT_TRUE(xjdfDocUT2);
     xjdfDocUT3->updateFrom(xjdfDocUT2);
 

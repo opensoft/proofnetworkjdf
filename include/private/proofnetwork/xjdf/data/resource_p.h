@@ -1,4 +1,3 @@
-#ifndef XJDF_RESOURCEPRIVATE_H
 /* Copyright 2019, OpenSoft Inc.
  * All rights reserved.
  *
@@ -23,15 +22,16 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#ifndef XJDF_RESOURCEPRIVATE_H
 #define XJDF_RESOURCEPRIVATE_H
 
-#include "xjdfabstractnode_p.h"
+#include "abstractnode_p.h"
 
 #include "proofnetwork/xjdf/data/resource.h"
 
 namespace Proof {
 namespace XJdf {
-class ResourcePrivate : public XJdfAbstractNodePrivate
+class ResourcePrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(Resource)
 
@@ -42,7 +42,7 @@ public:
     QVector<PartSP> parts;
     AmountPoolSP amountPool;
 
-    static QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const XJdfDocumentSP &)>> *creators;
+    static QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>> *creators;
 };
 
 } // namespace XJdf
