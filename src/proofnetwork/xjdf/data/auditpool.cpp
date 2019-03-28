@@ -24,9 +24,9 @@
  */
 #include "proofnetwork/xjdf/data/auditpool.h"
 
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include "proofnetwork/xjdf/data/auditcreated.h"
 #include "proofnetwork/xjdf/data/auditnotification.h"
-#include "proofnetwork/xjdf/data/abstractnode_p.h"
 
 namespace Proof {
 namespace XJdf {

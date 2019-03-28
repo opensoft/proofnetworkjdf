@@ -24,8 +24,8 @@
  */
 #include "proofnetwork/xjdf/data/amountpool.h"
 
-#include "proofnetwork/xjdf/data/partamount.h"
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/partamount.h"
 
 namespace Proof {
 namespace XJdf {

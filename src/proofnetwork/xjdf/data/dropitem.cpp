@@ -24,10 +24,10 @@
  */
 #include "proofnetwork/xjdf/data/dropitem.h"
 
-#include "proofnetwork/xjdf/data/product.h"
-#include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include "proofnetwork/xjdf/data/document.h"
+#include "proofnetwork/xjdf/data/product.h"
+#include "proofnetwork/xjdf/data/productlist.h"
 
 namespace Proof {
 namespace XJdf {

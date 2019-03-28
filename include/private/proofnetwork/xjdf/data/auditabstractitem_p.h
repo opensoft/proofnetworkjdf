@@ -25,8 +25,8 @@
 #ifndef XJDF_AUDITABSTRACTITEM_P_H
 #define XJDF_AUDITABSTRACTITEM_P_H
 
-#include "proofnetwork/xjdf/data/auditabstractitem.h"
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/auditabstractitem.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 namespace Proof {

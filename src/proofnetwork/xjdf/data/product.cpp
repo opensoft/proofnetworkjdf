@@ -24,8 +24,8 @@
  */
 #include "proofnetwork/xjdf/data/product.h"
 
-#include "proofnetwork/xjdf/data/intent.h"
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/intent.h"
 
 namespace Proof {
 namespace XJdf {

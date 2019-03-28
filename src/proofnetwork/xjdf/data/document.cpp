@@ -237,13 +237,14 @@ DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
 
 void Document::toXJdf(QXmlStreamWriter &writer) const
 {
+    Q_D_CONST(Document);
     writer.setAutoFormatting(true);
     writer.writeStartDocument();
     writer.writeStartElement(QStringLiteral("XJDF"));
 
     writer.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_2_0"));
 
-    for (const auto &ns : namespaces()) {
+    for (const auto &ns : qAsConst(d->namespaces)) {
         writer.writeNamespace(ns.second, ns.first);
     }
 
@@ -252,7 +253,7 @@ void Document::toXJdf(QXmlStreamWriter &writer) const
     QStringList types = algorithms::map(this->types(), [](ProcessType type) { return processTypeToString(type); },
                                         QStringList());
     writer.writeAttribute(QStringLiteral("Types"), types.join(' '));
-    for (const auto &set : resourceSets())
+    for (const auto &set : qAsConst(d->resourceSets))
         set->toXJdf(writer);
 
     auditPool()->toXJdf(writer);

@@ -24,13 +24,13 @@
  */
 #include "proofnetwork/xjdf/data/part.h"
 
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include "proofnetwork/xjdf/data/cutblock.h"
 #include "proofnetwork/xjdf/data/cuttingparams.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/product.h"
 #include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
-#include "proofnetwork/xjdf/data/abstractnode_p.h"
-#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
