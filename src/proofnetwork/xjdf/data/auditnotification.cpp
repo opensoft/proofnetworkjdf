@@ -73,11 +73,11 @@ AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader, const 
     reader.readNextStartElement();
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
-            if (reader.name() == QStringLiteral("Header")) {
-                notification->readAttributesFromXJdf(reader);
-            } else if (reader.name() == QStringLiteral("Notification")) {
+            if (reader.name() == QStringLiteral("Notification")) {
                 notification->setSeverityClass(
                     severityFromString(reader.attributes().value(QStringLiteral("Class")).toString()));
+            } else {
+                notification->fillParentFields(reader);
             }
         } else if (reader.isEndElement()) {
             if (reader.name() == QStringLiteral("AuditNotification"))
@@ -89,7 +89,7 @@ AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader, const 
     return notification;
 }
 
-void AuditNotification::toXJdf(QXmlStreamWriter &writer, bool) const
+void AuditNotification::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(AuditNotification);
     writer.writeStartElement(QStringLiteral("AuditNotification"));

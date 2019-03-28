@@ -108,7 +108,7 @@ DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const Docume
     return params;
 }
 
-void DeliveryParams::toXJdf(QXmlStreamWriter &writer, bool) const
+void DeliveryParams::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(DeliveryParams);
     Resource::toXJdf(writer);
@@ -118,7 +118,7 @@ void DeliveryParams::toXJdf(QXmlStreamWriter &writer, bool) const
     for (const auto &item : d->items)
         item->toXJdf(writer);
     writer.writeEndElement();
-    Resource::toXJdf(writer, true);
+    Resource::writeEndToXJdf(writer);
 }
 
 DeliveryParams::DeliveryParams() : Resource(*new DeliveryParamsPrivate)

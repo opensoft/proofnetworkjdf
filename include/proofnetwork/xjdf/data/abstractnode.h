@@ -48,9 +48,9 @@ public:
 
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
-    virtual bool fillFromXJdf(QXmlStreamReader &reader);
-    virtual void readAttributesFromXJdf(QXmlStreamReader &reader);
-    virtual void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const = 0;
+    virtual bool fillParentFields(QXmlStreamReader &reader);
+    virtual void toXJdf(QXmlStreamWriter &writer) const = 0;
+    virtual void writeEndToXJdf(QXmlStreamWriter &writer) const;
 
 protected:
     explicit AbstractNode();

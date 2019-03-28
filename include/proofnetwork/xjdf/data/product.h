@@ -77,7 +77,7 @@ public:
     static ProductSP create(const QString &id);
 
     static ProductSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void idChanged(const QString &arg);

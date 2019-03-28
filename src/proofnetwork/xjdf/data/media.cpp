@@ -120,7 +120,7 @@ MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
     return media;
 }
 
-void Media::toXJdf(QXmlStreamWriter &writer, bool) const
+void Media::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Media);
     Resource::toXJdf(writer);
@@ -129,7 +129,7 @@ void Media::toXJdf(QXmlStreamWriter &writer, bool) const
                           QStringLiteral("%1 %2").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2));
     writer.writeAttribute(QStringLiteral("Thickness"), QStringLiteral("%1").arg(d->thickness, 0, 'f', 2));
     writer.writeEndElement();
-    Resource::toXJdf(writer, true);
+    Resource::writeEndToXJdf(writer);
 }
 
 Media::Media(const QString &id) : Resource(*new MediaPrivate, id)

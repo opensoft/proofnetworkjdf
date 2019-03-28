@@ -98,7 +98,7 @@ BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const Do
     return params;
 }
 
-void BoxPackingParams::toXJdf(QXmlStreamWriter &writer, bool) const
+void BoxPackingParams::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(BoxPackingParams);
     Resource::toXJdf(writer);
@@ -108,7 +108,7 @@ void BoxPackingParams::toXJdf(QXmlStreamWriter &writer, bool) const
 
     writer.writeAttribute(QStringLiteral("BoxType"), boxTypeToString(d->boxType));
     writer.writeEndElement();
-    Resource::toXJdf(writer, true);
+    Resource::writeEndToXJdf(writer);
 }
 
 BoxPackingParams::BoxPackingParams() : Resource(*new BoxPackingParamsPrivate)

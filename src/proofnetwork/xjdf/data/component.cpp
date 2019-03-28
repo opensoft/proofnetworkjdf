@@ -24,10 +24,10 @@
  */
 #include "proofnetwork/xjdf/data/component.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
-#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
@@ -167,7 +167,7 @@ ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docu
     return component;
 }
 
-void Component::toXJdf(QXmlStreamWriter &writer, bool) const
+void Component::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Component);
     Resource::toXJdf(writer);
@@ -183,7 +183,7 @@ void Component::toXJdf(QXmlStreamWriter &writer, bool) const
         writer.writeAttribute(QStringLiteral("MediaRef"), mediaRef->id());
 
     writer.writeEndElement();
-    Resource::toXJdf(writer, true);
+    Resource::writeEndToXJdf(writer);
 }
 
 Component::Component() : Resource(*new ComponentPrivate)

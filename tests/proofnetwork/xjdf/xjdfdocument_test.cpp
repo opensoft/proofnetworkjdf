@@ -54,6 +54,11 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types()[0]);
     EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types()[1]);
 
+    //Default ns here too
+    ASSERT_EQ(2, xjdfDocUT->namespaces().count());
+    EXPECT_EQ("profit", xjdfDocUT->namespaces()[1].first);
+    EXPECT_EQ("https://www.opensoftdev.com/profit", xjdfDocUT->namespaces()[1].second);
+
     ASSERT_TRUE(xjdfDocUT->auditPool());
     auto auditPool = xjdfDocUT->auditPool();
     ASSERT_TRUE(auditPool->created());
@@ -184,6 +189,10 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_EQ(ProcessType::Cutting, xjdfDocNew->types()[0]);
     EXPECT_EQ(ProcessType::BoxPacking, xjdfDocNew->types()[1]);
 
+    ASSERT_EQ(2, xjdfDocNew->namespaces().count());
+    EXPECT_EQ("profit", xjdfDocNew->namespaces()[1].first);
+    EXPECT_EQ("https://www.opensoftdev.com/profit", xjdfDocNew->namespaces()[1].second);
+
     ASSERT_TRUE(xjdfDocNew->auditPool());
     auto auditPool = xjdfDocNew->auditPool();
     ASSERT_TRUE(auditPool->created());
@@ -306,6 +315,9 @@ TEST_F(DocumentTest, updateFrom)
     auto xjdfDocUT3 = Document::create();
     ASSERT_TRUE(xjdfDocUT2);
     xjdfDocUT3->updateFrom(xjdfDocUT2);
+
+    EXPECT_EQ(xjdfDocUT2->namespaces()[1].first, xjdfDocUT3->namespaces()[1].first);
+    EXPECT_EQ(xjdfDocUT2->namespaces()[1].second, xjdfDocUT3->namespaces()[1].second);
 
     EXPECT_EQ(xjdfDocUT2->jobId(), xjdfDocUT3->jobId());
     EXPECT_EQ(xjdfDocUT2->types()[0], xjdfDocUT3->types()[0]);

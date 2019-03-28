@@ -36,13 +36,15 @@ NetworkDataEntityQmlWrapper *AbstractNode::toQmlWrapper(QObject *parent) const
     return nullptr;
 }
 
-bool AbstractNode::fillFromXJdf(QXmlStreamReader &)
+bool AbstractNode::fillParentFields(QXmlStreamReader &)
 {
     return false;
 }
 
-void AbstractNode::readAttributesFromXJdf(QXmlStreamReader &)
-{}
+void AbstractNode::writeEndToXJdf(QXmlStreamWriter &writer) const
+{
+    writer.writeEndElement();
+}
 
 AbstractNode::AbstractNode() : AbstractNode(*new AbstractNodePrivate)
 {}

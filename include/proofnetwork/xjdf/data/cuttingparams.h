@@ -51,7 +51,7 @@ public:
     static CuttingParamsSP create();
 
     static CuttingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void cutBlocksChanged(const QVector<Proof::XJdf::CutBlockSP> &arg);

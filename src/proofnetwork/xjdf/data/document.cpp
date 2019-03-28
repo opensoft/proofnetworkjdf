@@ -24,9 +24,10 @@
  */
 #include "proofnetwork/xjdf/data/document.h"
 
-#include "proofnetwork/xjdf/data/graybox_p.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include <proofnetwork/xjdf/data/auditpool.h>
 #include <proofnetwork/xjdf/data/productlist.h>
+#include <proofnetwork/xjdf/data/resourceset.h>
 
 #include <QBuffer>
 #include <QFile>
@@ -34,7 +35,7 @@
 namespace Proof {
 namespace XJdf {
 
-class DocumentPrivate : public GrayBoxPrivate
+class DocumentPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(Document)
 
@@ -42,6 +43,9 @@ class DocumentPrivate : public GrayBoxPrivate
     QString jobPartId;
     AuditPoolSP auditPool;
     ProductListSP productList;
+    QVector<ProcessType> types;
+    QVector<ResourceSetSP> resourceSets;
+    QVector<QPair<QString, QString>> namespaces;
 };
 
 } // namespace XJdf
@@ -72,6 +76,12 @@ ProductListSP Document::productList() const
 {
     Q_D_CONST(Document);
     return d->productList;
+}
+
+QVector<QPair<QString, QString>> Document::namespaces() const
+{
+    Q_D_CONST(Document);
+    return d->namespaces;
 }
 
 void Document::setJobId(const QString &arg)
@@ -110,6 +120,52 @@ void Document::setProductList(const ProductListSP &arg)
     }
 }
 
+QVector<ProcessType> Document::types() const
+{
+    Q_D_CONST(Document);
+    return d->types;
+}
+
+QVector<ResourceSetSP> Document::resourceSets() const
+{
+    Q_D_CONST(Document);
+    return d->resourceSets;
+}
+
+void Document::setTypes(const QVector<ProcessType> &arg)
+{
+    Q_D(Document);
+    if (arg != d->types) {
+        d->types = arg;
+        emit typesChanged(arg);
+    }
+}
+
+void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
+{
+    Q_D(Document);
+    if (arg != d->resourceSets) {
+        d->resourceSets = arg;
+        emit resourceSetsChanged(arg);
+    }
+}
+
+void Document::addResourceSet(const ResourceSetSP &arg)
+{
+    Q_D(Document);
+    d->resourceSets.append(arg);
+    emit resourceSetsChanged(d->resourceSets);
+}
+
+void Document::setNamespaces(const QVector<QPair<QString, QString>> &arg)
+{
+    Q_D(Document);
+    if (arg != d->namespaces) {
+        d->namespaces = arg;
+        emit namespacesChanged(arg);
+    }
+}
+
 DocumentSP Document::create()
 {
     DocumentSP result(new Document());
@@ -135,17 +191,33 @@ DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("XJDF")) {
-                document->readAttributesFromXJdf(reader);
+                auto namespaces = reader.namespaceDeclarations();
+
+                document->setNamespaces(algorithms::map(namespaces,
+                                                        [](const auto &ns) {
+                                                            return qMakePair(ns.prefix().toString(),
+                                                                             ns.namespaceUri().toString());
+                                                        },
+                                                        QVector<QPair<QString, QString>>()));
+
                 auto attributes = reader.attributes();
                 document->setJobId(attributes.value(QStringLiteral("JobID")).toString());
                 if (attributes.hasAttribute(QStringLiteral("JobPartID")))
                     document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
+                auto types = reader.attributes().value(QStringLiteral("Types")).toString().split(' ');
+                document->setTypes(algorithms::map(types, [](const auto &type) { return processTypeFromString(type); },
+                                                   QVector<ProcessType>()));
+
             } else if (reader.name() == QStringLiteral("ProductList")) {
                 document->setProductList(ProductList::fromXJdf(reader, document));
             } else if (reader.name() == QStringLiteral("AuditPool")) {
                 document->setAuditPool(AuditPool::fromXJdf(reader, document));
+            } else if (reader.name() == QStringLiteral("ResourceSet")) {
+                auto resourceSet = ResourceSet::fromXJdf(reader, document);
+                if (resourceSet)
+                    document->addResourceSet(resourceSet);
             } else {
-                document->fillFromXJdf(reader);
+                document->fillParentFields(reader);
             }
         } else if (reader.isEndElement()) {
             if (reader.name() == QStringLiteral("XJDF"))
@@ -163,17 +235,26 @@ DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
     return document;
 }
 
-void Document::toXJdf(QXmlStreamWriter &writer, bool) const
+void Document::toXJdf(QXmlStreamWriter &writer) const
 {
     writer.setAutoFormatting(true);
     writer.writeStartDocument();
     writer.writeStartElement(QStringLiteral("XJDF"));
 
     writer.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_2_0"));
-    writer.writeNamespace(QStringLiteral("https://www.opensoftdev.com/profit"), QStringLiteral("profit"));
+
+    for (const auto &ns : namespaces()) {
+        writer.writeNamespace(ns.second, ns.first);
+    }
+
     writer.writeAttribute(QStringLiteral("JobID"), jobId());
     writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());
-    GrayBox::toXJdf(writer);
+    QStringList types = algorithms::map(this->types(), [](ProcessType type) { return processTypeToString(type); },
+                                        QStringList());
+    writer.writeAttribute(QStringLiteral("Types"), types.join(' '));
+    for (const auto &set : resourceSets())
+        set->toXJdf(writer);
+
     auditPool()->toXJdf(writer);
     productList()->toXJdf(writer);
     writer.writeEndElement();
@@ -192,16 +273,19 @@ bool Document::toFile(const QString &fileName) const
     return true;
 }
 
-Document::Document() : GrayBox(*new DocumentPrivate)
+Document::Document() : AbstractNode(*new DocumentPrivate)
 {}
 
 void Document::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
     DocumentSP castedOther = qSharedPointerCast<Document>(other);
+    setNamespaces(castedOther->namespaces());
     setJobId(castedOther->jobId());
     setJobPartId(castedOther->jobPartId());
+    setTypes(castedOther->types());
     setAuditPool(castedOther->auditPool());
     setProductList(castedOther->productList());
+    setResourceSets(castedOther->resourceSets());
 
-    GrayBox::updateSelf(other);
+    AbstractNode::updateSelf(other);
 }

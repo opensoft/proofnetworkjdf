@@ -152,7 +152,7 @@ ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader, const DocumentSP &
     return resourceSet;
 }
 
-void ResourceSet::toXJdf(QXmlStreamWriter &writer, bool) const
+void ResourceSet::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(ResourceSet);
 

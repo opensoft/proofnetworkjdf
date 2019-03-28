@@ -90,10 +90,10 @@ AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const DocumentSP
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("Header")) {
-                created->readAttributesFromXJdf(reader);
                 auto attributes = reader.attributes();
                 created->setTemplateId(attributes.value(QStringLiteral("profit:TemplateID")).toString());
                 created->setTemplateVersion(attributes.value(QStringLiteral("profit:TemplateVersion")).toString());
+                created->fillParentFields(reader);
             }
         } else if (reader.isEndElement()) {
             if (reader.name() == QStringLiteral("AuditCreated"))
@@ -105,7 +105,7 @@ AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const DocumentSP
     return created;
 }
 
-void AuditCreated::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
+void AuditCreated::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(AuditCreated);
     writer.writeStartElement(QStringLiteral("AuditCreated"));

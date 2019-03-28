@@ -82,7 +82,7 @@ PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const DocumentSP &do
     return part;
 }
 
-void PartAmount::toXJdf(QXmlStreamWriter &writer, bool) const
+void PartAmount::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(PartAmount);
     writer.writeStartElement(QStringLiteral("PartAmount"));

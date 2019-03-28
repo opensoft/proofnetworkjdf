@@ -92,7 +92,7 @@ AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &do
     return pool;
 }
 
-void AmountPool::toXJdf(QXmlStreamWriter &writer, bool) const
+void AmountPool::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(AmountPool);
     writer.writeStartElement(QStringLiteral("AmountPool"));

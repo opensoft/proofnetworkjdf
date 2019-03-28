@@ -52,7 +52,7 @@ public:
     static ProductListSP create();
 
     static ProductListSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void productsChanged(const QVector<Proof::XJdf::ProductSP> &arg);

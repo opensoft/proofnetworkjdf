@@ -25,13 +25,15 @@
 #ifndef XJDFDOCUMENT_H
 #define XJDFDOCUMENT_H
 
-#include "graybox.h"
+#include "abstractnode.h"
+
+#include "proofnetwork/xjdf/apihelper.h"
 
 namespace Proof {
 namespace XJdf {
 
 class DocumentPrivate;
-class PROOF_NETWORK_XJDF_EXPORT Document : public GrayBox
+class PROOF_NETWORK_XJDF_EXPORT Document : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Document)
@@ -46,18 +48,25 @@ public:
     QString jobPartId() const;
     AuditPoolSP auditPool() const;
     ProductListSP productList() const;
+    QVector<QPair<QString, QString>> namespaces() const;
 
     void setJobId(const QString &arg);
     void setJobPartId(const QString &arg);
     void setAuditPool(const AuditPoolSP &arg);
     void setProductList(const ProductListSP &arg);
+    QVector<ProcessType> types() const;
+    QVector<ResourceSetSP> resourceSets() const;
+    void setTypes(const QVector<ProcessType> &arg);
+    void setResourceSets(const QVector<ResourceSetSP> &arg);
+    void addResourceSet(const ResourceSetSP &arg);
+    void setNamespaces(const QVector<QPair<QString, QString>> &arg);
 
     static DocumentSP create();
 
     static DocumentSP fromXJdf(QXmlStreamReader &reader);
     static DocumentSP fromFile(const QString &filePath);
 
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
     bool toFile(const QString &fileName) const;
 
@@ -66,6 +75,9 @@ signals:
     void jobPartIdChanged(const QString &arg);
     void auditPoolChanged(const Proof::XJdf::AuditPoolSP &arg);
     void productListChanged(const Proof::XJdf::ProductListSP &arg);
+    void typesChanged(const QVector<Proof::XJdf::ProcessType> &arg);
+    void resourceSetsChanged(const QVector<Proof::XJdf::ResourceSetSP> &arg);
+    void namespacesChanged(const QVector<QPair<QString, QString>> &arg);
 
 protected:
     explicit Document();

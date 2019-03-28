@@ -144,7 +144,7 @@ PartSP Part::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
     return part;
 }
 
-void Part::toXJdf(QXmlStreamWriter &writer, bool) const
+void Part::toXJdf(QXmlStreamWriter &writer) const
 {
     writer.writeStartElement(QStringLiteral("Part"));
     auto product = this->product();

@@ -27,8 +27,6 @@
 
 #include "abstractnode_p.h"
 
-#include "proofnetwork/xjdf/data/graybox.h"
-
 namespace Proof {
 namespace XJdf {
 class IntentPrivate : public AbstractNodePrivate
@@ -38,8 +36,6 @@ class IntentPrivate : public AbstractNodePrivate
 public:
     IntentPrivate() = default;
     QString name;
-
-    static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>> *creators;
 };
 
 } // namespace XJdf

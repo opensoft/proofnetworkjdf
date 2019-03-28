@@ -89,7 +89,7 @@ ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader, const DocumentSP &
     return productList;
 }
 
-void ProductList::toXJdf(QXmlStreamWriter &writer, bool) const
+void ProductList::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(ProductList);
 

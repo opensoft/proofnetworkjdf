@@ -81,14 +81,14 @@ FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const Document
     return intent;
 }
 
-void FoldingIntent::toXJdf(QXmlStreamWriter &writer, bool) const
+void FoldingIntent::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(FoldingIntent);
     Intent::toXJdf(writer);
     writer.writeStartElement(QStringLiteral("FoldingIntent"));
     writer.writeAttribute(QStringLiteral("FoldCatalog"), foldTypeToString(d->foldingCatalog));
     writer.writeEndElement();
-    writer.writeEndElement();
+    Intent::writeEndToXJdf(writer);
 }
 
 FoldingIntent::FoldingIntent() : Intent(*new FoldingIntentPrivate)

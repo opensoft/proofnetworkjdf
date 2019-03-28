@@ -29,7 +29,22 @@
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>> *IntentPrivate::creators = nullptr;
+namespace {
+using Creator = std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>;
+
+QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>> &creators()
+{
+    static QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>> creators;
+    return creators;
+}
+
+IntentSP createIntent(const QString &name, QXmlStreamReader &reader, const DocumentSP &document)
+{
+    auto creator = creators().find(name);
+    return creator == creators().end() ? IntentSP() : creator.value()(reader, document);
+}
+
+} // namespace
 
 QString Intent::name() const
 {
@@ -46,28 +61,15 @@ void Intent::setName(const QString &arg)
     }
 }
 
-bool Intent::fillFromXJdf(QXmlStreamReader &)
+bool Intent::fillParentFields(QXmlStreamReader &)
 {
     //NOTE: Nothing there for now, but it can be fill later
     return false;
 }
 
-void Intent::readAttributesFromXJdf(QXmlStreamReader &reader)
-{
-    auto attributes = reader.attributes();
-    if (attributes.hasAttribute(QStringLiteral("Name"))) {
-        auto name = attributes.value(QStringLiteral("Name")).toString();
-        setName(name);
-    }
-}
-
-void Intent::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
+void Intent::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Intent);
-    if (writeEnd) {
-        writer.writeEndElement();
-        return;
-    }
 
     writer.writeStartElement(QStringLiteral("Intent"));
     if (!d->name.isEmpty())
@@ -84,13 +86,10 @@ IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 
         reader.readNextStartElement();
         if (!reader.atEnd() && !reader.hasError()) {
-            auto creator = intentCreator(reader.name().toString());
-            if (creator) {
-                auto intent = creator(reader, document);
-                intent->setName(name);
-                reader.skipCurrentElement();
-                return intent;
-            }
+            auto intent = createIntent(reader.name().toString(), reader, document);
+            intent->setName(name);
+            reader.skipCurrentElement();
+            return intent;
         }
     }
 
@@ -113,12 +112,5 @@ void Intent::updateSelf(const NetworkDataEntitySP &other)
 void Intent::addIntentCreator(const QString &name,
                               std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)> &&creator)
 {
-    if (!IntentPrivate::creators)
-        IntentPrivate::creators = new QMap<QString, std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)>>();
-    (*IntentPrivate::creators)[name] = creator;
-}
-
-std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)> &Intent::intentCreator(const QString &name)
-{
-    return (*IntentPrivate::creators)[name];
+    creators()[name] = std::forward<Creator>(creator);
 }

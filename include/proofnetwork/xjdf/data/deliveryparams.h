@@ -54,7 +54,7 @@ public:
     static DeliveryParamsSP create();
 
     static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void requiredChanged(const QDateTime &arg);

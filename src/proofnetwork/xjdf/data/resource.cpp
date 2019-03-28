@@ -31,7 +31,22 @@
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>> *ResourcePrivate::creators = nullptr;
+namespace {
+using Creator = std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>;
+
+QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>> &creators()
+{
+    static QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>> creators;
+    return creators;
+}
+
+ResourceSP createResource(const QString &name, QXmlStreamReader &reader, const DocumentSP &document)
+{
+    auto creator = creators().find(name);
+    return creator == creators().end() ? ResourceSP() : creator.value()(reader, document);
+}
+
+} // namespace
 
 QString Resource::id() const
 {
@@ -96,32 +111,15 @@ void Resource::setAmountPool(const AmountPoolSP &arg)
     }
 }
 
-bool Resource::fillFromXJdf(QXmlStreamReader &)
+bool Resource::fillParentFields(QXmlStreamReader &)
 {
     //NOTE: Nothing there for now, but it can be fill later
     return false;
 }
 
-void Resource::readAttributesFromXJdf(QXmlStreamReader &reader)
-{
-    auto attributes = reader.attributes();
-    if (attributes.hasAttribute(QStringLiteral("ID"))) {
-        auto id = attributes.value(QStringLiteral("ID")).toString();
-        setId(id);
-    }
-    if (attributes.hasAttribute(QStringLiteral("Orientation"))) {
-        auto orientation = attributes.value(QStringLiteral("Orientation")).toString();
-        setOrientation(resourceOrientationFromString(orientation));
-    }
-}
-
-void Resource::toXJdf(QXmlStreamWriter &writer, bool writeEnd) const
+void Resource::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Resource);
-    if (writeEnd) {
-        writer.writeEndElement();
-        return;
-    }
 
     writer.writeStartElement(QStringLiteral("Resource"));
     if (!d->id.isEmpty())
@@ -158,9 +156,7 @@ ResourceSP Resource::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docume
                 if (part)
                     parts << part;
             } else if (reader.isStartElement()) {
-                auto creator = resourceCreator(reader.name().toString());
-                if (creator)
-                    resource = creator(reader, document);
+                resource = createResource(reader.name().toString(), reader, document);
             } else if (reader.isEndElement() && reader.name() == QStringLiteral("Resource")) {
                 break;
             }
@@ -189,9 +185,7 @@ Resource::Resource(ResourcePrivate &dd, const QString &id) : AbstractNode(dd)
 void Resource::addResourceCreator(const QString &name,
                                   std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)> &&creator)
 {
-    if (!ResourcePrivate::creators)
-        ResourcePrivate::creators = new QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>>();
-    (*ResourcePrivate::creators)[name] = creator;
+    creators()[name] = std::forward<Creator>(creator);
 }
 
 void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
@@ -203,8 +197,4 @@ void Resource::updateSelf(const Proof::NetworkDataEntitySP &other)
     setAmountPool(castedOther->amountPool());
 
     AbstractNode::updateSelf(other);
-}
-std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)> &Resource::resourceCreator(const QString &name)
-{
-    return (*ResourcePrivate::creators)[name];
 }

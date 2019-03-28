@@ -94,7 +94,7 @@ CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader, const Document
     return params;
 }
 
-void CuttingParams::toXJdf(QXmlStreamWriter &writer, bool) const
+void CuttingParams::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(CuttingParams);
     Resource::toXJdf(writer);
@@ -102,7 +102,7 @@ void CuttingParams::toXJdf(QXmlStreamWriter &writer, bool) const
     for (const auto &block : d->blocks)
         block->toXJdf(writer);
     writer.writeEndElement();
-    Resource::toXJdf(writer, true);
+    Resource::writeEndToXJdf(writer);
 }
 
 CuttingParams::CuttingParams() : Resource(*new CuttingParamsPrivate)

@@ -116,7 +116,7 @@ DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docume
     return item;
 }
 
-void DropItem::toXJdf(QXmlStreamWriter &writer, bool) const
+void DropItem::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(DropItem);
     writer.writeStartElement(QStringLiteral("DropItem"));

@@ -51,7 +51,7 @@ public:
     static PartAmountSP create();
 
     static PartAmountSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void amountChanged(qulonglong arg);

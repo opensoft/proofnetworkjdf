@@ -104,28 +104,28 @@ void AuditAbstractItem::setDeviceId(const QString &arg)
     }
 }
 
-bool AuditAbstractItem::fillFromXJdf(QXmlStreamReader &)
+bool AuditAbstractItem::fillParentFields(QXmlStreamReader &reader)
 {
+    if (reader.name() == QStringLiteral("Header")) {
+        auto attributes = reader.attributes();
+        if (attributes.hasAttribute(QStringLiteral("AgentVersion")))
+            setAgentVersion(attributes.value(QStringLiteral("AgentVersion")).toString());
+        if (attributes.hasAttribute(QStringLiteral("AgentName")))
+            setAgentName(attributes.value(QStringLiteral("AgentName")).toString());
+        if (attributes.hasAttribute(QStringLiteral("ID")))
+            setId(attributes.value(QStringLiteral("ID")).toString());
+        if (attributes.hasAttribute(QStringLiteral("DeviceId")))
+            setDeviceId(attributes.value(QStringLiteral("DeviceID")).toString());
+        if (attributes.hasAttribute(QStringLiteral("Time")))
+            setTimestamp(QDateTime::fromString(attributes.value(QStringLiteral("Time")).toString(), Qt::ISODate));
+
+        return true;
+    }
     //NOTE: Nothing there for now
     return false;
 }
 
-void AuditAbstractItem::readAttributesFromXJdf(QXmlStreamReader &reader)
-{
-    auto attributes = reader.attributes();
-    if (attributes.hasAttribute(QStringLiteral("AgentVersion")))
-        setAgentVersion(attributes.value(QStringLiteral("AgentVersion")).toString());
-    if (attributes.hasAttribute(QStringLiteral("AgentName")))
-        setAgentName(attributes.value(QStringLiteral("AgentName")).toString());
-    if (attributes.hasAttribute(QStringLiteral("ID")))
-        setId(attributes.value(QStringLiteral("ID")).toString());
-    if (attributes.hasAttribute(QStringLiteral("DeviceId")))
-        setDeviceId(attributes.value(QStringLiteral("DeviceID")).toString());
-    if (attributes.hasAttribute(QStringLiteral("Time")))
-        setTimestamp(QDateTime::fromString(attributes.value(QStringLiteral("Time")).toString(), Qt::ISODate));
-}
-
-void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer, bool) const
+void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(AuditAbstractItem);
     if (!d->agentVersion.isEmpty())

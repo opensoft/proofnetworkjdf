@@ -57,9 +57,8 @@ public:
     void setId(const QString &arg);
     void setDeviceId(const QString &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &reader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    bool fillParentFields(QXmlStreamReader &reader) override final;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void agentNameChanged(const QString &arg);

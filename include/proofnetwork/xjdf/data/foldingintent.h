@@ -50,7 +50,7 @@ public:
     static FoldingIntentSP create();
 
     static FoldingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 signals:
     void foldCatalogChanged(Proof::XJdf::FoldType type);
 

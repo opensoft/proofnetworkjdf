@@ -55,9 +55,8 @@ public:
     void setParts(const QVector<PartSP> &arg);
     void setAmountPool(const AmountPoolSP &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &reader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    bool fillParentFields(QXmlStreamReader &reader) override final;
+    void toXJdf(QXmlStreamWriter &writer) const override;
     static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
@@ -80,8 +79,6 @@ protected:
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
     static void addResourceCreator(const QString &name,
                                    std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)> &&creator);
-
-    static std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)> &resourceCreator(const QString &name);
 };
 
 } // namespace XJdf

@@ -48,9 +48,8 @@ public:
     QString name() const;
     void setName(const QString &arg);
 
-    bool fillFromXJdf(QXmlStreamReader &reader) override;
-    void readAttributesFromXJdf(QXmlStreamReader &reader) override;
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    bool fillParentFields(QXmlStreamReader &reader) override final;
+    void toXJdf(QXmlStreamWriter &writer) const override;
     static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
@@ -70,7 +69,6 @@ protected:
     void updateSelf(const NetworkDataEntitySP &other) override;
     static void addIntentCreator(const QString &name,
                                  std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)> &&creator);
-    static std::function<IntentSP(QXmlStreamReader &, const DocumentSP &)> &intentCreator(const QString &name);
 };
 
 } // namespace XJdf

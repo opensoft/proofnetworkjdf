@@ -103,7 +103,7 @@ AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docu
     return auditPool;
 }
 
-void AuditPool::toXJdf(QXmlStreamWriter &writer, bool) const
+void AuditPool::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(AuditPool);
 

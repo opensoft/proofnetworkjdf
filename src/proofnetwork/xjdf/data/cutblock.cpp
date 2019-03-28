@@ -122,7 +122,7 @@ CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docume
     return cutBlock;
 }
 
-void CutBlock::toXJdf(QXmlStreamWriter &writer, bool) const
+void CutBlock::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(CutBlock);
 

@@ -79,7 +79,7 @@ public:
     static ResourceSetSP create();
 
     static ResourceSetSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void resourcesChanged(const QVector<Proof::XJdf::ResourceSP> &arg);

@@ -184,7 +184,7 @@ ProductSP Product::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document
     return product;
 }
 
-void Product::toXJdf(QXmlStreamWriter &writer, bool) const
+void Product::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Product);
     writer.writeStartElement(QStringLiteral("Product"));

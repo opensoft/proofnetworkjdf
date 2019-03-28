@@ -41,8 +41,6 @@ public:
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     QVector<PartSP> parts;
     AmountPoolSP amountPool;
-
-    static QMap<QString, std::function<ResourceSP(QXmlStreamReader &, const DocumentSP &)>> *creators;
 };
 
 } // namespace XJdf

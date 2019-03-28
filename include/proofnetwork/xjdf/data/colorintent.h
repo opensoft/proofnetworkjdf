@@ -56,7 +56,7 @@ public:
     static ColorIntentSP create();
 
     static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
-    void toXJdf(QXmlStreamWriter &writer, bool writeEnd = false) const override;
+    void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
     void coatingsChanged(const QMap<Proof::XJdf::Side, QVector<Proof::XJdf::CoatingType>> &arg);
