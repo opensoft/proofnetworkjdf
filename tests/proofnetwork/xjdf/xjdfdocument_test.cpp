@@ -289,6 +289,17 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(product21->externalId(), product1->externalId());
     EXPECT_EQ(product21->isRoot(), product1->isRoot());
     EXPECT_EQ(product21->amount(), product1->amount());
+
+    productList2 = ProductList::create();
+    productList2->updateFrom(productList);
+
+    product21 = productList2->products()[0];
+
+    EXPECT_EQ(product21->id(), product1->id());
+    EXPECT_EQ(product21->externalId(), product1->externalId());
+    EXPECT_EQ(product21->isRoot(), product1->isRoot());
+    EXPECT_EQ(product21->amount(), product1->amount());
+    EXPECT_EQ(product21->type(), product1->type());
     EXPECT_EQ(product21->type(), product1->type());
 
     auto color = product1->intentsByType<ColorIntent>()[0];
