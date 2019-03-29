@@ -68,7 +68,6 @@ signals:
     void deviceIdChanged(const QString &arg);
 
 protected:
-    explicit AuditAbstractItem();
     explicit AuditAbstractItem(AuditAbstractItemPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
 };

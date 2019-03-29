@@ -53,7 +53,6 @@ public:
     virtual void writeEndToXJdf(QXmlStreamWriter &writer) const;
 
 protected:
-    explicit AbstractNode();
     explicit AbstractNode(AbstractNodePrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };

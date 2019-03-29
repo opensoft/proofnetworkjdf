@@ -121,7 +121,6 @@ bool AuditAbstractItem::fillParentFields(QXmlStreamReader &reader)
 
         return true;
     }
-    //NOTE: Nothing there for now
     return false;
 }
 
@@ -139,9 +138,6 @@ void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer) const
     if (d->timestamp.isValid())
         writer.writeAttribute(QStringLiteral("Time"), d->timestamp.toString(Qt::ISODate));
 }
-
-AuditAbstractItem::AuditAbstractItem() : AuditAbstractItem(*new AuditAbstractItemPrivate)
-{}
 
 AuditAbstractItem::AuditAbstractItem(AuditAbstractItemPrivate &dd) : AbstractNode(dd)
 {}

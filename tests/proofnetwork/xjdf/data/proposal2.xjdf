@@ -36,6 +36,16 @@
         </ColorIntent>
       </Intent>
     </Product>
+    <Product Amount="80" ID="ProductInfo2_4" ExternalID="ORDER_ITEM_ID2" IsRoot="false" ProductType="BusinessCard">
+      <Intent Name="FoldingIntent">
+        <FoldingIntent FoldCatalog="F4-1" />
+      </Intent>
+      <Intent Name="ColorIntent">
+        <ColorIntent>
+          <SurfaceColor Surface="Back" Coatings="UV" />
+        </ColorIntent>
+      </Intent>
+    </Product>
   </ProductList>
   <ResourceSet Name="DeliveryParams2">
     <Resource ID="DeliveryParams2_1">
@@ -51,6 +61,11 @@
     <Resource ID="DeliveryParams2_3">
       <DeliveryParams Required="2019-02-28T16:00:20+00:00">
         <DropItem Amount="40" ItemRef="ProductInfo2_3"/>
+      </DeliveryParams>
+    </Resource>
+    <Resource ID="DeliveryParams2_4">
+      <DeliveryParams Required="2019-02-28T16:00:20+00:00">
+        <DropItem Amount="50" ItemRef="ProductInfo2_3"/>
       </DeliveryParams>
     </Resource>
   </ResourceSet>
@@ -77,7 +92,7 @@
     </CuttingParams>
     </Resource>
   </ResourceSet>
-  <ResourceSet CombinedProcessIndex="1 2" Name="Component2">
+  <ResourceSet CombinedProcessIndex="1 2 3" Name="Component2">
     <Resource>
       <Part BlockName="Block2_1" ProductPart="ProductInfo2_1" />
       <Component Dimensions="410 310 20" />

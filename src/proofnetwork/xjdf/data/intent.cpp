@@ -96,9 +96,6 @@ IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
     return IntentSP();
 }
 
-Intent::Intent() : Intent(*new IntentPrivate)
-{}
-
 Intent::Intent(IntentPrivate &dd) : AbstractNode(dd)
 {}
 

@@ -64,7 +64,6 @@ signals:
     void nameChanged(const QString &name);
 
 protected:
-    explicit Intent();
     explicit Intent(IntentPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
     static void addIntentCreator(const QString &name,

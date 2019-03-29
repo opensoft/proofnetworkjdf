@@ -46,9 +46,6 @@ void AbstractNode::writeEndToXJdf(QXmlStreamWriter &writer) const
     writer.writeEndElement();
 }
 
-AbstractNode::AbstractNode() : AbstractNode(*new AbstractNodePrivate)
-{}
-
 AbstractNode::AbstractNode(AbstractNodePrivate &dd) : NetworkDataEntity(dd)
 {}
 
