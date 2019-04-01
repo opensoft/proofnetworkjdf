@@ -48,11 +48,24 @@ public:
 
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
-    virtual bool fillParentFields(QXmlStreamReader &reader);
+    virtual bool fillCommonFields(QXmlStreamReader &reader);
     virtual void toXJdf(QXmlStreamWriter &writer) const = 0;
-    virtual void writeEndToXJdf(QXmlStreamWriter &writer) const;
 
 protected:
+    class WriterGuard
+    {
+    public:
+        WriterGuard(const WriterGuard &) = default;
+        WriterGuard &operator=(const WriterGuard &) = default;
+        WriterGuard(WriterGuard &&) = default;
+        WriterGuard &operator=(WriterGuard &&) = default;
+        explicit WriterGuard(QXmlStreamWriter *writer);
+        ~WriterGuard();
+
+    private:
+        QXmlStreamWriter *writer = nullptr;
+    };
+
     explicit AbstractNode(AbstractNodePrivate &dd);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };

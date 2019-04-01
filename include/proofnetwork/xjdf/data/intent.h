@@ -48,8 +48,7 @@ public:
     QString name() const;
     void setName(const QString &arg);
 
-    bool fillParentFields(QXmlStreamReader &reader) override final;
-    void toXJdf(QXmlStreamWriter &writer) const override;
+    bool fillCommonFields(QXmlStreamReader &reader) override final;
     static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
@@ -64,6 +63,8 @@ signals:
     void nameChanged(const QString &name);
 
 protected:
+    AbstractNode::WriterGuard writeFieldsToXJdf(QXmlStreamWriter &writer) const;
+
     explicit Intent(IntentPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;
     static void addIntentCreator(const QString &name,

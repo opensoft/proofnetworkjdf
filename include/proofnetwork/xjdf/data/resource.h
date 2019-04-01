@@ -55,8 +55,7 @@ public:
     void setParts(const QVector<PartSP> &arg);
     void setAmountPool(const AmountPoolSP &arg);
 
-    bool fillParentFields(QXmlStreamReader &reader) override final;
-    void toXJdf(QXmlStreamWriter &writer) const override;
+    bool fillCommonFields(QXmlStreamReader &reader) override final;
     static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
@@ -74,6 +73,7 @@ signals:
     void amountPoolChanged(const Proof::XJdf::AmountPoolSP &arg);
 
 protected:
+    AbstractNode::WriterGuard writeFieldsToXJdf(QXmlStreamWriter &writer) const;
     explicit Resource(const QString &id = QString());
     explicit Resource(ResourcePrivate &dd, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;

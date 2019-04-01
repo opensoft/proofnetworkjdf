@@ -127,7 +127,7 @@ ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &
 void ColorIntent::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(ColorIntent);
-    Intent::toXJdf(writer);
+    AbstractNode::WriterGuard guard(Intent::writeFieldsToXJdf(writer));
     writer.writeStartElement(QStringLiteral("ColorIntent"));
 
     for (auto it = d->coatings.begin(); it != d->coatings.end(); ++it) {
@@ -144,7 +144,6 @@ void ColorIntent::toXJdf(QXmlStreamWriter &writer) const
     }
 
     writer.writeEndElement();
-    Intent::writeEndToXJdf(writer);
 }
 
 ColorIntent::ColorIntent() : Intent(*new ColorIntentPrivate)

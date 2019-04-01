@@ -36,14 +36,9 @@ NetworkDataEntityQmlWrapper *AbstractNode::toQmlWrapper(QObject *parent) const
     return nullptr;
 }
 
-bool AbstractNode::fillParentFields(QXmlStreamReader &)
+bool AbstractNode::fillCommonFields(QXmlStreamReader &)
 {
     return false;
-}
-
-void AbstractNode::writeEndToXJdf(QXmlStreamWriter &writer) const
-{
-    writer.writeEndElement();
 }
 
 AbstractNode::AbstractNode(AbstractNodePrivate &dd) : NetworkDataEntity(dd)
@@ -55,4 +50,15 @@ void AbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
 
     d_func()->document = castedOther->d_func()->document;
     NetworkDataEntity::updateSelf(other);
+}
+
+AbstractNode::WriterGuard::WriterGuard(QXmlStreamWriter *writer) : writer(writer)
+{
+    Q_ASSERT(writer);
+}
+
+AbstractNode::WriterGuard::~WriterGuard()
+{
+    if (writer)
+        writer->writeEndElement();
 }

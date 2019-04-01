@@ -216,7 +216,7 @@ DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
                 if (resourceSet)
                     document->addResourceSet(resourceSet);
             } else {
-                document->fillParentFields(reader);
+                document->fillCommonFields(reader);
             }
         } else if (reader.isEndElement()) {
             if (reader.name() == QStringLiteral("XJDF"))
