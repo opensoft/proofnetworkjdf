@@ -215,8 +215,8 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_DOUBLE_EQ(300.0, component2->height());
     EXPECT_DOUBLE_EQ(10.0, component2->thickness());
     ASSERT_EQ(2, component2->parts().count());
-    EXPECT_EQ("Block_2", component2->parts()[0]->block()->blockName());
-    EXPECT_EQ("ProductInfo_2", component2->parts()[0]->product()->id());
+    EXPECT_EQ("Block_2", component2->parts()[0]->blockName());
+    EXPECT_EQ("ProductInfo_2", component2->parts()[0]->productPart());
 
     auto resourceSet6 = xjdfDocNew->resourceSets()[5];
     EXPECT_EQ("BoxPackingParams", resourceSet6->name());
@@ -439,16 +439,16 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(component22->width(), component2->width());
     EXPECT_DOUBLE_EQ(component22->height(), component2->height());
     EXPECT_DOUBLE_EQ(component22->thickness(), component2->thickness());
-    EXPECT_EQ(component22->parts()[0]->block()->blockName(), component2->parts()[0]->block()->blockName());
-    EXPECT_EQ(component22->parts()[0]->product()->id(), component2->parts()[0]->product()->id());
+    EXPECT_EQ(component22->parts()[0]->blockName(), component2->parts()[0]->blockName());
+    EXPECT_EQ(component22->parts()[0]->productPart(), component2->parts()[0]->productPart());
 
     component22 = Component::create();
     component22->updateFrom(component2);
     EXPECT_DOUBLE_EQ(component22->width(), component2->width());
     EXPECT_DOUBLE_EQ(component22->height(), component2->height());
     EXPECT_DOUBLE_EQ(component22->thickness(), component2->thickness());
-    EXPECT_EQ(component22->parts()[0]->block()->blockName(), component2->parts()[0]->block()->blockName());
-    EXPECT_EQ(component22->parts()[0]->product()->id(), component2->parts()[0]->product()->id());
+    EXPECT_EQ(component22->parts()[0]->blockName(), component2->parts()[0]->blockName());
+    EXPECT_EQ(component22->parts()[0]->productPart(), component2->parts()[0]->productPart());
 
     auto resourceSet6 = xjdfDocUT3->resourceSets()[5];
     auto resourceSet26 = xjdfDocUT2->resourceSets()[5];
@@ -584,8 +584,8 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_DOUBLE_EQ(300.0, component2->height());
     EXPECT_DOUBLE_EQ(10.0, component2->thickness());
     ASSERT_EQ(2, component2->parts().count());
-    EXPECT_EQ("Block_2", component2->parts()[0]->block()->blockName());
-    EXPECT_EQ("ProductInfo_2", component2->parts()[0]->product()->id());
+    EXPECT_EQ("Block_2", component2->parts()[0]->blockName());
+    EXPECT_EQ("ProductInfo_2", component2->parts()[0]->productPart());
 
     auto resourceSet6 = xjdfDocUT->resourceSets()[5];
     EXPECT_EQ("BoxPackingParams", resourceSet6->name());

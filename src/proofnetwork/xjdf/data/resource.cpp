@@ -95,7 +95,8 @@ void Resource::setParts(const QVector<PartSP> &arg)
     Q_D(Resource);
     bool emitNeeded = arg.count() != d->parts.count();
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
-        emitNeeded = arg[i]->block() != d->parts[i]->block() || arg[i]->product() != d->parts[i]->product();
+        emitNeeded = arg[i]->blockName() != d->parts[i]->blockName()
+                     || arg[i]->productPart() != d->parts[i]->productPart();
     if (emitNeeded) {
         d->parts = arg;
         emit partsChanged(arg);

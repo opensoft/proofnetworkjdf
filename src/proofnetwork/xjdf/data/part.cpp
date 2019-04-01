@@ -41,10 +41,7 @@ class PartPrivate : public AbstractNodePrivate
 public:
     PartPrivate() = default;
 
-    mutable ProductSP lazyProduct;
-    QString productId;
-
-    mutable CutBlockSP lazyBlock;
+    QString productPart;
     QString blockName;
 };
 
@@ -54,68 +51,33 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
-ProductSP Part::product() const
+QString Part::productPart() const
 {
     Q_D_CONST(Part);
-    if (d->lazyProduct)
-        return d->lazyProduct;
-
-    auto document = d->document.toStrongRef();
-    if (document && document->productList()) {
-        d->lazyProduct = algorithms::findIf(d->document.toStrongRef()->productList()->products(),
-                                            [d](const auto &product) { return product->id() == d->productId; },
-                                            ProductSP());
-        if (d->lazyProduct)
-            return d->lazyProduct;
-    }
-
-    auto dummy = Product::create(d->productId);
-    return dummy;
+    return d->productPart;
 }
 
-CutBlockSP Part::block() const
+QString Part::blockName() const
 {
     Q_D_CONST(Part);
-    if (d->lazyBlock)
-        return d->lazyBlock;
-
-    auto document = d->document.toStrongRef();
-    if (document) {
-        const auto &sets = document->resourceSets();
-        for (const auto &set : sets) {
-            const auto &params = set->resourcesByType<CuttingParams>();
-            for (const auto &param : params) {
-                const auto &blocks = param->cutBlocks();
-                for (const auto &block : blocks) {
-                    if (block->blockName() == d->blockName) {
-                        d->lazyBlock = block;
-                        return d->lazyBlock;
-                    }
-                }
-            }
-        }
-    }
-    auto dummy = CutBlock::create(d->blockName);
-    return dummy;
+    return d->blockName;
 }
 
-void Part::updateProduct(const QString &arg)
+void Part::setProductPart(const QString &arg)
 {
     Q_D(Part);
-    if (arg != d->productId) {
-        d->lazyProduct.reset();
-        d->productId = arg;
-        emit productChanged(product());
+    if (arg != d->productPart) {
+        d->productPart = arg;
+        emit productPartChanged(arg);
     }
 }
 
-void Part::updateBlock(const QString &arg)
+void Part::setBlockName(const QString &arg)
 {
     Q_D(Part);
     if (arg != d->blockName) {
-        d->lazyBlock.reset();
         d->blockName = arg;
-        emit blockChanged(block());
+        emit blockNameChanged(arg);
     }
 }
 
@@ -136,9 +98,9 @@ PartSP Part::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
         part->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("ProductPart")))
-            part->updateProduct(attributes.value(QStringLiteral("ProductPart")).toString());
+            part->setProductPart(attributes.value(QStringLiteral("ProductPart")).toString());
         if (attributes.hasAttribute(QStringLiteral("BlockName")))
-            part->updateBlock(attributes.value(QStringLiteral("BlockName")).toString());
+            part->setBlockName(attributes.value(QStringLiteral("BlockName")).toString());
     }
     reader.skipCurrentElement();
     return part;
@@ -147,12 +109,10 @@ PartSP Part::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 void Part::toXJdf(QXmlStreamWriter &writer) const
 {
     writer.writeStartElement(QStringLiteral("Part"));
-    auto product = this->product();
-    if (product)
-        writer.writeAttribute(QStringLiteral("ProductPart"), product->id());
-    auto block = this->block();
-    if (block)
-        writer.writeAttribute(QStringLiteral("BlockName"), block->blockName());
+    if (!productPart().isEmpty())
+        writer.writeAttribute(QStringLiteral("ProductPart"), productPart());
+    if (!blockName().isEmpty())
+        writer.writeAttribute(QStringLiteral("BlockName"), blockName());
     writer.writeEndElement();
 }
 
@@ -162,7 +122,7 @@ Part::Part() : AbstractNode(*new PartPrivate)
 void Part::updateSelf(const NetworkDataEntitySP &other)
 {
     PartSP castedOther = qSharedPointerCast<Part>(other);
-    updateBlock(castedOther->d_func()->blockName);
-    updateProduct(castedOther->d_func()->productId);
+    setBlockName(castedOther->blockName());
+    setProductPart(castedOther->productPart());
     AbstractNode::updateSelf(other);
 }

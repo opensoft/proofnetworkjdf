@@ -45,11 +45,11 @@ public:
     Part &operator=(Part &&) = delete;
     ~Part() = default;
 
-    ProductSP product() const;
-    CutBlockSP block() const;
+    QString productPart() const;
+    QString blockName() const;
 
-    void updateProduct(const QString &arg);
-    void updateBlock(const QString &arg);
+    void setProductPart(const QString &arg);
+    void setBlockName(const QString &arg);
 
     static PartSP create();
 
@@ -57,8 +57,8 @@ public:
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
-    void productChanged(const Proof::XJdf::ProductSP &arg);
-    void blockChanged(const Proof::XJdf::CutBlockSP &arg);
+    void productPartChanged(const QString &arg);
+    void blockNameChanged(const QString &arg);
 
 protected:
     explicit Part();
