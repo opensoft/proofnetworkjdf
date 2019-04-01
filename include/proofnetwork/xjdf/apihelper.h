@@ -255,36 +255,35 @@ Q_ENUM_NS(Side)
 Q_ENUM_NS(CoatingType)
 
 PROOF_NETWORK_XJDF_EXPORT QString processTypeToString(ProcessType processType);
-PROOF_NETWORK_XJDF_EXPORT ProcessType processTypeFromString(const QString &processType, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT ProcessType processTypeFromString(const QString &processType);
 
 PROOF_NETWORK_XJDF_EXPORT QString productTypeToString(ProductType productType);
-PROOF_NETWORK_XJDF_EXPORT ProductType productTypeFromString(const QString &productType, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT ProductType productTypeFromString(const QString &productType);
 
 PROOF_NETWORK_XJDF_EXPORT QString usageTypeToString(UsageType usage);
-PROOF_NETWORK_XJDF_EXPORT UsageType usageTypeFromString(const QString &usage, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT UsageType usageTypeFromString(const QString &usage);
 
 PROOF_NETWORK_XJDF_EXPORT QString resourceOrientationToString(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation,
-                                                                            bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation);
 PROOF_NETWORK_XJDF_EXPORT int resourceRotateToInt(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceRotateFromInt(int resourceRotate);
 PROOF_NETWORK_XJDF_EXPORT int resourceFlipToInt(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT ResourceOrientation resourceFlipFromInt(int resourceFlip);
 
 PROOF_NETWORK_XJDF_EXPORT QString severityToString(Severity severity);
-PROOF_NETWORK_XJDF_EXPORT Severity severityFromString(const QString &severity, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT Severity severityFromString(const QString &severity);
 
 PROOF_NETWORK_XJDF_EXPORT QString boxTypeToString(BoxType type);
-PROOF_NETWORK_XJDF_EXPORT BoxType boxTypeFromString(const QString &type, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT BoxType boxTypeFromString(const QString &type);
 
 PROOF_NETWORK_XJDF_EXPORT QString foldTypeToString(FoldType type);
-PROOF_NETWORK_XJDF_EXPORT FoldType foldTypeFromString(const QString &type, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT FoldType foldTypeFromString(const QString &type);
 
 PROOF_NETWORK_XJDF_EXPORT QString sideTypeToString(Side side);
-PROOF_NETWORK_XJDF_EXPORT Side sideTypeFromString(const QString &side, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT Side sideTypeFromString(const QString &side);
 
 PROOF_NETWORK_XJDF_EXPORT QString coatingTypeToString(CoatingType type);
-PROOF_NETWORK_XJDF_EXPORT CoatingType coatingTypeFromString(const QString &type, bool *ok = nullptr);
+PROOF_NETWORK_XJDF_EXPORT CoatingType coatingTypeFromString(const QString &type);
 
 PROOF_NETWORK_XJDF_EXPORT uint qHash(ProcessType arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(ProductType arg, uint seed = 0);

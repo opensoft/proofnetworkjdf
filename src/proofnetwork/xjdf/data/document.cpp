@@ -205,8 +205,7 @@ DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
                 if (attributes.hasAttribute(QStringLiteral("JobPartID")))
                     document->setJobPartId(attributes.value(QStringLiteral("JobPartID")).toString());
                 auto types = reader.attributes().value(QStringLiteral("Types")).toString().split(' ');
-                document->setTypes(algorithms::map(types, [](const auto &type) { return processTypeFromString(type); },
-                                                   QVector<ProcessType>()));
+                document->setTypes(algorithms::map(types, &Proof::XJdf::processTypeFromString, QVector<ProcessType>()));
 
             } else if (reader.name() == QStringLiteral("ProductList")) {
                 document->setProductList(ProductList::fromXJdf(reader, document));
@@ -250,8 +249,7 @@ void Document::toXJdf(QXmlStreamWriter &writer) const
 
     writer.writeAttribute(QStringLiteral("JobID"), jobId());
     writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());
-    QStringList types = algorithms::map(this->types(), [](ProcessType type) { return processTypeToString(type); },
-                                        QStringList());
+    QStringList types = algorithms::map(this->types(), &Proof::XJdf::processTypeToString, QStringList());
     writer.writeAttribute(QStringLiteral("Types"), types.join(' '));
     for (const auto &set : qAsConst(d->resourceSets))
         set->toXJdf(writer);

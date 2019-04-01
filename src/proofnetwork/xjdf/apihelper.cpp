@@ -162,10 +162,8 @@ static const QHash<QString, CoatingType> COATING_TYPE_STRINGIFIED =
      {"Toner", CoatingType::Toner},     {"UV", CoatingType::UV},
      {"Varnish", CoatingType::Varnish}, {"WaterResistant", CoatingType::WaterResistant}};
 
-ProcessType processTypeFromString(const QString &processType, bool *ok)
+ProcessType processTypeFromString(const QString &processType)
 {
-    if (ok != nullptr)
-        *ok = PROCESS_TYPE_STRINGIFIED.contains(processType);
     return PROCESS_TYPE_STRINGIFIED.value(processType, ProcessType::NoProcessType);
 }
 
@@ -179,10 +177,8 @@ QString productTypeToString(ProductType productType)
     return PRODUCT_TYPE_STRINGIFIED.key(productType, QString());
 }
 
-ProductType productTypeFromString(const QString &productType, bool *ok)
+ProductType productTypeFromString(const QString &productType)
 {
-    if (ok != nullptr)
-        *ok = PRODUCT_TYPE_STRINGIFIED.contains(productType);
     return PRODUCT_TYPE_STRINGIFIED.value(productType, ProductType::NoProductType);
 }
 
@@ -191,10 +187,8 @@ QString usageTypeToString(UsageType usage)
     return USAGE_TYPE_STRINGIFIED.key(usage, QString());
 }
 
-UsageType usageTypeFromString(const QString &usage, bool *ok)
+UsageType usageTypeFromString(const QString &usage)
 {
-    if (ok != nullptr)
-        *ok = USAGE_TYPE_STRINGIFIED.contains(usage);
     return USAGE_TYPE_STRINGIFIED.value(usage, UsageType::NoUsageType);
 }
 
@@ -203,10 +197,8 @@ QString resourceOrientationToString(ResourceOrientation resourceOrientation)
     return RESOURCE_ORIENTATION_STRINGIFIED.key(resourceOrientation, QString());
 }
 
-ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation, bool *ok)
+ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_ORIENTATION_STRINGIFIED.contains(resourceOrientation);
     return RESOURCE_ORIENTATION_STRINGIFIED.value(resourceOrientation, ResourceOrientation::Rotate0Orientation);
 }
 
@@ -215,10 +207,8 @@ int resourceRotateToInt(ResourceOrientation resourceOrientation)
     return RESOURCE_ROTATE_NUMERICAL.key(resourceOrientation, 0);
 }
 
-ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok)
+ResourceOrientation resourceRotateFromInt(int resourceRotate)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_ROTATE_NUMERICAL.contains(resourceRotate);
     return RESOURCE_ROTATE_NUMERICAL.value(resourceRotate, ResourceOrientation::Rotate0Orientation);
 }
 
@@ -227,10 +217,8 @@ int resourceFlipToInt(ResourceOrientation resourceOrientation)
     return RESOURCE_FLIP_NUMERICAL.key(resourceOrientation, 0);
 }
 
-ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok)
+ResourceOrientation resourceFlipFromInt(int resourceFlip)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_FLIP_NUMERICAL.contains(resourceFlip);
     return RESOURCE_FLIP_NUMERICAL.value(resourceFlip, ResourceOrientation::Flip0Orientation);
 }
 
@@ -239,10 +227,8 @@ QString severityToString(Severity severity)
     return SEVERITY_STRINGIFIED.key(severity, QString());
 }
 
-Severity severityFromString(const QString &severity, bool *ok)
+Severity severityFromString(const QString &severity)
 {
-    if (ok != nullptr)
-        *ok = SEVERITY_STRINGIFIED.contains(severity);
     return SEVERITY_STRINGIFIED.value(severity, Severity::Information);
 }
 
@@ -251,10 +237,8 @@ QString boxTypeToString(BoxType type)
     return BOX_TYPE_STRINGIFIED.key(type, QString());
 }
 
-BoxType boxTypeFromString(const QString &type, bool *ok)
+BoxType boxTypeFromString(const QString &type)
 {
-    if (ok != nullptr)
-        *ok = BOX_TYPE_STRINGIFIED.contains(type);
     return BOX_TYPE_STRINGIFIED.value(type, BoxType::NoBoxType);
 }
 
@@ -263,10 +247,8 @@ QString foldTypeToString(FoldType type)
     return FOLD_TYPE_STRINGIFIED.key(type, QString());
 }
 
-FoldType foldTypeFromString(const QString &type, bool *ok)
+FoldType foldTypeFromString(const QString &type)
 {
-    if (ok != nullptr)
-        *ok = FOLD_TYPE_STRINGIFIED.contains(type);
     return FOLD_TYPE_STRINGIFIED.value(type, FoldType::NoFoldType);
 }
 
@@ -275,10 +257,8 @@ QString sideTypeToString(Side side)
     return SIDE_STRINGIFIED.key(side, QString());
 }
 
-Side sideTypeFromString(const QString &side, bool *ok)
+Side sideTypeFromString(const QString &side)
 {
-    if (ok != nullptr)
-        *ok = SIDE_STRINGIFIED.contains(side);
     return SIDE_STRINGIFIED.value(side, Side::Front);
 }
 
@@ -287,10 +267,8 @@ QString coatingTypeToString(CoatingType type)
     return COATING_TYPE_STRINGIFIED.key(type, QString());
 }
 
-CoatingType coatingTypeFromString(const QString &type, bool *ok)
+CoatingType coatingTypeFromString(const QString &type)
 {
-    if (ok != nullptr)
-        *ok = SIDE_STRINGIFIED.contains(type);
     return COATING_TYPE_STRINGIFIED.value(type, CoatingType::NoCoatingType);
 }
 

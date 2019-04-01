@@ -107,10 +107,7 @@ ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &
                 auto attributes = reader.attributes();
                 auto side = sideTypeFromString(attributes.value(QStringLiteral("Surface")).toString());
                 auto coatingsVector = algorithms::map(attributes.value(QStringLiteral("Coatings")).toString().split(' '),
-                                                      [](const QString &coating) {
-                                                          return coatingTypeFromString(coating);
-                                                      },
-                                                      QVector<CoatingType>());
+                                                      &Proof::XJdf::coatingTypeFromString, QVector<CoatingType>());
                 auto spot = !attributes.value(QStringLiteral("ColorsUsed")).toString().isEmpty();
 
                 coatings[side] = coatingsVector;
@@ -137,9 +134,7 @@ void ColorIntent::toXJdf(QXmlStreamWriter &writer) const
         writer.writeStartElement(QStringLiteral("SurfaceColor"));
         writer.writeAttribute(QStringLiteral("Surface"), sideTypeToString(it.key()));
 
-        auto coatings = algorithms::map(it.value(), [](const auto &coating) { return coatingTypeToString(coating); },
-                                        QStringList())
-                            .join(' ');
+        auto coatings = algorithms::map(it.value(), &Proof::XJdf::coatingTypeToString, QStringList()).join(' ');
 
         writer.writeAttribute(QStringLiteral("Coatings"), coatings);
         if (d->spots.contains(it.key()) && d->spots[it.key()])
