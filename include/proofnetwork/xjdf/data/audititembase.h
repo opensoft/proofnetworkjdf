@@ -22,31 +22,57 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef XJDF_AUDITABSTRACTITEM_P_H
-#define XJDF_AUDITABSTRACTITEM_P_H
+#ifndef XJDF_AUDITITEMBASE_H
+#define XJDF_AUDITITEMBASE_H
 
-#include "proofnetwork/xjdf/data/abstractnode_p.h"
-#include "proofnetwork/xjdf/data/auditabstractitem.h"
+#include "abstractnode.h"
+
+#include "proofnetwork/xjdf/apihelper.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 namespace Proof {
 namespace XJdf {
 
-class AuditAbstractItemPrivate : public AbstractNodePrivate
+class AuditItemBasePrivate;
+class PROOF_NETWORK_XJDF_EXPORT AuditItemBase : public AbstractNode
 {
-    Q_DECLARE_PUBLIC(AuditAbstractItem)
-
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(AuditItemBase)
 public:
-    AuditAbstractItemPrivate() {}
+    AuditItemBase(const AuditItemBase &) = delete;
+    AuditItemBase &operator=(const AuditItemBase &) = delete;
+    AuditItemBase(AuditItemBase &&) = delete;
+    AuditItemBase &operator=(AuditItemBase &&) = delete;
+    ~AuditItemBase() = default;
 
-    QString agentName;
-    QString agentVersion;
-    QDateTime timestamp;
-    QString id;
-    QString deviceId;
+    QString agentName() const;
+    QString agentVersion() const;
+    QDateTime timestamp() const;
+    QString id() const;
+    QString deviceId() const;
+
+    void setAgentName(const QString &arg);
+    void setAgentVersion(const QString &arg);
+    void setTimestamp(const QDateTime &arg);
+    void setId(const QString &arg);
+    void setDeviceId(const QString &arg);
+
+    bool fillParentFields(QXmlStreamReader &reader) override final;
+    void toXJdf(QXmlStreamWriter &writer) const override;
+
+signals:
+    void agentNameChanged(const QString &arg);
+    void agentVersionChanged(const QString &arg);
+    void timestampChanged(const QDateTime &arg);
+    void idChanged(const QString &arg);
+    void deviceIdChanged(const QString &arg);
+
+protected:
+    explicit AuditItemBase(AuditItemBasePrivate &dd);
+    void updateSelf(const NetworkDataEntitySP &other) override;
 };
 
 } // namespace XJdf
 } // namespace Proof
 
-#endif // XJDF_AUDITABSTRACTITEM_P_H
+#endif // XJDF_AUDITITEMBASE_H

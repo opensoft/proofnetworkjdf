@@ -26,14 +26,14 @@
 #define XJDF_AUDITCREATED_H
 
 #include "proofnetwork/xjdf/apihelper.h"
-#include "proofnetwork/xjdf/data/auditabstractitem.h"
+#include "proofnetwork/xjdf/data/audititembase.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 namespace Proof {
 namespace XJdf {
 
 class AuditCreatedPrivate;
-class PROOF_NETWORK_XJDF_EXPORT AuditCreated : public AuditAbstractItem
+class PROOF_NETWORK_XJDF_EXPORT AuditCreated : public AuditItemBase
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditCreated)

@@ -22,89 +22,89 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "proofnetwork/xjdf/data/auditabstractitem.h"
+#include "proofnetwork/xjdf/data/audititembase.h"
 
-#include "proofnetwork/xjdf/data/auditabstractitem_p.h"
+#include "proofnetwork/xjdf/data/audititembase_p.h"
 
 using namespace Proof;
 using namespace Proof::XJdf;
 
-QString AuditAbstractItem::agentName() const
+QString AuditItemBase::agentName() const
 {
-    Q_D_CONST(AuditAbstractItem);
+    Q_D_CONST(AuditItemBase);
     return d->agentName;
 }
 
-QString AuditAbstractItem::agentVersion() const
+QString AuditItemBase::agentVersion() const
 {
-    Q_D_CONST(AuditAbstractItem);
+    Q_D_CONST(AuditItemBase);
     return d->agentVersion;
 }
 
-QDateTime AuditAbstractItem::timestamp() const
+QDateTime AuditItemBase::timestamp() const
 {
-    Q_D_CONST(AuditAbstractItem);
+    Q_D_CONST(AuditItemBase);
     return d->timestamp;
 }
 
-QString AuditAbstractItem::id() const
+QString AuditItemBase::id() const
 {
-    Q_D_CONST(AuditAbstractItem);
+    Q_D_CONST(AuditItemBase);
     return d->id;
 }
 
-QString AuditAbstractItem::deviceId() const
+QString AuditItemBase::deviceId() const
 {
-    Q_D_CONST(AuditAbstractItem);
+    Q_D_CONST(AuditItemBase);
     return d->deviceId;
 }
 
-void AuditAbstractItem::setAgentName(const QString &arg)
+void AuditItemBase::setAgentName(const QString &arg)
 {
-    Q_D(AuditAbstractItem);
+    Q_D(AuditItemBase);
     if (arg != d->agentName) {
         d->agentName = arg;
         emit agentNameChanged(arg);
     }
 }
 
-void AuditAbstractItem::setAgentVersion(const QString &arg)
+void AuditItemBase::setAgentVersion(const QString &arg)
 {
-    Q_D(AuditAbstractItem);
+    Q_D(AuditItemBase);
     if (arg != d->agentVersion) {
         d->agentVersion = arg;
         emit agentVersionChanged(arg);
     }
 }
 
-void AuditAbstractItem::setTimestamp(const QDateTime &arg)
+void AuditItemBase::setTimestamp(const QDateTime &arg)
 {
-    Q_D(AuditAbstractItem);
+    Q_D(AuditItemBase);
     if (arg != d->timestamp) {
         d->timestamp = arg;
         emit timestampChanged(arg);
     }
 }
 
-void AuditAbstractItem::setId(const QString &arg)
+void AuditItemBase::setId(const QString &arg)
 {
-    Q_D(AuditAbstractItem);
+    Q_D(AuditItemBase);
     if (arg != d->id) {
         d->id = arg;
         emit idChanged(arg);
     }
 }
 
-void AuditAbstractItem::setDeviceId(const QString &arg)
+void AuditItemBase::setDeviceId(const QString &arg)
 {
-    Q_D(AuditAbstractItem);
+    Q_D(AuditItemBase);
     if (arg != d->deviceId) {
         d->deviceId = arg;
         emit deviceIdChanged(arg);
     }
 }
 
-bool AuditAbstractItem::fillParentFields(QXmlStreamReader &reader)
+bool AuditItemBase::fillParentFields(QXmlStreamReader &reader)
 {
     if (reader.name() == QStringLiteral("Header")) {
         auto attributes = reader.attributes();
@@ -124,9 +124,9 @@ bool AuditAbstractItem::fillParentFields(QXmlStreamReader &reader)
     return false;
 }
 
-void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer) const
+void AuditItemBase::toXJdf(QXmlStreamWriter &writer) const
 {
-    Q_D_CONST(AuditAbstractItem);
+    Q_D_CONST(AuditItemBase);
     if (!d->agentVersion.isEmpty())
         writer.writeAttribute(QStringLiteral("AgentVersion"), d->agentVersion);
     if (!d->agentName.isEmpty())
@@ -139,12 +139,12 @@ void AuditAbstractItem::toXJdf(QXmlStreamWriter &writer) const
         writer.writeAttribute(QStringLiteral("Time"), d->timestamp.toString(Qt::ISODate));
 }
 
-AuditAbstractItem::AuditAbstractItem(AuditAbstractItemPrivate &dd) : AbstractNode(dd)
+AuditItemBase::AuditItemBase(AuditItemBasePrivate &dd) : AbstractNode(dd)
 {}
 
-void AuditAbstractItem::updateSelf(const NetworkDataEntitySP &other)
+void AuditItemBase::updateSelf(const NetworkDataEntitySP &other)
 {
-    AuditAbstractItemSP castedOther = qSharedPointerCast<AuditAbstractItem>(other);
+    AuditItemBaseSP castedOther = qSharedPointerCast<AuditItemBase>(other);
     setId(castedOther->id());
     setDeviceId(castedOther->deviceId());
     setAgentName(castedOther->agentName());

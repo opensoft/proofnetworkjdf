@@ -107,7 +107,7 @@ proof_add_target_sources(NetworkXJdf
     src/proofnetwork/xjdf/data/deliveryparams.cpp
     src/proofnetwork/xjdf/data/product.cpp
     src/proofnetwork/xjdf/data/resource.cpp
-    src/proofnetwork/xjdf/data/auditabstractitem.cpp
+    src/proofnetwork/xjdf/data/audititembase.cpp
     src/proofnetwork/xjdf/data/amountpool.cpp
     src/proofnetwork/xjdf/data/colorintent.cpp
     src/proofnetwork/xjdf/data/component.cpp
@@ -223,7 +223,7 @@ proof_add_target_headers(NetworkXJdf
     include/proofnetwork/xjdf/data/deliveryparams.h
     include/proofnetwork/xjdf/data/product.h
     include/proofnetwork/xjdf/data/resource.h
-    include/proofnetwork/xjdf/data/auditabstractitem.h
+    include/proofnetwork/xjdf/data/audititembase.h
 
     include/proofnetwork/xjdf/data/amountpool.h
     include/proofnetwork/xjdf/data/colorintent.h
@@ -258,7 +258,7 @@ proof_add_target_private_headers(NetworkJdf
 proof_add_target_private_headers(NetworkXJdf
     include/private/proofnetwork/xjdf/data/abstractnode_p.h
     include/private/proofnetwork/xjdf/data/resource_p.h
-    include/private/proofnetwork/xjdf/data/auditabstractitem_p.h
+    include/private/proofnetwork/xjdf/data/audititembase_p.h
     include/private/proofnetwork/xjdf/data/intent_p.h
 )
 

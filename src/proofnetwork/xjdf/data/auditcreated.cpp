@@ -24,12 +24,12 @@
  */
 #include "proofnetwork/xjdf/data/auditcreated.h"
 
-#include "proofnetwork/xjdf/data/auditabstractitem_p.h"
+#include "proofnetwork/xjdf/data/audititembase_p.h"
 
 namespace Proof {
 namespace XJdf {
 
-class AuditCreatedPrivate : public AuditAbstractItemPrivate
+class AuditCreatedPrivate : public AuditItemBasePrivate
 {
     Q_DECLARE_PUBLIC(AuditCreated)
 public:
@@ -114,12 +114,12 @@ void AuditCreated::toXJdf(QXmlStreamWriter &writer) const
         writer.writeAttribute(QStringLiteral("profit:TemplateID"), d->templateId);
     if (!d->templateVersion.isEmpty())
         writer.writeAttribute(QStringLiteral("profit:TemplateVersion"), d->templateVersion);
-    AuditAbstractItem::toXJdf(writer);
+    AuditItemBase::toXJdf(writer);
     writer.writeEndElement();
     writer.writeEndElement();
 }
 
-AuditCreated::AuditCreated() : AuditAbstractItem(*new AuditCreatedPrivate)
+AuditCreated::AuditCreated() : AuditItemBase(*new AuditCreatedPrivate)
 {}
 
 void AuditCreated::updateSelf(const NetworkDataEntitySP &other)
@@ -128,5 +128,5 @@ void AuditCreated::updateSelf(const NetworkDataEntitySP &other)
     setTemplateId(castedOther->templateId());
     setTemplateVersion(castedOther->templateVersion());
 
-    AuditAbstractItem::updateSelf(other);
+    AuditItemBase::updateSelf(other);
 }

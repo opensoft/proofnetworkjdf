@@ -24,12 +24,12 @@
  */
 #include "proofnetwork/xjdf/data/auditnotification.h"
 
-#include "proofnetwork/xjdf/data/auditabstractitem_p.h"
+#include "proofnetwork/xjdf/data/audititembase_p.h"
 
 namespace Proof {
 namespace XJdf {
 
-class AuditNotificationPrivate : public AuditAbstractItemPrivate
+class AuditNotificationPrivate : public AuditItemBasePrivate
 {
     Q_DECLARE_PUBLIC(AuditNotification)
 public:
@@ -94,7 +94,7 @@ void AuditNotification::toXJdf(QXmlStreamWriter &writer) const
     Q_D_CONST(AuditNotification);
     writer.writeStartElement(QStringLiteral("AuditNotification"));
     writer.writeStartElement(QStringLiteral("Header"));
-    AuditAbstractItem::toXJdf(writer);
+    AuditItemBase::toXJdf(writer);
     writer.writeEndElement();
     writer.writeStartElement(QStringLiteral("Notification"));
     writer.writeAttribute(QStringLiteral("Class"), severityToString(d->severityClass));
@@ -102,7 +102,7 @@ void AuditNotification::toXJdf(QXmlStreamWriter &writer) const
     writer.writeEndElement();
 }
 
-AuditNotification::AuditNotification() : AuditAbstractItem(*new AuditNotificationPrivate)
+AuditNotification::AuditNotification() : AuditItemBase(*new AuditNotificationPrivate)
 {}
 
 void AuditNotification::updateSelf(const NetworkDataEntitySP &other)
@@ -110,5 +110,5 @@ void AuditNotification::updateSelf(const NetworkDataEntitySP &other)
     AuditNotificationSP castedOther = qSharedPointerCast<AuditNotification>(other);
     setSeverityClass(castedOther->severityClass());
 
-    AuditAbstractItem::updateSelf(other);
+    AuditItemBase::updateSelf(other);
 }

@@ -87,9 +87,11 @@ IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
         reader.readNextStartElement();
         if (!reader.atEnd() && !reader.hasError()) {
             auto intent = createIntent(reader.name().toString(), reader, document);
-            intent->setName(name);
-            reader.skipCurrentElement();
-            return intent;
+            if (intent) {
+                intent->setName(name);
+                reader.skipCurrentElement();
+                return intent;
+            }
         }
     }
 

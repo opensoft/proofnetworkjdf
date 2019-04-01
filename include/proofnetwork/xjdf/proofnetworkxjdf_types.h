@@ -49,9 +49,9 @@ class AuditPool;
 using AuditPoolSP = QSharedPointer<AuditPool>;
 using AuditPoolWP = QWeakPointer<AuditPool>;
 
-class AuditAbstractItem;
-using AuditAbstractItemSP = QSharedPointer<AuditAbstractItem>;
-using AuditAbstractItemWP = QWeakPointer<AuditAbstractItem>;
+class AuditItemBase;
+using AuditItemBaseSP = QSharedPointer<AuditItemBase>;
+using AuditItemBaseWP = QWeakPointer<AuditItemBase>;
 
 class AuditCreated;
 using AuditCreatedSP = QSharedPointer<AuditCreated>;

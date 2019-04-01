@@ -22,57 +22,31 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef XJDF_AUDITABSTRACTITEM_H
-#define XJDF_AUDITABSTRACTITEM_H
+#ifndef XJDF_AUDITITEMBASE_P_H
+#define XJDF_AUDITITEMBASE_P_H
 
-#include "abstractnode.h"
-
-#include "proofnetwork/xjdf/apihelper.h"
+#include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/audititembase.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 namespace Proof {
 namespace XJdf {
 
-class AuditAbstractItemPrivate;
-class PROOF_NETWORK_XJDF_EXPORT AuditAbstractItem : public AbstractNode
+class AuditItemBasePrivate : public AbstractNodePrivate
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(AuditAbstractItem)
+    Q_DECLARE_PUBLIC(AuditItemBase)
+
 public:
-    AuditAbstractItem(const AuditAbstractItem &) = delete;
-    AuditAbstractItem &operator=(const AuditAbstractItem &) = delete;
-    AuditAbstractItem(AuditAbstractItem &&) = delete;
-    AuditAbstractItem &operator=(AuditAbstractItem &&) = delete;
-    ~AuditAbstractItem() = default;
+    AuditItemBasePrivate() {}
 
-    QString agentName() const;
-    QString agentVersion() const;
-    QDateTime timestamp() const;
-    QString id() const;
-    QString deviceId() const;
-
-    void setAgentName(const QString &arg);
-    void setAgentVersion(const QString &arg);
-    void setTimestamp(const QDateTime &arg);
-    void setId(const QString &arg);
-    void setDeviceId(const QString &arg);
-
-    bool fillParentFields(QXmlStreamReader &reader) override final;
-    void toXJdf(QXmlStreamWriter &writer) const override;
-
-signals:
-    void agentNameChanged(const QString &arg);
-    void agentVersionChanged(const QString &arg);
-    void timestampChanged(const QDateTime &arg);
-    void idChanged(const QString &arg);
-    void deviceIdChanged(const QString &arg);
-
-protected:
-    explicit AuditAbstractItem(AuditAbstractItemPrivate &dd);
-    void updateSelf(const NetworkDataEntitySP &other) override;
+    QString agentName;
+    QString agentVersion;
+    QDateTime timestamp;
+    QString id;
+    QString deviceId;
 };
 
 } // namespace XJdf
 } // namespace Proof
 
-#endif // XJDF_AUDITABSTRACTITEM_H
+#endif // XJDF_AUDITITEMBASE_P_H
