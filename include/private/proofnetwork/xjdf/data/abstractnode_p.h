@@ -43,8 +43,8 @@ public:
 class NodeWriterGuard
 {
 public:
-    NodeWriterGuard(const NodeWriterGuard &) = default;
-    NodeWriterGuard &operator=(const NodeWriterGuard &) = default;
+    NodeWriterGuard(const NodeWriterGuard &) = delete;
+    NodeWriterGuard &operator=(const NodeWriterGuard &) = delete;
     NodeWriterGuard(NodeWriterGuard &&) = default;
     NodeWriterGuard &operator=(NodeWriterGuard &&) = default;
     explicit NodeWriterGuard(QXmlStreamWriter *writer);
