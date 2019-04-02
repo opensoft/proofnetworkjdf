@@ -40,6 +40,20 @@ public:
     DocumentWP document;
 };
 
+class NodeWriterGuard
+{
+public:
+    NodeWriterGuard(const NodeWriterGuard &) = default;
+    NodeWriterGuard &operator=(const NodeWriterGuard &) = default;
+    NodeWriterGuard(NodeWriterGuard &&) = default;
+    NodeWriterGuard &operator=(NodeWriterGuard &&) = default;
+    explicit NodeWriterGuard(QXmlStreamWriter *writer);
+    ~NodeWriterGuard();
+
+private:
+    QXmlStreamWriter *writer = nullptr;
+};
+
 } // namespace XJdf
 } // namespace Proof
 #endif //XJDF_ABSTRACTNODE_P_H

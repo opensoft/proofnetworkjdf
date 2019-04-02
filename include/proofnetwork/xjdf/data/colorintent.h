@@ -33,6 +33,7 @@ namespace Proof {
 namespace XJdf {
 
 class ColorIntentPrivate;
+
 class PROOF_NETWORK_XJDF_EXPORT ColorIntent : public Intent
 {
     Q_OBJECT

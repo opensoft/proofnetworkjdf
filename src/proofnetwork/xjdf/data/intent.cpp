@@ -61,20 +61,20 @@ void Intent::setName(const QString &arg)
     }
 }
 
-bool Intent::fillCommonFields(QXmlStreamReader &)
+bool Intent::readFieldsFromXJdf(QXmlStreamReader &)
 {
     //NOTE: Nothing there for now, but it can be fill later
     return false;
 }
 
-AbstractNode::WriterGuard Intent::writeFieldsToXJdf(QXmlStreamWriter &writer) const
+NodeWriterGuard Intent::writeFieldsToXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Intent);
 
     writer.writeStartElement(QStringLiteral("Intent"));
     if (!d->name.isEmpty())
         writer.writeAttribute(QStringLiteral("Name"), d->name);
-    return AbstractNode::WriterGuard(&writer);
+    return NodeWriterGuard(&writer);
 }
 
 IntentSP Intent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)

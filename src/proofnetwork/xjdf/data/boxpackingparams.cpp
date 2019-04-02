@@ -101,7 +101,7 @@ BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const Do
 void BoxPackingParams::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(BoxPackingParams);
-    AbstractNode::WriterGuard guard(writeFieldsToXJdf(writer));
+    NodeWriterGuard guard(writeFieldsToXJdf(writer));
 
     writer.writeStartElement(QStringLiteral("BoxPackingParams"));
     if (!d->boxTypeDetails.isEmpty())

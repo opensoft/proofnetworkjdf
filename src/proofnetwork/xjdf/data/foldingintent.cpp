@@ -84,7 +84,7 @@ FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const Document
 void FoldingIntent::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(FoldingIntent);
-    AbstractNode::WriterGuard guard(Intent::writeFieldsToXJdf(writer));
+    NodeWriterGuard guard(Intent::writeFieldsToXJdf(writer));
 
     writer.writeStartElement(QStringLiteral("FoldingIntent"));
     writer.writeAttribute(QStringLiteral("FoldCatalog"), foldTypeToString(d->foldingCatalog));

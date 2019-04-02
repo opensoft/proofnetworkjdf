@@ -97,7 +97,7 @@ CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader, const Document
 void CuttingParams::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(CuttingParams);
-    AbstractNode::WriterGuard guard(writeFieldsToXJdf(writer));
+    NodeWriterGuard guard(writeFieldsToXJdf(writer));
     writer.writeStartElement(QStringLiteral("CuttingParams"));
     for (const auto &block : d->blocks)
         block->toXJdf(writer);

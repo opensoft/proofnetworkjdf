@@ -123,7 +123,7 @@ MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 void Media::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Media);
-    AbstractNode::WriterGuard guard(writeFieldsToXJdf(writer));
+    NodeWriterGuard guard(writeFieldsToXJdf(writer));
     writer.writeStartElement(QStringLiteral("Media"));
     writer.writeAttribute(QStringLiteral("Dimension"),
                           QStringLiteral("%1 %2").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2));

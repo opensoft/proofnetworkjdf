@@ -57,7 +57,7 @@ public:
     void setId(const QString &arg);
     void setDeviceId(const QString &arg);
 
-    bool fillCommonFields(QXmlStreamReader &reader) override final;
+    bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

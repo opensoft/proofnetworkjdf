@@ -93,7 +93,7 @@ AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const DocumentSP
                 auto attributes = reader.attributes();
                 created->setTemplateId(attributes.value(QStringLiteral("profit:TemplateID")).toString());
                 created->setTemplateVersion(attributes.value(QStringLiteral("profit:TemplateVersion")).toString());
-                created->fillCommonFields(reader);
+                created->readFieldsFromXJdf(reader);
             }
         } else if (reader.isEndElement()) {
             if (reader.name() == QStringLiteral("AuditCreated"))

@@ -34,6 +34,7 @@ namespace Proof {
 namespace XJdf {
 
 class ResourcePrivate;
+class NodeWriterGuard;
 class PROOF_NETWORK_XJDF_EXPORT Resource : public AbstractNode
 {
     Q_OBJECT
@@ -55,7 +56,7 @@ public:
     void setParts(const QVector<PartSP> &arg);
     void setAmountPool(const AmountPoolSP &arg);
 
-    bool fillCommonFields(QXmlStreamReader &reader) override final;
+    bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
     static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
@@ -73,7 +74,7 @@ signals:
     void amountPoolChanged(const Proof::XJdf::AmountPoolSP &arg);
 
 protected:
-    AbstractNode::WriterGuard writeFieldsToXJdf(QXmlStreamWriter &writer) const;
+    NodeWriterGuard writeFieldsToXJdf(QXmlStreamWriter &writer) const;
     explicit Resource(const QString &id = QString());
     explicit Resource(ResourcePrivate &dd, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;

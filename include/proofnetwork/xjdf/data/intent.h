@@ -33,6 +33,7 @@
 namespace Proof {
 namespace XJdf {
 
+class NodeWriterGuard;
 class IntentPrivate;
 class PROOF_NETWORK_XJDF_EXPORT Intent : public AbstractNode
 {
@@ -48,7 +49,7 @@ public:
     QString name() const;
     void setName(const QString &arg);
 
-    bool fillCommonFields(QXmlStreamReader &reader) override final;
+    bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
     static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
 
     template <class T>
@@ -63,7 +64,7 @@ signals:
     void nameChanged(const QString &name);
 
 protected:
-    AbstractNode::WriterGuard writeFieldsToXJdf(QXmlStreamWriter &writer) const;
+    NodeWriterGuard writeFieldsToXJdf(QXmlStreamWriter &writer) const;
 
     explicit Intent(IntentPrivate &dd);
     void updateSelf(const NetworkDataEntitySP &other) override;

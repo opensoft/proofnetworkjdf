@@ -112,13 +112,13 @@ void Resource::setAmountPool(const AmountPoolSP &arg)
     }
 }
 
-bool Resource::fillCommonFields(QXmlStreamReader &)
+bool Resource::readFieldsFromXJdf(QXmlStreamReader &)
 {
     //NOTE: Nothing there for now, but it can be fill later
     return false;
 }
 
-AbstractNode::WriterGuard Resource::writeFieldsToXJdf(QXmlStreamWriter &writer) const
+NodeWriterGuard Resource::writeFieldsToXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Resource);
 
@@ -132,7 +132,7 @@ AbstractNode::WriterGuard Resource::writeFieldsToXJdf(QXmlStreamWriter &writer) 
     if (d->amountPool)
         d->amountPool->toXJdf(writer);
 
-    return AbstractNode::WriterGuard(&writer);
+    return NodeWriterGuard(&writer);
 }
 
 ResourceSP Resource::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)

@@ -170,7 +170,7 @@ ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docu
 void Component::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Component);
-    AbstractNode::WriterGuard guard(writeFieldsToXJdf(writer));
+    NodeWriterGuard guard(writeFieldsToXJdf(writer));
     writer.writeStartElement(QStringLiteral("Component"));
     if (!qIsNull(d->width) && !qIsNull(d->height)) {
         auto dimensions =

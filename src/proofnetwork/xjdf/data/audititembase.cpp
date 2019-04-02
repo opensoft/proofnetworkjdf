@@ -104,7 +104,7 @@ void AuditItemBase::setDeviceId(const QString &arg)
     }
 }
 
-bool AuditItemBase::fillCommonFields(QXmlStreamReader &reader)
+bool AuditItemBase::readFieldsFromXJdf(QXmlStreamReader &reader)
 {
     if (reader.name() == QStringLiteral("Header")) {
         auto attributes = reader.attributes();

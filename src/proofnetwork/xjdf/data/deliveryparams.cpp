@@ -111,7 +111,7 @@ DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const Docume
 void DeliveryParams::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(DeliveryParams);
-    AbstractNode::WriterGuard guard(writeFieldsToXJdf(writer));
+    NodeWriterGuard guard(writeFieldsToXJdf(writer));
     writer.writeStartElement(QStringLiteral("DeliveryParams"));
     if (d->required.isValid())
         writer.writeAttribute(QStringLiteral("Required"), d->required.toString(Qt::ISODate));
