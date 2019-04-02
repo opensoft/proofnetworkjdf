@@ -6,6 +6,13 @@ ProofNetworkJdf Changelog
  * --
 
 #### Bug Fixing
+ * --
+
+## 0.19.4.2
+#### Features
+ * --
+
+#### Bug Fixing
  * Fix missing cutBlocks of components with sanitize
 
 ## 0.18.12.24
