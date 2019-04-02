@@ -3,7 +3,7 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
- * --
+ * XJDF initial support
 
 #### Bug Fixing
  * --

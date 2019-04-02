@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>data/proposal.xjdf</file>        
+        <file>data/proposal2.xjdf</file>        
+    </qresource>
+</RCC>
