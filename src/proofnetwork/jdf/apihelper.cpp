@@ -124,6 +124,7 @@ using StringDict = QHash<QString, T>;
 template <typename T>
 using IntDict = QHash<int, T>;
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceStatus>, RESOURCE_STATUS_STRINGIFIED,
                           ({{"", ResourceStatus::NoStatus},
                             {"Incomplete", ResourceStatus::IncompleteStatus},
@@ -134,6 +135,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceStatus>, RESOURCE_STATUS_STRINGIFIE
                             {"Complete", ResourceStatus::CompleteStatus},
                             {"Available", ResourceStatus::AvailableStatus}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceClass>, RESOURCE_CLASS_STRINGIFIED,
                           ({{"", ResourceClass::NoClass},
                             {"Consumable", ResourceClass::ConsumableClass},
@@ -144,6 +146,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceClass>, RESOURCE_CLASS_STRINGIFIED,
                             {"PlaceHolder", ResourceClass::PlaceHolderClass},
                             {"Quantity", ResourceClass::QuantityClass}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<CoatingType>, COATING_STRINGIFIED,
                           ({{"None", CoatingType::NoCoating},
                             {"Coated", CoatingType::Coated},
@@ -156,17 +159,20 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<CoatingType>, COATING_STRINGIFIED,
                             {"Satin", CoatingType::SatinCoating},
                             {"Semigloss", CoatingType::SemiglossCoating}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<CoatingDetail>, COATING_DETAIL_STRINGIFIED,
                           ({{"", CoatingDetail::NoCoatingDetail},
                             {"Cast", CoatingDetail::CastCoating},
                             {"ProFIT:Full", CoatingDetail::ProfitFullCoating},
                             {"ProFIT:Spot", CoatingDetail::ProfitSpotCoating}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<LaminatingSurface>, LAMINATING_SURFACE_STRINGIFIED,
                           ({{"Front", LaminatingSurface::FrontLaminated},
                             {"Back", LaminatingSurface::BackLaminated},
                             {"Both", LaminatingSurface::BothLaminated}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<BundleType>, BUNDLE_TYPE_STRINGIFIED,
                           ({{"BoundSet", BundleType::BoundSetBundle},
                             {"Box", BundleType::BoxBundle},
@@ -181,6 +187,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<BundleType>, BUNDLE_TYPE_STRINGIFIED,
                             {"StrappedCompensatedStack", BundleType::StrappedCompensatedStackBundle},
                             {"WrappedBundle", BundleType::WrappedBundle}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceOrientation>, RESOURCE_ORIENTATION_STRINGIFIED,
                           ({{"Rotate0", ResourceOrientation::Rotate0Orientation},
                             {"Rotate90", ResourceOrientation::Rotate90Orientation},
@@ -192,6 +199,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceOrientation>, RESOURCE_ORIENTATION_
                             {"Flip180", ResourceOrientation::Flip180Orientation},
                             {"Flip270", ResourceOrientation::Flip270Orientation}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(IntDict<ResourceOrientation>, RESOURCE_ROTATE_NUMERICAL,
                           ({
                               {0, ResourceOrientation::Rotate0Orientation},
@@ -199,12 +207,14 @@ Q_GLOBAL_STATIC_WITH_ARGS(IntDict<ResourceOrientation>, RESOURCE_ROTATE_NUMERICA
                               {180, ResourceOrientation::Rotate180Orientation},
                               {270, ResourceOrientation::Rotate270Orientation},
                           }))
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(IntDict<ResourceOrientation>, RESOURCE_FLIP_NUMERICAL,
                           ({{0, ResourceOrientation::Flip0Orientation},
                             {90, ResourceOrientation::Flip90Orientation},
                             {180, ResourceOrientation::Flip180Orientation},
                             {270, ResourceOrientation::Flip270Orientation}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ComponentType>, COMPONENT_TYPE_STRINGIFIED,
                           ({{"", ComponentType::NotTypedComponent},
                             {"Block", ComponentType::BlockComponent},
@@ -216,6 +226,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ComponentType>, COMPONENT_TYPE_STRINGIFIED,
                             {"PartialProduct", ComponentType::PartialProductComponent},
                             {"Proof", ComponentType::ProofComponent}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProductType>, PRODUCT_TYPE_STRINGIFIED,
                           ({{"", ProductType::NoProduct},
                             {"BackCover", ProductType::BackCoverProduct},
@@ -243,6 +254,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProductType>, PRODUCT_TYPE_STRINGIFIED,
                             {"Poster", ProductType::PosterProduct},
                             {"Stack", ProductType::StackProduct}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourcePartType>, PART_ID_KEYS_TYPE_STRINGIFIED,
                           ({{"BinderySignatureName", ResourcePartType::BinderySignatureNamePart},
                             {"BinderySignaturePaginationIndex", ResourcePartType::BinderySignaturePaginationIndexPart},
@@ -313,9 +325,11 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourcePartType>, PART_ID_KEYS_TYPE_STRING
                             {"WebProduct", ResourcePartType::WebProductPart},
                             {"WebSetup", ResourcePartType::WebSetupPart}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<LinkUsage>, LINK_USAGE_STRINGIFIED,
                           ({{"Input", LinkUsage::InputLink}, {"Output", LinkUsage::OutputLink}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProcessUsage>, PROCESS_USAGE_STRINGIFIED,
                           ({{"", ProcessUsage::UseAsDefault},
                             {"Accepted", ProcessUsage::UseAsAccepted},
@@ -348,17 +362,20 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProcessUsage>, PROCESS_USAGE_STRINGIFIED,
                             {"Underlay", ProcessUsage::UseAsUnderlay},
                             {"Waste", ProcessUsage::UseAsWaste}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<BlockType>, BLOCK_TYPE_STRINGIFIED,
                           ({{"CutBlock", BlockType::CutBlock},
                             {"SaveBlock", BlockType::SaveBlock},
                             {"TempBlock", BlockType::TempBlock},
                             {"MarkBlock", BlockType::MarkBlock}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaUnit>, MEDIA_UNIT_STRINGIFIED,
                           ({{"Continuous", MediaUnit::ContinuousMediaUnit},
                             {"Roll", MediaUnit::RollMediaUnit},
                             {"Sheet", MediaUnit::SheetMediaUnit}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaType>, MEDIA_TYPE_STRINGIFIED,
                           ({{"CorrugatedBoard", MediaType::CorrugatedBoardMedia},
                             {"Disc", MediaType::DiscMedia},
@@ -380,6 +397,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaType>, MEDIA_TYPE_STRINGIFIED,
                             {"Other", MediaType::OtherMedia},
                             {"Vinyl", MediaType::VinylMedia}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<DeviceFilterDetails>, DEVICE_FILTER_DETAILS_STRINGIFIED,
                           ({{"None", DeviceFilterDetails::NoneDeviceFilterDetails},
                             {"Brief", DeviceFilterDetails::BriefDeviceFilterDetails},
@@ -389,6 +407,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<DeviceFilterDetails>, DEVICE_FILTER_DETAILS
                             {"Capability", DeviceFilterDetails::CapabilityDeviceFilterDetails},
                             {"Full", DeviceFilterDetails::FullDeviceFilterDetails}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<DeviceStatus>, DEVICE_STATUS_STRINGIFIED,
                           ({{"Unknown", DeviceStatus::UnknownDeviceStatus},
                             {"Idle", DeviceStatus::IdleDeviceStatus},
@@ -398,12 +417,14 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<DeviceStatus>, DEVICE_STATUS_STRINGIFIED,
                             {"Cleanup", DeviceStatus::CleanupDeviceStatus},
                             {"Stopped", DeviceStatus::StoppedDeviceStatus}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<DeviceCondition>, DEVICE_CONDITION_STRINGIFIED,
                           ({{"OK", DeviceCondition::OkDeviceCondition},
                             {"NeedsAttention", DeviceCondition::NeedsAttentionDeviceCondition},
                             {"Failure", DeviceCondition::FailureDeviceCondition},
                             {"OffLine", DeviceCondition::OffLineDeviceCondition}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<NotificationClass>, NOTIFICATION_CLASS_STRINGIFIED,
                           ({{"Event", NotificationClass::EventNotificationClass},
                             {"Information", NotificationClass::InformationNotificationClass},
@@ -411,6 +432,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<NotificationClass>, NOTIFICATION_CLASS_STRI
                             {"Error", NotificationClass::ErrorNotificationClass},
                             {"Fatal", NotificationClass::FatalNotificationClass}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<SpanDataType>, SPAN_DATA_TYPE_STRINGIFIED,
                           ({{"DurationSpan", SpanDataType::DurationSpan},
                             {"EnumerationSpan", SpanDataType::EnumerationSpan},

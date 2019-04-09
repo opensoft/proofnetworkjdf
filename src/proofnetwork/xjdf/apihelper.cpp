@@ -69,10 +69,12 @@ using StringDict = QHash<QString, T>;
 template <typename T>
 using IntDict = QHash<int, T>;
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(
     StringDict<ProcessType>, PROCESS_TYPE_STRINGIFIED,
     ({{"", ProcessType::NoProcessType}, {"Cutting", ProcessType::Cutting}, {"BoxPacking", ProcessType::BoxPacking}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProductType>, PRODUCT_TYPE_STRINGIFIED,
                           ({{"", ProductType::NoProductType},    {"BackCover", ProductType::BackCover},
                             {"BlankBox", ProductType::BlankBox}, {"BlankSheet", ProductType::BlankSheet},
@@ -88,9 +90,11 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProductType>, PRODUCT_TYPE_STRINGIFIED,
                             {"Pallet", ProductType::Pallet},     {"Poster", ProductType::Poster},
                             {"Stack", ProductType::Stack}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<UsageType>, USAGE_TYPE_STRINGIFIED,
                           ({{"", UsageType::NoUsageType}, {"Input", UsageType::Input}, {"Output", UsageType::Output}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceOrientation>, RESOURCE_ORIENTATION_STRINGIFIED,
                           ({{"Rotate0", ResourceOrientation::Rotate0Orientation},
                             {"Rotate90", ResourceOrientation::Rotate90Orientation},
@@ -102,6 +106,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ResourceOrientation>, RESOURCE_ORIENTATION_
                             {"Flip180", ResourceOrientation::Flip180Orientation},
                             {"Flip270", ResourceOrientation::Flip270Orientation}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(IntDict<ResourceOrientation>, RESOURCE_ROTATE_NUMERICAL,
                           ({
                               {0, ResourceOrientation::Rotate0Orientation},
@@ -110,12 +115,14 @@ Q_GLOBAL_STATIC_WITH_ARGS(IntDict<ResourceOrientation>, RESOURCE_ROTATE_NUMERICA
                               {270, ResourceOrientation::Rotate270Orientation},
                           }))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(IntDict<ResourceOrientation>, RESOURCE_FLIP_NUMERICAL,
                           ({{0, ResourceOrientation::Flip0Orientation},
                             {90, ResourceOrientation::Flip90Orientation},
                             {180, ResourceOrientation::Flip180Orientation},
                             {270, ResourceOrientation::Flip270Orientation}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<Severity>, SEVERITY_STRINGIFIED,
                           ({{"Event", Severity::Event},
                             {"Information", Severity::Information},
@@ -123,6 +130,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<Severity>, SEVERITY_STRINGIFIED,
                             {"Error", Severity::Error},
                             {"Fatal", Severity::Fatal}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<BoxType>, BOX_TYPE_STRINGIFIED,
                           ({{"", BoxType::NoBoxType},
                             {"Box", BoxType::Box},
@@ -130,6 +138,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<BoxType>, BOX_TYPE_STRINGIFIED,
                             {"Envelope", BoxType::Envelope},
                             {"Tube", BoxType::Tube}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<FoldType>, FOLD_TYPE_STRINGIFIED,
                           ({{"", FoldType::NoFoldType},   {"F2-1", FoldType::F2_1},     {"F4-1", FoldType::F4_1},
                             {"F4-2", FoldType::F4_2},     {"F6-1", FoldType::F6_1},     {"F6-2", FoldType::F6_2},
@@ -162,8 +171,10 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<FoldType>, FOLD_TYPE_STRINGIFIED,
                             {"F36-2", FoldType::F36_2},   {"F40-1", FoldType::F40_1},   {"F48-1", FoldType::F48_1},
                             {"F48-2", FoldType::F48_2},   {"F64-1", FoldType::F64_1},   {"F64-2", FoldType::F64_2}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<Side>, SIDE_STRINGIFIED, ({{"Front", Side::Front}, {"Back", Side::Back}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<CoatingType>, COATING_TYPE_STRINGIFIED,
                           ({{"", CoatingType::NoCoatingType},
                             {"Aqueous", CoatingType::Aqueous},
