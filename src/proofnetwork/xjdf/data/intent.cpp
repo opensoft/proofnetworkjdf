@@ -63,7 +63,6 @@ void Intent::setName(const QString &arg)
 
 bool Intent::readFieldsFromXJdf(QXmlStreamReader &)
 {
-    //NOTE: Nothing there for now, but it can be fill later
     return false;
 }
 

@@ -59,7 +59,6 @@ QMap<Side, bool> ColorIntent::spots() const
 void ColorIntent::setCoatings(const QMap<Side, QVector<CoatingType>> &arg)
 {
     Q_D(ColorIntent);
-    //TODO: make it right way, if needed
     d->coatings = arg;
     emit coatingsChanged(d->coatings);
 }
@@ -74,7 +73,6 @@ void ColorIntent::addCoating(Side side, CoatingType arg)
 void ColorIntent::setSpots(const QMap<Side, bool> &arg)
 {
     Q_D(ColorIntent);
-    //TODO: make it right way, if needed
     d->spots = arg;
     emit spotsChanged(d->spots);
 }

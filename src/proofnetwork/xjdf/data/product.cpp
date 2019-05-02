@@ -134,7 +134,6 @@ void Product::setType(ProductType arg)
 void Product::setIntents(const QVector<IntentSP> &arg)
 {
     Q_D(Product);
-    //TODO: Make it right
     d->intents = arg;
     emit intentsChanged(arg);
 }

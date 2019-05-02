@@ -67,7 +67,6 @@ public:
 
     void refToJdf(QXmlStreamWriter &jdfWriter);
 
-    //TODO: 1.0 think about proper way to do it
     QString jdfNodeName() const;
     QString jdfNodeRefName() const;
 

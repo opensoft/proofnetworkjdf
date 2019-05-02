@@ -114,7 +114,6 @@ void Resource::setAmountPool(const AmountPoolSP &arg)
 
 bool Resource::readFieldsFromXJdf(QXmlStreamReader &)
 {
-    //NOTE: Nothing there for now, but it can be fill later
     return false;
 }
 
