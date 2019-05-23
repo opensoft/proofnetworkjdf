@@ -54,7 +54,6 @@ PROOF_NDE_WRAPPER_TOOLS_IMPL(CutBlock)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, QString, blockName)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, double, width)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, double, height)
-PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, QString, transformationMatrix)
 PROOF_NDE_WRAPPER_PROPERTY_IMPL_R(CutBlock, Proof::Jdf::BlockType, blockType)
 
 void CutBlockQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &old)
@@ -65,8 +64,6 @@ void CutBlockQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &ol
     connect(cutBlock.data(), &CutBlock::blockNameChanged, this, &CutBlockQmlWrapper::blockNameChanged);
     connect(cutBlock.data(), &CutBlock::widthChanged, this, &CutBlockQmlWrapper::widthChanged);
     connect(cutBlock.data(), &CutBlock::heightChanged, this, &CutBlockQmlWrapper::heightChanged);
-    connect(cutBlock.data(), &CutBlock::transformationMatrixChanged, this,
-            &CutBlockQmlWrapper::transformationMatrixChanged);
     connect(cutBlock.data(), &CutBlock::blockTypeChanged, this, &CutBlockQmlWrapper::blockTypeChanged);
 
     CutBlockSP oldCutBlock = qSharedPointerCast<CutBlock>(old);
@@ -77,8 +74,6 @@ void CutBlockQmlWrapper::setupEntity(const QSharedPointer<NetworkDataEntity> &ol
             emit widthChanged(cutBlock->width());
         if (cutBlock->height() != oldCutBlock->height())
             emit heightChanged(cutBlock->height());
-        if (cutBlock->transformationMatrix() != oldCutBlock->transformationMatrix())
-            emit transformationMatrixChanged(cutBlock->transformationMatrix());
         if (cutBlock->blockType() != oldCutBlock->blockType())
             emit blockTypeChanged(cutBlock->blockType());
     }
