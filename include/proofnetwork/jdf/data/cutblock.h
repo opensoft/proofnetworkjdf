@@ -70,6 +70,8 @@ public:
     void setTransformationMatrix(const QTransform &arg);
     void setBlockType(BlockType arg);
 
+    void moveBoundingRectTo(double x, double y);
+
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     static CutBlockSP create(const QString &blockName = QString());

@@ -258,6 +258,16 @@ void CutBlock::setBlockType(BlockType arg)
     }
 }
 
+void CutBlock::moveBoundingRectTo(double x, double y)
+{
+    Q_D(CutBlock);
+    QRectF rect = boundingRect();
+    rect.moveTo(x, y);
+    QRectF updatedOriginal = d->transformationMatrix.inverted().mapRect(rect);
+    setX(updatedOriginal.x());
+    setY(updatedOriginal.y());
+}
+
 void CutBlock::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
     CutBlockSP castedOther = qSharedPointerCast<CutBlock>(other);
