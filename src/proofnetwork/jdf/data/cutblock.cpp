@@ -42,8 +42,6 @@ class CutBlockPrivate : public NetworkDataEntityPrivate
     QString blockName;
     double width = 0.0;
     double height = 0.0;
-    double x = 0.0;
-    double y = 0.0;
     QTransform transformationMatrix;
     BlockType blockType = BlockType::CutBlock;
 };
@@ -79,22 +77,10 @@ double CutBlock::height() const
     return d->height;
 }
 
-double CutBlock::x() const
-{
-    Q_D_CONST(CutBlock);
-    return d->x;
-}
-
-double CutBlock::y() const
-{
-    Q_D_CONST(CutBlock);
-    return d->y;
-}
-
 QRectF CutBlock::boundingRect() const
 {
     Q_D_CONST(CutBlock);
-    return d->transformationMatrix.mapRect(QRectF(d->x, d->y, d->width, d->height));
+    return d->transformationMatrix.mapRect(QRectF(0.0, 0.0, d->width, d->height));
 }
 
 QTransform CutBlock::transformationMatrix() const
@@ -156,14 +142,14 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
                 return CutBlockSP();
             }
             QStringList trf = attributes.value(QStringLiteral("BlockTrf")).toString().split(' ');
+            QTransform matrix;
             if (trf.size() >= 6) {
-                cutBlock->setX(trf[4].toDouble());
-                cutBlock->setY(trf[5].toDouble());
+                matrix = QTransform(trf[0].toDouble(), trf[1].toDouble(), trf[2].toDouble(), trf[3].toDouble(),
+                                    trf[4].toDouble(), trf[5].toDouble());
+            } else if (trf.size() >= 4) {
+                matrix = QTransform(trf[0].toDouble(), trf[1].toDouble(), trf[2].toDouble(), trf[3].toDouble(), 0, 0);
             }
-            if (trf.size() >= 4) {
-                cutBlock->setTransformationMatrix(
-                    QTransform(trf[0].toDouble(), trf[1].toDouble(), trf[2].toDouble(), trf[3].toDouble(), 0, 0));
-            }
+            cutBlock->setTransformationMatrix(matrix);
             cutBlock->setBlockType(blockTypeFromString(attributes.value(QStringLiteral("BlockType")).toString()));
         } else if (xmlReader.isStartElement()) {
             xmlReader.skipCurrentElement();
@@ -189,8 +175,8 @@ void CutBlock::toJdf(QXmlStreamWriter &jdfWriter)
                                                              .arg(transformationMatrix().m12(), 0, 'f', 4)
                                                              .arg(transformationMatrix().m21(), 0, 'f', 4)
                                                              .arg(transformationMatrix().m22(), 0, 'f', 4)
-                                                             .arg(x(), 0, 'f', 4)
-                                                             .arg(y(), 0, 'f', 4));
+                                                             .arg(transformationMatrix().m31(), 0, 'f', 4)
+                                                             .arg(transformationMatrix().m32(), 0, 'f', 4));
     jdfWriter.writeAttribute(QStringLiteral("BlockType"), blockTypeToString(d->blockType));
     jdfWriter.writeEndElement();
 }
@@ -222,24 +208,6 @@ void CutBlock::setHeight(double arg)
     }
 }
 
-void CutBlock::setX(double arg)
-{
-    Q_D(CutBlock);
-    if (!qFuzzyCompare(d->x, arg)) {
-        d->x = arg;
-        emit xChanged(d->x);
-    }
-}
-
-void CutBlock::setY(double arg)
-{
-    Q_D(CutBlock);
-    if (!qFuzzyCompare(d->y, arg)) {
-        d->y = arg;
-        emit yChanged(d->y);
-    }
-}
-
 void CutBlock::setTransformationMatrix(const QTransform &arg)
 {
     Q_D(CutBlock);
@@ -262,10 +230,10 @@ void CutBlock::moveBoundingRectTo(double x, double y)
 {
     Q_D(CutBlock);
     QRectF rect = boundingRect();
-    rect.moveTo(x, y);
-    QRectF updatedOriginal = d->transformationMatrix.inverted().mapRect(rect);
-    setX(updatedOriginal.x());
-    setY(updatedOriginal.y());
+    setTransformationMatrix(QTransform(d->transformationMatrix.m11(), d->transformationMatrix.m12(),
+                                       d->transformationMatrix.m21(), d->transformationMatrix.m22(),
+                                       d->transformationMatrix.m31() + x - rect.x(),
+                                       d->transformationMatrix.m32() + y - rect.y()));
 }
 
 void CutBlock::updateSelf(const Proof::NetworkDataEntitySP &other)
@@ -274,8 +242,6 @@ void CutBlock::updateSelf(const Proof::NetworkDataEntitySP &other)
     setBlockName(castedOther->blockName());
     setWidth(castedOther->width());
     setHeight(castedOther->height());
-    setX(castedOther->x());
-    setY(castedOther->y());
     setTransformationMatrix(castedOther->transformationMatrix());
     setBlockType(castedOther->blockType());
 

@@ -56,16 +56,14 @@ TEST_F(CutBlockTest, fromJdf)
     EXPECT_EQ("A-1", cutBlockUT->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlockUT->width());
     EXPECT_DOUBLE_EQ(288, cutBlockUT->height());
-    EXPECT_DOUBLE_EQ(54.0000, cutBlockUT->x());
-    EXPECT_DOUBLE_EQ(36.0000, cutBlockUT->y());
-    EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0), cutBlockUT->transformationMatrix());
+    EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 54.0, 36.0), cutBlockUT->transformationMatrix());
     EXPECT_EQ(BlockType::CutBlock, cutBlockUT->blockType());
 }
 
 TEST_F(CutBlockTest, updateFrom)
 {
-    QVector<QSignalSpy *> spies = spiesForObject(cutBlockUT.data());
-    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
+    QVector<QSignalSpy *> spies = spiesForObject(cutBlockUT.data(), {"xChanged(double)", "yChanged(double)"});
+    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT, {"xChanged(double)", "yChanged(double)"});
 
     cutBlockUT->updateFrom(cutBlockUT2);
 
@@ -83,8 +81,6 @@ TEST_F(CutBlockTest, updateFrom)
     EXPECT_EQ(cutBlockUT->blockName(), cutBlockUT2->blockName());
     EXPECT_DOUBLE_EQ(cutBlockUT->width(), cutBlockUT2->width());
     EXPECT_DOUBLE_EQ(cutBlockUT->height(), cutBlockUT2->height());
-    EXPECT_DOUBLE_EQ(cutBlockUT->x(), cutBlockUT2->x());
-    EXPECT_DOUBLE_EQ(cutBlockUT->y(), cutBlockUT2->y());
     EXPECT_EQ(cutBlockUT->transformationMatrix(), cutBlockUT2->transformationMatrix());
     EXPECT_EQ(cutBlockUT->blockType(), cutBlockUT2->blockType());
 }
@@ -117,9 +113,7 @@ TEST_F(CutBlockTest, cutBlockToJdfWithChangedTrf)
 {
     QString jdf;
     QXmlStreamWriter xmlWriter(&jdf);
-    cutBlockUT->setTransformationMatrix(QTransform(-1.0, 1.0, 1.0, 0.0, 0.0, 0.0));
-    cutBlockUT->setX(120.0);
-    cutBlockUT->setY(240.5);
+    cutBlockUT->setTransformationMatrix(QTransform(-1.0, 1.0, 1.0, 0.0, 120.0, 240.5));
     cutBlockUT->toJdf(xmlWriter);
     xmlWriter.writeEndDocument();
 

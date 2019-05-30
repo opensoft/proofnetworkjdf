@@ -56,8 +56,6 @@ public:
     QString blockName() const;
     double width() const;
     double height() const;
-    double x() const;
-    double y() const;
     QRectF boundingRect() const;
     QTransform transformationMatrix() const;
     BlockType blockType() const;
@@ -65,8 +63,6 @@ public:
     void setBlockName(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
-    void setX(double arg);
-    void setY(double arg);
     void setTransformationMatrix(const QTransform &arg);
     void setBlockType(BlockType arg);
 
@@ -83,8 +79,6 @@ signals:
     void blockNameChanged(const QString &arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
-    void xChanged(double arg);
-    void yChanged(double arg);
     void transformationMatrixChanged(const QTransform &arg);
     void blockTypeChanged(Proof::Jdf::BlockType arg);
 
