@@ -133,3 +133,25 @@ TEST_F(CutBlockTest, cutBlockToJdfWithChangedTrf)
         }
     }
 }
+
+TEST_F(CutBlockTest, moveBoundingRectIdentity)
+{
+    CutBlockSP cutBlock = CutBlock::create();
+    cutBlock->setWidth(150.0);
+    cutBlock->setHeight(100.0);
+    cutBlock->setTransformationMatrix(QTransform(1.0, 0.0, 0.0, 1.0, 120.0, 240.5));
+    EXPECT_EQ(QRectF(120.0, 240.5, 150.0, 100.0), cutBlock->boundingRect());
+    cutBlock->moveBoundingRectTo(45.0, 30.0);
+    EXPECT_EQ(QRectF(45.0, 30.0, 150.0, 100.0), cutBlock->boundingRect());
+}
+
+TEST_F(CutBlockTest, moveBoundingRectRotated)
+{
+    CutBlockSP cutBlock = CutBlock::create();
+    cutBlock->setWidth(150.0);
+    cutBlock->setHeight(100.0);
+    cutBlock->setTransformationMatrix(QTransform(0.0, -1.0, 1.0, 0.0, 120.0, 240.5));
+    EXPECT_EQ(QRectF(120.0, 90.5, 100.0, 150.0), cutBlock->boundingRect());
+    cutBlock->moveBoundingRectTo(45.0, 30.0);
+    EXPECT_EQ(QRectF(45.0, 30.0, 100.0, 150.0), cutBlock->boundingRect());
+}

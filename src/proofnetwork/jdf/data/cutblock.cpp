@@ -146,8 +146,6 @@ CutBlockSP CutBlock::fromJdf(QXmlStreamReader &xmlReader, const QString &jobId, 
             if (trf.size() >= 6) {
                 matrix = QTransform(trf[0].toDouble(), trf[1].toDouble(), trf[2].toDouble(), trf[3].toDouble(),
                                     trf[4].toDouble(), trf[5].toDouble());
-            } else if (trf.size() >= 4) {
-                matrix = QTransform(trf[0].toDouble(), trf[1].toDouble(), trf[2].toDouble(), trf[3].toDouble(), 0, 0);
             }
             cutBlock->setTransformationMatrix(matrix);
             cutBlock->setBlockType(blockTypeFromString(attributes.value(QStringLiteral("BlockType")).toString()));
