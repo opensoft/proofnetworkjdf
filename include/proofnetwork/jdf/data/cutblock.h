@@ -33,6 +33,7 @@
 #include "proofnetwork/jdf/proofnetworkjdf_types.h"
 #include "proofnetwork/networkdataentity.h"
 
+#include <QTransform>
 #include <QXmlStreamReader>
 
 namespace Proof {
@@ -55,23 +56,17 @@ public:
     QString blockName() const;
     double width() const;
     double height() const;
-    double x() const;
-    double y() const;
-    double rotation() const;
-    QString transformationMatrix() const;
+    QRectF boundingRect() const;
+    QTransform transformationMatrix() const;
     BlockType blockType() const;
 
     void setBlockName(const QString &arg);
     void setWidth(double arg);
     void setHeight(double arg);
-    void setX(double arg);
-    void setY(double arg);
-    void setRotation(double arg);
-    void setTransformationMatrix(const QString &arg);
-    void setTransformationMatrix(double x, double y, double rotation);
+    void setTransformationMatrix(const QTransform &arg);
     void setBlockType(BlockType arg);
 
-    void normalizeTransformation();
+    void moveBoundingRectTo(double x, double y);
 
     CutBlockQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
@@ -84,10 +79,7 @@ signals:
     void blockNameChanged(const QString &arg);
     void widthChanged(double arg);
     void heightChanged(double arg);
-    void xChanged(double arg);
-    void yChanged(double arg);
-    void rotationChanged(double arg);
-    void transformationMatrixChanged(const QString &arg);
+    void transformationMatrixChanged(const QTransform &arg);
     void blockTypeChanged(Proof::Jdf::BlockType arg);
 
 protected:

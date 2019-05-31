@@ -221,12 +221,10 @@ TEST_F(JdfDocumentTest, fromJdf)
     for (const CutBlockSP &cutBlock : {cutBlock1, cutBlock2}) {
         ASSERT_TRUE(cutBlock);
         EXPECT_EQ("A-1", cutBlock->blockName());
-        EXPECT_DOUBLE_EQ(432, cutBlock->width());
-        EXPECT_DOUBLE_EQ(288, cutBlock->height());
-        EXPECT_DOUBLE_EQ(54.0000, cutBlock->x());
-        EXPECT_DOUBLE_EQ(36.0000, cutBlock->y());
-        EXPECT_DOUBLE_EQ(0.0, cutBlock->rotation());
-        EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+        EXPECT_DOUBLE_EQ(432.0, cutBlock->width());
+        EXPECT_DOUBLE_EQ(288.0, cutBlock->height());
+        EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 54.0, 36.0), cutBlock->transformationMatrix());
+        EXPECT_EQ(QRectF(54.0, 36.0, 432.0, 288.0), cutBlock->boundingRect());
         EXPECT_EQ(BlockType::CutBlock, cutBlock->blockType());
     }
 
@@ -428,7 +426,7 @@ TEST_F(JdfDocumentTest, fromNestedJdfFirstLevel)
     CutBlockSP cutBlock = component2->cutBlocks().first();
     ASSERT_TRUE(cutBlock);
     EXPECT_EQ("A-1", cutBlock->blockName());
-    EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock->transformationMatrix());
+    EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 54.0, 36.0), cutBlock->transformationMatrix());
 
     ComponentSP componentFold = resourcePool->components().last();
     ASSERT_TRUE(componentFold);
@@ -464,17 +462,14 @@ TEST_F(JdfDocumentTest, fromNestedJdfCutting)
     EXPECT_EQ("A-1", cutBlock1->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock1->width());
     EXPECT_DOUBLE_EQ(288, cutBlock1->height());
-    EXPECT_DOUBLE_EQ(54.0000, cutBlock1->x());
-    EXPECT_DOUBLE_EQ(36.0000, cutBlock1->y());
-    EXPECT_DOUBLE_EQ(0.0, cutBlock1->rotation());
-    EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlock1->transformationMatrix());
+    EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 54.0, 36.0), cutBlock1->transformationMatrix());
     EXPECT_EQ(BlockType::CutBlock, cutBlock1->blockType());
 
     CutBlockSP cutBlock2 = cuttingParams->cutBlocks().at(1);
     EXPECT_EQ("A-2", cutBlock2->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlock2->width());
     EXPECT_DOUBLE_EQ(288, cutBlock2->height());
-    EXPECT_EQ("1 0 0 1 54.0000 342.0000", cutBlock2->transformationMatrix());
+    EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 54.0, 342.0), cutBlock2->transformationMatrix());
     EXPECT_EQ(BlockType::CutBlock, cutBlock2->blockType());
 }
 
@@ -593,9 +588,6 @@ TEST_F(JdfDocumentTest, updateFrom)
     EXPECT_EQ(cutBlock->blockName(), cutBlock2->blockName());
     EXPECT_DOUBLE_EQ(cutBlock->width(), cutBlock2->width());
     EXPECT_DOUBLE_EQ(cutBlock->height(), cutBlock2->height());
-    EXPECT_DOUBLE_EQ(cutBlock->x(), cutBlock2->x());
-    EXPECT_DOUBLE_EQ(cutBlock->y(), cutBlock2->y());
-    EXPECT_DOUBLE_EQ(cutBlock->rotation(), cutBlock2->rotation());
     EXPECT_EQ(cutBlock->transformationMatrix(), cutBlock2->transformationMatrix());
     EXPECT_EQ(cutBlock->blockType(), cutBlock2->blockType());
 

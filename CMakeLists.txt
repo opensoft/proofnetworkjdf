@@ -7,6 +7,9 @@ endif()
 project(ProofNetworkJdf VERSION ${PROOF_VERSION} LANGUAGES CXX)
 
 find_package(Qt5Core CONFIG REQUIRED)
+find_package(Qt5Gui CONFIG REQUIRED)
+find_package(Qt5Network CONFIG REQUIRED)
+find_package(Qt5Xml CONFIG REQUIRED)
 if(NOT PROOF_FULL_BUILD)
     proof_init()
     find_package(ProofNetwork CONFIG REQUIRED)
@@ -266,12 +269,12 @@ proof_force_moc(NetworkJdf include/proofnetwork/jdf/apihelper.h)
 proof_force_moc(NetworkXJdf include/proofnetwork/xjdf/apihelper.h)
 
 proof_add_module(NetworkJdf
-    QT_LIBS Core Network Xml
+    QT_LIBS Core Gui Network Xml
     PROOF_LIBS Network
 )
 
 proof_add_module(NetworkXJdf
-    QT_LIBS Core Network Xml
+    QT_LIBS Core Gui Network Xml
     PROOF_LIBS Network
 )
 

@@ -4,6 +4,9 @@ ProofNetworkJdf Changelog
 ## Not Released
 #### Features
  * XJDF initial support
+ * JDF: CutBlock::transformationMatrix() returns QTransform now
+ * JDF: CutBlock methods rotation(), x() and y() removed
+ * JDF: CutBlock::boundingRect() method added, which returns final bounding rect of cutblock after transformation matrix was applied
 
 #### Bug Fixing
  * --

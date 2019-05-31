@@ -56,17 +56,14 @@ TEST_F(CutBlockTest, fromJdf)
     EXPECT_EQ("A-1", cutBlockUT->blockName());
     EXPECT_DOUBLE_EQ(432, cutBlockUT->width());
     EXPECT_DOUBLE_EQ(288, cutBlockUT->height());
-    EXPECT_DOUBLE_EQ(54.0000, cutBlockUT->x());
-    EXPECT_DOUBLE_EQ(36.0000, cutBlockUT->y());
-    EXPECT_DOUBLE_EQ(0.0, cutBlockUT->rotation());
-    EXPECT_EQ("1 0 0 1 54.0000 36.0000", cutBlockUT->transformationMatrix());
+    EXPECT_EQ(QTransform(1.0, 0.0, 0.0, 1.0, 54.0, 36.0), cutBlockUT->transformationMatrix());
     EXPECT_EQ(BlockType::CutBlock, cutBlockUT->blockType());
 }
 
 TEST_F(CutBlockTest, updateFrom)
 {
-    QVector<QSignalSpy *> spies = spiesForObject(cutBlockUT.data());
-    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT);
+    QVector<QSignalSpy *> spies = spiesForObject(cutBlockUT.data(), {"xChanged(double)", "yChanged(double)"});
+    QVector<QSignalSpy *> qmlspies = spiesForObject(qmlWrapperUT, {"xChanged(double)", "yChanged(double)"});
 
     cutBlockUT->updateFrom(cutBlockUT2);
 
@@ -84,9 +81,6 @@ TEST_F(CutBlockTest, updateFrom)
     EXPECT_EQ(cutBlockUT->blockName(), cutBlockUT2->blockName());
     EXPECT_DOUBLE_EQ(cutBlockUT->width(), cutBlockUT2->width());
     EXPECT_DOUBLE_EQ(cutBlockUT->height(), cutBlockUT2->height());
-    EXPECT_DOUBLE_EQ(cutBlockUT->x(), cutBlockUT2->x());
-    EXPECT_DOUBLE_EQ(cutBlockUT->y(), cutBlockUT2->y());
-    EXPECT_DOUBLE_EQ(cutBlockUT->rotation(), cutBlockUT2->rotation());
     EXPECT_EQ(cutBlockUT->transformationMatrix(), cutBlockUT2->transformationMatrix());
     EXPECT_EQ(cutBlockUT->blockType(), cutBlockUT2->blockType());
 }
@@ -104,13 +98,60 @@ TEST_F(CutBlockTest, cutBlockToJdf)
     while (!xmlReader.atEnd() && !xmlReader.hasError()) {
         if (xmlReader.name() == "CutBlock" && xmlReader.isStartElement()) {
             QXmlStreamAttributes attributes = xmlReader.attributes();
-            EXPECT_EQ(attributes.value("BlockName").toString(), "A-1");
-            EXPECT_EQ(attributes.value("BlockSize").toString(), "432.0000 288.0000");
-            EXPECT_EQ(attributes.value("BlockTrf").toString(), "1 0 0 1 54.0000 36.0000");
-            EXPECT_EQ(attributes.value("BlockType").toString(), "CutBlock");
+            EXPECT_EQ("A-1", attributes.value("BlockName").toString());
+            EXPECT_EQ("432.0000 288.0000", attributes.value("BlockSize").toString());
+            EXPECT_EQ("1.0000 0.0000 0.0000 1.0000 54.0000 36.0000", attributes.value("BlockTrf").toString());
+            EXPECT_EQ("CutBlock", attributes.value("BlockType").toString());
             break;
         } else {
             xmlReader.readNext();
         }
     }
+}
+
+TEST_F(CutBlockTest, cutBlockToJdfWithChangedTrf)
+{
+    QString jdf;
+    QXmlStreamWriter xmlWriter(&jdf);
+    cutBlockUT->setTransformationMatrix(QTransform(-1.0, 1.0, 1.0, 0.0, 120.0, 240.5));
+    cutBlockUT->toJdf(xmlWriter);
+    xmlWriter.writeEndDocument();
+
+    QXmlStreamReader xmlReader(jdf);
+    EXPECT_FALSE(xmlReader.atEnd());
+
+    while (!xmlReader.atEnd() && !xmlReader.hasError()) {
+        if (xmlReader.name() == "CutBlock" && xmlReader.isStartElement()) {
+            QXmlStreamAttributes attributes = xmlReader.attributes();
+            EXPECT_EQ("A-1", attributes.value("BlockName").toString());
+            EXPECT_EQ("432.0000 288.0000", attributes.value("BlockSize").toString());
+            EXPECT_EQ("-1.0000 1.0000 1.0000 0.0000 120.0000 240.5000", attributes.value("BlockTrf").toString());
+            EXPECT_EQ("CutBlock", attributes.value("BlockType").toString());
+            break;
+        } else {
+            xmlReader.readNext();
+        }
+    }
+}
+
+TEST_F(CutBlockTest, moveBoundingRectIdentity)
+{
+    CutBlockSP cutBlock = CutBlock::create();
+    cutBlock->setWidth(150.0);
+    cutBlock->setHeight(100.0);
+    cutBlock->setTransformationMatrix(QTransform(1.0, 0.0, 0.0, 1.0, 120.0, 240.5));
+    EXPECT_EQ(QRectF(120.0, 240.5, 150.0, 100.0), cutBlock->boundingRect());
+    cutBlock->moveBoundingRectTo(45.0, 30.0);
+    EXPECT_EQ(QRectF(45.0, 30.0, 150.0, 100.0), cutBlock->boundingRect());
+}
+
+TEST_F(CutBlockTest, moveBoundingRectRotated)
+{
+    CutBlockSP cutBlock = CutBlock::create();
+    cutBlock->setWidth(150.0);
+    cutBlock->setHeight(100.0);
+    cutBlock->setTransformationMatrix(QTransform(0.0, -1.0, 1.0, 0.0, 120.0, 240.5));
+    EXPECT_EQ(QRectF(120.0, 90.5, 100.0, 150.0), cutBlock->boundingRect());
+    cutBlock->moveBoundingRectTo(45.0, 30.0);
+    EXPECT_EQ(QRectF(45.0, 30.0, 100.0, 150.0), cutBlock->boundingRect());
 }
