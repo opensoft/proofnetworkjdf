@@ -56,7 +56,7 @@
   </ResourceSet>
   <ResourceSet Name="Media">
     <Resource ID="Media_1">
-      <Media Dimension="1500.0 1000.0" Thickness="1560" />
+      <Media Dimension="1500.0 1000.0" Thickness="1560"   MediaType="Paper"/>
     </Resource>
   </ResourceSet>
   <ResourceSet CombinedProcessIndex="0" Name="Component" Usage="Input">

@@ -184,6 +184,7 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_DOUBLE_EQ(1500.0, media->width());
     EXPECT_DOUBLE_EQ(1000.0, media->height());
     EXPECT_DOUBLE_EQ(1560.0, media->thickness());
+    EXPECT_EQ(MediaType::Paper, media->type());
 
     auto resourceSet3 = xjdfDocNew->resourceSets()[2];
     EXPECT_EQ("Component", resourceSet3->name());

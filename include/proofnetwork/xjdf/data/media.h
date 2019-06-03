@@ -48,10 +48,12 @@ public:
     double width() const;
     double height() const;
     double thickness() const;
+    MediaType type() const;
 
     void setWidth(double arg);
     void setHeight(double arg);
     void setThickness(double arg);
+    void setType(MediaType arg);
 
     static MediaSP create(const QString &id = QString());
 
@@ -62,6 +64,7 @@ signals:
     void widthChanged(double arg);
     void heightChanged(double arg);
     void thicknessChanged(double arg);
+    void typeChanged(Proof::XJdf::MediaType arg);
 
 protected:
     explicit Media(const QString &id);
