@@ -28,6 +28,7 @@
 #include "abstractnode.h"
 
 #include "proofnetwork/xjdf/apihelper.h"
+#include "proofnetwork/xjdf/data/resourceset.h"
 
 namespace Proof {
 namespace XJdf {
@@ -60,6 +61,19 @@ public:
     void setResourceSets(const QVector<ResourceSetSP> &arg);
     void addResourceSet(const ResourceSetSP &arg);
     void setNamespaces(const QVector<QPair<QString, QString>> &arg);
+
+    template <class T>
+    QVector<QSharedPointer<T>> findResources(const std::function<bool(const QSharedPointer<T> &)> &predicate =
+                                                 [](const QSharedPointer<T> &) { return true; }) const
+    {
+        return Proof::algorithms::reduce(resourceSets(),
+                                         [predicate](QVector<QSharedPointer<T>> list, const auto &resourseSet) {
+                                             list << Proof::algorithms::filter(resourseSet->template resourcesByType<T>(),
+                                                                               predicate);
+                                             return list;
+                                         },
+                                         QVector<QSharedPointer<T>>());
+    }
 
     static DocumentSP create();
 

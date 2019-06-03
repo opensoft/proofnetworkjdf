@@ -58,6 +58,11 @@
     <Resource ID="Media_1">
       <Media Dimension="1500.0 1000.0" Thickness="1560" />
     </Resource>
+    <Resource ID="DeliveryParams_extra_for_tests">
+      <DeliveryParams Required="2018-02-28T16:00:20+00:00">
+        <DropItem Amount="30" ItemRef="ProductInfo_1"/>
+      </DeliveryParams>
+    </Resource>
   </ResourceSet>
   <ResourceSet CombinedProcessIndex="0" Name="Component" Usage="Input">
     <Resource Orientation="Rotate90">
