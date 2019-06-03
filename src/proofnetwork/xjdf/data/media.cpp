@@ -38,6 +38,7 @@ public:
     double width = 0.0;
     double height = 0.0;
     double thickness = 0.0;
+    MediaType type = MediaType::NoMediaType;
 };
 
 } // namespace XJdf
@@ -64,6 +65,12 @@ double Media::thickness() const
     return d->thickness;
 }
 
+MediaType Media::type() const
+{
+    Q_D_CONST(Media);
+    return d->type;
+}
+
 void Media::setWidth(double arg)
 {
     Q_D(Media);
@@ -87,6 +94,15 @@ void Media::setThickness(double arg)
     if (!qFuzzyCompare(arg, d->thickness)) {
         d->thickness = arg;
         emit thicknessChanged(arg);
+    }
+}
+
+void Media::setType(MediaType arg)
+{
+    Q_D(Media);
+    if (d->type != arg) {
+        d->type = arg;
+        emit typeChanged(arg);
     }
 }
 
@@ -116,6 +132,8 @@ MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
         }
         if (attributes.hasAttribute(QStringLiteral("Thickness")))
             media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
+        if (attributes.hasAttribute(QStringLiteral("MediaType")))
+            media->setType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
     }
     return media;
 }
@@ -128,6 +146,8 @@ void Media::toXJdf(QXmlStreamWriter &writer) const
     writer.writeAttribute(QStringLiteral("Dimension"),
                           QStringLiteral("%1 %2").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2));
     writer.writeAttribute(QStringLiteral("Thickness"), QStringLiteral("%1").arg(d->thickness, 0, 'f', 2));
+    if (d->type != MediaType::NoMediaType)
+        writer.writeAttribute(QStringLiteral("MediaType"), mediaTypeToString(d->type));
     writer.writeEndElement();
 }
 
@@ -140,5 +160,6 @@ void Media::updateSelf(const NetworkDataEntitySP &other)
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setThickness(castedOther->thickness());
+    setType(castedOther->type());
     Resource::updateSelf(other);
 }

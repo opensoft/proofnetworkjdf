@@ -71,7 +71,7 @@
   </ResourceSet>
   <ResourceSet Name="Media2">
     <Resource ID="Media2_1">
-      <Media Dimension="1600.0 1100.0" Thickness="2560" />
+      <Media Dimension="1600.0 1100.0" Thickness="2560"  MediaType="Foil" />
     </Resource>
   </ResourceSet>
   <ResourceSet CombinedProcessIndex="1" Name="Component2" Usage="Output">

@@ -184,6 +184,7 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_DOUBLE_EQ(1500.0, media->width());
     EXPECT_DOUBLE_EQ(1000.0, media->height());
     EXPECT_DOUBLE_EQ(1560.0, media->thickness());
+    EXPECT_EQ(MediaType::Paper, media->type());
 
     auto resourceSet3 = xjdfDocNew->resourceSets()[2];
     EXPECT_EQ("Component", resourceSet3->name());
@@ -379,6 +380,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(media2->width(), media->width());
     EXPECT_DOUBLE_EQ(media2->height(), media->height());
     EXPECT_DOUBLE_EQ(media2->thickness(), media->thickness());
+    EXPECT_EQ(media2->type(), media->type());
 
     auto resourceSet3 = xjdfDocUT3->resourceSets()[2];
     auto resourceSet23 = xjdfDocUT2->resourceSets()[2];
@@ -553,6 +555,7 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_DOUBLE_EQ(1500.0, media->width());
     EXPECT_DOUBLE_EQ(1000.0, media->height());
     EXPECT_DOUBLE_EQ(1560.0, media->thickness());
+    EXPECT_EQ(MediaType::Paper, media->type());
 
     auto resourceSet3 = xjdfDocUT->resourceSets()[2];
     EXPECT_EQ("Component", resourceSet3->name());

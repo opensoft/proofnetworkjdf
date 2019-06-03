@@ -64,6 +64,10 @@ uint qHash(CoatingType arg, uint seed)
     return ::qHash(static_cast<int>(arg), seed);
 }
 
+uint qHash(MediaType arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
 template <typename T>
 using StringDict = QHash<QString, T>;
 template <typename T>
@@ -193,6 +197,27 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<CoatingType>, COATING_TYPE_STRINGIFIED,
                             {"Varnish", CoatingType::Varnish},
                             {"WaterResistant", CoatingType::WaterResistant}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
+Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaType>, MEDIA_TYPE_STRINGIFIED,
+                          ({{"", MediaType::NoMediaType},
+                            {"Blanket", MediaType::Blanket},
+                            {"CorrugatedBoard", MediaType::CorrugatedBoard},
+                            {"Disc", MediaType::Disc},
+                            {"EmbossingFoil", MediaType::EmbossingFoil},
+                            {"Film", MediaType::Film},
+                            {"Foil", MediaType::Foil},
+                            {"GravureCylinder", MediaType::GravureCylinder},
+                            {"ImagingCylinder", MediaType::ImagingCylinder},
+                            {"LaminatingFoil", MediaType::LaminatingFoil},
+                            {"MountingTape", MediaType::MountingTape},
+                            {"Other", MediaType::Other},
+                            {"Paper", MediaType::Paper},
+                            {"Plate", MediaType::Plate},
+                            {"Screen", MediaType::Screen},
+                            {"SelfAdhesive", MediaType::SelfAdhesive},
+                            {"ShrinkFoil", MediaType::ShrinkFoil},
+                            {"Sleeve", MediaType::Sleeve}}))
+
 ProcessType processTypeFromString(const QString &processType)
 {
     return PROCESS_TYPE_STRINGIFIED->value(processType, ProcessType::NoProcessType);
@@ -301,6 +326,16 @@ QString coatingTypeToString(CoatingType type)
 CoatingType coatingTypeFromString(const QString &type)
 {
     return COATING_TYPE_STRINGIFIED->value(type, CoatingType::NoCoatingType);
+}
+
+QString mediaTypeToString(MediaType type)
+{
+    return MEDIA_TYPE_STRINGIFIED->key(type, QString());
+}
+
+MediaType mediaTypeFromString(const QString &type)
+{
+    return MEDIA_TYPE_STRINGIFIED->value(type, MediaType::NoMediaType);
 }
 
 } // namespace XJdf

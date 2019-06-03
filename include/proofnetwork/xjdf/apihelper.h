@@ -244,6 +244,28 @@ enum class CoatingType
     WaterResistant
 };
 
+enum class MediaType
+{
+    NoMediaType,
+    Blanket,
+    CorrugatedBoard,
+    Disc,
+    EmbossingFoil,
+    Film,
+    Foil,
+    GravureCylinder,
+    ImagingCylinder,
+    LaminatingFoil,
+    MountingTape,
+    Other,
+    Paper,
+    Plate,
+    Screen,
+    SelfAdhesive,
+    ShrinkFoil,
+    Sleeve
+};
+
 Q_ENUM_NS(ProcessType)
 Q_ENUM_NS(ProductType)
 Q_ENUM_NS(UsageType)
@@ -253,6 +275,7 @@ Q_ENUM_NS(BoxType)
 Q_ENUM_NS(FoldType)
 Q_ENUM_NS(Side)
 Q_ENUM_NS(CoatingType)
+Q_ENUM_NS(MediaType)
 
 PROOF_NETWORK_XJDF_EXPORT QString processTypeToString(ProcessType processType);
 PROOF_NETWORK_XJDF_EXPORT ProcessType processTypeFromString(const QString &processType);
@@ -285,6 +308,9 @@ PROOF_NETWORK_XJDF_EXPORT Side sideTypeFromString(const QString &side);
 PROOF_NETWORK_XJDF_EXPORT QString coatingTypeToString(CoatingType type);
 PROOF_NETWORK_XJDF_EXPORT CoatingType coatingTypeFromString(const QString &type);
 
+PROOF_NETWORK_XJDF_EXPORT QString mediaTypeToString(MediaType type);
+PROOF_NETWORK_XJDF_EXPORT MediaType mediaTypeFromString(const QString &type);
+
 PROOF_NETWORK_XJDF_EXPORT uint qHash(ProcessType arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(ProductType arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(UsageType arg, uint seed = 0);
@@ -293,6 +319,7 @@ PROOF_NETWORK_XJDF_EXPORT uint qHash(BoxType arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(FoldType arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(Side arg, uint seed = 0);
 PROOF_NETWORK_XJDF_EXPORT uint qHash(CoatingType arg, uint seed = 0);
+PROOF_NETWORK_XJDF_EXPORT uint qHash(MediaType arg, uint seed = 0);
 
 } // namespace XJdf
 } // namespace Proof
