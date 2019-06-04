@@ -233,7 +233,8 @@ enum class ResourcePartType
     TileIdPart,
     WebNamePart,
     WebProductPart,
-    WebSetupPart
+    WebSetupPart,
+    UnknownPart
 };
 
 enum class LinkUsage
@@ -416,69 +417,68 @@ Q_ENUM_NS(MediaUnit)
 Q_ENUM_NS(MediaType)
 
 PROOF_NETWORK_JDF_EXPORT QString resourceStatusToString(ResourceStatus status);
-PROOF_NETWORK_JDF_EXPORT ResourceStatus resourceStatusFromString(const QString &status, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourceStatus resourceStatusFromString(const QString &status);
 
 PROOF_NETWORK_JDF_EXPORT QString resourceClassToString(ResourceClass resourceClass);
-PROOF_NETWORK_JDF_EXPORT ResourceClass resourceClassFromString(const QString &resourceClass, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourceClass resourceClassFromString(const QString &resourceClass);
 
 PROOF_NETWORK_JDF_EXPORT QString coatingToString(CoatingType coating);
-PROOF_NETWORK_JDF_EXPORT CoatingType coatingFromString(const QString &coating, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT CoatingType coatingFromString(const QString &coating);
 
 PROOF_NETWORK_JDF_EXPORT QString coatingDetailToString(CoatingDetail coatingDetail);
-PROOF_NETWORK_JDF_EXPORT CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT CoatingDetail coatingDetailFromString(const QString &coatingDetail);
 
 PROOF_NETWORK_JDF_EXPORT QString laminatingSurfaceToString(LaminatingSurface surface);
-PROOF_NETWORK_JDF_EXPORT LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT LaminatingSurface laminatingSurfaceFromString(const QString &surface);
 
 PROOF_NETWORK_JDF_EXPORT QString bundleTypeToString(BundleType bundleType);
-PROOF_NETWORK_JDF_EXPORT BundleType bundleTypeFromString(const QString &bundleType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT BundleType bundleTypeFromString(const QString &bundleType);
 
 PROOF_NETWORK_JDF_EXPORT QString resourceOrientationToString(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation,
-                                                                           bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation);
 PROOF_NETWORK_JDF_EXPORT int resourceRotateToInt(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceRotateFromInt(int resourceRotate);
 PROOF_NETWORK_JDF_EXPORT int resourceFlipToInt(ResourceOrientation resourceOrientation);
-PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourceOrientation resourceFlipFromInt(int resourceFlip);
 
 PROOF_NETWORK_JDF_EXPORT QString componentTypeToString(ComponentType componentType);
-PROOF_NETWORK_JDF_EXPORT ComponentType componentTypeFromString(const QString &componentType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ComponentType componentTypeFromString(const QString &componentType);
 
 PROOF_NETWORK_JDF_EXPORT QString productTypeToString(ProductType productType);
-PROOF_NETWORK_JDF_EXPORT ProductType productTypeFromString(const QString &productType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ProductType productTypeFromString(const QString &productType);
 
 PROOF_NETWORK_JDF_EXPORT QString resourcePartTypeToString(ResourcePartType resourcePartType);
-PROOF_NETWORK_JDF_EXPORT ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ResourcePartType resourcePartTypeFromString(const QString &resourcePartType);
 
 PROOF_NETWORK_JDF_EXPORT QString linkUsageToString(LinkUsage usage);
-PROOF_NETWORK_JDF_EXPORT LinkUsage linkUsageFromString(const QString &usage, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT LinkUsage linkUsageFromString(const QString &usage);
 
 PROOF_NETWORK_JDF_EXPORT QString processUsageToString(ProcessUsage processusage);
-PROOF_NETWORK_JDF_EXPORT ProcessUsage processUsageFromString(const QString &processUsage, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT ProcessUsage processUsageFromString(const QString &processUsage);
 
 PROOF_NETWORK_JDF_EXPORT QString blockTypeToString(BlockType blockType);
-PROOF_NETWORK_JDF_EXPORT BlockType blockTypeFromString(const QString &blockType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT BlockType blockTypeFromString(const QString &blockType);
 
 PROOF_NETWORK_JDF_EXPORT QString mediaUnitToString(MediaUnit mediaUnit);
-PROOF_NETWORK_JDF_EXPORT MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT MediaUnit mediaUnitFromString(const QString &mediaUnit);
 
 PROOF_NETWORK_JDF_EXPORT QString mediaTypeToString(MediaType mediaType);
-PROOF_NETWORK_JDF_EXPORT MediaType mediaTypeFromString(const QString &mediaType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT MediaType mediaTypeFromString(const QString &mediaType);
 
 PROOF_NETWORK_JDF_EXPORT QString deviceFilterDetailsToString(DeviceFilterDetails details);
-PROOF_NETWORK_JDF_EXPORT DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT DeviceFilterDetails deviceFilterDetailsFromString(const QString &details);
 
 PROOF_NETWORK_JDF_EXPORT QString deviceStatusToString(DeviceStatus status);
-PROOF_NETWORK_JDF_EXPORT DeviceStatus deviceStatusFromString(const QString &status, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT DeviceStatus deviceStatusFromString(const QString &status);
 
 PROOF_NETWORK_JDF_EXPORT QString deviceConditionToString(DeviceCondition condition);
-PROOF_NETWORK_JDF_EXPORT DeviceCondition deviceConditionFromString(const QString &condition, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT DeviceCondition deviceConditionFromString(const QString &condition);
 
 PROOF_NETWORK_JDF_EXPORT QString notificationClassToString(NotificationClass notification);
-PROOF_NETWORK_JDF_EXPORT NotificationClass notificationClassFromString(const QString &notification, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT NotificationClass notificationClassFromString(const QString &notification);
 
 PROOF_NETWORK_JDF_EXPORT QString spanDataTypeToString(SpanDataType dataType);
-PROOF_NETWORK_JDF_EXPORT SpanDataType spanDataTypeFromString(const QString &dataType, bool *ok = nullptr);
+PROOF_NETWORK_JDF_EXPORT SpanDataType spanDataTypeFromString(const QString &dataType);
 
 PROOF_NETWORK_JDF_EXPORT uint qHash(ResourceStatus arg, uint seed = 0);
 PROOF_NETWORK_JDF_EXPORT uint qHash(ResourceClass arg, uint seed = 0);
