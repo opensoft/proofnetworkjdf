@@ -56,7 +56,7 @@ public:
     QVector<ResourceSP> resources() const;
 
     template <class T>
-    QVector<QSharedPointer<T>> resourcesByType()
+    QVector<QSharedPointer<T>> resourcesByType() const
     {
         const auto &all = resources();
         QVector<QSharedPointer<T>> result;

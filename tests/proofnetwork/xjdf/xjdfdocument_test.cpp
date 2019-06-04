@@ -604,3 +604,16 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
 }
+
+TEST_F(DocumentTest, findResources)
+{
+    auto components = xjdfDocUT->findResources<Component>(
+        [](const auto &component) { return component->mediaRef()->id() == "Media_1"; });
+    EXPECT_EQ(1, components.count());
+
+    auto cuttingParamsList = xjdfDocUT->findResources<CuttingParams>();
+    EXPECT_EQ(1, cuttingParamsList.count());
+
+    auto deliveryParamsList = xjdfDocUT->findResources<DeliveryParams>();
+    EXPECT_EQ(4, deliveryParamsList.count());
+}
