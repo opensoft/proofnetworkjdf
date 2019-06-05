@@ -115,9 +115,8 @@ bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResour
         attributes.value(QStringLiteral("PartIDKeys")).toString().split(QStringLiteral(" "), QString::SkipEmptyParts);
     QVector<ResourcePartType> partIdKeys;
     for (const QString &partName : partIdKeysStringified) {
-        bool ok = false;
-        ResourcePartType part = resourcePartTypeFromString(partName, &ok);
-        if (!ok)
+        ResourcePartType part = resourcePartTypeFromString(partName);
+        if (part == ResourcePartType::UnknownPart)
             return false;
         partIdKeys << part;
     }
@@ -126,9 +125,8 @@ bool AbstractResource::fromJdf(const QXmlStreamReader &xmlReader, AbstractResour
     abstractResource->setResourceStatus(resourceStatusFromString(attributes.value(QStringLiteral("Status")).toString()));
 
     for (const auto &attribute : attributes) {
-        bool isPartAttribute = false;
-        auto part = resourcePartTypeFromString(attribute.name().toString(), &isPartAttribute);
-        if (!isPartAttribute)
+        auto part = resourcePartTypeFromString(attribute.name().toString());
+        if (part == ResourcePartType::UnknownPart)
             continue;
         abstractResource->setPartAttribute(part, attribute.value().toString());
     }

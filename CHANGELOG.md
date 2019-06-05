@@ -7,6 +7,7 @@ ProofNetworkJdf Changelog
  * JDF: CutBlock::transformationMatrix() returns QTransform now
  * JDF: CutBlock methods rotation(), x() and y() removed
  * JDF: CutBlock::boundingRect() method added, which returns final bounding rect of cutblock after transformation matrix was applied
+ * `bool *ok` parameter removed from enum helper methods
 
 #### Bug Fixing
  * --

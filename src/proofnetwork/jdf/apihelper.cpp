@@ -450,10 +450,8 @@ QString resourceStatusToString(ResourceStatus status)
     return RESOURCE_STATUS_STRINGIFIED->key(status, QString());
 }
 
-ResourceStatus resourceStatusFromString(const QString &status, bool *ok)
+ResourceStatus resourceStatusFromString(const QString &status)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_STATUS_STRINGIFIED->contains(status);
     return RESOURCE_STATUS_STRINGIFIED->value(status, ResourceStatus::NoStatus);
 }
 
@@ -462,10 +460,8 @@ QString resourceClassToString(ResourceClass resourceClass)
     return RESOURCE_CLASS_STRINGIFIED->key(resourceClass, QString());
 }
 
-ResourceClass resourceClassFromString(const QString &resourceClass, bool *ok)
+ResourceClass resourceClassFromString(const QString &resourceClass)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_CLASS_STRINGIFIED->contains(resourceClass);
     return RESOURCE_CLASS_STRINGIFIED->value(resourceClass, ResourceClass::NoClass);
 }
 
@@ -474,10 +470,8 @@ QString coatingToString(CoatingType coating)
     return COATING_STRINGIFIED->key(coating, QString());
 }
 
-CoatingType coatingFromString(const QString &coating, bool *ok)
+CoatingType coatingFromString(const QString &coating)
 {
-    if (ok != nullptr)
-        *ok = COATING_STRINGIFIED->contains(coating);
     return COATING_STRINGIFIED->value(coating, CoatingType::NoCoating);
 }
 
@@ -486,10 +480,8 @@ QString coatingDetailToString(CoatingDetail coatingDetail)
     return COATING_DETAIL_STRINGIFIED->key(coatingDetail, QString());
 }
 
-CoatingDetail coatingDetailFromString(const QString &coatingDetail, bool *ok)
+CoatingDetail coatingDetailFromString(const QString &coatingDetail)
 {
-    if (ok != nullptr)
-        *ok = COATING_DETAIL_STRINGIFIED->contains(coatingDetail);
     return COATING_DETAIL_STRINGIFIED->value(coatingDetail, CoatingDetail::NoCoatingDetail);
 }
 
@@ -498,10 +490,8 @@ QString laminatingSurfaceToString(LaminatingSurface surface)
     return LAMINATING_SURFACE_STRINGIFIED->key(surface, QString());
 }
 
-LaminatingSurface laminatingSurfaceFromString(const QString &surface, bool *ok)
+LaminatingSurface laminatingSurfaceFromString(const QString &surface)
 {
-    if (ok != nullptr)
-        *ok = LAMINATING_SURFACE_STRINGIFIED->contains(surface);
     return LAMINATING_SURFACE_STRINGIFIED->value(surface, LaminatingSurface::NoneLaminated);
 }
 
@@ -510,10 +500,8 @@ QString bundleTypeToString(BundleType bundleType)
     return BUNDLE_TYPE_STRINGIFIED->key(bundleType, QString());
 }
 
-BundleType bundleTypeFromString(const QString &bundleType, bool *ok)
+BundleType bundleTypeFromString(const QString &bundleType)
 {
-    if (ok != nullptr)
-        *ok = BUNDLE_TYPE_STRINGIFIED->contains(bundleType);
     return BUNDLE_TYPE_STRINGIFIED->value(bundleType, BundleType::BoxBundle);
 }
 
@@ -522,10 +510,8 @@ QString resourceOrientationToString(ResourceOrientation resourceOrientation)
     return RESOURCE_ORIENTATION_STRINGIFIED->key(resourceOrientation, QString());
 }
 
-ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation, bool *ok)
+ResourceOrientation resourceOrientationFromString(const QString &resourceOrientation)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_ORIENTATION_STRINGIFIED->contains(resourceOrientation);
     return RESOURCE_ORIENTATION_STRINGIFIED->value(resourceOrientation, ResourceOrientation::Rotate0Orientation);
 }
 
@@ -534,10 +520,8 @@ int resourceRotateToInt(ResourceOrientation resourceOrientation)
     return RESOURCE_ROTATE_NUMERICAL->key(resourceOrientation, 0);
 }
 
-ResourceOrientation resourceRotateFromInt(int resourceRotate, bool *ok)
+ResourceOrientation resourceRotateFromInt(int resourceRotate)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_ROTATE_NUMERICAL->contains(resourceRotate);
     return RESOURCE_ROTATE_NUMERICAL->value(resourceRotate, ResourceOrientation::Rotate0Orientation);
 }
 
@@ -546,10 +530,8 @@ int resourceFlipToInt(ResourceOrientation resourceOrientation)
     return RESOURCE_FLIP_NUMERICAL->key(resourceOrientation, 0);
 }
 
-ResourceOrientation resourceFlipFromInt(int resourceFlip, bool *ok)
+ResourceOrientation resourceFlipFromInt(int resourceFlip)
 {
-    if (ok != nullptr)
-        *ok = RESOURCE_FLIP_NUMERICAL->contains(resourceFlip);
     return RESOURCE_FLIP_NUMERICAL->value(resourceFlip, ResourceOrientation::Flip0Orientation);
 }
 
@@ -558,10 +540,8 @@ QString componentTypeToString(ComponentType componentType)
     return COMPONENT_TYPE_STRINGIFIED->key(componentType, QString());
 }
 
-ComponentType componentTypeFromString(const QString &componentType, bool *ok)
+ComponentType componentTypeFromString(const QString &componentType)
 {
-    if (ok != nullptr)
-        *ok = COMPONENT_TYPE_STRINGIFIED->contains(componentType);
     return COMPONENT_TYPE_STRINGIFIED->value(componentType, ComponentType::NotTypedComponent);
 }
 
@@ -570,10 +550,8 @@ QString productTypeToString(ProductType productType)
     return PRODUCT_TYPE_STRINGIFIED->key(productType, QString());
 }
 
-ProductType productTypeFromString(const QString &productType, bool *ok)
+ProductType productTypeFromString(const QString &productType)
 {
-    if (ok != nullptr)
-        *ok = PRODUCT_TYPE_STRINGIFIED->contains(productType);
     return PRODUCT_TYPE_STRINGIFIED->value(productType, ProductType::NoProduct);
 }
 
@@ -582,11 +560,9 @@ QString resourcePartTypeToString(ResourcePartType resourcePartType)
     return PART_ID_KEYS_TYPE_STRINGIFIED->key(resourcePartType, QString());
 }
 
-ResourcePartType resourcePartTypeFromString(const QString &resourcePartType, bool *ok)
+ResourcePartType resourcePartTypeFromString(const QString &resourcePartType)
 {
-    if (ok != nullptr)
-        *ok = PART_ID_KEYS_TYPE_STRINGIFIED->contains(resourcePartType);
-    return PART_ID_KEYS_TYPE_STRINGIFIED->value(resourcePartType, ResourcePartType::BlockNamePart);
+    return PART_ID_KEYS_TYPE_STRINGIFIED->value(resourcePartType, ResourcePartType::UnknownPart);
 }
 
 QString linkUsageToString(LinkUsage usage)
@@ -594,10 +570,8 @@ QString linkUsageToString(LinkUsage usage)
     return LINK_USAGE_STRINGIFIED->key(usage, QString());
 }
 
-LinkUsage linkUsageFromString(const QString &usage, bool *ok)
+LinkUsage linkUsageFromString(const QString &usage)
 {
-    if (ok != nullptr)
-        *ok = LINK_USAGE_STRINGIFIED->contains(usage);
     return LINK_USAGE_STRINGIFIED->value(usage, LinkUsage::InputLink);
 }
 
@@ -606,10 +580,8 @@ QString processUsageToString(ProcessUsage processUsage)
     return PROCESS_USAGE_STRINGIFIED->key(processUsage, QString());
 }
 
-ProcessUsage processUsageFromString(const QString &processUsage, bool *ok)
+ProcessUsage processUsageFromString(const QString &processUsage)
 {
-    if (ok != nullptr)
-        *ok = PROCESS_USAGE_STRINGIFIED->contains(processUsage);
     return PROCESS_USAGE_STRINGIFIED->value(processUsage, ProcessUsage::UseAsDefault);
 }
 
@@ -618,10 +590,8 @@ QString blockTypeToString(BlockType blockType)
     return BLOCK_TYPE_STRINGIFIED->key(blockType, QString());
 }
 
-BlockType blockTypeFromString(const QString &blockType, bool *ok)
+BlockType blockTypeFromString(const QString &blockType)
 {
-    if (ok != nullptr)
-        *ok = BLOCK_TYPE_STRINGIFIED->contains(blockType);
     return BLOCK_TYPE_STRINGIFIED->value(blockType, BlockType::CutBlock);
 }
 
@@ -630,10 +600,8 @@ QString mediaUnitToString(MediaUnit mediaUnit)
     return MEDIA_UNIT_STRINGIFIED->key(mediaUnit, QString());
 }
 
-MediaUnit mediaUnitFromString(const QString &mediaUnit, bool *ok)
+MediaUnit mediaUnitFromString(const QString &mediaUnit)
 {
-    if (ok != nullptr)
-        *ok = MEDIA_UNIT_STRINGIFIED->contains(mediaUnit);
     return MEDIA_UNIT_STRINGIFIED->value(mediaUnit, MediaUnit::SheetMediaUnit);
 }
 
@@ -642,10 +610,8 @@ QString mediaTypeToString(MediaType mediaType)
     return MEDIA_TYPE_STRINGIFIED->key(mediaType, QString());
 }
 
-MediaType mediaTypeFromString(const QString &mediaType, bool *ok)
+MediaType mediaTypeFromString(const QString &mediaType)
 {
-    if (ok != nullptr)
-        *ok = MEDIA_TYPE_STRINGIFIED->contains(mediaType);
     return MEDIA_TYPE_STRINGIFIED->value(mediaType, MediaType::OtherMedia);
 }
 
@@ -654,10 +620,8 @@ QString deviceFilterDetailsToString(DeviceFilterDetails details)
     return DEVICE_FILTER_DETAILS_STRINGIFIED->key(details, QString());
 }
 
-DeviceFilterDetails deviceFilterDetailsFromString(const QString &details, bool *ok)
+DeviceFilterDetails deviceFilterDetailsFromString(const QString &details)
 {
-    if (ok != nullptr)
-        *ok = DEVICE_FILTER_DETAILS_STRINGIFIED->contains(details);
     return DEVICE_FILTER_DETAILS_STRINGIFIED->value(details, DeviceFilterDetails::NoneDeviceFilterDetails);
 }
 
@@ -666,10 +630,8 @@ QString deviceStatusToString(DeviceStatus status)
     return DEVICE_STATUS_STRINGIFIED->key(status, QString());
 }
 
-DeviceStatus deviceStatusFromString(const QString &status, bool *ok)
+DeviceStatus deviceStatusFromString(const QString &status)
 {
-    if (ok != nullptr)
-        *ok = DEVICE_STATUS_STRINGIFIED->contains(status);
     return DEVICE_STATUS_STRINGIFIED->value(status, DeviceStatus::UnknownDeviceStatus);
 }
 
@@ -678,10 +640,8 @@ QString deviceConditionToString(DeviceCondition condition)
     return DEVICE_CONDITION_STRINGIFIED->key(condition, QString());
 }
 
-DeviceCondition deviceConditionFromString(const QString &condition, bool *ok)
+DeviceCondition deviceConditionFromString(const QString &condition)
 {
-    if (ok != nullptr)
-        *ok = DEVICE_CONDITION_STRINGIFIED->contains(condition);
     return DEVICE_CONDITION_STRINGIFIED->value(condition, DeviceCondition::OkDeviceCondition);
 }
 
@@ -690,10 +650,8 @@ QString notificationClassToString(NotificationClass notification)
     return NOTIFICATION_CLASS_STRINGIFIED->key(notification, QString());
 }
 
-NotificationClass notificationClassFromString(const QString &notification, bool *ok)
+NotificationClass notificationClassFromString(const QString &notification)
 {
-    if (ok != nullptr)
-        *ok = NOTIFICATION_CLASS_STRINGIFIED->contains(notification);
     return NOTIFICATION_CLASS_STRINGIFIED->value(notification, NotificationClass::EventNotificationClass);
 }
 
@@ -702,10 +660,8 @@ QString spanDataTypeToString(SpanDataType dataType)
     return SPAN_DATA_TYPE_STRINGIFIED->key(dataType, QString());
 }
 
-SpanDataType spanDataTypeFromString(const QString &dataType, bool *ok)
+SpanDataType spanDataTypeFromString(const QString &dataType)
 {
-    if (ok != nullptr)
-        *ok = SPAN_DATA_TYPE_STRINGIFIED->contains(dataType);
     return SPAN_DATA_TYPE_STRINGIFIED->value(dataType, SpanDataType::DurationSpan);
 }
 
