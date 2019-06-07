@@ -41,8 +41,8 @@ class DocumentPrivate : public AbstractNodePrivate
 
     QString jobId;
     QString jobPartId;
-    AuditPoolSP auditPool;
-    ProductListSP productList;
+    AuditPoolSP auditPool = AuditPool::create();
+    ProductListSP productList = ProductList::create();
     QVector<ProcessType> types;
     QVector<ResourceSetSP> resourceSets;
     QVector<QPair<QString, QString>> namespaces;
@@ -254,8 +254,10 @@ void Document::toXJdf(QXmlStreamWriter &writer) const
     for (const auto &set : qAsConst(d->resourceSets))
         set->toXJdf(writer);
 
-    auditPool()->toXJdf(writer);
-    productList()->toXJdf(writer);
+    if (isValidAndDirty(d->auditPool))
+        d->auditPool->toXJdf(writer);
+    if (isValidAndDirty(d->productList))
+        d->productList->toXJdf(writer);
     writer.writeEndElement();
     writer.writeEndDocument();
 }
