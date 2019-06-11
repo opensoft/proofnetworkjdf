@@ -48,12 +48,16 @@ public:
     double width() const;
     double height() const;
     double thickness() const;
+    MediaUnit unit() const;
     MediaType type() const;
+    QVector<MediaSP> layers() const;
 
     void setWidth(double arg);
     void setHeight(double arg);
     void setThickness(double arg);
+    void setUnit(MediaUnit unit);
     void setType(MediaType arg);
+    void setLayers(const QVector<MediaSP> &layers);
 
     static MediaSP create(const QString &id = QString());
 
@@ -64,7 +68,9 @@ signals:
     void widthChanged(double arg);
     void heightChanged(double arg);
     void thicknessChanged(double arg);
+    void unitChanged(Proof::XJdf::MediaUnit arg);
     void typeChanged(Proof::XJdf::MediaType arg);
+    void layersChanged(const QVector<Proof::XJdf::MediaSP> &arg);
 
 protected:
     explicit Media(const QString &id);

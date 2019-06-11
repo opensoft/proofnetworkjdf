@@ -185,6 +185,15 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_DOUBLE_EQ(1000.0, media->height());
     EXPECT_DOUBLE_EQ(1560.0, media->thickness());
     EXPECT_EQ(MediaType::Paper, media->type());
+    EXPECT_EQ(MediaUnit::Sheet, media->unit());
+
+    ASSERT_EQ(3, media->layers().count());
+    auto frontLayer = media->layers().first();
+    EXPECT_EQ(MediaType::Paper, frontLayer->type());
+    auto insertLayer = media->layers().at(1);
+    EXPECT_EQ(MediaType::MountingTape, insertLayer->type());
+    auto backLayer = media->layers().first();
+    EXPECT_EQ(MediaType::Paper, backLayer->type());
 
     auto resourceSet3 = xjdfDocNew->resourceSets()[2];
     EXPECT_EQ("Component", resourceSet3->name());
@@ -556,6 +565,15 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_DOUBLE_EQ(1000.0, media->height());
     EXPECT_DOUBLE_EQ(1560.0, media->thickness());
     EXPECT_EQ(MediaType::Paper, media->type());
+    EXPECT_EQ(MediaUnit::Sheet, media->unit());
+
+    ASSERT_EQ(3, media->layers().count());
+    auto frontLayer = media->layers().first();
+    EXPECT_EQ(MediaType::Paper, frontLayer->type());
+    auto insertLayer = media->layers().at(1);
+    EXPECT_EQ(MediaType::MountingTape, insertLayer->type());
+    auto backLayer = media->layers().first();
+    EXPECT_EQ(MediaType::Paper, backLayer->type());
 
     auto resourceSet3 = xjdfDocUT->resourceSets()[2];
     EXPECT_EQ("Component", resourceSet3->name());

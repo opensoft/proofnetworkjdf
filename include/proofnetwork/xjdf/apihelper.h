@@ -244,6 +244,14 @@ enum class CoatingType
     WaterResistant
 };
 
+enum class MediaUnit
+{
+    NoMediaUnit,
+    Continuous,
+    Roll,
+    Sheet
+};
+
 enum class MediaType
 {
     NoMediaType,
@@ -275,6 +283,7 @@ Q_ENUM_NS(BoxType)
 Q_ENUM_NS(FoldType)
 Q_ENUM_NS(Side)
 Q_ENUM_NS(CoatingType)
+Q_ENUM_NS(MediaUnit)
 Q_ENUM_NS(MediaType)
 
 PROOF_NETWORK_XJDF_EXPORT QString processTypeToString(ProcessType processType);
@@ -307,6 +316,9 @@ PROOF_NETWORK_XJDF_EXPORT Side sideTypeFromString(const QString &side);
 
 PROOF_NETWORK_XJDF_EXPORT QString coatingTypeToString(CoatingType type);
 PROOF_NETWORK_XJDF_EXPORT CoatingType coatingTypeFromString(const QString &type);
+
+PROOF_NETWORK_XJDF_EXPORT QString mediaUnitToString(MediaUnit unit);
+PROOF_NETWORK_XJDF_EXPORT MediaUnit mediaUnitFromString(const QString &unit);
 
 PROOF_NETWORK_XJDF_EXPORT QString mediaTypeToString(MediaType type);
 PROOF_NETWORK_XJDF_EXPORT MediaType mediaTypeFromString(const QString &type);
