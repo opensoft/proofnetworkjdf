@@ -67,14 +67,14 @@ JdfDocumentSP JdfDocument::fromJdf(QXmlStreamReader &xmlReader, const QString &f
     }
     //We should be now at EndElement, we should read it and check what is after it
     if (!xmlReader.isEndElement() || xmlReader.hasError()) {
-        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. XML is corrupted.";
+        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. XML is corrupted." << xmlReader.errorString();
         return JdfDocumentSP();
     }
     xmlReader.readNext();
     while (!xmlReader.atEnd() && xmlReader.isWhitespace())
         xmlReader.readNext();
     if (!xmlReader.atEnd() || xmlReader.hasError()) {
-        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. XML is corrupted.";
+        qCWarning(proofNetworkJdfDataLog) << "JDF Document not created. XML is corrupted." << xmlReader.errorString();
         return JdfDocumentSP();
     }
     document->updateFrom(node);
