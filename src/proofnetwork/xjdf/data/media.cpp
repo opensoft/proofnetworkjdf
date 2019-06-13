@@ -38,7 +38,9 @@ public:
     double width = 0.0;
     double height = 0.0;
     double thickness = 0.0;
+    MediaUnit unit = MediaUnit::NoMediaUnit;
     MediaType type = MediaType::NoMediaType;
+    QVector<MediaSP> layers;
 };
 
 } // namespace XJdf
@@ -63,12 +65,6 @@ double Media::thickness() const
 {
     Q_D_CONST(Media);
     return d->thickness;
-}
-
-MediaType Media::type() const
-{
-    Q_D_CONST(Media);
-    return d->type;
 }
 
 void Media::setWidth(double arg)
@@ -97,12 +93,48 @@ void Media::setThickness(double arg)
     }
 }
 
+MediaUnit Media::unit() const
+{
+    Q_D_CONST(Media);
+    return d->unit;
+}
+
+MediaType Media::type() const
+{
+    Q_D_CONST(Media);
+    return d->type;
+}
+
+QVector<MediaSP> Media::layers() const
+{
+    Q_D_CONST(Media);
+    return d->layers;
+}
+
+void Media::setUnit(MediaUnit arg)
+{
+    Q_D(Media);
+    if (d->unit != arg) {
+        d->unit = arg;
+        emit unitChanged(arg);
+    }
+}
+
 void Media::setType(MediaType arg)
 {
     Q_D(Media);
     if (d->type != arg) {
         d->type = arg;
         emit typeChanged(arg);
+    }
+}
+
+void Media::setLayers(const QVector<MediaSP> &arg)
+{
+    Q_D(Media);
+    if (d->layers != arg) {
+        d->layers = arg;
+        emit layersChanged(d->layers);
     }
 }
 
@@ -115,26 +147,42 @@ MediaSP Media::create(const QString &id)
 
 MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    MediaSP media;
+    MediaSP media = create();
+    QVector<MediaSP> layers;
 
-    if (reader.isStartElement() && reader.name() == QStringLiteral("Media")) {
-        media = create();
-        media->d_func()->document = document;
-        media->setFetched(true);
-        auto attributes = reader.attributes();
-        reader.skipCurrentElement();
-        if (attributes.hasAttribute(QStringLiteral("Dimension"))) {
-            auto dimension = attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
-            if (dimension.count() < 2)
-                return MediaSP();
-            media->setWidth(dimension[0].toDouble());
-            media->setHeight(dimension[1].toDouble());
+    bool inLayers = false;
+    while (!reader.atEnd() && !reader.hasError()) {
+        if (reader.name().compare(QLatin1String("MediaLayers"), Qt::CaseInsensitive) == 0 && media->isFetched()) {
+            inLayers = reader.isStartElement();
+        } else if (reader.name().compare(QLatin1String("Media"), Qt::CaseInsensitive) == 0 && !media->isFetched()) {
+            media->d_func()->document = document;
+            media->setFetched(true);
+            auto attributes = reader.attributes();
+            if (attributes.hasAttribute(QStringLiteral("Dimension"))) {
+                auto dimension =
+                    attributes.value(QStringLiteral("Dimension")).toString().split(' ', QString::SkipEmptyParts);
+                if (dimension.count() < 2)
+                    return MediaSP();
+                media->setWidth(dimension[0].toDouble());
+                media->setHeight(dimension[1].toDouble());
+            }
+            if (attributes.hasAttribute(QStringLiteral("Thickness")))
+                media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
+            if (attributes.hasAttribute(QStringLiteral("MediaUnit")))
+                media->setUnit(mediaUnitFromString(attributes.value(QStringLiteral("MediaUnit")).toString()));
+            if (attributes.hasAttribute(QStringLiteral("MediaType")))
+                media->setType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
+        } else if (reader.name().compare(QLatin1String("Media"), Qt::CaseInsensitive) == 0 && inLayers) {
+            layers << Media::fromXJdf(reader, document);
+        } else if (reader.isStartElement()) {
+            reader.skipCurrentElement();
+        } else if (reader.isEndElement() && !inLayers) {
+            break;
         }
-        if (attributes.hasAttribute(QStringLiteral("Thickness")))
-            media->setThickness(attributes.value(QStringLiteral("Thickness")).toDouble());
-        if (attributes.hasAttribute(QStringLiteral("MediaType")))
-            media->setType(mediaTypeFromString(attributes.value(QStringLiteral("MediaType")).toString()));
+        reader.readNext();
     }
+    media->setLayers(layers);
+
     return media;
 }
 
@@ -142,12 +190,29 @@ void Media::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(Media);
     NodeWriterGuard guard(writeFieldsToXJdf(writer));
+
+    auto mediaWriter = [&writer](const auto &media, bool withStartElement = false) {
+        if (withStartElement)
+            writer.writeStartElement(QStringLiteral("Media"));
+        writer.writeAttribute(QStringLiteral("Dimension"),
+                              QStringLiteral("%1 %2").arg(media->width(), 0, 'f', 2).arg(media->height(), 0, 'f', 2));
+        writer.writeAttribute(QStringLiteral("Thickness"), QStringLiteral("%1").arg(media->thickness(), 0, 'f', 2));
+        if (media->unit() != MediaUnit::NoMediaUnit)
+            writer.writeAttribute(QStringLiteral("MediaUnit"), mediaUnitToString(media->unit()));
+        if (media->type() != MediaType::NoMediaType)
+            writer.writeAttribute(QStringLiteral("MediaType"), mediaTypeToString(media->type()));
+        if (withStartElement)
+            writer.writeEndElement();
+    };
+
     writer.writeStartElement(QStringLiteral("Media"));
-    writer.writeAttribute(QStringLiteral("Dimension"),
-                          QStringLiteral("%1 %2").arg(d->width, 0, 'f', 2).arg(d->height, 0, 'f', 2));
-    writer.writeAttribute(QStringLiteral("Thickness"), QStringLiteral("%1").arg(d->thickness, 0, 'f', 2));
-    if (d->type != MediaType::NoMediaType)
-        writer.writeAttribute(QStringLiteral("MediaType"), mediaTypeToString(d->type));
+    mediaWriter(qSharedPointerCast<Media>(selfPtr()));
+
+    writer.writeStartElement(QStringLiteral("MediaLayers"));
+    for (const auto &layer : d->layers)
+        mediaWriter(layer, true);
+    writer.writeEndElement();
+
     writer.writeEndElement();
 }
 
@@ -160,6 +225,8 @@ void Media::updateSelf(const NetworkDataEntitySP &other)
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setThickness(castedOther->thickness());
+    setUnit(castedOther->unit());
     setType(castedOther->type());
+    setLayers(castedOther->layers());
     Resource::updateSelf(other);
 }

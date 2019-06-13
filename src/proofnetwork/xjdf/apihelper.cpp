@@ -64,6 +64,11 @@ uint qHash(CoatingType arg, uint seed)
     return ::qHash(static_cast<int>(arg), seed);
 }
 
+uint qHash(MediaUnit arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
 uint qHash(MediaType arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
@@ -198,6 +203,13 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<CoatingType>, COATING_TYPE_STRINGIFIED,
                             {"WaterResistant", CoatingType::WaterResistant}}))
 
 // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
+Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaUnit>, MEDIA_UNIT_STRINGIFIED,
+                          ({{"", MediaUnit::NoMediaUnit},
+                            {"Continuous", MediaUnit::Continuous},
+                            {"Roll", MediaUnit::Roll},
+                            {"Sheet", MediaUnit::Sheet}}))
+
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaType>, MEDIA_TYPE_STRINGIFIED,
                           ({{"", MediaType::NoMediaType},
                             {"Blanket", MediaType::Blanket},
@@ -326,6 +338,16 @@ QString coatingTypeToString(CoatingType type)
 CoatingType coatingTypeFromString(const QString &type)
 {
     return COATING_TYPE_STRINGIFIED->value(type, CoatingType::NoCoatingType);
+}
+
+QString mediaUnitToString(MediaUnit unit)
+{
+    return MEDIA_UNIT_STRINGIFIED->key(unit, QString());
+}
+
+MediaUnit mediaUnitFromString(const QString &unit)
+{
+    return MEDIA_UNIT_STRINGIFIED->value(unit, MediaUnit::NoMediaUnit);
 }
 
 QString mediaTypeToString(MediaType type)

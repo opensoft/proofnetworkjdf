@@ -22,62 +22,48 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef XJDF_MEDIA_H
-#define XJDF_MEDIA_H
-
-#include "resource.h"
+#ifndef XJDF_LAMINATINGINTENT_H
+#define XJDF_LAMINATINGINTENT_H
 
 #include "proofnetwork/xjdf/apihelper.h"
+#include "proofnetwork/xjdf/data/intent.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
+
+#include <QXmlStreamReader>
 
 namespace Proof {
 namespace XJdf {
 
-class MediaPrivate;
-class PROOF_NETWORK_XJDF_EXPORT Media : public Resource
+class LaminatingIntentPrivate;
+class PROOF_NETWORK_XJDF_EXPORT LaminatingIntent : public Intent
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(Media)
+    Q_DECLARE_PRIVATE(LaminatingIntent)
 public:
-    Media(const Media &) = delete;
-    Media &operator=(const Media &) = delete;
-    Media(Media &&) = delete;
-    Media &operator=(Media &&) = delete;
-    ~Media() = default;
+    LaminatingIntent(const LaminatingIntent &) = delete;
+    LaminatingIntent &operator=(const LaminatingIntent &) = delete;
+    LaminatingIntent(LaminatingIntent &&) = delete;
+    LaminatingIntent &operator=(LaminatingIntent &&) = delete;
+    ~LaminatingIntent() = default;
 
-    double width() const;
-    double height() const;
-    double thickness() const;
-    MediaUnit unit() const;
-    MediaType type() const;
-    QVector<MediaSP> layers() const;
+    Side surface() const;
 
-    void setWidth(double arg);
-    void setHeight(double arg);
-    void setThickness(double arg);
-    void setUnit(MediaUnit arg);
-    void setType(MediaType arg);
-    void setLayers(const QVector<MediaSP> &arg);
+    void setSurface(Side surface);
 
-    static MediaSP create(const QString &id = QString());
+    static LaminatingIntentSP create();
 
-    static MediaSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static LaminatingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer) const override;
-
 signals:
-    void widthChanged(double arg);
-    void heightChanged(double arg);
-    void thicknessChanged(double arg);
-    void unitChanged(Proof::XJdf::MediaUnit arg);
-    void typeChanged(Proof::XJdf::MediaType arg);
-    void layersChanged(const QVector<Proof::XJdf::MediaSP> &arg);
+    void surfaceChanged(Proof::XJdf::Side type);
 
 protected:
-    explicit Media(const QString &id);
+    explicit LaminatingIntent();
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace XJdf
 } // namespace Proof
 
-#endif // XJDF_MEDIA_H
+#endif // XJDF_LAMINATINGINTENT_H

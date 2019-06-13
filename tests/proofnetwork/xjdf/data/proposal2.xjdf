@@ -35,6 +35,9 @@
           <SurfaceColor Surface="Back" Coatings="UV" />
         </ColorIntent>
       </Intent>
+      <Intent Name="LaminatingIntent">
+        <LaminatingIntent Surface="Back" />
+      </Intent>
     </Product>
     <Product Amount="80" ID="ProductInfo2_4" ExternalID="ORDER_ITEM_ID2" IsRoot="false" ProductType="BusinessCard">
       <Intent Name="FoldingIntent">
@@ -44,6 +47,9 @@
         <ColorIntent>
           <SurfaceColor Surface="Back" Coatings="UV" />
         </ColorIntent>
+      </Intent>
+      <Intent Name="LaminatingIntent">
+        <LaminatingIntent Surface="Front" />
       </Intent>
     </Product>
   </ProductList>

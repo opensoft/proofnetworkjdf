@@ -35,6 +35,9 @@
           <SurfaceColor Surface="Back" Coatings="UV" />
         </ColorIntent>
       </Intent>
+      <Intent Name="LaminatingIntent">
+        <LaminatingIntent Surface="Front" />
+      </Intent>
     </Product>
   </ProductList>
   <ResourceSet Name="DeliveryParams">
@@ -56,7 +59,14 @@
   </ResourceSet>
   <ResourceSet Name="Media">
     <Resource ID="Media_1">
-      <Media Dimension="1500.0 1000.0" Thickness="1560"   MediaType="Paper"/>
+      <Media Dimension="1500.0 1000.0" Thickness="1560" MediaType="Paper" MediaUnit="Sheet">
+        <MediaLayers>
+          <Media ID="Media_front" MediaType="Paper"/>
+          <Media ID="Media_insert" MediaType="MountingTape"/>
+          <Glue AreaGlue="true" GlueType="Removable"/>
+          <Media ID="Media_back" MediaType="Paper"/>
+        </MediaLayers>
+      </Media>
     </Resource>
     <Resource ID="DeliveryParams_extra_for_tests">
       <DeliveryParams Required="2018-02-28T16:00:20+00:00">
