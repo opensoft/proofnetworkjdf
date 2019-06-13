@@ -117,6 +117,10 @@ class FoldingIntent;
 using FoldingIntentSP = QSharedPointer<FoldingIntent>;
 using FoldingIntentWP = QWeakPointer<FoldingIntent>;
 
+class LaminatingIntent;
+using LaminatingIntentSP = QSharedPointer<LaminatingIntent>;
+using LaminatingIntentWP = QWeakPointer<LaminatingIntent>;
+
 class Media;
 using MediaSP = QSharedPointer<Media>;
 using MediaWP = QWeakPointer<Media>;

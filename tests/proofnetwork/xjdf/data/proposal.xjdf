@@ -35,6 +35,9 @@
           <SurfaceColor Surface="Back" Coatings="UV" />
         </ColorIntent>
       </Intent>
+      <Intent Name="LaminatingIntent">
+        <LaminatingIntent Surface="Front" />
+      </Intent>
     </Product>
   </ProductList>
   <ResourceSet Name="DeliveryParams">

@@ -13,6 +13,7 @@
 #include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/dropitem.h"
 #include "proofnetwork/xjdf/data/foldingintent.h"
+#include "proofnetwork/xjdf/data/laminatingintent.h"
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/part.h"
 #include "proofnetwork/xjdf/data/partamount.h"
@@ -150,9 +151,10 @@ TEST_F(DocumentTest, toXJdf)
     ASSERT_FALSE(product1->intentsByType<FoldingIntent>().size());
 
     auto product3 = productList->products()[2];
-    ASSERT_EQ(2, product3->intents().size());
+    ASSERT_EQ(3, product3->intents().size());
     ASSERT_EQ(1, product3->intentsByType<ColorIntent>().size());
     ASSERT_EQ(1, product3->intentsByType<FoldingIntent>().size());
+    ASSERT_EQ(1, product3->intentsByType<LaminatingIntent>().size());
 
     auto color = product1->intentsByType<ColorIntent>()[0];
     ASSERT_EQ(2, color->spots().count());
@@ -165,6 +167,9 @@ TEST_F(DocumentTest, toXJdf)
 
     auto folding = product3->intentsByType<FoldingIntent>()[0];
     EXPECT_EQ(FoldType::F4_2, folding->foldCatalog());
+
+    auto laminating = product3->intentsByType<LaminatingIntent>()[0];
+    EXPECT_EQ(Side::Front, laminating->surface());
 
     ASSERT_EQ(7, xjdfDocNew->resourceSets().count());
 
@@ -351,6 +356,21 @@ TEST_F(DocumentTest, updateFrom)
 
     EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
 
+    auto laminating = product3->intentsByType<LaminatingIntent>()[0];
+    auto laminating2 = product23->intentsByType<LaminatingIntent>()[0];
+    EXPECT_EQ(laminating2->surface(), laminating->surface());
+
+    product23 = Product::create("0");
+    product23->updateFrom(product3);
+
+    laminating2 = product23->intentsByType<LaminatingIntent>()[0];
+    EXPECT_EQ(laminating2->surface(), laminating->surface());
+
+    laminating2 = LaminatingIntent::create();
+    laminating2->updateFrom(laminating);
+
+    EXPECT_EQ(laminating2->surface(), laminating->surface());
+
     auto resourceSet1 = xjdfDocUT3->resourceSets()[0];
     auto resourceSet21 = xjdfDocUT2->resourceSets()[0];
     EXPECT_EQ(resourceSet21->name(), resourceSet1->name());
@@ -530,9 +550,10 @@ TEST_F(DocumentTest, fromXJdf)
     ASSERT_FALSE(product1->intentsByType<FoldingIntent>().size());
 
     auto product3 = productList->products()[2];
-    ASSERT_EQ(2, product3->intents().size());
+    ASSERT_EQ(3, product3->intents().size());
     ASSERT_EQ(1, product3->intentsByType<ColorIntent>().size());
     ASSERT_EQ(1, product3->intentsByType<FoldingIntent>().size());
+    ASSERT_EQ(1, product3->intentsByType<LaminatingIntent>().size());
 
     auto color = product1->intentsByType<ColorIntent>()[0];
     ASSERT_EQ(2, color->spots().count());
@@ -545,6 +566,9 @@ TEST_F(DocumentTest, fromXJdf)
 
     auto folding = product3->intentsByType<FoldingIntent>()[0];
     EXPECT_EQ(FoldType::F4_2, folding->foldCatalog());
+
+    auto laminating = product3->intentsByType<LaminatingIntent>()[0];
+    EXPECT_EQ(Side::Front, laminating->surface());
 
     ASSERT_EQ(7, xjdfDocUT->resourceSets().count());
 

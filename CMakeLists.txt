@@ -116,6 +116,7 @@ proof_add_target_sources(NetworkXJdf
     src/proofnetwork/xjdf/data/component.cpp
     src/proofnetwork/xjdf/data/cutblock.cpp
     src/proofnetwork/xjdf/data/foldingintent.cpp
+    src/proofnetwork/xjdf/data/laminatingintent.cpp
     src/proofnetwork/xjdf/data/intent.cpp
     src/proofnetwork/xjdf/data/media.cpp
     src/proofnetwork/xjdf/data/part.cpp
@@ -233,6 +234,7 @@ proof_add_target_headers(NetworkXJdf
     include/proofnetwork/xjdf/data/component.h
     include/proofnetwork/xjdf/data/cutblock.h
     include/proofnetwork/xjdf/data/foldingintent.h
+    include/proofnetwork/xjdf/data/laminatingintent.h
     include/proofnetwork/xjdf/data/intent.h
     include/proofnetwork/xjdf/data/media.h
     include/proofnetwork/xjdf/data/part.h
