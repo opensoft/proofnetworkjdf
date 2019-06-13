@@ -55,9 +55,9 @@ public:
     void setWidth(double arg);
     void setHeight(double arg);
     void setThickness(double arg);
-    void setUnit(MediaUnit unit);
+    void setUnit(MediaUnit arg);
     void setType(MediaType arg);
-    void setLayers(const QVector<MediaSP> &layers);
+    void setLayers(const QVector<MediaSP> &arg);
 
     static MediaSP create(const QString &id = QString());
 
