@@ -208,10 +208,12 @@ void Media::toXJdf(QXmlStreamWriter &writer) const
     writer.writeStartElement(QStringLiteral("Media"));
     mediaWriter(qSharedPointerCast<Media>(selfPtr()));
 
-    writer.writeStartElement(QStringLiteral("MediaLayers"));
-    for (const auto &layer : d->layers)
-        mediaWriter(layer, true);
-    writer.writeEndElement();
+    if (!d->layers.isEmpty()) {
+        writer.writeStartElement(QStringLiteral("MediaLayers"));
+        for (const auto &layer : d->layers)
+            mediaWriter(layer, true);
+        writer.writeEndElement();
+    }
 
     writer.writeEndElement();
 }

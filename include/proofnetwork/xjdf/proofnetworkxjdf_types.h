@@ -85,6 +85,10 @@ class BoxPackingParams;
 using BoxPackingParamsSP = QSharedPointer<BoxPackingParams>;
 using BoxPackingParamsWP = QWeakPointer<BoxPackingParams>;
 
+class FoldingParams;
+using FoldingParamsSP = QSharedPointer<FoldingParams>;
+using FoldingParamsWP = QWeakPointer<FoldingParams>;
+
 class CuttingParams;
 using CuttingParamsSP = QSharedPointer<CuttingParams>;
 using CuttingParamsWP = QWeakPointer<CuttingParams>;

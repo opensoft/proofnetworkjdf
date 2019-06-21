@@ -128,7 +128,7 @@ NodeWriterGuard Resource::writeFieldsToXJdf(QXmlStreamWriter &writer) const
         writer.writeAttribute(QStringLiteral("Orientation"), resourceOrientationToString(d->orientation));
     for (const auto &part : d->parts)
         part->toXJdf(writer);
-    if (d->amountPool)
+    if (isValidAndDirty(d->amountPool))
         d->amountPool->toXJdf(writer);
 
     return NodeWriterGuard(&writer);
@@ -170,7 +170,8 @@ ResourceSP Resource::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docume
         resource->setId(id);
         resource->setOrientation(orientation);
         resource->setParts(parts);
-        resource->setAmountPool(amountPool);
+        if (isValidAndDirty(amountPool))
+            resource->setAmountPool(amountPool);
     }
 
     return resource;

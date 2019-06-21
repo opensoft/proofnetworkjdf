@@ -122,4 +122,18 @@
     </Resource>
   </ResourceSet>
   <ResourceSet CombinedProcessIndex="1" Name="Component" Usage="Output" />
+  <ResourceSet Name="FoldingParams" Usage="Input">
+    <Resource>
+      <Part ProductPart="ProductInfo_1" />
+      <FoldingParams FoldCatalog="F2-1" />
+    </Resource>
+    <Resource>
+      <Part ProductPart="ProductInfo_2" />
+      <FoldingParams FoldCatalog="F4-1" />
+    </Resource>
+    <Resource>
+      <Part ProductPart="ProductInfo_3" />
+      <FoldingParams FoldCatalog="F6-1" FoldingDetails="Test folding" />
+    </Resource>
+  </ResourceSet>
 </XJDF>
