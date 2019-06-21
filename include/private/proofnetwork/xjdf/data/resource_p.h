@@ -27,6 +27,7 @@
 
 #include "abstractnode_p.h"
 
+#include "proofnetwork/xjdf/data/amountpool.h"
 #include "proofnetwork/xjdf/data/resource.h"
 
 namespace Proof {
@@ -40,7 +41,7 @@ public:
     QString id;
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     QVector<PartSP> parts;
-    AmountPoolSP amountPool;
+    AmountPoolSP amountPool = AmountPool::create();
 };
 
 } // namespace XJdf
