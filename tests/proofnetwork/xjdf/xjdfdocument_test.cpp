@@ -13,6 +13,7 @@
 #include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/dropitem.h"
 #include "proofnetwork/xjdf/data/foldingintent.h"
+#include "proofnetwork/xjdf/data/foldingparams.h"
 #include "proofnetwork/xjdf/data/laminatingintent.h"
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/part.h"
@@ -171,7 +172,7 @@ TEST_F(DocumentTest, toXJdf)
     auto laminating = product3->intentsByType<LaminatingIntent>()[0];
     EXPECT_EQ(Side::Front, laminating->surface());
 
-    ASSERT_EQ(7, xjdfDocNew->resourceSets().count());
+    ASSERT_EQ(8, xjdfDocNew->resourceSets().count());
 
     auto resourceSet1 = xjdfDocNew->resourceSets()[0];
     EXPECT_EQ("DeliveryParams", resourceSet1->name());
@@ -246,6 +247,13 @@ TEST_F(DocumentTest, toXJdf)
     ASSERT_EQ(1, resourceSet7->combinedProcessIndexes().count());
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
+
+    auto resourceSet8 = xjdfDocNew->resourceSets()[7];
+    EXPECT_EQ("FoldingParams", resourceSet8->name());
+    ASSERT_EQ(3, resourceSet8->resourcesByType<FoldingParams>().count());
+    auto foldingParams = resourceSet8->resourcesByType<FoldingParams>()[2];
+    EXPECT_EQ("F6-1", foldingParams->foldCatalog());
+    EXPECT_EQ("Test folding", foldingParams->foldingDetails());
 }
 
 TEST_F(DocumentTest, updateFrom)
@@ -570,7 +578,7 @@ TEST_F(DocumentTest, fromXJdf)
     auto laminating = product3->intentsByType<LaminatingIntent>()[0];
     EXPECT_EQ(Side::Front, laminating->surface());
 
-    ASSERT_EQ(7, xjdfDocUT->resourceSets().count());
+    ASSERT_EQ(8, xjdfDocUT->resourceSets().count());
 
     auto resourceSet1 = xjdfDocUT->resourceSets()[0];
     EXPECT_EQ("DeliveryParams", resourceSet1->name());
@@ -645,6 +653,13 @@ TEST_F(DocumentTest, fromXJdf)
     ASSERT_EQ(1, resourceSet7->combinedProcessIndexes().count());
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
+
+    auto resourceSet8 = xjdfDocUT->resourceSets()[7];
+    EXPECT_EQ("FoldingParams", resourceSet8->name());
+    ASSERT_EQ(3, resourceSet8->resourcesByType<FoldingParams>().count());
+    auto foldingParams = resourceSet8->resourcesByType<FoldingParams>()[2];
+    EXPECT_EQ("F6-1", foldingParams->foldCatalog());
+    EXPECT_EQ("Test folding", foldingParams->foldingDetails());
 }
 
 TEST_F(DocumentTest, findResources)

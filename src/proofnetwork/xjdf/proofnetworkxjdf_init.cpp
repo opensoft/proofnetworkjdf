@@ -31,6 +31,7 @@
 #include "proofnetwork/xjdf/data/deliveryparams.h"
 #include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/foldingintent.h"
+#include "proofnetwork/xjdf/data/foldingparams.h"
 #include "proofnetwork/xjdf/data/laminatingintent.h"
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
@@ -53,6 +54,7 @@ PROOF_LIBRARY_INITIALIZER(libraryInit)
     Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::CuttingParams>(QStringLiteral("CuttingParams"));
     Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::DeliveryParams>(QStringLiteral("DeliveryParams"));
     Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::BoxPackingParams>(QStringLiteral("BoxPackingParams"));
+    Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::FoldingParams>(QStringLiteral("FoldingParams"));
     Proof::XJdf::Resource::registerResourceCreator<Proof::XJdf::Media>(QStringLiteral("Media"));
 //     clang-format on
 }
