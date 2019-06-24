@@ -48,9 +48,9 @@ public:
     qulonglong amount() const;
     void setAmount(qulonglong arg);
 
-    static PartAmountSP create();
+    static PartAmountSP create(const DocumentSP &document);
 
-    static PartAmountSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static PartAmountSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

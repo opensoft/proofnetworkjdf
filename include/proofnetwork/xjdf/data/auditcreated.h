@@ -50,9 +50,9 @@ public:
     void setTemplateId(const QString &arg);
     void setTemplateVersion(const QString &arg);
 
-    static AuditCreatedSP create();
+    static AuditCreatedSP create(const DocumentSP &document);
 
-    static AuditCreatedSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static AuditCreatedSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

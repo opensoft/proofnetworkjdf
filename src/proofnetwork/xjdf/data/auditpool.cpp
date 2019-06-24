@@ -62,17 +62,17 @@ QVector<AuditNotificationSP> AuditPool::notifications() const
     return d->notifications;
 }
 
-AuditPoolSP AuditPool::create()
+AuditPoolSP AuditPool::create(const DocumentSP &document)
 {
     AuditPoolSP result(new AuditPool());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    AuditPoolSP auditPool = create();
-    auditPool->d_func()->document = document;
+    AuditPoolSP auditPool = create(document);
 
     QVector<AuditNotificationSP> notifications;
     while (!reader.atEnd() && !reader.hasError()) {

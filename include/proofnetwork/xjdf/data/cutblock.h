@@ -63,9 +63,9 @@ public:
     void setX(double arg);
     void setY(double arg);
 
-    static CutBlockSP create(const QString &blockName = QString());
+    static CutBlockSP create(const DocumentSP &document, const QString &blockName = QString());
 
-    static CutBlockSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static CutBlockSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

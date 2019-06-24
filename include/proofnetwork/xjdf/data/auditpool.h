@@ -52,9 +52,9 @@ public:
     void setCreated(const AuditCreatedSP &created);
     void setNotifications(const QVector<AuditNotificationSP> &arg);
 
-    static AuditPoolSP create();
+    static AuditPoolSP create(const DocumentSP &document);
 
-    static AuditPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static AuditPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

@@ -59,9 +59,10 @@ void LaminatingIntent::setSurface(Side surface)
     }
 }
 
-LaminatingIntentSP LaminatingIntent::create()
+LaminatingIntentSP LaminatingIntent::create(const DocumentSP &document)
 {
     LaminatingIntentSP result(new LaminatingIntent());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -71,8 +72,7 @@ LaminatingIntentSP LaminatingIntent::fromXJdf(QXmlStreamReader &reader, const Do
     LaminatingIntentSP intent;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("LaminatingIntent")) {
-        intent = create();
-        intent->d_func()->document = document;
+        intent = create(document);
         auto side = sideTypeFromString(reader.attributes().value(QStringLiteral("Surface")).toString());
         intent->setSurface(side);
         intent->setFetched(true);

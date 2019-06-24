@@ -52,6 +52,8 @@ protected:
 
 TEST_F(DocumentTest, misc)
 {
+    auto dummyDocument = Document::create();
+
     xjdfDocUT->toFile("tofile.xml");
     EXPECT_TRUE(QFileInfo("tofile.xml").exists());
 
@@ -72,7 +74,7 @@ TEST_F(DocumentTest, misc)
     ASSERT_EQ(3, productList->products().size());
 
     auto product1 = productList->products()[0];
-    auto productNew = Product::create("");
+    auto productNew = Product::create(dummyDocument, "");
     productNew->updateFrom(product1);
     productNew->setId("newId");
 
@@ -250,6 +252,7 @@ TEST_F(DocumentTest, toXJdf)
 
 TEST_F(DocumentTest, updateFrom)
 {
+    auto dummyDocument = Document::create();
     auto xjdfDocUT2 = Document::fromFile(":/data/proposal2.xjdf");
     auto xjdfDocUT3 = Document::create();
     ASSERT_TRUE(xjdfDocUT2);
@@ -263,7 +266,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(xjdfDocUT2->types()[1], xjdfDocUT3->types()[1]);
 
     auto auditPool = xjdfDocUT2->auditPool();
-    auto auditPool2 = AuditPool::create();
+    auto auditPool2 = AuditPool::create(dummyDocument);
     auditPool2->updateFrom(auditPool);
     auto created = auditPool->created();
     auto created2 = auditPool2->created();
@@ -279,7 +282,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(notification2->timestamp(), notification->timestamp());
     EXPECT_EQ(notification2->severityClass(), notification->severityClass());
 
-    created2 = AuditCreated::create();
+    created2 = AuditCreated::create(dummyDocument);
     created2->updateFrom(created);
     EXPECT_EQ(created2->templateId(), created->templateId());
     EXPECT_EQ(created2->templateVersion(), created->templateVersion());
@@ -287,7 +290,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(created2->agentVersion(), created->agentVersion());
     EXPECT_EQ(created2->timestamp(), created->timestamp());
 
-    notification2 = AuditNotification::create();
+    notification2 = AuditNotification::create(dummyDocument);
     notification2->updateFrom(notification);
     EXPECT_EQ(notification2->agentName(), notification->agentName());
     EXPECT_EQ(notification2->agentVersion(), notification->agentVersion());
@@ -305,7 +308,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(product21->isRoot(), product1->isRoot());
     EXPECT_EQ(product21->amount(), product1->amount());
 
-    productList2 = ProductList::create();
+    productList2 = ProductList::create(dummyDocument);
     productList2->updateFrom(productList);
 
     product21 = productList2->products()[0];
@@ -323,7 +326,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(color2->coatings()[Side::Front][0], color->coatings()[Side::Front][0]);
     EXPECT_EQ(color2->coatings()[Side::Back][0], color->coatings()[Side::Back][0]);
 
-    product21 = Product::create("0");
+    product21 = Product::create(dummyDocument, "0");
     product21->updateFrom(product1);
 
     EXPECT_EQ(product21->id(), product1->id());
@@ -335,7 +338,7 @@ TEST_F(DocumentTest, updateFrom)
     auto product3 = productList->products()[2];
     auto product23 = productList2->products()[2];
 
-    color2 = ColorIntent::create();
+    color2 = ColorIntent::create(dummyDocument);
     color2->updateFrom(color);
     EXPECT_EQ(color2->spots()[Side::Front], color->spots()[Side::Front]);
     EXPECT_EQ(color2->coatings()[Side::Front][0], color->coatings()[Side::Front][0]);
@@ -345,13 +348,13 @@ TEST_F(DocumentTest, updateFrom)
     auto folding2 = product23->intentsByType<FoldingIntent>()[0];
     EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
 
-    product23 = Product::create("0");
+    product23 = Product::create(dummyDocument, "0");
     product23->updateFrom(product3);
 
     folding2 = product23->intentsByType<FoldingIntent>()[0];
     EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
 
-    folding2 = FoldingIntent::create();
+    folding2 = FoldingIntent::create(dummyDocument);
     folding2->updateFrom(folding);
 
     EXPECT_EQ(folding2->foldCatalog(), folding->foldCatalog());
@@ -360,13 +363,13 @@ TEST_F(DocumentTest, updateFrom)
     auto laminating2 = product23->intentsByType<LaminatingIntent>()[0];
     EXPECT_EQ(laminating2->surface(), laminating->surface());
 
-    product23 = Product::create("0");
+    product23 = Product::create(dummyDocument, "0");
     product23->updateFrom(product3);
 
     laminating2 = product23->intentsByType<LaminatingIntent>()[0];
     EXPECT_EQ(laminating2->surface(), laminating->surface());
 
-    laminating2 = LaminatingIntent::create();
+    laminating2 = LaminatingIntent::create(dummyDocument);
     laminating2->updateFrom(laminating);
 
     EXPECT_EQ(laminating2->surface(), laminating->surface());
@@ -380,7 +383,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(deliveryParams2->items()[0]->amount(), deliveryParams->items()[0]->amount());
     EXPECT_EQ(deliveryParams2->items()[0]->product()->id(), deliveryParams->items()[0]->product()->id());
 
-    resourceSet21 = ResourceSet::create();
+    resourceSet21 = ResourceSet::create(dummyDocument);
     resourceSet21->updateFrom(resourceSet1);
 
     EXPECT_EQ(resourceSet21->name(), resourceSet1->name());
@@ -389,7 +392,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(deliveryParams2->items()[0]->amount(), deliveryParams->items()[0]->amount());
     EXPECT_EQ(deliveryParams2->items()[0]->product()->id(), deliveryParams->items()[0]->product()->id());
 
-    deliveryParams2 = DeliveryParams::create();
+    deliveryParams2 = DeliveryParams::create(dummyDocument);
     deliveryParams2->updateFrom(deliveryParams);
     EXPECT_EQ(deliveryParams2->required(), deliveryParams->required());
     EXPECT_EQ(deliveryParams2->items()[0]->amount(), deliveryParams->items()[0]->amount());
@@ -404,7 +407,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(media2->height(), media->height());
     EXPECT_DOUBLE_EQ(media2->thickness(), media->thickness());
 
-    media2 = Media::create();
+    media2 = Media::create(dummyDocument);
     media2->updateFrom(media);
     EXPECT_DOUBLE_EQ(media2->width(), media->width());
     EXPECT_DOUBLE_EQ(media2->height(), media->height());
@@ -421,16 +424,16 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(component21->mediaRef()->id(), component1->mediaRef()->id());
 
     auto amountPool = component1->amountPool();
-    auto amountPool2 = AmountPool::create();
+    auto amountPool2 = AmountPool::create(dummyDocument);
     amountPool2->updateFrom(amountPool);
     EXPECT_EQ(amountPool->parts()[0]->amount(), amountPool2->parts()[0]->amount());
 
     auto partAmount = amountPool->parts()[0];
-    auto partAmount2 = PartAmount::create();
+    auto partAmount2 = PartAmount::create(dummyDocument);
     partAmount2->updateFrom(partAmount);
     EXPECT_EQ(partAmount->amount(), partAmount2->amount());
 
-    component21 = Component::create();
+    component21 = Component::create(dummyDocument);
     component21->updateFrom(component1);
     EXPECT_EQ(component21->orientation(), component1->orientation());
     EXPECT_EQ(component21->amountPool()->parts()[0]->amount(), component1->amountPool()->parts()[0]->amount());
@@ -445,7 +448,7 @@ TEST_F(DocumentTest, updateFrom)
     auto cutBlock2 = cuttingParams2->cutBlocks()[0];
     EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
 
-    cuttingParams2 = CuttingParams::create();
+    cuttingParams2 = CuttingParams::create(dummyDocument);
     cuttingParams2->updateFrom(cuttingParams);
     cutBlock2 = cuttingParams2->cutBlocks()[0];
     EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
@@ -454,7 +457,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_DOUBLE_EQ(cutBlock2->width(), cutBlock->width());
     EXPECT_DOUBLE_EQ(cutBlock2->height(), cutBlock->height());
 
-    cutBlock2 = CutBlock::create();
+    cutBlock2 = CutBlock::create(dummyDocument);
     cutBlock2->updateFrom(cutBlock);
     EXPECT_EQ(cutBlock2->blockName(), cutBlock->blockName());
     EXPECT_DOUBLE_EQ(cutBlock2->x(), cutBlock->x());
@@ -473,7 +476,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(component22->parts()[0]->blockName(), component2->parts()[0]->blockName());
     EXPECT_EQ(component22->parts()[0]->productPart(), component2->parts()[0]->productPart());
 
-    component22 = Component::create();
+    component22 = Component::create(dummyDocument);
     component22->updateFrom(component2);
     EXPECT_DOUBLE_EQ(component22->width(), component2->width());
     EXPECT_DOUBLE_EQ(component22->height(), component2->height());
@@ -489,7 +492,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(boxPackingParams2->boxType(), boxPackingParams->boxType());
     EXPECT_EQ(boxPackingParams2->boxTypeDetails(), boxPackingParams->boxTypeDetails());
 
-    boxPackingParams2 = BoxPackingParams::create();
+    boxPackingParams2 = BoxPackingParams::create(dummyDocument);
     boxPackingParams2->updateFrom(boxPackingParams);
     EXPECT_EQ(boxPackingParams2->boxType(), boxPackingParams->boxType());
     EXPECT_EQ(boxPackingParams2->boxTypeDetails(), boxPackingParams->boxTypeDetails());
@@ -500,7 +503,7 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(resourceSet27->combinedProcessIndexes()[0], resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(resourceSet27->usage(), resourceSet7->usage());
 
-    resourceSet27 = ResourceSet::create();
+    resourceSet27 = ResourceSet::create(dummyDocument);
     resourceSet27->updateFrom(resourceSet7);
     EXPECT_EQ(resourceSet27->combinedProcessIndexes()[0], resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(resourceSet27->usage(), resourceSet7->usage());

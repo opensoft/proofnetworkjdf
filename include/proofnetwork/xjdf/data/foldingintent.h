@@ -47,9 +47,9 @@ public:
     FoldType foldCatalog() const;
     void setFoldCatalog(FoldType arg);
 
-    static FoldingIntentSP create();
+    static FoldingIntentSP create(const DocumentSP &document);
 
-    static FoldingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static FoldingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 signals:
     void foldCatalogChanged(Proof::XJdf::FoldType type);

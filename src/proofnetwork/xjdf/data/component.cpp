@@ -51,9 +51,10 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
-ComponentSP Component::create()
+ComponentSP Component::create(const DocumentSP &document)
 {
     ComponentSP result(new Component());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -84,7 +85,7 @@ MediaSP Component::mediaRef() const
         }
     }
 
-    auto dummy = Media::create(d->mediaRef);
+    auto dummy = Media::create(document, d->mediaRef);
     return dummy;
 }
 
@@ -146,9 +147,7 @@ ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docu
 {
     ComponentSP component;
     if (reader.isStartElement() && reader.name() == QStringLiteral("Component")) {
-        component = create();
-        component->d_func()->document = document;
-
+        component = create(document);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Dimensions"))) {
             auto dimension = attributes.value(QStringLiteral("Dimensions")).toString().split(' ', QString::SkipEmptyParts);

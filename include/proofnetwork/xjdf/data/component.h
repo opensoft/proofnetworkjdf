@@ -45,7 +45,7 @@ public:
     Component &operator=(Component &&) = delete;
     ~Component() = default;
 
-    static ComponentSP create();
+    static ComponentSP create(const DocumentSP &document);
 
     MediaSP mediaRef() const;
     double width() const;
@@ -57,7 +57,7 @@ public:
     void setHeight(double arg);
     void setThickness(double arg);
 
-    static ComponentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static ComponentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

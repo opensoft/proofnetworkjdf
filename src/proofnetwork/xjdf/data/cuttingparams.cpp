@@ -62,9 +62,10 @@ void CuttingParams::setCutBlocks(const QVector<CutBlockSP> &arg)
     }
 }
 
-CuttingParamsSP CuttingParams::create()
+CuttingParamsSP CuttingParams::create(const DocumentSP &document)
 {
     CuttingParamsSP result(new CuttingParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -74,8 +75,7 @@ CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader, const Document
     CuttingParamsSP params;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("CuttingParams")) {
-        params = create();
-        params->d_func()->document = document;
+        params = create(document);
 
         QVector<CutBlockSP> blocks;
         while (!reader.atEnd() && !reader.hasError()) {

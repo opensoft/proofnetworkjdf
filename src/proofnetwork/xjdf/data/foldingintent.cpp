@@ -59,9 +59,10 @@ void FoldingIntent::setFoldCatalog(FoldType arg)
     }
 }
 
-FoldingIntentSP FoldingIntent::create()
+FoldingIntentSP FoldingIntent::create(const DocumentSP &document)
 {
     FoldingIntentSP result(new FoldingIntent());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -71,8 +72,7 @@ FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const Document
     FoldingIntentSP intent;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("FoldingIntent")) {
-        intent = create();
-        intent->d_func()->document = document;
+        intent = create(document);
         auto catalog = foldTypeFromString(reader.attributes().value(QStringLiteral("FoldCatalog")).toString());
         intent->setFoldCatalog(catalog);
         intent->setFetched(true);

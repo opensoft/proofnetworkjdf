@@ -41,8 +41,8 @@ class DocumentPrivate : public AbstractNodePrivate
 
     QString jobId;
     QString jobPartId;
-    AuditPoolSP auditPool = AuditPool::create();
-    ProductListSP productList = ProductList::create();
+    AuditPoolSP auditPool;
+    ProductListSP productList;
     QVector<ProcessType> types;
     QVector<ResourceSetSP> resourceSets;
     QVector<QPair<QString, QString>> namespaces;
@@ -170,6 +170,9 @@ DocumentSP Document::create()
 {
     DocumentSP result(new Document());
     initSelfWeakPtr(result);
+    result->d_func()->auditPool = AuditPool::create(result);
+    result->d_func()->productList = ProductList::create(result);
+
     return result;
 }
 

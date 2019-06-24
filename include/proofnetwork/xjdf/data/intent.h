@@ -50,7 +50,7 @@ public:
     void setName(const QString &arg);
 
     bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
-    static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
 
     template <class T>
     inline static void registerIntentCreator(const QString &name)

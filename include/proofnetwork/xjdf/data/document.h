@@ -75,6 +75,12 @@ public:
                                          QVector<QSharedPointer<T>>());
     }
 
+    template <class NodeType, typename... Args>
+    QSharedPointer<NodeType> createNode(Args &&... args)
+    {
+        return NodeType::create(qSharedPointerCast<Document>(selfPtr()), std::forward<Args>(args)...);
+    }
+
     static DocumentSP create();
 
     static DocumentSP fromXJdf(QXmlStreamReader &reader);

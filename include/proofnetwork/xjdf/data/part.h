@@ -51,9 +51,9 @@ public:
     void setProductPart(const QString &arg);
     void setBlockName(const QString &arg);
 
-    static PartSP create();
+    static PartSP create(const DocumentSP &document);
 
-    static PartSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static PartSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

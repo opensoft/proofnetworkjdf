@@ -51,9 +51,9 @@ public:
     void setAmount(qulonglong arg);
     void updateProduct(const QString &arg);
 
-    static DropItemSP create();
+    static DropItemSP create(const DocumentSP &document);
 
-    static DropItemSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static DropItemSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

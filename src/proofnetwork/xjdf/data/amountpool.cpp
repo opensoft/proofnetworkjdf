@@ -63,9 +63,10 @@ void AmountPool::setParts(const QVector<PartAmountSP> &arg)
     }
 }
 
-AmountPoolSP AmountPool::create()
+AmountPoolSP AmountPool::create(const DocumentSP &document)
 {
     AmountPoolSP result(new AmountPool());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -74,8 +75,7 @@ AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &do
 {
     AmountPoolSP pool;
     if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
-        pool = create();
-        pool->d_func()->document = document;
+        pool = create(document);
 
         QVector<PartAmountSP> parts;
         while (!reader.atEnd() && !reader.hasError()) {

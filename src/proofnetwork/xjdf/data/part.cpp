@@ -81,9 +81,10 @@ void Part::setBlockName(const QString &arg)
     }
 }
 
-PartSP Part::create()
+PartSP Part::create(const DocumentSP &document)
 {
     PartSP result(new Part());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -93,8 +94,7 @@ PartSP Part::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
     PartSP part;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("Part")) {
-        part = create();
-        part->d_func()->document = document;
+        part = create(document);
         part->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("ProductPart")))

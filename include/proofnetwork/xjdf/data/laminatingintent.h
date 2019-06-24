@@ -51,9 +51,9 @@ public:
 
     void setSurface(Side surface);
 
-    static LaminatingIntentSP create();
+    static LaminatingIntentSP create(const DocumentSP &document);
 
-    static LaminatingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static LaminatingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 signals:
     void surfaceChanged(Proof::XJdf::Side type);

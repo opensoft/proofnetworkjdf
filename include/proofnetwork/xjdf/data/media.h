@@ -59,9 +59,9 @@ public:
     void setType(MediaType arg);
     void setLayers(const QVector<MediaSP> &arg);
 
-    static MediaSP create(const QString &id = QString());
+    static MediaSP create(const DocumentSP &document, const QString &id = QString());
 
-    static MediaSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static MediaSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

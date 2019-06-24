@@ -74,9 +74,10 @@ void BoxPackingParams::setBoxTypeDetails(const QString &arg)
     }
 }
 
-BoxPackingParamsSP BoxPackingParams::create()
+BoxPackingParamsSP BoxPackingParams::create(const DocumentSP &document)
 {
     BoxPackingParamsSP result(new BoxPackingParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -85,8 +86,7 @@ BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const Do
 {
     BoxPackingParamsSP params;
     if (reader.isStartElement() && reader.name() == QStringLiteral("BoxPackingParams")) {
-        params = create();
-        params->d_func()->document = document;
+        params = create(document);
 
         auto boxType = boxTypeFromString(reader.attributes().value(QStringLiteral("BoxType")).toString());
         auto boxTypeDetails = reader.attributes().value(QStringLiteral("BoxTypeDetails")).toString();

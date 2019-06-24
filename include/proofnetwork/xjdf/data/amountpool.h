@@ -50,9 +50,9 @@ public:
 
     void setParts(const QVector<PartAmountSP> &arg);
 
-    static AmountPoolSP create();
+    static AmountPoolSP create(const DocumentSP &document);
 
-    static AmountPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static AmountPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

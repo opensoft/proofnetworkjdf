@@ -48,9 +48,9 @@ public:
     QVector<CutBlockSP> cutBlocks() const;
     void setCutBlocks(const QVector<CutBlockSP> &arg);
 
-    static CuttingParamsSP create();
+    static CuttingParamsSP create(const DocumentSP &document);
 
-    static CuttingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static CuttingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

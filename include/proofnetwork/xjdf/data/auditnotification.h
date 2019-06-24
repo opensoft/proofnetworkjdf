@@ -47,9 +47,9 @@ public:
     Severity severityClass() const;
     void setSeverityClass(Severity arg);
 
-    static AuditNotificationSP create();
+    static AuditNotificationSP create(const DocumentSP &document);
 
-    static AuditNotificationSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static AuditNotificationSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

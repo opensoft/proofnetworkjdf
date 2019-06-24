@@ -57,7 +57,7 @@ public:
     void setAmountPool(const AmountPoolSP &arg);
 
     bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
-    static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
 
     template <class T>
     inline static void registerResourceCreator(const QString &name)

@@ -51,9 +51,9 @@ public:
     void setRequired(const QDateTime &arg);
     void setItems(const QVector<DropItemSP> &arg);
 
-    static DeliveryParamsSP create();
+    static DeliveryParamsSP create(const DocumentSP &document);
 
-    static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:

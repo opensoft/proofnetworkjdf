@@ -77,9 +77,10 @@ void DeliveryParams::setItems(const QVector<DropItemSP> &arg)
     }
 }
 
-DeliveryParamsSP DeliveryParams::create()
+DeliveryParamsSP DeliveryParams::create(const DocumentSP &document)
 {
     DeliveryParamsSP result(new DeliveryParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -89,8 +90,7 @@ DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const Docume
     DeliveryParamsSP params;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("DeliveryParams")) {
-        params = create();
-        params->d_func()->document = document;
+        params = create(document);
         params->setRequired(
             QDateTime::fromString(reader.attributes().value(QStringLiteral("Required")).toString(), Qt::ISODate));
         QVector<DropItemSP> items;

@@ -138,9 +138,10 @@ void Product::setIntents(const QVector<IntentSP> &arg)
     emit intentsChanged(arg);
 }
 
-ProductSP Product::create(const QString &id)
+ProductSP Product::create(const DocumentSP &document, const QString &id)
 {
     ProductSP result(new Product(id));
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -151,8 +152,7 @@ ProductSP Product::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document
     if (reader.isStartElement() && reader.name() == QStringLiteral("Product")) {
         auto attributes = reader.attributes();
         auto id = attributes.value(QStringLiteral("ID")).toString();
-        product = create(id);
-        product->d_func()->document = document;
+        product = create(document, id);
 
         if (attributes.hasAttribute(QStringLiteral("ExternalID")))
             product->setExternalId(attributes.value(QStringLiteral("ExternalID")).toString());

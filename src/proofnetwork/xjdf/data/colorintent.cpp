@@ -84,9 +84,10 @@ void ColorIntent::addSpot(Side side, bool arg)
     emit spotsChanged(d->spots);
 }
 
-ColorIntentSP ColorIntent::create()
+ColorIntentSP ColorIntent::create(const DocumentSP &document)
 {
     ColorIntentSP result(new ColorIntent());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -95,8 +96,7 @@ ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &
 {
     ColorIntentSP intent;
     if (reader.isStartElement() && reader.name() == QStringLiteral("ColorIntent")) {
-        intent = create();
-        intent->d_func()->document = document;
+        intent = create(document);
 
         QMap<Side, QVector<CoatingType>> coatings;
         QMap<Side, bool> spots;

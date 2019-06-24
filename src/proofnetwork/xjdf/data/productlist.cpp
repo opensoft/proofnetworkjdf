@@ -52,17 +52,17 @@ QVector<ProductSP> ProductList::products() const
     return d->products;
 }
 
-ProductListSP ProductList::create()
+ProductListSP ProductList::create(const DocumentSP &document)
 {
     ProductListSP result(new ProductList());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    ProductListSP productList = create();
-    productList->d_func()->document = document;
+    ProductListSP productList = create(document);
 
     QVector<ProductSP> list;
 

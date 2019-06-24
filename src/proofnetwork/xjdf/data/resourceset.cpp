@@ -102,17 +102,17 @@ void ResourceSet::setUsage(UsageType arg)
     }
 }
 
-ResourceSetSP ResourceSet::create()
+ResourceSetSP ResourceSet::create(const DocumentSP &document)
 {
     ResourceSetSP result(new ResourceSet());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    ResourceSetSP resourceSet = create();
-    resourceSet->d_func()->document = document;
+    ResourceSetSP resourceSet = create(document);
 
     QVector<ResourceSP> resourceList;
 

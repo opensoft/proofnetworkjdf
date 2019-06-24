@@ -59,9 +59,10 @@ void PartAmount::setAmount(qulonglong arg)
     }
 }
 
-PartAmountSP PartAmount::create()
+PartAmountSP PartAmount::create(const DocumentSP &document)
 {
     PartAmountSP result(new PartAmount());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -71,8 +72,7 @@ PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const DocumentSP &do
     PartAmountSP part;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
-        part = create();
-        part->d_func()->document = document;
+        part = create(document);
         part->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Amount")))

@@ -74,17 +74,17 @@ void AuditCreated::setTemplateVersion(const QString &arg)
     }
 }
 
-AuditCreatedSP AuditCreated::create()
+AuditCreatedSP AuditCreated::create(const DocumentSP &document)
 {
     AuditCreatedSP result(new AuditCreated());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    AuditCreatedSP created = create();
-    created->d_func()->document = document;
+    AuditCreatedSP created = create(document);
 
     reader.readNextStartElement();
     while (!reader.atEnd() && !reader.hasError()) {

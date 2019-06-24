@@ -68,7 +68,7 @@ ProductSP DropItem::product() const
         if (d->lazyProduct)
             return d->lazyProduct;
     }
-    auto dummy = Product::create(d->productId);
+    auto dummy = Product::create(document, d->productId);
     return dummy;
 }
 
@@ -91,9 +91,10 @@ void DropItem::updateProduct(const QString &arg)
     }
 }
 
-DropItemSP DropItem::create()
+DropItemSP DropItem::create(const DocumentSP &document)
 {
     DropItemSP result(new DropItem());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -103,8 +104,7 @@ DropItemSP DropItem::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docume
     DropItemSP item;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("DropItem")) {
-        item = create();
-        item->d_func()->document = document;
+        item = create(document);
         item->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("ItemRef")))

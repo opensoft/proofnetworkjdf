@@ -54,9 +54,9 @@ public:
     void setSpots(const QMap<Side, bool> &arg);
     void addSpot(Side side, bool arg);
 
-    static ColorIntentSP create();
+    static ColorIntentSP create(const DocumentSP &document);
 
-    static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
