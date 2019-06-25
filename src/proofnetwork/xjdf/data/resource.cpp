@@ -69,7 +69,7 @@ QVector<PartSP> Resource::parts() const
 AmountPoolSP Resource::amountPool() const
 {
     Q_D_CONST(Resource);
-    return d->amountPool;
+    return d->amountPool ? d->amountPool : AmountPool::create(d->document);
 }
 
 void Resource::setId(const QString &arg)
