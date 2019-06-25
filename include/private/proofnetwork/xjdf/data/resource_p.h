@@ -41,7 +41,7 @@ public:
     QString id;
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     QVector<PartSP> parts;
-    AmountPoolSP amountPool = AmountPool::create();
+    AmountPoolSP amountPool = AmountPool::create(DocumentSP());
 };
 
 } // namespace XJdf
