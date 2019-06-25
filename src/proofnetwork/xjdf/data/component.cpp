@@ -177,7 +177,7 @@ void Component::toXJdf(QXmlStreamWriter &writer) const
         writer.writeAttribute(QStringLiteral("Dimensions"), dimensions);
     }
     auto mediaRef = this->mediaRef();
-    if (mediaRef)
+    if (isValidAndDirty(mediaRef))
         writer.writeAttribute(QStringLiteral("MediaRef"), mediaRef->id());
 
     writer.writeEndElement();

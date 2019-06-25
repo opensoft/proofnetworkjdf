@@ -22,29 +22,50 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef XJDF_RESOURCEPRIVATE_H
-#define XJDF_RESOURCEPRIVATE_H
+#ifndef XJDF_FOLDINGPARAMS_H
+#define XJDF_FOLDINGPARAMS_H
 
-#include "abstractnode_p.h"
+#include "resource.h"
 
-#include "proofnetwork/xjdf/data/amountpool.h"
-#include "proofnetwork/xjdf/data/resource.h"
+#include "proofnetwork/xjdf/apihelper.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
 namespace Proof {
 namespace XJdf {
-class ResourcePrivate : public AbstractNodePrivate
-{
-    Q_DECLARE_PUBLIC(Resource)
 
+class FoldingParamsPrivate;
+class PROOF_NETWORK_XJDF_EXPORT FoldingParams : public Resource
+{
+    Q_OBJECT
+    Q_DECLARE_PRIVATE(FoldingParams)
 public:
-    ResourcePrivate() = default;
-    QString id;
-    ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
-    QVector<PartSP> parts;
-    AmountPoolSP amountPool = AmountPool::create();
+    FoldingParams(const FoldingParams &) = delete;
+    FoldingParams &operator=(const FoldingParams &) = delete;
+    FoldingParams(FoldingParams &&) = delete;
+    FoldingParams &operator=(FoldingParams &&) = delete;
+    ~FoldingParams() = default;
+
+    QString foldCatalog() const;
+    QString foldingDetails() const;
+
+    void setFoldCatalog(const QString &arg);
+    void setFoldingDetails(const QString &arg);
+
+    static FoldingParamsSP create();
+
+    static FoldingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    void toXJdf(QXmlStreamWriter &writer) const override;
+
+signals:
+    void foldCatalogChanged(const QString &arg);
+    void foldingDetailsChanged(const QString &arg);
+
+protected:
+    FoldingParams();
+    void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace XJdf
 } // namespace Proof
 
-#endif // XJDF_RESOURCEPRIVATE_H
+#endif // XJDF_FOLDINGPARAMS_H
