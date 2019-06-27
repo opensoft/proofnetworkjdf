@@ -113,7 +113,8 @@ TEST_F(DocumentTest, toXJdf)
 
     EXPECT_EQ("PRESSSHEET_ID", xjdfDocNew->jobId());
     EXPECT_EQ(ProcessType::Cutting, xjdfDocNew->types()[0]);
-    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocNew->types()[1]);
+    EXPECT_EQ(ProcessType::Folding, xjdfDocNew->types()[1]);
+    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocNew->types()[2]);
 
     ASSERT_EQ(2, xjdfDocNew->namespaces().count());
     EXPECT_EQ("profit", xjdfDocNew->namespaces()[1].first);
@@ -267,6 +268,8 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(xjdfDocUT2->namespaces()[1].second, xjdfDocUT3->namespaces()[1].second);
 
     EXPECT_EQ(xjdfDocUT2->jobId(), xjdfDocUT3->jobId());
+    ASSERT_EQ(2, xjdfDocUT3->types().count());
+    ASSERT_EQ(xjdfDocUT2->types().count(), xjdfDocUT3->types().count());
     EXPECT_EQ(xjdfDocUT2->types()[0], xjdfDocUT3->types()[0]);
     EXPECT_EQ(xjdfDocUT2->types()[1], xjdfDocUT3->types()[1]);
 
@@ -518,7 +521,8 @@ TEST_F(DocumentTest, fromXJdf)
 {
     EXPECT_EQ("PRESSSHEET_ID", xjdfDocUT->jobId());
     EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types()[0]);
-    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types()[1]);
+    EXPECT_EQ(ProcessType::Folding, xjdfDocUT->types()[1]);
+    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types()[2]);
 
     //Default ns here too
     ASSERT_EQ(2, xjdfDocUT->namespaces().count());

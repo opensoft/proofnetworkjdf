@@ -79,9 +79,12 @@ template <typename T>
 using IntDict = QHash<int, T>;
 
 // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
-Q_GLOBAL_STATIC_WITH_ARGS(
-    StringDict<ProcessType>, PROCESS_TYPE_STRINGIFIED,
-    ({{"", ProcessType::NoProcessType}, {"Cutting", ProcessType::Cutting}, {"BoxPacking", ProcessType::BoxPacking}}))
+Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProcessType>, PROCESS_TYPE_STRINGIFIED,
+                          ({{"", ProcessType::NoProcessType},
+                            {"Cutting", ProcessType::Cutting},
+                            {"BoxPacking", ProcessType::BoxPacking},
+                            {"Folding", ProcessType::Folding},
+                            {"SheetOptimizing", ProcessType::SheetOptimizing}}))
 
 // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<ProductType>, PRODUCT_TYPE_STRINGIFIED,

@@ -39,7 +39,9 @@ enum class ProcessType
 {
     NoProcessType,
     Cutting,
-    BoxPacking
+    BoxPacking,
+    Folding,
+    SheetOptimizing
 };
 
 enum class ProductType
