@@ -58,7 +58,7 @@ public:
 
 signals:
     void wasteChanged(qulonglong arg);
-    void wasteDetailsChanged(WasteDetails arg);
+    void wasteDetailsChanged(Proof::XJdf::WasteDetails arg);
 
 protected:
     explicit PartWaste();
