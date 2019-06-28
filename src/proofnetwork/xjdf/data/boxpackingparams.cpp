@@ -44,6 +44,13 @@ class BoxPackingParamsPrivate : public ResourcePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP BoxPackingParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = create(document);
+    newParams->updateFrom(qSharedPointerCast<BoxPackingParams>(selfPtr()));
+    return std::move(newParams);
+}
+
 BoxType BoxPackingParams::boxType() const
 {
     Q_D_CONST(BoxPackingParams);

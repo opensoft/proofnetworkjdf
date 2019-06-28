@@ -42,12 +42,16 @@ class PROOF_NETWORK_XJDF_EXPORT ResourceSet : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ResourceSet)
+    friend Document;
+
 public:
     ResourceSet(const ResourceSet &) = delete;
     ResourceSet &operator=(const ResourceSet &) = delete;
     ResourceSet(ResourceSet &&) = delete;
     ResourceSet &operator=(ResourceSet &&) = delete;
     ~ResourceSet() = default;
+
+    ResourceSetSP cloneTo(const DocumentSP &document) const;
 
     QString name() const;
     QVector<qulonglong> combinedProcessIndexes() const;
@@ -60,8 +64,8 @@ public:
     {
         const auto &all = resources();
         QVector<QSharedPointer<T>> result;
-        for (const auto &intent : all) {
-            auto converted = qSharedPointerDynamicCast<T>(intent);
+        for (const auto &resource : all) {
+            auto converted = qSharedPointerDynamicCast<T>(resource);
             if (converted)
                 result << converted;
         }
@@ -76,8 +80,6 @@ public:
     void setResources(const QVector<ResourceSP> &arg);
     void addResource(const ResourceSP &arg);
 
-    static ResourceSetSP create(const DocumentSP &document);
-
     static ResourceSetSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -89,6 +91,8 @@ signals:
 
 protected:
     explicit ResourceSet();
+    static ResourceSetSP create(const DocumentSP &document);
+
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

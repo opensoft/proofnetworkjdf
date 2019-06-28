@@ -37,6 +37,8 @@ class PROOF_NETWORK_XJDF_EXPORT AuditNotification : public AuditItemBase
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditNotification)
+    friend Document;
+
 public:
     AuditNotification(const AuditNotification &) = delete;
     AuditNotification &operator=(const AuditNotification &) = delete;
@@ -47,8 +49,6 @@ public:
     Severity severityClass() const;
     void setSeverityClass(Severity arg);
 
-    static AuditNotificationSP create(const DocumentSP &document);
-
     static AuditNotificationSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -57,6 +57,7 @@ signals:
 
 protected:
     explicit AuditNotification();
+    static AuditNotificationSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

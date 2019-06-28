@@ -44,6 +44,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+IntentSP FoldingIntent::cloneTo(const DocumentSP &document) const
+{
+    auto newIntent = create(document);
+    newIntent->updateFrom(qSharedPointerCast<FoldingIntent>(selfPtr()));
+    return std::move(newIntent);
+}
+
 FoldType FoldingIntent::foldCatalog() const
 {
     Q_D_CONST(FoldingIntent);

@@ -51,6 +51,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP Component::cloneTo(const DocumentSP &document)
+{
+    auto newComponent = create(document);
+    newComponent->updateFrom(qSharedPointerCast<Component>(selfPtr()));
+    return std::move(newComponent);
+}
+
 ComponentSP Component::create(const DocumentSP &document)
 {
     ComponentSP result(new Component());
@@ -85,7 +92,7 @@ MediaSP Component::mediaRef() const
         }
     }
 
-    auto dummy = Media::create(document, d->mediaRef);
+    auto dummy = document->createNode<Media>(d->mediaRef);
     return dummy;
 }
 

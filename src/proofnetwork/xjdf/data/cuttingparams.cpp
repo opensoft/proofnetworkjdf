@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/cuttingparams.h"
 
 #include "proofnetwork/xjdf/data/cutblock.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -44,6 +45,13 @@ class CuttingParamsPrivate : public ResourcePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP CuttingParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = create(document);
+    newParams->setCutBlocks(cutBlocks());
+    return std::move(newParams);
+}
+
 QVector<CutBlockSP> CuttingParams::cutBlocks() const
 {
     Q_D_CONST(CuttingParams);
@@ -57,7 +65,11 @@ void CuttingParams::setCutBlocks(const QVector<CutBlockSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->blockName() != d->blocks[i]->blockName();
     if (emitNeeded) {
-        d->blocks = arg;
+        d->blocks = algorithms::map(arg, [&d](const auto &cutBlock) {
+            auto newCutBlock = d->document.toStrongRef()->createNode<CutBlock>();
+            newCutBlock->updateFrom(cutBlock);
+            return newCutBlock;
+        });
         emit cutBlocksChanged(arg);
     }
 }

@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT Component : public Resource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Component)
+    friend Document;
+
 public:
     Component(const Component &) = delete;
     Component &operator=(const Component &) = delete;
@@ -45,7 +47,7 @@ public:
     Component &operator=(Component &&) = delete;
     ~Component() = default;
 
-    static ComponentSP create(const DocumentSP &document);
+    ResourceSP cloneTo(const DocumentSP &document) override;
 
     MediaSP mediaRef() const;
     double width() const;
@@ -68,6 +70,7 @@ signals:
 
 protected:
     explicit Component();
+    static ComponentSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

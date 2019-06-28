@@ -40,6 +40,8 @@ class PROOF_NETWORK_XJDF_EXPORT LaminatingIntent : public Intent
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(LaminatingIntent)
+    friend Document;
+
 public:
     LaminatingIntent(const LaminatingIntent &) = delete;
     LaminatingIntent &operator=(const LaminatingIntent &) = delete;
@@ -47,11 +49,11 @@ public:
     LaminatingIntent &operator=(LaminatingIntent &&) = delete;
     ~LaminatingIntent() = default;
 
+    IntentSP cloneTo(const DocumentSP &document) const override;
+
     Side surface() const;
 
     void setSurface(Side surface);
-
-    static LaminatingIntentSP create(const DocumentSP &document);
 
     static LaminatingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
@@ -60,6 +62,7 @@ signals:
 
 protected:
     explicit LaminatingIntent();
+    static LaminatingIntentSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

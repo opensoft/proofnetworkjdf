@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/deliveryparams.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/dropitem.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
@@ -43,6 +44,13 @@ class DeliveryParamsPrivate : public ResourcePrivate
 
 using namespace Proof;
 using namespace Proof::XJdf;
+
+ResourceSP DeliveryParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = create(document);
+    newParams->setItems(items());
+    return std::move(newParams);
+}
 
 QDateTime DeliveryParams::required() const
 {
@@ -72,7 +80,11 @@ void DeliveryParams::setItems(const QVector<DropItemSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->product() != d->items[i]->product() || arg[i]->amount() != d->items[i]->amount();
     if (emitNeeded) {
-        d->items = arg;
+        d->items = algorithms::map(arg, [&d](const auto &item) {
+            auto newItem = d->document.toStrongRef()->createNode<DropItem>();
+            newItem->updateFrom(item);
+            return newItem;
+        });
         emit itemsChanged(arg);
     }
 }

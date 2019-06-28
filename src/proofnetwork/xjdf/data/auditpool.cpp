@@ -27,6 +27,7 @@
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include "proofnetwork/xjdf/data/auditcreated.h"
 #include "proofnetwork/xjdf/data/auditnotification.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
@@ -49,6 +50,15 @@ using namespace Proof::XJdf;
 
 AuditPool::AuditPool() : AbstractNode(*new AuditPoolPrivate)
 {}
+
+AuditPoolSP AuditPool::cloneTo(const DocumentSP &document) const
+{
+    auto result = document->createNode<AuditPool>();
+    result->setCreated(created());
+    result->setNotifications(notifications());
+
+    return result;
+}
 
 AuditCreatedSP AuditPool::created() const
 {
@@ -124,7 +134,9 @@ void AuditPool::setCreated(const AuditCreatedSP &created)
     if (created == nullptr) {
         d->created.reset();
     } else if (d->created != created) {
-        d->created = created;
+        auto newCreated = d->document.toStrongRef()->createNode<AuditCreated>();
+        newCreated->updateFrom(created);
+        d->created = newCreated;
         emit createdChanged(d->created);
     }
 }
@@ -136,7 +148,11 @@ void AuditPool::setNotifications(const QVector<AuditNotificationSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->id() != d->notifications[i]->id();
     if (emitNeeded) {
-        d->notifications = arg;
+        d->notifications = algorithms::map(arg, [&d](const auto &notification) {
+            auto newNotification = d->document.toStrongRef()->createNode<AuditNotification>();
+            newNotification->updateFrom(notification);
+            return newNotification;
+        });
         emit notificationsChanged(d->notifications);
     }
 }

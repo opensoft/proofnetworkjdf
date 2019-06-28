@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/resourceset.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -44,6 +45,16 @@ class ResourceSetPrivate : public AbstractNodePrivate
 } // namespace Proof
 
 using namespace Proof::XJdf;
+
+ResourceSetSP ResourceSet::cloneTo(const DocumentSP &document) const
+{
+    auto newResourceSet = document->createNode<ResourceSet>();
+    newResourceSet->setResources(resources());
+    newResourceSet->setName(name());
+    newResourceSet->setUsage(usage());
+    newResourceSet->setCombinedProcessIndexes(combinedProcessIndexes());
+    return newResourceSet;
+}
 
 ResourceSet::ResourceSet() : AbstractNode(*new ResourceSetPrivate)
 {}
@@ -182,7 +193,10 @@ void ResourceSet::setResources(const QVector<ResourceSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->id() != d->resources[i]->id();
     if (emitNeeded) {
-        d->resources = arg;
+        d->resources = algorithms::map(arg, [&d](const auto &resource) {
+            auto newResource = resource->cloneTo(d->document.toStrongRef());
+            return newResource;
+        });
         emit resourcesChanged(d->resources);
     }
 }
@@ -192,7 +206,9 @@ void ResourceSet::addResource(const ResourceSP &arg)
     Q_D(ResourceSet);
     if (!arg)
         return;
-    d->resources << arg;
+    auto newResource = arg->cloneTo(d->document.toStrongRef());
+    newResource->updateFrom(arg);
+    d->resources << newResource;
     emit resourcesChanged(d->resources);
 }
 

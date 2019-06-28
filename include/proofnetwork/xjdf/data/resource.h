@@ -46,6 +46,8 @@ public:
     Resource &operator=(Resource &&) = delete;
     ~Resource() = default;
 
+    virtual ResourceSP cloneTo(const DocumentSP &document) = 0;
+
     QString id() const;
     ResourceOrientation orientation() const;
     QVector<PartSP> parts() const;

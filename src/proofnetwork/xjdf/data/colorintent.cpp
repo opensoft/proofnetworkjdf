@@ -44,6 +44,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+IntentSP ColorIntent::cloneTo(const DocumentSP &document) const
+{
+    auto newIntent = create(document);
+    newIntent->updateFrom(qSharedPointerCast<ColorIntent>(selfPtr()));
+    return std::move(newIntent);
+}
+
 QMap<Side, QVector<CoatingType>> ColorIntent::coatings() const
 {
     Q_D_CONST(ColorIntent);

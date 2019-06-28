@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/amountpool.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/partamount.h"
 
 namespace Proof {
@@ -51,6 +52,14 @@ QVector<PartAmountSP> AmountPool::parts() const
     return d->parts;
 }
 
+AmountPoolSP AmountPool::cloneTo(const DocumentSP &document) const
+{
+    auto result = document->createNode<AmountPool>();
+    result->setParts(parts());
+
+    return result;
+}
+
 void AmountPool::setParts(const QVector<PartAmountSP> &arg)
 {
     Q_D(AmountPool);
@@ -58,7 +67,11 @@ void AmountPool::setParts(const QVector<PartAmountSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->amount() != d->parts[i]->amount();
     if (emitNeeded) {
-        d->parts = arg;
+        d->parts = algorithms::map(arg, [&d](const auto &part) {
+            auto newPart = d->document.toStrongRef()->createNode<PartAmount>();
+            newPart->updateFrom(part);
+            return newPart;
+        });
         emit partsChanged(d->parts);
     }
 }

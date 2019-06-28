@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT CuttingParams : public Resource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CuttingParams)
+    friend Document;
+
 public:
     CuttingParams(const CuttingParams &) = delete;
     CuttingParams &operator=(const CuttingParams &) = delete;
@@ -45,10 +47,10 @@ public:
     CuttingParams &operator=(CuttingParams &&) = delete;
     ~CuttingParams() = default;
 
+    ResourceSP cloneTo(const DocumentSP &document) override;
+
     QVector<CutBlockSP> cutBlocks() const;
     void setCutBlocks(const QVector<CutBlockSP> &arg);
-
-    static CuttingParamsSP create(const DocumentSP &document);
 
     static CuttingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
@@ -58,6 +60,8 @@ signals:
 
 protected:
     explicit CuttingParams();
+
+    static CuttingParamsSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

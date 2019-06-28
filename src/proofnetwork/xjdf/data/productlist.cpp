@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/productlist.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/product.h"
 
 namespace Proof {
@@ -41,7 +42,15 @@ class ProductListPrivate : public AbstractNodePrivate
 } // namespace XJdf
 } // namespace Proof
 
+using namespace Proof;
 using namespace Proof::XJdf;
+
+ProductListSP ProductList::cloneTo(const DocumentSP &document) const
+{
+    auto newProductList = document->createNode<ProductList>();
+    newProductList->setProducts(products());
+    return newProductList;
+}
 
 ProductList::ProductList() : AbstractNode(*new ProductListPrivate)
 {}
@@ -110,7 +119,11 @@ void ProductList::setProducts(const QVector<ProductSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->id() != d->products[i]->id();
     if (emitNeeded) {
-        d->products = arg;
+        d->products = algorithms::map(arg, [&d](const auto &product) {
+            auto newProduct = product->cloneTo(d->document.toStrongRef());
+            newProduct->updateFrom(product);
+            return newProduct;
+        });
         emit productsChanged(arg);
     }
 }
@@ -120,7 +133,8 @@ void ProductList::addProduct(const ProductSP &arg)
     Q_D(ProductList);
     if (!arg)
         return;
-    d->products << arg;
+    auto newProduct = arg->cloneTo(d->document.toStrongRef());
+    d->products << newProduct;
     emit productsChanged(d->products);
 }
 

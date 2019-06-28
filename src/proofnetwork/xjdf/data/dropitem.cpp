@@ -68,7 +68,7 @@ ProductSP DropItem::product() const
         if (d->lazyProduct)
             return d->lazyProduct;
     }
-    auto dummy = Product::create(document, d->productId);
+    auto dummy = document->createNode<Product>(d->productId);
     return dummy;
 }
 

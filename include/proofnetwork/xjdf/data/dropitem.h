@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT DropItem : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DropItem)
+    friend Document;
+
 public:
     DropItem(const DropItem &) = delete;
     DropItem &operator=(const DropItem &) = delete;
@@ -51,8 +53,6 @@ public:
     void setAmount(qulonglong arg);
     void updateProduct(const QString &arg);
 
-    static DropItemSP create(const DocumentSP &document);
-
     static DropItemSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -62,6 +62,7 @@ signals:
 
 protected:
     explicit DropItem();
+    static DropItemSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

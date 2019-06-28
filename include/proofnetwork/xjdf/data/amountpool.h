@@ -39,6 +39,8 @@ class PROOF_NETWORK_XJDF_EXPORT AmountPool : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AmountPool)
+    friend Document;
+
 public:
     AmountPool(const AmountPool &) = delete;
     AmountPool &operator=(const AmountPool &) = delete;
@@ -47,10 +49,9 @@ public:
     ~AmountPool() = default;
 
     QVector<PartAmountSP> parts() const;
+    AmountPoolSP cloneTo(const DocumentSP &document) const;
 
     void setParts(const QVector<PartAmountSP> &arg);
-
-    static AmountPoolSP create(const DocumentSP &document);
 
     static AmountPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
@@ -60,6 +61,7 @@ signals:
 
 protected:
     explicit AmountPool();
+    static AmountPoolSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

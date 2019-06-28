@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/product.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/intent.h"
 
 namespace Proof {
@@ -49,6 +50,13 @@ public:
 
 using namespace Proof;
 using namespace Proof::XJdf;
+
+ProductSP Product::cloneTo(const DocumentSP &document) const
+{
+    auto newProduct = document->createNode<Product>(id());
+    newProduct->setIntents(intents());
+    return newProduct;
+}
 
 QString Product::id() const
 {
@@ -134,7 +142,10 @@ void Product::setType(ProductType arg)
 void Product::setIntents(const QVector<IntentSP> &arg)
 {
     Q_D(Product);
-    d->intents = arg;
+    d->intents = algorithms::map(arg, [&d](const auto &intent) {
+        auto newIntent = intent->cloneTo(d->document.toStrongRef());
+        return newIntent;
+    });
     emit intentsChanged(arg);
 }
 

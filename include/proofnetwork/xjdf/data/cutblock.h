@@ -44,6 +44,8 @@ class PROOF_NETWORK_XJDF_EXPORT CutBlock : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(CutBlock)
+    friend Document;
+
 public:
     CutBlock(const CutBlock &) = delete;
     CutBlock &operator=(const CutBlock &) = delete;
@@ -63,8 +65,6 @@ public:
     void setX(double arg);
     void setY(double arg);
 
-    static CutBlockSP create(const DocumentSP &document, const QString &blockName = QString());
-
     static CutBlockSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -77,6 +77,7 @@ signals:
 
 protected:
     explicit CutBlock(const QString &blockName = QString());
+    static CutBlockSP create(const DocumentSP &document, const QString &blockName = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

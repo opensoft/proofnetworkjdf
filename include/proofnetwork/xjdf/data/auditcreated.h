@@ -37,6 +37,8 @@ class PROOF_NETWORK_XJDF_EXPORT AuditCreated : public AuditItemBase
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditCreated)
+    friend Document;
+
 public:
     AuditCreated(const AuditCreated &) = delete;
     AuditCreated &operator=(const AuditCreated &) = delete;
@@ -50,8 +52,6 @@ public:
     void setTemplateId(const QString &arg);
     void setTemplateVersion(const QString &arg);
 
-    static AuditCreatedSP create(const DocumentSP &document);
-
     static AuditCreatedSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -61,6 +61,7 @@ signals:
 
 protected:
     explicit AuditCreated();
+    static AuditCreatedSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

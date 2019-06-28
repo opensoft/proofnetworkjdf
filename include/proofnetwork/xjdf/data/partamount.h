@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT PartAmount : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(PartAmount)
+    friend Document;
+
 public:
     PartAmount(const PartAmount &) = delete;
     PartAmount &operator=(const PartAmount &) = delete;
@@ -48,8 +50,6 @@ public:
     qulonglong amount() const;
     void setAmount(qulonglong arg);
 
-    static PartAmountSP create(const DocumentSP &document);
-
     static PartAmountSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -58,6 +58,7 @@ signals:
 
 protected:
     explicit PartAmount();
+    static PartAmountSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

@@ -37,6 +37,8 @@ class PROOF_NETWORK_XJDF_EXPORT ProductList : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ProductList)
+    friend Document;
+
 public:
     ProductList(const ProductList &) = delete;
     ProductList &operator=(const ProductList &) = delete;
@@ -44,12 +46,12 @@ public:
     ProductList &operator=(ProductList &&) = delete;
     ~ProductList() = default;
 
+    ProductListSP cloneTo(const DocumentSP &document) const;
+
     QVector<ProductSP> products() const;
 
     void setProducts(const QVector<ProductSP> &arg);
     void addProduct(const ProductSP &arg);
-
-    static ProductListSP create(const DocumentSP &document);
 
     static ProductListSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
@@ -59,6 +61,7 @@ signals:
 
 protected:
     explicit ProductList();
+    static ProductListSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

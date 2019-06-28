@@ -38,12 +38,16 @@ class PROOF_NETWORK_XJDF_EXPORT Media : public Resource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Media)
+    friend Document;
+
 public:
     Media(const Media &) = delete;
     Media &operator=(const Media &) = delete;
     Media(Media &&) = delete;
     Media &operator=(Media &&) = delete;
     ~Media() = default;
+
+    ResourceSP cloneTo(const DocumentSP &document) override;
 
     double width() const;
     double height() const;
@@ -59,8 +63,6 @@ public:
     void setType(MediaType arg);
     void setLayers(const QVector<MediaSP> &arg);
 
-    static MediaSP create(const DocumentSP &document, const QString &id = QString());
-
     static MediaSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -74,6 +76,7 @@ signals:
 
 protected:
     explicit Media(const QString &id);
+    static MediaSP create(const DocumentSP &document, const QString &id = QString());
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

@@ -46,6 +46,8 @@ public:
     Intent &operator=(Intent &&) = delete;
     ~Intent() = default;
 
+    virtual IntentSP cloneTo(const DocumentSP &document) const = 0;
+
     QString name() const;
     void setName(const QString &arg);
 

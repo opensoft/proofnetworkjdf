@@ -39,6 +39,8 @@ class PROOF_NETWORK_XJDF_EXPORT AuditPool : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(AuditPool)
+    friend Document;
+
 public:
     AuditPool(const AuditPool &) = delete;
     AuditPool &operator=(const AuditPool &) = delete;
@@ -46,13 +48,13 @@ public:
     AuditPool &operator=(AuditPool &&) = delete;
     ~AuditPool() = default;
 
+    AuditPoolSP cloneTo(const DocumentSP &document) const;
+
     AuditCreatedSP created() const;
     QVector<AuditNotificationSP> notifications() const;
 
     void setCreated(const AuditCreatedSP &created);
     void setNotifications(const QVector<AuditNotificationSP> &arg);
-
-    static AuditPoolSP create(const DocumentSP &document);
 
     static AuditPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
@@ -63,6 +65,7 @@ signals:
 
 protected:
     explicit AuditPool();
+    static AuditPoolSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

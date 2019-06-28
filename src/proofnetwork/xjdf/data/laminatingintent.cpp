@@ -44,6 +44,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+IntentSP LaminatingIntent::cloneTo(const DocumentSP &document) const
+{
+    auto newIntent = create(document);
+    newIntent->updateFrom(qSharedPointerCast<LaminatingIntent>(selfPtr()));
+    return std::move(newIntent);
+}
+
 Side LaminatingIntent::surface() const
 {
     Q_D_CONST(LaminatingIntent);

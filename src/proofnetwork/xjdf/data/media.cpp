@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/media.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -48,6 +49,13 @@ public:
 
 using namespace Proof;
 using namespace Proof::XJdf;
+
+ResourceSP Media::cloneTo(const DocumentSP &document)
+{
+    auto newMedia = create(document);
+    newMedia->setLayers(layers());
+    return std::move(newMedia);
+}
 
 double Media::width() const
 {
@@ -133,7 +141,11 @@ void Media::setLayers(const QVector<MediaSP> &arg)
 {
     Q_D(Media);
     if (d->layers != arg) {
-        d->layers = arg;
+        d->layers = algorithms::map(arg, [&d](const auto &media) {
+            auto newMedia = d->document.toStrongRef()->createNode<Media>();
+            newMedia->updateFrom(media);
+            return newMedia;
+        });
         emit layersChanged(d->layers);
     }
 }
