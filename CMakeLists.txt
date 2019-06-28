@@ -122,7 +122,8 @@ proof_add_target_sources(NetworkXJdf
     src/proofnetwork/xjdf/data/media.cpp
     src/proofnetwork/xjdf/data/part.cpp
     src/proofnetwork/xjdf/data/partamount.cpp
-     src/proofnetwork/xjdf/data/dropitem.cpp
+    src/proofnetwork/xjdf/data/partwaste.cpp
+    src/proofnetwork/xjdf/data/dropitem.cpp
 )
 
 proof_add_target_headers(NetworkJdf
@@ -241,6 +242,7 @@ proof_add_target_headers(NetworkXJdf
     include/proofnetwork/xjdf/data/media.h
     include/proofnetwork/xjdf/data/part.h
     include/proofnetwork/xjdf/data/partamount.h
+    include/proofnetwork/xjdf/data/partwaste.h
     include/proofnetwork/xjdf/data/dropitem.h
 
 )

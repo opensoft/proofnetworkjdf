@@ -73,6 +73,12 @@ uint qHash(MediaType arg, uint seed)
 {
     return ::qHash(static_cast<int>(arg), seed);
 }
+
+uint qHash(WasteDetails arg, uint seed)
+{
+    return ::qHash(static_cast<int>(arg), seed);
+}
+
 template <typename T>
 using StringDict = QHash<QString, T>;
 template <typename T>
@@ -233,6 +239,23 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<MediaType>, MEDIA_TYPE_STRINGIFIED,
                             {"ShrinkFoil", MediaType::ShrinkFoil},
                             {"Sleeve", MediaType::Sleeve}}))
 
+// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
+Q_GLOBAL_STATIC_WITH_ARGS(StringDict<WasteDetails>, WASTE_DETAILS_STRINGIFIED,
+                          ({{"", WasteDetails::NoWasteDetails},
+                            {"AuxiliarySheet", WasteDetails::AuxiliarySheet},
+                            {"BadFeedWaste", WasteDetails::BadFeedWaste},
+                            {"BindingQualityTest", WasteDetails::BindingQualityTest},
+                            {"CaliperWaste", WasteDetails::CaliperWaste},
+                            {"DoubleFeedWaste", WasteDetails::DoubleFeedWaste},
+                            {"IncorrectComponentWaste", WasteDetails::IncorrectComponentWaste},
+                            {"ObliqueSheetWaste", WasteDetails::ObliqueSheetWaste},
+                            {"Overrun", WasteDetails::Overrun},
+                            {"PaperJamWaste", WasteDetails::PaperJamWaste},
+                            {"Rejected", WasteDetails::Rejected},
+                            {"Reusable", WasteDetails::Reusable},
+                            {"Waste", WasteDetails::Waste},
+                            {"WhitePaperWaste", WasteDetails::WhitePaperWaste}}))
+
 ProcessType processTypeFromString(const QString &processType)
 {
     return PROCESS_TYPE_STRINGIFIED->value(processType, ProcessType::NoProcessType);
@@ -361,6 +384,16 @@ QString mediaTypeToString(MediaType type)
 MediaType mediaTypeFromString(const QString &type)
 {
     return MEDIA_TYPE_STRINGIFIED->value(type, MediaType::NoMediaType);
+}
+
+QString wasteDetailsToString(WasteDetails details)
+{
+    return WASTE_DETAILS_STRINGIFIED->key(details, QString());
+}
+
+WasteDetails wasteDetailsFromString(const QString &type)
+{
+    return WASTE_DETAILS_STRINGIFIED->value(type, WasteDetails::NoWasteDetails);
 }
 
 } // namespace XJdf

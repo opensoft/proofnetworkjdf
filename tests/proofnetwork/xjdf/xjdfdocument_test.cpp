@@ -18,6 +18,7 @@
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/part.h"
 #include "proofnetwork/xjdf/data/partamount.h"
+#include "proofnetwork/xjdf/data/partwaste.h"
 #include "proofnetwork/xjdf/data/product.h"
 #include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
@@ -244,10 +245,21 @@ TEST_F(DocumentTest, toXJdf)
 
     auto resourceSet7 = xjdfDocNew->resourceSets()[6];
     EXPECT_EQ("Component", resourceSet7->name());
-    ASSERT_FALSE(resourceSet7->resources().count());
+    ASSERT_TRUE(resourceSet7->resources().count());
     ASSERT_EQ(1, resourceSet7->combinedProcessIndexes().count());
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
+
+    auto component3 = resourceSet7->resourcesByType<Component>().first();
+    ASSERT_TRUE(component3);
+    ASSERT_EQ(1, component3->amountPool()->parts().count());
+    auto partAmount = component3->amountPool()->parts().first();
+    EXPECT_EQ(30, partAmount->amount());
+    ASSERT_EQ(1, partAmount->parts().count());
+    EXPECT_EQ("ProductInfo_3", partAmount->parts().first()->productPart());
+    ASSERT_EQ(1, partAmount->partsWaste().count());
+    EXPECT_EQ(10, partAmount->partsWaste().first()->waste());
+    EXPECT_EQ(WasteDetails::Overrun, partAmount->partsWaste().first()->wasteDetails());
 
     auto resourceSet8 = xjdfDocNew->resourceSets()[7];
     EXPECT_EQ("FoldingParams", resourceSet8->name());
@@ -653,10 +665,21 @@ TEST_F(DocumentTest, fromXJdf)
 
     auto resourceSet7 = xjdfDocUT->resourceSets()[6];
     EXPECT_EQ("Component", resourceSet7->name());
-    ASSERT_FALSE(resourceSet7->resources().count());
+    ASSERT_EQ(1, resourceSet7->resources().count());
     ASSERT_EQ(1, resourceSet7->combinedProcessIndexes().count());
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
+
+    auto component3 = resourceSet7->resourcesByType<Component>().first();
+    ASSERT_TRUE(component3);
+    ASSERT_EQ(1, component3->amountPool()->parts().count());
+    auto partAmount = component3->amountPool()->parts().first();
+    EXPECT_EQ(30, partAmount->amount());
+    ASSERT_EQ(1, partAmount->parts().count());
+    EXPECT_EQ("ProductInfo_3", partAmount->parts().first()->productPart());
+    ASSERT_EQ(1, partAmount->partsWaste().count());
+    EXPECT_EQ(10, partAmount->partsWaste().first()->waste());
+    EXPECT_EQ(WasteDetails::Overrun, partAmount->partsWaste().first()->wasteDetails());
 
     auto resourceSet8 = xjdfDocUT->resourceSets()[7];
     EXPECT_EQ("FoldingParams", resourceSet8->name());

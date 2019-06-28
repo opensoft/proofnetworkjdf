@@ -25,6 +25,8 @@
 #include "proofnetwork/xjdf/data/partamount.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/part.h"
+#include "proofnetwork/xjdf/data/partwaste.h"
 
 namespace Proof {
 namespace XJdf {
@@ -36,6 +38,8 @@ public:
     PartAmountPrivate() = default;
 
     qulonglong amount = 0;
+    QVector<PartSP> parts;
+    QVector<PartWasteSP> partsWaste;
 };
 
 } // namespace XJdf
@@ -50,12 +54,50 @@ qulonglong PartAmount::amount() const
     return d->amount;
 }
 
+QVector<PartSP> PartAmount::parts() const
+{
+    Q_D_CONST(PartAmount);
+    return d->parts;
+}
+
+QVector<PartWasteSP> PartAmount::partsWaste() const
+{
+    Q_D_CONST(PartAmount);
+    return d->partsWaste;
+}
+
 void PartAmount::setAmount(qulonglong arg)
 {
     Q_D(PartAmount);
     if (arg != d->amount) {
         d->amount = arg;
         emit amountChanged(arg);
+    }
+}
+
+void PartAmount::setParts(const QVector<PartSP> &arg)
+{
+    Q_D(PartAmount);
+    bool emitNeeded = arg.count() != d->parts.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->blockName() != d->parts[i]->blockName()
+                     || arg[i]->productPart() != d->parts[i]->productPart();
+    if (emitNeeded) {
+        d->parts = arg;
+        emit partsChanged(arg);
+    }
+}
+
+void PartAmount::setPartsWaste(const QVector<PartWasteSP> &arg)
+{
+    Q_D(PartAmount);
+    bool emitNeeded = arg.count() != d->partsWaste.count();
+    for (int i = 0; i < arg.count() && !emitNeeded; ++i)
+        emitNeeded = arg[i]->waste() != d->partsWaste[i]->waste()
+                     || arg[i]->wasteDetails() != d->partsWaste[i]->wasteDetails();
+    if (emitNeeded) {
+        d->partsWaste = arg;
+        emit partsWasteChanged(arg);
     }
 }
 
@@ -68,18 +110,40 @@ PartAmountSP PartAmount::create()
 
 PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    PartAmountSP part;
+    PartAmountSP partAmount;
+    QVector<PartSP> parts;
+    QVector<PartWasteSP> partsWaste;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
-        part = create();
-        part->d_func()->document = document;
-        part->setFetched(true);
+        partAmount = create();
+        partAmount->d_func()->document = document;
+        partAmount->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Amount")))
-            part->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
+            partAmount->setAmount(attributes.value(QStringLiteral("Amount")).toULongLong());
+
+        while (!reader.atEnd() && !reader.hasError()) {
+            if (reader.isStartElement() && reader.name() == QStringLiteral("Part")) {
+                auto part = Part::fromXJdf(reader, document);
+                if (part)
+                    parts << part;
+            } else if (reader.isStartElement() && reader.name() == QStringLiteral("PartWaste")) {
+                auto partWaste = PartWaste::fromXJdf(reader, document);
+                if (partWaste)
+                    partsWaste << partWaste;
+            } else if (reader.isEndElement() && reader.name() == QStringLiteral("PartAmount")) {
+                break;
+            }
+            reader.readNext();
+        }
     }
-    reader.skipCurrentElement();
-    return part;
+
+    if (partAmount) {
+        partAmount->setParts(parts);
+        partAmount->setPartsWaste(partsWaste);
+    }
+
+    return partAmount;
 }
 
 void PartAmount::toXJdf(QXmlStreamWriter &writer) const
@@ -87,6 +151,10 @@ void PartAmount::toXJdf(QXmlStreamWriter &writer) const
     Q_D_CONST(PartAmount);
     writer.writeStartElement(QStringLiteral("PartAmount"));
     writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
+    for (const auto &part : d->parts)
+        part->toXJdf(writer);
+    for (const auto &partWaste : d->partsWaste)
+        partWaste->toXJdf(writer);
     writer.writeEndElement();
 }
 
@@ -97,5 +165,7 @@ void PartAmount::updateSelf(const NetworkDataEntitySP &other)
 {
     PartAmountSP castedOther = qSharedPointerCast<PartAmount>(other);
     setAmount(castedOther->amount());
+    setParts(castedOther->parts());
+    setPartsWaste(castedOther->partsWaste());
     AbstractNode::updateSelf(other);
 }
