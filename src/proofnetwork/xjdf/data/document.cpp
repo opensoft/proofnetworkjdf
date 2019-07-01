@@ -148,8 +148,7 @@ void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
     Q_D(Document);
     if (arg != d->resourceSets) {
         d->resourceSets = algorithms::map(arg, [&d](const auto &e) {
-            auto newResourceSet = d->document.toStrongRef()->createNode<ResourceSet>();
-            newResourceSet->updateFrom(e);
+            auto newResourceSet = e->cloneTo(d->document.toStrongRef());
             return newResourceSet;
         });
         emit resourceSetsChanged(arg);
