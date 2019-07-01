@@ -121,10 +121,9 @@ void ProductList::setProducts(const QVector<ProductSP> &arg)
     if (emitNeeded) {
         d->products = algorithms::map(arg, [&d](const auto &product) {
             auto newProduct = product->cloneTo(d->document.toStrongRef());
-            newProduct->updateFrom(product);
             return newProduct;
         });
-        emit productsChanged(arg);
+        emit productsChanged(d->products);
     }
 }
 

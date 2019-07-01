@@ -80,7 +80,7 @@ void Media::setWidth(double arg)
     Q_D(Media);
     if (!qFuzzyCompare(arg, d->width)) {
         d->width = arg;
-        emit widthChanged(arg);
+        emit widthChanged(d->width);
     }
 }
 
@@ -89,7 +89,7 @@ void Media::setHeight(double arg)
     Q_D(Media);
     if (!qFuzzyCompare(arg, d->height)) {
         d->height = arg;
-        emit heightChanged(arg);
+        emit heightChanged(d->height);
     }
 }
 void Media::setThickness(double arg)
@@ -97,7 +97,7 @@ void Media::setThickness(double arg)
     Q_D(Media);
     if (!qFuzzyCompare(arg, d->thickness)) {
         d->thickness = arg;
-        emit thicknessChanged(arg);
+        emit thicknessChanged(d->thickness);
     }
 }
 
@@ -124,7 +124,7 @@ void Media::setUnit(MediaUnit arg)
     Q_D(Media);
     if (d->unit != arg) {
         d->unit = arg;
-        emit unitChanged(arg);
+        emit unitChanged(d->unit);
     }
 }
 
@@ -133,7 +133,7 @@ void Media::setType(MediaType arg)
     Q_D(Media);
     if (d->type != arg) {
         d->type = arg;
-        emit typeChanged(arg);
+        emit typeChanged(d->type);
     }
 }
 

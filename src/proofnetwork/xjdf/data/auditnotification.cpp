@@ -55,7 +55,7 @@ void AuditNotification::setSeverityClass(Severity arg)
     Q_D(AuditNotification);
     if (arg != d->severityClass) {
         d->severityClass = arg;
-        emit severityClassChanged(arg);
+        emit severityClassChanged(d->severityClass);
     }
 }
 

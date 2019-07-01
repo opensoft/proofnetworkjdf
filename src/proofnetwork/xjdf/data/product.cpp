@@ -99,7 +99,7 @@ void Product::setId(const QString &arg)
     Q_D(Product);
     if (arg != d->id) {
         d->id = arg;
-        emit idChanged(arg);
+        emit idChanged(d->id);
     }
 }
 
@@ -117,7 +117,7 @@ void Product::setAmount(qulonglong arg)
     Q_D(Product);
     if (arg != d->amount) {
         d->amount = arg;
-        emit amountChanged(arg);
+        emit amountChanged(d->amount);
     }
 }
 
@@ -126,7 +126,7 @@ void Product::setRoot(bool arg)
     Q_D(Product);
     if (arg != d->isRoot) {
         d->isRoot = arg;
-        emit isRootChanged(arg);
+        emit isRootChanged(d->isRoot);
     }
 }
 
@@ -135,7 +135,7 @@ void Product::setType(ProductType arg)
     Q_D(Product);
     if (arg != d->type) {
         d->type = arg;
-        emit typeChanged(arg);
+        emit typeChanged(d->type);
     }
 }
 
@@ -146,7 +146,7 @@ void Product::setIntents(const QVector<IntentSP> &arg)
         auto newIntent = intent->cloneTo(d->document.toStrongRef());
         return newIntent;
     });
-    emit intentsChanged(arg);
+    emit intentsChanged(d->intents);
 }
 
 ProductSP Product::create(const DocumentSP &document, const QString &id)

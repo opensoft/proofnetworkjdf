@@ -68,7 +68,7 @@ void BoxPackingParams::setBoxType(BoxType arg)
     Q_D(BoxPackingParams);
     if (arg != d->boxType) {
         d->boxType = arg;
-        emit boxTypeChanged(arg);
+        emit boxTypeChanged(d->boxType);
     }
 }
 
@@ -77,7 +77,7 @@ void BoxPackingParams::setBoxTypeDetails(const QString &arg)
     Q_D(BoxPackingParams);
     if (arg != d->boxTypeDetails) {
         d->boxTypeDetails = arg;
-        emit boxTypeDetailsChanged(arg);
+        emit boxTypeDetailsChanged(d->boxTypeDetails);
     }
 }
 

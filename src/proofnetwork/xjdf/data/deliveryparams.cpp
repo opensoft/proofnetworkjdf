@@ -69,7 +69,7 @@ void DeliveryParams::setRequired(const QDateTime &arg)
     Q_D(DeliveryParams);
     if (d->required != arg) {
         d->required = arg;
-        emit requiredChanged(arg);
+        emit requiredChanged(d->required);
     }
 }
 
@@ -85,7 +85,7 @@ void DeliveryParams::setItems(const QVector<DropItemSP> &arg)
             newItem->updateFrom(item);
             return newItem;
         });
-        emit itemsChanged(arg);
+        emit itemsChanged(d->items);
     }
 }
 

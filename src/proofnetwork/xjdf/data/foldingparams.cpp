@@ -93,7 +93,7 @@ void FoldingParams::setFoldingDetails(const QString &arg)
     Q_D(FoldingParams);
     if (arg != d->foldingDetails) {
         d->foldingDetails = arg;
-        emit foldingDetailsChanged(arg);
+        emit foldingDetailsChanged(d->foldingDetails);
     }
 }
 

@@ -129,7 +129,7 @@ void Component::setWidth(double arg)
     Q_D(Component);
     if (!qFuzzyCompare(arg, d->width)) {
         d->width = arg;
-        emit widthChanged(arg);
+        emit widthChanged(d->width);
     }
 }
 
@@ -138,7 +138,7 @@ void Component::setHeight(double arg)
     Q_D(Component);
     if (!qFuzzyCompare(arg, d->height)) {
         d->height = arg;
-        emit heightChanged(arg);
+        emit heightChanged(d->height);
     }
 }
 void Component::setThickness(double arg)
@@ -146,7 +146,7 @@ void Component::setThickness(double arg)
     Q_D(Component);
     if (!qFuzzyCompare(arg, d->thickness)) {
         d->thickness = arg;
-        emit thicknessChanged(arg);
+        emit thicknessChanged(d->thickness);
     }
 }
 

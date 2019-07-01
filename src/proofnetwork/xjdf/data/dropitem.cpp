@@ -77,7 +77,7 @@ void Proof::XJdf::DropItem::setAmount(qulonglong arg)
     Q_D(DropItem);
     if (arg && arg != d->amount) {
         d->amount = arg;
-        emit amountChanged(arg);
+        emit amountChanged(d->amount);
     }
 }
 

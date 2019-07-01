@@ -64,7 +64,7 @@ void AuditItemBase::setAgentName(const QString &arg)
     Q_D(AuditItemBase);
     if (arg != d->agentName) {
         d->agentName = arg;
-        emit agentNameChanged(arg);
+        emit agentNameChanged(d->agentName);
     }
 }
 
@@ -73,7 +73,7 @@ void AuditItemBase::setAgentVersion(const QString &arg)
     Q_D(AuditItemBase);
     if (arg != d->agentVersion) {
         d->agentVersion = arg;
-        emit agentVersionChanged(arg);
+        emit agentVersionChanged(d->agentVersion);
     }
 }
 
@@ -82,7 +82,7 @@ void AuditItemBase::setTimestamp(const QDateTime &arg)
     Q_D(AuditItemBase);
     if (arg != d->timestamp) {
         d->timestamp = arg;
-        emit timestampChanged(arg);
+        emit timestampChanged(d->timestamp);
     }
 }
 
@@ -91,7 +91,7 @@ void AuditItemBase::setId(const QString &arg)
     Q_D(AuditItemBase);
     if (arg != d->id) {
         d->id = arg;
-        emit idChanged(arg);
+        emit idChanged(d->id);
     }
 }
 
@@ -100,7 +100,7 @@ void AuditItemBase::setDeviceId(const QString &arg)
     Q_D(AuditItemBase);
     if (arg != d->deviceId) {
         d->deviceId = arg;
-        emit deviceIdChanged(arg);
+        emit deviceIdChanged(d->deviceId);
     }
 }
 

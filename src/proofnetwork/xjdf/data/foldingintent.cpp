@@ -62,7 +62,7 @@ void FoldingIntent::setFoldCatalog(FoldType arg)
     Q_D(FoldingIntent);
     if (arg != d->foldingCatalog) {
         d->foldingCatalog = arg;
-        emit foldCatalogChanged(arg);
+        emit foldCatalogChanged(d->foldingCatalog);
     }
 }
 

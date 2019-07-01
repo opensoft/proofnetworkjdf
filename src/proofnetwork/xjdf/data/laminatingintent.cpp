@@ -62,7 +62,7 @@ void LaminatingIntent::setSurface(Side surface)
     Q_D(LaminatingIntent);
     if (d->surface != surface) {
         d->surface = surface;
-        emit surfaceChanged(surface);
+        emit surfaceChanged(d->surface);
     }
 }
 

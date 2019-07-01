@@ -70,7 +70,7 @@ void CuttingParams::setCutBlocks(const QVector<CutBlockSP> &arg)
             newCutBlock->updateFrom(cutBlock);
             return newCutBlock;
         });
-        emit cutBlocksChanged(arg);
+        emit cutBlocksChanged(d->blocks);
     }
 }
 

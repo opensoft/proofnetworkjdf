@@ -61,7 +61,7 @@ void AuditCreated::setTemplateId(const QString &arg)
     Q_D(AuditCreated);
     if (arg != d->templateId) {
         d->templateId = arg;
-        emit templateIdChanged(arg);
+        emit templateIdChanged(d->templateId);
     }
 }
 
@@ -70,7 +70,7 @@ void AuditCreated::setTemplateVersion(const QString &arg)
     Q_D(AuditCreated);
     if (arg != d->templateVersion) {
         d->templateVersion = arg;
-        emit templateVersionChanged(arg);
+        emit templateVersionChanged(d->templateVersion);
     }
 }
 

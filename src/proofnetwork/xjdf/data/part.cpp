@@ -68,7 +68,7 @@ void Part::setProductPart(const QString &arg)
     Q_D(Part);
     if (arg != d->productPart) {
         d->productPart = arg;
-        emit productPartChanged(arg);
+        emit productPartChanged(d->productPart);
     }
 }
 
@@ -77,7 +77,7 @@ void Part::setBlockName(const QString &arg)
     Q_D(Part);
     if (arg != d->blockName) {
         d->blockName = arg;
-        emit blockNameChanged(arg);
+        emit blockNameChanged(d->blockName);
     }
 }
 

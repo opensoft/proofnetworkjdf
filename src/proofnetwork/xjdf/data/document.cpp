@@ -151,7 +151,7 @@ void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
             auto newResourceSet = e->cloneTo(d->document.toStrongRef());
             return newResourceSet;
         });
-        emit resourceSetsChanged(arg);
+        emit resourceSetsChanged(d->resourceSets);
     }
 }
 
@@ -168,7 +168,7 @@ void Document::setNamespaces(const QVector<QPair<QString, QString>> &arg)
     Q_D(Document);
     if (arg != d->namespaces) {
         d->namespaces = arg;
-        emit namespacesChanged(arg);
+        emit namespacesChanged(d->namespaces);
     }
 }
 

@@ -55,7 +55,7 @@ void PartAmount::setAmount(qulonglong arg)
     Q_D(PartAmount);
     if (arg != d->amount) {
         d->amount = arg;
-        emit amountChanged(arg);
+        emit amountChanged(d->amount);
     }
 }
 

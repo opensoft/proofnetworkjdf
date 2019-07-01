@@ -70,7 +70,9 @@ QVector<PartSP> Resource::parts() const
 AmountPoolSP Resource::amountPool() const
 {
     Q_D_CONST(Resource);
-    return d->amountPool ? d->amountPool : d->document.toStrongRef()->createNode<AmountPool>();
+    if (!d->amountPool)
+        d->amountPool = d->document.toStrongRef()->createNode<AmountPool>();
+    return d->amountPool;
 }
 
 void Resource::setId(const QString &arg)
@@ -78,7 +80,7 @@ void Resource::setId(const QString &arg)
     Q_D(Resource);
     if (arg != d->id) {
         d->id = arg;
-        emit idChanged(arg);
+        emit idChanged(d->id);
     }
 }
 
@@ -87,7 +89,7 @@ void Resource::setOrientation(ResourceOrientation arg)
     Q_D(Resource);
     if (arg != d->orientation) {
         d->orientation = arg;
-        emit orientationChanged(arg);
+        emit orientationChanged(d->orientation);
     }
 }
 
@@ -104,7 +106,7 @@ void Resource::setParts(const QVector<PartSP> &arg)
             newPart->updateFrom(part);
             return newPart;
         });
-        emit partsChanged(arg);
+        emit partsChanged(d->parts);
     }
 }
 
@@ -115,7 +117,7 @@ void Resource::setAmountPool(const AmountPoolSP &arg)
         auto newPool = d->document.toStrongRef()->createNode<AmountPool>();
         newPool->updateFrom(arg);
         d->amountPool = newPool;
-        emit amountPoolChanged(arg);
+        emit amountPoolChanged(d->amountPool);
     }
 }
 

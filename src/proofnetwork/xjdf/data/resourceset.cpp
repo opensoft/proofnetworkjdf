@@ -88,7 +88,7 @@ void ResourceSet::setName(const QString &arg)
     Q_D(ResourceSet);
     if (d->name != arg) {
         d->name = arg;
-        emit nameChanged(arg);
+        emit nameChanged(d->name);
     }
 }
 
@@ -109,7 +109,7 @@ void ResourceSet::setUsage(UsageType arg)
     Q_D(ResourceSet);
     if (d->usage != arg) {
         d->usage = arg;
-        emit usageChanged(arg);
+        emit usageChanged(d->usage);
     }
 }
 
