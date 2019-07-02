@@ -48,7 +48,7 @@ IntentSP FoldingIntent::cloneTo(const DocumentSP &document) const
 {
     auto newIntent = create(document);
     newIntent->updateFrom(qSharedPointerCast<FoldingIntent>(selfPtr()));
-    return std::move(newIntent);
+    return qSharedPointerCast<Intent>(newIntent);
 }
 
 FoldType FoldingIntent::foldCatalog() const

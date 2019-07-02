@@ -58,7 +58,7 @@ ResourceSP FoldingParams::cloneTo(const DocumentSP &document)
 {
     auto newParams = document->createNode<FoldingParams>();
     newParams->updateFrom(qSharedPointerCast<FoldingParams>(selfPtr()));
-    return std::move(newParams);
+    return qSharedPointerCast<Resource>(newParams);
 }
 
 QString FoldingParams::foldCatalog() const

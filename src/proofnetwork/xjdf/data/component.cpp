@@ -55,7 +55,7 @@ ResourceSP Component::cloneTo(const DocumentSP &document)
 {
     auto newComponent = create(document);
     newComponent->updateFrom(qSharedPointerCast<Component>(selfPtr()));
-    return std::move(newComponent);
+    return qSharedPointerCast<Resource>(newComponent);
 }
 
 ComponentSP Component::create(const DocumentSP &document)

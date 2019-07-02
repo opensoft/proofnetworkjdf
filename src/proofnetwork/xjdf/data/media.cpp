@@ -54,7 +54,7 @@ ResourceSP Media::cloneTo(const DocumentSP &document)
 {
     auto newMedia = create(document);
     newMedia->updateFrom(qSharedPointerCast<Media>(selfPtr()));
-    return std::move(newMedia);
+    return qSharedPointerCast<Resource>(newMedia);
 }
 
 double Media::width() const

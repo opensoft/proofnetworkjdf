@@ -49,7 +49,7 @@ ResourceSP DeliveryParams::cloneTo(const DocumentSP &document)
 {
     auto newParams = create(document);
     newParams->updateFrom(qSharedPointerCast<DeliveryParams>(selfPtr()));
-    return std::move(newParams);
+    return qSharedPointerCast<Resource>(newParams);
 }
 
 QDateTime DeliveryParams::required() const

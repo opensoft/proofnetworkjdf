@@ -49,7 +49,7 @@ ResourceSP CuttingParams::cloneTo(const DocumentSP &document)
 {
     auto newParams = create(document);
     newParams->updateFrom(qSharedPointerCast<CuttingParams>(selfPtr()));
-    return std::move(newParams);
+    return qSharedPointerCast<Resource>(newParams);
 }
 
 QVector<CutBlockSP> CuttingParams::cutBlocks() const

@@ -48,7 +48,7 @@ IntentSP ColorIntent::cloneTo(const DocumentSP &document) const
 {
     auto newIntent = create(document);
     newIntent->updateFrom(qSharedPointerCast<ColorIntent>(selfPtr()));
-    return std::move(newIntent);
+    return qSharedPointerCast<Intent>(newIntent);
 }
 
 QMap<Side, QVector<CoatingType>> ColorIntent::coatings() const

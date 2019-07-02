@@ -48,7 +48,7 @@ IntentSP LaminatingIntent::cloneTo(const DocumentSP &document) const
 {
     auto newIntent = create(document);
     newIntent->updateFrom(qSharedPointerCast<LaminatingIntent>(selfPtr()));
-    return std::move(newIntent);
+    return qSharedPointerCast<Intent>(newIntent);
 }
 
 Side LaminatingIntent::surface() const

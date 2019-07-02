@@ -48,7 +48,7 @@ ResourceSP BoxPackingParams::cloneTo(const DocumentSP &document)
 {
     auto newParams = create(document);
     newParams->updateFrom(qSharedPointerCast<BoxPackingParams>(selfPtr()));
-    return std::move(newParams);
+    return qSharedPointerCast<Resource>(newParams);
 }
 
 BoxType BoxPackingParams::boxType() const
