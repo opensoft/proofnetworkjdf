@@ -150,7 +150,8 @@ void PartAmount::toXJdf(QXmlStreamWriter &writer) const
 {
     Q_D_CONST(PartAmount);
     writer.writeStartElement(QStringLiteral("PartAmount"));
-    writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
+    if (d->amount > 0)
+        writer.writeAttribute(QStringLiteral("Amount"), QString::number(d->amount));
     for (const auto &part : d->parts)
         part->toXJdf(writer);
     for (const auto &partWaste : d->partsWaste)
