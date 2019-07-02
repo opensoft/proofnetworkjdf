@@ -60,6 +60,12 @@ TEST_F(DocumentTest, misc)
     xjdfDocUT->setJobPartId("PART_ID");
     EXPECT_EQ("PART_ID", xjdfDocUT->jobPartId());
 
+    xjdfDocUT->setTypes({ProcessType::Cutting});
+    xjdfDocUT->addType(ProcessType::BoxPacking);
+    ASSERT_EQ(2, xjdfDocUT->types().count());
+    EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types().first());
+    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types().last());
+
     ASSERT_TRUE(xjdfDocUT->auditPool());
     auto auditPool = xjdfDocUT->auditPool();
     ASSERT_TRUE(auditPool->created());

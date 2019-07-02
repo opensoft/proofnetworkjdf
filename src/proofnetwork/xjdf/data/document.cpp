@@ -141,6 +141,13 @@ void Document::setTypes(const QVector<ProcessType> &arg)
     }
 }
 
+void Document::addType(ProcessType arg)
+{
+    Q_D(Document);
+    d->types.append(arg);
+    emit typesChanged(d->types);
+}
+
 void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
 {
     Q_D(Document);
