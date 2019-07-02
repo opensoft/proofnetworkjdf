@@ -57,7 +57,7 @@ void Intent::setName(const QString &arg)
     Q_D(Intent);
     if (arg != d->name) {
         d->name = arg;
-        emit nameChanged(arg);
+        emit nameChanged(d->name);
     }
 }
 

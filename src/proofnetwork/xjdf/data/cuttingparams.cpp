@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/cuttingparams.h"
 
 #include "proofnetwork/xjdf/data/cutblock.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -44,6 +45,13 @@ class CuttingParamsPrivate : public ResourcePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP CuttingParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = create(document);
+    newParams->updateFrom(qSharedPointerCast<CuttingParams>(selfPtr()));
+    return qSharedPointerCast<Resource>(newParams);
+}
+
 QVector<CutBlockSP> CuttingParams::cutBlocks() const
 {
     Q_D_CONST(CuttingParams);
@@ -57,14 +65,19 @@ void CuttingParams::setCutBlocks(const QVector<CutBlockSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->blockName() != d->blocks[i]->blockName();
     if (emitNeeded) {
-        d->blocks = arg;
-        emit cutBlocksChanged(arg);
+        d->blocks = algorithms::map(arg, [&d](const auto &cutBlock) {
+            auto newCutBlock = d->document.toStrongRef()->createNode<CutBlock>();
+            newCutBlock->updateFrom(cutBlock);
+            return newCutBlock;
+        });
+        emit cutBlocksChanged(d->blocks);
     }
 }
 
-CuttingParamsSP CuttingParams::create()
+CuttingParamsSP CuttingParams::create(const DocumentSP &document)
 {
     CuttingParamsSP result(new CuttingParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -74,8 +87,7 @@ CuttingParamsSP CuttingParams::fromXJdf(QXmlStreamReader &reader, const Document
     CuttingParamsSP params;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("CuttingParams")) {
-        params = create();
-        params->d_func()->document = document;
+        params = create(document);
 
         QVector<CutBlockSP> blocks;
         while (!reader.atEnd() && !reader.hasError()) {

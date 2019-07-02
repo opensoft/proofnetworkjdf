@@ -48,7 +48,6 @@ void AbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
     AbstractNodeSP castedOther = qSharedPointerCast<AbstractNode>(other);
 
-    d_func()->document = castedOther->d_func()->document;
     NetworkDataEntity::updateSelf(other);
 }
 
@@ -61,4 +60,9 @@ NodeWriterGuard::~NodeWriterGuard()
 {
     if (writer)
         writer->writeEndElement();
+}
+
+void AbstractNodePrivate::updateDocument(const DocumentSP &newDocument)
+{
+    document = newDocument;
 }

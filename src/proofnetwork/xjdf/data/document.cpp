@@ -41,8 +41,8 @@ class DocumentPrivate : public AbstractNodePrivate
 
     QString jobId;
     QString jobPartId;
-    AuditPoolSP auditPool = AuditPool::create();
-    ProductListSP productList = ProductList::create();
+    AuditPoolSP auditPool;
+    ProductListSP productList;
     QVector<ProcessType> types;
     QVector<ResourceSetSP> resourceSets;
     QVector<QPair<QString, QString>> namespaces;
@@ -106,7 +106,9 @@ void Document::setAuditPool(const AuditPoolSP &arg)
 {
     Q_D(Document);
     if (arg != d->auditPool) {
-        d->auditPool = arg;
+        auto newPool = d->document.toStrongRef()->createNode<AuditPool>();
+        newPool->updateFrom(arg);
+        d->auditPool = newPool;
         emit auditPoolChanged(arg);
     }
 }
@@ -115,7 +117,8 @@ void Document::setProductList(const ProductListSP &arg)
 {
     Q_D(Document);
     if (arg != d->productList) {
-        d->productList = arg;
+        auto newProductList = d->document.toStrongRef()->createNode<ProductList>();
+        newProductList->updateFrom(arg);
         emit productListChanged(arg);
     }
 }
@@ -145,15 +148,21 @@ void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
 {
     Q_D(Document);
     if (arg != d->resourceSets) {
-        d->resourceSets = arg;
-        emit resourceSetsChanged(arg);
+        d->resourceSets = algorithms::map(arg, [&d](const auto &e) {
+            auto newResourceSet = d->document.toStrongRef()->createNode<ResourceSet>();
+            newResourceSet->updateFrom(e);
+            return newResourceSet;
+        });
+        emit resourceSetsChanged(d->resourceSets);
     }
 }
 
 void Document::addResourceSet(const ResourceSetSP &arg)
 {
     Q_D(Document);
-    d->resourceSets.append(arg);
+    auto newResourceSet = d->document.toStrongRef()->createNode<ResourceSet>();
+    newResourceSet->updateFrom(arg);
+    d->resourceSets << newResourceSet;
     emit resourceSetsChanged(d->resourceSets);
 }
 
@@ -162,7 +171,7 @@ void Document::setNamespaces(const QVector<QPair<QString, QString>> &arg)
     Q_D(Document);
     if (arg != d->namespaces) {
         d->namespaces = arg;
-        emit namespacesChanged(arg);
+        emit namespacesChanged(d->namespaces);
     }
 }
 
@@ -170,6 +179,9 @@ DocumentSP Document::create()
 {
     DocumentSP result(new Document());
     initSelfWeakPtr(result);
+    result->d_func()->auditPool = AuditPool::create(result);
+    result->d_func()->productList = ProductList::create(result);
+
     return result;
 }
 

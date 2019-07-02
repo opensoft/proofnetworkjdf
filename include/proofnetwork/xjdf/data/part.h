@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT Part : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Part)
+    friend Document;
+
 public:
     Part(const Part &) = delete;
     Part &operator=(const Part &) = delete;
@@ -51,9 +53,7 @@ public:
     void setProductPart(const QString &arg);
     void setBlockName(const QString &arg);
 
-    static PartSP create();
-
-    static PartSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static PartSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
@@ -62,6 +62,7 @@ signals:
 
 protected:
     explicit Part();
+    static PartSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

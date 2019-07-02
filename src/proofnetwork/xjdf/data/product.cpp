@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/product.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/intent.h"
 
 namespace Proof {
@@ -91,7 +92,7 @@ void Product::setId(const QString &arg)
     Q_D(Product);
     if (arg != d->id) {
         d->id = arg;
-        emit idChanged(arg);
+        emit idChanged(d->id);
     }
 }
 
@@ -109,7 +110,7 @@ void Product::setAmount(qulonglong arg)
     Q_D(Product);
     if (arg != d->amount) {
         d->amount = arg;
-        emit amountChanged(arg);
+        emit amountChanged(d->amount);
     }
 }
 
@@ -118,7 +119,7 @@ void Product::setRoot(bool arg)
     Q_D(Product);
     if (arg != d->isRoot) {
         d->isRoot = arg;
-        emit isRootChanged(arg);
+        emit isRootChanged(d->isRoot);
     }
 }
 
@@ -127,20 +128,24 @@ void Product::setType(ProductType arg)
     Q_D(Product);
     if (arg != d->type) {
         d->type = arg;
-        emit typeChanged(arg);
+        emit typeChanged(d->type);
     }
 }
 
 void Product::setIntents(const QVector<IntentSP> &arg)
 {
     Q_D(Product);
-    d->intents = arg;
-    emit intentsChanged(arg);
+    d->intents = algorithms::map(arg, [&d](const auto &intent) {
+        auto newIntent = intent->cloneTo(d->document.toStrongRef());
+        return newIntent;
+    });
+    emit intentsChanged(d->intents);
 }
 
-ProductSP Product::create(const QString &id)
+ProductSP Product::create(const DocumentSP &document, const QString &id)
 {
     ProductSP result(new Product(id));
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -151,8 +156,7 @@ ProductSP Product::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document
     if (reader.isStartElement() && reader.name() == QStringLiteral("Product")) {
         auto attributes = reader.attributes();
         auto id = attributes.value(QStringLiteral("ID")).toString();
-        product = create(id);
-        product->d_func()->document = document;
+        product = create(document, id);
 
         if (attributes.hasAttribute(QStringLiteral("ExternalID")))
             product->setExternalId(attributes.value(QStringLiteral("ExternalID")).toString());

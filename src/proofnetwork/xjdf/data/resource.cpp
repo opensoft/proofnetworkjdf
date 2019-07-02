@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/resource.h"
 
 #include "proofnetwork/xjdf/data/amountpool.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/part.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
@@ -69,6 +70,8 @@ QVector<PartSP> Resource::parts() const
 AmountPoolSP Resource::amountPool() const
 {
     Q_D_CONST(Resource);
+    if (!d->amountPool)
+        d->amountPool = d->document.toStrongRef()->createNode<AmountPool>();
     return d->amountPool;
 }
 
@@ -77,7 +80,7 @@ void Resource::setId(const QString &arg)
     Q_D(Resource);
     if (arg != d->id) {
         d->id = arg;
-        emit idChanged(arg);
+        emit idChanged(d->id);
     }
 }
 
@@ -86,7 +89,7 @@ void Resource::setOrientation(ResourceOrientation arg)
     Q_D(Resource);
     if (arg != d->orientation) {
         d->orientation = arg;
-        emit orientationChanged(arg);
+        emit orientationChanged(d->orientation);
     }
 }
 
@@ -98,8 +101,12 @@ void Resource::setParts(const QVector<PartSP> &arg)
         emitNeeded = arg[i]->blockName() != d->parts[i]->blockName()
                      || arg[i]->productPart() != d->parts[i]->productPart();
     if (emitNeeded) {
-        d->parts = arg;
-        emit partsChanged(arg);
+        d->parts = algorithms::map(arg, [&d](const auto &part) {
+            auto newPart = d->document.toStrongRef()->createNode<Part>();
+            newPart->updateFrom(part);
+            return newPart;
+        });
+        emit partsChanged(d->parts);
     }
 }
 
@@ -107,8 +114,10 @@ void Resource::setAmountPool(const AmountPoolSP &arg)
 {
     Q_D(Resource);
     if (arg != d->amountPool) {
-        d->amountPool = arg;
-        emit amountPoolChanged(arg);
+        auto newPool = d->document.toStrongRef()->createNode<AmountPool>();
+        newPool->updateFrom(arg);
+        d->amountPool = newPool;
+        emit amountPoolChanged(d->amountPool);
     }
 }
 

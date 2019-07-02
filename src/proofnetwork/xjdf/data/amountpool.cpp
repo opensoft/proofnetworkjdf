@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/amountpool.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/partamount.h"
 
 namespace Proof {
@@ -58,14 +59,19 @@ void AmountPool::setParts(const QVector<PartAmountSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->amount() != d->parts[i]->amount();
     if (emitNeeded) {
-        d->parts = arg;
+        d->parts = algorithms::map(arg, [&d](const auto &part) {
+            auto newPart = d->document.toStrongRef()->createNode<PartAmount>();
+            newPart->updateFrom(part);
+            return newPart;
+        });
         emit partsChanged(d->parts);
     }
 }
 
-AmountPoolSP AmountPool::create()
+AmountPoolSP AmountPool::create(const DocumentSP &document)
 {
     AmountPoolSP result(new AmountPool());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -74,8 +80,7 @@ AmountPoolSP AmountPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &do
 {
     AmountPoolSP pool;
     if (reader.isStartElement() && reader.name() == QStringLiteral("AmountPool")) {
-        pool = create();
-        pool->d_func()->document = document;
+        pool = create(document);
 
         QVector<PartAmountSP> parts;
         while (!reader.atEnd() && !reader.hasError()) {

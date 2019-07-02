@@ -51,9 +51,17 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
-ComponentSP Component::create()
+ResourceSP Component::cloneTo(const DocumentSP &document)
+{
+    auto newComponent = create(document);
+    newComponent->updateFrom(qSharedPointerCast<Component>(selfPtr()));
+    return qSharedPointerCast<Resource>(newComponent);
+}
+
+ComponentSP Component::create(const DocumentSP &document)
 {
     ComponentSP result(new Component());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -84,7 +92,7 @@ MediaSP Component::mediaRef() const
         }
     }
 
-    auto dummy = Media::create(d->mediaRef);
+    auto dummy = document->createNode<Media>(d->mediaRef);
     return dummy;
 }
 
@@ -121,7 +129,7 @@ void Component::setWidth(double arg)
     Q_D(Component);
     if (!qFuzzyCompare(arg, d->width)) {
         d->width = arg;
-        emit widthChanged(arg);
+        emit widthChanged(d->width);
     }
 }
 
@@ -130,7 +138,7 @@ void Component::setHeight(double arg)
     Q_D(Component);
     if (!qFuzzyCompare(arg, d->height)) {
         d->height = arg;
-        emit heightChanged(arg);
+        emit heightChanged(d->height);
     }
 }
 void Component::setThickness(double arg)
@@ -138,7 +146,7 @@ void Component::setThickness(double arg)
     Q_D(Component);
     if (!qFuzzyCompare(arg, d->thickness)) {
         d->thickness = arg;
-        emit thicknessChanged(arg);
+        emit thicknessChanged(d->thickness);
     }
 }
 
@@ -146,9 +154,7 @@ ComponentSP Component::fromXJdf(QXmlStreamReader &reader, const DocumentSP &docu
 {
     ComponentSP component;
     if (reader.isStartElement() && reader.name() == QStringLiteral("Component")) {
-        component = create();
-        component->d_func()->document = document;
-
+        component = create(document);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Dimensions"))) {
             auto dimension = attributes.value(QStringLiteral("Dimensions")).toString().split(' ', QString::SkipEmptyParts);

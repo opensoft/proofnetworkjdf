@@ -44,6 +44,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+IntentSP ColorIntent::cloneTo(const DocumentSP &document) const
+{
+    auto newIntent = create(document);
+    newIntent->updateFrom(qSharedPointerCast<ColorIntent>(selfPtr()));
+    return qSharedPointerCast<Intent>(newIntent);
+}
+
 QMap<Side, QVector<CoatingType>> ColorIntent::coatings() const
 {
     Q_D_CONST(ColorIntent);
@@ -84,9 +91,10 @@ void ColorIntent::addSpot(Side side, bool arg)
     emit spotsChanged(d->spots);
 }
 
-ColorIntentSP ColorIntent::create()
+ColorIntentSP ColorIntent::create(const DocumentSP &document)
 {
     ColorIntentSP result(new ColorIntent());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -95,8 +103,7 @@ ColorIntentSP ColorIntent::fromXJdf(QXmlStreamReader &reader, const DocumentSP &
 {
     ColorIntentSP intent;
     if (reader.isStartElement() && reader.name() == QStringLiteral("ColorIntent")) {
-        intent = create();
-        intent->d_func()->document = document;
+        intent = create(document);
 
         QMap<Side, QVector<CoatingType>> coatings;
         QMap<Side, bool> spots;

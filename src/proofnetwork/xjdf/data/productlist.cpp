@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/productlist.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/product.h"
 
 namespace Proof {
@@ -41,6 +42,7 @@ class ProductListPrivate : public AbstractNodePrivate
 } // namespace XJdf
 } // namespace Proof
 
+using namespace Proof;
 using namespace Proof::XJdf;
 
 ProductList::ProductList() : AbstractNode(*new ProductListPrivate)
@@ -52,17 +54,17 @@ QVector<ProductSP> ProductList::products() const
     return d->products;
 }
 
-ProductListSP ProductList::create()
+ProductListSP ProductList::create(const DocumentSP &document)
 {
     ProductListSP result(new ProductList());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 ProductListSP ProductList::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    ProductListSP productList = create();
-    productList->d_func()->document = document;
+    ProductListSP productList = create(document);
 
     QVector<ProductSP> list;
 
@@ -110,8 +112,12 @@ void ProductList::setProducts(const QVector<ProductSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->id() != d->products[i]->id();
     if (emitNeeded) {
-        d->products = arg;
-        emit productsChanged(arg);
+        d->products = algorithms::map(arg, [&d](const auto &product) {
+            auto newProduct = d->document.toStrongRef()->createNode<Product>(product->id());
+            newProduct->updateFrom(product);
+            return newProduct;
+        });
+        emit productsChanged(d->products);
     }
 }
 
@@ -120,7 +126,9 @@ void ProductList::addProduct(const ProductSP &arg)
     Q_D(ProductList);
     if (!arg)
         return;
-    d->products << arg;
+    auto newProduct = d->document.toStrongRef()->createNode<Product>(arg->id());
+    newProduct->updateFrom(arg);
+    d->products << newProduct;
     emit productsChanged(d->products);
 }
 

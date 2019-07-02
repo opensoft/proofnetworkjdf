@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/foldingparams.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -51,6 +52,13 @@ bool verifyFoldCatalog(const QString &foldCatalog)
         return false;
 
     return (regexp.cap(1).toInt() && (regexp.cap(2).toInt() || regexp.cap(2).toLower() == QLatin1String("x")));
+}
+
+ResourceSP FoldingParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = document->createNode<FoldingParams>();
+    newParams->updateFrom(qSharedPointerCast<FoldingParams>(selfPtr()));
+    return qSharedPointerCast<Resource>(newParams);
 }
 
 QString FoldingParams::foldCatalog() const
@@ -85,13 +93,14 @@ void FoldingParams::setFoldingDetails(const QString &arg)
     Q_D(FoldingParams);
     if (arg != d->foldingDetails) {
         d->foldingDetails = arg;
-        emit foldingDetailsChanged(arg);
+        emit foldingDetailsChanged(d->foldingDetails);
     }
 }
 
-FoldingParamsSP FoldingParams::create()
+FoldingParamsSP FoldingParams::create(const DocumentSP &document)
 {
     FoldingParamsSP result(new FoldingParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -100,7 +109,7 @@ FoldingParamsSP FoldingParams::fromXJdf(QXmlStreamReader &reader, const Document
 {
     FoldingParamsSP params;
     if (reader.isStartElement() && reader.name() == QStringLiteral("FoldingParams")) {
-        params = create();
+        params = create(document);
         params->d_func()->document = document;
 
         params->setFoldCatalog(reader.attributes().value(QStringLiteral("FoldCatalog")).toString());

@@ -27,6 +27,7 @@
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
 #include "proofnetwork/xjdf/data/auditcreated.h"
 #include "proofnetwork/xjdf/data/auditnotification.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 namespace Proof {
 namespace XJdf {
@@ -62,17 +63,17 @@ QVector<AuditNotificationSP> AuditPool::notifications() const
     return d->notifications;
 }
 
-AuditPoolSP AuditPool::create()
+AuditPoolSP AuditPool::create(const DocumentSP &document)
 {
     AuditPoolSP result(new AuditPool());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 AuditPoolSP AuditPool::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    AuditPoolSP auditPool = create();
-    auditPool->d_func()->document = document;
+    AuditPoolSP auditPool = create(document);
 
     QVector<AuditNotificationSP> notifications;
     while (!reader.atEnd() && !reader.hasError()) {
@@ -124,7 +125,9 @@ void AuditPool::setCreated(const AuditCreatedSP &created)
     if (created == nullptr) {
         d->created.reset();
     } else if (d->created != created) {
-        d->created = created;
+        auto newCreated = d->document.toStrongRef()->createNode<AuditCreated>();
+        newCreated->updateFrom(created);
+        d->created = newCreated;
         emit createdChanged(d->created);
     }
 }
@@ -136,7 +139,11 @@ void AuditPool::setNotifications(const QVector<AuditNotificationSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->id() != d->notifications[i]->id();
     if (emitNeeded) {
-        d->notifications = arg;
+        d->notifications = algorithms::map(arg, [&d](const auto &notification) {
+            auto newNotification = d->document.toStrongRef()->createNode<AuditNotification>();
+            newNotification->updateFrom(notification);
+            return newNotification;
+        });
         emit notificationsChanged(d->notifications);
     }
 }

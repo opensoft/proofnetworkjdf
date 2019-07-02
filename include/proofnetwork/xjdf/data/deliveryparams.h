@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT DeliveryParams : public Resource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DeliveryParams)
+    friend Document;
+
 public:
     DeliveryParams(const DeliveryParams &) = delete;
     DeliveryParams &operator=(const DeliveryParams &) = delete;
@@ -45,15 +47,15 @@ public:
     DeliveryParams &operator=(DeliveryParams &&) = delete;
     ~DeliveryParams() = default;
 
+    ResourceSP cloneTo(const DocumentSP &document) override;
+
     QDateTime required() const;
     QVector<DropItemSP> items() const;
 
     void setRequired(const QDateTime &arg);
     void setItems(const QVector<DropItemSP> &arg);
 
-    static DeliveryParamsSP create();
-
-    static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static DeliveryParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
@@ -62,6 +64,8 @@ signals:
 
 protected:
     explicit DeliveryParams();
+    static DeliveryParamsSP create(const DocumentSP &document);
+
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

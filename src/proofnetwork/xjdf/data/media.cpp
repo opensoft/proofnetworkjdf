@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/media.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -49,6 +50,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP Media::cloneTo(const DocumentSP &document)
+{
+    auto newMedia = create(document);
+    newMedia->updateFrom(qSharedPointerCast<Media>(selfPtr()));
+    return qSharedPointerCast<Resource>(newMedia);
+}
+
 double Media::width() const
 {
     Q_D_CONST(Media);
@@ -72,7 +80,7 @@ void Media::setWidth(double arg)
     Q_D(Media);
     if (!qFuzzyCompare(arg, d->width)) {
         d->width = arg;
-        emit widthChanged(arg);
+        emit widthChanged(d->width);
     }
 }
 
@@ -81,7 +89,7 @@ void Media::setHeight(double arg)
     Q_D(Media);
     if (!qFuzzyCompare(arg, d->height)) {
         d->height = arg;
-        emit heightChanged(arg);
+        emit heightChanged(d->height);
     }
 }
 void Media::setThickness(double arg)
@@ -89,7 +97,7 @@ void Media::setThickness(double arg)
     Q_D(Media);
     if (!qFuzzyCompare(arg, d->thickness)) {
         d->thickness = arg;
-        emit thicknessChanged(arg);
+        emit thicknessChanged(d->thickness);
     }
 }
 
@@ -116,7 +124,7 @@ void Media::setUnit(MediaUnit arg)
     Q_D(Media);
     if (d->unit != arg) {
         d->unit = arg;
-        emit unitChanged(arg);
+        emit unitChanged(d->unit);
     }
 }
 
@@ -125,7 +133,7 @@ void Media::setType(MediaType arg)
     Q_D(Media);
     if (d->type != arg) {
         d->type = arg;
-        emit typeChanged(arg);
+        emit typeChanged(d->type);
     }
 }
 
@@ -133,21 +141,26 @@ void Media::setLayers(const QVector<MediaSP> &arg)
 {
     Q_D(Media);
     if (d->layers != arg) {
-        d->layers = arg;
+        d->layers = algorithms::map(arg, [&d](const auto &media) {
+            auto newMedia = d->document.toStrongRef()->createNode<Media>();
+            newMedia->updateFrom(media);
+            return newMedia;
+        });
         emit layersChanged(d->layers);
     }
 }
 
-MediaSP Media::create(const QString &id)
+MediaSP Media::create(const DocumentSP &document, const QString &id)
 {
     MediaSP result(new Media(id));
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    MediaSP media = create();
+    MediaSP media = create(document);
     QVector<MediaSP> layers;
 
     bool inLayers = false;
@@ -155,7 +168,6 @@ MediaSP Media::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
         if (reader.name().compare(QLatin1String("MediaLayers"), Qt::CaseInsensitive) == 0 && media->isFetched()) {
             inLayers = reader.isStartElement();
         } else if (reader.name().compare(QLatin1String("Media"), Qt::CaseInsensitive) == 0 && !media->isFetched()) {
-            media->d_func()->document = document;
             media->setFetched(true);
             auto attributes = reader.attributes();
             if (attributes.hasAttribute(QStringLiteral("Dimension"))) {

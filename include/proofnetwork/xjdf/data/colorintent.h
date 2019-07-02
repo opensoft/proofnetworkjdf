@@ -38,12 +38,16 @@ class PROOF_NETWORK_XJDF_EXPORT ColorIntent : public Intent
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ColorIntent)
+    friend Document;
+
 public:
     ColorIntent(const ColorIntent &) = delete;
     ColorIntent &operator=(const ColorIntent &) = delete;
     ColorIntent(ColorIntent &&) = delete;
     ColorIntent &operator=(ColorIntent &&) = delete;
     ~ColorIntent() = default;
+
+    IntentSP cloneTo(const DocumentSP &document) const override;
 
     QMap<Side, QVector<CoatingType>> coatings() const;
     QMap<Side, bool> spots() const;
@@ -54,9 +58,7 @@ public:
     void setSpots(const QMap<Side, bool> &arg);
     void addSpot(Side side, bool arg);
 
-    static ColorIntentSP create();
-
-    static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static ColorIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
@@ -65,6 +67,7 @@ signals:
 
 protected:
     explicit ColorIntent();
+    static ColorIntentSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

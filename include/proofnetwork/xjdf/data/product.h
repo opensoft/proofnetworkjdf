@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT Product : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Product)
+    friend Document;
+
 public:
     Product(const Product &) = delete;
     Product &operator=(const Product &) = delete;
@@ -74,9 +76,7 @@ public:
     void setType(ProductType arg);
     void setIntents(const QVector<IntentSP> &arg);
 
-    static ProductSP create(const QString &id);
-
-    static ProductSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static ProductSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
@@ -89,6 +89,7 @@ signals:
 
 protected:
     explicit Product(const QString &id);
+    static ProductSP create(const DocumentSP &document, const QString &id);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

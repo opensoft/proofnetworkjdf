@@ -55,21 +55,21 @@ void AuditNotification::setSeverityClass(Severity arg)
     Q_D(AuditNotification);
     if (arg != d->severityClass) {
         d->severityClass = arg;
-        emit severityClassChanged(arg);
+        emit severityClassChanged(d->severityClass);
     }
 }
 
-AuditNotificationSP AuditNotification::create()
+AuditNotificationSP AuditNotification::create(const DocumentSP &document)
 {
     AuditNotificationSP result(new AuditNotification());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 AuditNotificationSP AuditNotification::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    AuditNotificationSP notification = create();
-    notification->d_func()->document = document;
+    AuditNotificationSP notification = create(document);
     reader.readNextStartElement();
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {

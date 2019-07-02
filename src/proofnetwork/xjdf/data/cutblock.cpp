@@ -82,17 +82,17 @@ double CutBlock::y() const
     return d->y;
 }
 
-CutBlockSP CutBlock::create(const QString &blockName)
+CutBlockSP CutBlock::create(const DocumentSP &document, const QString &blockName)
 {
     CutBlockSP result(new CutBlock(blockName));
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 CutBlockSP CutBlock::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    CutBlockSP cutBlock = create();
-    cutBlock->d_func()->document = document;
+    CutBlockSP cutBlock = create(document);
 
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.name() == "CutBlock" && reader.isStartElement()) {

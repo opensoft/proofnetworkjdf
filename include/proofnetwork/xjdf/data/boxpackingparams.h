@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT BoxPackingParams : public Resource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(BoxPackingParams)
+    friend Document;
+
 public:
     BoxPackingParams(const BoxPackingParams &) = delete;
     BoxPackingParams &operator=(const BoxPackingParams &) = delete;
@@ -45,15 +47,15 @@ public:
     BoxPackingParams &operator=(BoxPackingParams &&) = delete;
     ~BoxPackingParams() = default;
 
+    ResourceSP cloneTo(const DocumentSP &document) override;
+
     BoxType boxType() const;
     QString boxTypeDetails() const;
 
     void setBoxType(BoxType arg);
     void setBoxTypeDetails(const QString &arg);
 
-    static BoxPackingParamsSP create();
-
-    static BoxPackingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static BoxPackingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
@@ -62,6 +64,7 @@ signals:
 
 protected:
     BoxPackingParams();
+    static BoxPackingParamsSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

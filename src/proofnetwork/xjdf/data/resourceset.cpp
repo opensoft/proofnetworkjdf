@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/resourceset.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
 namespace Proof {
@@ -77,7 +78,7 @@ void ResourceSet::setName(const QString &arg)
     Q_D(ResourceSet);
     if (d->name != arg) {
         d->name = arg;
-        emit nameChanged(arg);
+        emit nameChanged(d->name);
     }
 }
 
@@ -98,21 +99,21 @@ void ResourceSet::setUsage(UsageType arg)
     Q_D(ResourceSet);
     if (d->usage != arg) {
         d->usage = arg;
-        emit usageChanged(arg);
+        emit usageChanged(d->usage);
     }
 }
 
-ResourceSetSP ResourceSet::create()
+ResourceSetSP ResourceSet::create(const DocumentSP &document)
 {
     ResourceSetSP result(new ResourceSet());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
 
 ResourceSetSP ResourceSet::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
-    ResourceSetSP resourceSet = create();
-    resourceSet->d_func()->document = document;
+    ResourceSetSP resourceSet = create(document);
 
     QVector<ResourceSP> resourceList;
 
@@ -182,7 +183,10 @@ void ResourceSet::setResources(const QVector<ResourceSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->id() != d->resources[i]->id();
     if (emitNeeded) {
-        d->resources = arg;
+        d->resources = algorithms::map(arg, [&d](const auto &resource) {
+            auto newResource = resource->cloneTo(d->document.toStrongRef());
+            return newResource;
+        });
         emit resourcesChanged(d->resources);
     }
 }
@@ -192,7 +196,9 @@ void ResourceSet::addResource(const ResourceSP &arg)
     Q_D(ResourceSet);
     if (!arg)
         return;
-    d->resources << arg;
+    auto newResource = arg->cloneTo(d->document.toStrongRef());
+    newResource->updateFrom(arg);
+    d->resources << newResource;
     emit resourcesChanged(d->resources);
 }
 
