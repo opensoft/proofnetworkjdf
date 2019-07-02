@@ -53,7 +53,7 @@ using namespace Proof::XJdf;
 ResourceSP Media::cloneTo(const DocumentSP &document)
 {
     auto newMedia = create(document);
-    newMedia->setLayers(layers());
+    newMedia->updateFrom(qSharedPointerCast<Media>(selfPtr()));
     return std::move(newMedia);
 }
 

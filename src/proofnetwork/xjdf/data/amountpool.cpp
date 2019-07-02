@@ -52,14 +52,6 @@ QVector<PartAmountSP> AmountPool::parts() const
     return d->parts;
 }
 
-AmountPoolSP AmountPool::cloneTo(const DocumentSP &document) const
-{
-    auto result = document->createNode<AmountPool>();
-    result->setParts(parts());
-
-    return result;
-}
-
 void AmountPool::setParts(const QVector<PartAmountSP> &arg)
 {
     Q_D(AmountPool);

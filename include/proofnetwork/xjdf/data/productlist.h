@@ -46,8 +46,6 @@ public:
     ProductList &operator=(ProductList &&) = delete;
     ~ProductList() = default;
 
-    ProductListSP cloneTo(const DocumentSP &document) const;
-
     QVector<ProductSP> products() const;
 
     void setProducts(const QVector<ProductSP> &arg);

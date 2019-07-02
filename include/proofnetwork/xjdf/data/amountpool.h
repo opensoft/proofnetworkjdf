@@ -49,7 +49,6 @@ public:
     ~AmountPool() = default;
 
     QVector<PartAmountSP> parts() const;
-    AmountPoolSP cloneTo(const DocumentSP &document) const;
 
     void setParts(const QVector<PartAmountSP> &arg);
 

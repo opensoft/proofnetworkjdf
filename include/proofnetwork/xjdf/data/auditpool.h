@@ -48,8 +48,6 @@ public:
     AuditPool &operator=(AuditPool &&) = delete;
     ~AuditPool() = default;
 
-    AuditPoolSP cloneTo(const DocumentSP &document) const;
-
     AuditCreatedSP created() const;
     QVector<AuditNotificationSP> notifications() const;
 

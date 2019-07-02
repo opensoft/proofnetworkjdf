@@ -45,13 +45,6 @@ class ProductListPrivate : public AbstractNodePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
-ProductListSP ProductList::cloneTo(const DocumentSP &document) const
-{
-    auto newProductList = document->createNode<ProductList>();
-    newProductList->setProducts(products());
-    return newProductList;
-}
-
 ProductList::ProductList() : AbstractNode(*new ProductListPrivate)
 {}
 
@@ -120,7 +113,8 @@ void ProductList::setProducts(const QVector<ProductSP> &arg)
         emitNeeded = arg[i]->id() != d->products[i]->id();
     if (emitNeeded) {
         d->products = algorithms::map(arg, [&d](const auto &product) {
-            auto newProduct = product->cloneTo(d->document.toStrongRef());
+            auto newProduct = d->document.toStrongRef()->createNode<Product>(product->id());
+            newProduct->updateFrom(product);
             return newProduct;
         });
         emit productsChanged(d->products);
@@ -132,7 +126,8 @@ void ProductList::addProduct(const ProductSP &arg)
     Q_D(ProductList);
     if (!arg)
         return;
-    auto newProduct = arg->cloneTo(d->document.toStrongRef());
+    auto newProduct = d->document.toStrongRef()->createNode<Product>(arg->id());
+    newProduct->updateFrom(arg);
     d->products << newProduct;
     emit productsChanged(d->products);
 }

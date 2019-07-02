@@ -51,8 +51,6 @@ public:
     ResourceSet &operator=(ResourceSet &&) = delete;
     ~ResourceSet() = default;
 
-    ResourceSetSP cloneTo(const DocumentSP &document) const;
-
     QString name() const;
     QVector<qulonglong> combinedProcessIndexes() const;
     UsageType usage() const;

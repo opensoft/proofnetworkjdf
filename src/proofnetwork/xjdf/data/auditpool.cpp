@@ -51,15 +51,6 @@ using namespace Proof::XJdf;
 AuditPool::AuditPool() : AbstractNode(*new AuditPoolPrivate)
 {}
 
-AuditPoolSP AuditPool::cloneTo(const DocumentSP &document) const
-{
-    auto result = document->createNode<AuditPool>();
-    result->setCreated(created());
-    result->setNotifications(notifications());
-
-    return result;
-}
-
 AuditCreatedSP AuditPool::created() const
 {
     Q_D_CONST(AuditPool);

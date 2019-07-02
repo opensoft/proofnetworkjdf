@@ -48,7 +48,7 @@ using namespace Proof::XJdf;
 ResourceSP CuttingParams::cloneTo(const DocumentSP &document)
 {
     auto newParams = create(document);
-    newParams->setCutBlocks(cutBlocks());
+    newParams->updateFrom(qSharedPointerCast<CuttingParams>(selfPtr()));
     return std::move(newParams);
 }
 

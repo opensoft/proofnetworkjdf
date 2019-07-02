@@ -47,8 +47,6 @@ public:
     Product &operator=(Product &&) = delete;
     ~Product() = default;
 
-    ProductSP cloneTo(const DocumentSP &document) const;
-
     QString id() const;
     QString externalId() const;
     qulonglong amount() const;

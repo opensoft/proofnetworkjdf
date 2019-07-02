@@ -46,16 +46,6 @@ class ResourceSetPrivate : public AbstractNodePrivate
 
 using namespace Proof::XJdf;
 
-ResourceSetSP ResourceSet::cloneTo(const DocumentSP &document) const
-{
-    auto newResourceSet = document->createNode<ResourceSet>();
-    newResourceSet->setResources(resources());
-    newResourceSet->setName(name());
-    newResourceSet->setUsage(usage());
-    newResourceSet->setCombinedProcessIndexes(combinedProcessIndexes());
-    return newResourceSet;
-}
-
 ResourceSet::ResourceSet() : AbstractNode(*new ResourceSetPrivate)
 {}
 

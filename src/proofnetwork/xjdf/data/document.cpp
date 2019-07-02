@@ -106,7 +106,8 @@ void Document::setAuditPool(const AuditPoolSP &arg)
 {
     Q_D(Document);
     if (arg != d->auditPool) {
-        auto newPool = arg->cloneTo(d->document.toStrongRef());
+        auto newPool = d->document.toStrongRef()->createNode<AuditPool>();
+        newPool->updateFrom(arg);
         d->auditPool = newPool;
         emit auditPoolChanged(arg);
     }
@@ -116,8 +117,8 @@ void Document::setProductList(const ProductListSP &arg)
 {
     Q_D(Document);
     if (arg != d->productList) {
-        auto newProductList = arg->cloneTo(d->document.toStrongRef());
-        d->productList = newProductList;
+        auto newProductList = d->document.toStrongRef()->createNode<ProductList>();
+        newProductList->updateFrom(arg);
         emit productListChanged(arg);
     }
 }
@@ -148,7 +149,8 @@ void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
     Q_D(Document);
     if (arg != d->resourceSets) {
         d->resourceSets = algorithms::map(arg, [&d](const auto &e) {
-            auto newResourceSet = e->cloneTo(d->document.toStrongRef());
+            auto newResourceSet = d->document.toStrongRef()->createNode<ResourceSet>();
+            newResourceSet->updateFrom(e);
             return newResourceSet;
         });
         emit resourceSetsChanged(d->resourceSets);
@@ -158,7 +160,8 @@ void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
 void Document::addResourceSet(const ResourceSetSP &arg)
 {
     Q_D(Document);
-    auto newResourceSet = arg->cloneTo(d->document.toStrongRef());
+    auto newResourceSet = d->document.toStrongRef()->createNode<ResourceSet>();
+    newResourceSet->updateFrom(arg);
     d->resourceSets << newResourceSet;
     emit resourceSetsChanged(d->resourceSets);
 }

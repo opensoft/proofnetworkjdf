@@ -51,13 +51,6 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
-ProductSP Product::cloneTo(const DocumentSP &document) const
-{
-    auto newProduct = document->createNode<Product>(id());
-    newProduct->setIntents(intents());
-    return newProduct;
-}
-
 QString Product::id() const
 {
     Q_D_CONST(Product);
