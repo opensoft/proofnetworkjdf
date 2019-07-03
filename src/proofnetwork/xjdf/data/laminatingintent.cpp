@@ -44,6 +44,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+IntentSP LaminatingIntent::cloneTo(const DocumentSP &document) const
+{
+    auto newIntent = create(document);
+    newIntent->updateFrom(qSharedPointerCast<LaminatingIntent>(selfPtr()));
+    return qSharedPointerCast<Intent>(newIntent);
+}
+
 Side LaminatingIntent::surface() const
 {
     Q_D_CONST(LaminatingIntent);
@@ -55,13 +62,14 @@ void LaminatingIntent::setSurface(Side surface)
     Q_D(LaminatingIntent);
     if (d->surface != surface) {
         d->surface = surface;
-        emit surfaceChanged(surface);
+        emit surfaceChanged(d->surface);
     }
 }
 
-LaminatingIntentSP LaminatingIntent::create()
+LaminatingIntentSP LaminatingIntent::create(const DocumentSP &document)
 {
     LaminatingIntentSP result(new LaminatingIntent());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -71,8 +79,7 @@ LaminatingIntentSP LaminatingIntent::fromXJdf(QXmlStreamReader &reader, const Do
     LaminatingIntentSP intent;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("LaminatingIntent")) {
-        intent = create();
-        intent->d_func()->document = document;
+        intent = create(document);
         auto side = sideTypeFromString(reader.attributes().value(QStringLiteral("Surface")).toString());
         intent->setSurface(side);
         intent->setFetched(true);

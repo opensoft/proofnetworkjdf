@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT PartWaste : public AbstractNode
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(PartWaste)
+    friend Document;
+
 public:
     PartWaste(const PartWaste &) = delete;
     PartWaste &operator=(const PartWaste &) = delete;
@@ -51,8 +53,6 @@ public:
     void setWaste(qulonglong arg);
     void setWasteDetails(WasteDetails arg);
 
-    static PartWasteSP create();
-
     static PartWasteSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer) const override;
 
@@ -62,6 +62,7 @@ signals:
 
 protected:
     explicit PartWaste();
+    static PartWasteSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

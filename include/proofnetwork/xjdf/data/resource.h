@@ -46,6 +46,8 @@ public:
     Resource &operator=(Resource &&) = delete;
     ~Resource() = default;
 
+    virtual ResourceSP cloneTo(const DocumentSP &document) = 0;
+
     QString id() const;
     ResourceOrientation orientation() const;
     QVector<PartSP> parts() const;
@@ -57,7 +59,7 @@ public:
     void setAmountPool(const AmountPoolSP &arg);
 
     bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
-    static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static ResourceSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
 
     template <class T>
     inline static void registerResourceCreator(const QString &name)

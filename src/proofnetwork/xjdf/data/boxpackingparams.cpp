@@ -44,6 +44,13 @@ class BoxPackingParamsPrivate : public ResourcePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP BoxPackingParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = create(document);
+    newParams->updateFrom(qSharedPointerCast<BoxPackingParams>(selfPtr()));
+    return qSharedPointerCast<Resource>(newParams);
+}
+
 BoxType BoxPackingParams::boxType() const
 {
     Q_D_CONST(BoxPackingParams);
@@ -61,7 +68,7 @@ void BoxPackingParams::setBoxType(BoxType arg)
     Q_D(BoxPackingParams);
     if (arg != d->boxType) {
         d->boxType = arg;
-        emit boxTypeChanged(arg);
+        emit boxTypeChanged(d->boxType);
     }
 }
 
@@ -70,13 +77,14 @@ void BoxPackingParams::setBoxTypeDetails(const QString &arg)
     Q_D(BoxPackingParams);
     if (arg != d->boxTypeDetails) {
         d->boxTypeDetails = arg;
-        emit boxTypeDetailsChanged(arg);
+        emit boxTypeDetailsChanged(d->boxTypeDetails);
     }
 }
 
-BoxPackingParamsSP BoxPackingParams::create()
+BoxPackingParamsSP BoxPackingParams::create(const DocumentSP &document)
 {
     BoxPackingParamsSP result(new BoxPackingParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -85,8 +93,7 @@ BoxPackingParamsSP BoxPackingParams::fromXJdf(QXmlStreamReader &reader, const Do
 {
     BoxPackingParamsSP params;
     if (reader.isStartElement() && reader.name() == QStringLiteral("BoxPackingParams")) {
-        params = create();
-        params->d_func()->document = document;
+        params = create(document);
 
         auto boxType = boxTypeFromString(reader.attributes().value(QStringLiteral("BoxType")).toString());
         auto boxTypeDetails = reader.attributes().value(QStringLiteral("BoxTypeDetails")).toString();

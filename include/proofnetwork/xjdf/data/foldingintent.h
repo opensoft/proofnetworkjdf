@@ -37,6 +37,8 @@ class PROOF_NETWORK_XJDF_EXPORT FoldingIntent : public Intent
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingIntent)
+    friend Document;
+
 public:
     FoldingIntent(const FoldingIntent &) = delete;
     FoldingIntent &operator=(const FoldingIntent &) = delete;
@@ -44,18 +46,19 @@ public:
     FoldingIntent &operator=(FoldingIntent &&) = delete;
     ~FoldingIntent() = default;
 
+    IntentSP cloneTo(const DocumentSP &document) const override;
+
     FoldType foldCatalog() const;
     void setFoldCatalog(FoldType arg);
 
-    static FoldingIntentSP create();
-
-    static FoldingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static FoldingIntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;
 signals:
     void foldCatalogChanged(Proof::XJdf::FoldType type);
 
 protected:
     explicit FoldingIntent();
+    static FoldingIntentSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

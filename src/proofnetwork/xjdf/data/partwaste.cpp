@@ -81,20 +81,12 @@ void PartWaste::setWasteDetails(WasteDetails arg)
     }
 }
 
-PartWasteSP PartWaste::create()
-{
-    PartWasteSP result(new PartWaste());
-    initSelfWeakPtr(result);
-    return result;
-}
-
 PartWasteSP PartWaste::fromXJdf(QXmlStreamReader &reader, const DocumentSP &document)
 {
     PartWasteSP part;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("PartWaste")) {
-        part = create();
-        part->d_func()->document = document;
+        part = create(document);
         part->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Waste")))
@@ -118,6 +110,14 @@ void PartWaste::toXJdf(QXmlStreamWriter &writer) const
 
 PartWaste::PartWaste() : AbstractNode(*new PartWastePrivate)
 {}
+
+PartWasteSP PartWaste::create(const DocumentSP &document)
+{
+    PartWasteSP result(new PartWaste());
+    result->d_func()->document = document;
+    initSelfWeakPtr(result);
+    return result;
+}
 
 void PartWaste::updateSelf(const NetworkDataEntitySP &other)
 {

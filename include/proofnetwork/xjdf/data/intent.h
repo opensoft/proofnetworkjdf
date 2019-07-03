@@ -46,11 +46,13 @@ public:
     Intent &operator=(Intent &&) = delete;
     ~Intent() = default;
 
+    virtual IntentSP cloneTo(const DocumentSP &document) const = 0;
+
     QString name() const;
     void setName(const QString &arg);
 
     bool readFieldsFromXJdf(QXmlStreamReader &reader) override final;
-    static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
+    static IntentSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
 
     template <class T>
     inline static void registerIntentCreator(const QString &name)

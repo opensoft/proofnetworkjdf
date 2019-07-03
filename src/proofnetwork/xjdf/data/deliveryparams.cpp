@@ -24,6 +24,7 @@
  */
 #include "proofnetwork/xjdf/data/deliveryparams.h"
 
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/dropitem.h"
 #include "proofnetwork/xjdf/data/resource_p.h"
 
@@ -44,6 +45,13 @@ class DeliveryParamsPrivate : public ResourcePrivate
 using namespace Proof;
 using namespace Proof::XJdf;
 
+ResourceSP DeliveryParams::cloneTo(const DocumentSP &document)
+{
+    auto newParams = create(document);
+    newParams->updateFrom(qSharedPointerCast<DeliveryParams>(selfPtr()));
+    return qSharedPointerCast<Resource>(newParams);
+}
+
 QDateTime DeliveryParams::required() const
 {
     Q_D_CONST(DeliveryParams);
@@ -61,7 +69,7 @@ void DeliveryParams::setRequired(const QDateTime &arg)
     Q_D(DeliveryParams);
     if (d->required != arg) {
         d->required = arg;
-        emit requiredChanged(arg);
+        emit requiredChanged(d->required);
     }
 }
 
@@ -72,14 +80,19 @@ void DeliveryParams::setItems(const QVector<DropItemSP> &arg)
     for (int i = 0; i < arg.count() && !emitNeeded; ++i)
         emitNeeded = arg[i]->product() != d->items[i]->product() || arg[i]->amount() != d->items[i]->amount();
     if (emitNeeded) {
-        d->items = arg;
-        emit itemsChanged(arg);
+        d->items = algorithms::map(arg, [&d](const auto &item) {
+            auto newItem = d->document.toStrongRef()->createNode<DropItem>();
+            newItem->updateFrom(item);
+            return newItem;
+        });
+        emit itemsChanged(d->items);
     }
 }
 
-DeliveryParamsSP DeliveryParams::create()
+DeliveryParamsSP DeliveryParams::create(const DocumentSP &document)
 {
     DeliveryParamsSP result(new DeliveryParams());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -89,8 +102,7 @@ DeliveryParamsSP DeliveryParams::fromXJdf(QXmlStreamReader &reader, const Docume
     DeliveryParamsSP params;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("DeliveryParams")) {
-        params = create();
-        params->d_func()->document = document;
+        params = create(document);
         params->setRequired(
             QDateTime::fromString(reader.attributes().value(QStringLiteral("Required")).toString(), Qt::ISODate));
         QVector<DropItemSP> items;

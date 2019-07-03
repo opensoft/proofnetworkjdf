@@ -25,6 +25,7 @@
 #include "proofnetwork/xjdf/data/partamount.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 #include "proofnetwork/xjdf/data/part.h"
 #include "proofnetwork/xjdf/data/partwaste.h"
 
@@ -71,7 +72,7 @@ void PartAmount::setAmount(qulonglong arg)
     Q_D(PartAmount);
     if (arg != d->amount) {
         d->amount = arg;
-        emit amountChanged(arg);
+        emit amountChanged(d->amount);
     }
 }
 
@@ -83,8 +84,12 @@ void PartAmount::setParts(const QVector<PartSP> &arg)
         emitNeeded = arg[i]->blockName() != d->parts[i]->blockName()
                      || arg[i]->productPart() != d->parts[i]->productPart();
     if (emitNeeded) {
-        d->parts = arg;
-        emit partsChanged(arg);
+        d->parts = algorithms::map(arg, [&d](const auto &part) {
+            auto newPart = d->document.toStrongRef()->createNode<Part>();
+            newPart->updateFrom(part);
+            return newPart;
+        });
+        emit partsChanged(d->parts);
     }
 }
 
@@ -96,14 +101,19 @@ void PartAmount::setPartsWaste(const QVector<PartWasteSP> &arg)
         emitNeeded = arg[i]->waste() != d->partsWaste[i]->waste()
                      || arg[i]->wasteDetails() != d->partsWaste[i]->wasteDetails();
     if (emitNeeded) {
-        d->partsWaste = arg;
-        emit partsWasteChanged(arg);
+        d->partsWaste = algorithms::map(arg, [&d](const auto &part) {
+            auto newPartWaste = d->document.toStrongRef()->createNode<PartWaste>();
+            newPartWaste->updateFrom(part);
+            return newPartWaste;
+        });
+        emit partsWasteChanged(d->partsWaste);
     }
 }
 
-PartAmountSP PartAmount::create()
+PartAmountSP PartAmount::create(const DocumentSP &document)
 {
     PartAmountSP result(new PartAmount());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -115,8 +125,7 @@ PartAmountSP PartAmount::fromXJdf(QXmlStreamReader &reader, const DocumentSP &do
     QVector<PartWasteSP> partsWaste;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("PartAmount")) {
-        partAmount = create();
-        partAmount->d_func()->document = document;
+        partAmount = create(document);
         partAmount->setFetched(true);
         auto attributes = reader.attributes();
         if (attributes.hasAttribute(QStringLiteral("Amount")))

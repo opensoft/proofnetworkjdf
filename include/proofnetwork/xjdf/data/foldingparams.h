@@ -38,6 +38,8 @@ class PROOF_NETWORK_XJDF_EXPORT FoldingParams : public Resource
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(FoldingParams)
+    friend Document;
+
 public:
     FoldingParams(const FoldingParams &) = delete;
     FoldingParams &operator=(const FoldingParams &) = delete;
@@ -45,13 +47,13 @@ public:
     FoldingParams &operator=(FoldingParams &&) = delete;
     ~FoldingParams() = default;
 
+    ResourceSP cloneTo(const DocumentSP &document) override;
+
     QString foldCatalog() const;
     QString foldingDetails() const;
 
     void setFoldCatalog(const QString &arg);
     void setFoldingDetails(const QString &arg);
-
-    static FoldingParamsSP create();
 
     static FoldingParamsSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer) const override;
@@ -62,6 +64,7 @@ signals:
 
 protected:
     FoldingParams();
+    static FoldingParamsSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 

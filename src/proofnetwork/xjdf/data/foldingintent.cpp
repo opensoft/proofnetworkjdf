@@ -44,6 +44,13 @@ public:
 using namespace Proof;
 using namespace Proof::XJdf;
 
+IntentSP FoldingIntent::cloneTo(const DocumentSP &document) const
+{
+    auto newIntent = create(document);
+    newIntent->updateFrom(qSharedPointerCast<FoldingIntent>(selfPtr()));
+    return qSharedPointerCast<Intent>(newIntent);
+}
+
 FoldType FoldingIntent::foldCatalog() const
 {
     Q_D_CONST(FoldingIntent);
@@ -55,13 +62,14 @@ void FoldingIntent::setFoldCatalog(FoldType arg)
     Q_D(FoldingIntent);
     if (arg != d->foldingCatalog) {
         d->foldingCatalog = arg;
-        emit foldCatalogChanged(arg);
+        emit foldCatalogChanged(d->foldingCatalog);
     }
 }
 
-FoldingIntentSP FoldingIntent::create()
+FoldingIntentSP FoldingIntent::create(const DocumentSP &document)
 {
     FoldingIntentSP result(new FoldingIntent());
+    result->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -71,8 +79,7 @@ FoldingIntentSP FoldingIntent::fromXJdf(QXmlStreamReader &reader, const Document
     FoldingIntentSP intent;
 
     if (reader.isStartElement() && reader.name() == QStringLiteral("FoldingIntent")) {
-        intent = create();
-        intent->d_func()->document = document;
+        intent = create(document);
         auto catalog = foldTypeFromString(reader.attributes().value(QStringLiteral("FoldCatalog")).toString());
         intent->setFoldCatalog(catalog);
         intent->setFetched(true);
