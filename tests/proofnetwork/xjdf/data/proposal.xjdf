@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XJDF xmlns="http://www.CIP4.org/JDFSchema_2_0" xmlns:profit="https://www.opensoftdev.com/profit" JobID="PRESSSHEET_ID" Types="Cutting BoxPacking">
+<XJDF xmlns="http://www.CIP4.org/JDFSchema_2_0" xmlns:profit="https://www.opensoftdev.com/profit" JobID="PRESSSHEET_ID" Types="Cutting Folding BoxPacking">
   <AuditPool>
     <AuditCreated>
       <Header profit:TemplateID="3BC-1PC" profit:TemplateVersion="0.42" AgentName="Sh-Job-Manager-Service" AgentVersion="0.18.10.9" Time="2018-01-29T16:00:20+00:00" />
@@ -121,7 +121,17 @@
       <BoxPackingParams BoxType="Carton" BoxTypeDetails="Easter Bunny Box" />
     </Resource>
   </ResourceSet>
-  <ResourceSet CombinedProcessIndex="1" Name="Component" Usage="Output" />
+  <ResourceSet CombinedProcessIndex="1" Name="Component" Usage="Output">
+    <Resource>
+      <AmountPool>
+        <PartAmount Amount="30">
+          <Part ProductPart="ProductInfo_3" />
+          <PartWaste Waste="10" WasteDetails="Overrun" />
+        </PartAmount>
+      </AmountPool>
+      <Component/>
+    </Resource>
+  </ResourceSet>
   <ResourceSet Name="FoldingParams" Usage="Input">
     <Resource>
       <Part ProductPart="ProductInfo_1" />

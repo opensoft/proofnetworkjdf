@@ -58,6 +58,7 @@ public:
     QVector<ProcessType> types() const;
     QVector<ResourceSetSP> resourceSets() const;
     void setTypes(const QVector<ProcessType> &arg);
+    void addType(ProcessType arg);
     void setResourceSets(const QVector<ResourceSetSP> &arg);
     void addResourceSet(const ResourceSetSP &arg);
     void setNamespaces(const QVector<QPair<QString, QString>> &arg);

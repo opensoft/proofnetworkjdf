@@ -22,8 +22,8 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef XJDF_PARTAMOUNT_H
-#define XJDF_PARTAMOUNT_H
+#ifndef XJDF_PARTWASTE_H
+#define XJDF_PARTWASTE_H
 
 #include "abstractnode.h"
 
@@ -33,43 +33,40 @@
 namespace Proof {
 namespace XJdf {
 
-class PartAmountPrivate;
-class PROOF_NETWORK_XJDF_EXPORT PartAmount : public AbstractNode
+class PartWastePrivate;
+class PROOF_NETWORK_XJDF_EXPORT PartWaste : public AbstractNode
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(PartAmount)
+    Q_DECLARE_PRIVATE(PartWaste)
     friend Document;
 
 public:
-    PartAmount(const PartAmount &) = delete;
-    PartAmount &operator=(const PartAmount &) = delete;
-    PartAmount(PartAmount &&) = delete;
-    PartAmount &operator=(PartAmount &&) = delete;
-    ~PartAmount() = default;
+    PartWaste(const PartWaste &) = delete;
+    PartWaste &operator=(const PartWaste &) = delete;
+    PartWaste(PartWaste &&) = delete;
+    PartWaste &operator=(PartWaste &&) = delete;
+    ~PartWaste() = default;
 
-    qulonglong amount() const;
-    QVector<PartSP> parts() const;
-    QVector<PartWasteSP> partsWaste() const;
+    qulonglong waste() const;
+    WasteDetails wasteDetails() const;
 
-    void setAmount(qulonglong arg);
-    void setParts(const QVector<PartSP> &arg);
-    void setPartsWaste(const QVector<PartWasteSP> &arg);
+    void setWaste(qulonglong arg);
+    void setWasteDetails(WasteDetails arg);
 
-    static PartAmountSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
+    static PartWasteSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document = DocumentSP());
     void toXJdf(QXmlStreamWriter &writer) const override;
 
 signals:
-    void amountChanged(qulonglong arg);
-    void partsChanged(const QVector<Proof::XJdf::PartSP> &parts);
-    void partsWasteChanged(const QVector<Proof::XJdf::PartWasteSP> &partsWaste);
+    void wasteChanged(qulonglong arg);
+    void wasteDetailsChanged(Proof::XJdf::WasteDetails arg);
 
 protected:
-    explicit PartAmount();
-    static PartAmountSP create(const DocumentSP &document);
+    explicit PartWaste();
+    static PartWasteSP create(const DocumentSP &document);
     void updateSelf(const Proof::NetworkDataEntitySP &other) override;
 };
 
 } // namespace XJdf
 } // namespace Proof
 
-#endif // XJDF_PARTAMOUNT_H
+#endif // XJDF_PARTWASTE_H

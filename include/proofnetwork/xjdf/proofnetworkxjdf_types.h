@@ -105,6 +105,10 @@ class PartAmount;
 using PartAmountSP = QSharedPointer<PartAmount>;
 using PartAmountWP = QWeakPointer<PartAmount>;
 
+class PartWaste;
+using PartWasteSP = QSharedPointer<PartWaste>;
+using PartWasteWP = QWeakPointer<PartWaste>;
+
 class AmountPool;
 using AmountPoolSP = QSharedPointer<AmountPool>;
 using AmountPoolWP = QWeakPointer<AmountPool>;

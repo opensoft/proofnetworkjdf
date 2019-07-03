@@ -18,6 +18,7 @@
 #include "proofnetwork/xjdf/data/media.h"
 #include "proofnetwork/xjdf/data/part.h"
 #include "proofnetwork/xjdf/data/partamount.h"
+#include "proofnetwork/xjdf/data/partwaste.h"
 #include "proofnetwork/xjdf/data/product.h"
 #include "proofnetwork/xjdf/data/productlist.h"
 #include "proofnetwork/xjdf/data/resourceset.h"
@@ -61,6 +62,12 @@ TEST_F(DocumentTest, misc)
     xjdfDocUT->setJobPartId("PART_ID");
     EXPECT_EQ("PART_ID", xjdfDocUT->jobPartId());
 
+    xjdfDocUT->setTypes({ProcessType::Cutting});
+    xjdfDocUT->addType(ProcessType::BoxPacking);
+    ASSERT_EQ(2, xjdfDocUT->types().count());
+    EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types().first());
+    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types().last());
+
     ASSERT_TRUE(xjdfDocUT->auditPool());
     auto auditPool = xjdfDocUT->auditPool();
     ASSERT_TRUE(auditPool->created());
@@ -82,7 +89,7 @@ TEST_F(DocumentTest, misc)
     productList->addProduct(productNew);
     ASSERT_EQ(4, productList->products().size());
     auto productNew2 = productList->products()[3];
-    EXPECT_EQ(productNew, productNew2);
+    EXPECT_EQ(productNew->id(), productNew2->id());
 
     auto color = product1->intentsByType<ColorIntent>()[0];
     ASSERT_EQ(2, color->spots().count());
@@ -115,7 +122,8 @@ TEST_F(DocumentTest, toXJdf)
 
     EXPECT_EQ("PRESSSHEET_ID", xjdfDocNew->jobId());
     EXPECT_EQ(ProcessType::Cutting, xjdfDocNew->types()[0]);
-    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocNew->types()[1]);
+    EXPECT_EQ(ProcessType::Folding, xjdfDocNew->types()[1]);
+    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocNew->types()[2]);
 
     ASSERT_EQ(2, xjdfDocNew->namespaces().count());
     EXPECT_EQ("profit", xjdfDocNew->namespaces()[1].first);
@@ -245,10 +253,21 @@ TEST_F(DocumentTest, toXJdf)
 
     auto resourceSet7 = xjdfDocNew->resourceSets()[6];
     EXPECT_EQ("Component", resourceSet7->name());
-    ASSERT_FALSE(resourceSet7->resources().count());
+    ASSERT_TRUE(resourceSet7->resources().count());
     ASSERT_EQ(1, resourceSet7->combinedProcessIndexes().count());
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
+
+    auto component3 = resourceSet7->resourcesByType<Component>().first();
+    ASSERT_TRUE(component3);
+    ASSERT_EQ(1, component3->amountPool()->parts().count());
+    auto partAmount = component3->amountPool()->parts().first();
+    EXPECT_EQ(30, partAmount->amount());
+    ASSERT_EQ(1, partAmount->parts().count());
+    EXPECT_EQ("ProductInfo_3", partAmount->parts().first()->productPart());
+    ASSERT_EQ(1, partAmount->partsWaste().count());
+    EXPECT_EQ(10, partAmount->partsWaste().first()->waste());
+    EXPECT_EQ(WasteDetails::Overrun, partAmount->partsWaste().first()->wasteDetails());
 
     auto resourceSet8 = xjdfDocNew->resourceSets()[7];
     EXPECT_EQ("FoldingParams", resourceSet8->name());
@@ -270,6 +289,8 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(xjdfDocUT2->namespaces()[1].second, xjdfDocUT3->namespaces()[1].second);
 
     EXPECT_EQ(xjdfDocUT2->jobId(), xjdfDocUT3->jobId());
+    ASSERT_EQ(2, xjdfDocUT3->types().count());
+    ASSERT_EQ(xjdfDocUT2->types().count(), xjdfDocUT3->types().count());
     EXPECT_EQ(xjdfDocUT2->types()[0], xjdfDocUT3->types()[0]);
     EXPECT_EQ(xjdfDocUT2->types()[1], xjdfDocUT3->types()[1]);
 
@@ -308,6 +329,8 @@ TEST_F(DocumentTest, updateFrom)
     auto productList = xjdfDocUT2->productList();
     auto productList2 = xjdfDocUT3->productList();
 
+    ASSERT_FALSE(productList->products().isEmpty());
+    ASSERT_FALSE(productList2->products().isEmpty());
     auto product1 = productList->products()[0];
     auto product21 = productList2->products()[0];
 
@@ -521,7 +544,8 @@ TEST_F(DocumentTest, fromXJdf)
 {
     EXPECT_EQ("PRESSSHEET_ID", xjdfDocUT->jobId());
     EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types()[0]);
-    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types()[1]);
+    EXPECT_EQ(ProcessType::Folding, xjdfDocUT->types()[1]);
+    EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types()[2]);
 
     //Default ns here too
     ASSERT_EQ(2, xjdfDocUT->namespaces().count());
@@ -652,10 +676,21 @@ TEST_F(DocumentTest, fromXJdf)
 
     auto resourceSet7 = xjdfDocUT->resourceSets()[6];
     EXPECT_EQ("Component", resourceSet7->name());
-    ASSERT_FALSE(resourceSet7->resources().count());
+    ASSERT_EQ(1, resourceSet7->resources().count());
     ASSERT_EQ(1, resourceSet7->combinedProcessIndexes().count());
     EXPECT_EQ(1, resourceSet7->combinedProcessIndexes()[0]);
     EXPECT_EQ(UsageType::Output, resourceSet7->usage());
+
+    auto component3 = resourceSet7->resourcesByType<Component>().first();
+    ASSERT_TRUE(component3);
+    ASSERT_EQ(1, component3->amountPool()->parts().count());
+    auto partAmount = component3->amountPool()->parts().first();
+    EXPECT_EQ(30, partAmount->amount());
+    ASSERT_EQ(1, partAmount->parts().count());
+    EXPECT_EQ("ProductInfo_3", partAmount->parts().first()->productPart());
+    ASSERT_EQ(1, partAmount->partsWaste().count());
+    EXPECT_EQ(10, partAmount->partsWaste().first()->waste());
+    EXPECT_EQ(WasteDetails::Overrun, partAmount->partsWaste().first()->wasteDetails());
 
     auto resourceSet8 = xjdfDocUT->resourceSets()[7];
     EXPECT_EQ("FoldingParams", resourceSet8->name());
