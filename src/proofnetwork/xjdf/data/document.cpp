@@ -109,7 +109,7 @@ void Document::setAuditPool(const AuditPoolSP &arg)
         auto newPool = d->document.toStrongRef()->createNode<AuditPool>();
         newPool->updateFrom(arg);
         d->auditPool = newPool;
-        emit auditPoolChanged(arg);
+        emit auditPoolChanged(d->auditPool);
     }
 }
 
@@ -119,7 +119,8 @@ void Document::setProductList(const ProductListSP &arg)
     if (arg != d->productList) {
         auto newProductList = d->document.toStrongRef()->createNode<ProductList>();
         newProductList->updateFrom(arg);
-        emit productListChanged(arg);
+        d->productList = newProductList;
+        emit productListChanged(d->productList);
     }
 }
 
@@ -186,6 +187,7 @@ DocumentSP Document::create()
 {
     DocumentSP result(new Document());
     initSelfWeakPtr(result);
+    result->d_func()->document = result;
     result->d_func()->auditPool = AuditPool::create(result);
     result->d_func()->productList = ProductList::create(result);
 
@@ -205,7 +207,6 @@ DocumentSP Document::fromFile(const QString &filePath)
 DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
 {
     DocumentSP document = create();
-    document->d_func()->document = document;
 
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {

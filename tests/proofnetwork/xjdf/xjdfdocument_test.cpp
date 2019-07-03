@@ -89,7 +89,7 @@ TEST_F(DocumentTest, misc)
     productList->addProduct(productNew);
     ASSERT_EQ(4, productList->products().size());
     auto productNew2 = productList->products()[3];
-    EXPECT_EQ(productNew, productNew2);
+    EXPECT_EQ(productNew->id(), productNew2->id());
 
     auto color = product1->intentsByType<ColorIntent>()[0];
     ASSERT_EQ(2, color->spots().count());
@@ -329,6 +329,8 @@ TEST_F(DocumentTest, updateFrom)
     auto productList = xjdfDocUT2->productList();
     auto productList2 = xjdfDocUT3->productList();
 
+    ASSERT_FALSE(productList->products().isEmpty());
+    ASSERT_FALSE(productList2->products().isEmpty());
     auto product1 = productList->products()[0];
     auto product21 = productList2->products()[0];
 
