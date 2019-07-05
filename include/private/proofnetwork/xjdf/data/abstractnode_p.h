@@ -36,8 +36,7 @@ class AbstractNodePrivate : public NetworkDataEntityPrivate
 
 public:
     AbstractNodePrivate() = default;
-    void updateDocument(const DocumentSP &newDocument);
-    DocumentWP document;
+    mutable DocumentWP document;
 };
 
 class NodeWriterGuard

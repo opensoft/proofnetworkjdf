@@ -134,7 +134,7 @@ DropItem::DropItem() : AbstractNode(*new DropItemPrivate)
 void DropItem::updateSelf(const NetworkDataEntitySP &other)
 {
     DropItemSP castedOther = qSharedPointerCast<DropItem>(other);
-    updateProduct(castedOther->d_func()->productId);
+    updateProduct(castedOther->product()->id());
     setAmount(castedOther->amount());
     AbstractNode::updateSelf(other);
 }

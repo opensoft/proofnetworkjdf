@@ -199,6 +199,6 @@ void Component::updateSelf(const NetworkDataEntitySP &other)
     setWidth(castedOther->width());
     setHeight(castedOther->height());
     setThickness(castedOther->thickness());
-    updateMediaRef(castedOther->d_func()->mediaRef);
+    updateMediaRef(castedOther->mediaRef()->id());
     Resource::updateSelf(other);
 }
