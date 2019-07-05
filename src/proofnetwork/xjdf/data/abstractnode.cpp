@@ -61,8 +61,3 @@ NodeWriterGuard::~NodeWriterGuard()
     if (writer)
         writer->writeEndElement();
 }
-
-void AbstractNodePrivate::updateDocument(const DocumentSP &newDocument)
-{
-    document = newDocument;
-}

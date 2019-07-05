@@ -41,8 +41,8 @@ class DocumentPrivate : public AbstractNodePrivate
 
     QString jobId;
     QString jobPartId;
-    AuditPoolSP auditPool;
-    ProductListSP productList;
+    mutable AuditPoolSP auditPool;
+    mutable ProductListSP productList;
     QVector<ProcessType> types;
     QVector<ResourceSetSP> resourceSets;
     QVector<QPair<QString, QString>> namespaces;
@@ -69,12 +69,16 @@ QString Document::jobPartId() const
 AuditPoolSP Document::auditPool() const
 {
     Q_D_CONST(Document);
+    if (!d->auditPool)
+        d->auditPool = d->document.toStrongRef()->createNode<AuditPool>();
     return d->auditPool;
 }
 
 ProductListSP Document::productList() const
 {
     Q_D_CONST(Document);
+    if (!d->productList)
+        d->productList = d->document.toStrongRef()->createNode<ProductList>();
     return d->productList;
 }
 
@@ -188,9 +192,6 @@ DocumentSP Document::create()
     DocumentSP result(new Document());
     initSelfWeakPtr(result);
     result->d_func()->document = result;
-    result->d_func()->auditPool = AuditPool::create(result);
-    result->d_func()->productList = ProductList::create(result);
-
     return result;
 }
 

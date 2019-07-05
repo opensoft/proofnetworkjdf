@@ -110,7 +110,6 @@ FoldingParamsSP FoldingParams::fromXJdf(QXmlStreamReader &reader, const Document
     FoldingParamsSP params;
     if (reader.isStartElement() && reader.name() == QStringLiteral("FoldingParams")) {
         params = create(document);
-        params->d_func()->document = document;
 
         params->setFoldCatalog(reader.attributes().value(QStringLiteral("FoldCatalog")).toString());
         params->setFoldingDetails(reader.attributes().value(QStringLiteral("FoldingDetails")).toString());
