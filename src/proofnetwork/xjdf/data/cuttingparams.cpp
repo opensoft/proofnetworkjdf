@@ -77,7 +77,8 @@ void CuttingParams::setCutBlocks(const QVector<CutBlockSP> &arg)
 CuttingParamsSP CuttingParams::create(const DocumentSP &document)
 {
     CuttingParamsSP result(new CuttingParams());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

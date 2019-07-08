@@ -153,7 +153,8 @@ void Media::setLayers(const QVector<MediaSP> &arg)
 MediaSP Media::create(const DocumentSP &document, const QString &id)
 {
     MediaSP result(new Media(id));
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

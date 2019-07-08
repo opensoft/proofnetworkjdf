@@ -61,7 +61,8 @@ ResourceSP Component::cloneTo(const DocumentSP &document)
 ComponentSP Component::create(const DocumentSP &document)
 {
     ComponentSP result(new Component());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

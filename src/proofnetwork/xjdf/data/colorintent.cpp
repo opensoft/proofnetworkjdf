@@ -94,7 +94,8 @@ void ColorIntent::addSpot(Side side, bool arg)
 ColorIntentSP ColorIntent::create(const DocumentSP &document)
 {
     ColorIntentSP result(new ColorIntent());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

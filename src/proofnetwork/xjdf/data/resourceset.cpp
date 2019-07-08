@@ -106,7 +106,8 @@ void ResourceSet::setUsage(UsageType arg)
 ResourceSetSP ResourceSet::create(const DocumentSP &document)
 {
     ResourceSetSP result(new ResourceSet());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

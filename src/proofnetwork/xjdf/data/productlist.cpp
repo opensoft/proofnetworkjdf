@@ -57,7 +57,8 @@ QVector<ProductSP> ProductList::products() const
 ProductListSP ProductList::create(const DocumentSP &document)
 {
     ProductListSP result(new ProductList());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

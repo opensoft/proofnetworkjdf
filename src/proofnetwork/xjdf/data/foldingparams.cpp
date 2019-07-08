@@ -100,7 +100,8 @@ void FoldingParams::setFoldingDetails(const QString &arg)
 FoldingParamsSP FoldingParams::create(const DocumentSP &document)
 {
     FoldingParamsSP result(new FoldingParams());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

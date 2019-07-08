@@ -113,7 +113,8 @@ void PartAmount::setPartsWaste(const QVector<PartWasteSP> &arg)
 PartAmountSP PartAmount::create(const DocumentSP &document)
 {
     PartAmountSP result(new PartAmount());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

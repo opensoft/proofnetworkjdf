@@ -52,6 +52,34 @@ protected:
     DocumentSP xjdfDocUT;
 };
 
+TEST_F(DocumentTest, isDirty)
+{
+    auto document = Document::create();
+    ASSERT_FALSE(document->isDirty());
+
+    ASSERT_FALSE(document->createNode<AmountPool>()->isDirty());
+    ASSERT_FALSE(document->createNode<AuditCreated>()->isDirty());
+    ASSERT_FALSE(document->createNode<AuditNotification>()->isDirty());
+    ASSERT_FALSE(document->createNode<AuditPool>()->isDirty());
+    ASSERT_FALSE(document->createNode<BoxPackingParams>()->isDirty());
+    ASSERT_FALSE(document->createNode<ColorIntent>()->isDirty());
+    ASSERT_FALSE(document->createNode<Component>()->isDirty());
+    ASSERT_FALSE(document->createNode<CutBlock>(QString())->isDirty());
+    ASSERT_FALSE(document->createNode<CuttingParams>()->isDirty());
+    ASSERT_FALSE(document->createNode<DeliveryParams>()->isDirty());
+    ASSERT_FALSE(document->createNode<DropItem>()->isDirty());
+    ASSERT_FALSE(document->createNode<FoldingIntent>()->isDirty());
+    ASSERT_FALSE(document->createNode<FoldingParams>()->isDirty());
+    ASSERT_FALSE(document->createNode<LaminatingIntent>()->isDirty());
+    ASSERT_FALSE(document->createNode<Media>(QString())->isDirty());
+    ASSERT_FALSE(document->createNode<Part>()->isDirty());
+    ASSERT_FALSE(document->createNode<PartAmount>()->isDirty());
+    ASSERT_FALSE(document->createNode<PartWaste>()->isDirty());
+    ASSERT_FALSE(document->createNode<Product>(QString())->isDirty());
+    ASSERT_FALSE(document->createNode<ProductList>()->isDirty());
+    ASSERT_FALSE(document->createNode<ResourceSet>()->isDirty());
+}
+
 TEST_F(DocumentTest, misc)
 {
     auto dummyDocument = Document::create();

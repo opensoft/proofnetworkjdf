@@ -77,7 +77,8 @@ void AuditCreated::setTemplateVersion(const QString &arg)
 AuditCreatedSP AuditCreated::create(const DocumentSP &document)
 {
     AuditCreatedSP result(new AuditCreated());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

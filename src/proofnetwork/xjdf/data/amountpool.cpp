@@ -71,7 +71,8 @@ void AmountPool::setParts(const QVector<PartAmountSP> &arg)
 AmountPoolSP AmountPool::create(const DocumentSP &document)
 {
     AmountPoolSP result(new AmountPool());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

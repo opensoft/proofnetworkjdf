@@ -85,7 +85,8 @@ double CutBlock::y() const
 CutBlockSP CutBlock::create(const DocumentSP &document, const QString &blockName)
 {
     CutBlockSP result(new CutBlock(blockName));
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

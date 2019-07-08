@@ -94,7 +94,8 @@ void DropItem::updateProduct(const QString &arg)
 DropItemSP DropItem::create(const DocumentSP &document)
 {
     DropItemSP result(new DropItem());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
