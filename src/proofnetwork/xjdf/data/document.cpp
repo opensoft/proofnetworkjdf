@@ -191,7 +191,8 @@ DocumentSP Document::create()
 {
     DocumentSP result(new Document());
     initSelfWeakPtr(result);
-    result->d_func()->document = result;
+    const Document *constDocument = result.data();
+    constDocument->d_func()->document = result;
     return result;
 }
 

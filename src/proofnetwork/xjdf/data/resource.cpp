@@ -191,7 +191,8 @@ Resource::Resource(const QString &id) : Resource(*new ResourcePrivate, id)
 
 Resource::Resource(ResourcePrivate &dd, const QString &id) : AbstractNode(dd)
 {
-    setId(id);
+    if (!id.isEmpty())
+        setId(id);
 }
 
 void Resource::addResourceCreator(const QString &name,

@@ -84,7 +84,8 @@ void BoxPackingParams::setBoxTypeDetails(const QString &arg)
 BoxPackingParamsSP BoxPackingParams::create(const DocumentSP &document)
 {
     BoxPackingParamsSP result(new BoxPackingParams());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

@@ -114,7 +114,8 @@ PartWaste::PartWaste() : AbstractNode(*new PartWastePrivate)
 PartWasteSP PartWaste::create(const DocumentSP &document)
 {
     PartWasteSP result(new PartWaste());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

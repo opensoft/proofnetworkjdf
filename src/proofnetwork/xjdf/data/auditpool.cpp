@@ -36,7 +36,7 @@ class AuditPoolPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(AuditPool)
 
-    AuditPoolPrivate() { registerChildren(created, notifications); }
+    AuditPoolPrivate() : AbstractNodePrivate() { registerChildren(created, notifications); }
 
     AuditCreatedSP created;
     QVector<AuditNotificationSP> notifications;
@@ -66,7 +66,8 @@ QVector<AuditNotificationSP> AuditPool::notifications() const
 AuditPoolSP AuditPool::create(const DocumentSP &document)
 {
     AuditPoolSP result(new AuditPool());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

@@ -69,7 +69,8 @@ void FoldingIntent::setFoldCatalog(FoldType arg)
 FoldingIntentSP FoldingIntent::create(const DocumentSP &document)
 {
     FoldingIntentSP result(new FoldingIntent());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

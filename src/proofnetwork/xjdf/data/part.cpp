@@ -84,7 +84,8 @@ void Part::setBlockName(const QString &arg)
 PartSP Part::create(const DocumentSP &document)
 {
     PartSP result(new Part());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

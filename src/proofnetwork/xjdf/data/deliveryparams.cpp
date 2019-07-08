@@ -92,7 +92,8 @@ void DeliveryParams::setItems(const QVector<DropItemSP> &arg)
 DeliveryParamsSP DeliveryParams::create(const DocumentSP &document)
 {
     DeliveryParamsSP result(new DeliveryParams());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

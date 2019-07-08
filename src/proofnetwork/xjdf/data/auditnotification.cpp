@@ -62,7 +62,8 @@ void AuditNotification::setSeverityClass(Severity arg)
 AuditNotificationSP AuditNotification::create(const DocumentSP &document)
 {
     AuditNotificationSP result(new AuditNotification());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

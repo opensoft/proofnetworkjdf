@@ -69,7 +69,8 @@ void LaminatingIntent::setSurface(Side surface)
 LaminatingIntentSP LaminatingIntent::create(const DocumentSP &document)
 {
     LaminatingIntentSP result(new LaminatingIntent());
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }

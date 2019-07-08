@@ -145,7 +145,8 @@ void Product::setIntents(const QVector<IntentSP> &arg)
 ProductSP Product::create(const DocumentSP &document, const QString &id)
 {
     ProductSP result(new Product(id));
-    result->d_func()->document = document;
+    const auto *constEntity = result.data();
+    constEntity->d_func()->document = document;
     initSelfWeakPtr(result);
     return result;
 }
@@ -208,7 +209,8 @@ void Product::toXJdf(QXmlStreamWriter &writer) const
 
 Product::Product(const QString &id) : AbstractNode(*new ProductPrivate)
 {
-    setId(id);
+    if (!id.isEmpty())
+        setId(id);
 }
 
 void Product::updateSelf(const NetworkDataEntitySP &other)
