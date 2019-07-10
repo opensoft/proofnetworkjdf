@@ -49,7 +49,6 @@ public:
     QString jobPartId() const;
     AuditPoolSP auditPool() const;
     ProductListSP productList() const;
-    QVector<QPair<QString, QString>> namespaces() const;
 
     void setJobId(const QString &arg);
     void setJobPartId(const QString &arg);
@@ -61,7 +60,6 @@ public:
     void addType(ProcessType arg);
     void setResourceSets(const QVector<ResourceSetSP> &arg);
     void addResourceSet(const ResourceSetSP &arg);
-    void setNamespaces(const QVector<QPair<QString, QString>> &arg);
 
     template <class T>
     QVector<QSharedPointer<T>> findResources(const std::function<bool(const QSharedPointer<T> &)> &predicate =
@@ -98,7 +96,6 @@ signals:
     void productListChanged(const Proof::XJdf::ProductListSP &arg);
     void typesChanged(const QVector<Proof::XJdf::ProcessType> &arg);
     void resourceSetsChanged(const QVector<Proof::XJdf::ResourceSetSP> &arg);
-    void namespacesChanged(const QVector<QPair<QString, QString>> &arg);
 
 protected:
     explicit Document();

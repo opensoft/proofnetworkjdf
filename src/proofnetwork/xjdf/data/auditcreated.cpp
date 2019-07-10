@@ -91,9 +91,8 @@ AuditCreatedSP AuditCreated::fromXJdf(QXmlStreamReader &reader, const DocumentSP
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("Header")) {
-                auto attributes = reader.attributes();
-                created->setTemplateId(attributes.value(QStringLiteral("profit:TemplateID")).toString());
-                created->setTemplateVersion(attributes.value(QStringLiteral("profit:TemplateVersion")).toString());
+                created->setTemplateId(created->readAttribute(reader, QStringLiteral("TemplateID")));
+                created->setTemplateVersion(created->readAttribute(reader, QStringLiteral("TemplateVersion")));
                 created->readFieldsFromXJdf(reader);
             }
         } else if (reader.isEndElement()) {
@@ -111,10 +110,9 @@ void AuditCreated::toXJdf(QXmlStreamWriter &writer) const
     Q_D_CONST(AuditCreated);
     writer.writeStartElement(QStringLiteral("AuditCreated"));
     writer.writeStartElement(QStringLiteral("Header"));
-    if (!d->templateId.isEmpty())
-        writer.writeAttribute(QStringLiteral("profit:TemplateID"), d->templateId);
-    if (!d->templateVersion.isEmpty())
-        writer.writeAttribute(QStringLiteral("profit:TemplateVersion"), d->templateVersion);
+
+    writeAttribute(writer, QStringLiteral("TemplateID"), d->templateId);
+    writeAttribute(writer, QStringLiteral("TemplateVersion"), d->templateVersion);
     AuditItemBase::toXJdf(writer);
     writer.writeEndElement();
     writer.writeEndElement();
