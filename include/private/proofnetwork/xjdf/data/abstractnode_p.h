@@ -37,6 +37,7 @@ class AbstractNodePrivate : public NetworkDataEntityPrivate
 public:
     AbstractNodePrivate() = default;
     mutable DocumentWP document;
+    QXmlStreamNamespaceDeclarations namespaces;
 };
 
 class NodeWriterGuard

@@ -46,10 +46,21 @@ public:
     AbstractNode &operator=(AbstractNode &&) = delete;
     ~AbstractNode() = default;
 
+    QXmlStreamNamespaceDeclarations namespaces() const;
+
+    void setNamespaces(const QXmlStreamNamespaceDeclarations &arg);
+    void addNamespace(const QXmlStreamNamespaceDeclaration &arg);
+
+    QString readAttribute(QXmlStreamReader &reader, const QString &name);
+    void writeAttribute(QXmlStreamWriter &writer, const QString &name, const QString &value) const;
+
     NetworkDataEntityQmlWrapper *toQmlWrapper(QObject *parent = nullptr) const override;
 
     virtual bool readFieldsFromXJdf(QXmlStreamReader &reader);
     virtual void toXJdf(QXmlStreamWriter &writer) const = 0;
+
+signals:
+    void namespacesChanged(const QXmlStreamNamespaceDeclarations &arg);
 
 protected:
     explicit AbstractNode(AbstractNodePrivate &dd);

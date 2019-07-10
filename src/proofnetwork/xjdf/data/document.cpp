@@ -45,7 +45,6 @@ class DocumentPrivate : public AbstractNodePrivate
     mutable ProductListSP productList;
     QVector<ProcessType> types;
     QVector<ResourceSetSP> resourceSets;
-    QVector<QPair<QString, QString>> namespaces;
 };
 
 } // namespace XJdf
@@ -80,12 +79,6 @@ ProductListSP Document::productList() const
     if (!d->productList)
         d->productList = d->document.toStrongRef()->createNode<ProductList>();
     return d->productList;
-}
-
-QVector<QPair<QString, QString>> Document::namespaces() const
-{
-    Q_D_CONST(Document);
-    return d->namespaces;
 }
 
 void Document::setJobId(const QString &arg)
@@ -178,15 +171,6 @@ void Document::addResourceSet(const ResourceSetSP &arg)
     emit resourceSetsChanged(d->resourceSets);
 }
 
-void Document::setNamespaces(const QVector<QPair<QString, QString>> &arg)
-{
-    Q_D(Document);
-    if (arg != d->namespaces) {
-        d->namespaces = arg;
-        emit namespacesChanged(d->namespaces);
-    }
-}
-
 DocumentSP Document::create()
 {
     DocumentSP result(new Document());
@@ -213,14 +197,7 @@ DocumentSP Document::fromXJdf(QXmlStreamReader &reader)
     while (!reader.atEnd() && !reader.hasError()) {
         if (reader.isStartElement()) {
             if (reader.name() == QStringLiteral("XJDF")) {
-                auto namespaces = reader.namespaceDeclarations();
-
-                document->setNamespaces(algorithms::map(namespaces,
-                                                        [](const auto &ns) {
-                                                            return qMakePair(ns.prefix().toString(),
-                                                                             ns.namespaceUri().toString());
-                                                        },
-                                                        QVector<QPair<QString, QString>>()));
+                document->setNamespaces(reader.namespaceDeclarations());
 
                 auto attributes = reader.attributes();
                 document->setJobId(attributes.value(QStringLiteral("JobID")).toString());
@@ -265,9 +242,8 @@ void Document::toXJdf(QXmlStreamWriter &writer) const
 
     writer.writeDefaultNamespace(QStringLiteral("http://www.CIP4.org/JDFSchema_2_0"));
 
-    for (const auto &ns : qAsConst(d->namespaces)) {
-        writer.writeNamespace(ns.second, ns.first);
-    }
+    for (const auto &ns : qAsConst(d->namespaces))
+        writer.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
 
     writer.writeAttribute(QStringLiteral("JobID"), jobId());
     writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());

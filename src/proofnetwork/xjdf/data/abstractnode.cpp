@@ -25,9 +25,63 @@
 #include "proofnetwork/xjdf/data/abstractnode.h"
 
 #include "proofnetwork/xjdf/data/abstractnode_p.h"
+#include "proofnetwork/xjdf/data/document.h"
 
 using namespace Proof;
 using namespace Proof::XJdf;
+
+QXmlStreamNamespaceDeclarations AbstractNode::namespaces() const
+{
+    Q_D_CONST(AbstractNode);
+    return d->namespaces;
+}
+
+void AbstractNode::setNamespaces(const QXmlStreamNamespaceDeclarations &arg)
+{
+    Q_D(AbstractNode);
+    if (arg != d->namespaces) {
+        d->namespaces = arg;
+        emit namespacesChanged(d->namespaces);
+    }
+}
+
+void AbstractNode::addNamespace(const QXmlStreamNamespaceDeclaration &arg)
+{
+    Q_D(AbstractNode);
+    if (!d->namespaces.contains(arg)) {
+        d->namespaces.append(arg);
+        emit namespacesChanged(d->namespaces);
+    }
+}
+
+QString AbstractNode::readAttribute(QXmlStreamReader &reader, const QString &name)
+{
+    Q_D(AbstractNode);
+    auto attributes = reader.attributes();
+    const auto namespaces = d->document.toStrongRef()->namespaces() + d->namespaces;
+    for (const auto &ns : namespaces) {
+        if (attributes.hasAttribute(ns.namespaceUri().toString(), name)) {
+            addNamespace(ns);
+            return attributes.value(ns.namespaceUri().toString(), name).toString();
+        }
+    }
+    return reader.attributes().value(name).toString();
+}
+
+void AbstractNode::writeAttribute(QXmlStreamWriter &writer, const QString &name, const QString &value) const
+{
+    Q_D_CONST(AbstractNode);
+    if (value.isEmpty())
+        return;
+
+    QString namesUri;
+    for (const auto &ns : qAsConst(d->namespaces)) {
+        namesUri = ns.namespaceUri().toString();
+        if (!ns.prefix().isEmpty())
+            break;
+    }
+    writer.writeAttribute(namesUri, name, value);
+}
 
 NetworkDataEntityQmlWrapper *AbstractNode::toQmlWrapper(QObject *parent) const
 {

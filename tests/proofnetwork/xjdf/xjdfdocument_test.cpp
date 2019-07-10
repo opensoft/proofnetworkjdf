@@ -84,6 +84,10 @@ TEST_F(DocumentTest, misc)
 {
     auto dummyDocument = Document::create();
 
+    EXPECT_TRUE(dummyDocument->namespaces().isEmpty());
+    dummyDocument->addNamespace({"prefix", "https://www.test.com/test"});
+    EXPECT_EQ(1, dummyDocument->namespaces().count());
+
     xjdfDocUT->toFile("tofile.xml");
     EXPECT_TRUE(QFileInfo("tofile.xml").exists());
 
@@ -154,8 +158,8 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_EQ(ProcessType::BoxPacking, xjdfDocNew->types()[2]);
 
     ASSERT_EQ(2, xjdfDocNew->namespaces().count());
-    EXPECT_EQ("profit", xjdfDocNew->namespaces()[1].first);
-    EXPECT_EQ("https://www.opensoftdev.com/profit", xjdfDocNew->namespaces()[1].second);
+    EXPECT_EQ("profit", xjdfDocNew->namespaces()[1].prefix());
+    EXPECT_EQ("https://www.opensoftdev.com/profit", xjdfDocNew->namespaces()[1].namespaceUri());
 
     ASSERT_TRUE(xjdfDocNew->auditPool());
     auto auditPool = xjdfDocNew->auditPool();
@@ -313,8 +317,7 @@ TEST_F(DocumentTest, updateFrom)
     ASSERT_TRUE(xjdfDocUT2);
     xjdfDocUT3->updateFrom(xjdfDocUT2);
 
-    EXPECT_EQ(xjdfDocUT2->namespaces()[1].first, xjdfDocUT3->namespaces()[1].first);
-    EXPECT_EQ(xjdfDocUT2->namespaces()[1].second, xjdfDocUT3->namespaces()[1].second);
+    EXPECT_EQ(xjdfDocUT2->namespaces()[1], xjdfDocUT3->namespaces()[1]);
 
     EXPECT_EQ(xjdfDocUT2->jobId(), xjdfDocUT3->jobId());
     ASSERT_EQ(2, xjdfDocUT3->types().count());
@@ -577,8 +580,8 @@ TEST_F(DocumentTest, fromXJdf)
 
     //Default ns here too
     ASSERT_EQ(2, xjdfDocUT->namespaces().count());
-    EXPECT_EQ("profit", xjdfDocUT->namespaces()[1].first);
-    EXPECT_EQ("https://www.opensoftdev.com/profit", xjdfDocUT->namespaces()[1].second);
+    EXPECT_EQ("profit", xjdfDocUT->namespaces()[1].prefix());
+    EXPECT_EQ("https://www.opensoftdev.com/profit", xjdfDocUT->namespaces()[1].namespaceUri());
 
     ASSERT_TRUE(xjdfDocUT->auditPool());
     auto auditPool = xjdfDocUT->auditPool();
