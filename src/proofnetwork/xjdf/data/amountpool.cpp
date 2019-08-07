@@ -35,7 +35,7 @@ class AmountPoolPrivate : public AbstractNodePrivate
     Q_DECLARE_PUBLIC(AmountPool)
 
 public:
-    AmountPoolPrivate() = default;
+    AmountPoolPrivate() { registerChildren(parts); }
 
     QVector<PartAmountSP> parts;
 };

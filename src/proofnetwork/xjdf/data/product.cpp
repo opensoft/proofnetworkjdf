@@ -35,7 +35,7 @@ class ProductPrivate : public AbstractNodePrivate
     Q_DECLARE_PUBLIC(Product)
 
 public:
-    ProductPrivate() = default;
+    ProductPrivate() { registerChildren(intents); }
 
     QString id;
     QString externalId;

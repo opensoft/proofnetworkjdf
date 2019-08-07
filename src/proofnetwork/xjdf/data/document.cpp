@@ -38,6 +38,7 @@ namespace XJdf {
 class DocumentPrivate : public AbstractNodePrivate
 {
     Q_DECLARE_PUBLIC(Document)
+    DocumentPrivate() { registerChildren(auditPool, productList, resourceSets); }
 
     QString jobId;
     QString jobPartId;
