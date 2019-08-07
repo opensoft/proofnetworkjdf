@@ -36,7 +36,7 @@ class ComponentPrivate : public ResourcePrivate
     Q_DECLARE_PUBLIC(Component)
 
 public:
-    ComponentPrivate() = default;
+    ComponentPrivate() { registerChildren(lazyMedia); }
     QString mediaRef;
     mutable MediaSP lazyMedia;
 

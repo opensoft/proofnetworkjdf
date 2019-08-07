@@ -34,7 +34,7 @@ class MediaPrivate : public ResourcePrivate
     Q_DECLARE_PUBLIC(Media)
 
 public:
-    MediaPrivate() = default;
+    MediaPrivate() { registerChildren(layers); }
 
     double width = 0.0;
     double height = 0.0;

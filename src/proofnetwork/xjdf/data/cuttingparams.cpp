@@ -34,7 +34,7 @@ namespace XJdf {
 class CuttingParamsPrivate : public ResourcePrivate
 {
     Q_DECLARE_PUBLIC(CuttingParams)
-    CuttingParamsPrivate() {}
+    CuttingParamsPrivate() { registerChildren(blocks); }
 
     QVector<CutBlockSP> blocks;
 };

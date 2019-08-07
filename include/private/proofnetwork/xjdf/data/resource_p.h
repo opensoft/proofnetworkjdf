@@ -28,6 +28,7 @@
 #include "abstractnode_p.h"
 
 #include "proofnetwork/xjdf/data/amountpool.h"
+#include "proofnetwork/xjdf/data/part.h"
 #include "proofnetwork/xjdf/data/resource.h"
 
 namespace Proof {
@@ -37,7 +38,7 @@ class ResourcePrivate : public AbstractNodePrivate
     Q_DECLARE_PUBLIC(Resource)
 
 public:
-    ResourcePrivate() = default;
+    ResourcePrivate() { registerChildren(parts, amountPool); }
     QString id;
     ResourceOrientation orientation = ResourceOrientation::Rotate0Orientation;
     QVector<PartSP> parts;

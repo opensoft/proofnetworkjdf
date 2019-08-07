@@ -34,7 +34,7 @@ namespace XJdf {
 class DeliveryParamsPrivate : public ResourcePrivate
 {
     Q_DECLARE_PUBLIC(DeliveryParams)
-    DeliveryParamsPrivate() {}
+    DeliveryParamsPrivate() { registerChildren(items); }
     QDateTime required;
     QVector<DropItemSP> items;
 };

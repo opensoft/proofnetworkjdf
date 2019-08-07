@@ -36,7 +36,7 @@ class PartAmountPrivate : public AbstractNodePrivate
     Q_DECLARE_PUBLIC(PartAmount)
 
 public:
-    PartAmountPrivate() = default;
+    PartAmountPrivate() { registerChildren(parts, partsWaste); }
 
     qulonglong amount = 0;
     QVector<PartSP> parts;

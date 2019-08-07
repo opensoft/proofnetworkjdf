@@ -36,7 +36,7 @@ class DropItemPrivate : public AbstractNodePrivate
     Q_DECLARE_PUBLIC(DropItem)
 
 public:
-    DropItemPrivate() = default;
+    DropItemPrivate() { registerChildren(lazyProduct); }
 
     mutable ProductSP lazyProduct;
     QString productId;

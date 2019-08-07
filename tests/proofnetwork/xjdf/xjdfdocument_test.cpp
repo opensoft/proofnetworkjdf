@@ -78,6 +78,28 @@ TEST_F(DocumentTest, isDirty)
     ASSERT_FALSE(document->createNode<Product>(QString())->isDirty());
     ASSERT_FALSE(document->createNode<ProductList>()->isDirty());
     ASSERT_FALSE(document->createNode<ResourceSet>()->isDirty());
+
+    auto dummyDocument = Document::create();
+    auto partAmount = dummyDocument->createNode<XJdf::PartAmount>();
+
+    ASSERT_FALSE(partAmount->isDirty());
+    auto part = dummyDocument->createNode<XJdf::Part>();
+    part->setBlockName("test");
+    partAmount->setParts({part});
+    ASSERT_TRUE(partAmount->isDirty());
+    auto component = dummyDocument->createNode<XJdf::Component>();
+    ASSERT_FALSE(component->isDirty());
+    component->amountPool()->setParts({partAmount});
+    ASSERT_TRUE(component->isDirty());
+
+    auto resourceSet = dummyDocument->createNode<XJdf::ResourceSet>();
+    ASSERT_FALSE(resourceSet->isDirty());
+    resourceSet->addResource(component);
+    ASSERT_TRUE(resourceSet->isDirty());
+
+    ASSERT_FALSE(dummyDocument->isDirty());
+    dummyDocument->addResourceSet(resourceSet);
+    ASSERT_TRUE(dummyDocument->isDirty());
 }
 
 TEST_F(DocumentTest, misc)
