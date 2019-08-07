@@ -249,13 +249,13 @@ void Document::toXJdf(QXmlStreamWriter &writer) const
     writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());
     QStringList types = algorithms::map(this->types(), &Proof::XJdf::processTypeToString, QStringList());
     writer.writeAttribute(QStringLiteral("Types"), types.join(' '));
-    for (const auto &set : qAsConst(d->resourceSets))
-        set->toXJdf(writer);
-
     if (isValidAndDirty(d->auditPool))
         d->auditPool->toXJdf(writer);
     if (isValidAndDirty(d->productList))
         d->productList->toXJdf(writer);
+
+    for (const auto &set : qAsConst(d->resourceSets))
+        set->toXJdf(writer);
     writer.writeEndElement();
     writer.writeEndDocument();
 }
