@@ -7,6 +7,19 @@ Changes that one must make to applications based on Proof between versions.
  * --
 
 #### API modifications/removals/deprecations
+ * --
+
+#### Config changes
+ * --
+
+#### Migrations
+ * --
+
+## 0.19.8.7
+#### IT issues
+ * --
+
+#### API modifications/removals/deprecations
  * JDF: CutBlock::transformationMatrix() returns QTransform now
  * JDF: CutBlock methods rotation(), x() and y() removed
  * `bool *ok` parameter removed from enum helper methods

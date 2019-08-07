@@ -3,6 +3,13 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
+ * --
+
+#### Bug Fixing
+ * --
+
+## 0.19.8.7
+#### Features
  * XJDF initial support
  * JDF: CutBlock::transformationMatrix() returns QTransform now
  * JDF: CutBlock methods rotation(), x() and y() removed
