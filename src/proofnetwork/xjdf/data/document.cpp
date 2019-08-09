@@ -247,7 +247,8 @@ void Document::toXJdf(QXmlStreamWriter &writer) const
         writer.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
 
     writer.writeAttribute(QStringLiteral("JobID"), jobId());
-    writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());
+    if (!jobPartId().isEmpty())
+        writer.writeAttribute(QStringLiteral("JobPartID"), jobPartId());
     QStringList types = algorithms::map(this->types(), &Proof::XJdf::processTypeToString, QStringList());
     writer.writeAttribute(QStringLiteral("Types"), types.join(' '));
     if (isValidAndDirty(d->auditPool))
