@@ -7,6 +7,7 @@ ProofNetworkJdf Changelog
 
 #### Bug Fixing
  * XJDF: Fix missing namespaces (for updateFrom)
+ * XJDF: Fix read and write DeviceID attribute
 
 ## 0.19.8.7
 #### Features

@@ -213,6 +213,8 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_EQ("Sh-Job-Manager-Service", created->agentName());
     EXPECT_EQ("0.18.10.9", created->agentVersion());
     EXPECT_EQ(QDateTime::fromString("2018-01-29T16:00:20+00:00", Qt::ISODate), created->timestamp());
+    EXPECT_EQ("testId", created->deviceId());
+    EXPECT_EQ("42", created->id());
 
     ASSERT_FALSE(auditPool->notifications().isEmpty());
     auto notification = auditPool->notifications()[0];
@@ -378,6 +380,8 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(created2->agentName(), created->agentName());
     EXPECT_EQ(created2->agentVersion(), created->agentVersion());
     EXPECT_EQ(created2->timestamp(), created->timestamp());
+    EXPECT_EQ(created2->deviceId(), created->deviceId());
+    EXPECT_EQ(created2->id(), created->id());
     auto notification = auditPool->notifications()[0];
     auto notification2 = auditPool2->notifications()[0];
     EXPECT_EQ(notification2->agentName(), notification->agentName());
@@ -635,6 +639,8 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_EQ("Sh-Job-Manager-Service", created->agentName());
     EXPECT_EQ("0.18.10.9", created->agentVersion());
     EXPECT_EQ(QDateTime::fromString("2018-01-29T16:00:20+00:00", Qt::ISODate), created->timestamp());
+    EXPECT_EQ("testId", created->deviceId());
+    EXPECT_EQ("42", created->id());
 
     ASSERT_FALSE(auditPool->notifications().isEmpty());
     auto notification = auditPool->notifications()[0];

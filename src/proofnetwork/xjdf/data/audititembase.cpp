@@ -114,7 +114,7 @@ bool AuditItemBase::readFieldsFromXJdf(QXmlStreamReader &reader)
             setAgentName(attributes.value(QStringLiteral("AgentName")).toString());
         if (attributes.hasAttribute(QStringLiteral("ID")))
             setId(attributes.value(QStringLiteral("ID")).toString());
-        if (attributes.hasAttribute(QStringLiteral("DeviceId")))
+        if (attributes.hasAttribute(QStringLiteral("DeviceID")))
             setDeviceId(attributes.value(QStringLiteral("DeviceID")).toString());
         if (attributes.hasAttribute(QStringLiteral("Time")))
             setTimestamp(QDateTime::fromString(attributes.value(QStringLiteral("Time")).toString(), Qt::ISODate));
@@ -134,7 +134,7 @@ void AuditItemBase::toXJdf(QXmlStreamWriter &writer) const
     if (!d->id.isEmpty())
         writer.writeAttribute(QStringLiteral("ID"), d->id);
     if (!d->deviceId.isEmpty())
-        writer.writeAttribute(QStringLiteral("DeviceId"), d->deviceId);
+        writer.writeAttribute(QStringLiteral("DeviceID"), d->deviceId);
     if (d->timestamp.isValid())
         writer.writeAttribute(QStringLiteral("Time"), d->timestamp.toString(Qt::ISODate));
 }

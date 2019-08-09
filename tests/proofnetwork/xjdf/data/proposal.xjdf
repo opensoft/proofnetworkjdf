@@ -2,7 +2,7 @@
 <XJDF xmlns="http://www.CIP4.org/JDFSchema_2_0" xmlns:profit="https://www.opensoftdev.com/profit" JobID="PRESSSHEET_ID" Types="Cutting Folding BoxPacking">
   <AuditPool>
     <AuditCreated>
-      <Header profit:TemplateID="3BC-1PC" profit:TemplateVersion="0.42" AgentName="Sh-Job-Manager-Service" AgentVersion="0.18.10.9" Time="2018-01-29T16:00:20+00:00" />
+      <Header profit:TemplateID="3BC-1PC" profit:TemplateVersion="0.42" AgentName="Sh-Job-Manager-Service" AgentVersion="0.18.10.9" Time="2018-01-29T16:00:20+00:00" ID="42" DeviceID="testId" />
     </AuditCreated>
     <AuditNotification>
       <Header AgentName="Cutting-Station" AgentVersion="0.18.9.23" Time="2018-02-05T16:00:20+00:00" />
