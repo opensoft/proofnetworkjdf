@@ -107,7 +107,8 @@ TEST_F(DocumentTest, misc)
     auto dummyDocument = Document::create();
 
     EXPECT_TRUE(dummyDocument->namespaces().isEmpty());
-    dummyDocument->addNamespace({"prefix", "https://www.test.com/test"});
+    QXmlStreamNamespaceDeclaration prefixNamespace("test", "https://www.test.com/test");
+    dummyDocument->addNamespace(prefixNamespace);
     EXPECT_EQ(1, dummyDocument->namespaces().count());
 
     xjdfDocUT->toFile("tofile.xml");
@@ -122,14 +123,34 @@ TEST_F(DocumentTest, misc)
     EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types().first());
     EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types().last());
 
-    ASSERT_TRUE(xjdfDocUT->auditPool());
-    auto auditPool = xjdfDocUT->auditPool();
-    ASSERT_TRUE(auditPool->created());
-    auto created = auditPool->created();
+    auto created = dummyDocument->createNode<XJdf::AuditCreated>();
     created->setId("CREATED_ID");
     EXPECT_EQ("CREATED_ID", created->id());
     created->setDeviceId("CREATED_DEVICEID");
     EXPECT_EQ("CREATED_DEVICEID", created->deviceId());
+
+    created->addNamespace(prefixNamespace);
+    created->setTemplateId("TestId");
+    created->setTemplateVersion("TestVersion");
+    QString createdStr;
+
+    ASSERT_TRUE(xjdfDocUT->auditPool());
+    auto auditPool = xjdfDocUT->auditPool();
+    auditPool->setCreated(created);
+    created = auditPool->created();
+    QXmlStreamWriter writer(&createdStr);
+    created->toXJdf(writer);
+
+    QXmlStreamReader reader(createdStr);
+    reader.readNextStartElement();
+    ASSERT_TRUE(reader.isStartElement());
+    ASSERT_EQ("AuditCreated", reader.name());
+    reader.readNextStartElement();
+    ASSERT_TRUE(reader.isStartElement());
+    ASSERT_EQ("Header", reader.name());
+    const auto attributes = reader.attributes();
+    EXPECT_EQ("TestId", attributes.value("https://www.test.com/test", "TemplateID"));
+    EXPECT_EQ("TestVersion", attributes.value("https://www.test.com/test", "TemplateVersion"));
 
     ASSERT_TRUE(xjdfDocUT->productList());
     auto productList = xjdfDocUT->productList();
@@ -192,6 +213,8 @@ TEST_F(DocumentTest, toXJdf)
     EXPECT_EQ("Sh-Job-Manager-Service", created->agentName());
     EXPECT_EQ("0.18.10.9", created->agentVersion());
     EXPECT_EQ(QDateTime::fromString("2018-01-29T16:00:20+00:00", Qt::ISODate), created->timestamp());
+    EXPECT_EQ("testId", created->deviceId());
+    EXPECT_EQ("42", created->id());
 
     ASSERT_FALSE(auditPool->notifications().isEmpty());
     auto notification = auditPool->notifications()[0];
@@ -357,6 +380,8 @@ TEST_F(DocumentTest, updateFrom)
     EXPECT_EQ(created2->agentName(), created->agentName());
     EXPECT_EQ(created2->agentVersion(), created->agentVersion());
     EXPECT_EQ(created2->timestamp(), created->timestamp());
+    EXPECT_EQ(created2->deviceId(), created->deviceId());
+    EXPECT_EQ(created2->id(), created->id());
     auto notification = auditPool->notifications()[0];
     auto notification2 = auditPool2->notifications()[0];
     EXPECT_EQ(notification2->agentName(), notification->agentName());
@@ -614,6 +639,8 @@ TEST_F(DocumentTest, fromXJdf)
     EXPECT_EQ("Sh-Job-Manager-Service", created->agentName());
     EXPECT_EQ("0.18.10.9", created->agentVersion());
     EXPECT_EQ(QDateTime::fromString("2018-01-29T16:00:20+00:00", Qt::ISODate), created->timestamp());
+    EXPECT_EQ("testId", created->deviceId());
+    EXPECT_EQ("42", created->id());
 
     ASSERT_FALSE(auditPool->notifications().isEmpty());
     auto notification = auditPool->notifications()[0];

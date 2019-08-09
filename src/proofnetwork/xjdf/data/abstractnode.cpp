@@ -101,6 +101,7 @@ AbstractNode::AbstractNode(AbstractNodePrivate &dd) : NetworkDataEntity(dd)
 void AbstractNode::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
     AbstractNodeSP castedOther = qSharedPointerCast<AbstractNode>(other);
+    setNamespaces(castedOther->namespaces());
 
     NetworkDataEntity::updateSelf(other);
 }
