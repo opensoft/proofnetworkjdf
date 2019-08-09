@@ -107,7 +107,8 @@ TEST_F(DocumentTest, misc)
     auto dummyDocument = Document::create();
 
     EXPECT_TRUE(dummyDocument->namespaces().isEmpty());
-    dummyDocument->addNamespace({"prefix", "https://www.test.com/test"});
+    QXmlStreamNamespaceDeclaration prefixNamespace("test", "https://www.test.com/test");
+    dummyDocument->addNamespace(prefixNamespace);
     EXPECT_EQ(1, dummyDocument->namespaces().count());
 
     xjdfDocUT->toFile("tofile.xml");
@@ -122,14 +123,34 @@ TEST_F(DocumentTest, misc)
     EXPECT_EQ(ProcessType::Cutting, xjdfDocUT->types().first());
     EXPECT_EQ(ProcessType::BoxPacking, xjdfDocUT->types().last());
 
-    ASSERT_TRUE(xjdfDocUT->auditPool());
-    auto auditPool = xjdfDocUT->auditPool();
-    ASSERT_TRUE(auditPool->created());
-    auto created = auditPool->created();
+    auto created = dummyDocument->createNode<XJdf::AuditCreated>();
     created->setId("CREATED_ID");
     EXPECT_EQ("CREATED_ID", created->id());
     created->setDeviceId("CREATED_DEVICEID");
     EXPECT_EQ("CREATED_DEVICEID", created->deviceId());
+
+    created->addNamespace(prefixNamespace);
+    created->setTemplateId("TestId");
+    created->setTemplateVersion("TestVersion");
+    QString createdStr;
+
+    ASSERT_TRUE(xjdfDocUT->auditPool());
+    auto auditPool = xjdfDocUT->auditPool();
+    auditPool->setCreated(created);
+    created = auditPool->created();
+    QXmlStreamWriter writer(&createdStr);
+    created->toXJdf(writer);
+
+    QXmlStreamReader reader(createdStr);
+    reader.readNextStartElement();
+    ASSERT_TRUE(reader.isStartElement());
+    ASSERT_EQ("AuditCreated", reader.name());
+    reader.readNextStartElement();
+    ASSERT_TRUE(reader.isStartElement());
+    ASSERT_EQ("Header", reader.name());
+    const auto attributes = reader.attributes();
+    EXPECT_EQ("TestId", attributes.value("https://www.test.com/test", "TemplateID"));
+    EXPECT_EQ("TestVersion", attributes.value("https://www.test.com/test", "TemplateVersion"));
 
     ASSERT_TRUE(xjdfDocUT->productList());
     auto productList = xjdfDocUT->productList();
