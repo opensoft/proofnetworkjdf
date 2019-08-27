@@ -3,7 +3,7 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
- * --
+ * XJDf: Method AuditPool::addNotification added
 
 #### Bug Fixing
  * XJDF: Fix missing namespaces (for updateFrom)
