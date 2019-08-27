@@ -149,12 +149,9 @@ Q_GLOBAL_STATIC_WITH_ARGS(StringDict<Severity>, SEVERITY_STRINGIFIED,
                             {"Fatal", Severity::Fatal}}))
 
 // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
-Q_GLOBAL_STATIC_WITH_ARGS(StringDict<BoxType>, BOX_TYPE_STRINGIFIED,
-                          ({{"", BoxType::NoBoxType},
-                            {"Box", BoxType::Box},
-                            {"Carton", BoxType::Carton},
-                            {"Envelope", BoxType::Envelope},
-                            {"Tube", BoxType::Tube}}))
+Q_GLOBAL_STATIC_WITH_ARGS(
+    StringDict<BoxType>, BOX_TYPE_STRINGIFIED,
+    ({{"Box", BoxType::Box}, {"Carton", BoxType::Carton}, {"Envelope", BoxType::Envelope}, {"Tube", BoxType::Tube}}))
 
 // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 Q_GLOBAL_STATIC_WITH_ARGS(StringDict<FoldType>, FOLD_TYPE_STRINGIFIED,
@@ -333,7 +330,7 @@ QString boxTypeToString(BoxType type)
 
 BoxType boxTypeFromString(const QString &type)
 {
-    return BOX_TYPE_STRINGIFIED->value(type, BoxType::NoBoxType);
+    return BOX_TYPE_STRINGIFIED->value(type, BoxType::Box);
 }
 
 QString foldTypeToString(FoldType type)
