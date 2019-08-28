@@ -152,6 +152,16 @@ TEST_F(DocumentTest, misc)
     EXPECT_EQ("TestId", attributes.value("https://www.test.com/test", "TemplateID"));
     EXPECT_EQ("TestVersion", attributes.value("https://www.test.com/test", "TemplateVersion"));
 
+    auto notification = dummyDocument->createNode<XJdf::AuditNotification>();
+    notification->setId("NOTIFICATION_ID");
+    notification->setDeviceId("NOTIFICATION_DEVICEID");
+    notification->setTimestamp(QDateTime::currentDateTime());
+    auto auditPoolOther = dummyDocument->createNode<XJdf::AuditPool>();
+    EXPECT_FALSE(auditPoolOther->notifications().count());
+    auditPoolOther->addNotification(notification);
+    EXPECT_EQ(1, auditPoolOther->notifications().count());
+    EXPECT_NE(notification, auditPoolOther->notifications().first());
+
     ASSERT_TRUE(xjdfDocUT->productList());
     auto productList = xjdfDocUT->productList();
     ASSERT_EQ(3, productList->products().size());

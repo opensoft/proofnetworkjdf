@@ -119,7 +119,6 @@ enum class Severity
 
 enum class BoxType
 {
-    NoBoxType,
     Box,
     Carton,
     Envelope,

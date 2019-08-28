@@ -149,6 +149,18 @@ void AuditPool::setNotifications(const QVector<AuditNotificationSP> &arg)
     }
 }
 
+void AuditPool::addNotification(const AuditNotificationSP &arg)
+{
+    Q_D(AuditPool);
+    if (arg == nullptr)
+        return;
+
+    auto newNotification = d->document.toStrongRef()->createNode<AuditNotification>();
+    newNotification->updateFrom(arg);
+    d->notifications.append(newNotification);
+    emit notificationsChanged(d->notifications);
+}
+
 void AuditPool::updateSelf(const Proof::NetworkDataEntitySP &other)
 {
     AuditPoolSP castedOther = qSharedPointerCast<AuditPool>(other);

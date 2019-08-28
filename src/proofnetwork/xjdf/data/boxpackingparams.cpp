@@ -34,7 +34,7 @@ class BoxPackingParamsPrivate : public ResourcePrivate
     Q_DECLARE_PUBLIC(BoxPackingParams)
     BoxPackingParamsPrivate() {}
 
-    BoxType boxType = BoxType::NoBoxType;
+    BoxType boxType = BoxType::Box;
     QString boxTypeDetails;
 };
 
