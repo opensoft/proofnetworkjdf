@@ -3,7 +3,8 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
- * XJDf: Method AuditPool::addNotification added
+ * XJDF: Methods AuditPool::addNotification and AmountPool::addPart added
+ * XJDF: Added return value for methods Document::addResourceSet, ProductList::addProduct and ResourceSet::addResource
 
 #### Bug Fixing
  * XJDF: Fix missing namespaces (for updateFrom)

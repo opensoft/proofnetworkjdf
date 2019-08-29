@@ -122,15 +122,16 @@ void ProductList::setProducts(const QVector<ProductSP> &arg)
     }
 }
 
-void ProductList::addProduct(const ProductSP &arg)
+ProductSP ProductList::addProduct(const ProductSP &arg)
 {
     Q_D(ProductList);
     if (!arg)
-        return;
+        return ProductSP();
     auto newProduct = d->document.toStrongRef()->createNode<Product>(arg->id());
     newProduct->updateFrom(arg);
     d->products << newProduct;
     emit productsChanged(d->products);
+    return newProduct;
 }
 
 void ProductList::updateSelf(const Proof::NetworkDataEntitySP &other)

@@ -51,6 +51,7 @@ public:
     QVector<PartAmountSP> parts() const;
 
     void setParts(const QVector<PartAmountSP> &arg);
+    PartAmountSP addPart(const PartAmountSP &arg);
 
     static AmountPoolSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;

@@ -192,15 +192,16 @@ void ResourceSet::setResources(const QVector<ResourceSP> &arg)
     }
 }
 
-void ResourceSet::addResource(const ResourceSP &arg)
+ResourceSP ResourceSet::addResource(const ResourceSP &arg)
 {
     Q_D(ResourceSet);
     if (!arg)
-        return;
+        return ResourceSP();
     auto newResource = arg->cloneTo(d->document.toStrongRef());
     newResource->updateFrom(arg);
     d->resources << newResource;
     emit resourcesChanged(d->resources);
+    return newResource;
 }
 
 void ResourceSet::updateSelf(const Proof::NetworkDataEntitySP &other)
