@@ -163,13 +163,17 @@ void Document::setResourceSets(const QVector<ResourceSetSP> &arg)
     }
 }
 
-void Document::addResourceSet(const ResourceSetSP &arg)
+ResourceSetSP Document::addResourceSet(const ResourceSetSP &arg)
 {
     Q_D(Document);
+    if (!arg)
+        return ResourceSetSP();
+
     auto newResourceSet = d->document.toStrongRef()->createNode<ResourceSet>();
     newResourceSet->updateFrom(arg);
     d->resourceSets << newResourceSet;
     emit resourceSetsChanged(d->resourceSets);
+    return newResourceSet;
 }
 
 DocumentSP Document::create()

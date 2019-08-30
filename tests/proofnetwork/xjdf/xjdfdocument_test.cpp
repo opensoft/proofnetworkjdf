@@ -91,14 +91,18 @@ TEST_F(DocumentTest, isDirty)
     ASSERT_FALSE(component->isDirty());
     component->amountPool()->setParts({partAmount});
     ASSERT_TRUE(component->isDirty());
+    auto innerPartAmount = component->amountPool()->addPart(partAmount);
+    EXPECT_NE(partAmount, innerPartAmount);
 
     auto resourceSet = dummyDocument->createNode<XJdf::ResourceSet>();
     ASSERT_FALSE(resourceSet->isDirty());
-    resourceSet->addResource(component);
+    auto innerComponent = resourceSet->addResource(component);
+    EXPECT_NE(component, innerComponent);
     ASSERT_TRUE(resourceSet->isDirty());
 
     ASSERT_FALSE(dummyDocument->isDirty());
-    dummyDocument->addResourceSet(resourceSet);
+    auto innerResourceSet = dummyDocument->addResourceSet(resourceSet);
+    EXPECT_NE(resourceSet, innerResourceSet);
     ASSERT_TRUE(dummyDocument->isDirty());
 }
 
@@ -171,7 +175,8 @@ TEST_F(DocumentTest, misc)
     productNew->updateFrom(product1);
     productNew->setId("newId");
 
-    productList->addProduct(productNew);
+    auto innerProduct = productList->addProduct(productNew);
+    EXPECT_NE(productNew, innerProduct);
     ASSERT_EQ(4, productList->products().size());
     auto productNew2 = productList->products()[3];
     EXPECT_EQ(productNew->id(), productNew2->id());

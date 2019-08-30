@@ -49,7 +49,7 @@ public:
     QVector<ProductSP> products() const;
 
     void setProducts(const QVector<ProductSP> &arg);
-    void addProduct(const ProductSP &arg);
+    ProductSP addProduct(const ProductSP &arg);
 
     static ProductListSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;

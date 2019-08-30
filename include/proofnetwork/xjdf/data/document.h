@@ -59,7 +59,7 @@ public:
     void setTypes(const QVector<ProcessType> &arg);
     void addType(ProcessType arg);
     void setResourceSets(const QVector<ResourceSetSP> &arg);
-    void addResourceSet(const ResourceSetSP &arg);
+    ResourceSetSP addResourceSet(const ResourceSetSP &arg);
 
     template <class T>
     QVector<QSharedPointer<T>> findResources(const std::function<bool(const QSharedPointer<T> &)> &predicate =

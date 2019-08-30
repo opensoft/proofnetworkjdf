@@ -76,7 +76,7 @@ public:
     void setUsage(UsageType arg);
 
     void setResources(const QVector<ResourceSP> &arg);
-    void addResource(const ResourceSP &arg);
+    ResourceSP addResource(const ResourceSP &arg);
 
     static ResourceSetSP fromXJdf(QXmlStreamReader &reader, const DocumentSP &document);
     void toXJdf(QXmlStreamWriter &writer) const override;

@@ -68,6 +68,19 @@ void AmountPool::setParts(const QVector<PartAmountSP> &arg)
     }
 }
 
+PartAmountSP AmountPool::addPart(const PartAmountSP &arg)
+{
+    Q_D(AmountPool);
+    if (!arg)
+        return PartAmountSP();
+
+    auto newPart = d->document.toStrongRef()->createNode<PartAmount>();
+    newPart->updateFrom(arg);
+    d->parts.append(newPart);
+    emit partsChanged(d->parts);
+    return newPart;
+}
+
 AmountPoolSP AmountPool::create(const DocumentSP &document)
 {
     AmountPoolSP result(new AmountPool());
