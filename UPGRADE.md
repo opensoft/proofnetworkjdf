@@ -7,6 +7,19 @@ Changes that one must make to applications based on Proof between versions.
  * --
 
 #### API modifications/removals/deprecations
+ * --
+
+#### Config changes
+ * --
+
+#### Migrations
+ * --
+ 
+## 0.19.9.12
+#### IT issues
+ * --
+
+#### API modifications/removals/deprecations
  * XJDF: BoxType::NoBoxType removed
 
 #### Config changes
