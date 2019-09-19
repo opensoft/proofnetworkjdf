@@ -207,8 +207,10 @@ void Media::toXJdf(QXmlStreamWriter &writer) const
     auto mediaWriter = [&writer](const auto &media, bool withStartElement = false) {
         if (withStartElement)
             writer.writeStartElement(QStringLiteral("Media"));
-        writer.writeAttribute(QStringLiteral("Dimension"),
-                              QStringLiteral("%1 %2").arg(media->width(), 0, 'f', 2).arg(media->height(), 0, 'f', 2));
+        if (media->width() > 0.0 && media->height() > 0.0) {
+            writer.writeAttribute(QStringLiteral("Dimension"),
+                                  QStringLiteral("%1 %2").arg(media->width(), 0, 'f', 2).arg(media->height(), 0, 'f', 2));
+        }
         writer.writeAttribute(QStringLiteral("Thickness"), QStringLiteral("%1").arg(media->thickness(), 0, 'f', 2));
         if (media->unit() != MediaUnit::NoMediaUnit)
             writer.writeAttribute(QStringLiteral("MediaUnit"), mediaUnitToString(media->unit()));

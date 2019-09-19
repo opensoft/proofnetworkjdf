@@ -6,7 +6,7 @@ ProofNetworkJdf Changelog
  * --
 
 #### Bug Fixing
- * --
+ * XJDF: Fixed write invalid Media::dimension
  
 ## 0.19.9.12
 #### Features
