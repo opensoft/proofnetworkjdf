@@ -3,7 +3,7 @@ ProofNetworkJdf Changelog
 
 ## Not Released
 #### Features
- * --
+ * XJDF: Added method flipCutBlocksVertically
 
 #### Bug Fixing
  * --

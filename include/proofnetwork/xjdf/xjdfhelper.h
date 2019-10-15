@@ -25,16 +25,15 @@
 #ifndef PROOF_XJDF_XJDFHELPER_H
 #define PROOF_XJDF_XJDFHELPER_H
 
-#include "proofseed/proofalgorithms.h"
-
-#include "proofnetwork/xjdf/apihelper.h"
-#include "proofnetwork/xjdf/data/document.h"
+#include "proofnetwork/xjdf/proofnetworkxjdf_global.h"
 #include "proofnetwork/xjdf/proofnetworkxjdf_types.h"
 
-#include <QVector>
-
 namespace Proof {
-namespace XJdf {} // namespace XJdf
+namespace XJdf {
+
+void PROOF_NETWORK_XJDF_EXPORT flipCutBlocksVertically(const DocumentSP &document);
+
+} // namespace XJdf
 } // namespace Proof
 
 #endif // PROOF_XJDF_XJDFHELPER_H
