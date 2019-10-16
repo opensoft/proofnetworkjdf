@@ -98,6 +98,7 @@ proof_add_target_sources(NetworkJdf
 proof_add_target_sources(NetworkXJdf
     src/proofnetwork/xjdf/proofnetworkxjdf_init.cpp
     src/proofnetwork/xjdf/apihelper.cpp
+    src/proofnetwork/xjdf/xjdfhelper.cpp
     src/proofnetwork/xjdf/data/abstractnode.cpp
     src/proofnetwork/xjdf/data/document.cpp
     src/proofnetwork/xjdf/data/auditpool.cpp
